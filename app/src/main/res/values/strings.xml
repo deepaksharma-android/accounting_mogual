@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BUZZ</string>
+    <string name="open_drawer">OPEN DRAWER</string>
+    <string name="close_drawer">CLOSE DRAWER</string>
+    <string name="msg_perms_needed">The app can not work properly without having all these permissions.</string>
+    <string name="btn_quit">Quit</string>
+    <string name="btn_accept">Accept</string>
+    <string name="forgot_pass"><u>Forgot Password?</u></string>
+    <string name="register"><u>Register Now !</u></string>
+</resources>
