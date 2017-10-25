@@ -8,21 +8,14 @@ import android.view.View;
 
 import com.berylsystems.buzz.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class NewPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.activity_new_password);
     }
-    public void login(View v){
+    public void submit(View v){
         startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
-    }
-    public void register(View v){
-        startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
-    }
-    public void forgot(View v){
-        startActivity(new Intent(getApplicationContext(),ForgotPasswordActivity.class));
     }
 }

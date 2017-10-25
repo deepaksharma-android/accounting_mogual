@@ -14,8 +14,79 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimaryDark" />
+            android:background="@color/colorPrimaryDark">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:layout_height="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/solid_white" />
+
+                <Spinner
+                    android:id="@+id/spinner_package"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:layout_marginLeft="10dp"
+                    android:spinnerMode="dialog"
+                    android:entries="@array/days_of_week"
+                    android:overlapAnchor="false"
+                    android:popupBackground="#ffffff" />
+
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/half_orange_right_gradient"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/down_arrow_white" />
+                </LinearLayout>
+            </RelativeLayout>
+
+           <!-- <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:background="#fff"
+
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:layout_weight="0.9"
+                    android:text="lkjsdhflkjsf"
+                    android:gravity="center"
+                    android:textSize="14sp"/>
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:layout_weight="0.1"
+                    android:background="@null"
+                    android:overlapAnchor="false"
+                    android:popupBackground="#ffffff"
+                    android:gravity="center"
+                    android:spinnerMode="dialog"
+                    android:entries="@array/days_of_week"/>
+
+            </LinearLayout>-->
+
+
+
+        </android.support.v7.widget.Toolbar>
         <FrameLayout
             android:id="@+id/activity_content"
             android:layout_width="match_parent"
@@ -25,7 +96,7 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorPrimaryDark"

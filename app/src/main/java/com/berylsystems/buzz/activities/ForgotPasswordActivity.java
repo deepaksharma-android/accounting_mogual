@@ -8,14 +8,15 @@ import android.view.View;
 
 import com.berylsystems.buzz.R;
 
-public class RegisterActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-    }
-    public void register(View v){
-        startActivity(new Intent(getApplicationContext(),VerificationActivity.class));
+        setContentView(R.layout.activity_forgot_password);
     }
 
+    public void submit(View v){
+        startActivity(new Intent(getApplicationContext(),VerificationActivity.class));
+    }
 }

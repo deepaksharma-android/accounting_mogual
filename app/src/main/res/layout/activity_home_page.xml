@@ -30,7 +30,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
 
-                <TextView
+                <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -39,7 +39,8 @@
                     android:gravity="bottom"
                     android:text="BUZZAPP"
                     android:textColor="#fff"
-                    android:textSize="40sp" />
+                    android:textSize="40sp"
+                    style="@style/Gotham_Black"/>
 
             </RelativeLayout>
         </LinearLayout>
@@ -63,14 +64,14 @@
                 android:background="@drawable/solid_white"
                 android:gravity="center">
 
-                <TextView
+                <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="ALREADY USE BUZZ"
                     android:textColor="#16A9C5"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp"
+                    style="@style/Gotham_Medium"/>
 
             </LinearLayout>
 
@@ -84,14 +85,15 @@
                 android:background="@drawable/white_stroke"
                 android:gravity="center">
 
-                <TextView
+                <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="NEW TO BUZZ"
                     android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp"
+                    style="@style/Gotham_Medium"
+                    />
 
             </LinearLayout>
 

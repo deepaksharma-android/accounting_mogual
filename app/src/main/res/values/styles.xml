@@ -29,4 +29,26 @@
         <item name="colorControlActivated">#fff</item>
     </style>
 
+    <style name="Gotham_Light">
+        <item name="fontType">Gotham_Light</item>
+    </style>
+    <style name="Gotham_Book">
+        <item name="fontType">Gotham_Book</item>
+    </style>
+    <style name="Gotham_Medium">
+        <item name="fontType">Gotham_Medium</item>
+    </style>
+
+    <style name="Gotham_Bold">
+        <item name="fontType">Gotham_Bold</item>
+    </style>
+
+    <style name="Gothan_BookItalic">
+        <item name="fontType">Gotham_BookItalic</item>
+    </style>
+    <style name="Gotham_Black">
+        <item name="fontType">Gotham_Black</item>
+    </style>
+
+
 </resources>

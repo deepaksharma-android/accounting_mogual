@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="fontType" format="enum">
+        <enum name="Gotham_Light" value="0" />
+        <enum name="Gotham_Book" value="1" />
+        <enum name="Gotham_Medium" value="2" />
+        <enum name="Gotham_Bold" value="3" />
+        <enum name="Gotham_BookItalic" value="4" />
+        <enum name="Gotham_Black" value="5" />
+    </attr>
+
+    <declare-styleable name="BuzzFonts">
+        <attr name="fontType"/>
+    </declare-styleable></resources>

@@ -33,6 +33,15 @@
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.ForgotPasswordActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.VerificationActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.NewPasswordActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.ChangeMobileActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.LandingPageActivity"/>
 
     </application>
 
