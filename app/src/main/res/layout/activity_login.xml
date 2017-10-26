@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@drawable/background_image_blue_gradient"
@@ -55,13 +61,16 @@
                     android:src="@drawable/icon_mobile"/>
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/mobile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
                     android:layout_gravity="center"
                     android:layout_weight="0.9"
                     android:textSize="16sp"
+                    android:inputType="number"
                     style="@style/Gotham_Book"
+                    android:maxLength="10"
                     android:textColorHint="#CCffffff"
                     android:hint="Enter Mobile Number"
                     android:layout_marginLeft="10dp"
@@ -90,11 +99,13 @@
                     android:src="@drawable/icon_password"/>
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
                     android:layout_gravity="center"
                     android:layout_weight="0.9"
+                    android:inputType="textPassword"
                     android:textSize="16sp"
                     style="@style/Gotham_Book"
                     android:hint="Enter Password"
@@ -212,3 +223,4 @@
 
 
 </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>

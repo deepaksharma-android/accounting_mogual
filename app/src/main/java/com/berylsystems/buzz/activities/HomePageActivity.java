@@ -7,11 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

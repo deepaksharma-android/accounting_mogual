@@ -16,19 +16,19 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 
 public interface Api {
-    @POST("users")
+    @POST("signup")
     Call<UserApiResponse> register(@Body RequestRegister payload);
     @PATCH("forgot_password")
     Call<UserApiResponse> forgotpassword(@Body RequestForgotPassword payload);
-    @POST("user/verify/otp")
+    @POST("verify_otp")
     Call<UserApiResponse> verifyotp(@Body RequestVerification payload);
-    @PATCH("user/update")
+    @PATCH("update_user")
     Call<UserApiResponse> newpassword(@Body RequestNewPassword payload);
-    @PATCH("user/resend/otp")
+    @PATCH("resend_otp")
     Call<UserApiResponse> resendotp(@Body RequestResendOtp payload);
-    @PATCH("user/update")
-    Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
-    @POST("user/login")
+    @POST("login")
     Call<UserApiResponse>login(@Body RequestLoginEmail payload);
+    @PATCH("update_user")
+    Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
 }
 

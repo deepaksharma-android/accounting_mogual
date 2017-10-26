@@ -1,86 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_image_blue_gradient">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/white_stroke"
-        android:layout_marginRight="30dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_image_blue_gradient"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/white_stroke"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.1"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/icon_mobile" />
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-            <com.berylsystems.buzz.utils.BuzzEditText
-                android:id="@+id/mobile_number"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.9"
-                android:hint="Mobile Number"
-                android:inputType="number"
-                android:letterSpacing="0.1"
-                android:textSize="16sp"
-                android:textColorHint="#ccffffff"
-                android:maxLength="10"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile" />
+
+                <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/mobile_number"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.9"
+                    android:background="@android:color/transparent"
+                    android:hint="Mobile Number"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:textColorHint="#ccffffff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#fff" />
+
+
         </LinearLayout>
 
-        <View
+        <LinearLayout
+            android:id="@+id/loginButton"
             android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#fff"/>
+            android:layout_height="50dp"
+            android:layout_below="@+id/vendorText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:background="#fff"
+            android:onClick="submit">
 
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Submit"
+                android:textColor="#16A9C5"
+                android:textSize="18sp" />
 
-
-
-
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loginButton"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/vendorText"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:onClick="submit"
-        android:layout_marginTop="20dp"
-        android:background="#fff">
-
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Submit"
-            android:textColor="#16A9C5"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

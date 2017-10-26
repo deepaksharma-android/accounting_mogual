@@ -21,7 +21,7 @@
         <item
             android:id="@+id/logout"
             android:checked="false"
-            android:title="sadfasdf" />
+            android:title="Logout" />
 
 
 

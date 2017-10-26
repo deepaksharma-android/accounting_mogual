@@ -20,7 +20,7 @@ public class RequestRegister {
         user = new HashMap<>();
         user.put("name", appUser.name);
         user.put("email", appUser.email);
-        user.put("phone_number", appUser.mobile);
+        user.put("mobile", appUser.mobile);
         user.put("password", appUser.password);
     }
 

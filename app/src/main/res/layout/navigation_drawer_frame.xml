@@ -29,7 +29,7 @@
                     android:background="@drawable/solid_white" />
 
                 <Spinner
-                    android:id="@+id/spinner_package"
+                    android:id="@+id/spinner_cname"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -54,35 +54,7 @@
                 </LinearLayout>
             </RelativeLayout>
 
-           <!-- <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:background="#fff"
 
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:layout_weight="0.9"
-                    android:text="lkjsdhflkjsf"
-                    android:gravity="center"
-                    android:textSize="14sp"/>
-                <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:layout_weight="0.1"
-                    android:background="@null"
-                    android:overlapAnchor="false"
-                    android:popupBackground="#ffffff"
-                    android:gravity="center"
-                    android:spinnerMode="dialog"
-                    android:entries="@array/days_of_week"/>
-
-            </LinearLayout>-->
 
 
 

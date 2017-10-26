@@ -18,7 +18,7 @@ public class RequestUpdateMobileNumber {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
         user = new HashMap<>();
-        user.put("phone_number", appUser.mobile);
+        user.put("mobile", appUser.mobile);
         user.put("id",appUser.user_id);
 
     }

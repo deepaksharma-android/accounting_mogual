@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -16,11 +17,16 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import java.util.List;
 
@@ -33,6 +39,8 @@ public class BaseActivity extends AppCompatActivity{
     private SearchView searchView;
     private DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    AppUser appUser;
+    Spinner mSpinner;
 
 
     @Override
@@ -43,6 +51,7 @@ public class BaseActivity extends AppCompatActivity{
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(fullView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mSpinner=(Spinner)findViewById(R.id.spinner_cname);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#fffffff'>ActionBarTitle </font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,6 +87,17 @@ public class BaseActivity extends AppCompatActivity{
                         return true;
 
                     case R.id.logout:
+                        new AlertDialog.Builder(BaseActivity.this)
+                                .setTitle(getString(R.string.dialog_titel_logout))
+                                .setMessage(getString(R.string.dialog_msg_logout))
+                                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                                    Preferences.getInstance(getApplicationContext()).setLogin(false);
+
+                                    startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+
+                                })
+                                .setNegativeButton(R.string.btn_cancel, null)
+                                .show();
                         /*Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -111,6 +131,20 @@ public class BaseActivity extends AppCompatActivity{
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==1){
+                    startActivity(new Intent(getApplicationContext(),CreateCompantActivity.class));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
     }

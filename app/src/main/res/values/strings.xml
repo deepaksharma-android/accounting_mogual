@@ -15,4 +15,17 @@
         <item>Thursday</item>
         <item>Friday</item>
     </string-array>
+    <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
+    <string name="err_invalid_mobile">Invalid Mobile Number</string>
+    <string name="err_invalid_email">Invalid Email</string>
+    <string name="err_invalid_name">Invalid Name</string>
+    <string name="err_otp">Invalid OTP</string>
+    <string name="err_password">Password doesnt matches</string>
+    <string name="forgotPassword"><u>Forgot Password ?</u></string>
+    <string name="Resend"><u>Resend OTP</u></string>
+    <string name="change_phone_number"><u>Change Mobile Number</u></string>
+    <string name="dialog_titel_logout">Log out</string>
+    <string name="dialog_msg_logout">Are you sure?</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>

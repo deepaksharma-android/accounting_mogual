@@ -10,9 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,11 +25,23 @@ import java.util.TimerTask;
 
 public class SplashActivity extends Activity {
     long Delay = 2000;
+    AppUser appUser;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        appUser = LocalRepositories.getAppUser(this);
+
+        if (null == appUser) {
+            appUser = new AppUser();
+            LocalRepositories.saveAppUser(this, appUser);
+        }
+
+        if (appUser != null) {
+            Log.e("appUser", appUser.toString());
+        }
+
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion <= 22) {
             // Do something for lollipop and above versions
@@ -33,9 +49,15 @@ public class SplashActivity extends Activity {
             TimerTask ShowSplash = new TimerTask() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(getApplicationContext(),HomePageActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
+                    if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
+                        Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                    }
 
                 }
 
@@ -81,7 +103,14 @@ public class SplashActivity extends Activity {
                     TimerTask ShowSplash = new TimerTask() {
                         @Override
                         public void run() {
-                        startActivity(new Intent(getApplicationContext(),HomePageActivity.class));
+                            if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
+                                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                                startActivity(intent);
+                            }
+                            else {
+                                startActivity(new Intent(getApplicationContext(),HomePageActivity.class));
+                            }
+
 
                         }
 

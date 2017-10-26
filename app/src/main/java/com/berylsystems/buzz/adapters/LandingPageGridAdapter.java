@@ -32,7 +32,7 @@ public class LandingPageGridAdapter  extends RecyclerView.Adapter<LandingPageGri
 
     @Override
     public int getItemCount() {
-        return 14;
+        return 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

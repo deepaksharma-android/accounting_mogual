@@ -69,7 +69,7 @@ public class ThisApp extends Application
 
             Request.Builder builder = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
-                    .addHeader("Accept", "application/vnd.trademarks411.v1");
+                    .addHeader("Accept", "application/vnd.accounts-backend.v1");
 
             String token= LocalRepositories.getAppUser(this).auth_token;
             Timber.i("Authorization"+token);

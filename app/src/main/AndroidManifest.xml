@@ -43,7 +43,11 @@
         <activity android:name=".activities.ChangeMobileActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.LandingPageActivity"/>
+        <activity android:name=".activities.CreateCompantActivity"
+            android:windowSoftInputMode="stateHidden"/>
+
         <service android:name=".networks.ApiCallsService" />
+
 
     </application>
 

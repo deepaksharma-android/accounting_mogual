@@ -18,6 +18,6 @@ public class RequestResendOtp {
 
         user = new HashMap<>();
         user.put("id", appUser.user_id);
-        user.put("phone_number",appUser.mobile);
+        user.put("mobile",appUser.mobile);
     }
 }

@@ -6,7 +6,16 @@ package com.berylsystems.buzz.networks.api_response.UserResponse;
 public class Attributes {
     public String email;
     public String name;
-    public String phone_number;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String mobile;
 
     public String getImage() {
         return image;
@@ -32,13 +41,7 @@ public class Attributes {
         this.auth_token = auth_token;
     }
 
-    public String getPhone_number() {
-        return phone_number;
-    }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
 
     public String getName() {
         return name;
