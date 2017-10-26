@@ -19,7 +19,7 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">#fff</item>
         <item name="android:textSize">20sp</item>
