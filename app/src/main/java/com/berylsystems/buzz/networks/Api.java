@@ -10,11 +10,14 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface Api {
     @POST("signup")
@@ -31,5 +34,7 @@ public interface Api {
     Call<UserApiResponse>login(@Body RequestLoginEmail payload);
     @PATCH("update_user")
     Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
+    @GET("check_exist")
+    Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
 }
 

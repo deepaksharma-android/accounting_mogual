@@ -6,6 +6,7 @@ public interface Cv {
   int PERMISSIONS_BUZZ_REQUEST = 0xABC;
   String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
   String ACTION_LOGIN = "login_user";
+  String ACTION_FACEBOOK_CHECK= "facebook_check";
   String ACTION_FORGOT_PASSWORD = "forgot_password";
   String ACTION_VERIFICATION = "verification";
   String ACTION_NEW_PASSWORD = "new_password";
@@ -14,6 +15,9 @@ public interface Cv {
   String ACTION_REGISTER_USER = "register_user";
   String SERVICE_NAME = "NetworkingService";
   String TIMEOUT="Something went wrong. Please try again";
+  String KEY_FB_PARAMS = "fields";
+  String FB_PARAMETERS = "id,email,first_name,last_name,birthday";
+
 
 
 

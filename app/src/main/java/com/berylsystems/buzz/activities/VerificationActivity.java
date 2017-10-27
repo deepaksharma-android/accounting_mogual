@@ -161,6 +161,8 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 startActivity(intent);
             }
             else if(fromRegisterPage){
+                appUser.fb_id="";
+                LocalRepositories.saveAppUser(this,appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
                 startActivity(intent);
@@ -200,4 +202,5 @@ public class VerificationActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
 
     }
+
 }

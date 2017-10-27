@@ -9,6 +9,7 @@ public class AppUser {
     public String email;
     public String user_id;
     public String otp;
+    public String fb_id;
 
 
 

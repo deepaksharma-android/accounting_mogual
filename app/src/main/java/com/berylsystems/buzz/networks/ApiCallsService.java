@@ -3,8 +3,10 @@ package com.berylsystems.buzz.networks;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
+import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
@@ -14,7 +16,9 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,6 +61,8 @@ public class ApiCallsService extends IntentService {
             handleResendOtp();
         } else if (Cv.ACTION_LOGIN.equals(action)) {
             handleLogin();
+        }else if (Cv.ACTION_FACEBOOK_CHECK.equals(action)) {
+            handlefacebookcheck();
         }
 
 
@@ -163,6 +169,30 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
+    }
+    private void handlefacebookcheck() {
+        AppUser appUser= LocalRepositories.getAppUser(this);
+        api.exist(appUser.fb_id).enqueue(new Callback<UserExistResponse>() {
+            @Override
+            public void onResponse(Call<UserExistResponse> call, Response<UserExistResponse> r) {
+                if (r.code() == 200) {
+                    UserExistResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserExistResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
     }
 
     private void handleResendOtp() {

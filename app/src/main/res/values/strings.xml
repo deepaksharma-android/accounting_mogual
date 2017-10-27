@@ -28,4 +28,8 @@
     <string name="dialog_msg_logout">Are you sure?</string>
     <string name="btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="FB_APP_ID">247748645750878</string>
+    <string name="enable_gps">To get exact location it is better to enable GPS</string>
+    <string name="ok">Ok</string>
+    <string name="enable_location">To use this app you need to enable location first</string>
 </resources>

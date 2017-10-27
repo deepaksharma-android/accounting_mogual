@@ -22,6 +22,7 @@ public class RequestRegister {
         user.put("email", appUser.email);
         user.put("mobile", appUser.mobile);
         user.put("password", appUser.password);
+        user.put("fb_id",appUser.fb_id);
     }
 
     }

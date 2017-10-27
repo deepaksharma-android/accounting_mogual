@@ -6,25 +6,34 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.events.EventFbAuthResponse;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.Validation;
+import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 
 import org.greenrobot.eventbus.Subscribe;
 
 
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class RegisterActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
@@ -39,19 +48,95 @@ public class RegisterActivity extends RegisterAbstractActivity {
     EditText mPassword;
     @Bind(R.id.confirm_password)
     EditText mConfirmPassword;
+    @Bind(R.id.fb_login_button)
+    LinearLayout fbLoginBtn;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    private CallbackManager callbackManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        callbackManager = CallbackManager.Factory.create();
+        fbLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(RegisterActivity.this, Arrays.asList("email"));
+                Helpers.facebookLogin(callbackManager, fbLoginBtn);
+            }
+        });
+
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (callbackManager != null) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     @Override
     protected int layoutId() {
         return R.layout.activity_register;
+    }
+
+
+    @Subscribe
+    public void fbAuthResponse(EventFbAuthResponse resp) {
+        appUser.fb_id=resp.id;
+        appUser.name=resp.first_name+" "+resp.last_name;
+        appUser.email=resp.email;
+        appUser.password="qwopaskl23";
+        LocalRepositories.saveAppUser(this,appUser);
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if(isConnected) {
+            mProgressDialog = new ProgressDialog(RegisterActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+
+            ApiCallsService.action(this, Cv.ACTION_FACEBOOK_CHECK);
+        }
+        else{
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if(isConnected){
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
+
+    }
+    @Subscribe
+    public void userexists(UserExistResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            if(response.is_present.equals("true")){
+                Preferences.getInstance(getApplicationContext()).setLogin(true);
+                startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+            }
+            else {
+                startActivity(new Intent(getApplicationContext(),FacebookHandlerActivity.class));
+            }
+        }
+        else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+
     }
 
     public void register(View v){
@@ -64,7 +149,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 if(Validation.isEmailValid(mEmail.getText().toString())) {
                     if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
                         if (Validation.isPwdFormatValid(mConfirmPassword.getText().toString())) {
-                            if(mPassword.getText().toString().length()==mConfirmPassword.getText().toString().length()) {
+                            if(mPassword.getText().toString().matches(mConfirmPassword.getText().toString())) {
                                 appUser.name=mName.getText().toString();
                                 appUser.email=mEmail.getText().toString();
                                 appUser.mobile=mMobile.getText().toString();
@@ -73,39 +158,45 @@ public class RegisterActivity extends RegisterAbstractActivity {
                                 logInRequest();
                             }
                             else{
-                                Toast.makeText(getApplicationContext(),"Password doesnot matches",Toast.LENGTH_LONG).show();
+                                snackbar = Snackbar
+                                        .make(coordinatorLayout, "Password does not match", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
 
                         }
                         else {
-                            mConfirmPassword.setError(getString(R.string.err_invalid_pwd_format));
-                            cancel = true;
-                            focusView = mConfirmPassword;
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
+                            snackbar.show();
+
                         }
                     }
                     else {
-                        mPassword.setError(getString(R.string.err_invalid_pwd_format));
-                        cancel = true;
-                        focusView = mPassword;
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 }
                 else {
-                    mEmail.setError(getString(R.string.err_invalid_email));
-                    cancel = true;
-                    focusView = mEmail;
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.err_invalid_email), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
                 }
 
             }
             else {
-                mMobile.setError(getString(R.string.err_invalid_mobile));
-                cancel = true;
-                focusView = mMobile;
+                snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.err_invalid_mobile), Snackbar.LENGTH_LONG);
+                snackbar.show();
+
             }
         }
         else {
-            mName.setError(getString(R.string.err_invalid_name));
-            cancel = true;
-            focusView = mName;
+            snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.err_invalid_name), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
         }
     }
 
@@ -175,5 +266,6 @@ public class RegisterActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
 
     }
+
 
 }
