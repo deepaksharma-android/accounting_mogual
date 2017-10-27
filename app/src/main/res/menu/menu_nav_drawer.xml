@@ -6,17 +6,17 @@
         <item
             android:id="@+id/catalog"
             android:checked="false"
-            android:title="sdafsd" />
+            android:title="Home" />
 
         <item
             android:id="@+id/expense"
             android:checked="false"
-            android:title="dsfsdf" />
+            android:title="Profile" />
 
         <item
             android:id="@+id/claims"
             android:checked="false"
-            android:title="sadfasdf" />
+            android:title="About" />
 
         <item
             android:id="@+id/logout"

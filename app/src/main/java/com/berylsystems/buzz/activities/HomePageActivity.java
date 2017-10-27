@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 public class HomePageActivity extends Activity {
     @Bind(R.id.terms)
     TextView mTerms;
+    AppUser appUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class HomePageActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home_page);
         ButterKnife.bind(this);
-
+        appUser=LocalRepositories.getAppUser(this);
         mTerms.setClickable(true);
         mTerms.setMovementMethod(LinkMovementMethod.getInstance());
         String text ="By continuing, you are indicating that you have read and agree to the <a href='https://www.trademarks411.com/trademark/terms'> Terms of Use</a> and <a href='https://www.trademarks411.com/trademark/privacy'> Privacy Policy</a> ";

@@ -1,8 +1,10 @@
 package com.berylsystems.buzz.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.adapters.LandingPageGridAdapter;
@@ -21,6 +23,8 @@ public class LandingPageActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setHeading(1);
+        setNavigation(1);
         ButterKnife.bind(this);
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(),2);
@@ -28,5 +32,8 @@ public class LandingPageActivity extends BaseActivity{
         mAdapter=new LandingPageGridAdapter(this,null);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+    public void add(View v){
+        startActivity(new Intent(getApplicationContext(),CreateCompantActivity.class));
     }
 }

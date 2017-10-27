@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BUZZ</string>
+    <string name="app_name">BAHI KHATA</string>
     <string name="open_drawer">OPEN DRAWER</string>
     <string name="close_drawer">CLOSE DRAWER</string>
     <string name="msg_perms_needed">The app can not work properly without having all these permissions.</string>
@@ -9,11 +9,7 @@
     <string name="register"><u>Register Now !</u></string>
     <string name="msg_send_otp">"Enter your Mobile Number and we'll send you an OTP"\nto change your password.</string>
     <string-array name="days_of_week">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
+        <item>Beryl Systems</item>
     </string-array>
     <string-array name="package_arr">
         <item>Basic</item>

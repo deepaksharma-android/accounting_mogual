@@ -21,8 +21,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
@@ -43,23 +46,33 @@ public class BaseActivity extends AppCompatActivity{
     ActionBarDrawerToggle actionBarDrawerToggle;
     AppUser appUser;
     Spinner mSpinner;
+    ImageView mAddIcon;
+    Toolbar toolbar;
 
 
     @Override
     public void setContentView(int layoutResID) {
-
+        appUser=LocalRepositories.getAppUser(this);
         DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.navigation_drawer_frame, null);
         FrameLayout activityContainer = (FrameLayout) fullView.findViewById(R.id.activity_content);
+
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(fullView);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mSpinner=(Spinner)findViewById(R.id.spinner_cname);
+        mAddIcon=(ImageView)findViewById(R.id.icn_add);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        View header=navigationView.getHeaderView(0);
+      //  RelativeLayout header=(RelativeLayout) navigationView.findViewById(R.id.header);
+        TextView name=(TextView)header.findViewById(R.id.username);
+        TextView email=(TextView)header.findViewById(R.id.email);
+        name.setText(appUser.name);
+        email.setText(appUser.email);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -94,7 +107,8 @@ public class BaseActivity extends AppCompatActivity{
                                 .setMessage(getString(R.string.dialog_msg_logout))
                                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                                     Preferences.getInstance(getApplicationContext()).setLogin(false);
-
+                                    appUser.fb_id="";
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                     startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
 
                                 })
@@ -157,7 +171,24 @@ public class BaseActivity extends AppCompatActivity{
 
     }
 
+    protected void setHeading(int resId) {
+        if(resId == 1){
+        mSpinner.setVisibility(View.VISIBLE);
+            mAddIcon.setVisibility(View.VISIBLE);
 
+        }
+        else{
+            mSpinner.setVisibility(View.GONE);
+            mAddIcon.setVisibility(View.GONE);
+        }
+
+
+    }
+    protected void setNavigation(int id){
+        if(id==2){
+            toolbar.setNavigationIcon(null);
+        }
+    }
 
 
 
