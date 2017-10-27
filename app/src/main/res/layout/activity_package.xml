@@ -56,6 +56,7 @@
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:background="@null"
+                            android:entries="@array/package_arr"
                             android:overlapAnchor="false"
                             android:popupBackground="#ffffff" />
 

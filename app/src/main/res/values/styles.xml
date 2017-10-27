@@ -29,6 +29,10 @@
         <item name="colorControlActivated">#fff</item>
     </style>
 
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">#fff</item>
+    </style>
+
     <style name="Gotham_Light">
         <item name="fontType">Gotham_Light</item>
     </style>

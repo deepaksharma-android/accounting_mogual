@@ -15,6 +15,11 @@
         <item>Thursday</item>
         <item>Friday</item>
     </string-array>
+    <string-array name="package_arr">
+        <item>Basic</item>
+        <item>Standard</item>
+        <item>Enterprise</item>
+    </string-array>
     <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
     <string name="err_invalid_mobile">Invalid Mobile Number</string>
     <string name="err_invalid_email">Invalid Email</string>

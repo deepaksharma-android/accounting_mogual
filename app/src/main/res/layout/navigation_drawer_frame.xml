@@ -16,46 +16,18 @@
             android:layout_height="?actionBarSize"
             android:background="@color/colorPrimaryDark">
 
-            <RelativeLayout
+
+            <Spinner
+                android:id="@+id/spinner_cname"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="80dp"
                 android:layout_marginRight="50dp"
-                android:gravity="center"
-                android:layout_height="40dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/solid_white" />
-
-                <Spinner
-                    android:id="@+id/spinner_cname"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:layout_marginLeft="10dp"
-                    android:spinnerMode="dialog"
-                    android:entries="@array/days_of_week"
-                    android:overlapAnchor="false"
-                    android:popupBackground="#ffffff" />
-
-                <LinearLayout
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/half_orange_right_gradient"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/down_arrow_white" />
-                </LinearLayout>
-            </RelativeLayout>
-
-
-
+                android:spinnerMode="dialog"
+                android:backgroundTint="#fff"
+                android:entries="@array/days_of_week"
+                android:overlapAnchor="false"
+                android:popupBackground="#ffffff" />
 
 
         </android.support.v7.widget.Toolbar>

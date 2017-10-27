@@ -20,7 +20,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/icn_open_company" />
 
     <com.berylsystems.buzz.utils.BuzzTextView
         style="@style/Gotham_Medium"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="NEW TICKET"
+        android:text="COMPANY"
         android:textColor="#050505"
         android:textSize="14sp" />
 </LinearLayout>
