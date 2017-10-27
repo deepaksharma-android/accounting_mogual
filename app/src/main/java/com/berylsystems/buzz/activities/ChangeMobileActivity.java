@@ -6,15 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.UserResponse.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Validation;
@@ -91,9 +89,9 @@ public class ChangeMobileActivity extends RegisterAbstractActivity {
     public void changemobilenumber(UserApiResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-           appUser.auth_token= response.getUser().getData().getAttributes().getAuth_token();
-            appUser.user_id=response.getUser().getData().getId();
-            LocalRepositories.saveAppUser(this,appUser);
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
             Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
             intent.putExtra("fromUpdateMobileNumber",true);
             intent.putExtra("mobile",mMobileNumber.getText().toString());

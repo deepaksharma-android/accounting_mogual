@@ -19,7 +19,7 @@ public class RequestForgotPassword {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
         user = new HashMap<>();
-        user.put("phone_number", appUser.mobile);
+        user.put("mobile", appUser.mobile);
 
     }
 }

@@ -1,7 +1,7 @@
 package com.berylsystems.buzz.networks;
 
 
-import com.berylsystems.buzz.networks.api_response.UserResponse.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 
 import org.greenrobot.eventbus.EventBus;
 

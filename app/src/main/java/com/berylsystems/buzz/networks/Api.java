@@ -8,7 +8,8 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
-import com.berylsystems.buzz.networks.api_response.UserResponse.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
+import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,7 +26,7 @@ public interface Api {
     @PATCH("update_user")
     Call<UserApiResponse> newpassword(@Body RequestNewPassword payload);
     @PATCH("resend_otp")
-    Call<UserApiResponse> resendotp(@Body RequestResendOtp payload);
+    Call<OtpResponse> resendotp(@Body RequestResendOtp payload);
     @POST("login")
     Call<UserApiResponse>login(@Body RequestLoginEmail payload);
     @PATCH("update_user")

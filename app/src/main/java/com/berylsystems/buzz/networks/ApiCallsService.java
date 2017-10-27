@@ -12,7 +12,8 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
-import com.berylsystems.buzz.networks.api_response.UserResponse.UserApiResponse;
+import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
+import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.utils.Cv;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,7 +21,6 @@ import org.greenrobot.eventbus.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 
 /**
@@ -167,11 +167,11 @@ public class ApiCallsService extends IntentService {
 
     private void handleResendOtp() {
 
-        api.resendotp(new RequestResendOtp(this)).enqueue(new Callback<UserApiResponse>() {
+        api.resendotp(new RequestResendOtp(this)).enqueue(new Callback<OtpResponse>() {
             @Override
-            public void onResponse(Call<UserApiResponse> call, Response<UserApiResponse> r) {
+            public void onResponse(Call<OtpResponse> call, Response<OtpResponse> r) {
                 if (r.code() == 200) {
-                    UserApiResponse body = r.body();
+                    OtpResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -179,7 +179,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<UserApiResponse> call, Throwable t) {
+            public void onFailure(Call<OtpResponse> call, Throwable t) {
                 try {
 
                     EventBus.getDefault().post(t.getMessage());

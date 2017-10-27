@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.networks.api_response.UserResponse;
+package com.berylsystems.buzz.networks.api_response.user;
 
 /**
  * Created by pc on 6/26/2017.
