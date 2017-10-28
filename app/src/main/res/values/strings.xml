@@ -19,6 +19,19 @@
     <string-array name="country">
         <item>India</item>
     </string-array>
+    <string-array name="symbol">
+        <item>Rs</item>
+    </string-array>
+    <string-array name="currencystring">
+        <item>Rupees</item>
+    </string-array>
+    <string-array name="currencysubstring">
+        <item>Paisa</item>
+    </string-array>
+    <string-array name="dealer">
+        <item>Regular</item>
+        <item>Composition</item>
+    </string-array>
     <string-array name="state">
         <item>Andaman and Nicobar Islands</item>
         <item>Andhra Pradesh</item>

@@ -131,6 +131,41 @@
                                 android:background="@android:color/transparent"
                                 android:hint="Phone Number"
                                 android:paddingTop="10dp"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
+
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/fax"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="FAX"
+                                android:paddingTop="10dp"
                                 android:inputType="phone"
                                 android:textColor="#000"
                                 android:textColorHint="@color/view_color"
@@ -268,6 +303,7 @@
                         <Spinner
                             android:id="@+id/country_spinner"
                             android:layout_width="fill_parent"
+                            android:entries="@array/country"
                             android:layout_height="40dp">
 
                         </Spinner>
@@ -296,6 +332,7 @@
                         <Spinner
                             android:id="@+id/state_spinner"
                             android:layout_width="fill_parent"
+                            android:entries="@array/state"
                             android:layout_height="40dp">
                         </Spinner>
 
@@ -314,11 +351,13 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                            android:text="Financial Year"
+                            style="@style/Gotham_Book"
+                            android:textColor="@color/view_color"
+                            android:textSize="12sp"/>
 
 
                             <com.berylsystems.buzz.utils.BuzzEditText
@@ -327,13 +366,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:hint="Financial Year"
                                 android:paddingTop="10dp"
                                 android:inputType="phone"
                                 android:textColor="#000"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
 
 
                         <View
@@ -348,11 +385,13 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                            android:text="Book Commencing Year"
+                            style="@style/Gotham_Book"
+                            android:textColor="@color/view_color"
+                            android:textSize="12sp"/>
 
 
                             <com.berylsystems.buzz.utils.BuzzEditText
@@ -361,13 +400,12 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:hint="Book Commencing Year"
                                 android:paddingTop="10dp"
                                 android:inputType="phone"
                                 android:textColor="#000"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+
 
 
                         <View
@@ -510,6 +548,7 @@
                         <Spinner
                             android:id="@+id/symbol_spinner"
                             android:layout_width="fill_parent"
+                            android:entries="@array/symbol"
                             android:layout_height="40dp">
 
                         </Spinner>
@@ -536,7 +575,8 @@
                             <Spinner
                                 android:id="@+id/string_spinner"
                                 android:layout_width="fill_parent"
-                                android:layout_height="40dp">
+                                android:layout_height="40dp"
+                                android:entries="@array/currencystring">
 
                             </Spinner>
                             <View
@@ -562,6 +602,7 @@
                                 <Spinner
                                     android:id="@+id/substring_spinner"
                                     android:layout_width="fill_parent"
+                                    android:entries="@array/currencysubstring"
                                     android:layout_height="40dp">
 
                                 </Spinner>
@@ -640,6 +681,7 @@
                         <Spinner
                             android:id="@+id/dealer_spinner"
                             android:layout_width="fill_parent"
+                            android:entries="@array/dealer"
                             android:layout_height="40dp">
 
                         </Spinner>
@@ -674,6 +716,7 @@
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
                                 android:textColor="#000"
+                                android:inputType="number"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -709,6 +752,7 @@
                                 android:hint="Default Tax Rate-2"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
+                                android:inputType="number"
                                 android:textColor="#000"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />

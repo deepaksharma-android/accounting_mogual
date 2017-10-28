@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
@@ -14,6 +15,7 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
@@ -63,6 +65,8 @@ public class ApiCallsService extends IntentService {
             handleLogin();
         }else if (Cv.ACTION_FACEBOOK_CHECK.equals(action)) {
             handlefacebookcheck();
+        }else if (Cv.ACTION_CREATE_COMPANY.equals(action)) {
+            handleCreateCompany();
         }
 
 
@@ -241,6 +245,30 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleCreateCompany() {
+        api.createcompany(new RequestCreateCompany(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
     private void processUserApiResponse(Response<UserApiResponse> response) {
         if (response.code() == 200) {
             UserApiResponse body = response.body();
@@ -250,6 +278,8 @@ public class ApiCallsService extends IntentService {
         }
 
     }
+
+
 }
 
 

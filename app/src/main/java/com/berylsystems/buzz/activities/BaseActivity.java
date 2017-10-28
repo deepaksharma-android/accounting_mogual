@@ -33,6 +33,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class BaseActivity extends AppCompatActivity{
     Spinner mSpinner;
     ImageView mAddIcon;
     Toolbar toolbar;
+    ArrayAdapter<String> spinnerAdapter;
 
 
     @Override
@@ -55,7 +57,6 @@ public class BaseActivity extends AppCompatActivity{
         appUser=LocalRepositories.getAppUser(this);
         DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.navigation_drawer_frame, null);
         FrameLayout activityContainer = (FrameLayout) fullView.findViewById(R.id.activity_content);
-
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(fullView);
          toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -147,14 +148,15 @@ public class BaseActivity extends AppCompatActivity{
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
         mSpinner.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
-                R.array.days_of_week, R.layout.spinner_text_layout);
+        spinnerAdapter = new ArrayAdapter<String>(this,
+                R.layout.spinner_text_layout, appUser.cname);
 
-        adapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSpinner.setAdapter(adapter);
+        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mSpinner.setAdapter(spinnerAdapter);
 
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==1){
@@ -166,7 +168,7 @@ public class BaseActivity extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
 
 
     }

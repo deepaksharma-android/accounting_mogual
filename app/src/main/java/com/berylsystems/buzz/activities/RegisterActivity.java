@@ -169,9 +169,8 @@ public class RegisterActivity extends RegisterAbstractActivity {
         boolean cancel = false;
         View focusView = null;
 
-        if(Validation.isNameFormatValid(mName.getText().toString())){
+        if(!mName.getText().toString().equals("")){
             if (Validation.isPhoneFormatValid(mMobile.getText().toString())) {
-                if(Validation.isEmailValid(mEmail.getText().toString())) {
                     if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
                         if (Validation.isPwdFormatValid(mConfirmPassword.getText().toString())) {
                             if(mPassword.getText().toString().matches(mConfirmPassword.getText().toString())) {
@@ -202,14 +201,6 @@ public class RegisterActivity extends RegisterAbstractActivity {
                         snackbar.show();
                     }
                 }
-                else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, getString(R.string.err_invalid_email), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-
-                }
-
-            }
             else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, getString(R.string.err_invalid_mobile), Snackbar.LENGTH_LONG);

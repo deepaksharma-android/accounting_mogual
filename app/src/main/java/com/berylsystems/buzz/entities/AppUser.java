@@ -1,6 +1,8 @@
 package com.berylsystems.buzz.entities;
 
 
+import java.util.ArrayList;
+
 public class AppUser {
     public String auth_token;
     public String mobile;
@@ -10,6 +12,29 @@ public class AppUser {
     public String user_id;
     public String otp;
     public String fb_id;
+    public String company_name;
+    public String print_name;
+    public String short_name;
+    public String country;
+    public String state;
+    public String address;
+    public String financial_year_from;
+    public String books_commencing_from;
+    public String cin;
+    public String it_pin;
+    public String comapny_phone_number;
+    public String ward;
+    public String fax;
+    public String company_email;
+    public String currency_information;
+    public String type_of_dealer;
+    public String gst;
+    public String currenyString;
+    public String currenySubString;
+    public ArrayList<String> cname=new ArrayList<>();
+
+    public String default_tax_rate1;
+    public String default_tax_rate2;
 
 
 

@@ -111,7 +111,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:layout_weight="0.1"
-                                android:src="@drawable/icon_mobile" />
+                                android:src="@drawable/icon_name" />
 
                             <com.berylsystems.buzz.utils.BuzzEditText
                                 android:id="@+id/name"
@@ -123,7 +123,6 @@
                                 android:layout_weight="0.9"
                                 android:background="@android:color/transparent"
                                 android:hint="Enter Your Name"
-                                android:maxLength="10"
                                 android:textColor="#000"
                                 android:textColorHint="#66000000"
                                 android:textSize="16sp" />
@@ -199,7 +198,6 @@
                                 android:layout_weight="0.9"
                                 android:background="@android:color/transparent"
                                 android:hint="Enter Email "
-                                android:maxLength="10"
                                 android:textColor="#000"
                                 android:textColorHint="#66000000"
                                 android:textSize="16sp" />

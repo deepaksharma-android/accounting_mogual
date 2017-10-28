@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.networks;
 
 
+import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
@@ -8,6 +9,7 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
@@ -36,5 +38,8 @@ public interface Api {
     Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
     @GET("check_exist")
     Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
+    @POST("create_company")
+    Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload);
+
 }
 
