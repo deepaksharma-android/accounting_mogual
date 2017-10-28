@@ -36,7 +36,7 @@ public class HomePageActivity extends Activity {
         LocalRepositories.saveAppUser(this,appUser);
         mTerms.setClickable(true);
         mTerms.setMovementMethod(LinkMovementMethod.getInstance());
-        String text ="By continuing, you are indicating that you have read and agree to the <a href='https://www.trademarks411.com/trademark/terms'> Terms of Use</a> and <a href='https://www.trademarks411.com/trademark/privacy'> Privacy Policy</a> ";
+        String text ="By continuing, you are indicating that you have read and agree to the <a href='https://www.google.com'> Terms of Use</a> and <a href='https://google.com'> Privacy Policy</a> ";
         mTerms.setText(Html.fromHtml(text));
     }
 

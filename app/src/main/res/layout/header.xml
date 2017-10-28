@@ -12,7 +12,7 @@
         android:id="@+id/profile_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@mipmap/appicon"
+        android:src="@drawable/icon_profile"
         android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -20,34 +20,36 @@
         android:layout_marginStart="20dp" />
 
     <com.berylsystems.buzz.utils.BuzzTextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         style="@style/Gotham_Medium"
         android:textSize="14sp"
         android:textColor="#fff"
         android:textStyle="bold"
+        android:layout_marginTop="5dp"
         android:gravity="left"
-
         android:id="@+id/username"
-        android:layout_above="@+id/email"
+       android:layout_below="@id/profile_image"
         android:layout_alignLeft="@+id/profile_image"
         android:layout_alignStart="@+id/profile_image" />
 
     <com.berylsystems.buzz.utils.BuzzTextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/email"
         android:gravity="left"
-        android:layout_marginBottom="10dp"
         android:textSize="14sp"
+        style="@style/Gotham_Book"
         android:textColor="#fff"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/email"
         android:background="#fff"/>
 
 </RelativeLayout>

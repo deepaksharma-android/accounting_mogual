@@ -17,6 +17,15 @@ public class LandingPageActivity extends BaseActivity{
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     LandingPageGridAdapter mAdapter;
+    int[] myImageList = new int[]{R.drawable.icn_open_company, R.drawable.icon_administration,R.drawable.icon_transaction,R.drawable.icon_display,R.drawable.icon_printer,R.drawable.icon_favorites};
+    private String[] title = {
+            "Company",
+            "Administation",
+            "Transaction",
+            "Display",
+            "Print/Email/SMS",
+            "Favourites"
+    };
 
 
     @Override
@@ -29,7 +38,7 @@ public class LandingPageActivity extends BaseActivity{
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(),2);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter=new LandingPageGridAdapter(this,null);
+        mAdapter=new LandingPageGridAdapter(this,title,myImageList);
         mRecyclerView.setAdapter(mAdapter);
 
     }
