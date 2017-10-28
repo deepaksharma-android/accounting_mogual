@@ -22,4 +22,14 @@ public class UserExistResponse {
     public int status;
     public String is_present;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String message;
+
 }

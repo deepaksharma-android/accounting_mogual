@@ -9,7 +9,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_image_blue_gradient"
+        android:background="#fff"
         android:orientation="vertical">
 
         <ScrollView
@@ -30,22 +30,10 @@
                     android:orientation="vertical">
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="40dp"
-                        android:gravity="bottom"
-                        android:text="@string/app_name"
-                        android:textColor="#fff"
-                        android:textSize="40sp" />
-                    <com.berylsystems.buzz.utils.BuzzTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="COMPANY INFO"
-                        android:textColor="#fff"
+                        android:textColor="@color/button_color"
                         android:textSize="18sp"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
@@ -75,8 +63,8 @@
                                 android:hint="Company Name"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -84,7 +72,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -109,8 +97,8 @@
                                 android:background="@android:color/transparent"
                                 android:hint="Print Name"
                                 android:paddingTop="10dp"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +106,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -144,8 +132,8 @@
                                 android:hint="Phone Number"
                                 android:paddingTop="10dp"
                                 android:inputType="phone"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -153,7 +141,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -179,8 +167,8 @@
                                 android:hint="Email"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -188,7 +176,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -215,8 +203,8 @@
                                 android:hint="Short Name"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -224,7 +212,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -250,8 +238,8 @@
                                 android:hint="Address"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -259,7 +247,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -273,7 +261,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Country"
-                            android:textColor="#fff"
+                            android:textColor="@color/view_color"
                             style="@style/Gotham_Book"
                             android:textSize="12sp"/>
 
@@ -284,14 +272,10 @@
 
                         </Spinner>
 
-
-
-
-
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -306,7 +290,7 @@
                             android:layout_height="wrap_content"
                             android:text="State"
                             style="@style/Gotham_Book"
-                            android:textColor="#fff"
+                            android:textColor="@color/view_color"
                             android:textSize="12sp"/>
 
                         <Spinner
@@ -320,7 +304,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -346,8 +330,8 @@
                                 android:hint="Financial Year"
                                 android:paddingTop="10dp"
                                 android:inputType="phone"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -355,7 +339,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
                     <LinearLayout
@@ -380,8 +364,8 @@
                                 android:hint="Book Commencing Year"
                                 android:paddingTop="10dp"
                                 android:inputType="phone"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -389,7 +373,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -416,8 +400,8 @@
                                 android:hint="CIN"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="12sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -425,7 +409,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -451,8 +435,8 @@
                                 android:hint="PAN Number"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="12sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -460,7 +444,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -486,8 +470,8 @@
                                 android:hint="Ward"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="12sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -495,7 +479,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -503,7 +487,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="CURRENCY INFO"
-                        android:textColor="#fff"
+                        android:textColor="@color/button_color"
                         android:textSize="18sp"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
@@ -519,7 +503,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Currency Symbol"
-                            android:textColor="#fff"
+                            android:textColor="@color/view_color"
                             style="@style/Gotham_Book"
                             android:textSize="12sp"/>
 
@@ -532,7 +516,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -545,7 +529,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Currency String"
-                                android:textColor="#fff"
+                                android:textColor="@color/view_color"
                                 style="@style/Gotham_Book"
                                 android:textSize="12sp"/>
 
@@ -558,7 +542,7 @@
                             <View
                                 android:layout_width="fill_parent"
                                 android:layout_height="1dp"
-                                android:background="#fff" />
+                                android:background="@color/view_color" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -571,7 +555,7 @@
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Currency Sub-String"
-                                    android:textColor="#fff"
+                                    android:textColor="@color/view_color"
                                     style="@style/Gotham_Book"
                                     android:textSize="12sp"/>
 
@@ -584,7 +568,7 @@
                                 <View
                                     android:layout_width="fill_parent"
                                     android:layout_height="1dp"
-                                    android:background="#fff" />
+                                    android:background="@color/view_color" />
                                 </LinearLayout>
 
 
@@ -592,7 +576,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="GST INFO"
-                        android:textColor="#fff"
+                        android:textColor="@color/button_color"
                         android:layout_marginTop="20dp"
                         android:textSize="18sp"
                         android:gravity="center"
@@ -622,8 +606,8 @@
                                 android:hint="GSTIN"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -631,7 +615,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -649,7 +633,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Type Of Dealer"
-                            android:textColor="#fff"
+                            android:textColor="@color/view_color"
                             style="@style/Gotham_Book"
                             android:textSize="12sp"/>
 
@@ -663,7 +647,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
                         </LinearLayout>
 
                     <LinearLayout
@@ -689,8 +673,8 @@
                                 android:hint="Default Tax Rate-1"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -698,7 +682,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -725,8 +709,8 @@
                                 android:hint="Default Tax Rate-2"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:textColor="#fff"
-                                android:textColorHint="#fff"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -734,7 +718,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#fff" />
+                            android:background="@color/view_color" />
 
                     </LinearLayout>
 
@@ -744,7 +728,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="30dp"
-                        android:background="#fff"
+                        android:background="@drawable/solid_blue"
                         android:layout_marginBottom="20dp"
                         android:gravity="center"
                         android:onClick="submit">
@@ -756,7 +740,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Submit"
-                            android:textColor="#16A9C5"
+                            android:textColor="@color/white"
                             android:textSize="16sp" />
                     </LinearLayout>
 

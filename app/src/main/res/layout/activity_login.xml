@@ -5,223 +5,262 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="@drawable/background_image_blue_gradient"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
         android:orientation="vertical">
 
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical">
-
-            <com.berylsystems.buzz.utils.BuzzTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/app_name"
-                style="@style/Gotham_Black"
-                android:textColor="#fff"
-                android:textSize="40sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="80dp"
-            android:orientation="vertical"
-            android:background="@drawable/white_stroke">
+            android:layout_height="fill_parent">
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:weightSum="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp">
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"
-                    android:src="@drawable/icon_mobile"/>
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
 
-                <com.berylsystems.buzz.utils.BuzzEditText
-                    android:id="@+id/mobile"
-                    android:layout_width="0dp"
+
+              <!--  <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.9"
-                    android:textSize="16sp"
-                    android:inputType="number"
-                    style="@style/Gotham_Book"
-                    android:maxLength="10"
-                    android:textColorHint="#CCffffff"
-                    android:hint="Enter Mobile Number"
-                    android:layout_marginLeft="10dp"
-                    android:background="@android:color/transparent"/>
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                  &lt;!&ndash;  <com.berylsystems.buzz.utils.BuzzTextView
+                     style="@style/Gotham_Black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/app_name"
+                        android:textColor="@color/button_color"
+                        android:textSize="40sp" />&ndash;&gt;
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/app_icon"
+                        android:layout_gravity="center"/>
+                </LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="bottom"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+
+
+                    <LinearLayout
+                        android:id="@+id/fb_login_button"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="30dp"
+                        android:background="#3b5998"
+                        android:gravity="center"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="0.1"
+                            android:src="@drawable/facebook_icon" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.9"
+                            android:gravity="center"
+                            android:text="Log In With Facebook"
+                            android:textColor="#fff"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:background="@color/white"
+                        >
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_centerVertical="true"
+                            android:background="#d3d3d3"
+                            android:layout_toRightOf="@+id/orText"/>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:id="@+id/orText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text=" OR "
+                            android:textSize="15sp"
+                            android:textColor="@color/button_color"
+                            style="@style/Gotham_Book"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_centerVertical="true"
+                            android:background="#d3d3d3"
+                            android:layout_toLeftOf="@+id/orText"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/stoke_grey"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="20dp"
+                            android:weightSum="1">
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/icon_mobile" />
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/mobile"
+                                style="@style/Gotham_Book"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="0.9"
+                                android:background="@android:color/transparent"
+                                android:hint="Enter Mobile Number"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:textColor="#000"
+                                android:textColorHint="#66000000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:background="#66000000" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:weightSum="1">
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/icon_password" />
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/password"
+                                style="@style/Gotham_Book"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="0.9"
+                                android:background="@android:color/transparent"
+                                android:hint="Enter Password"
+                                android:inputType="textPassword"
+                                android:textColor="#000"
+                                android:textColorHint="#66000000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:background="#66000000" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/solid_blue"
+                        android:gravity="center"
+                        android:onClick="login">
+
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Book"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Login"
+                            android:textColor="#fff"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:onClick="forgot"
+                            android:text="@string/forgot_pass"
+                            android:textColor="@color/button_color" />
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:gravity="right"
+                            android:onClick="register"
+                            android:text="@string/register"
+                            android:textColor="@color/button_color" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="#fff"/>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:weightSum="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"
-                    android:src="@drawable/icon_password"/>
-
-                <com.berylsystems.buzz.utils.BuzzEditText
-                    android:id="@+id/password"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.9"
-                    android:inputType="textPassword"
-                    android:textSize="16sp"
-                    style="@style/Gotham_Book"
-                    android:hint="Enter Password"
-                    android:textColorHint="#CCffffff"
-                    android:layout_marginLeft="10dp"
-                    android:background="@android:color/transparent"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="#fff"/>
-
-
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:onClick="login"
-            android:background="#fff"
-            android:gravity="center">
-
-
-            <com.berylsystems.buzz.utils.BuzzTextView
-                style="@style/Gotham_Book"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Login"
-                android:textColor="#16A9C5"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="OR"
-            android:layout_marginTop="10dp"
-            android:textColor="#fff"
-            android:textSize="12sp" />
-
-        <LinearLayout
-            android:id="@+id/fb_login_button"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:weightSum="1"
-            android:gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="#3b5998">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.1"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/facebook_icon"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.9"
-                android:textColor="#fff"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:text="Sign In With Facebook"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textColor="#ccffffff"
-                android:onClick="forgot"
-                android:text="@string/forgot_pass"/>
-
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textColor="#ccffffff"
-                android:gravity="right"
-                android:onClick="register"
-                android:text="@string/register"/>
-
-        </LinearLayout>
-
+        </ScrollView>
 
 
     </LinearLayout>
-
-
-    </ScrollView>
-
-
-</LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -9,7 +9,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_image_blue_gradient">
+        android:background="#fff">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,15 +17,6 @@
             android:orientation="vertical">
 
 
-            <com.berylsystems.buzz.utils.BuzzTextView
-                style="@style/Gotham_Black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:text="@string/app_name"
-                android:textColor="#fff"
-                android:textSize="40sp" />
 
 
             <LinearLayout
@@ -33,8 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/white_stroke"
+                android:layout_marginTop="150dp"
+                android:background="@drawable/stoke_grey"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -62,7 +53,7 @@
                         android:background="@android:color/transparent"
                         android:gravity="center_vertical"
                         android:hint="Mobile Number"
-                        android:textColorHint="#ccffffff"
+                        android:textColorHint="@color/view_color"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -71,7 +62,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#fff" />
+                    android:background="@color/view_color" />
 
 
                 <LinearLayout
@@ -100,7 +91,7 @@
                         android:background="@android:color/transparent"
                         android:hint="Access Code"
                         android:inputType="numberPassword"
-                        android:textColorHint="#ccffffff"
+                        android:textColorHint="@color/view_color"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -110,7 +101,7 @@
                     android:layout_marginBottom="40dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#fff" />
+                    android:background="@color/view_color" />
 
 
             </LinearLayout>
@@ -157,11 +148,10 @@
                 android:id="@+id/loginButton"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/vendorText"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="20dp"
-                android:background="#fff"
+                android:background="@drawable/solid_blue"
                 android:onClick="submit">
 
                 <com.berylsystems.buzz.utils.BuzzTextView
@@ -170,7 +160,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Submit"
-                    android:textColor="#16A9C5"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
             </LinearLayout>

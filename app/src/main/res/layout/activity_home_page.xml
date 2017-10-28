@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_image_blue_gradient"
+    android:background="@drawable/app_bg"
     android:orientation="vertical">
 
 
@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.45"
             android:orientation="vertical">
 
 
@@ -38,9 +38,16 @@
                     android:layout_gravity="center"
                     android:gravity="bottom"
                     android:text="@string/app_name"
-                    android:textColor="#fff"
-                    android:textSize="40sp"
+                    android:textColor="@color/button_color"
+                    android:textSize="30sp"
                     style="@style/Gotham_Black"/>
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/app_icon"
+                    android:layout_gravity="center"/>
 
             </RelativeLayout>
         </LinearLayout>
@@ -50,8 +57,8 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:gravity="center"
+            android:layout_weight="0.45"
+            android:gravity="bottom"
             android:orientation="vertical">
 
 
@@ -61,15 +68,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="login"
-                android:background="@drawable/solid_white"
+                android:background="@drawable/solid_blue"
                 android:gravity="center">
 
                 <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="ALREADY USE BUZZ"
-                    android:textColor="#16A9C5"
+                    android:text="CLICK HERE TO LOGIN"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     style="@style/Gotham_Medium"/>
 
@@ -82,15 +89,15 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:onClick="signup"
-                android:background="@drawable/white_stroke"
+                android:background="@drawable/solid_white"
                 android:gravity="center">
 
                 <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="NEW TO BUZZ"
-                    android:textColor="#fff"
+                    android:text="CREATE YOUR ACCOUNT "
+                    android:textColor="@color/button_color"
                     android:textSize="14sp"
                     style="@style/Gotham_Medium"
                     />
@@ -117,8 +124,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:textColor="#fff"
-                    android:textColorLink="#fe9020"
+                    android:textColor="#60000000"
+                    android:textColorLink="@color/button_color"
                     android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>

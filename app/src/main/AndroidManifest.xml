@@ -36,9 +36,11 @@
             android:theme="@style/noAnimTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.LoginActivity"
+            android:parentActivityName=".activities.HomePageActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.RegisterActivity"
+            android:parentActivityName=".activities.HomePageActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.ForgotPasswordActivity"
@@ -54,6 +56,7 @@
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.LandingPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.CreateCompantActivity"
             android:windowSoftInputMode="stateHidden"
