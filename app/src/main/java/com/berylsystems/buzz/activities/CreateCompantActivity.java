@@ -58,9 +58,9 @@ public class CreateCompantActivity extends RegisterAbstractActivity implements V
     @Bind(R.id.state_spinner)
     Spinner mStateSpinner;
     @Bind(R.id.financial_year)
-    EditText mFinancialYear;
+    TextView mFinancialYear;
     @Bind(R.id.book_year)
-    EditText mBookYear;
+    TextView mBookYear;
     @Bind(R.id.cin)
     EditText mCin;
     @Bind(R.id.pan)
@@ -95,8 +95,6 @@ public class CreateCompantActivity extends RegisterAbstractActivity implements V
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        mFinancialYear.setInputType(InputType.TYPE_NULL);
-        mBookYear.setInputType(InputType.TYPE_NULL);
         setDateField();
 
     }

@@ -304,6 +304,7 @@
                             android:id="@+id/country_spinner"
                             android:layout_width="fill_parent"
                             android:entries="@array/country"
+                            android:spinnerMode="dialog"
                             android:layout_height="40dp">
 
                         </Spinner>
@@ -333,6 +334,7 @@
                             android:id="@+id/state_spinner"
                             android:layout_width="fill_parent"
                             android:entries="@array/state"
+                            android:spinnerMode="dialog"
                             android:layout_height="40dp">
                         </Spinner>
 
@@ -360,7 +362,7 @@
                             android:textSize="12sp"/>
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.berylsystems.buzz.utils.BuzzTextView
                                 android:id="@+id/financial_year"
                                 style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
@@ -394,7 +396,7 @@
                             android:textSize="12sp"/>
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.berylsystems.buzz.utils.BuzzTextView
                                 android:id="@+id/book_year"
                                 style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
@@ -549,6 +551,7 @@
                             android:id="@+id/symbol_spinner"
                             android:layout_width="fill_parent"
                             android:entries="@array/symbol"
+                            android:spinnerMode="dialog"
                             android:layout_height="40dp">
 
                         </Spinner>
@@ -576,6 +579,7 @@
                                 android:id="@+id/string_spinner"
                                 android:layout_width="fill_parent"
                                 android:layout_height="40dp"
+                                android:spinnerMode="dialog"
                                 android:entries="@array/currencystring">
 
                             </Spinner>
@@ -603,7 +607,8 @@
                                     android:id="@+id/substring_spinner"
                                     android:layout_width="fill_parent"
                                     android:entries="@array/currencysubstring"
-                                    android:layout_height="40dp">
+                                    android:layout_height="40dp"
+                                    android:spinnerMode="dialog">
 
                                 </Spinner>
                                 <View
