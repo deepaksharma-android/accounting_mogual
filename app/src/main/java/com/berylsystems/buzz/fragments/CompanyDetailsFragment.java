@@ -147,12 +147,12 @@ public class CompanyDetailsFragment extends Fragment {
             snackbar.show();
         }
     }
-    @Subscribe
+   /* @Subscribe
     public void timout(String msg){
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
-    }
+    }*/
 }

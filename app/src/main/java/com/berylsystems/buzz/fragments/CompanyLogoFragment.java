@@ -168,7 +168,6 @@ public class CompanyLogoFragment extends Fragment {
     public void createCompany(CreateCompanyResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
@@ -185,12 +184,5 @@ public class CompanyLogoFragment extends Fragment {
             snackbar.show();
         }
     }
-    @Subscribe
-    public void timout(String msg){
-        snackbar = Snackbar
-                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
-        mProgressDialog.dismiss();
 
-    }
 }

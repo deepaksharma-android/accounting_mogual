@@ -26,6 +26,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Api {
@@ -45,20 +46,20 @@ public interface Api {
     Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
     @GET("check_exist")
     Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
-    @POST("create_company")
+    @POST("company")
     Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload);
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload);
+    Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload, @Path("id") String id);
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse> cgst(@Body RequestCompanyGst payload);
+    Call<CreateCompanyResponse> cgst(@Body RequestCompanyGst payload, @Path("id") String id);
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse> cadditional(@Body RequestCompanyAdditional payload);
+    Call<CreateCompanyResponse> cadditional(@Body RequestCompanyAdditional payload, @Path("id") String id);
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse> clogo(@Body RequestCompanyLogo payload);
+    Call<CreateCompanyResponse> clogo(@Body RequestCompanyLogo payload, @Path("id") String id);
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload);
+    Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload, @Path("id") String id);
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse> clogin(@Body RequestCompanyLogin payload);
+    Call<CreateCompanyResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
     @GET("getplan")
     Call<PackageResponse> getpackage();
 

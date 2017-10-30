@@ -291,7 +291,8 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleCompanyDetails() {
-        api.cdetails(new RequestCompanyDetails(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.cdetails(new RequestCompanyDetails(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -314,7 +315,8 @@ public class ApiCallsService extends IntentService {
 
     }
     private void handleCompanyGst() {
-        api.cgst(new RequestCompanyGst(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.cgst(new RequestCompanyGst(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -337,7 +339,8 @@ public class ApiCallsService extends IntentService {
 
     }
     private void handleCompanyAdditional() {
-        api.cadditional(new RequestCompanyAdditional(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.cadditional(new RequestCompanyAdditional(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -360,7 +363,8 @@ public class ApiCallsService extends IntentService {
 
     }
     private void handleCompanyLogo() {
-        api.clogo(new RequestCompanyLogo(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.clogo(new RequestCompanyLogo(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -383,7 +387,8 @@ public class ApiCallsService extends IntentService {
 
     }
     private void handleCompanySignature() {
-        api.csignature(new RequestCompanySignature(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.csignature(new RequestCompanySignature(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -406,7 +411,8 @@ public class ApiCallsService extends IntentService {
 
     }
     private void handleCompanyLogin() {
-        api.clogin(new RequestCompanyLogin(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.clogin(new RequestCompanyLogin(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {

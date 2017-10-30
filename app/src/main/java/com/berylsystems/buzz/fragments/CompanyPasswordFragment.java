@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -118,9 +120,7 @@ public class CompanyPasswordFragment extends Fragment {
 
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
-            TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-            tabhost.getTabAt(6).select();
-            //startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+            startActivity(new Intent(getActivity().getApplicationContext(),LandingPageActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -133,12 +133,4 @@ public class CompanyPasswordFragment extends Fragment {
         }
     }
 
-    @Subscribe
-    public void timout(String msg){
-        snackbar = Snackbar
-                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
-        mProgressDialog.dismiss();
-
-    }
 }

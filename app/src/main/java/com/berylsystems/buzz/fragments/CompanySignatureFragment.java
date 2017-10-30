@@ -142,12 +142,5 @@ public class CompanySignatureFragment extends Fragment {
             snackbar.show();
         }
     }
-    @Subscribe
-    public void timout(String msg){
-        snackbar = Snackbar
-                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
-        mProgressDialog.dismiss();
 
-    }
 }
