@@ -1,6 +1,12 @@
 package com.berylsystems.buzz.networks;
 
 
+import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyDetails;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
+import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
@@ -41,8 +47,21 @@ public interface Api {
     Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
     @POST("create_company")
     Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> cgst(@Body RequestCompanyGst payload);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> cadditional(@Body RequestCompanyAdditional payload);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> clogo(@Body RequestCompanyLogo payload);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> clogin(@Body RequestCompanyLogin payload);
     @GET("getplan")
     Call<PackageResponse> getpackage();
+
 
 }
 

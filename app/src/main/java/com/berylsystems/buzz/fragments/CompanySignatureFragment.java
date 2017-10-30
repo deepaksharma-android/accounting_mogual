@@ -9,8 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
@@ -18,7 +19,9 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.kyanogen.signatureview.SignatureView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,21 +29,21 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CompanyPasswordFragment extends Fragment {
+public class CompanySignatureFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.signature_view)
+    SignatureView mSignatureView;
+    @Bind(R.id.sign_image)
+    ImageView mSignImage;
+    @Bind(R.id.add_sign)
+    LinearLayout mAddSign;
     @Bind(R.id.submit)
-    LinearLayout mSubmit;
-    @Bind(R.id.username)
-    EditText mUserName;
-    @Bind(R.id.password)
-    EditText mPassword;
-    @Bind(R.id.confirm_password)
-    EditText mConfirmPassword;
+    TextView mSubmit;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
-    public CompanyPasswordFragment() {
+    public CompanySignatureFragment() {
         // Required empty public constructor
     }
 
@@ -53,32 +56,37 @@ public class CompanyPasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.company_fragment_password, container, false);
+        View v= inflater.inflate(R.layout.company_fragment_signature, container, false);
         ButterKnife.bind(this,v);
         EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
+        mAddSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSignatureView.clearCanvas();
+                mSignImage.setVisibility(View.GONE);
+                mSignatureView.setVisibility(View.VISIBLE);
+                mSignatureView.setEnableSignature(true);
+            }
+        });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mSignatureView.setEnableSignature(false);
+                mSignatureView.setVisibility(View.GONE);
+                mSignImage.setImageBitmap(mSignatureView.getSignatureBitmap());
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
-                    if(mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
-                        appUser.companyUserName = mUserName.getText().toString();
-                        appUser.password = mPassword.getText().toString();
-                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                        mProgressDialog = new ProgressDialog(getActivity());
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                        ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
-                    }
-                    else{
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "Password does not matches", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
+                    Helpers.bitmapToBase64(mSignatureView.getSignatureBitmap());
+                    appUser.logo= Helpers.bitmapToBase64(mSignatureView.getSignatureBitmap());;
+                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                    mProgressDialog = new ProgressDialog(getActivity());
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getActivity(), appUser);
+                    ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_SIGNATURE);
                 }
                 else{
                     snackbar = Snackbar
@@ -94,9 +102,11 @@ public class CompanyPasswordFragment extends Fragment {
                             });
                     snackbar.show();
                 }
-            }
 
+
+            }
         });
+
         return v;
     }
     @Override
@@ -132,7 +142,6 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar.show();
         }
     }
-
     @Subscribe
     public void timout(String msg){
         snackbar = Snackbar

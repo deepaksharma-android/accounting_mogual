@@ -15,6 +15,11 @@ public class AppUser {
     public String company_name;
     public String print_name;
     public String short_name;
+    public String city;
+    public String logo;
+    public String signature;
+    public String companyUserName;
+    public String companyUserPassword;
     public String country;
     public String state;
     public String address;
@@ -29,8 +34,10 @@ public class AppUser {
     public String currency_information;
     public String type_of_dealer;
     public String gst;
+    public String currency_symbol;
     public String currenyString;
     public String currenySubString;
+    public String cid;
     public ArrayList<String> cname=new ArrayList<>();
 
     public String default_tax_rate1;

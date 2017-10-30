@@ -15,7 +15,10 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.fragments.CompanyAdditionalFragment;
 import com.berylsystems.buzz.fragments.CompanyBasicFragment;
 import com.berylsystems.buzz.fragments.CompanyDetailsFragment;
+import com.berylsystems.buzz.fragments.CompanyGstFragment;
+import com.berylsystems.buzz.fragments.CompanyLogoFragment;
 import com.berylsystems.buzz.fragments.CompanyPasswordFragment;
+import com.berylsystems.buzz.fragments.CompanySignatureFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +36,10 @@ public class AddCompanyActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company);
         ButterKnife.bind(this);
+        setHeading(2);
+        setNavigation(1);
         setAdd(2);
-        setHeading(1);
+        setAppBarTitle(1,"CREATE COMPANY");
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
     }
@@ -42,7 +47,10 @@ public class AddCompanyActivity extends BaseActivity{
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CompanyBasicFragment(), "BASIC");
         adapter.addFragment(new CompanyDetailsFragment(), "DETAILS");
+        adapter.addFragment(new CompanyGstFragment(), "GST INFO");
         adapter.addFragment(new CompanyAdditionalFragment(), "ADDITIONAL");
+        adapter.addFragment(new CompanyLogoFragment(), "LOGO");
+        adapter.addFragment(new CompanySignatureFragment(), "SIGNATURE");
         adapter.addFragment(new CompanyPasswordFragment(), "PASSWORD");
         viewPager.setAdapter(adapter);
     }
@@ -69,7 +77,12 @@ public class AddCompanyActivity extends BaseActivity{
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
-
+        public void replaceFragment(Fragment fragment, String title, int index) {
+            mFragmentList.remove(index);
+            mFragmentList.add(index, fragment);
+            // do the same for the title
+            notifyDataSetChanged();
+        }
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);

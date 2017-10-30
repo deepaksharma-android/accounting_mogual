@@ -85,7 +85,7 @@ public class CreateCompantActivity extends RegisterAbstractActivity implements V
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1, DatePickerDialog2, DatePickerDialog3;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
 
 
     @Override

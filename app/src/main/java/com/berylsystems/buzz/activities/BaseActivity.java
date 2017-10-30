@@ -62,7 +62,7 @@ public class BaseActivity extends AppCompatActivity{
         super.setContentView(fullView);
          toolbar = (Toolbar) findViewById(R.id.toolbar);
         mSpinner=(Spinner)findViewById(R.id.spinner_cname);
-        mTitleText=(TextView)findViewById(R.id.titleText);
+        mTitleText=(TextView)findViewById(R.id.titletextbase);
         mAddIcon=(ImageView)findViewById(R.id.icn_add);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -200,9 +200,10 @@ public class BaseActivity extends AppCompatActivity{
             mAddIcon.setVisibility(View.GONE);
         }
     }
-    protected void setAppBarTitle(int id){
+    protected void setAppBarTitle(int id,String str){
         if(id==1){
            mTitleText.setVisibility(View.VISIBLE);
+            mTitleText.setText(str);
         }
         else {
             mTitleText.setVisibility(View.GONE);

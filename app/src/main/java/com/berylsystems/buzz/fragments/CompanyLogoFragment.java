@@ -1,75 +1,63 @@
 package com.berylsystems.buzz.fragments;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TabActivity;
-import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
-import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
-import com.berylsystems.buzz.utils.Validation;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CompanyBasicFragment extends Fragment implements View.OnClickListener {
+public class CompanyLogoFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.company_name)
-    EditText mComapnyName;
-    @Bind(R.id.print_name)
-    EditText mPrintName;
-    @Bind(R.id.phone)
-    EditText mPhoneNumber;
-    @Bind(R.id.short_name)
-    EditText mShortName;
-    @Bind(R.id.financial_year)
-    TextView mFinancialYear;
-    @Bind(R.id.book_year)
-    TextView mBookYear;
-    @Bind(R.id.cin)
-    EditText mCin;
-    @Bind(R.id.pan)
-    EditText mPan;
+    @Bind(R.id.browse_image)
+    LinearLayout mBrowseImage;
+    @Bind(R.id.selected_image)
+    ImageView mSelectedImage;
+    private static final int SELECT_PICTURE=1;
+    private String selectedImagePath;
+    InputStream inputStream = null;
+    String encodedString;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
-    private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
-    public CompanyBasicFragment() {
+    public CompanyLogoFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,28 +68,24 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.company_fragment_basic, container, false);
+        View v= inflater.inflate(R.layout.company_fragment_logo, container, false);
         ButterKnife.bind(this,v);
         EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        setDateField();
-        mSubmit.setOnClickListener(new View.OnClickListener() {
+        mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mComapnyName.getText().toString().equals("")){
-                    if(Validation.isPhoneFormatValid(mPhoneNumber.getText().toString())){
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+               startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);
+            }
+        });
+
+                mSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         Boolean isConnected = ConnectivityReceiver.isConnected();
                         if(isConnected) {
-                            appUser.company_name=mComapnyName.getText().toString();
-                            appUser.print_name=mPrintName.getText().toString();
-                            appUser.comapny_phone_number=mPhoneNumber.getText().toString();
-                            appUser.short_name=mShortName.getText().toString();
-                            appUser.financial_year_from=mFinancialYear.getText().toString();
-                            appUser.books_commencing_from=mBookYear.getText().toString();
-                            appUser.cin=mCin.getText().toString();
-                            appUser.it_pin=mPan.getText().toString();
-
+                            appUser.logo=encodedString;
                             LocalRepositories.saveAppUser(getActivity(),appUser);
                             mProgressDialog = new ProgressDialog(getActivity());
                             mProgressDialog.setMessage("Info...");
@@ -109,7 +93,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
                             mProgressDialog.setCancelable(true);
                             mProgressDialog.show();
                             LocalRepositories.saveAppUser(getActivity(), appUser);
-                            ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_COMPANY);
+                            ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGO);
                         }
                         else{
                             snackbar = Snackbar
@@ -126,24 +110,47 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
                             snackbar.show();
                         }
                     }
-                    else{
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "Enter phone number", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                }
-                else{
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "Enter company Name", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-        });
-        return v;
 
+                });
+
+        return v;
     }
 
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                Uri selectedImageUri = data.getData();
+                selectedImagePath = getPath(selectedImageUri);
+                mSelectedImage.setVisibility(View.VISIBLE);
+                mSelectedImage.setImageURI(selectedImageUri);
+                try {
+                    inputStream = new FileInputStream(selectedImagePath);
+                    byte[] bytes;
+                    byte[] buffer = new byte[8192];
+                    int bytesRead;
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    try {
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            output.write(buffer, 0, bytesRead);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    bytes = output.toByteArray();
+                    encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 
     @Override
     public void onPause() {
@@ -157,61 +164,15 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         EventBus.getDefault().unregister(this);
     }
 
-    private void setDateField() {
-        mFinancialYear.setOnClickListener(this);
-        mBookYear.setOnClickListener(this);
-        final Calendar newCalendar = Calendar.getInstance();
-
-        String date1 = dateFormatter.format(newCalendar.getTime());
-        mFinancialYear.setText(date1);
-        mBookYear.setText(date1);
-
-
-        DatePickerDialog1 = new DatePickerDialog(getActivity(), new android.app.DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                String date1 = dateFormatter.format(newDate.getTime());
-                mFinancialYear.setText(date1);
-            }
-
-        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        DatePickerDialog2 = new DatePickerDialog(getActivity(), new android.app.DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                String date1 = dateFormatter.format(newDate.getTime());
-                mBookYear.setText(date1);
-            }
-
-        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == mFinancialYear) {
-            DatePickerDialog1.show();
-        } else if (view == mBookYear) {
-            DatePickerDialog2.show();
-        }
-    }
-
-
     @Subscribe
     public void createCompany(CreateCompanyResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
 
-            appUser.cname.add(mComapnyName.getText().toString());
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-            tabhost.getTabAt(1).select();
+            tabhost.getTabAt(5).select();
             //startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);

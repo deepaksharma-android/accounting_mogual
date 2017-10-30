@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
@@ -26,21 +27,23 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CompanyPasswordFragment extends Fragment {
+public class CompanyGstFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.gst)
+    EditText mGst;
+    @Bind(R.id.dealer_spinner)
+    Spinner mDealerSpinner;
+    @Bind(R.id.default1)
+    EditText mDefaultTax1;
+    @Bind(R.id.default2)
+    EditText mDefaultTax2;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
-    @Bind(R.id.username)
-    EditText mUserName;
-    @Bind(R.id.password)
-    EditText mPassword;
-    @Bind(R.id.confirm_password)
-    EditText mConfirmPassword;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
-    public CompanyPasswordFragment() {
+    public CompanyGstFragment() {
         // Required empty public constructor
     }
 
@@ -53,32 +56,28 @@ public class CompanyPasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.company_fragment_password, container, false);
+        View v= inflater.inflate(R.layout.company_fragment_gst, container, false);
         ButterKnife.bind(this,v);
         EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
+
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
-                    if(mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
-                        appUser.companyUserName = mUserName.getText().toString();
-                        appUser.password = mPassword.getText().toString();
-                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                        mProgressDialog = new ProgressDialog(getActivity());
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                        ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
-                    }
-                    else{
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "Password does not matches", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
+                    appUser.gst=mGst.getText().toString();
+                    appUser.type_of_dealer=mDealerSpinner.getSelectedItem().toString();
+                    appUser.default_tax_rate1=mDefaultTax1.getText().toString();
+                    appUser.default_tax_rate2=mDefaultTax2.getText().toString();
+                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                    mProgressDialog = new ProgressDialog(getActivity());
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getActivity(), appUser);
+                    ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_GST);
                 }
                 else{
                     snackbar = Snackbar
@@ -119,7 +118,7 @@ public class CompanyPasswordFragment extends Fragment {
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-            tabhost.getTabAt(6).select();
+            tabhost.getTabAt(3).select();
             //startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
@@ -132,7 +131,6 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar.show();
         }
     }
-
     @Subscribe
     public void timout(String msg){
         snackbar = Snackbar

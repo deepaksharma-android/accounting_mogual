@@ -36,22 +36,58 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
+
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/gst"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="GSTIN"
+                                android:paddingTop="10dp"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
                         <com.berylsystems.buzz.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Currency Symbol"
+                            android:text="Type Of Dealer"
                             android:textColor="@color/view_color"
                             style="@style/Gotham_Book"
                             android:textSize="12sp"/>
 
                         <Spinner
-                            android:id="@+id/symbol_spinner"
+                            android:id="@+id/dealer_spinner"
                             android:layout_width="fill_parent"
-                            android:entries="@array/symbol"
+                            android:entries="@array/dealer"
                             android:spinnerMode="dialog"
                             android:layout_height="40dp">
 
                         </Spinner>
+
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
@@ -64,26 +100,35 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            android:layout_width="fill_parent"
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Currency String"
-                            android:textColor="@color/view_color"
-                            style="@style/Gotham_Book"
-                            android:textSize="12sp"/>
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
 
-                        <Spinner
-                            android:id="@+id/string_spinner"
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:spinnerMode="dialog"
-                            android:entries="@array/currencystring">
 
-                        </Spinner>
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/default1"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="Default Tax Rate-1"
+                                android:paddingTop="10dp"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:inputType="number"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -92,29 +137,36 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            android:layout_width="fill_parent"
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Currency Sub-String"
-                            android:textColor="@color/view_color"
-                            style="@style/Gotham_Book"
-                            android:textSize="12sp"/>
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
 
-                        <Spinner
-                            android:id="@+id/substring_spinner"
-                            android:layout_width="fill_parent"
-                            android:entries="@array/currencysubstring"
-                            android:layout_height="40dp"
-                            android:spinnerMode="dialog">
 
-                        </Spinner>
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/default2"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="Default Tax Rate-2"
+                                android:paddingTop="10dp"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
+
                     </LinearLayout>
-
-
 
 
 
@@ -140,6 +192,8 @@
                             android:textColor="#fff"
                             android:textSize="16sp" />
                     </LinearLayout>
+
+
 
                 </LinearLayout>
             </LinearLayout>

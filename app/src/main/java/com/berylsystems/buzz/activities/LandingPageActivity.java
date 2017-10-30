@@ -35,7 +35,7 @@ public class LandingPageActivity extends BaseActivity{
         setHeading(2);
         setNavigation(1);
         setAdd(1);
-        setAppBarTitle(1);
+        setAppBarTitle(1,"BAHI KHATA");
         ButterKnife.bind(this);
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(),2);

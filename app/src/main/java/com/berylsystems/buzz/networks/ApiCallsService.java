@@ -7,6 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyDetails;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
+import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
@@ -68,7 +74,19 @@ public class ApiCallsService extends IntentService {
             handlefacebookcheck();
         }else if (Cv.ACTION_CREATE_COMPANY.equals(action)) {
             handleCreateCompany();
-        }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
+        } else if (Cv.ACTION_CREATE_DETAILS.equals(action)) {
+            handleCompanyDetails();
+        }else if (Cv.ACTION_CREATE_GST.equals(action)) {
+            handleCompanyGst();
+        } else if (Cv.ACTION_CREATE_ADDITIONAL.equals(action)) {
+            handleCompanyAdditional();
+        }else if (Cv.ACTION_CREATE_LOGO.equals(action)) {
+            handleCompanyLogo();
+        }else if (Cv.ACTION_CREATE_SIGNATURE.equals(action)) {
+            handleCompanySignature();
+        }else if (Cv.ACTION_CREATE_LOGIN.equals(action)) {
+            handleCompanyLogin();
+        } else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
         }
 
@@ -250,6 +268,145 @@ public class ApiCallsService extends IntentService {
 
     private void handleCreateCompany() {
         api.createcompany(new RequestCreateCompany(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleCompanyDetails() {
+        api.cdetails(new RequestCompanyDetails(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCompanyGst() {
+        api.cgst(new RequestCompanyGst(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCompanyAdditional() {
+        api.cadditional(new RequestCompanyAdditional(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCompanyLogo() {
+        api.clogo(new RequestCompanyLogo(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCompanySignature() {
+        api.csignature(new RequestCompanySignature(this)).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCompanyLogin() {
+        api.clogin(new RequestCompanyLogin(this)).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
