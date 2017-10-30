@@ -22,34 +22,58 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.45"
+            android:layout_weight="0.6"
             android:orientation="vertical">
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+        </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/radiogroup">
+
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:gravity="bottom"
-                    android:text="@string/app_name"
-                    android:textColor="@color/button_color"
-                    android:textSize="30sp"
-                    style="@style/Gotham_Black"/>
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:buttonTint="@color/button_color"
+                    android:id="@+id/radioButton"
+                    android:checked="true" />
 
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/app_icon"
-                    android:layout_gravity="center"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.5"
+                    android:layout_marginLeft="-10dp"
+                    android:scaleY="0.5"
+                    android:buttonTint="@color/button_color"
+                    android:id="@+id/radioButton2" />
 
-            </RelativeLayout>
+             <!--   <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.5"
+                    android:layout_marginLeft="-10dp"
+                    android:scaleY="0.5"
+                    android:buttonTint="@color/button_color"
+                    android:id="@+id/radioButton3" />-->
+            </RadioGroup>
+
         </LinearLayout>
 
 
@@ -57,8 +81,8 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="0.45"
-            android:gravity="bottom"
+            android:layout_weight="0.25"
+            android:gravity="center"
             android:orientation="vertical">
 
 
@@ -87,7 +111,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:onClick="signup"
                 android:background="@drawable/solid_white"
                 android:gravity="center">

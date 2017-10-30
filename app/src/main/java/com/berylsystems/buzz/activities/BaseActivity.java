@@ -48,6 +48,7 @@ public class BaseActivity extends AppCompatActivity{
     AppUser appUser;
     Spinner mSpinner;
     ImageView mAddIcon;
+    TextView mTitleText;
     Toolbar toolbar;
     ArrayAdapter<String> spinnerAdapter;
 
@@ -61,9 +62,10 @@ public class BaseActivity extends AppCompatActivity{
         super.setContentView(fullView);
          toolbar = (Toolbar) findViewById(R.id.toolbar);
         mSpinner=(Spinner)findViewById(R.id.spinner_cname);
+        mTitleText=(TextView)findViewById(R.id.titleText);
         mAddIcon=(ImageView)findViewById(R.id.icn_add);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
@@ -176,12 +178,10 @@ public class BaseActivity extends AppCompatActivity{
     protected void setHeading(int resId) {
         if(resId == 1){
         mSpinner.setVisibility(View.VISIBLE);
-            mAddIcon.setVisibility(View.VISIBLE);
 
         }
         else{
             mSpinner.setVisibility(View.GONE);
-            mAddIcon.setVisibility(View.GONE);
         }
 
 
@@ -189,6 +189,23 @@ public class BaseActivity extends AppCompatActivity{
     protected void setNavigation(int id){
         if(id==2){
             toolbar.setNavigationIcon(null);
+        }
+    }
+
+    protected void setAdd(int id){
+        if(id==1){
+            mAddIcon.setVisibility(View.VISIBLE);
+        }
+        else {
+            mAddIcon.setVisibility(View.GONE);
+        }
+    }
+    protected void setAppBarTitle(int id){
+        if(id==1){
+           mTitleText.setVisibility(View.VISIBLE);
+        }
+        else {
+            mTitleText.setVisibility(View.GONE);
         }
     }
 

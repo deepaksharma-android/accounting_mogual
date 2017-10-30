@@ -70,6 +70,12 @@
             android:parentActivityName=".activities.LoginActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activities.AddCompanyActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:parentActivityName=".activities.LandingPageActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".networks.ApiCallsService" />
 

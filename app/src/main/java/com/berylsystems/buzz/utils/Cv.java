@@ -15,6 +15,7 @@ public interface Cv {
   String ACTION_UPDATE_MOBILE_NUMBER="update_mobile_number";
   String ACTION_REGISTER_USER = "register_user";
   String ACTION_CREATE_COMPANY= "create_company";
+  String ACTION_GET_PACKAGES= "get_packages";
   String SERVICE_NAME = "NetworkingService";
   String TIMEOUT="Something went wrong. Please try again";
   String KEY_FB_PARAMS = "fields";

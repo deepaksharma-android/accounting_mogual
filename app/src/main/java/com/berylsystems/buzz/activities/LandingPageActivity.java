@@ -32,8 +32,10 @@ public class LandingPageActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setHeading(1);
+        setHeading(2);
         setNavigation(1);
+        setAdd(1);
+        setAppBarTitle(1);
         ButterKnife.bind(this);
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(),2);
@@ -43,6 +45,7 @@ public class LandingPageActivity extends BaseActivity{
 
     }
     public void add(View v){
-        startActivity(new Intent(getApplicationContext(),CreateCompantActivity.class));
+        startActivity(new Intent(getApplicationContext(),AddCompanyActivity.class));
     }
+
 }

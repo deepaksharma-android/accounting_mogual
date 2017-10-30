@@ -17,6 +17,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
+import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.utils.Cv;
@@ -67,6 +68,8 @@ public class ApiCallsService extends IntentService {
             handlefacebookcheck();
         }else if (Cv.ACTION_CREATE_COMPANY.equals(action)) {
             handleCreateCompany();
+        }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
+            handleGetPackages();
         }
 
 
@@ -259,6 +262,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleGetPackages() {
+        api.getpackage().enqueue(new Callback<PackageResponse>() {
+            @Override
+            public void onResponse(Call<PackageResponse> call, Response<PackageResponse> r) {
+                if (r.code() == 200) {
+                    PackageResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PackageResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
