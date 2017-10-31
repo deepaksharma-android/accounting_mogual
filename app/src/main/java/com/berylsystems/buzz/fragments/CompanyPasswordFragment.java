@@ -21,6 +21,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,6 +63,11 @@ public class CompanyPasswordFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_password, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
+        mUserName.setText(Preferences.getInstance(getActivity()).getCusername());
+        if(!Preferences.getInstance(getActivity()).getCpassword().equals("")){
+            mPassword.setText("••••••••");
+            mConfirmPassword.setText("••••••••");
+        }
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

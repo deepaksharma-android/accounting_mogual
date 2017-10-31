@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -20,12 +21,14 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CompanyGstFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
@@ -43,6 +46,7 @@ public class CompanyGstFragment extends Fragment {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    ArrayAdapter<String> spinnerAdapter;
     public CompanyGstFragment() {
         // Required empty public constructor
     }
@@ -63,7 +67,25 @@ public class CompanyGstFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_gst, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
-
+        spinnerAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.dealer));
+        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mDealerSpinner.setAdapter(spinnerAdapter);
+        mGst.setText(Preferences.getInstance(getActivity()).getCgst());
+        mDefaultTax1.setText(Preferences.getInstance(getActivity()).getCtax1());
+        mDefaultTax2.setText(Preferences.getInstance(getActivity()).getCtax2());
+        if(!Preferences.getInstance(getActivity()).getCdealer().equals("")) {
+            String dealername = Preferences.getInstance(getActivity()).getCdealer().trim();// insert code here
+            int index = -1;
+            for (int i = 0; i < getResources().getStringArray(R.array.dealer).length; i++) {
+                if (getResources().getStringArray(R.array.country)[i].equals(dealername)) {
+                    index = i;
+                    break;
+                }
+            }
+            Timber.i("INDEX" + index);
+            mDealerSpinner.setSelection(index);
+        }
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

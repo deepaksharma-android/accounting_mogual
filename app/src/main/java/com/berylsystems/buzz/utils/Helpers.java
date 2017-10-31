@@ -101,7 +101,6 @@ public class Helpers {
     }
 
 
-
     public static void setProfilePic(ImageView v, String path) {
         v.setImageBitmap(BitmapFactory.decodeFile(path));
     }
@@ -126,7 +125,6 @@ public class Helpers {
         volume = volume == 0 ? .5f : volume;
         return volume;
     }
-
 
 
     public static boolean isNetworkAvailable(Context context) {
@@ -238,10 +236,11 @@ public class Helpers {
     }
 
 
-
-    /**** Method for Setting the Height of the ListView dynamically.
-     **** Hack to fix the issue of not showing all the items of the ListView
-     **** when placed inside a ScrollView  ****/
+    /****
+     * Method for Setting the Height of the ListView dynamically.
+     * *** Hack to fix the issue of not showing all the items of the ListView
+     * *** when placed inside a ScrollView
+     ****/
     public static void setListViewHeightBasedOnChildren(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();
@@ -263,4 +262,12 @@ public class Helpers {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+
+    public static String mystring(String string) {
+        if (string == null) {
+            string = "";
+        }
+        return string;
+    }
+
 }

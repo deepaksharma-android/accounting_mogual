@@ -75,6 +75,7 @@ public class CompanyLogoFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_logo, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
+
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

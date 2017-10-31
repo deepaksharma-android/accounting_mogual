@@ -27,6 +27,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.Validation;
 
 import org.greenrobot.eventbus.EventBus;
@@ -88,6 +89,14 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View v =inflater.inflate(R.layout.company_fragment_basic, container, false);
         ButterKnife.bind(this,v);
+        mComapnyName.setText(Preferences.getInstance(getActivity()).getCname());
+        mPrintName.setText(Preferences.getInstance(getActivity()).getCprintname());
+        mShortName.setText(Preferences.getInstance(getActivity()).getCshortname());
+        mPhoneNumber.setText(Preferences.getInstance(getActivity()).getCphonenumber());
+        mFinancialYear.setText(Preferences.getInstance(getActivity()).getCfinancialyear());
+        mBookYear.setText(Preferences.getInstance(getActivity()).getCbookyear());
+        mCin.setText(Preferences.getInstance(getActivity()).getCcin());
+        mPan.setText(Preferences.getInstance(getActivity()).getCpan());
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();

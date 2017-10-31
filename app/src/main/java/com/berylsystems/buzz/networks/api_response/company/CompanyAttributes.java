@@ -147,5 +147,112 @@ public class CompanyAttributes {
     public String type_of_dealer;
     public String default_tax_rate1;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String username;
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String logo;
+    public String signature;
+
+    public String getCurrency_symbol() {
+        return currency_symbol;
+    }
+
+    public void setCurrency_symbol(String currency_symbol) {
+        this.currency_symbol = currency_symbol;
+    }
+
+    public String getCurrency_string() {
+        return currency_string;
+    }
+
+    public void setCurrency_string(String currency_string) {
+        this.currency_string = currency_string;
+    }
+
+    public String getCurrency_sub_string() {
+        return currency_sub_string;
+    }
+
+    public void setCurrency_sub_string(String currency_sub_string) {
+        this.currency_sub_string = currency_sub_string;
+    }
+
+    public String currency_symbol;
+    public String currency_string;
+    public String currency_sub_string;
+
+    public String getDefault_tax_rate2() {
+        return default_tax_rate2;
+    }
+
+    public void setDefault_tax_rate2(String default_tax_rate2) {
+        this.default_tax_rate2 = default_tax_rate2;
+    }
+
+    public String default_tax_rate2;
+
+    public String getGst() {
+        return gst;
+    }
+
+    public void setGst(String gst) {
+        this.gst = gst;
+    }
+
+    public String gst;
+
+    public String getIndustry_type() {
+        return industry_type;
+    }
+
+    public void setIndustry_type(String industry_type) {
+        this.industry_type = industry_type;
+    }
+
+    public String industry_type;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String city;
+
+    public String getPrint_name() {
+        return print_name;
+    }
+
+    public void setPrint_name(String print_name) {
+        this.print_name = print_name;
+    }
+
+    public String print_name;
+
 
 }

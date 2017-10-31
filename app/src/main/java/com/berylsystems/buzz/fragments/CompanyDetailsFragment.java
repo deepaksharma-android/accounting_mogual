@@ -23,16 +23,19 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.Validation;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CompanyDetailsFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
@@ -60,6 +63,8 @@ public class CompanyDetailsFragment extends Fragment {
     Snackbar snackbar;
     int pos;
     ArrayAdapter<String> spinnerAdapter;
+    ArrayAdapter<String> spinnerCountryAdapter;
+    ArrayAdapter<String> spinnerStateAdapter;
 
     public CompanyDetailsFragment() {
         // Required empty public constructor
@@ -82,10 +87,67 @@ public class CompanyDetailsFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_details, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
+
+
+        spinnerCountryAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.country));
+        spinnerCountryAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mCountrySpinner.setAdapter(spinnerCountryAdapter);
+
+        spinnerStateAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.state));
+        spinnerStateAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mStateSpinner.setAdapter(spinnerStateAdapter);
+
         spinnerAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.layout_trademark_type_spinner_dropdown_item,appUser.industry_type);
         spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mIndustrySpinner.setAdapter(spinnerAdapter);
+
+        mAddress.setText(Preferences.getInstance(getActivity()).getCaddress());
+        mCity.setText(Preferences.getInstance(getActivity()).getCcity());
+        mWard.setText(Preferences.getInstance(getActivity()).getCward());
+        mFax.setText(Preferences.getInstance(getActivity()).getCfax());
+        mEmail.setText(Preferences.getInstance(getActivity()).getCemail());
+
+        if(!Preferences.getInstance(getActivity()).getCindustrytype().equals("")) {
+            String industryname = Preferences.getInstance(getActivity()).getCindustrytype().trim();// insert code here
+            int index = -1;
+            for (int i = 0; i < appUser.industry_type.size(); i++) {
+                if (appUser.industry_type.get(i).equals(industryname)) {
+                    index = i;
+                    break;
+                }
+            }
+            Timber.i("INDEX" + index);
+            mIndustrySpinner.setSelection(index);
+        }
+        if(!Preferences.getInstance(getActivity()).getCcountry().equals("")) {
+            String country = Preferences.getInstance(getActivity()).getCcountry().trim();// insert code here
+            int countryindex = -1;
+            for (int i = 0; i < getResources().getStringArray(R.array.country).length; i++) {
+                if (getResources().getStringArray(R.array.country)[i].equals(country)) {
+                    countryindex = i;
+                    break;
+                }
+            }
+            Timber.i("INDEX" + countryindex);
+            mCountrySpinner.setSelection(countryindex);
+        }
+
+        if(!Preferences.getInstance(getActivity()).getCstate().equals("")) {
+            String state = Preferences.getInstance(getActivity()).getCstate().trim();// insert code here
+            int stateindex = -1;
+            for (int i = 0; i < getResources().getStringArray(R.array.state).length; i++) {
+                if (getResources().getStringArray(R.array.state)[i].equals(state)) {
+                    stateindex = i;
+                    break;
+                }
+            }
+            Timber.i("INDEX" + stateindex);
+            mStateSpinner.setSelection(stateindex);
+        }
+
         mIndustrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
