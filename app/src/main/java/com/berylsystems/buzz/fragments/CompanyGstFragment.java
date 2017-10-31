@@ -51,14 +51,17 @@ public class CompanyGstFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.company_fragment_gst, container, false);
         ButterKnife.bind(this,v);
-        EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -98,11 +101,11 @@ public class CompanyGstFragment extends Fragment {
         });
         return v;
     }
-    @Override
+/*    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }
+    }*/
 
     @Override
     public void onStop() {

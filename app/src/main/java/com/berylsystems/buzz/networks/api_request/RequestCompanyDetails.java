@@ -24,6 +24,7 @@ public class RequestCompanyDetails {
         company.put("ward", appUser.ward);
         company.put("fax", appUser.fax);
         company.put("email", appUser.company_email);
+        company.put("industry_id",appUser.industryId);
 
     }
 }

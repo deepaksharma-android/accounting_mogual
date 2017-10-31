@@ -3,6 +3,14 @@ package com.berylsystems.buzz.networks.api_response.company;
 public class Data {
     public String id;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getId() {
         return id;
     }
@@ -11,15 +19,14 @@ public class Data {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Attributes getAttributes() {
+        return attributes;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
     }
 
-    public String name;
-
-
+    public String type;
+    public Attributes attributes;
 }

@@ -17,24 +17,16 @@ public class RequestCreateCompany {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
         company = new HashMap<>();
-        company.put("user_id",appUser.user_id);
+        company.put("id",appUser.user_id);
         company.put("name", appUser.company_name);
+        company.put("print_name",appUser.print_name);
         company.put("short_name", appUser.short_name);
-        company.put("country", appUser.country);
-        company.put("state", appUser.state);
-        company.put("address", appUser.address);
         company.put("financial_year_from", appUser.financial_year_from);
         company.put("books_commencing_from", appUser.books_commencing_from);
         company.put("cin", appUser.cin);
         company.put("it_pin", appUser.it_pin);
         company.put("phone_number", appUser.comapny_phone_number);
-        company.put("ward", appUser.ward);
-        company.put("fax", appUser.fax);
-        company.put("email", appUser.company_email);
-        company.put("currency_information", appUser.currency_information);
-        company.put("type_of_dealer", appUser.type_of_dealer);
-        company.put("default_tax_rate1", appUser.default_tax_rate1);
-        company.put("default_tax_rate2", appUser.default_tax_rate2);
+
 
 
 

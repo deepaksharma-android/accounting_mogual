@@ -77,12 +77,17 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =inflater.inflate(R.layout.company_fragment_basic, container, false);
         ButterKnife.bind(this,v);
-        EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
@@ -163,8 +168,8 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         final Calendar newCalendar = Calendar.getInstance();
 
         String date1 = dateFormatter.format(newCalendar.getTime());
-        mFinancialYear.setText(date1);
-        mBookYear.setText(date1);
+        mFinancialYear.setText("01 Apr 2017");
+        mBookYear.setText("01 Apr 2017");
 
 
         DatePickerDialog1 = new DatePickerDialog(getActivity(), new android.app.DatePickerDialog.OnDateSetListener() {

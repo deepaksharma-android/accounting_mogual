@@ -16,7 +16,7 @@ import com.berylsystems.buzz.R;
 public class MyPagerAdapter extends PagerAdapter {
 
    public int getCount() {
-       return 2;
+       return 3;
    }
 
    public Object instantiateItem(View collection, int position) {
@@ -30,7 +30,10 @@ public class MyPagerAdapter extends PagerAdapter {
                resId= R.layout.layout_fragment_page1;
                break;
            case 1:
-               resId = R.layout.layout_fragment_page1;
+               resId = R.layout.layout_fragment_page3;
+               break;
+           case 2:
+               resId = R.layout.layout_fragment_page2;
                break;
 
        }

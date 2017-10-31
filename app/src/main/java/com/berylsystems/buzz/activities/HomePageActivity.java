@@ -34,8 +34,8 @@ public class HomePageActivity extends Activity {
     RadioButton mRadioButton1;
     @Bind(R.id.radioButton2)
     RadioButton mRadioButton2;
-   /* @Bind(R.id.radioButton3)
-    RadioButton mRadioButton3;*/
+    @Bind(R.id.radioButton3)
+    RadioButton mRadioButton3;
    MyPagerAdapter adapter;
     AppUser appUser;
 
@@ -70,9 +70,9 @@ public class HomePageActivity extends Activity {
                     case 1:
                         mRadioGroup.check(R.id.radioButton2);
                         break;
-                  /*  case 2:
+                    case 2:
                         mRadioGroup.check(R.id.radioButton3);
-                        break;*/
+                        break;
                 }
             }
 

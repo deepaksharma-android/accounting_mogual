@@ -88,4 +88,7 @@
     <string name="enable_gps">To get exact location it is better to enable GPS</string>
     <string name="ok">Ok</string>
     <string name="enable_location">To use this app you need to enable location first</string>
+    <string name="get_started"><u>Get Started</u></string>
+    <string name="appname"><u>BAHI KHATA</u></string>
+    <string name="page3_subtitle">A Comprehensive &amp; Easy-to-use\n\t Accounting App For Your\n\t\t Business</string>
 </resources>

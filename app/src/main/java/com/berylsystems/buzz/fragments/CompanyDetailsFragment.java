@@ -10,6 +10,8 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -43,6 +45,8 @@ public class CompanyDetailsFragment extends Fragment {
     Spinner mCountrySpinner;
     @Bind(R.id.state_spinner)
     Spinner mStateSpinner;
+    @Bind(R.id.industry_spinner)
+    Spinner mIndustrySpinner;
     @Bind(R.id.fax)
     EditText mFax;
     @Bind(R.id.email)
@@ -54,6 +58,8 @@ public class CompanyDetailsFragment extends Fragment {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    int pos;
+    ArrayAdapter<String> spinnerAdapter;
 
     public CompanyDetailsFragment() {
         // Required empty public constructor
@@ -64,15 +70,33 @@ public class CompanyDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.company_fragment_details, container, false);
         ButterKnife.bind(this,v);
-        EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
+        spinnerAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.layout_trademark_type_spinner_dropdown_item,appUser.industry_type);
+        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mIndustrySpinner.setAdapter(spinnerAdapter);
+        mIndustrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                pos=i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +108,7 @@ public class CompanyDetailsFragment extends Fragment {
                             appUser.address=mAddress.getText().toString();
                             appUser.country=mCountrySpinner.getSelectedItem().toString();
                             appUser.state=mStateSpinner.getSelectedItem().toString();
+                            appUser.industryId= String.valueOf(appUser.industry_id.get(pos));
                             appUser.city=mCity.getText().toString();
                             appUser.ward=mWard.getText().toString();
                             LocalRepositories.saveAppUser(getActivity(),appUser);

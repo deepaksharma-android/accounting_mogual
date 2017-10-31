@@ -19,6 +19,8 @@ import com.berylsystems.buzz.fragments.CompanyGstFragment;
 import com.berylsystems.buzz.fragments.CompanyLogoFragment;
 import com.berylsystems.buzz.fragments.CompanyPasswordFragment;
 import com.berylsystems.buzz.fragments.CompanySignatureFragment;
+import com.berylsystems.buzz.networks.api_response.company.CompanyData;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AddCompanyActivity extends BaseActivity{
+    public static CompanyData data;
     @Bind(R.id.viewpager)
     ViewPager mHeaderViewPager;
     @Bind(R.id.tabs)

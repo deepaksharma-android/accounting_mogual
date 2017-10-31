@@ -166,6 +166,35 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Industry Type"
+                            style="@style/Gotham_Book"
+                            android:textColor="@color/view_color"
+                            android:textSize="12sp"/>
+
+                        <Spinner
+                            android:id="@+id/industry_spinner"
+                            android:layout_width="fill_parent"
+                            android:spinnerMode="dialog"
+                            android:layout_height="40dp">
+                        </Spinner>
+
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

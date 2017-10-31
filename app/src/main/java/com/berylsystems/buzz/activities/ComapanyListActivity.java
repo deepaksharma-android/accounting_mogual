@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -47,11 +48,6 @@ public class ComapanyListActivity extends RegisterAbstractActivity {
         appUser=LocalRepositories.getAppUser(this);
         initActionbar();
 
-       /* mRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getApplicationContext(),2);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter=new LandingPageGridAdapter(this,title,myImageList);
-        mRecyclerView.setAdapter(mAdapter);*/
     }
 
     @Override
@@ -112,7 +108,11 @@ public class ComapanyListActivity extends RegisterAbstractActivity {
     public void getCompnayList(CompanyListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-
+            mRecyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mAdapter=new CompanyListAdapter(this,response.getCompanies().getData());
+            mRecyclerView.setAdapter(mAdapter);
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

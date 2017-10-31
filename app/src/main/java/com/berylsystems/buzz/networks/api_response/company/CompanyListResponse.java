@@ -1,6 +1,15 @@
 package com.berylsystems.buzz.networks.api_response.company;
 
 public class CompanyListResponse {
+    public Company getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(Company companies) {
+        this.companies = companies;
+    }
+
+    public Company companies;
     public String getMessage() {
         return message;
     }

@@ -39,7 +39,9 @@ public class AppUser {
     public String currenySubString;
     public String cid;
     public ArrayList<String> cname=new ArrayList<>();
-
+    public ArrayList<String> industry_type=new ArrayList<>();
+    public ArrayList<Integer> industry_id=new ArrayList<>();
+    public String industryId;
     public String default_tax_rate1;
     public String default_tax_rate2;
 

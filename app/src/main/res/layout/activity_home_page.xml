@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6"
+            android:layout_weight="0.68"
             android:orientation="vertical">
 
             <android.support.v4.view.ViewPager
@@ -35,7 +35,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.05"
+            android:layout_weight="0.04"
             android:orientation="vertical">
 
             <RadioGroup
@@ -64,14 +64,14 @@
                     android:buttonTint="@color/button_color"
                     android:id="@+id/radioButton2" />
 
-             <!--   <RadioButton
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleX="0.5"
                     android:layout_marginLeft="-10dp"
                     android:scaleY="0.5"
                     android:buttonTint="@color/button_color"
-                    android:id="@+id/radioButton3" />-->
+                    android:id="@+id/radioButton3" />
             </RadioGroup>
 
         </LinearLayout>
@@ -80,8 +80,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.25"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.23"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -133,7 +133,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.05"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -144,10 +144,9 @@
                     android:id="@+id/terms"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginBottom="10dp"
                     android:textColor="#60000000"
                     android:textColorLink="@color/button_color"
                     android:textSize="12sp" />

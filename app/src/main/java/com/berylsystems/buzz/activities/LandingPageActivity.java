@@ -100,6 +100,11 @@ public class LandingPageActivity extends BaseActivity {
     public void getIndustryType(IndustryTypeResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            for(int i=0;i<response.getIndustry().getData().size();i++){
+                appUser.industry_type.add(response.getIndustry().getData().get(i).getAttributes().getName());
+                appUser.industry_id.add(response.getIndustry().getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(this,appUser);
+            }
 
         } else {
             Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).show();

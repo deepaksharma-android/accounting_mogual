@@ -63,14 +63,17 @@ public class CompanyLogoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.company_fragment_logo, container, false);
         ButterKnife.bind(this,v);
-        EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getActivity());
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,11 +155,11 @@ public class CompanyLogoFragment extends Fragment {
         return cursor.getString(column_index);
     }
 
-    @Override
+ /*   @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }
+    }*/
 
     @Override
     public void onStop() {
