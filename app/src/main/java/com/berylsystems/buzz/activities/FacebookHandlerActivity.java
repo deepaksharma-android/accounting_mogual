@@ -118,7 +118,7 @@ public class FacebookHandlerActivity extends RegisterAbstractActivity {
                 appUser.fb_id="";
                 LocalRepositories.saveAppUser(this,appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                 startActivity(intent);
             }
 

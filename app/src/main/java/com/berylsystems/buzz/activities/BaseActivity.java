@@ -158,19 +158,7 @@ public class BaseActivity extends AppCompatActivity{
         spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinner.setAdapter(spinnerAdapter);
 
-       /* mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
-                    startActivity(new Intent(getApplicationContext(),CreateCompantActivity.class));
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });*/
 
 
     }

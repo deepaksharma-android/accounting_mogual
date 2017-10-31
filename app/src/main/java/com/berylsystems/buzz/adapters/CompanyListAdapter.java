@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.AddCompanyActivity;
 import com.berylsystems.buzz.activities.ComapanyListActivity;
+import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.networks.api_response.company.CompanyData;
 
 import java.util.ArrayList;
@@ -41,11 +42,13 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, AddCompanyActivity.class);
-                AddCompanyActivity.data = data.get(i);
+                Intent intent=new Intent(context, LandingPageActivity.class);
+                intent.putExtra("name",data.get(i).getAttributes().getName());
+               /* AddCompanyActivity.data = data.get(i);*/
                 context.startActivity(intent);
             }
         });
+
 
     }
 

@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,12 +26,13 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ComapanyListActivity extends RegisterAbstractActivity {
+public class ComapanyListActivity extends BaseActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.company_list_recycler_view)
@@ -44,14 +46,22 @@ public class ComapanyListActivity extends RegisterAbstractActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_company_list);
         ButterKnife.bind(this);
         appUser=LocalRepositories.getAppUser(this);
-        initActionbar();
+        setHeading(2);
+        setNavigation(1);
+        setAdd(1);
+        setAppBarTitle(1, "COMPANY LIST");
+
+
+
 
     }
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if(isConnected) {
             mProgressDialog = new ProgressDialog(this);
@@ -79,30 +89,23 @@ public class ComapanyListActivity extends RegisterAbstractActivity {
         super.onResume();
     }
 
-    private void initActionbar() {
-        ActionBar actionBar = getSupportActionBar();
-        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.MATCH_PARENT,
-                Gravity.CENTER);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(viewActionBar, params);
-        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("COMPANY LIST");
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
-
 
     @Override
-    protected int layoutId() {
-        return R.layout.activity_company_list;
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
+
+    public void add(View v) {
+        startActivity(new Intent(getApplicationContext(), AddCompanyActivity.class));
+    }
+
+
 
     @Subscribe
     public void getCompnayList(CompanyListResponse response){
@@ -124,6 +127,11 @@ public class ComapanyListActivity extends RegisterAbstractActivity {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }

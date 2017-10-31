@@ -1,5 +1,7 @@
 package com.berylsystems.buzz.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -8,8 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
@@ -32,7 +38,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddCompanyActivity extends BaseActivity{
+public class AddCompanyActivity extends AppCompatActivity{
     public static CompanyData data;
     @Bind(R.id.viewpager)
     ViewPager mHeaderViewPager;
@@ -45,10 +51,11 @@ public class AddCompanyActivity extends BaseActivity{
         setContentView(R.layout.activity_add_company);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
-        setHeading(2);
+        initActionbar();
+      /*  setHeading(2);
         setNavigation(1);
         setAdd(2);
-        setAppBarTitle(1,"CREATE COMPANY");
+        setAppBarTitle(1,"CREATE COMPANY");*/
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
         Preferences.getInstance(getApplicationContext()).setCname("");
@@ -116,6 +123,24 @@ public class AddCompanyActivity extends BaseActivity{
 
 
         }
+    }
+    private void initActionbar() {
+        ActionBar actionBar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(viewActionBar, params);
+        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+        actionbarTitle.setText("CREATE COMPANY");
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

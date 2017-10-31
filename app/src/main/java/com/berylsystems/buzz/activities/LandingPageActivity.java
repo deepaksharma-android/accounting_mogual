@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,8 +52,8 @@ public class LandingPageActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         setHeading(2);
         setNavigation(1);
-        setAdd(1);
-        setAppBarTitle(1, "BAHI KHATA");
+        setAdd(2);
+        setAppBarTitle(1,getIntent().getStringExtra("name"));
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(this);
@@ -86,9 +88,7 @@ public class LandingPageActivity extends BaseActivity {
 
     }
 
-    public void add(View v) {
-        startActivity(new Intent(getApplicationContext(), AddCompanyActivity.class));
-    }
+
 
     @Override
     protected void onPause() {
@@ -121,6 +121,14 @@ public class LandingPageActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        new AlertDialog.Builder(LandingPageActivity.this)
+                .setTitle(getString(R.string.dialog_titel_logout))
+                .setMessage("Do you want to exit this company ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    startActivity(new Intent(getApplicationContext(), ComapanyListActivity.class));
 
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
     }
 }

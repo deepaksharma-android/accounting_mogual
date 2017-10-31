@@ -141,7 +141,7 @@ public class LoginActivity extends RegisterAbstractActivity {
                 appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
                 LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+                startActivity(new Intent(getApplicationContext(),ComapanyListActivity.class));
             }
             else {
                 startActivity(new Intent(getApplicationContext(),FacebookHandlerActivity.class));

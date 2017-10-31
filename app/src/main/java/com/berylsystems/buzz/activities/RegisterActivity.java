@@ -260,10 +260,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 intent.putExtra("mobile",mMobile.getText().toString());
                 startActivity(intent);
             }
-            else{
-                Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(), VerificationActivity.class));
-            }
+
 
         } else {
             snackbar = Snackbar

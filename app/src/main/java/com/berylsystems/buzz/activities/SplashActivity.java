@@ -55,7 +55,7 @@ public class SplashActivity extends Activity {
                 @Override
                 public void run() {
                     if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                        Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                         startActivity(intent);
                     }
                     else {
@@ -109,7 +109,7 @@ public class SplashActivity extends Activity {
                         @Override
                         public void run() {
                             if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                                 startActivity(intent);
                             }
                             else {

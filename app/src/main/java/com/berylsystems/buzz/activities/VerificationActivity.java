@@ -181,24 +181,24 @@ public class VerificationActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             if(fromLoginPage){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromRegisterPage){
                 appUser.fb_id="";
                 LocalRepositories.saveAppUser(this,appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromUpdateMobileNumber){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromProfilePage){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromForgotPasswordPage){
