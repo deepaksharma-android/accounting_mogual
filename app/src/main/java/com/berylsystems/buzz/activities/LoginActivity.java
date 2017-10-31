@@ -134,6 +134,12 @@ public class LoginActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             if(response.is_present.equals("true")){
+                appUser.user_id = response.getUser().getData().getId();
+                appUser.name = response.getUser().getData().getAttributes().getName();
+                appUser.mobile=response.getUser().getData().getAttributes().getMobile();
+                appUser.email = response.getUser().getData().getAttributes().getEmail();
+                appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
+                LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
             }

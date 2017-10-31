@@ -21,7 +21,9 @@ public interface Cv {
   String ACTION_CREATE_LOGO= "company_logo";
   String ACTION_CREATE_SIGNATURE= "company_signature";
   String ACTION_CREATE_LOGIN= "company_login";
+  String ACTION_COMPANY_LIST= "company_list";
   String ACTION_GET_PACKAGES= "get_packages";
+  String ACTION_GET_INDUSTRY= "get_industry";
   String SERVICE_NAME = "NetworkingService";
   String TIMEOUT="Something went wrong. Please try again";
   String KEY_FB_PARAMS = "fields";

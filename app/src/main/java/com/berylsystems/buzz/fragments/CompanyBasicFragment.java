@@ -145,11 +145,11 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
 
 
 
-    @Override
+ /*   @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }
+    }*/
 
     @Override
     public void onStop() {

@@ -34,8 +34,6 @@ public class CompanySignatureFragment extends Fragment {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.signature_view)
     SignatureView mSignatureView;
-    @Bind(R.id.sign_image)
-    ImageView mSignImage;
     @Bind(R.id.add_sign)
     LinearLayout mAddSign;
     @Bind(R.id.submit)
@@ -64,21 +62,14 @@ public class CompanySignatureFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mSignatureView.clearCanvas();
-                mSignImage.setVisibility(View.GONE);
-                mSignatureView.setVisibility(View.VISIBLE);
-                mSignatureView.setEnableSignature(true);
             }
         });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSignatureView.setEnableSignature(false);
-                mSignatureView.setVisibility(View.GONE);
-                mSignImage.setImageBitmap(mSignatureView.getSignatureBitmap());
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
-                    Helpers.bitmapToBase64(mSignatureView.getSignatureBitmap());
-                    appUser.logo= Helpers.bitmapToBase64(mSignatureView.getSignatureBitmap());;
+                    appUser.signature= Helpers.bitmapToBase64(mSignatureView.getSignatureBitmap());;
                     LocalRepositories.saveAppUser(getActivity(),appUser);
                     mProgressDialog = new ProgressDialog(getActivity());
                     mProgressDialog.setMessage("Info...");

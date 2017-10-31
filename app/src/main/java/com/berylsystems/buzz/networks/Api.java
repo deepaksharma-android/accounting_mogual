@@ -15,7 +15,9 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
+import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
@@ -60,8 +62,13 @@ public interface Api {
     Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload, @Path("id") String id);
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
+    @GET("get_company/{id}")
+    Call<CompanyListResponse> getCompanyList(@Path("id") String id);
     @GET("getplan")
     Call<PackageResponse> getpackage();
+    @GET("get_industry")
+    Call<IndustryTypeResponse> getIndustry();
+
 
 
 }

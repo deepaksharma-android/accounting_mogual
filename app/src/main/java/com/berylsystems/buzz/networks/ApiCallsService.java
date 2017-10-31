@@ -21,7 +21,9 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
+import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
@@ -86,6 +88,10 @@ public class ApiCallsService extends IntentService {
             handleCompanySignature();
         }else if (Cv.ACTION_CREATE_LOGIN.equals(action)) {
             handleCompanyLogin();
+        } else if (Cv.ACTION_COMPANY_LIST.equals(action)) {
+            handleCompanyList();
+        }else if (Cv.ACTION_GET_INDUSTRY.equals(action)) {
+            handleGetIndustry();
         } else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
         }
@@ -434,6 +440,54 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+    private void handleCompanyList() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getCompanyList(appUser.user_id).enqueue(new Callback<CompanyListResponse>() {
+            @Override
+            public void onResponse(Call<CompanyListResponse> call, Response<CompanyListResponse> r) {
+                if (r.code() == 200) {
+                    CompanyListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetIndustry() {
+        api.getIndustry().enqueue(new Callback<IndustryTypeResponse>() {
+            @Override
+            public void onResponse(Call<IndustryTypeResponse> call, Response<IndustryTypeResponse> r) {
+                if (r.code() == 200) {
+                    IndustryTypeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IndustryTypeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
 
     private void handleGetPackages() {
         api.getpackage().enqueue(new Callback<PackageResponse>() {

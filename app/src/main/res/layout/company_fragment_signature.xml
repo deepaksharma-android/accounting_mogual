@@ -29,11 +29,6 @@
             sign:penColor="#000000"
             sign:enableSignature="true"/>
 
-            <ImageView
-                android:id="@+id/sign_image"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout

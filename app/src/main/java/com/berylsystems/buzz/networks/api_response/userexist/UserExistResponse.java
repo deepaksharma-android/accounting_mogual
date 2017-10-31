@@ -1,7 +1,17 @@
 package com.berylsystems.buzz.networks.api_response.userexist;
 
-public class UserExistResponse {
+import com.berylsystems.buzz.networks.api_response.user.User;
 
+public class UserExistResponse {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User user;
 
     public String getIs_present() {
         return is_present;

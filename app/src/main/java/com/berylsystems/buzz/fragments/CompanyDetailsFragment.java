@@ -64,6 +64,7 @@ public class CompanyDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,11 +115,11 @@ public class CompanyDetailsFragment extends Fragment {
         return v;
     }
 
-    @Override
+  /*  @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }
+    }*/
 
     @Override
     public void onStop() {

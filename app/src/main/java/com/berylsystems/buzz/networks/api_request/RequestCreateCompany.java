@@ -17,6 +17,7 @@ public class RequestCreateCompany {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
         company = new HashMap<>();
+        company.put("user_id",appUser.user_id);
         company.put("name", appUser.company_name);
         company.put("short_name", appUser.short_name);
         company.put("country", appUser.country);
