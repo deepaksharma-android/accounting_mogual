@@ -17,6 +17,7 @@ public class Preferences {
     private static final String PREF_NAME = "Bahikhata";
     private static Preferences instance;
     private static final String IS_LOGIN = "Login";
+    private static final String CID="cid";
     private static final String CNAME="name";
     private static final String CPRINTNAME="print_name";
     private static final String CSHORTNAME="short_name";
@@ -74,7 +75,13 @@ public class Preferences {
     public Boolean getLogin() {
         return pref.getBoolean(IS_LOGIN, false);
     }
-
+    public void setCid(String cid){
+        editor.putString(CID,cid);
+        editor.commit();
+    }
+    public String getCid(){
+        return pref.getString(CID,"");
+    }
 
     public void setCname(String cname){
         editor.putString(CNAME,cname);

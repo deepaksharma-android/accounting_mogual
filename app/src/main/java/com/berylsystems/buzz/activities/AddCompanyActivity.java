@@ -1,11 +1,13 @@
 package com.berylsystems.buzz.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,11 +30,16 @@ import com.berylsystems.buzz.fragments.CompanyGstFragment;
 import com.berylsystems.buzz.fragments.CompanyLogoFragment;
 import com.berylsystems.buzz.fragments.CompanyPasswordFragment;
 import com.berylsystems.buzz.fragments.CompanySignatureFragment;
+import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CompanyData;
+import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,22 +47,47 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddCompanyActivity extends AppCompatActivity{
+public class AddCompanyActivity extends RegisterAbstractActivity{
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     public static CompanyData data;
     @Bind(R.id.viewpager)
     ViewPager mHeaderViewPager;
     @Bind(R.id.tabs)
     TabLayout mTabLayout;
     AppUser appUser;
+    ProgressDialog mProgressDialog;
+    Snackbar snackbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_company);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(AddCompanyActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
 
     }
 
@@ -120,6 +152,11 @@ public class AddCompanyActivity extends AppCompatActivity{
             Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(data.getAttributes().getUsername()));
         }
         super.onResume();
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_add_company;
     }
 
     @Override
@@ -189,5 +226,24 @@ public class AddCompanyActivity extends AppCompatActivity{
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Subscribe
+    public void getIndustryType(IndustryTypeResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            appUser.industry_type.clear();
+            appUser.industry_id.clear();
+            for(int i=0;i<response.getIndustry().getData().size();i++){
+                appUser.industry_type.add(response.getIndustry().getData().get(i).getAttributes().getName());
+                appUser.industry_id.add(response.getIndustry().getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(this,appUser);
+            }
+
+        } else {
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+
+
     }
 }

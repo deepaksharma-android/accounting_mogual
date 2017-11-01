@@ -159,11 +159,11 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
 
 
 
- /*   @Override
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onStop() {
@@ -220,9 +220,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
     public void createCompany(CreateCompanyResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            appUser.cname.add(mComapnyName.getText().toString());
-            appUser.cid= String.valueOf(response.getId());
-            LocalRepositories.saveAppUser(getActivity(),appUser);
+            Preferences.getInstance(getActivity()).setCid(String.valueOf(response.getId()));
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
             tabhost.getTabAt(1).select();
             //startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
@@ -237,14 +235,14 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
             snackbar.show();
         }
     }
-   /* @Subscribe
+    @Subscribe
     public void timout(String msg){
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
-    }*/
+    }
     public void hideSoftKeyboard() {
         if(getActivity().getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/dashboard"
+            android:checked="false"
+            android:title="Dashboard" />
+
+        <item
+            android:id="@+id/account"
+            android:checked="false"
+            android:title="Accounts" />
+
+        <item
+            android:id="@+id/transaction"
+            android:checked="false"
+            android:title="Transaction" />
+
+        <item
+            android:id="@+id/Inventory"
+            android:checked="false"
+            android:title="Inventory" />
+        <item
+            android:id="@+id/Reports"
+            android:checked="false"
+            android:title="Reports" />
+        <item
+            android:id="@+id/tools"
+            android:checked="false"
+            android:title="Tools" />
+
+        <item
+            android:id="@+id/setting"
+            android:checked="false"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/buy"
+            android:checked="false"
+            android:title="Buy Bahi Khata" />
+
+
+
+    </group>
+</menu>

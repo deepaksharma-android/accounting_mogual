@@ -161,11 +161,11 @@ public class CompanyAdditionalFragment extends Fragment {
 
         return v;
     }
-  /*  @Override
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onStop() {

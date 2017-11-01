@@ -49,6 +49,7 @@ public class BaseActivity extends AppCompatActivity{
     ImageView mAddIcon;
     TextView mTitleText;
     Toolbar toolbar;
+    NavigationView navigationViewcompany,navigationViewapp;
 
 
     @Override
@@ -66,14 +67,14 @@ public class BaseActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        View header=navigationView.getHeaderView(0);
+         navigationViewapp = (NavigationView) findViewById(R.id.navigationView);
+        View headerapp=navigationViewapp.getHeaderView(0);
       //  RelativeLayout header=(RelativeLayout) navigationView.findViewById(R.id.header);
-        TextView name=(TextView)header.findViewById(R.id.username);
-        TextView email=(TextView)header.findViewById(R.id.email);
+        TextView name=(TextView)headerapp.findViewById(R.id.username);
+        TextView email=(TextView)headerapp.findViewById(R.id.email);
         name.setText(appUser.name);
         email.setText(appUser.email);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationViewapp.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if (menuItem.isChecked()) menuItem.setChecked(false);
@@ -177,6 +178,8 @@ public class BaseActivity extends AppCompatActivity{
             mTitleText.setVisibility(View.GONE);
         }
     }
+
+
 
 
 

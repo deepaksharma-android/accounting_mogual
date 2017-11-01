@@ -2,6 +2,7 @@ package com.berylsystems.buzz.networks;
 
 
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyAuthenticate;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyDetails;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
@@ -15,6 +16,7 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
@@ -24,6 +26,7 @@ import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 
+import butterknife.Bind;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -50,8 +53,8 @@ public interface Api {
     Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
     @GET("check_exist")
     Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
-    @POST("company")
-    Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload);
+    @POST("company/{id}")
+    Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload,@Path("id") String id);
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload, @Path("id") String id);
     @PATCH("company/{id}")
@@ -68,10 +71,14 @@ public interface Api {
     Call<CompanyListResponse> getCompanyList(@Path("id") String id);
     @DELETE("company/{id}")
     Call<DeleteCompanyResponse> cdelete(@Path("id") String id);
-    @GET("getplan")
-    Call<PackageResponse> getpackage();
     @GET("get_industry")
     Call<IndustryTypeResponse> getIndustry();
+    @POST("company_auth/{id}")
+    Call<CompanyAuthenticateResponse> cauthenticate(@Body RequestCompanyAuthenticate payload, @Path("id") String id );
+    @GET("getplan")
+    Call<PackageResponse> getpackage();
+
+
 
 
 

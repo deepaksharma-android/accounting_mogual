@@ -45,6 +45,9 @@ public class AppUser {
     public String default_tax_rate1;
     public String default_tax_rate2;
     public String company_id;
+    public String cusername;
+    public String cpassword;
+    public String titlecname;
 
 
 

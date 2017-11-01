@@ -79,7 +79,7 @@ public class CompanyPasswordFragment extends Fragment {
                 if(isConnected) {
                     if(mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
                         appUser.companyUserName = mUserName.getText().toString();
-                        appUser.password = mPassword.getText().toString();
+                        appUser.companyUserPassword = mPassword.getText().toString();
                         LocalRepositories.saveAppUser(getActivity(), appUser);
                         mProgressDialog = new ProgressDialog(getActivity());
                         mProgressDialog.setMessage("Info...");
@@ -114,11 +114,11 @@ public class CompanyPasswordFragment extends Fragment {
         });
         return v;
     }
-/*    @Override
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onStop() {

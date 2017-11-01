@@ -22,9 +22,12 @@ import com.berylsystems.buzz.adapters.CompanyListAdapter;
 import com.berylsystems.buzz.adapters.LandingPageGridAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventOpenCompany;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,10 +55,6 @@ public class ComapanyListActivity extends BaseActivity {
         setNavigation(1);
         setAdd(1);
         setAppBarTitle(1, "COMPANY LIST");
-
-
-
-
     }
 
     @Override
@@ -103,11 +102,13 @@ public class ComapanyListActivity extends BaseActivity {
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), AddCompanyActivity.class);
         AddCompanyActivity.data = null;
+        Preferences.getInstance(getApplicationContext()).setCid("");
         appUser.logo="";
         appUser.signature="";
         LocalRepositories.saveAppUser(this,appUser);
         startActivity(intent);
     }
+
 
 
 
@@ -134,6 +135,45 @@ public class ComapanyListActivity extends BaseActivity {
 
     }
 
+    @Subscribe
+    public void opencompany(EventOpenCompany pos){
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(ComapanyListActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_COMPANY_AUTHENTICATE);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+    }
+    @Subscribe
+    public void authenticate(CompanyAuthenticateResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+        }
+        else{
+
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+        }
+    }
     @Override
     public void onBackPressed() {
 

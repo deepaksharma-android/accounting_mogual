@@ -126,11 +126,11 @@ public class CompanyGstFragment extends Fragment {
         });
         return v;
     }
-/*    @Override
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onStop() {
@@ -159,14 +159,14 @@ public class CompanyGstFragment extends Fragment {
             snackbar.show();
         }
     }
-   /* @Subscribe
+    @Subscribe
     public void timout(String msg){
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
-    }*/
+    }
    public void hideSoftKeyboard() {
        if(getActivity().getCurrentFocus()!=null) {
            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

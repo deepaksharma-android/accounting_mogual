@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.Image;
@@ -10,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.adapters.LandingPageGridAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyData;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
@@ -32,7 +36,7 @@ import org.w3c.dom.Text;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LandingPageActivity extends BaseActivity {
+public class LandingPageActivity extends BaseActivityCompany {
     public static CompanyData data;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -63,6 +67,7 @@ public class LandingPageActivity extends BaseActivity {
     ImageView mDeleteImage;
     @Bind(R.id.deleteText)
     TextView mDeleteText;
+    Dialog dialog;
 
 
     int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites};
@@ -79,15 +84,11 @@ public class LandingPageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setNavigation(1);
-        setAdd(2);
-        setAppBarTitle(1,getIntent().getStringExtra("name"));
-
+        setNavigationCompany(1);
+        setAddCompany(2);
         ButterKnife.bind(this);
-
         appUser = LocalRepositories.getAppUser(this);
-        appUser.company_id=getIntent().getStringExtra("id");
-        LocalRepositories.saveAppUser(this,appUser);
+        setAppBarTitleCompany(1,appUser.titlecname);
         mOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,28 +144,7 @@ public class LandingPageActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new LandingPageGridAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(LandingPageActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
 
 
     }
@@ -187,24 +167,7 @@ public class LandingPageActivity extends BaseActivity {
         super.onStop();
     }
 
-    @Subscribe
-    public void getIndustryType(IndustryTypeResponse response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-            appUser.industry_type.clear();
-            appUser.industry_id.clear();
-            for(int i=0;i<response.getIndustry().getData().size();i++){
-                appUser.industry_type.add(response.getIndustry().getData().get(i).getAttributes().getName());
-                appUser.industry_id.add(response.getIndustry().getData().get(i).getAttributes().getId());
-                LocalRepositories.saveAppUser(this,appUser);
-            }
 
-        } else {
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-
-
-    }
 
     @Subscribe
     public void deletecompany(DeleteCompanyResponse response){
@@ -232,6 +195,11 @@ public class LandingPageActivity extends BaseActivity {
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
     }
+
+
+
+
+
 
     @Subscribe
     public void timout(String msg){

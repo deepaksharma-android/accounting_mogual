@@ -147,6 +147,17 @@ public class CompanyAttributes {
     public String type_of_dealer;
     public String default_tax_rate1;
 
+
+    public Boolean getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(Boolean authorization) {
+        this.authorization = authorization;
+    }
+
+    public Boolean authorization;
+
     public String getUsername() {
         return username;
     }

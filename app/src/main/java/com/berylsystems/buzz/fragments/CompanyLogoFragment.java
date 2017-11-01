@@ -159,11 +159,11 @@ public class CompanyLogoFragment extends Fragment {
         return cursor.getString(column_index);
     }
 
- /*   @Override
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onStop() {

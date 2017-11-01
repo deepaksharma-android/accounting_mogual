@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
+import com.berylsystems.buzz.networks.api_request.RequestCompanyAuthenticate;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyDetails;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
@@ -21,6 +22,7 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
@@ -31,6 +33,7 @@ import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -95,7 +98,9 @@ public class ApiCallsService extends IntentService {
             handleDeleteCompany();
         }else if (Cv.ACTION_GET_INDUSTRY.equals(action)) {
             handleGetIndustry();
-        } else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
+        } else if (Cv.ACTION_COMPANY_AUTHENTICATE.equals(action)) {
+            handleAuthenticateCompany();
+        }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
         }
 
@@ -276,7 +281,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleCreateCompany() {
-        api.createcompany(new RequestCreateCompany(this)).enqueue(new Callback<CreateCompanyResponse>() {
+        api.createcompany(new RequestCreateCompany(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -301,7 +306,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleCompanyDetails() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.cdetails(new RequestCompanyDetails(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
+        api.cdetails(new RequestCompanyDetails(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -325,7 +330,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleCompanyGst() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.cgst(new RequestCompanyGst(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
+        api.cgst(new RequestCompanyGst(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -349,7 +354,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleCompanyAdditional() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.cadditional(new RequestCompanyAdditional(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
+        api.cadditional(new RequestCompanyAdditional(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -373,7 +378,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleCompanyLogo() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.clogo(new RequestCompanyLogo(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
+        api.clogo(new RequestCompanyLogo(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -397,7 +402,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleCompanySignature() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.csignature(new RequestCompanySignature(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
+        api.csignature(new RequestCompanySignature(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -421,7 +426,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleCompanyLogin() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.clogin(new RequestCompanyLogin(this),appUser.cid).enqueue(new Callback<CreateCompanyResponse>() {
+        api.clogin(new RequestCompanyLogin(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -514,7 +519,30 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+    private void handleAuthenticateCompany() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.cauthenticate(new RequestCompanyAuthenticate(this),appUser.company_id).enqueue(new Callback<CompanyAuthenticateResponse>() {
+            @Override
+            public void onResponse(Call<CompanyAuthenticateResponse> call, Response<CompanyAuthenticateResponse> r) {
+                if (r.code() == 200) {
+                    CompanyAuthenticateResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<CompanyAuthenticateResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
 
     private void handleGetPackages() {
         api.getpackage().enqueue(new Callback<PackageResponse>() {

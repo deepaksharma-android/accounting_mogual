@@ -239,14 +239,14 @@ public class CompanyDetailsFragment extends Fragment {
             snackbar.show();
         }
     }
-   /* @Subscribe
+    @Subscribe
     public void timout(String msg){
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
-    }*/
+    }
    public void hideSoftKeyboard() {
        if(getActivity().getCurrentFocus()!=null) {
            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

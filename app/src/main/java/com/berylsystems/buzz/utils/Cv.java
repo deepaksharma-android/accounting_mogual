@@ -25,6 +25,7 @@ public interface Cv {
   String ACTION_DELETE_COMPANY= "delete_company";
   String ACTION_GET_PACKAGES= "get_packages";
   String ACTION_GET_INDUSTRY= "get_industry";
+  String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String SERVICE_NAME = "NetworkingService";
   String TIMEOUT="Something went wrong. Please try again";
   String KEY_FB_PARAMS = "fields";
