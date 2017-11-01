@@ -133,7 +133,7 @@ public class CompanyPasswordFragment extends Fragment {
 
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
-            startActivity(new Intent(getActivity().getApplicationContext(),ComapanyListActivity.class));
+            startActivity(new Intent(getActivity().getApplicationContext(),LandingPageActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

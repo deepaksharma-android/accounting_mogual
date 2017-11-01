@@ -59,6 +59,32 @@ public class ComapanyListActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
+        Preferences.getInstance(getApplicationContext()).setCname("");
+        Preferences.getInstance(getApplicationContext()).setCprintname("");
+        Preferences.getInstance(getApplicationContext()).setCshortname("");
+        Preferences.getInstance(getApplicationContext()).setCphonenumber("");
+        Preferences.getInstance(getApplicationContext()).setCfinancialyear("");
+        Preferences.getInstance(getApplicationContext()).setCbookyear("");
+        Preferences.getInstance(getApplicationContext()).setCcin("");
+        Preferences.getInstance(getApplicationContext()).setCpan("");
+        Preferences.getInstance(getApplicationContext()).setCaddress("");
+        Preferences.getInstance(getApplicationContext()).setCcity("");
+        Preferences.getInstance(getApplicationContext()).setCcountry("");
+        Preferences.getInstance(getApplicationContext()).setCstate("");
+        Preferences.getInstance(getApplicationContext()).setCindustrytype("");
+        Preferences.getInstance(getApplicationContext()).setCward("");
+        Preferences.getInstance(getApplicationContext()).setCfax("");
+        Preferences.getInstance(getApplicationContext()).setCemail("");
+        Preferences.getInstance(getApplicationContext()).setCgst("");
+        Preferences.getInstance(getApplicationContext()).setCdealer("");
+        Preferences.getInstance(getApplicationContext()).setCtax1("");
+        Preferences.getInstance(getApplicationContext()).setCtax2("");
+        Preferences.getInstance(getApplicationContext()).setCsymbol("");
+        Preferences.getInstance(getApplicationContext()).setCstring("");
+        Preferences.getInstance(getApplicationContext()).setCsubstring("");
+        Preferences.getInstance(getApplicationContext()).setClogo("");
+        Preferences.getInstance(getApplicationContext()).setCsign("");
+        Preferences.getInstance(getApplicationContext()).setCusername("");
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if(isConnected) {
@@ -101,7 +127,7 @@ public class ComapanyListActivity extends BaseActivity {
 
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), AddCompanyActivity.class);
-        AddCompanyActivity.data = null;
+        //AddCompanyActivity.data = null;
         Preferences.getInstance(getApplicationContext()).setCid("");
         appUser.logo="";
         appUser.signature="";

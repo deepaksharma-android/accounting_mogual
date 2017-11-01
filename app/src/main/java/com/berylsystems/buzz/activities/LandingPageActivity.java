@@ -25,7 +25,9 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateRe
 import com.berylsystems.buzz.networks.api_response.company.CompanyData;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
@@ -37,7 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class LandingPageActivity extends BaseActivityCompany {
-    public static CompanyData data;
+   //public CompanyData data;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.recycler_view)
@@ -99,7 +101,7 @@ public class LandingPageActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(), AddCompanyActivity.class);
-                AddCompanyActivity.data = data;
+                //AddCompanyActivity.data = data;
                 startActivity(intent);
             }
         });
@@ -146,7 +148,28 @@ public class LandingPageActivity extends BaseActivityCompany {
         mRecyclerView.setAdapter(mAdapter);
 
         //get a company details api
-
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(LandingPageActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(this, Cv.ACTION_GET_COMPANY);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
 
 
 
@@ -171,6 +194,43 @@ public class LandingPageActivity extends BaseActivityCompany {
         super.onStop();
     }
 
+
+    @Subscribe
+    public void getcompanydetail(CompanyResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Preferences.getInstance(getApplicationContext()).setCname(Helpers.mystring(response.getCompany().getData().getAttributes().getName()));
+            Preferences.getInstance(getApplicationContext()).setCprintname(Helpers.mystring(response.getCompany().getData().getAttributes().getPrint_name()));
+            Preferences.getInstance(getApplicationContext()).setCshortname(Helpers.mystring(response.getCompany().getData().getAttributes().getShort_name()));
+            Preferences.getInstance(getApplicationContext()).setCphonenumber(Helpers.mystring(response.getCompany().getData().getAttributes().getPhone_number()));
+            Preferences.getInstance(getApplicationContext()).setCfinancialyear(Helpers.mystring(response.getCompany().getData().getAttributes().getFinancial_year_from()));
+            Preferences.getInstance(getApplicationContext()).setCbookyear(Helpers.mystring(response.getCompany().getData().getAttributes().getBooks_commencing_from()));
+            Preferences.getInstance(getApplicationContext()).setCcin(Helpers.mystring(response.getCompany().getData().getAttributes().getCin()));
+            Preferences.getInstance(getApplicationContext()).setCpan(Helpers.mystring(response.getCompany().getData().getAttributes().getIt_pin()));
+            Preferences.getInstance(getApplicationContext()).setCaddress(Helpers.mystring(response.getCompany().getData().getAttributes().getAddress()));
+            Preferences.getInstance(getApplicationContext()).setCcountry(Helpers.mystring(response.getCompany().getData().getAttributes().getCountry()));
+            Preferences.getInstance(getApplicationContext()).setCstate(Helpers.mystring(response.getCompany().getData().getAttributes().getState()));
+            Preferences.getInstance(getApplicationContext()).setCindustrytype(Helpers.mystring(response.getCompany().getData().getAttributes().getIndustry_type()));
+            Preferences.getInstance(getApplicationContext()).setCward(Helpers.mystring(response.getCompany().getData().getAttributes().getWard()));
+            Preferences.getInstance(getApplicationContext()).setCfax(Helpers.mystring(response.getCompany().getData().getAttributes().getFax()));
+            Preferences.getInstance(getApplicationContext()).setCemail(Helpers.mystring(response.getCompany().getData().getAttributes().getEmail()));
+            Preferences.getInstance(getApplicationContext()).setCfax(Helpers.mystring(response.getCompany().getData().getAttributes().getFax()));
+            Preferences.getInstance(getApplicationContext()).setCemail(Helpers.mystring(response.getCompany().getData().getAttributes().getEmail()));
+            Preferences.getInstance(getApplicationContext()).setCgst(Helpers.mystring(response.getCompany().getData().getAttributes().getGst()));
+            Preferences.getInstance(getApplicationContext()).setCdealer(Helpers.mystring(response.getCompany().getData().getAttributes().getType_of_dealer()));
+            Preferences.getInstance(getApplicationContext()).setCtax1(Helpers.mystring(response.getCompany().getData().getAttributes().getDefault_tax_rate1()));
+            Preferences.getInstance(getApplicationContext()).setCtax2(Helpers.mystring(response.getCompany().getData().getAttributes().getDefault_tax_rate2()));
+            Preferences.getInstance(getApplicationContext()).setCsymbol(Helpers.mystring(response.getCompany().getData().getAttributes().getCurrency_symbol()));
+            Preferences.getInstance(getApplicationContext()).setCstring(Helpers.mystring(response.getCompany().getData().getAttributes().getCurrency_string()));
+            Preferences.getInstance(getApplicationContext()).setCsubstring(Helpers.mystring(response.getCompany().getData().getAttributes().getCurrency_sub_string()));
+            Preferences.getInstance(getApplicationContext()).setClogo(Helpers.mystring(response.getCompany().getData().getAttributes().getLogo()));
+            Preferences.getInstance(getApplicationContext()).setCsign(Helpers.mystring(response.getCompany().getData().getAttributes().getSignature()));
+            Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(response.getCompany().getData().getAttributes().getUsername()));
+        }
+        else{
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
 
 
     @Subscribe

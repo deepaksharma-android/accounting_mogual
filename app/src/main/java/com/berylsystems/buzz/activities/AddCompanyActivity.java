@@ -50,7 +50,7 @@ import butterknife.ButterKnife;
 public class AddCompanyActivity extends RegisterAbstractActivity{
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    public static CompanyData data;
+   // public static CompanyData data;
     @Bind(R.id.viewpager)
     ViewPager mHeaderViewPager;
     @Bind(R.id.tabs)
@@ -91,7 +91,7 @@ public class AddCompanyActivity extends RegisterAbstractActivity{
 
     }
 
-    @Override
+   /* @Override
     protected void onResume() {
         Preferences.getInstance(getApplicationContext()).setCname("");
         Preferences.getInstance(getApplicationContext()).setCprintname("");
@@ -153,7 +153,7 @@ public class AddCompanyActivity extends RegisterAbstractActivity{
         }
         super.onResume();
     }
-
+*/
     @Override
     protected int layoutId() {
         return R.layout.activity_add_company;
