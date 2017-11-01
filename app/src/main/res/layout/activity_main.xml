@@ -11,18 +11,37 @@
     android:layout_height="match_parent"
     tools:context=".activities.LandingPageActivity">
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#fff"
+        android:weightSum="1">
 
+    <!--    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
+            <include
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_alignParentBottom="true"
+                layout="@layout/layout_footer"/>
+        </RelativeLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.91"/>
+        <include
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+           android:layout_weight="0.09"
+            layout="@layout/layout_footer"/>
+
 
     </LinearLayout>
     </LinearLayout>

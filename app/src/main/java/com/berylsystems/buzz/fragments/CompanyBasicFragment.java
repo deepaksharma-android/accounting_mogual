@@ -2,9 +2,7 @@ package com.berylsystems.buzz.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TabActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -13,15 +11,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -74,12 +71,13 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        EventBus.getDefault().register(this);
+
         super.onStart();
     }
 
@@ -89,6 +87,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View v =inflater.inflate(R.layout.company_fragment_basic, container, false);
         ButterKnife.bind(this,v);
+        EventBus.getDefault().register(this);
         mComapnyName.setText(Preferences.getInstance(getActivity()).getCname());
         mPrintName.setText(Preferences.getInstance(getActivity()).getCprintname());
         mShortName.setText(Preferences.getInstance(getActivity()).getCshortname());
@@ -103,6 +102,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                 if(!mComapnyName.getText().toString().equals("")){
                     if(Validation.isPhoneFormatValid(mPhoneNumber.getText().toString())){
                         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -220,7 +220,6 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
     public void createCompany(CreateCompanyResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-
             appUser.cname.add(mComapnyName.getText().toString());
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
@@ -238,12 +237,18 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
             snackbar.show();
         }
     }
-    @Subscribe
+   /* @Subscribe
     public void timout(String msg){
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
+    }*/
+    public void hideSoftKeyboard() {
+        if(getActivity().getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

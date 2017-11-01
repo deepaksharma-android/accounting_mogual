@@ -46,11 +46,9 @@ public class BaseActivity extends AppCompatActivity{
     private DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     AppUser appUser;
-    Spinner mSpinner;
     ImageView mAddIcon;
     TextView mTitleText;
     Toolbar toolbar;
-    ArrayAdapter<String> spinnerAdapter;
 
 
     @Override
@@ -61,7 +59,6 @@ public class BaseActivity extends AppCompatActivity{
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(fullView);
          toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mSpinner=(Spinner)findViewById(R.id.spinner_cname);
         mTitleText=(TextView)findViewById(R.id.titletextbase);
         mAddIcon=(ImageView)findViewById(R.id.icn_add);
         setSupportActionBar(toolbar);
@@ -151,29 +148,12 @@ public class BaseActivity extends AppCompatActivity{
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
-        mSpinner.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        spinnerAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_text_layout, appUser.cname);
-
-        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSpinner.setAdapter(spinnerAdapter);
 
 
 
 
     }
 
-    protected void setHeading(int resId) {
-        if(resId == 1){
-        mSpinner.setVisibility(View.VISIBLE);
-
-        }
-        else{
-            mSpinner.setVisibility(View.GONE);
-        }
-
-
-    }
     protected void setNavigation(int id){
         if(id==2){
             toolbar.setNavigationIcon(null);

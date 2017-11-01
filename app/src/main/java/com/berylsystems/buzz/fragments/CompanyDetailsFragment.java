@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -72,6 +74,7 @@ public class CompanyDetailsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
@@ -163,6 +166,7 @@ public class CompanyDetailsFragment extends Fragment {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                         Boolean isConnected = ConnectivityReceiver.isConnected();
                         if(isConnected) {
                             appUser.fax=mFax.getText().toString();
@@ -202,11 +206,11 @@ public class CompanyDetailsFragment extends Fragment {
         return v;
     }
 
-  /*  @Override
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }*/
+    }
 
     @Override
     public void onStop() {
@@ -243,4 +247,10 @@ public class CompanyDetailsFragment extends Fragment {
         mProgressDialog.dismiss();
 
     }*/
+   public void hideSoftKeyboard() {
+       if(getActivity().getCurrentFocus()!=null) {
+           InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+           inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+       }
+   }
 }

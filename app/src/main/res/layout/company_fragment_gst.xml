@@ -118,7 +118,7 @@
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
                                 android:textColor="#000"
-                                android:inputType="number"
+                                android:inputType="phone"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>

@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.Image;
@@ -16,6 +17,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -87,6 +89,7 @@ public class CompanyLogoFragment extends Fragment {
                 mSubmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        hideSoftKeyboard();
                         Boolean isConnected = ConnectivityReceiver.isConnected();
                         if(isConnected) {
                             appUser.logo=encodedString;
@@ -186,6 +189,12 @@ public class CompanyLogoFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
+        }
+    }
+    public void hideSoftKeyboard() {
+        if(getActivity().getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
 

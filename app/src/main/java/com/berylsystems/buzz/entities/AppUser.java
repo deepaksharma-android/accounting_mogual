@@ -16,8 +16,8 @@ public class AppUser {
     public String print_name;
     public String short_name;
     public String city;
-    public String logo;
-    public String signature;
+    public String logo="";
+    public String signature="";
     public String companyUserName;
     public String companyUserPassword;
     public String country;
@@ -44,6 +44,7 @@ public class AppUser {
     public String industryId;
     public String default_tax_rate1;
     public String default_tax_rate2;
+    public String company_id;
 
 
 

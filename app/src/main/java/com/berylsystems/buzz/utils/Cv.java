@@ -22,6 +22,7 @@ public interface Cv {
   String ACTION_CREATE_SIGNATURE= "company_signature";
   String ACTION_CREATE_LOGIN= "company_login";
   String ACTION_COMPANY_LIST= "company_list";
+  String ACTION_DELETE_COMPANY= "delete_company";
   String ACTION_GET_PACKAGES= "get_packages";
   String ACTION_GET_INDUSTRY= "get_industry";
   String SERVICE_NAME = "NetworkingService";

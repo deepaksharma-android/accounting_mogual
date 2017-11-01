@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -52,12 +54,13 @@ public class AddCompanyActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
-      /*  setHeading(2);
-        setNavigation(1);
-        setAdd(2);
-        setAppBarTitle(1,"CREATE COMPANY");*/
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
+
+    }
+
+    @Override
+    protected void onResume() {
         Preferences.getInstance(getApplicationContext()).setCname("");
         Preferences.getInstance(getApplicationContext()).setCprintname("");
         Preferences.getInstance(getApplicationContext()).setCshortname("");
@@ -115,13 +118,18 @@ public class AddCompanyActivity extends AppCompatActivity{
             Preferences.getInstance(getApplicationContext()).setClogo(Helpers.mystring(data.getAttributes().getLogo()));
             Preferences.getInstance(getApplicationContext()).setCsign(Helpers.mystring(data.getAttributes().getSignature()));
             Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(data.getAttributes().getUsername()));
+        }
+        super.onResume();
+    }
 
-
-
-
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+               finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
     private void initActionbar() {

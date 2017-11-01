@@ -8,8 +8,8 @@
         android:id="@+id/mainLayout"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/curve_background_shadow"
         android:orientation="vertical">
@@ -35,21 +35,22 @@
 
 
         <com.berylsystems.buzz.utils.BuzzTextView
-            style="@style/Gotham_Medium"
+            style="@style/Gotham_Book"
             android:id="@+id/company_name"
             android:layout_width="0dp"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="0.8"
+            android:layout_weight="0.85"
             android:text="COMPANY"
             android:textColor="#050505"
             android:textSize="14sp" />
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="0.1"
+            android:layout_height="10dp"
+            android:layout_weight="0.05"
+            android:layout_marginRight="10dp"
             android:layout_gravity="center"
             android:src="@drawable/right_carat"/>
 

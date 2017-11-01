@@ -243,7 +243,7 @@ public class LoginActivity extends RegisterAbstractActivity {
             }
             else{
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(), LandingPageActivity.class));
+                startActivity(new Intent(getApplicationContext(), ComapanyListActivity.class));
             }
 
 

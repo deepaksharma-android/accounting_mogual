@@ -20,6 +20,7 @@ import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -269,5 +270,8 @@ public class Helpers {
         }
         return string;
     }
+
+
+
 
 }

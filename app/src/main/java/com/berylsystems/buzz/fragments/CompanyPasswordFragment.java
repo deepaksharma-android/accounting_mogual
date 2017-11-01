@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,10 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.ComapanyListActivity;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -71,6 +74,7 @@ public class CompanyPasswordFragment extends Fragment {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
                     if(mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
@@ -129,7 +133,7 @@ public class CompanyPasswordFragment extends Fragment {
 
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
-            startActivity(new Intent(getActivity().getApplicationContext(),LandingPageActivity.class));
+            startActivity(new Intent(getActivity().getApplicationContext(),ComapanyListActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -139,6 +143,12 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
+        }
+    }
+    public void hideSoftKeyboard() {
+        if(getActivity().getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
 

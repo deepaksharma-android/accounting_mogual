@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -78,7 +80,7 @@ public class CompanyGstFragment extends Fragment {
             String dealername = Preferences.getInstance(getActivity()).getCdealer().trim();// insert code here
             int index = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.dealer).length; i++) {
-                if (getResources().getStringArray(R.array.country)[i].equals(dealername)) {
+                if (getResources().getStringArray(R.array.dealer)[i].equals(dealername)) {
                     index = i;
                     break;
                 }
@@ -89,6 +91,7 @@ public class CompanyGstFragment extends Fragment {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
                     appUser.gst=mGst.getText().toString();
@@ -164,4 +167,10 @@ public class CompanyGstFragment extends Fragment {
         mProgressDialog.dismiss();
 
     }*/
+   public void hideSoftKeyboard() {
+       if(getActivity().getCurrentFocus()!=null) {
+           InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+           inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+       }
+   }
 }

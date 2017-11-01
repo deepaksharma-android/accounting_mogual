@@ -67,7 +67,6 @@
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.AddCompanyActivity"
-            android:parentActivityName=".activities.LandingPageActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.ComapanyListActivity"

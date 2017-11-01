@@ -17,6 +17,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
+import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
@@ -25,6 +26,7 @@ import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -64,6 +66,8 @@ public interface Api {
     Call<CreateCompanyResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
     @GET("get_company/{id}")
     Call<CompanyListResponse> getCompanyList(@Path("id") String id);
+    @DELETE("company/{id}")
+    Call<DeleteCompanyResponse> cdelete(@Path("id") String id);
     @GET("getplan")
     Call<PackageResponse> getpackage();
     @GET("get_industry")

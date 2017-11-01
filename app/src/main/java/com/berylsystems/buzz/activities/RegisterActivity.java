@@ -150,7 +150,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             if(response.is_present.equals("true")){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+                startActivity(new Intent(getApplicationContext(),ComapanyListActivity.class));
             }
             else {
                 startActivity(new Intent(getApplicationContext(),FacebookHandlerActivity.class));

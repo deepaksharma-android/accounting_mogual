@@ -297,6 +297,8 @@
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
                                 android:textColor="#000"
+                                android:maxLength="10"
+                                android:inputType="textCapCharacters"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="12sp" />
                         </android.support.design.widget.TextInputLayout>

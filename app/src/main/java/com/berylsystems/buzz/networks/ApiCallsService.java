@@ -23,6 +23,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
+import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
@@ -90,6 +91,8 @@ public class ApiCallsService extends IntentService {
             handleCompanyLogin();
         } else if (Cv.ACTION_COMPANY_LIST.equals(action)) {
             handleCompanyList();
+        }else if (Cv.ACTION_DELETE_COMPANY.equals(action)) {
+            handleDeleteCompany();
         }else if (Cv.ACTION_GET_INDUSTRY.equals(action)) {
             handleGetIndustry();
         } else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
@@ -455,6 +458,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CompanyListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleDeleteCompany() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.cdelete(appUser.company_id).enqueue(new Callback<DeleteCompanyResponse>() {
+            @Override
+            public void onResponse(Call<DeleteCompanyResponse> call, Response<DeleteCompanyResponse> r) {
+                if (r.code() == 200) {
+                    DeleteCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteCompanyResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

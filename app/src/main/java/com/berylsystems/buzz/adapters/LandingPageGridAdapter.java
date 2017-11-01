@@ -41,20 +41,12 @@ public class LandingPageGridAdapter  extends RecyclerView.Adapter<LandingPageGri
     public void onBindViewHolder(LandingPageGridAdapter.ViewHolder viewHolder,  int i) {
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
-        viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(i==0){
-                    context.startActivity(new Intent(context, ComapanyListActivity.class));
-                }
-            }
-        });
 
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return data.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

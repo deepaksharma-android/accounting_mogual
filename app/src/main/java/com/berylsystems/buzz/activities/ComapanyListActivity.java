@@ -49,7 +49,6 @@ public class ComapanyListActivity extends BaseActivity {
         setContentView(R.layout.activity_company_list);
         ButterKnife.bind(this);
         appUser=LocalRepositories.getAppUser(this);
-        setHeading(2);
         setNavigation(1);
         setAdd(1);
         setAppBarTitle(1, "COMPANY LIST");
@@ -102,7 +101,12 @@ public class ComapanyListActivity extends BaseActivity {
     }
 
     public void add(View v) {
-        startActivity(new Intent(getApplicationContext(), AddCompanyActivity.class));
+        Intent intent=new Intent(getApplicationContext(), AddCompanyActivity.class);
+        AddCompanyActivity.data = null;
+        appUser.logo="";
+        appUser.signature="";
+        LocalRepositories.saveAppUser(this,appUser);
+        startActivity(intent);
     }
 
 

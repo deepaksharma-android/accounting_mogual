@@ -44,7 +44,8 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
             public void onClick(View view) {
                 Intent intent=new Intent(context, LandingPageActivity.class);
                 intent.putExtra("name",data.get(i).getAttributes().getName());
-               /* AddCompanyActivity.data = data.get(i);*/
+                intent.putExtra("id",data.get(i).getId());
+                LandingPageActivity.data = data.get(i);
                 context.startActivity(intent);
             }
         });

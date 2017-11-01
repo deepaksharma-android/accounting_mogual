@@ -1,0 +1,184 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#d3d3d3"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/Linear1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:showDividers="middle">
+
+
+        <LinearLayout
+            android:id="@+id/layout_edit"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.25">
+
+            <ImageView
+                android:id="@+id/editImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/selector_edit_company"/>
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:id="@+id/editText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="EDIT"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textColor="@drawable/selector_text"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_delete"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.25">
+
+            <ImageView
+                android:id="@+id/deleteImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/selector_delete_company"/>
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:id="@+id/deleteText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="DELETE"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@drawable/selector_text"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_open"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.25">
+
+            <ImageView
+                android:id="@+id/openImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/selector_open_company"/>
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:id="@+id/openText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="RESTORE"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@drawable/selector_text"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_backup"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.25">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/selector_backup_company"/>
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="BACKUP"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@drawable/selector_text"/>
+
+        </LinearLayout>
+
+        <!--<Button
+            android:id="@+id/FooterButtonHome"
+            style="@style/FooterFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:drawablePadding="@dimen/footer_button_label_padding"
+            android:drawableTop="@drawable/selector_footer_home"
+            android:text="HOME"
+            android:textColor="@color/selector_footer_text_color" />
+
+
+
+        <Button
+            android:id="@+id/FooterButtonCustomer"
+            style="@style/FooterFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:drawablePadding="@dimen/footer_button_label_padding"
+            android:drawableTop="@drawable/selector_footer_customer"
+            android:text="Customer"
+            android:textColor="@color/selector_footer_text_color" />
+
+        <Button
+            android:id="@+id/FooterButtonInbox"
+            style="@style/FooterFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:drawablePadding="@dimen/footer_button_label_padding"
+            android:drawableTop="@drawable/selector_footer_inbox"
+            android:text="Inbox"
+            android:textColor="@color/selector_footer_text_color" />
+
+
+
+        <Button
+            android:id="@+id/FooterButtonBeat"
+            style="@style/FooterFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:drawablePadding="@dimen/footer_button_label_padding"
+            android:drawableTop="@drawable/selector_footer_beats"
+            android:text="Beats"
+            android:textColor="@color/selector_footer_text_color" />-->
+
+    </LinearLayout>
+</LinearLayout>
+
