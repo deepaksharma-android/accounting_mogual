@@ -21,6 +21,7 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
@@ -77,6 +78,8 @@ public interface Api {
     Call<CompanyAuthenticateResponse> cauthenticate(@Body RequestCompanyAuthenticate payload, @Path("id") String id );
     @GET("getplan")
     Call<PackageResponse> getpackage();
+    @GET("company/{id}")
+    Call<CompanyResponse> getcompany(@Path("id") String id);
 
 
 

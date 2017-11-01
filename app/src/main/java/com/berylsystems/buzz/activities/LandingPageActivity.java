@@ -145,6 +145,10 @@ public class LandingPageActivity extends BaseActivityCompany {
         mAdapter = new LandingPageGridAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);
 
+        //get a company details api
+
+
+
 
 
     }

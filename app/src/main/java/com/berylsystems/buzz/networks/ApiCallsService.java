@@ -27,6 +27,7 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
@@ -100,6 +101,8 @@ public class ApiCallsService extends IntentService {
             handleGetIndustry();
         } else if (Cv.ACTION_COMPANY_AUTHENTICATE.equals(action)) {
             handleAuthenticateCompany();
+        }else if (Cv.ACTION_GET_COMPANY.equals(action)) {
+            handleGetCompany();
         }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
         }
@@ -543,6 +546,31 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
+    private void handleGetCompany() {
+        api.getcompany(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyResponse>() {
+            @Override
+            public void onResponse(Call<CompanyResponse> call, Response<CompanyResponse> r) {
+                if (r.code() == 200) {
+                    CompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
 
     private void handleGetPackages() {
         api.getpackage().enqueue(new Callback<PackageResponse>() {
