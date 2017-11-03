@@ -27,6 +27,7 @@ public interface Cv {
   String ACTION_GET_INDUSTRY= "get_industry";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";
+  String ACTION_SEARCH_COMPANY= "search_company";
   String SERVICE_NAME = "NetworkingService";
   String TIMEOUT="Something went wrong. Please try again";
   String KEY_FB_PARAMS = "fields";

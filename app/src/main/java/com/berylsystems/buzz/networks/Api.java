@@ -80,6 +80,8 @@ public interface Api {
     Call<PackageResponse> getpackage();
     @GET("company/{id}")
     Call<CompanyResponse> getcompany(@Path("id") String id);
+    @GET("company/{id}")
+    Call<CompanyResponse> searchcompany(@Path("id") String id);
 
 
 

@@ -103,6 +103,8 @@ public class ApiCallsService extends IntentService {
             handleAuthenticateCompany();
         }else if (Cv.ACTION_GET_COMPANY.equals(action)) {
             handleGetCompany();
+        }else if (Cv.ACTION_SEARCH_COMPANY.equals(action)) {
+            handleSearchCompany();
         }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
         }
@@ -549,6 +551,30 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetCompany() {
         api.getcompany(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyResponse>() {
+            @Override
+            public void onResponse(Call<CompanyResponse> call, Response<CompanyResponse> r) {
+                if (r.code() == 200) {
+                    CompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleSearchCompany() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.searchcompany(appUser.search_company_id).enqueue(new Callback<CompanyResponse>() {
             @Override
             public void onResponse(Call<CompanyResponse> call, Response<CompanyResponse> r) {
                 if (r.code() == 200) {

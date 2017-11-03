@@ -48,6 +48,7 @@ public class AppUser {
     public String cusername;
     public String cpassword;
     public String titlecname;
+    public String search_company_id;
 
 
 
