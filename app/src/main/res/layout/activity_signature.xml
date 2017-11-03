@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <com.kyanogen.signatureview.SignatureView
+            xmlns:sign="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/signature_view"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            sign:penSize="5dp"
+            android:layout_weight="0.88"
+            sign:backgroundColor="#ffffff"
+            sign:penColor="#000000"
+            sign:enableSignature="true"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1">
+
+            <LinearLayout
+
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:weightSum="1">
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/clear"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.5"
+                    android:textColor="#000"
+                    style="@style/Gotham_Medium"
+                    android:textSize="16sp"
+                    android:text="Clear"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/view_color"/>
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/save"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.5"
+                    android:textColor="#fff"
+                    style="@style/Gotham_Medium"
+                    android:textSize="16sp"
+                    android:text="Save"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/button_color"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    </LinearLayout>

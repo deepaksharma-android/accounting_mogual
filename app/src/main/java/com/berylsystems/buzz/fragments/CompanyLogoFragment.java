@@ -28,6 +28,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,7 +79,9 @@ public class CompanyLogoFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_logo, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
-
+        if(!Preferences.getInstance(getActivity()).getClogo().equals("")){
+            Picasso.with(getContext()).load(Preferences.getInstance(getActivity()).getClogo()).into(mSelectedImage);
+        }
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

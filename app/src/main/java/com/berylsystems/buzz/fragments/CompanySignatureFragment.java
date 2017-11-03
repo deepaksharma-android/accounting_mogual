@@ -1,12 +1,16 @@
 package com.berylsystems.buzz.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.text.style.IconMarginSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,29 +21,33 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.SignatureActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.kyanogen.signatureview.SignatureView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CompanySignatureFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.signature_view)
-    SignatureView mSignatureView;
     @Bind(R.id.add_sign)
     LinearLayout mAddSign;
     @Bind(R.id.submit)
     TextView mSubmit;
+    @Bind(R.id.image_signature)
+    ImageView mSignatureImage;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
@@ -63,10 +71,14 @@ public class CompanySignatureFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_signature, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
+        if(!Preferences.getInstance(getActivity()).getCsign().equals("")){
+            Picasso.with(getContext()).load(Preferences.getInstance(getActivity()).getCsign()).into(mSignatureImage);
+        }
         mAddSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSignatureView.clearCanvas();
+                Intent intent=new Intent(getActivity(), SignatureActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +87,6 @@ public class CompanySignatureFragment extends Fragment {
                 hideSoftKeyboard();
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
-                    appUser.signature= Helpers.bitmapToBase64(mSignatureView.getSignatureBitmap());;
-                    LocalRepositories.saveAppUser(getActivity(),appUser);
                     mProgressDialog = new ProgressDialog(getActivity());
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
@@ -105,6 +115,19 @@ public class CompanySignatureFragment extends Fragment {
         });
 
         return v;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getActivity();
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            String result = data.getStringExtra("image");
+            Timber.i("Result"+result);
+            Bitmap image=Helpers.base64ToBitmap(result);
+            mSignatureImage.setImageBitmap(image);
+            appUser.signature= result;;
+            LocalRepositories.saveAppUser(getActivity(),appUser);
+        }
     }
     @Override
     public void onPause() {

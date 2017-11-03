@@ -114,7 +114,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:hint="Default Tax Rate-1"
+                                android:hint="Default Tax Rate-1 (%)"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
                                 android:textColor="#000"
@@ -132,6 +132,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/tax2"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -151,10 +152,10 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:hint="Default Tax Rate-2"
+                                android:hint="Default Tax Rate-2 (%)"
                                 android:paddingTop="10dp"
                                 android:singleLine="true"
-                                android:inputType="number"
+                                android:inputType="phone"
                                 android:textColor="#000"
                                 android:textColorHint="@color/view_color"
                                 android:textSize="14sp" />

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -45,6 +46,8 @@ public class CompanyGstFragment extends Fragment {
     EditText mDefaultTax2;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
+    @Bind(R.id.tax2)
+    LinearLayout mTax2;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
@@ -77,7 +80,13 @@ public class CompanyGstFragment extends Fragment {
         mDefaultTax1.setText(Preferences.getInstance(getActivity()).getCtax1());
         mDefaultTax2.setText(Preferences.getInstance(getActivity()).getCtax2());
         if(!Preferences.getInstance(getActivity()).getCdealer().equals("")) {
-            String dealername = Preferences.getInstance(getActivity()).getCdealer().trim();// insert code here
+            String dealername = Preferences.getInstance(getActivity()).getCdealer().trim();
+            if(dealername.equals("Regular")){
+                mTax2.setVisibility(View.GONE);
+            }
+            else{
+                mTax2.setVisibility(View.VISIBLE);
+            }
             int index = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.dealer).length; i++) {
                 if (getResources().getStringArray(R.array.dealer)[i].equals(dealername)) {
@@ -88,6 +97,23 @@ public class CompanyGstFragment extends Fragment {
             Timber.i("INDEX" + index);
             mDealerSpinner.setSelection(index);
         }
+        mDealerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==0){
+                    mDefaultTax2.setText("");
+                    mTax2.setVisibility(View.GONE);
+                }
+                else{
+                    mTax2.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

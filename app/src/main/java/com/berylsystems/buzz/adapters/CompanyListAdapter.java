@@ -104,11 +104,11 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
                 }
                     else{
-                        Toast.makeText(context,"Ente username",Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,"Ente password",Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
-                    Toast.makeText(context,"Ente password",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Enter username",Toast.LENGTH_LONG).show();
                 }
 
             }

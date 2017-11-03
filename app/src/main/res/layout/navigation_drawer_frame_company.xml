@@ -65,6 +65,6 @@
         android:background="#fff"
         app:headerLayout="@layout/header_company"
         app:itemTextColor="#000"
-        android:visibility="gone"
+        android:visibility="visible"
         app:menu="@menu/menu_nav_company" />
 </android.support.v4.widget.DrawerLayout>

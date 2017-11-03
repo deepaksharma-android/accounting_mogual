@@ -148,6 +148,16 @@ public class LandingPageActivity extends BaseActivityCompany {
         mRecyclerView.setAdapter(mAdapter);
 
         //get a company details api
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(LandingPageActivity.this);
@@ -170,15 +180,6 @@ public class LandingPageActivity extends BaseActivityCompany {
                     });
             snackbar.show();
         }
-
-
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        EventBus.getDefault().register(this);
         super.onResume();
     }
 
@@ -199,6 +200,8 @@ public class LandingPageActivity extends BaseActivityCompany {
     public void getcompanydetail(CompanyResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            appUser.titlecname=response.getCompany().getData().getAttributes().getName();
+            LocalRepositories.saveAppUser(this,appUser);
             Preferences.getInstance(getApplicationContext()).setCname(Helpers.mystring(response.getCompany().getData().getAttributes().getName()));
             Preferences.getInstance(getApplicationContext()).setCprintname(Helpers.mystring(response.getCompany().getData().getAttributes().getPrint_name()));
             Preferences.getInstance(getApplicationContext()).setCshortname(Helpers.mystring(response.getCompany().getData().getAttributes().getShort_name()));

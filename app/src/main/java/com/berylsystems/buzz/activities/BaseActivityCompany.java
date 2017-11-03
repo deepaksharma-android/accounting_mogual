@@ -2,11 +2,13 @@ package com.berylsystems.buzz.activities;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,9 +53,10 @@ public class BaseActivityCompany extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
         navigationViewcompany = (NavigationView) findViewById(R.id.navigationViewCompany);
 
+
        
         final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.open_drawer, R.string.close_drawer) {
+                R.string.open_drawer, R.string.close_drawer); /*{
             @Override
             public void onDrawerClosed(View drawerView) {
 
@@ -67,11 +70,13 @@ public class BaseActivityCompany extends AppCompatActivity {
 
                 super.onDrawerOpened(drawerView);
             }
-        };
+        };*/
+
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
 
 
 

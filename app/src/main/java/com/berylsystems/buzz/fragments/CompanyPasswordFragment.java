@@ -67,7 +67,7 @@ public class CompanyPasswordFragment extends Fragment {
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
         mUserName.setText(Preferences.getInstance(getActivity()).getCusername());
-        if(!Preferences.getInstance(getActivity()).getCpassword().equals("")){
+        if(!Preferences.getInstance(getActivity()).getCusername().equals("")){
             mPassword.setText("••••••••");
             mConfirmPassword.setText("••••••••");
         }
@@ -77,21 +77,33 @@ public class CompanyPasswordFragment extends Fragment {
                 hideSoftKeyboard();
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
-                    if(mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
-                        appUser.companyUserName = mUserName.getText().toString();
-                        appUser.companyUserPassword = mPassword.getText().toString();
-                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                        mProgressDialog = new ProgressDialog(getActivity());
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                        ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
+                    if (!mUserName.getText().toString().equals("")) {
+                        if (!mPassword.getText().toString().equals("")) {
+                            if (mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
+                                appUser.companyUserName = mUserName.getText().toString();
+                                appUser.companyUserPassword = mPassword.getText().toString();
+                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                mProgressDialog = new ProgressDialog(getActivity());
+                                mProgressDialog.setMessage("Info...");
+                                mProgressDialog.setIndeterminate(false);
+                                mProgressDialog.setCancelable(true);
+                                mProgressDialog.show();
+                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
+                            } else {
+                                snackbar = Snackbar
+                                        .make(coordinatorLayout, "Password does not matches", Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            }
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "Please enter the password", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
                     }
                     else{
                         snackbar = Snackbar
-                                .make(coordinatorLayout, "Password does not matches", Snackbar.LENGTH_LONG);
+                                .make(coordinatorLayout, "Password can't be blank", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
                 }
