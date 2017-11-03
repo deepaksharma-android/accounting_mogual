@@ -21,6 +21,8 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
+import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
@@ -66,8 +68,8 @@ public interface Api {
     Call<CreateCompanyResponse> clogo(@Body RequestCompanyLogo payload, @Path("id") String id);
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload, @Path("id") String id);
-    @PATCH("company/{id}")
-    Call<CreateCompanyResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
+    @POST("companylogin/{id}")
+    Call<CompanyLoginResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
     @GET("get_company/{id}")
     Call<CompanyListResponse> getCompanyList(@Path("id") String id);
     @DELETE("company/{id}")
@@ -82,6 +84,8 @@ public interface Api {
     Call<CompanyResponse> getcompany(@Path("id") String id);
     @GET("company/{id}")
     Call<CompanyResponse> searchcompany(@Path("id") String id);
+    @GET("companyusers/{id}")
+    Call<CompanyUserResponse> getcompanyusers(@Path("id") String id);
 
 
 

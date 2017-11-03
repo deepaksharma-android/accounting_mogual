@@ -189,7 +189,7 @@ public class EditCompanyActivity extends RegisterAbstractActivity{
         adapter.addFragment(new CompanyAdditionalFragment(), "ADDITIONAL");
         adapter.addFragment(new CompanyLogoFragment(), "LOGO");
         adapter.addFragment(new CompanySignatureFragment(), "SIGNATURE");
-        adapter.addFragment(new CompanyPasswordFragment(), "PASSWORD");
+        adapter.addFragment(new CompanyPasswordFragment(), "USER");
         viewPager.setAdapter(adapter);
     }
 

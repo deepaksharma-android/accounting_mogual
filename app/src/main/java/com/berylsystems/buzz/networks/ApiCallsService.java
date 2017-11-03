@@ -27,6 +27,8 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
+import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
@@ -105,6 +107,8 @@ public class ApiCallsService extends IntentService {
             handleGetCompany();
         }else if (Cv.ACTION_SEARCH_COMPANY.equals(action)) {
             handleSearchCompany();
+        }else if (Cv.ACTION_GET_COMPANY_USER.equals(action)) {
+            handleGetCompanyUser();
         }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
         }
@@ -431,11 +435,11 @@ public class ApiCallsService extends IntentService {
     }
     private void handleCompanyLogin() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.clogin(new RequestCompanyLogin(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        api.clogin(new RequestCompanyLogin(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyLoginResponse>() {
             @Override
-            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+            public void onResponse(Call<CompanyLoginResponse> call, Response<CompanyLoginResponse> r) {
                 if (r.code() == 200) {
-                    CreateCompanyResponse body = r.body();
+                    CompanyLoginResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -443,7 +447,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+            public void onFailure(Call<CompanyLoginResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
@@ -587,6 +591,29 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetCompanyUser() {
+        api.getcompanyusers(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyUserResponse>() {
+            @Override
+            public void onResponse(Call<CompanyUserResponse> call, Response<CompanyUserResponse> r) {
+                if (r.code() == 200) {
+                    CompanyUserResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyUserResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

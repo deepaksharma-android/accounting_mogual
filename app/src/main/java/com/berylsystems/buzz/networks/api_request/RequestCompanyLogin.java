@@ -18,6 +18,7 @@ public class RequestCompanyLogin {
 
         company = new HashMap<>();
         company.put("username", appUser.companyUserName);
+
         if(!appUser.companyUserPassword.equals("••••••••")) {
             company.put("password", appUser.companyUserPassword);
         }

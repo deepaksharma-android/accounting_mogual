@@ -150,6 +150,9 @@ public class ComapanyListActivity extends BaseActivity {
                     if(response.getCompany().getData().getAttributes().getAuthorization()==true){
                         showpopup();
                     }
+                    else{
+                        startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+                    }
                 }
             });
 
