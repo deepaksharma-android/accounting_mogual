@@ -40,6 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CompanyPasswordFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
@@ -179,7 +180,7 @@ public class CompanyPasswordFragment extends Fragment {
            // mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter=new CompanyLoginAdapter(getActivity(),response.getCompanies().getData().getAttributes().getUsername());
+            mAdapter=new CompanyLoginAdapter(getActivity(),response.getCompany().getData().getAttributes().getUsername());
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -195,25 +196,7 @@ public class CompanyPasswordFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
-    public void createCompany(CompanyLoginResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200){
 
-
-            LocalRepositories.saveAppUser(getActivity(),appUser);
-            startActivity(new Intent(getActivity().getApplicationContext(),LandingPageActivity.class));
-            snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
-
-        }
-        else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
-        }
-    }
     public void hideSoftKeyboard() {
         if(getActivity().getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -283,6 +266,25 @@ public class CompanyPasswordFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    @Subscribe
+    public void createCompany(CompanyLoginResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            dialog.dismiss();
+            startActivity(new Intent(getActivity().getApplicationContext(),LandingPageActivity.class));
+            snackbar = Snackbar
+                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+        }
+        else {
+            dialog.dismiss();
+            snackbar = Snackbar
+                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 
 

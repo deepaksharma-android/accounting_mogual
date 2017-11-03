@@ -2,15 +2,16 @@ package com.berylsystems.buzz.networks.api_response.companylogin;
 
 public class CompanyUserResponse {
 
-    public Company getCompanies() {
-        return companies;
+
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanies(Company companies) {
-        this.companies = companies;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
-    public Company companies;
+    public Company company;
     public String getMessage() {
         return message;
     }
