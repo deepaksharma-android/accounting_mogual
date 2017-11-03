@@ -66,11 +66,15 @@
             android:parentActivityName=".activities.LoginActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.AddCompanyActivity"
+        <activity android:name=".activities.EditCompanyActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.SignatureActivity"
             android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.CreateCompanyActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".activities.ComapanyListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.ComapanyListActivity"
             android:theme="@style/AppTheme.NoActionBar"

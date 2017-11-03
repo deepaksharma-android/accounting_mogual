@@ -3,7 +3,6 @@ package com.berylsystems.buzz.activities;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -11,8 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,10 +18,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.adapters.LandingPageGridAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
-import com.berylsystems.buzz.networks.api_response.company.CompanyData;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
-import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
@@ -33,7 +27,6 @@ import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,8 +93,8 @@ public class LandingPageActivity extends BaseActivityCompany {
         mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), AddCompanyActivity.class);
-                //AddCompanyActivity.data = data;
+                Intent intent=new Intent(getApplicationContext(), EditCompanyActivity.class);
+                //EditCompanyActivity.data = data;
                 startActivity(intent);
             }
         });

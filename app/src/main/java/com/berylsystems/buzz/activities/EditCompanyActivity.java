@@ -1,7 +1,6 @@
 package com.berylsystems.buzz.activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,12 +28,9 @@ import com.berylsystems.buzz.fragments.CompanyLogoFragment;
 import com.berylsystems.buzz.fragments.CompanyPasswordFragment;
 import com.berylsystems.buzz.fragments.CompanySignatureFragment;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.company.CompanyData;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
-import com.berylsystems.buzz.utils.Preferences;
 
 
 import org.greenrobot.eventbus.Subscribe;
@@ -47,7 +41,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddCompanyActivity extends RegisterAbstractActivity{
+public class EditCompanyActivity extends RegisterAbstractActivity{
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
    // public static CompanyData data;
@@ -68,7 +62,7 @@ public class AddCompanyActivity extends RegisterAbstractActivity{
         mTabLayout.setupWithViewPager(mHeaderViewPager);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
-            mProgressDialog = new ProgressDialog(AddCompanyActivity.this);
+            mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
@@ -156,7 +150,7 @@ public class AddCompanyActivity extends RegisterAbstractActivity{
 */
     @Override
     protected int layoutId() {
-        return R.layout.activity_add_company;
+        return R.layout.activity_edit_company;
     }
 
     @Override
@@ -181,7 +175,7 @@ public class AddCompanyActivity extends RegisterAbstractActivity{
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE COMPANY");
+        actionbarTitle.setText("EDIT COMPANY");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

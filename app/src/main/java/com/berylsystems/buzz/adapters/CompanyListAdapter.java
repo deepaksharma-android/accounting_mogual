@@ -1,31 +1,21 @@
 package com.berylsystems.buzz.adapters;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.AddCompanyActivity;
-import com.berylsystems.buzz.activities.ComapanyListActivity;
-import com.berylsystems.buzz.activities.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CompanyData;
-import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventOpenCompany;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;

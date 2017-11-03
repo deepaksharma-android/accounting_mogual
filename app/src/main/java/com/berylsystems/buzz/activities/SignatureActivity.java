@@ -70,7 +70,7 @@ public class SignatureActivity extends AppCompatActivity {
         actionbarTitle.setText("SIGNATURE");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(true);
     }
 }

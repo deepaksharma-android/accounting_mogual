@@ -29,7 +29,7 @@ import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,7 +80,10 @@ public class CompanyLogoFragment extends Fragment {
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
         if(!Preferences.getInstance(getActivity()).getClogo().equals("")){
-            Picasso.with(getContext()).load(Preferences.getInstance(getActivity()).getClogo()).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+            Glide.with(getActivity())
+                    .load(Preferences.getInstance(getActivity()).getClogo())
+                    .into(mSelectedImage);
         }
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override

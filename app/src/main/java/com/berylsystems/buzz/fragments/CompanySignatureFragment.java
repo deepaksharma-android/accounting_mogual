@@ -29,8 +29,8 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
+import com.bumptech.glide.Glide;
 import com.kyanogen.signatureview.SignatureView;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,8 +71,14 @@ public class CompanySignatureFragment extends Fragment {
         View v= inflater.inflate(R.layout.company_fragment_signature, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
+       /* if(appUser.signature!=null) {
+            Bitmap image = Helpers.base64ToBitmap(appUser.signature);
+            mSignatureImage.setImageBitmap(image);
+        }*/
         if(!Preferences.getInstance(getActivity()).getCsign().equals("")){
-            Picasso.with(getContext()).load(Preferences.getInstance(getActivity()).getCsign()).into(mSignatureImage);
+            Glide.with(getActivity())
+                    .load(Preferences.getInstance(getActivity()).getCsign())
+                    .into(mSignatureImage);
         }
         mAddSign.setOnClickListener(new View.OnClickListener() {
             @Override
