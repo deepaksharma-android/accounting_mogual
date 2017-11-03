@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.api_request.RequestBasic;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAuthenticate;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyDetails;
@@ -15,6 +16,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
@@ -83,6 +85,8 @@ public class ApiCallsService extends IntentService {
             handlefacebookcheck();
         }else if (Cv.ACTION_CREATE_COMPANY.equals(action)) {
             handleCreateCompany();
+        } else if (Cv.ACTION_CREATE_BASIC.equals(action)) {
+            handleBasic();
         } else if (Cv.ACTION_CREATE_DETAILS.equals(action)) {
             handleCompanyDetails();
         }else if (Cv.ACTION_CREATE_GST.equals(action)) {
@@ -111,6 +115,8 @@ public class ApiCallsService extends IntentService {
             handleGetCompanyUser();
         }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
+        }else if (Cv.ACTION_EDIT_LOGIN.equals(action)) {
+            handleEditLogin();
         }
 
 
@@ -312,6 +318,29 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+    private void handleBasic() {
+        api.cbasiccompany(new RequestBasic(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
 
     private void handleCompanyDetails() {
         AppUser appUser=LocalRepositories.getAppUser(this);
@@ -412,6 +441,30 @@ public class ApiCallsService extends IntentService {
     private void handleCompanySignature() {
         AppUser appUser=LocalRepositories.getAppUser(this);
         api.csignature(new RequestCompanySignature(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleEditLogin() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.ceditlogin(new RequestEditLogin(this),appUser.company_user_id).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {

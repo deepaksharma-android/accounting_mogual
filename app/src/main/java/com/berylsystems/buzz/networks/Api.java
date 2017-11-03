@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.networks;
 
 
+import com.berylsystems.buzz.networks.api_request.RequestBasic;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAuthenticate;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyDetails;
@@ -9,6 +10,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
@@ -59,6 +61,8 @@ public interface Api {
     @POST("company/{id}")
     Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload,@Path("id") String id);
     @PATCH("company/{id}")
+    Call<CreateCompanyResponse>cbasiccompany(@Body RequestBasic payload, @Path("id") String id);
+    @PATCH("company/{id}")
     Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload, @Path("id") String id);
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cgst(@Body RequestCompanyGst payload, @Path("id") String id);
@@ -68,6 +72,8 @@ public interface Api {
     Call<CreateCompanyResponse> clogo(@Body RequestCompanyLogo payload, @Path("id") String id);
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload, @Path("id") String id);
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> ceditlogin(@Body RequestEditLogin payload, @Path("id") String id);
     @POST("companylogin/{id}")
     Call<CompanyLoginResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
     @GET("get_company/{id}")

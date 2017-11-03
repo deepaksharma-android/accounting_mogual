@@ -28,10 +28,13 @@ import com.berylsystems.buzz.adapters.CompanyListAdapter;
 import com.berylsystems.buzz.adapters.CompanyLoginAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventEditLogin;
+import com.berylsystems.buzz.utils.EventOpenCompany;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
@@ -183,6 +186,7 @@ public class CompanyPasswordFragment extends Fragment {
             mAdapter=new CompanyLoginAdapter(getActivity(),response.getCompany().getData().getAttributes().getUsername());
             mRecyclerView.setAdapter(mAdapter);
         }
+
     }
     @Override
     public void onPause() {
@@ -222,8 +226,8 @@ public class CompanyPasswordFragment extends Fragment {
                 if(!username.getText().toString().equals("")){
                     if(!password.getText().toString().equals("")){
                         if(password.getText().toString().equals(confirmpassword.getText().toString())){
-                        appUser.cusername=username.getText().toString();
-                        appUser.cpassword=password.getText().toString();
+                        appUser.companyUserName=username.getText().toString();
+                        appUser.companyUserPassword=password.getText().toString();
                         LocalRepositories.saveAppUser(getActivity(),appUser);
                         Boolean isConnected = ConnectivityReceiver.isConnected();
                         if (isConnected) {
@@ -284,6 +288,46 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
+        }
+    }
+
+    @Subscribe
+    public void opencompany(EventEditLogin pos){
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getActivity(), Cv.ACTION_EDIT_LOGIN);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+    @Subscribe
+    public void authenticate(CompanyAuthenticateResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            startActivity(new Intent(getActivity(),LandingPageActivity.class));
+        }
+        else{
+
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
         }
     }
 

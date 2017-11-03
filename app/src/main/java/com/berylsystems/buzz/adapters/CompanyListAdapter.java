@@ -56,12 +56,13 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
                 Preferences.getInstance(context).setCid(data.get(i).getId());
                 LocalRepositories.saveAppUser(context,appUser);
                // LandingPageActivity.data = data.get(i);
-                if(data.get(i).getAttributes().getAuthorization()==true) {
+                showpopup(i);
+               /* if(data.get(i).getAttributes().getAuthorization()==true) {
                     showpopup(i);
                 }
                 else{
                     context.startActivity(new Intent(context,LandingPageActivity.class));
-                }
+                }*/
 
             }
         });

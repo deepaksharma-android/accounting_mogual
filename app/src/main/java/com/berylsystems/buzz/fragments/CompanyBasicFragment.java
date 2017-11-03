@@ -123,7 +123,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
                             mProgressDialog.setCancelable(true);
                             mProgressDialog.show();
                             LocalRepositories.saveAppUser(getActivity(), appUser);
-                            ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_COMPANY);
+                            ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_BASIC);
                         }
                         else{
                             snackbar = Snackbar
