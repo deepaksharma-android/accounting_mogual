@@ -3,8 +3,6 @@ package com.berylsystems.buzz.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.berylsystems.buzz.activities.ChangeMobileActivity;
-
 /**
  * Created by pc on 10/7/2016.
  */

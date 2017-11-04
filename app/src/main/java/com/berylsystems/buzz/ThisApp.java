@@ -3,7 +3,7 @@ package com.berylsystems.buzz;
 import android.app.Application;
 import android.content.Context;
 
-import com.berylsystems.buzz.activities.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.networks.Api;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;

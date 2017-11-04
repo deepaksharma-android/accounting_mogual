@@ -2,7 +2,6 @@ package com.berylsystems.buzz.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.LandingPageActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.company.CompanyData;
 import com.berylsystems.buzz.utils.EventOpenCompany;
