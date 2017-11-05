@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="0.85"
-                android:text="COMPANY"
+                android:text="ACCOUNT"
                 android:textColor="#050505"
                 android:textSize="14sp" />
 

@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.account.AccountListActivity;
+import com.berylsystems.buzz.activities.dashboard.AdministationDashboardActivity;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,15 @@ public class AdministrationDashboardAdapter extends RecyclerView.Adapter<Adminis
     public void onBindViewHolder(AdministrationDashboardAdapter.ViewHolder viewHolder,  int i) {
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
+        if(i==0){
+            viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, AccountListActivity.class));
+                }
+            });
+
+        }
 
     }
 

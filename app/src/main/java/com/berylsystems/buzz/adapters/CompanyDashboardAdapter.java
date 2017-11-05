@@ -38,7 +38,13 @@ public class CompanyDashboardAdapter extends RecyclerView.Adapter<CompanyDashboa
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
         if(i==0){
-            context.startActivity(new Intent(context, AdministationDashboardActivity.class));
+            viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, AdministationDashboardActivity.class));
+                }
+            });
+
         }
 
 
