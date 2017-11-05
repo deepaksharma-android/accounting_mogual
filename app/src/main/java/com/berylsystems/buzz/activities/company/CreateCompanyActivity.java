@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -272,7 +273,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Preferences.getInstance(getApplicationContext()).setCid(String.valueOf(response.getId()));
-            startActivity(new Intent(getApplicationContext(), LandingPageActivity.class));
+            startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

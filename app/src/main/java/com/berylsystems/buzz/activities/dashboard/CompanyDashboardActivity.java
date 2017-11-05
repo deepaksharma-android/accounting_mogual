@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company;
+package com.berylsystems.buzz.activities.dashboard;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.adapters.LandingPageGridAdapter;
+import com.berylsystems.buzz.activities.company.ComapanyListActivity;
+import com.berylsystems.buzz.activities.company.EditCompanyActivity;
+import com.berylsystems.buzz.adapters.CompanyDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
@@ -33,14 +35,14 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LandingPageActivity extends BaseActivityCompany {
+public class CompanyDashboardActivity extends BaseActivityCompany {
    //public CompanyData data;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    LandingPageGridAdapter mAdapter;
+    CompanyDashboardAdapter mAdapter;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
@@ -103,13 +105,13 @@ public class LandingPageActivity extends BaseActivityCompany {
         mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(LandingPageActivity.this)
+                new AlertDialog.Builder(CompanyDashboardActivity.this)
                         .setTitle("Delete Company")
                         .setMessage("Are you sure you want to delete this company ?")
                         .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
                             if (isConnected) {
-                                mProgressDialog = new ProgressDialog(LandingPageActivity.this);
+                                mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
                                 mProgressDialog.setMessage("Info...");
                                 mProgressDialog.setIndeterminate(false);
                                 mProgressDialog.setCancelable(true);
@@ -139,7 +141,7 @@ public class LandingPageActivity extends BaseActivityCompany {
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new LandingPageGridAdapter(this, title, myImageList);
+        mAdapter = new CompanyDashboardAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);
 
         //get a company details api
@@ -155,7 +157,7 @@ public class LandingPageActivity extends BaseActivityCompany {
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
-            mProgressDialog = new ProgressDialog(LandingPageActivity.this);
+            mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
@@ -247,7 +249,7 @@ public class LandingPageActivity extends BaseActivityCompany {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(LandingPageActivity.this)
+        new AlertDialog.Builder(CompanyDashboardActivity.this)
                 .setTitle("Exit Company")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {

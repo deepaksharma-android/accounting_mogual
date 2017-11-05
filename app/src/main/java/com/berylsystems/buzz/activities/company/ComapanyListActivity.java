@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivity;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.adapters.CompanyListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -153,7 +154,7 @@ public class ComapanyListActivity extends BaseActivity {
                         showpopup();
                     }
                     else{
-                        startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+                        startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
                     }*/
                 }
             });
@@ -378,7 +379,7 @@ public class ComapanyListActivity extends BaseActivity {
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+            startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
         }
         else{
 

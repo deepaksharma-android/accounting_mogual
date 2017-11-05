@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
-import com.berylsystems.buzz.activities.company.LandingPageActivity;
+import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
@@ -120,7 +120,7 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             Preferences.getInstance(getApplicationContext()).setLogin(true);
-            Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CompanyDashboardActivity.class);
             startActivity(intent);
         }
         else{

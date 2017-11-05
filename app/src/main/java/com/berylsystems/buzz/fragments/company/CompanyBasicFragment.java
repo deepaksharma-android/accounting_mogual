@@ -223,7 +223,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
             Preferences.getInstance(getActivity()).setCid(String.valueOf(response.getId()));
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
             tabhost.getTabAt(1).select();
-            //startActivity(new Intent(getApplicationContext(),LandingPageActivity.class));
+            //startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

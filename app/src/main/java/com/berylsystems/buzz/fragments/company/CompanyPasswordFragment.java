@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.LandingPageActivity;
+import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.adapters.CompanyLoginAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -270,7 +270,7 @@ public class CompanyPasswordFragment extends Fragment {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             dialog.dismiss();
-            startActivity(new Intent(getActivity().getApplicationContext(),LandingPageActivity.class));
+            startActivity(new Intent(getActivity().getApplicationContext(),CompanyDashboardActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -313,7 +313,7 @@ public class CompanyPasswordFragment extends Fragment {
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            startActivity(new Intent(getActivity(),LandingPageActivity.class));
+            startActivity(new Intent(getActivity(),CompanyDashboardActivity.class));
         }
         else{
 
