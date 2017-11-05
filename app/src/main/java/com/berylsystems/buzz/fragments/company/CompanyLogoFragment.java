@@ -74,7 +74,7 @@ public class CompanyLogoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.company_fragment_logo, container, false);
+        View v= inflater.inflate(R.layout.fragment_company_logo, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
         if(!Preferences.getInstance(getActivity()).getClogo().equals("")){

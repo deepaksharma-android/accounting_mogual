@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.account.AccountListActivity;
 import com.berylsystems.buzz.activities.dashboard.AdministationDashboardActivity;
+import com.berylsystems.buzz.activities.item.ItemListActivity;
 
 import java.util.ArrayList;
 
@@ -40,15 +41,18 @@ public class AdministrationDashboardAdapter extends RecyclerView.Adapter<Adminis
     public void onBindViewHolder(AdministrationDashboardAdapter.ViewHolder viewHolder,  int i) {
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
-        if(i==0){
-            viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(i==0){
                     context.startActivity(new Intent(context, AccountListActivity.class));
                 }
-            });
+                if(i==2){
+                    context.startActivity(new Intent(context, ItemListActivity.class));
+                }
 
-        }
+            }
+        });
 
     }
 

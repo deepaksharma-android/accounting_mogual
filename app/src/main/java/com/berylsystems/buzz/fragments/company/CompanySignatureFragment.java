@@ -66,7 +66,7 @@ public class CompanySignatureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.company_fragment_signature, container, false);
+        View v= inflater.inflate(R.layout.fragment_company_signature, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
        /* if(appUser.signature!=null) {
