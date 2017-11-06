@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.item;
+package com.berylsystems.buzz.activities.administration.item;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -21,8 +21,6 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.fragments.account.AccountAddressInfoFragment;
-import com.berylsystems.buzz.fragments.account.AccountGeneralInfoFragment;
 import com.berylsystems.buzz.fragments.item.AlternateUnitDetailsFragment;
 import com.berylsystems.buzz.fragments.item.DiscountAndMarkupFragment;
 import com.berylsystems.buzz.fragments.item.GeneralInfoFragment;

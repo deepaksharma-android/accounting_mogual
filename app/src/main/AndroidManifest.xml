@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".ThisApp"
@@ -76,11 +74,15 @@
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.account.CreateAccountActivity"
+        <activity android:name=".activities.administration.account.CreateAccountActivity"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.item.CreateItemActivity"
+        <activity android:name=".activities.administration.item.CreateItemActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".activities.company.ComapanyListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.administration.accountgroup.CreateAccountGroupActivity"
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"/>
@@ -89,12 +91,17 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.account.AccountListActivity"
+        <activity android:name=".activities.administration.account.AccountListActivity"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.item.ItemListActivity"
+        <activity android:name=".activities.administration.item.ItemListActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.company.ComapanyListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.administration.accountgroup.AccountGroupListActivity"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.company.ComapanyListActivity"

@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.berylsystems.buzz.R;
 
+import butterknife.ButterKnife;
+
 public class AccountGeneralInfoFragment extends Fragment {
     public AccountGeneralInfoFragment() {
         // Required empty public constructor
@@ -31,6 +33,7 @@ public class AccountGeneralInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_account_general_info, container, false);
+        ButterKnife.bind(this,v);
         return v;
     }
 }

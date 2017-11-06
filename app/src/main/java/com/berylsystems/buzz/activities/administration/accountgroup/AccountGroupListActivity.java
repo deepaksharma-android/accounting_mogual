@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.item;
+package com.berylsystems.buzz.activities.administration.accountgroup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,37 +9,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.account.CreateAccountActivity;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.adapters.AccountListAdapter;
-import com.berylsystems.buzz.adapters.ItemListAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ItemListActivity  extends BaseActivityCompany {
+public class AccountGroupListActivity extends BaseActivityCompany {
+
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.item_list_recycler_view)
+    @Bind(R.id.account_group_list_recycler_view)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    ItemListAdapter mAdapter;
+    AccountListAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        setContentView(R.layout.activity_account_group_list);
         ButterKnife.bind(this);
         setAddCompany(1);
-        setAppBarTitleCompany(1,"ITEM LIST");
+        setAppBarTitleCompany(1,"ACCOUNT GROUP LIST");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ItemListAdapter(this, null);
+        mAdapter = new AccountListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
     }
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateItemActivity.class);
+        Intent intent=new Intent(getApplicationContext(), CreateAccountGroupActivity.class);
         startActivity(intent);
     }
 }

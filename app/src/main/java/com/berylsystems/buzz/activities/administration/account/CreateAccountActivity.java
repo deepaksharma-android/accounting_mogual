@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.account;
+package com.berylsystems.buzz.activities.administration.account;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -23,12 +23,6 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.fragments.account.AccountAddressInfoFragment;
 import com.berylsystems.buzz.fragments.account.AccountGeneralInfoFragment;
-import com.berylsystems.buzz.fragments.company.CompanyBasicFragment;
-import com.berylsystems.buzz.fragments.company.CompanyDetailsFragment;
-import com.berylsystems.buzz.fragments.company.CompanyGstFragment;
-import com.berylsystems.buzz.fragments.company.CompanyLogoFragment;
-import com.berylsystems.buzz.fragments.company.CompanyPasswordFragment;
-import com.berylsystems.buzz.fragments.company.CompanySignatureFragment;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import java.util.ArrayList;
@@ -91,6 +85,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AccountGeneralInfoFragment(), "GENERAL INFO");
         adapter.addFragment(new AccountAddressInfoFragment(), "ADDRESS INFO");
+
 
         viewPager.setAdapter(adapter);
     }

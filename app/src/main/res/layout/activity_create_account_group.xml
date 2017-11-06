@@ -115,7 +115,7 @@
                             android:textSize="12sp"/>
 
                         <Spinner
-                            android:id="@+id/state_spinner"
+                            android:id="@+id/primary_spinner"
                             android:layout_width="fill_parent"
                             android:spinnerMode="dialog"
                             android:layout_height="40dp">
@@ -131,6 +131,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/under_group_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"

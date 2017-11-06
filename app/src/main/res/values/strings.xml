@@ -71,6 +71,10 @@
         <item>Uttarakhand</item>
         <item>West Bengal</item>
     </string-array>
+    <string-array name="primary_group">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
     <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
     <string name="err_invalid_mobile">Invalid Mobile Number</string>
     <string name="err_invalid_email">Invalid Email</string>
