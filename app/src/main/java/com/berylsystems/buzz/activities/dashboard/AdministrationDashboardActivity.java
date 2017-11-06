@@ -11,14 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.adapters.AdministrationDashboardAdapter;
-import com.berylsystems.buzz.adapters.CompanyDashboardAdapter;
+import com.berylsystems.buzz.adapters.MasterDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AdministationDashboardActivity extends BaseActivityCompany {
+public class AdministrationDashboardActivity extends BaseActivityCompany {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.recycler_view)
@@ -28,23 +28,18 @@ public class AdministationDashboardActivity extends BaseActivityCompany {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
-    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites,R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites};
+    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer};
     private String[] title = {
-            "Account",
-            "Account Group",
-            "Item",
-            "Item Group",
-            "Material Center",
-            "Material Center Group",
-            "Unit",
-            "Unit Conversion",
-            "Bill Sundry",
-            "Bill Of Materila"
+            "Master",
+            "Configuration",
+            "Users",
+            "Utilities",
+
     };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_administration_dashboard);
+        setContentView(R.layout.activity_generic_grid);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         setAddCompany(2);

@@ -79,12 +79,43 @@
                             android:layout_height="wrap_content"
                             android:text="Group"
                             android:textColor="@color/view_color"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                         <Spinner
                             android:id="@+id/group_spinner"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
+                            android:spinnerMode="dialog">
+
+                        </Spinner>
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Book"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Type Of Dealer"
+                            android:textColor="@color/view_color"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/type_of_dealer_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/type_of_dealer_account"
                             android:spinnerMode="dialog">
 
                         </Spinner>
@@ -128,7 +159,7 @@
                                     android:singleLine="true"
                                     android:textColor="#000"
                                     android:textColorHint="@color/view_color"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
 
                             <RadioGroup
@@ -191,7 +222,7 @@
                                 android:singleLine="true"
                                 android:textColor="#000"
                                 android:textColorHint="@color/view_color"
-                                android:textSize="12sp" />
+                                android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <RadioGroup
@@ -235,7 +266,7 @@
                             android:layout_height="wrap_content"
                             android:text="Maintain Bill By Bill Balancing"
                             android:textColor="@color/view_color"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                         <Spinner
                             android:id="@+id/bill_by_bill_spinner"
@@ -283,7 +314,7 @@
                                     android:singleLine="true"
                                     android:textColor="#000"
                                     android:textColorHint="@color/view_color"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
 
 
@@ -318,7 +349,7 @@
                                     android:singleLine="true"
                                     android:textColor="#000"
                                     android:textColorHint="@color/view_color"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
                             </android.support.design.widget.TextInputLayout>
 
 
@@ -331,6 +362,114 @@
 
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
+
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/bank_account_number"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="Bank Account Number"
+                                android:paddingTop="10dp"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
+
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/ifsc_code"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="IFSC Code"
+                                android:paddingTop="10dp"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:theme="@style/TextLabel">
+
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/bank_name"
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="Bank Name"
+                                android:paddingTop="10dp"
+                                android:singleLine="true"
+                                android:textColor="#000"
+                                android:textColorHint="@color/view_color"
+                                android:textSize="14sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/view_color" />
+
+                    </LinearLayout>
+
 
 
                     <LinearLayout

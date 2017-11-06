@@ -60,6 +60,9 @@
         <activity android:name=".activities.dashboard.CompanyDashboardActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activities.dashboard.AdministrationDashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.user.FacebookHandlerActivity"
             android:parentActivityName=".activities.user.LoginActivity"
             android:windowSoftInputMode="stateHidden"
@@ -86,7 +89,7 @@
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.dashboard.AdministationDashboardActivity"
+        <activity android:name=".activities.dashboard.MasterDashboardActivity"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.company.ComapanyListActivity"
