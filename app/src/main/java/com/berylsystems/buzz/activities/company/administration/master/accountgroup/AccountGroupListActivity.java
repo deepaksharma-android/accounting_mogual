@@ -13,6 +13,7 @@ import android.view.View;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
 import com.berylsystems.buzz.adapters.AccountListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -33,7 +34,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     @Bind(R.id.account_group_list_recycler_view)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    AccountListAdapter mAdapter;
+    AccountGroupListAdapter mAdapter;
     AppUser appUser;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
@@ -92,14 +93,23 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     public void getAccountGroup(GetAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new AccountListAdapter(this, null);
+            mAdapter = new AccountGroupListAdapter(this, response.getAccount_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 }

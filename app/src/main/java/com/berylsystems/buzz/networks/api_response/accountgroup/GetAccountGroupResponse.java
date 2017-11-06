@@ -21,4 +21,14 @@ public class GetAccountGroupResponse {
 
     public int status;
 
+    public AccountGroups getAccount_groups() {
+        return account_groups;
+    }
+
+    public void setAccount_groups(AccountGroups account_groups) {
+        this.account_groups = account_groups;
+    }
+
+    public AccountGroups account_groups;
+
 }

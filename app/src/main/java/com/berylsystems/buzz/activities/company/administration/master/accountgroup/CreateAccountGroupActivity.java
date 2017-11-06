@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.company.administration.master.accountgroup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -158,6 +159,18 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),AccountGroupListActivity.class));
         }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 }

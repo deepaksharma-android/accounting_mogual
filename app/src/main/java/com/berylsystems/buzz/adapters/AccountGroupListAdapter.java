@@ -5,19 +5,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupListAdapter.ViewHolder> {
-    private ArrayList<String> data;
+    private ArrayList<Data> data;
     private Context context;
 
 
-    public AccountGroupListAdapter(Context context, ArrayList<String> data) {
+    public AccountGroupListAdapter(Context context,  ArrayList<Data> data) {
         this.data = data;
         this.context = context;
     }
@@ -30,6 +34,7 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
 
     @Override
     public void onBindViewHolder(AccountGroupListAdapter.ViewHolder viewHolder, int i) {
+        viewHolder.mGroupName.setText(data.get(i).getAttributes().getName());
 
 
 
@@ -39,10 +44,14 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
 
     @Override
     public int getItemCount() {
-        return 5;
+        return data.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.company_name)
+        TextView mGroupName;
+        @Bind(R.id.mainLayout)
+        LinearLayout mMainLayout;
 
 
         public ViewHolder(View view) {
