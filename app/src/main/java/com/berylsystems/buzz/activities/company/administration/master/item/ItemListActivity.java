@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.administration.accountgroup;
+package com.berylsystems.buzz.activities.company.administration.master.item;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,35 +10,34 @@ import android.view.View;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
-import com.berylsystems.buzz.adapters.AccountListAdapter;
+import com.berylsystems.buzz.adapters.ItemListAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AccountGroupListActivity extends BaseActivityCompany {
-
+public class ItemListActivity  extends BaseActivityCompany {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.account_group_list_recycler_view)
+    @Bind(R.id.item_list_recycler_view)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    AccountListAdapter mAdapter;
+    ItemListAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_group_list);
+        setContentView(R.layout.activity_item_list);
         ButterKnife.bind(this);
         setAddCompany(1);
-        setAppBarTitleCompany(1,"ACCOUNT GROUP LIST");
+        setAppBarTitleCompany(1,"ITEM LIST");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new AccountListAdapter(this, null);
+        mAdapter = new ItemListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
     }
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateAccountGroupActivity.class);
+        Intent intent=new Intent(getApplicationContext(), CreateItemActivity.class);
         startActivity(intent);
     }
 }

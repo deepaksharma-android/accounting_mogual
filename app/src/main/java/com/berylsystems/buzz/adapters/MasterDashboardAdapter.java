@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.administration.account.AccountListActivity;
-import com.berylsystems.buzz.activities.administration.accountgroup.AccountGroupListActivity;
-import com.berylsystems.buzz.activities.administration.item.ItemListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.account.AccountListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.ItemListActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

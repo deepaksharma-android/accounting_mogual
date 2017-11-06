@@ -9,6 +9,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
+import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
@@ -18,6 +19,8 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -58,8 +61,8 @@ public interface Api {
     Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
     @GET("check_exist")
     Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
-    @POST("company/{id}")
-    Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload,@Path("id") String id);
+    @POST("company")
+    Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload);
     @PATCH("company/{id}")
     Call<CreateCompanyResponse>cbasiccompany(@Body RequestBasic payload, @Path("id") String id);
     @PATCH("company/{id}")
@@ -92,6 +95,10 @@ public interface Api {
     Call<CompanyResponse> searchcompany(@Path("id") String id);
     @GET("companyusers/{id}")
     Call<CompanyUserResponse> getcompanyusers(@Path("id") String id);
+    @POST("create_account_group")
+    Call<CreateAccountGroupResponse> createaccountgroup(@Body RequestCreateAccountGroup payload);
+    @GET("account_groups/{id}")
+    Call<GetAccountGroupResponse> getaccountgroup(@Path("id") String id);
 
 
 

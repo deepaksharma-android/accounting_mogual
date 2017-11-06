@@ -1,10 +1,12 @@
-package com.berylsystems.buzz.activities.administration.accountgroup;
+package com.berylsystems.buzz.activities.company.administration.master.accountgroup;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -12,17 +14,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.LocalRepositories;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreateAccountGroupActivity extends AppCompatActivity {
+public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.under_group_spinner)
@@ -31,16 +43,23 @@ public class CreateAccountGroupActivity extends AppCompatActivity {
     LinearLayout mUnderGroupLayout;
     @Bind(R.id.primary_spinner)
     Spinner mSpinnerPrimary;
+    @Bind(R.id.group_name)
+    EditText mGroupName;
+    @Bind(R.id.submit)
+    LinearLayout mSubmit;
     ArrayAdapter<String> mPrimaryGroupAdapter;
     ArrayAdapter<String> mUnderGroupAdapter;
+    Snackbar snackbar;
+    ProgressDialog mProgressDialog;
+    AppUser appUser;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_account_group);
         ButterKnife.bind(this);
         initActionbar();
+        appUser=LocalRepositories.getAppUser(this);
         mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -65,7 +84,46 @@ public class CreateAccountGroupActivity extends AppCompatActivity {
 
             }
         });
+
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mGroupName.getText().toString().equals("")){
+                    appUser.account_group_name=mGroupName.getText().toString();
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if(isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateAccountGroupActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT_GROUP);
+                    }
+                    else{
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if(isConnected){
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                }
+            }
+        });
     }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_create_account_group;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -88,10 +146,18 @@ public class CreateAccountGroupActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ITEM");
+        actionbarTitle.setText("CREATE ACCOUNT GROUP");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+    }
+
+    @Subscribe
+    public void createAccountGroup(CreateAccountGroupResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
     }
 }

@@ -50,6 +50,8 @@ public class AppUser {
     public String titlecname;
     public String search_company_id;
     public String company_user_id;
+    public String account_group_name;
+    public String account_group_id;
 
 
 

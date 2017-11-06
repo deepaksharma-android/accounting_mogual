@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.administration.item;
+package com.berylsystems.buzz.activities.company.administration.master.account;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -21,13 +21,8 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.fragments.item.AlternateUnitDetailsFragment;
-import com.berylsystems.buzz.fragments.item.DiscountAndMarkupFragment;
-import com.berylsystems.buzz.fragments.item.GeneralInfoFragment;
-import com.berylsystems.buzz.fragments.item.ItemDescriptionFragment;
-import com.berylsystems.buzz.fragments.item.ItemPriceInfoFragment;
-import com.berylsystems.buzz.fragments.item.MainUnitDetailsFragment;
-import com.berylsystems.buzz.fragments.item.PackagingUnitDetailsFragment;
+import com.berylsystems.buzz.fragments.account.AccountAddressInfoFragment;
+import com.berylsystems.buzz.fragments.account.AccountGeneralInfoFragment;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import java.util.ArrayList;
@@ -36,7 +31,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreateItemActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.viewpager)
@@ -50,7 +45,7 @@ public class CreateItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_item);
+        setContentView(R.layout.activity_create_account);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
@@ -80,7 +75,7 @@ public class CreateItemActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ITEM");
+        actionbarTitle.setText("CREATE ACCOUNT");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -88,14 +83,8 @@ public class CreateItemActivity extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new GeneralInfoFragment(), "GENERAL INFO");
-        adapter.addFragment(new MainUnitDetailsFragment(), "MAIN UNIT DETAILS");
-        adapter.addFragment(new AlternateUnitDetailsFragment(), "ALTERNATE UNIT DETAILS");
-        adapter.addFragment(new ItemPriceInfoFragment(), "ITEM PRICE INFO");
-        adapter.addFragment(new PackagingUnitDetailsFragment(), "PACKAGING UNIT DETAILS");
-        adapter.addFragment(new DiscountAndMarkupFragment(), "DISCOUNT & MARKUP DET.");
-        adapter.addFragment(new ItemDescriptionFragment(), "ITEM DESCRIPTION");
-
+        adapter.addFragment(new AccountGeneralInfoFragment(), "GENERAL INFO");
+        adapter.addFragment(new AccountAddressInfoFragment(), "ADDRESS INFO");
 
 
         viewPager.setAdapter(adapter);
@@ -129,4 +118,5 @@ public class CreateItemActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
 }

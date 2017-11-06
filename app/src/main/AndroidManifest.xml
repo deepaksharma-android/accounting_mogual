@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.berylsystems.buzz">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -21,8 +22,10 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/FB_APP_ID"/>
-        <activity android:name=".activities.app.SplashActivity"
+            android:value="@string/FB_APP_ID" />
+
+        <activity
+            android:name=".activities.app.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
@@ -30,90 +33,111 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.app.HomePageActivity"
-            android:theme="@style/noAnimTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.LoginActivity"
+        <activity
+            android:name=".activities.app.HomePageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimTheme" />
+        <activity
+            android:name=".activities.user.LoginActivity"
             android:parentActivityName=".activities.app.HomePageActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.user.RegisterActivity"
             android:parentActivityName=".activities.app.HomePageActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.ForgotPasswordActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.user.ForgotPasswordActivity"
             android:parentActivityName=".activities.user.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.VerificationActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.user.VerificationActivity"
             android:parentActivityName=".activities.user.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.NewPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.user.NewPasswordActivity"
             android:parentActivityName=".activities.user.LoginActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.ChangeMobileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.user.ChangeMobileActivity"
             android:parentActivityName=".activities.user.LoginActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.dashboard.CompanyDashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.dashboard.AdministrationDashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.user.FacebookHandlerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.dashboard.CompanyDashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.dashboard.AdministrationDashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.user.FacebookHandlerActivity"
             android:parentActivityName=".activities.user.LoginActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.company.EditCompanyActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.company.SignatureActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.company.CreateCompanyActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.EditCompanyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.SignatureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.CreateCompanyActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.administration.account.CreateAccountActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.account.CreateAccountActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.administration.item.CreateItemActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.item.CreateItemActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.administration.accountgroup.CreateAccountGroupActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.accountgroup.CreateAccountGroupActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.dashboard.MasterDashboardActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.dashboard.MasterDashboardActivity"
+            android:parentActivityName=".activities.company.ComapanyListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.account.AccountListActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.administration.account.AccountListActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.item.ItemListActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.administration.item.ItemListActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.administration.accountgroup.AccountGroupListActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.company.ComapanyListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activities.company.ComapanyListActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.ComapanyListActivity"
             android:parentActivityName=".activities.dashboard.CompanyDashboardActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
 
         <service android:name=".networks.ApiCallsService" />
 

@@ -15,6 +15,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
+import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
@@ -24,6 +25,8 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -117,6 +120,10 @@ public class ApiCallsService extends IntentService {
             handleGetPackages();
         }else if (Cv.ACTION_EDIT_LOGIN.equals(action)) {
             handleEditLogin();
+        }else if (Cv.ACTION_CREATE_ACCOUNT_GROUP.equals(action)) {
+            handleCreateAccountGroup();
+        }else if (Cv.ACTION_GET_ACCOUNT_GROUP.equals(action)) {
+            handleGetAccountGroup();
         }
 
 
@@ -296,7 +303,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleCreateCompany() {
-        api.createcompany(new RequestCreateCompany(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        api.createcompany(new RequestCreateCompany(this)).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -667,6 +674,53 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CompanyUserResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateAccountGroup() {
+        api.createaccountgroup(new RequestCreateAccountGroup(this)).enqueue(new Callback<CreateAccountGroupResponse>() {
+            @Override
+            public void onResponse(Call<CreateAccountGroupResponse> call, Response<CreateAccountGroupResponse> r) {
+                if (r.code() == 200) {
+                    CreateAccountGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateAccountGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleGetAccountGroup() {
+        api.getaccountgroup(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetAccountGroupResponse>() {
+            @Override
+            public void onResponse(Call<GetAccountGroupResponse> call, Response<GetAccountGroupResponse> r) {
+                if (r.code() == 200) {
+                    GetAccountGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetAccountGroupResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

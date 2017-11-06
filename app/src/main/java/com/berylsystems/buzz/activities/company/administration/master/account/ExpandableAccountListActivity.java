@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.administration.account;
+package com.berylsystems.buzz.activities.company.administration.master.account;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
