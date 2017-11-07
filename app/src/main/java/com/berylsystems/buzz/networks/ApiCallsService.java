@@ -15,6 +15,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
+import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
@@ -25,7 +26,10 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
@@ -124,6 +128,12 @@ public class ApiCallsService extends IntentService {
             handleCreateAccountGroup();
         }else if (Cv.ACTION_GET_ACCOUNT_GROUP.equals(action)) {
             handleGetAccountGroup();
+        }else if (Cv.ACTION_CREATE_ACCOUNT.equals(action)) {
+            handleCreateAccount();
+        }else if (Cv.ACTION_DELETE_ACCOUNT.equals(action)) {
+            handleDeleteAccount();
+        }else if (Cv.ACTION_DELETE_ACCOUNT_GROUP.equals(action)) {
+            handleDeleteAccountGroup();
         }
 
 
@@ -730,8 +740,77 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+    private void handleCreateAccount() {
+        api.createaccount(new RequestCreateAccount(this)).enqueue(new Callback<CreateAccountResponse>() {
+            @Override
+            public void onResponse(Call<CreateAccountResponse> call, Response<CreateAccountResponse> r) {
+                if (r.code() == 200) {
+                    CreateAccountResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<CreateAccountResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
 
+    }
+    private void handleDeleteAccount() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deleteaccount(appUser.account_id).enqueue(new Callback<DeleteAccountResponse>() {
+            @Override
+            public void onResponse(Call<DeleteAccountResponse> call, Response<DeleteAccountResponse> r) {
+                if (r.code() == 200) {
+                    DeleteAccountResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteAccountResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleDeleteAccountGroup() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deleteaccountgroup(appUser.delete_group_id).enqueue(new Callback<DeleteAccountGroupResponse>() {
+            @Override
+            public void onResponse(Call<DeleteAccountGroupResponse> call, Response<DeleteAccountGroupResponse> r) {
+                if (r.code() == 200) {
+                    DeleteAccountGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteAccountGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
     private void handleGetPackages() {
         api.getpackage().enqueue(new Callback<PackageResponse>() {
             @Override

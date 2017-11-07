@@ -43,6 +43,8 @@ public class AppUser {
     public ArrayList<Integer> industry_id=new ArrayList<>();
     public ArrayList<String> group_name=new ArrayList<>();
     public ArrayList<Integer> group_id=new ArrayList<>();
+    public ArrayList<String> arr_account_group_name=new ArrayList<>();
+    public ArrayList<Integer> arr_account_group_id=new ArrayList<>();
     public String industryId;
     public String default_tax_rate1;
     public String default_tax_rate2;
@@ -54,6 +56,21 @@ public class AppUser {
     public String company_user_id;
     public String account_group_name;
     public String account_group_id;
+    public String create_account_group_id;
+    public String account_name;
+    public String account_type_of_dealer;
+    public String acount_opening_balance;
+    public String acount_opening_balance_type;
+    public String prev_year_balance;
+    public String prev_year_balance_type;
+    public String credit_days_for_sale;
+    public String credit_days_for_purchase;
+    public String bank_account_number;
+    public String bank_ifsc_code;
+    public String bank_name;
+    public String account_id;
+    public String delete_group_id;
+
 
 
 

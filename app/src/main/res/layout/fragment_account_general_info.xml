@@ -68,6 +68,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/groupLayout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -80,14 +81,35 @@
                             android:text="Group"
                             android:textColor="@color/view_color"
                             android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1"
+                            android:orientation="horizontal">
 
-                        <Spinner
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                android:id="@+id/group_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:hint="Select the group"
+                                android:textColor="#cc000000"
+                                android:textSize="14sp"/>
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="10dp"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/right_carat"/>
+                        </LinearLayout>
+
+                       <!-- <Spinner
                             android:id="@+id/group_spinner"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
                             android:spinnerMode="dialog">
 
-                        </Spinner>
+                        </Spinner>-->
 
 
                         <View
@@ -163,18 +185,21 @@
                             </android.support.design.widget.TextInputLayout>
 
                             <RadioGroup
+                                android:id="@+id/radio_group_opening"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.3"
                                 android:orientation="horizontal"
                                 >
                                 <RadioButton
+                                    android:id="@+id/radio_opening_debit"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:text="Dr"
                                     android:textColor="@color/button_color"
                                     android:layout_weight="0.15"/>
                                 <RadioButton
+                                    android:id="@+id/radio_opening_credit"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:text="Cr"
@@ -212,7 +237,7 @@
 
 
                             <com.berylsystems.buzz.utils.BuzzEditText
-                                android:id="@+id/cin"
+                                android:id="@+id/prev_year_balance"
                                 style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -226,18 +251,21 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <RadioGroup
+                            android:id="@+id/radio_group_prev_year"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.3"
                             android:orientation="horizontal"
                             >
                             <RadioButton
+                                android:id="@+id/radio_prev_year_debit"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:text="Dr"
                                 android:textColor="@color/button_color"
                                 android:layout_weight="0.15"/>
                             <RadioButton
+                                android:id="@+id/radio_prev_year_credit"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:text="Cr"

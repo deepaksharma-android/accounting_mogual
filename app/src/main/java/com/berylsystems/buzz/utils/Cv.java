@@ -2,8 +2,8 @@ package com.berylsystems.buzz.utils;
 
 
 public interface Cv {
-  String BASE_URL="http://accounts.geeksonrails.com/api/v1/";
-  //String BASE_URL ="http://192.168.1.4:3000/api/v1/";
+  //String BASE_URL="http://accounts.geeksonrails.com/api/v1/";
+  String BASE_URL ="http://192.168.1.4:3000/api/v1/";
   int PERMISSIONS_BUZZ_REQUEST = 0xABC;
   String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
   String ACTION_LOGIN = "login_user";
@@ -29,6 +29,9 @@ public interface Cv {
   String ACTION_EDIT_LOGIN="edit_login";
   String ACTION_CREATE_ACCOUNT_GROUP="create_account_group";
   String ACTION_GET_ACCOUNT_GROUP="get_account_group";
+  String ACTION_CREATE_ACCOUNT="create_account";
+  String ACTION_DELETE_ACCOUNT="delete_account";
+  String ACTION_DELETE_ACCOUNT_GROUP="delete_account_group";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";
   String ACTION_SEARCH_COMPANY= "search_company";

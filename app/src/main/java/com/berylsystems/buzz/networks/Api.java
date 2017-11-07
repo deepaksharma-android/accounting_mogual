@@ -9,6 +9,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyGst;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogin;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
+import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
@@ -19,7 +20,11 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
@@ -99,6 +104,17 @@ public interface Api {
     Call<CreateAccountGroupResponse> createaccountgroup(@Body RequestCreateAccountGroup payload);
     @GET("account_groups/{id}")
     Call<GetAccountGroupResponse> getaccountgroup(@Path("id") String id);
+    @POST("account")
+    Call<CreateAccountResponse> createaccount(@Body RequestCreateAccount payload);
+    @GET("account/{id}")
+    Call<GetAccountResponse> getaccount(@Path("id") String id);
+    @PATCH("account/{id}")
+    Call<CreateAccountResponse> editaccount(@Path("id") String id);
+    @DELETE("account/{id}")
+    Call<DeleteAccountResponse> deleteaccount(@Path("id") String id);
+    @DELETE("account_groups/{id}")
+    Call<DeleteAccountGroupResponse> deleteaccountgroup(@Path("id") String id);
+
 
 
 

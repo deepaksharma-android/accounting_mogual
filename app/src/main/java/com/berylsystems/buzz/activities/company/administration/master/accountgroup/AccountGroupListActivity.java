@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.accountgroup;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +19,11 @@ import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
 import com.berylsystems.buzz.adapters.AccountListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventDeleteGroup;
+import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class AccountGroupListActivity extends BaseActivityCompany {
 
@@ -96,7 +101,12 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         if(response.getStatus()==200){
             appUser.group_id.clear();
             appUser.group_name.clear();
+            appUser.arr_account_group_id.clear();
+            appUser.arr_account_group_name.clear();
+            LocalRepositories.saveAppUser(this,appUser);
             for(int i=0;i<response.getAccount_groups().getData().size();i++){
+                appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
+                appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
                 if(response.getAccount_groups().getData().get(i).getAttributes().getUndefined()==false) {
                     appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                     appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
@@ -126,5 +136,58 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(),MasterDashboardActivity.class));
+    }
+
+    @Subscribe
+    public void groupclickedevent(EventGroupClicked pos){
+        Timber.i("POSITION"+pos.getPosition());
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+            setResult(Activity.RESULT_OK,returnIntent);
+            finish();
+    }
+
+    @Subscribe
+    public void deletegroup(EventDeleteGroup pos){
+        appUser.delete_group_id= String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+        LocalRepositories.saveAppUser(this,appUser);
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if(isConnected) {
+            mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT_GROUP);
+        }
+        else{
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if(isConnected){
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+
+    @Subscribe
+    public void deletegroupresponse(DeleteAccountGroupResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT_GROUP);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
     }
 }

@@ -89,6 +89,8 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                     });
                 }
                 else{
+                    appUser.account_group_id="";
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     mUnderGroupLayout.setVisibility(View.GONE);
                 }
             }
@@ -172,7 +174,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),AccountGroupListActivity.class));
+            Intent intent = new Intent(this, AccountGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

@@ -20,10 +20,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.fragments.account.AccountAddressInfoFragment;
 import com.berylsystems.buzz.fragments.account.AccountGeneralInfoFragment;
+import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
+import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +61,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mHeaderViewPager);
 
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -118,5 +128,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+
 
 }

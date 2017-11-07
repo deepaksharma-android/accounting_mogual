@@ -5,11 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
+import com.berylsystems.buzz.utils.EventDeleteGroup;
+import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventOpenCompany;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -28,13 +34,29 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
 
     @Override
     public AccountGroupListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_account_list, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_account_group_list_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(AccountGroupListAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mGroupName.setText(data.get(i).getAttributes().getName());
+        if(data.get(i).getAttributes().getUndefined()==true){
+            viewHolder.mDelete.setVisibility(View.VISIBLE);
+            viewHolder.mEdit.setVisibility(View.VISIBLE);
+        }
+        viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventDeleteGroup(i));
+            }
+        });
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventGroupClicked(i));
+            }
+        });
 
 
 
@@ -52,6 +74,10 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         TextView mGroupName;
         @Bind(R.id.mainLayout)
         LinearLayout mMainLayout;
+        @Bind(R.id.delete)
+        ImageView mDelete;
+        @Bind(R.id.edit)
+        ImageView mEdit;
 
 
         public ViewHolder(View view) {
