@@ -13,6 +13,7 @@ import android.view.View;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
 import com.berylsystems.buzz.adapters.AccountListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -93,6 +94,16 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     public void getAccountGroup(GetAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            appUser.group_id.clear();
+            appUser.group_name.clear();
+            for(int i=0;i<response.getAccount_groups().getData().size();i++){
+                if(response.getAccount_groups().getData().get(i).getAttributes().getUndefined()==false) {
+                    appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
+                    appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
+                    LocalRepositories.saveAppUser(this, appUser);
+                }
+            }
+
 
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -111,5 +122,9 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         snackbar.show();
         mProgressDialog.dismiss();
 
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),MasterDashboardActivity.class));
     }
 }

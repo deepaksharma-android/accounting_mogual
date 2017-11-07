@@ -71,9 +71,22 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 if(i==1){
                     mUnderGroupLayout.setVisibility(View.VISIBLE);
                     mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                            R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.country));
+                            R.layout.layout_trademark_type_spinner_dropdown_item,appUser.group_name);
                     mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
                     mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
+
+                    mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            appUser.account_group_id= String.valueOf(appUser.group_id.get(i));
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                 }
                 else{
                     mUnderGroupLayout.setVisibility(View.GONE);
@@ -172,5 +185,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         snackbar.show();
         mProgressDialog.dismiss();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),AccountGroupListActivity.class));
     }
 }

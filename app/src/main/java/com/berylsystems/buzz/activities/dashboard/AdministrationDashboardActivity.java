@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.dashboard;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -49,5 +50,9 @@ public class AdministrationDashboardActivity extends BaseActivityCompany {
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new AdministrationDashboardAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
     }
 }

@@ -19,4 +19,14 @@ public class Attributes {
 
     public int id;
     public String name;
+
+    public Boolean getUndefined() {
+        return undefined;
+    }
+
+    public void setUndefined(Boolean undefined) {
+        this.undefined = undefined;
+    }
+
+    public Boolean undefined;
 }
