@@ -28,6 +28,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
@@ -130,6 +131,8 @@ public class ApiCallsService extends IntentService {
             handleGetAccountGroup();
         }else if (Cv.ACTION_CREATE_ACCOUNT.equals(action)) {
             handleCreateAccount();
+        }else if (Cv.ACTION_GET_ACCOUNT.equals(action)) {
+            handleGetAccount();
         }else if (Cv.ACTION_DELETE_ACCOUNT.equals(action)) {
             handleDeleteAccount();
         }else if (Cv.ACTION_DELETE_ACCOUNT_GROUP.equals(action)) {
@@ -763,6 +766,30 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+    private void handleGetAccount() {
+        api.getaccount(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetAccountResponse>() {
+            @Override
+            public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> r) {
+                if (r.code() == 200) {
+                    GetAccountResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetAccountResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+
     private void handleDeleteAccount() {
         AppUser appUser=LocalRepositories.getAppUser(this);
         api.deleteaccount(appUser.account_id).enqueue(new Callback<DeleteAccountResponse>() {

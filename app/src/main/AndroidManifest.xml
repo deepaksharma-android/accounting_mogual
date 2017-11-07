@@ -121,6 +121,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.administration.master.account.ExpandableAccountListActivity"
+            android:parentActivityName=".activities.company.ComapanyListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.administration.master.item.ItemListActivity"
             android:parentActivityName=".activities.company.ComapanyListActivity"
             android:screenOrientation="portrait"

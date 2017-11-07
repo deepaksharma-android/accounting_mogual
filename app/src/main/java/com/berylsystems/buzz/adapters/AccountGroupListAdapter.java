@@ -45,6 +45,10 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
             viewHolder.mDelete.setVisibility(View.VISIBLE);
             viewHolder.mEdit.setVisibility(View.VISIBLE);
         }
+        else{
+            viewHolder.mDelete.setVisibility(View.GONE);
+            viewHolder.mEdit.setVisibility(View.GONE);
+        }
         viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -26,6 +26,7 @@ import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
@@ -173,10 +174,30 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void createAccountGroup(CreateAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent = new Intent(this, AccountGroupListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if(isConnected) {
+                mProgressDialog = new ProgressDialog(CreateAccountGroupActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT_GROUP);
+            }
+            else{
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if(isConnected){
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
 
         }
         else{
@@ -194,6 +215,32 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),AccountGroupListActivity.class));
+        Intent intent = new Intent(this, AccountGroupListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("fromcreategroup",true);
+        startActivity(intent);
+    }
+
+    @Subscribe
+    public void getAccountGroup(GetAccountGroupResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            appUser.group_id.clear();
+            appUser.group_name.clear();
+            appUser.arr_account_group_id.clear();
+            appUser.arr_account_group_name.clear();
+            LocalRepositories.saveAppUser(this, appUser);
+            for (int i = 0; i < response.getAccount_groups().getData().size(); i++) {
+                appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
+                appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(this, appUser);
+                Intent intent = new Intent(this, AccountGroupListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("fromcreategroup",true);
+                startActivity(intent);
+
+
+            }
+        }
     }
 }

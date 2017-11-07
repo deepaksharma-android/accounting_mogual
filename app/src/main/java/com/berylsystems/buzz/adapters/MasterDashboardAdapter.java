@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ItemListActivity;
 
@@ -43,10 +44,12 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
             @Override
             public void onClick(View view) {
                 if(i==0){
-                    context.startActivity(new Intent(context, AccountListActivity.class));
+                    context.startActivity(new Intent(context, ExpandableAccountListActivity.class));
                 }
                 if(i==1){
-                    context.startActivity(new Intent(context, AccountGroupListActivity.class));
+                    Intent intent=new Intent(context,AccountGroupListActivity.class);
+                    intent.putExtra("frommaster",true);
+                    context.startActivity(intent);
                 }
                 if(i==2){
                     context.startActivity(new Intent(context, ItemListActivity.class));

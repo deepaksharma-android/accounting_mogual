@@ -44,16 +44,19 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     AppUser appUser;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
+    Boolean fromGeneral,fromMaster,fromCreateGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_group_list);
+        fromMaster=getIntent().getExtras().getBoolean("frommaster");
+        fromCreateGroup=getIntent().getExtras().getBoolean("fromcreategroup");
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
         appUser=LocalRepositories.getAppUser(this);
         setAddCompany(1);
         setAppBarTitleCompany(1,"ACCOUNT GROUP LIST");
+        EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if(isConnected) {
             mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
@@ -80,6 +83,15 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         }
 
     }
+
+
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateAccountGroupActivity.class);
         startActivity(intent);
@@ -87,6 +99,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
+        mProgressDialog.dismiss();
         super.onPause();
     }
 
@@ -94,6 +107,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        mProgressDialog.dismiss();
     }
     @Subscribe
     public void getAccountGroup(GetAccountGroupResponse response){
@@ -107,6 +121,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
             for(int i=0;i<response.getAccount_groups().getData().size();i++){
                 appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(this,appUser);
                 if(response.getAccount_groups().getData().get(i).getAttributes().getUndefined()==false) {
                     appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                     appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
@@ -140,11 +155,18 @@ public class AccountGroupListActivity extends BaseActivityCompany {
 
     @Subscribe
     public void groupclickedevent(EventGroupClicked pos){
-        Timber.i("POSITION"+pos.getPosition());
+        if((!fromMaster&&fromCreateGroup)||!fromMaster&&!fromCreateGroup) {
+            Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-            setResult(Activity.RESULT_OK,returnIntent);
+            returnIntent.putExtra("name", appUser.arr_account_group_name.get(pos.getPosition()));
+            returnIntent.putExtra("id",String.valueOf(appUser.arr_account_group_id.get(pos.getPosition())));
+            Timber.i("PASSSS"+appUser.arr_account_group_id.get(pos.getPosition()));
+            /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+            LocalRepositories.saveAppUser(this, appUser);*/
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
+        }
     }
 
     @Subscribe

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGro
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
@@ -86,7 +88,7 @@ public class AccountGeneralInfoFragment extends Fragment {
     AppUser appUser;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
-
+    Boolean fromList;
     public AccountGeneralInfoFragment() {
         // Required empty public constructor
     }
@@ -107,13 +109,15 @@ public class AccountGeneralInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account_general_info, container, false);
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this, v);
         appUser= LocalRepositories.getAppUser(getActivity());
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity(), AccountGroupListActivity.class);
-                startActivityForResult(intent,1);
+                intent.putExtra("frommaster",false);
+                 startActivityForResult(intent,1);
             }
         });
 
@@ -171,6 +175,7 @@ public class AccountGeneralInfoFragment extends Fragment {
             }
         });
 
+
        /* mGroupAdapter = new ArrayAdapter<String>(getContext(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, appUser.group_name);
         mGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -209,26 +214,47 @@ public class AccountGeneralInfoFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
 
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("result");
-                mGroupText.setText(appUser.arr_account_group_name.get(Integer.parseInt(result)));
-                appUser.create_account_group_id= String.valueOf(appUser.arr_account_group_id.get(Integer.parseInt(result)));
-                LocalRepositories.saveAppUser(getActivity(),appUser);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (requestCode == 1) {
+                if(resultCode == Activity.RESULT_OK){
+                    String result=data.getStringExtra("name");
+                    String id=data.getStringExtra("id");
+                    appUser.create_account_group_id=id;
+                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                    mGroupText.setText(result+id);
+                    //ppUser.create_account_group_id= String.valueOf(appUser.arr_account_group_id.get(Integer.parseInt(result)));
+                    //LocalRepositories.saveAppUser(getActivity(),appUser);
+                }
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    //Write your code if there's no result
+                    mGroupText.setText("");
+                }
             }
         }
-    }
     @Subscribe
     public void createaccount(CreateAccountResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            appUser.account_id= String.valueOf(response.getId());
+            LocalRepositories.saveAppUser(getActivity(),appUser);
+            TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
+            tabhost.getTabAt(1).select();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
         }
         else{
             Snackbar

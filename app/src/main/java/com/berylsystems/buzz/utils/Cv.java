@@ -30,6 +30,7 @@ public interface Cv {
   String ACTION_CREATE_ACCOUNT_GROUP="create_account_group";
   String ACTION_GET_ACCOUNT_GROUP="get_account_group";
   String ACTION_CREATE_ACCOUNT="create_account";
+  String ACTION_GET_ACCOUNT="get_account";
   String ACTION_DELETE_ACCOUNT="delete_account";
   String ACTION_DELETE_ACCOUNT_GROUP="delete_account_group";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";

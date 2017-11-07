@@ -30,6 +30,7 @@ public class AccountListActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         setAddCompany(1);
         setAppBarTitleCompany(1,"ACCOUNT LIST");
+
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);

@@ -18,7 +18,7 @@ public class RequestCreateAccount {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
         account = new HashMap<>();
-        account.put("account_name", appUser.account_name);
+        account.put("name", appUser.account_name);
         account.put("company_id", Preferences.getInstance(ctx).getCid());
         account.put("type_of_dealer", appUser.account_type_of_dealer);
         account.put("account_master_group_id", appUser.create_account_group_id);

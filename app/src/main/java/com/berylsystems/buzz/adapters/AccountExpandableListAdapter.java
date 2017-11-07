@@ -6,22 +6,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private ArrayList<String> _listDataHeader; // header titles
+    private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, ArrayList<String>> _listDataChild;
+    private HashMap<String, List<String>> _listDataChild;
 
-    public AccountExpandableListAdapter(Context context, ArrayList<String> listDataHeader,
-                                        HashMap<String, ArrayList<String>> listChildData) {
+    public AccountExpandableListAdapter(Context context, List<String> listDataHeader,
+                                        HashMap<String, List<String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -86,6 +89,8 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
+            ExpandableListView mExpandableListView = (ExpandableListView) parent;
+            mExpandableListView.expandGroup(groupPosition);
         }
 
         TextView lblListHeader = (TextView) convertView

@@ -1,5 +1,7 @@
 package com.berylsystems.buzz.networks.api_response.account;
 
+import java.util.ArrayList;
+
 public class GetAccountResponse {
     public String getMessage() {
         return message;
@@ -19,4 +21,14 @@ public class GetAccountResponse {
 
     public String message;
     public int status;
+
+    public ArrayList<OrderedAccounts> getOrdered_accounts() {
+        return ordered_accounts;
+    }
+
+    public void setOrdered_accounts(ArrayList<OrderedAccounts> ordered_accounts) {
+        this.ordered_accounts = ordered_accounts;
+    }
+
+    public ArrayList<OrderedAccounts> ordered_accounts;
 }

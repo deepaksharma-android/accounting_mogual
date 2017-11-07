@@ -41,18 +41,30 @@
                 android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.85"
-                android:text="ACCOUNT"
+                android:layout_weight="0.7"
+                android:text="ACCOUNT GROUP"
                 android:textColor="#050505"
                 android:textSize="14sp" />
 
             <ImageView
+                android:id="@+id/edit"
                 android:layout_width="0dp"
-                android:layout_height="10dp"
-                android:layout_weight="0.05"
+                android:layout_height="30dp"
+                android:layout_weight="0.1"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"
-                android:src="@drawable/right_carat"/>
+                android:visibility="visible"
+                android:src="@drawable/icon_edit"/>
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.1"
+                android:layout_marginRight="10dp"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_delete_circle"/>
 
         </LinearLayout>
     </LinearLayout>
