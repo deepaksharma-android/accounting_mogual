@@ -43,11 +43,11 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         viewHolder.mGroupName.setText(data.get(i).getAttributes().getName());
         if(data.get(i).getAttributes().getUndefined()==true){
             viewHolder.mDelete.setVisibility(View.VISIBLE);
-            viewHolder.mEdit.setVisibility(View.VISIBLE);
+            //viewHolder.mEdit.setVisibility(View.VISIBLE);
         }
         else{
             viewHolder.mDelete.setVisibility(View.GONE);
-            viewHolder.mEdit.setVisibility(View.GONE);
+           // viewHolder.mEdit.setVisibility(View.GONE);
         }
         viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +80,8 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         LinearLayout mMainLayout;
         @Bind(R.id.delete)
         ImageView mDelete;
-        @Bind(R.id.edit)
-        ImageView mEdit;
+     /*   @Bind(R.id.edit)
+        ImageView mEdit;*/
 
 
         public ViewHolder(View view) {

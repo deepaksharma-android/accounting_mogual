@@ -41,12 +41,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.7"
+                android:layout_weight="0.8"
                 android:text="ACCOUNT GROUP"
                 android:textColor="#050505"
                 android:textSize="14sp" />
 
-            <ImageView
+         <!--   <ImageView
                 android:id="@+id/edit"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -54,7 +54,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:src="@drawable/icon_edit"/>
+                android:src="@drawable/icon_edit"/>-->
 
             <ImageView
                 android:id="@+id/delete"

@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.utils.EventDeleteAccount;
+import com.berylsystems.buzz.utils.EventGroupClicked;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +62,14 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
+        ImageView delete=(ImageView) convertView.findViewById(R.id.delete_icon);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id=groupPosition+","+childPosition;
+                EventBus.getDefault().post(new EventDeleteAccount(id));
+            }
+        });
         return convertView;
     }
 

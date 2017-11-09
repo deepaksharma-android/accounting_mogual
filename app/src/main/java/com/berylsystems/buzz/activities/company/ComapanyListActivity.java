@@ -64,7 +64,7 @@ public class ComapanyListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_list);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+
         appUser=LocalRepositories.getAppUser(this);
         setNavigation(1);
         setAdd(1);
@@ -253,6 +253,7 @@ public class ComapanyListActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
         Preferences.getInstance(getApplicationContext()).setCname("");
         Preferences.getInstance(getApplicationContext()).setCprintname("");
         Preferences.getInstance(getApplicationContext()).setCshortname("");

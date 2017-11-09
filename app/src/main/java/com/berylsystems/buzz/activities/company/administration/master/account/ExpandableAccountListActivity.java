@@ -16,8 +16,12 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.adapters.AccountExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventDeleteAccount;
+import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +33,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class ExpandableAccountListActivity extends BaseActivityCompany {
     @Bind(R.id.coordinatorLayout)
@@ -38,10 +43,12 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
     AccountExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    HashMap<Integer, List<String>> listDataChildId;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
     List<String> name;
+    List<String> id;
 
 
     @Override
@@ -52,6 +59,12 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         setAddCompany(1);
         setAppBarTitleCompany(1,"ACCOUNT LIST");
         appUser=LocalRepositories.getAppUser(this);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if(isConnected) {
@@ -79,6 +92,18 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         }
     }
 
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateAccountActivity.class);
         startActivity(intent);
@@ -90,14 +115,18 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         if(response.getStatus()==200){
             listDataHeader=new ArrayList<>();
             listDataChild=new HashMap<String, List<String>>();
+            listDataChildId=new HashMap<Integer,List<String>>();
 
             for(int i=0;i<response.getOrdered_accounts().size();i++){
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
                 name=new ArrayList<>();
+                id=new ArrayList<>();
                 for(int j=0;j<response.getOrdered_accounts().get(i).getData().size();j++){
                     name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                 }
                 listDataChild.put(listDataHeader.get(i),name);
+                listDataChildId.put(i,id);
             }
             listAdapter = new AccountExpandableListAdapter(this, listDataHeader,listDataChild);
 
@@ -113,7 +142,56 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
             });
         }
         else{
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
 
+    @Subscribe
+    public void deletegroup(EventDeleteAccount pos){
+        String id=pos.getPosition();
+        String[] arr=id.split(",");
+        String groupid=arr[0];
+        String childid=arr[1];
+        String arrid=listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        appUser.delete_account_id=arrid;
+        Timber.i("ARRAYID"+arrid);
+        LocalRepositories.saveAppUser(this,appUser);
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if(isConnected) {
+            mProgressDialog = new ProgressDialog(ExpandableAccountListActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT);
+        }
+        else{
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if(isConnected){
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+    @Subscribe
+    public void deletegroupresponse(DeleteAccountResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 }

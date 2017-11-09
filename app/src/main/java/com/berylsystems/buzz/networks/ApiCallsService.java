@@ -792,7 +792,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleDeleteAccount() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.deleteaccount(appUser.account_id).enqueue(new Callback<DeleteAccountResponse>() {
+        api.deleteaccount(appUser.delete_account_id).enqueue(new Callback<DeleteAccountResponse>() {
             @Override
             public void onResponse(Call<DeleteAccountResponse> call, Response<DeleteAccountResponse> r) {
                 if (r.code() == 200) {

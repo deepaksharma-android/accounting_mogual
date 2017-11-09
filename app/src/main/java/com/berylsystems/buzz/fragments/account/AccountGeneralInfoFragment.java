@@ -109,7 +109,6 @@ public class AccountGeneralInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account_general_info, container, false);
-        EventBus.getDefault().register(this);
         ButterKnife.bind(this, v);
         appUser= LocalRepositories.getAppUser(getActivity());
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +213,13 @@ public class AccountGeneralInfoFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        EventBus.getDefault().register(this);
+
+        super.onResume();
+    }
+
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
@@ -235,7 +241,7 @@ public class AccountGeneralInfoFragment extends Fragment {
                     String id=data.getStringExtra("id");
                     appUser.create_account_group_id=id;
                     LocalRepositories.saveAppUser(getActivity(),appUser);
-                    mGroupText.setText(result+id);
+                    mGroupText.setText(result);
                     //ppUser.create_account_group_id= String.valueOf(appUser.arr_account_group_id.get(Integer.parseInt(result)));
                     //LocalRepositories.saveAppUser(getActivity(),appUser);
                 }
