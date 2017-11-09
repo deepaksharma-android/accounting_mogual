@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,11 +64,18 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
 
         txtListChild.setText(childText);
         ImageView delete=(ImageView) convertView.findViewById(R.id.delete_icon);
+        ImageView edit=(ImageView) convertView.findViewById(R.id.edit_icon);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id=groupPosition+","+childPosition;
                 EventBus.getDefault().post(new EventDeleteAccount(id));
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Intent intent=new Intent()
             }
         });
         return convertView;

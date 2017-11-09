@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
-import com.berylsystems.buzz.activities.company.ComapanyListActivity;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.events.EventFbAuthResponse;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -150,7 +150,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             if(response.is_present.equals("true")){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(),ComapanyListActivity.class));
+                startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
             }
             else {
                 startActivity(new Intent(getApplicationContext(),FacebookHandlerActivity.class));

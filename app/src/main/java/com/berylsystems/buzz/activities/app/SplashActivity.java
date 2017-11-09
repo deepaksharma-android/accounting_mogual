@@ -13,7 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.ComapanyListActivity;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -51,7 +51,7 @@ public class SplashActivity extends Activity {
                 @Override
                 public void run() {
                     if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                        Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                         startActivity(intent);
                     }
                     else {
@@ -105,7 +105,7 @@ public class SplashActivity extends Activity {
                         @Override
                         public void run() {
                             if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                                 startActivity(intent);
                             }
                             else {

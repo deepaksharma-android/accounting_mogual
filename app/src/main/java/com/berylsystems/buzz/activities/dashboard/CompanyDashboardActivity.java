@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.ComapanyListActivity;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.activities.company.EditCompanyActivity;
 import com.berylsystems.buzz.adapters.CompanyDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -238,11 +238,11 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),ComapanyListActivity.class));
+            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),ComapanyListActivity.class));
+            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
         }
     }
 
@@ -253,7 +253,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
                 .setTitle("Exit Company")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-                    startActivity(new Intent(getApplicationContext(), ComapanyListActivity.class));
+                    startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
 
                 })
                 .setNegativeButton(R.string.btn_cancel, null)

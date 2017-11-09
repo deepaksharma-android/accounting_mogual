@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.administration.master.accountgroup.EditGroupActivity;
 import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
+import com.berylsystems.buzz.utils.EventEditGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.EventOpenCompany;
 
@@ -43,11 +46,11 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         viewHolder.mGroupName.setText(data.get(i).getAttributes().getName());
         if(data.get(i).getAttributes().getUndefined()==true){
             viewHolder.mDelete.setVisibility(View.VISIBLE);
-            //viewHolder.mEdit.setVisibility(View.VISIBLE);
+            viewHolder.mEdit.setVisibility(View.VISIBLE);
         }
         else{
             viewHolder.mDelete.setVisibility(View.GONE);
-           // viewHolder.mEdit.setVisibility(View.GONE);
+            viewHolder.mEdit.setVisibility(View.GONE);
         }
         viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +58,14 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
                 EventBus.getDefault().post(new EventDeleteGroup(i));
             }
         });
+      /*  viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, EditGroupActivity.class);
+                intent.putExtra("id",data.get(i).getId());
+                context.startActivity(intent);
+            }
+        });*/
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,8 +91,8 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         LinearLayout mMainLayout;
         @Bind(R.id.delete)
         ImageView mDelete;
-     /*   @Bind(R.id.edit)
-        ImageView mEdit;*/
+        @Bind(R.id.edit)
+        ImageView mEdit;
 
 
         public ViewHolder(View view) {

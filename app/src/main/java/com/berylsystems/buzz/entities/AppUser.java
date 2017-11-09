@@ -71,6 +71,7 @@ public class AppUser {
     public String account_id;
     public String delete_group_id;
     public String delete_account_id;
+    public String edit_group_id;
     public String account_group_from_group_list="";
 
 

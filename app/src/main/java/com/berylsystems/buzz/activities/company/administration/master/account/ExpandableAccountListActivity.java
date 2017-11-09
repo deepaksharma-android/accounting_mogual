@@ -13,6 +13,7 @@ import android.widget.ExpandableListView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -105,7 +106,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
     }
 
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateAccountActivity.class);
+        Intent intent=new Intent(getApplicationContext(), AccountDetailsActivity.class);
         startActivity(intent);
     }
 
@@ -142,6 +143,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
             });
         }
         else{
+         //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -155,7 +157,6 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         String childid=arr[1];
         String arrid=listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         appUser.delete_account_id=arrid;
-        Timber.i("ARRAYID"+arrid);
         LocalRepositories.saveAppUser(this,appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if(isConnected) {

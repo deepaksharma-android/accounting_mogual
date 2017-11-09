@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
-import com.berylsystems.buzz.activities.company.ComapanyListActivity;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
@@ -184,24 +184,24 @@ public class VerificationActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             if(fromLoginPage){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromRegisterPage){
                 appUser.fb_id="";
                 LocalRepositories.saveAppUser(this,appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromUpdateMobileNumber){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromProfilePage){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), ComapanyListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
             }
             else if(fromForgotPasswordPage){

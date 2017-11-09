@@ -211,4 +211,5 @@ public class AccountGroupListActivity extends BaseActivityCompany {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
 }

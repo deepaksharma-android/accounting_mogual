@@ -37,7 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ComapanyListActivity extends BaseActivity {
+public class CompanyListActivity extends BaseActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.company_list_recycler_view)
@@ -77,7 +77,7 @@ public class ComapanyListActivity extends BaseActivity {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {
                         appUser.search_company_id=mSearchText.getText().toString();
-                        mProgressDialog = new ProgressDialog(ComapanyListActivity.this);
+                        mProgressDialog = new ProgressDialog(CompanyListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
@@ -111,7 +111,7 @@ public class ComapanyListActivity extends BaseActivity {
                 mSearchText.setText("");
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if(isConnected) {
-                    mProgressDialog = new ProgressDialog(ComapanyListActivity.this);
+                    mProgressDialog = new ProgressDialog(CompanyListActivity.this);
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
@@ -194,7 +194,7 @@ public class ComapanyListActivity extends BaseActivity {
     }
 
     public void showpopup(){
-        dialog = new Dialog(ComapanyListActivity.this);
+        dialog = new Dialog(CompanyListActivity.this);
         dialog.setContentView(R.layout.layout_login_dialog);
         dialog.setTitle("Company Login");
         dialog.setCancelable(true);
@@ -214,7 +214,7 @@ public class ComapanyListActivity extends BaseActivity {
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         Boolean isConnected = ConnectivityReceiver.isConnected();
                         if (isConnected) {
-                            mProgressDialog = new ProgressDialog(ComapanyListActivity.this);
+                            mProgressDialog = new ProgressDialog(CompanyListActivity.this);
                             mProgressDialog.setMessage("Info...");
                             mProgressDialog.setIndeterminate(false);
                             mProgressDialog.setCancelable(true);
@@ -355,7 +355,7 @@ public class ComapanyListActivity extends BaseActivity {
     public void opencompany(EventOpenCompany pos){
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
-                mProgressDialog = new ProgressDialog(ComapanyListActivity.this);
+                mProgressDialog = new ProgressDialog(CompanyListActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
