@@ -59,7 +59,7 @@
                     android:orientation="vertical"
                     >
                     <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/receive"
+                        android:id="@+id/credit_limit"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
@@ -89,7 +89,7 @@
                     android:orientation="vertical"
                     >
                     <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/payable"
+                        android:id="@+id/credit_sale"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
@@ -118,7 +118,7 @@
                     android:orientation="vertical"
                     >
                     <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/purchase"
+                        android:id="@+id/credit_purchase"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"

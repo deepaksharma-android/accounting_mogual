@@ -13,7 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
+import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventEditGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 
 import org.greenrobot.eventbus.EventBus;
@@ -75,7 +78,9 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent intent=new Intent()
+                String id=groupPosition+","+childPosition;
+                EventBus.getDefault().post(new EventEditAccount(id));
+
             }
         });
         return convertView;

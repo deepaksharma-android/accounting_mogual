@@ -23,6 +23,7 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGro
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
+import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,8 +59,8 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_account_expandabl_list);
         ButterKnife.bind(this);
         setAddCompany(1);
-        setAppBarTitleCompany(1,"ACCOUNT LIST");
-        appUser=LocalRepositories.getAppUser(this);
+        setAppBarTitleCompany(1, "ACCOUNT LIST");
+        appUser = LocalRepositories.getAppUser(this);
 
     }
 
@@ -68,7 +69,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         super.onResume();
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(ExpandableAccountListActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -76,15 +77,14 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -106,30 +106,31 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
     }
 
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), AccountDetailsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
+        intent.putExtra("fromaccountlist",false);
         startActivity(intent);
     }
 
     @Subscribe
-    public void getAccount(GetAccountResponse response){
+    public void getAccount(GetAccountResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            listDataHeader=new ArrayList<>();
-            listDataChild=new HashMap<String, List<String>>();
-            listDataChildId=new HashMap<Integer,List<String>>();
+        if (response.getStatus() == 200) {
+            listDataHeader = new ArrayList<>();
+            listDataChild = new HashMap<String, List<String>>();
+            listDataChildId = new HashMap<Integer, List<String>>();
 
-            for(int i=0;i<response.getOrdered_accounts().size();i++){
+            for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
-                name=new ArrayList<>();
-                id=new ArrayList<>();
-                for(int j=0;j<response.getOrdered_accounts().get(i).getData().size();j++){
+                name = new ArrayList<>();
+                id = new ArrayList<>();
+                for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                 }
-                listDataChild.put(listDataHeader.get(i),name);
-                listDataChildId.put(i,id);
+                listDataChild.put(listDataHeader.get(i), name);
+                listDataChildId.put(i, id);
             }
-            listAdapter = new AccountExpandableListAdapter(this, listDataHeader,listDataChild);
+            listAdapter = new AccountExpandableListAdapter(this, listDataHeader, listDataChild);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -141,40 +142,38 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
                     return true;
                 }
             });
-        }
-        else{
-         //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
+        } else {
+            //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void deletegroup(EventDeleteAccount pos){
-        String id=pos.getPosition();
-        String[] arr=id.split(",");
-        String groupid=arr[0];
-        String childid=arr[1];
-        String arrid=listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.delete_account_id=arrid;
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletegroup(EventDeleteAccount pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        appUser.delete_account_id = arrid;
+        LocalRepositories.saveAppUser(this, appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(ExpandableAccountListActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -182,17 +181,32 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
             snackbar.show();
         }
     }
+
     @Subscribe
-    public void deletegroupresponse(DeleteAccountResponse response){
+    public void deletegroupresponse(DeleteAccountResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void editgroup(EventEditAccount pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        appUser.edit_account_id = arrid;
+        LocalRepositories.saveAppUser(this, appUser);
+        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
+        intent.putExtra("fromaccountlist", true);
+        startActivity(intent);
+
     }
 }

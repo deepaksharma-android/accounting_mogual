@@ -28,6 +28,8 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
@@ -133,6 +135,10 @@ public class ApiCallsService extends IntentService {
             handleCreateAccount();
         }else if (Cv.ACTION_GET_ACCOUNT.equals(action)) {
             handleGetAccount();
+        }else if (Cv.ACTION_GET_ACCOUNT_DETAILS.equals(action)) {
+            handleGetAccountDetails();
+        }else if (Cv.ACTION_EDIT_ACCOUNT.equals(action)) {
+            handleEditAccount();
         }else if (Cv.ACTION_DELETE_ACCOUNT.equals(action)) {
             handleDeleteAccount();
         }else if (Cv.ACTION_DELETE_ACCOUNT_GROUP.equals(action)) {
@@ -788,7 +794,53 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+    private void handleGetAccountDetails() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getaccountdetails(appUser.edit_account_id).enqueue(new Callback<GetAccountDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetAccountDetailsResponse> call, Response<GetAccountDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetAccountDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<GetAccountDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditAccount() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.editaccount(appUser.edit_account_id).enqueue(new Callback<EditAccountResponse>() {
+            @Override
+            public void onResponse(Call<EditAccountResponse> call, Response<EditAccountResponse> r) {
+                if (r.code() == 200) {
+                    EditAccountResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditAccountResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
 
     private void handleDeleteAccount() {
         AppUser appUser=LocalRepositories.getAppUser(this);

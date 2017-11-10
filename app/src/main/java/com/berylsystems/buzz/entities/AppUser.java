@@ -54,9 +54,9 @@ public class AppUser {
     public String titlecname;
     public String search_company_id;
     public String company_user_id;
-    public String account_group_name;
+
     public String account_group_id;
-    public String create_account_group_id;
+
     public String account_name;
     public String account_type_of_dealer;
     public String acount_opening_balance;
@@ -73,6 +73,21 @@ public class AppUser {
     public String delete_account_id;
     public String edit_group_id;
     public String account_group_from_group_list="";
+    public String account_amount_receivable="";
+    public String account_amount_payable="";
+    public String account_address="";
+    public String account_city="";
+    public String account_state="";
+    public String account_gst="";
+    public String account_aadhaar="";
+    public String account_pan="";
+    public String account_credit_limit="";
+    public String account_credit_sale="";
+    public String account_credit_purchase="";
+    public String account_mobile_number;
+    public String create_account_group_id;
+    public String account_group_name;
+    public String edit_account_id;
 
 
 

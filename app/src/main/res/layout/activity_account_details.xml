@@ -40,6 +40,7 @@
                 android:orientation="vertical"
                 >
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/account_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
@@ -68,6 +69,7 @@
                 android:orientation="vertical"
                 >
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/mobile_number"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
@@ -90,6 +92,7 @@
                     style="@style/Gotham_Medium"/>
 
                 <LinearLayout
+                    android:id="@+id/group_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
@@ -98,6 +101,7 @@
                     android:orientation="horizontal"
                     >
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        android:id="@+id/group_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
@@ -214,6 +218,28 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Submit"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/update"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/vendorText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:background="@drawable/solid_blue">
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Update"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

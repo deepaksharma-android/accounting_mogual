@@ -22,6 +22,8 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
@@ -108,8 +110,10 @@ public interface Api {
     Call<CreateAccountResponse> createaccount(@Body RequestCreateAccount payload);
     @GET("account/{id}")
     Call<GetAccountResponse> getaccount(@Path("id") String id);
-    @PATCH("account/{id}")
-    Call<CreateAccountResponse> editaccount(@Path("id") String id);
+    @GET("account_detail/{id}")
+    Call<GetAccountDetailsResponse> getaccountdetails(@Path("id") String id);
+    @PATCH("account_detail/{id}")
+    Call<EditAccountResponse> editaccount(@Path("id") String id);
     @DELETE("account/{id}")
     Call<DeleteAccountResponse> deleteaccount(@Path("id") String id);
     @DELETE("account_groups/{id}")

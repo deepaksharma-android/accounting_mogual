@@ -61,7 +61,7 @@
                     android:orientation="vertical">
 
                     <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/password"
+                        android:id="@+id/address"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -122,21 +122,17 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <Spinner
                         android:id="@+id/state_spinner"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="eg.haryana"
-                        android:maxLines="1"
-                        android:inputType="text"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
+                        android:entries="@array/state"
+                        android:spinnerMode="dialog"
+                        android:layout_height="40dp">
+                    </Spinner>
 
                 </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+               <!-- <com.berylsystems.buzz.utils.BuzzTextView
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -153,19 +149,16 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <Spinner
                         android:id="@+id/country_spinner"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="eg.India"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
+                        android:entries="@array/country"
+                        android:spinnerMode="dialog"
+                        android:layout_height="40dp">
 
-                </LinearLayout>
+                    </Spinner>
+
+                </LinearLayout>-->
 
 
                 <LinearLayout
