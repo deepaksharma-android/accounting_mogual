@@ -27,6 +27,8 @@ import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResp
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
@@ -106,14 +108,18 @@ public interface Api {
     Call<CreateAccountGroupResponse> createaccountgroup(@Body RequestCreateAccountGroup payload);
     @GET("account_groups/{id}")
     Call<GetAccountGroupResponse> getaccountgroup(@Path("id") String id);
+    @GET("account_groups_details/{id}")
+    Call<GetAccountGroupDetailsResponse> getaccountgroupdetails(@Path("id") String id);
+    @PATCH("account_groups/{id}")
+    Call<EditAccountGroupResponse> editaccountgroup(@Body RequestCreateAccountGroup payload, @Path("id") String id);
     @POST("account")
     Call<CreateAccountResponse> createaccount(@Body RequestCreateAccount payload);
     @GET("account/{id}")
     Call<GetAccountResponse> getaccount(@Path("id") String id);
     @GET("account_detail/{id}")
     Call<GetAccountDetailsResponse> getaccountdetails(@Path("id") String id);
-    @PATCH("account_detail/{id}")
-    Call<EditAccountResponse> editaccount(@Path("id") String id);
+    @PATCH("account/{id}")
+    Call<EditAccountResponse> editaccount(@Body RequestCreateAccount payload,@Path("id") String id);
     @DELETE("account/{id}")
     Call<DeleteAccountResponse> deleteaccount(@Path("id") String id);
     @DELETE("account_groups/{id}")

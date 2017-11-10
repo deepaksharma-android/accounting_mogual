@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.administration.master.accountgroup.CreateAccountGroupActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.EditGroupActivity;
 import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
@@ -58,14 +59,15 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
                 EventBus.getDefault().post(new EventDeleteGroup(i));
             }
         });
-      /*  viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, EditGroupActivity.class);
+                Intent intent=new Intent(context, CreateAccountGroupActivity.class);
+                intent.putExtra("fromaccountgrouplist",true);
                 intent.putExtra("id",data.get(i).getId());
                 context.startActivity(intent);
             }
-        });*/
+        });
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

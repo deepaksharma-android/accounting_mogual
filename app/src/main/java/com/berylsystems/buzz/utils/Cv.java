@@ -29,12 +29,14 @@ public interface Cv {
   String ACTION_EDIT_LOGIN="edit_login";
   String ACTION_CREATE_ACCOUNT_GROUP="create_account_group";
   String ACTION_GET_ACCOUNT_GROUP="get_account_group";
+  String ACTION_GET_ACCOUNT_GROUP_DETAILS="get_account_group_details";
+  String ACTION_EDIT_ACCOUNT_GROUP="edit_account_group";
+  String ACTION_DELETE_ACCOUNT_GROUP="delete_account_group";
   String ACTION_CREATE_ACCOUNT="create_account";
   String ACTION_GET_ACCOUNT="get_account";
   String ACTION_GET_ACCOUNT_DETAILS="get_account_details";
   String ACTION_EDIT_ACCOUNT="edit_account";
   String ACTION_DELETE_ACCOUNT="delete_account";
-  String ACTION_DELETE_ACCOUNT_GROUP="delete_account_group";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";
   String ACTION_SEARCH_COMPANY= "search_company";

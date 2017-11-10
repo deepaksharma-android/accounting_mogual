@@ -33,6 +33,8 @@ import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResp
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
@@ -131,6 +133,10 @@ public class ApiCallsService extends IntentService {
             handleCreateAccountGroup();
         }else if (Cv.ACTION_GET_ACCOUNT_GROUP.equals(action)) {
             handleGetAccountGroup();
+        }else if (Cv.ACTION_GET_ACCOUNT_GROUP_DETAILS.equals(action)) {
+            handleGetAccountGroupDetails();
+        }else if (Cv.ACTION_EDIT_ACCOUNT_GROUP.equals(action)) {
+            handleEditAccountGroup();
         }else if (Cv.ACTION_CREATE_ACCOUNT.equals(action)) {
             handleCreateAccount();
         }else if (Cv.ACTION_GET_ACCOUNT.equals(action)) {
@@ -749,6 +755,54 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+    private void handleGetAccountGroupDetails() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getaccountgroupdetails(appUser.edit_group_id).enqueue(new Callback<GetAccountGroupDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetAccountGroupDetailsResponse> call, Response<GetAccountGroupDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetAccountGroupDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetAccountGroupDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleEditAccountGroup() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.editaccountgroup(new RequestCreateAccountGroup(this),appUser.edit_group_id).enqueue(new Callback<EditAccountGroupResponse>() {
+            @Override
+            public void onResponse(Call<EditAccountGroupResponse> call, Response<EditAccountGroupResponse> r) {
+                if (r.code() == 200) {
+                    EditAccountGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditAccountGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
     private void handleCreateAccount() {
         api.createaccount(new RequestCreateAccount(this)).enqueue(new Callback<CreateAccountResponse>() {
             @Override
@@ -820,7 +874,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditAccount() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editaccount(appUser.edit_account_id).enqueue(new Callback<EditAccountResponse>() {
+        api.editaccount( new RequestCreateAccount(this),appUser.edit_account_id).enqueue(new Callback<EditAccountResponse>() {
             @Override
             public void onResponse(Call<EditAccountResponse> call, Response<EditAccountResponse> r) {
                 if (r.code() == 200) {

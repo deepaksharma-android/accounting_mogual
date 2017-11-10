@@ -413,6 +413,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),ExpandableAccountListActivity.class));
         }
         else{
             Snackbar

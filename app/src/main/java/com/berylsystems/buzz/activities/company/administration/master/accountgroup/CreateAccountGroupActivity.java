@@ -26,6 +26,8 @@ import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -49,11 +51,14 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     EditText mGroupName;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
+    @Bind(R.id.update)
+    LinearLayout mUpdate;
     ArrayAdapter<String> mPrimaryGroupAdapter;
     ArrayAdapter<String> mUnderGroupAdapter;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    Boolean fromAccountGroupList;
 
 
     @Override
@@ -62,6 +67,39 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        fromAccountGroupList=getIntent().getExtras().getBoolean("fromaccountgrouplist");
+        if(fromAccountGroupList==true){
+            mSubmit.setVisibility(View.GONE);
+            mUpdate.setVisibility(View.VISIBLE);
+            appUser.edit_group_id=getIntent().getExtras().getString("id");
+            LocalRepositories.saveAppUser(this,appUser);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if(isConnected) {
+                mProgressDialog = new ProgressDialog(CreateAccountGroupActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT_GROUP_DETAILS);
+            }
+            else{
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if(isConnected){
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
+
+
         mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -103,6 +141,39 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         });
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mGroupName.getText().toString().equals("")){
+                    appUser.account_group_name=mGroupName.getText().toString();
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if(isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateAccountGroupActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_ACCOUNT_GROUP);
+                    }
+                    else{
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if(isConnected){
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                }
+            }
+        });
+
+        mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!mGroupName.getText().toString().equals("")){
@@ -243,4 +314,30 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
             }
         }
     }
+
+    @Subscribe
+    public void getAccountGroupDetails(GetAccountGroupDetailsResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void editAccountGroupDetails(EditAccountGroupResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+
+
 }

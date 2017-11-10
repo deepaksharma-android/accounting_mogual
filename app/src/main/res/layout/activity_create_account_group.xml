@@ -28,9 +28,35 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginRight="20dp"
                     android:orientation="vertical">
-
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Group Name"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
 
                     <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/group_name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Group Name"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                   <!-- <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -65,9 +91,35 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Primary Group"
+                        android:textColor="#000"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15sp" />
 
                     <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/primary_spinner"
+                            android:layout_width="fill_parent"
+                            android:spinnerMode="dialog"
+                            android:layout_height="40dp">
+                        </Spinner>
+
+                    </LinearLayout>
+
+                   <!-- <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -95,9 +147,44 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                     <LinearLayout
+                        android:id="@+id/under_group_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Under Group"
+                        android:textColor="#000"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/under_group_spinner"
+                            android:layout_width="fill_parent"
+                            android:spinnerMode="dialog"
+                            android:layout_height="40dp">
+                        </Spinner>
+
+                    </LinearLayout>
+                        </LinearLayout>
+
+                  <!--  <LinearLayout
                         android:id="@+id/under_group_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -127,7 +214,7 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
 
                     <LinearLayout
@@ -148,6 +235,28 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Submit"
+                            android:textColor="#fff"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/update"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
+                        android:visibility="gone"
+                        android:background="@drawable/solid_blue"
+                        android:gravity="center">
+
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Book"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Update"
                             android:textColor="#fff"
                             android:textSize="16sp" />
                     </LinearLayout>
