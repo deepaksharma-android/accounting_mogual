@@ -19,4 +19,14 @@ public class GetAccountGroupDetailsResponse {
 
     public String message;
     public int status;
+
+    public AccountGroupDetails getAccount_group_details() {
+        return account_group_details;
+    }
+
+    public void setAccount_group_details(AccountGroupDetails account_group_details) {
+        this.account_group_details = account_group_details;
+    }
+
+    public AccountGroupDetails account_group_details;
 }

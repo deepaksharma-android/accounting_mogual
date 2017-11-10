@@ -115,6 +115,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.account.AccountDetailsActivity"
+            android:parentActivityName=".activities.company.administration.master.account.ExpandableAccountListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

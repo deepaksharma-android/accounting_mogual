@@ -153,7 +153,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_ACCOUNT_GROUP);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT_GROUP);
                     }
                     else{
                         snackbar = Snackbar
@@ -186,7 +186,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT_GROUP);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_ACCOUNT_GROUP);
                     }
                     else{
                         snackbar = Snackbar
@@ -319,8 +319,23 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void getAccountGroupDetails(GetAccountGroupDetailsResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            if(!response.getAccount_group_details().getData().getAttributes().getName().equals("")){
+                mGroupName.setText(response.getAccount_group_details().getData().getAttributes().getName());
+                mSpinnerPrimary.setSelection(1);
+                mSpinnerUnderGroup.setVisibility(View.VISIBLE);
+                String group_type = response.getAccount_group_details().getData().getAttributes().getAccount_group().trim();// insert code here
+                int groupindex = -1;
+                for (int i = 0; i<appUser.group_name.size(); i++) {
+                    if (appUser.group_name.equals(group_type)) {
+                        groupindex = i;
+                        break;
+                    }
+                }
+                mSpinnerUnderGroup.setSelection(groupindex);
 
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+
+
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
