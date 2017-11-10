@@ -71,11 +71,11 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
 
     int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites};
     private String[] title = {
-            "Administation",
-            "Transaction",
-            "Display",
-            "Print/Email/SMS",
-            "Favourites"
+            "ADMINISTRATION",
+            "TRANSACTION",
+            "DISPLAY",
+            "PRINT/EMAIL/SMS",
+            "FAVOURITES"
     };
 
 

@@ -31,6 +31,7 @@ import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse
 import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
@@ -400,6 +401,19 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             LocalRepositories.saveAppUser(this,appUser);
             mAccountName.setText(response.getAccount().getData().getAttributes().getName());
             mGroupName.setText(response.getAccount().getData().getAttributes().getAccount_group());
+            mMobileNumber.setText(response.getAccount().getData().getAttributes().getMobile_number());
+            appUser.account_amount_receivable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_receivable());
+            appUser.account_amount_payable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_payable());
+            appUser.account_address= Helpers.mystring(response.getAccount().getData().getAttributes().getAddress());
+            appUser.account_city= Helpers.mystring(response.getAccount().getData().getAttributes().getCity());
+            appUser.account_state= Helpers.mystring(response.getAccount().getData().getAttributes().getState());
+            appUser.account_gst= Helpers.mystring(response.getAccount().getData().getAttributes().getGstin_number());
+            appUser.account_aadhaar= Helpers.mystring(response.getAccount().getData().getAttributes().getAdhar_number());
+            appUser.account_pan= Helpers.mystring(response.getAccount().getData().getAttributes().getPan_number());
+            appUser.account_credit_limit= Helpers.mystring(response.getAccount().getData().getAttributes().getCredit_limit());
+            appUser.account_credit_sale= Helpers.mystring(response.getAccount().getData().getAttributes().getCredit_days_for_sale());
+            appUser.account_credit_purchase= Helpers.mystring(response.getAccount().getData().getAttributes().getCredit_days_for_purchase());
+            LocalRepositories.saveAppUser(this,appUser);
         }
         else{
             Snackbar

@@ -20,17 +20,21 @@ public class RequestCreateAccount {
         account = new HashMap<>();
         account.put("name", appUser.account_name);
         account.put("company_id", Preferences.getInstance(ctx).getCid());
-        account.put("type_of_dealer", appUser.account_type_of_dealer);
+        account.put("mobile_number", appUser.account_mobile_number);
         account.put("account_master_group_id", appUser.create_account_group_id);
-        account.put("opening_balance", appUser.acount_opening_balance);
-        account.put("opening_balance_type", appUser.acount_opening_balance_type);
-        account.put("prev_year_balance", appUser.prev_year_balance);
-        account.put("prev_year_balance_type", appUser.prev_year_balance_type);
-        account.put("credit_days_for_sale", appUser.credit_days_for_sale);
-        account.put("credit_days_for_purchase", appUser.credit_days_for_purchase);
-        account.put("bank_account_number", appUser.bank_account_number);
-        account.put("bank_ifsc_code", appUser.bank_ifsc_code);
-        account.put("bank_name", appUser.bank_name);
+        account.put("address", appUser.account_address);
+        account.put("city", appUser.city);
+        account.put("state", appUser.account_state);
+        account.put("country","India");
+        account.put("adhar_number", appUser.account_aadhaar);
+        account.put("gstin_number",appUser.account_gst);
+        account.put("pan_number",appUser.account_pan);
+        account.put("credit_limit", appUser.account_credit_limit);
+        account.put("credit_days_for_sale", appUser.account_credit_sale);
+        account.put("credit_days_for_purchase", appUser.account_credit_purchase);
+        account.put("amount_receivable", appUser.account_amount_receivable);
+        account.put("amount_payable", appUser.account_amount_payable);
+
 
 
 

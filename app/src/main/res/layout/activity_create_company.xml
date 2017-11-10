@@ -35,142 +35,529 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                            android:text="Company Name"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
 
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
                             <com.berylsystems.buzz.utils.BuzzEditText
                                 android:id="@+id/company_name"
-                                style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
-                                android:hint="Company Name"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
+                                android:hint="eg.abc industries"
+                                android:inputType="text"
                                 android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                                android:textSize="16sp" />
 
+                        </LinearLayout>
 
-                        <View
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                            android:layout_marginTop="10dp"
+                            android:text="Phone Number"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
 
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
                             <com.berylsystems.buzz.utils.BuzzEditText
                                 android:id="@+id/phone"
-                                style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
-                                android:hint="Phone Number"
-                                android:paddingTop="10dp"
+                                android:hint="eg.1234567890"
                                 android:inputType="number"
                                 android:maxLength="10"
                                 android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                                android:textSize="16sp" />
 
-
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
+                        </LinearLayout>
 
                         <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:text="Financial Year"
-                            style="@style/Gotham_Book"
-                            android:textColor="@color/view_color"
-                            android:textSize="12sp"/>
-
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/financial_year"
-                            style="@style/Gotham_Book"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:paddingTop="10dp"
-                            android:inputType="phone"
                             android:textColor="#000"
-                            android:textColorHint="@color/view_color"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
 
-
-                        <View
+                        <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                android:id="@+id/financial_year"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.1 April 2017"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
 
                         <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:text="Book Commencing Year"
-                            style="@style/Gotham_Book"
-                            android:textColor="@color/view_color"
-                            android:textSize="12sp"/>
+                            android:textColor="#000"
+                            android:textSize="15sp" />
 
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                android:id="@+id/book_year"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.1 April 2017"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/book_year"
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:paddingTop="10dp"
-                            android:inputType="phone"
+                            android:layout_marginTop="10dp"
+                            android:text="CIN"
                             android:textColor="#000"
-                            android:textColorHint="@color/view_color"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
 
-
-
-                        <View
+                        <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/cin"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.must be 21 digits"
+                                android:inputType="text"
+                                android:maxLength="21"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="PAN Number"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/pan"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.must be 10 digits"
+                                android:inputType="text"
+                                android:maxLength="10"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="GSTIN"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/gst"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.must be 15 digits"
+                                android:inputType="text"
+                                android:maxLength="15"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Address"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/address"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.hno-1234"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="City"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/city"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.faridabad"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="State"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <Spinner
+                                android:id="@+id/state_spinner"
+                                android:layout_width="fill_parent"
+                                android:layout_height="40dp"
+                                android:entries="@array/state"
+                                android:spinnerMode="dialog"></Spinner>
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Username"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/username"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="eg.abc"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Password"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/password"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="******"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Confirm Password"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.berylsystems.buzz.utils.BuzzEditText
+                                android:id="@+id/confirm_password"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="******"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <!-- <android.support.design.widget.TextInputLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="5dp"
+                             android:theme="@style/TextLabel">
+
+
+                             <com.berylsystems.buzz.utils.BuzzEditText
+                                 android:id="@+id/company_name"
+                                 style="@style/Gotham_Book"
+                                 android:layout_width="fill_parent"
+                                 android:layout_height="wrap_content"
+                                 android:background="@android:color/transparent"
+                                 android:hint="Company Name"
+                                 android:paddingTop="10dp"
+                                 android:singleLine="true"
+                                 android:textColor="#000"
+                                 android:textColorHint="@color/view_color"
+                                 android:textSize="14sp" />
+                         </android.support.design.widget.TextInputLayout>
+
+
+                         <View
+                             android:layout_width="fill_parent"
+                             android:layout_height="1dp"
+                             android:background="@color/view_color" />-->
 
                     </LinearLayout>
-                    <LinearLayout
+                    <!--
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="30dp"
+                                            android:orientation="vertical">
+
+                                            <android.support.design.widget.TextInputLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="5dp"
+                                                android:theme="@style/TextLabel">
+
+
+                                                <com.berylsystems.buzz.utils.BuzzEditText
+                                                    android:id="@+id/phone"
+                                                    style="@style/Gotham_Book"
+                                                    android:layout_width="fill_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:background="@android:color/transparent"
+                                                    android:hint="Phone Number"
+                                                    android:paddingTop="10dp"
+                                                    android:inputType="number"
+                                                    android:maxLength="10"
+                                                    android:textColor="#000"
+                                                    android:textColorHint="@color/view_color"
+                                                    android:textSize="14sp" />
+                                            </android.support.design.widget.TextInputLayout>
+
+
+                                            <View
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="1dp"
+                                                android:background="@color/view_color" />
+
+                                        </LinearLayout>-->
+                    <!-- <LinearLayout
+                         android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="30dp"
+                         android:orientation="vertical">
+
+                         <com.berylsystems.buzz.utils.BuzzTextView
+                             android:layout_width="fill_parent"
+                             android:layout_height="wrap_content"
+                             android:text="Financial Year"
+                             style="@style/Gotham_Book"
+                             android:textColor="@color/view_color"
+                             android:textSize="12sp"/>
+
+
+                         <com.berylsystems.buzz.utils.BuzzTextView
+                             android:id="@+id/financial_year"
+                             style="@style/Gotham_Book"
+                             android:layout_width="fill_parent"
+                             android:layout_height="wrap_content"
+                             android:background="@android:color/transparent"
+                             android:paddingTop="10dp"
+                             android:inputType="phone"
+                             android:textColor="#000"
+                             android:textColorHint="@color/view_color"
+                             android:textSize="14sp" />
+
+
+                         <View
+                             android:layout_width="fill_parent"
+                             android:layout_height="1dp"
+                             android:background="@color/view_color" />
+
+                     </LinearLayout>-->
+                    <!--   <LinearLayout
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="30dp"
+                           android:orientation="vertical">
+
+                           <com.berylsystems.buzz.utils.BuzzTextView
+                               android:layout_width="fill_parent"
+                               android:layout_height="wrap_content"
+                               android:text="Book Commencing Year"
+                               style="@style/Gotham_Book"
+                               android:textColor="@color/view_color"
+                               android:textSize="12sp"/>
+
+
+                           <com.berylsystems.buzz.utils.BuzzTextView
+                               android:id="@+id/book_year"
+                               style="@style/Gotham_Book"
+                               android:layout_width="fill_parent"
+                               android:layout_height="wrap_content"
+                               android:background="@android:color/transparent"
+                               android:paddingTop="10dp"
+                               android:inputType="phone"
+                               android:textColor="#000"
+                               android:textColorHint="@color/view_color"
+                               android:textSize="14sp" />
+
+
+
+                           <View
+                               android:layout_width="fill_parent"
+                               android:layout_height="1dp"
+                               android:background="@color/view_color" />
+
+                       </LinearLayout>-->
+                    <!--<LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -203,297 +590,297 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
+                    <!-- <LinearLayout
+                         android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="30dp"
+                         android:orientation="vertical">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
-
-
-                            <com.berylsystems.buzz.utils.BuzzEditText
-                                android:id="@+id/pan"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="PAN Number"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:textColor="#000"
-                                android:maxLength="10"
-                                android:inputType="textCapCharacters"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="12sp" />
-                        </android.support.design.widget.TextInputLayout>
+                         <android.support.design.widget.TextInputLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="5dp"
+                             android:theme="@style/TextLabel">
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                             <com.berylsystems.buzz.utils.BuzzEditText
+                                 android:id="@+id/pan"
+                                 style="@style/Gotham_Book"
+                                 android:layout_width="fill_parent"
+                                 android:layout_height="wrap_content"
+                                 android:background="@android:color/transparent"
+                                 android:hint="PAN Number"
+                                 android:paddingTop="10dp"
+                                 android:singleLine="true"
+                                 android:textColor="#000"
+                                 android:maxLength="10"
+                                 android:inputType="textCapCharacters"
+                                 android:textColorHint="@color/view_color"
+                                 android:textSize="12sp" />
+                         </android.support.design.widget.TextInputLayout>
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
-                                android:id="@+id/gst"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="GSTIN"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                         <View
+                             android:layout_width="fill_parent"
+                             android:layout_height="1dp"
+                             android:background="@color/view_color" />
+
+                     </LinearLayout>-->
+                    <!--   <LinearLayout
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="30dp"
+                           android:orientation="vertical">
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                           <android.support.design.widget.TextInputLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="5dp"
+                               android:theme="@style/TextLabel">
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
-                                android:id="@+id/address"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="Address"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                               <com.berylsystems.buzz.utils.BuzzEditText
+                                   android:id="@+id/gst"
+                                   style="@style/Gotham_Book"
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="wrap_content"
+                                   android:background="@android:color/transparent"
+                                   android:hint="GSTIN"
+                                   android:paddingTop="10dp"
+                                   android:singleLine="true"
+                                   android:textColor="#000"
+                                   android:textColorHint="@color/view_color"
+                                   android:textSize="14sp" />
+                           </android.support.design.widget.TextInputLayout>
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
+                           <View
+                               android:layout_width="fill_parent"
+                               android:layout_height="1dp"
+                               android:background="@color/view_color" />
 
-                    </LinearLayout>
+                       </LinearLayout>-->
+                    <!--   <LinearLayout
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="30dp"
+                           android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
-
-
-                            <com.berylsystems.buzz.utils.BuzzEditText
-                                android:id="@+id/city"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="City"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                           <android.support.design.widget.TextInputLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="5dp"
+                               android:theme="@style/TextLabel">
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="State"
-                            style="@style/Gotham_Book"
-                            android:textColor="@color/view_color"
-                            android:textSize="12sp"/>
-
-                        <Spinner
-                            android:id="@+id/state_spinner"
-                            android:layout_width="fill_parent"
-                            android:entries="@array/state"
-                            android:spinnerMode="dialog"
-                            android:layout_height="40dp">
-                        </Spinner>
+                               <com.berylsystems.buzz.utils.BuzzEditText
+                                   android:id="@+id/address"
+                                   style="@style/Gotham_Book"
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="wrap_content"
+                                   android:background="@android:color/transparent"
+                                   android:hint="Address"
+                                   android:paddingTop="10dp"
+                                   android:singleLine="true"
+                                   android:textColor="#000"
+                                   android:textColorHint="@color/view_color"
+                                   android:textSize="14sp" />
+                           </android.support.design.widget.TextInputLayout>
 
 
+                           <View
+                               android:layout_width="fill_parent"
+                               android:layout_height="1dp"
+                               android:background="@color/view_color" />
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
+                       </LinearLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
+                       <LinearLayout
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="30dp"
+                           android:orientation="vertical">
 
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
-
-
-                            <com.berylsystems.buzz.utils.BuzzEditText
-                                android:id="@+id/username"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="Username"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                           <android.support.design.widget.TextInputLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="5dp"
+                               android:theme="@style/TextLabel">
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                               <com.berylsystems.buzz.utils.BuzzEditText
+                                   android:id="@+id/city"
+                                   style="@style/Gotham_Book"
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="wrap_content"
+                                   android:background="@android:color/transparent"
+                                   android:hint="City"
+                                   android:paddingTop="10dp"
+                                   android:singleLine="true"
+                                   android:textColor="#000"
+                                   android:textColorHint="@color/view_color"
+                                   android:textSize="14sp" />
+                           </android.support.design.widget.TextInputLayout>
 
 
-                            <EditText
-                                android:id="@+id/password"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="Password"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:textColor="#000"
-                                android:inputType="textPassword"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                           <View
+                               android:layout_width="fill_parent"
+                               android:layout_height="1dp"
+                               android:background="@color/view_color" />
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="30dp"
+                           android:orientation="vertical">
+
+                           <com.berylsystems.buzz.utils.BuzzTextView
+                               android:layout_width="fill_parent"
+                               android:layout_height="wrap_content"
+                               android:text="State"
+                               style="@style/Gotham_Book"
+                               android:textColor="@color/view_color"
+                               android:textSize="12sp"/>
+
+                           <Spinner
+                               android:id="@+id/state_spinner"
+                               android:layout_width="fill_parent"
+                               android:entries="@array/state"
+                               android:spinnerMode="dialog"
+                               android:layout_height="40dp">
+                           </Spinner>
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
 
-                    </LinearLayout>
+                           <View
+                               android:layout_width="fill_parent"
+                               android:layout_height="1dp"
+                               android:background="@color/view_color" />
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:theme="@style/TextLabel">
+                       </LinearLayout>-->
+                    <!--       <LinearLayout
+                               android:layout_width="fill_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="30dp"
+                               android:orientation="vertical">
 
 
-                            <EditText
-                                android:id="@+id/confirm_password"
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="Confirm Password"
-                                android:paddingTop="10dp"
-                                android:singleLine="true"
-                                android:inputType="textPassword"
-                                android:textColor="#000"
-                                android:textColorHint="@color/view_color"
-                                android:textSize="14sp" />
-                        </android.support.design.widget.TextInputLayout>
+                               <android.support.design.widget.TextInputLayout
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:theme="@style/TextLabel">
 
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/view_color" />
+                                   <com.berylsystems.buzz.utils.BuzzEditText
+                                       android:id="@+id/username"
+                                       style="@style/Gotham_Book"
+                                       android:layout_width="fill_parent"
+                                       android:layout_height="wrap_content"
+                                       android:background="@android:color/transparent"
+                                       android:hint="Username"
+                                       android:paddingTop="10dp"
+                                       android:singleLine="true"
+                                       android:textColor="#000"
+                                       android:textColorHint="@color/view_color"
+                                       android:textSize="14sp" />
+                               </android.support.design.widget.TextInputLayout>
 
-                    </LinearLayout>
+
+                               <View
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="1dp"
+                                   android:background="@color/view_color" />
+
+                           </LinearLayout>
+
+                           <LinearLayout
+                               android:layout_width="fill_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="30dp"
+                               android:orientation="vertical">
+
+
+                               <android.support.design.widget.TextInputLayout
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:theme="@style/TextLabel">
+
+
+                                   <EditText
+                                       android:id="@+id/password"
+                                       style="@style/Gotham_Book"
+                                       android:layout_width="fill_parent"
+                                       android:layout_height="wrap_content"
+                                       android:background="@android:color/transparent"
+                                       android:hint="Password"
+                                       android:paddingTop="10dp"
+                                       android:singleLine="true"
+                                       android:textColor="#000"
+                                       android:inputType="textPassword"
+                                       android:textColorHint="@color/view_color"
+                                       android:textSize="14sp" />
+                               </android.support.design.widget.TextInputLayout>
+
+
+                               <View
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="1dp"
+                                   android:background="@color/view_color" />
+
+                           </LinearLayout>
+
+                           <LinearLayout
+                               android:layout_width="fill_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="30dp"
+                               android:orientation="vertical">
+
+
+                               <android.support.design.widget.TextInputLayout
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:theme="@style/TextLabel">
+
+
+                                   <EditText
+                                       android:id="@+id/confirm_password"
+                                       style="@style/Gotham_Book"
+                                       android:layout_width="fill_parent"
+                                       android:layout_height="wrap_content"
+                                       android:background="@android:color/transparent"
+                                       android:hint="Confirm Password"
+                                       android:paddingTop="10dp"
+                                       android:singleLine="true"
+                                       android:inputType="textPassword"
+                                       android:textColor="#000"
+                                       android:textColorHint="@color/view_color"
+                                       android:textSize="14sp" />
+                               </android.support.design.widget.TextInputLayout>
+
+
+                               <View
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="1dp"
+                                   android:background="@color/view_color" />
+
+                           </LinearLayout>-->
 
 
                     <LinearLayout
                         android:id="@+id/submit"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
+                        android:layout_marginBottom="20dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/solid_blue"
                         android:gravity="center">
