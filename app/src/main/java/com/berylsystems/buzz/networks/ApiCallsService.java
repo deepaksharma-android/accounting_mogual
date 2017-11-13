@@ -3,7 +3,6 @@ package com.berylsystems.buzz.networks;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
@@ -22,6 +21,7 @@ import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
+import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
@@ -45,7 +45,8 @@ import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResp
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
-import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
+import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
+import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.utils.Cv;
@@ -125,8 +126,6 @@ public class ApiCallsService extends IntentService {
             handleSearchCompany();
         }else if (Cv.ACTION_GET_COMPANY_USER.equals(action)) {
             handleGetCompanyUser();
-        }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
-            handleGetPackages();
         }else if (Cv.ACTION_EDIT_LOGIN.equals(action)) {
             handleEditLogin();
         }else if (Cv.ACTION_CREATE_ACCOUNT_GROUP.equals(action)) {
@@ -149,6 +148,10 @@ public class ApiCallsService extends IntentService {
             handleDeleteAccount();
         }else if (Cv.ACTION_DELETE_ACCOUNT_GROUP.equals(action)) {
             handleDeleteAccountGroup();
+        }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
+            handleGetPackages();
+        }else if (Cv.ACTION_PLANS.equals(action)) {
+            handlePlans();
         }
 
 
@@ -945,11 +948,11 @@ public class ApiCallsService extends IntentService {
 
     }
     private void handleGetPackages() {
-        api.getpackage().enqueue(new Callback<PackageResponse>() {
+        api.getpackage().enqueue(new Callback<GetPackageResponse>() {
             @Override
-            public void onResponse(Call<PackageResponse> call, Response<PackageResponse> r) {
+            public void onResponse(Call<GetPackageResponse> call, Response<GetPackageResponse> r) {
                 if (r.code() == 200) {
-                    PackageResponse body = r.body();
+                    GetPackageResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -957,7 +960,31 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<PackageResponse> call, Throwable t) {
+            public void onFailure(Call<GetPackageResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handlePlans() {
+        api.plan(new RequestPlan(this)).enqueue(new Callback<PlanResponse>() {
+            @Override
+            public void onResponse(Call<PlanResponse> call, Response<PlanResponse> r) {
+                if (r.code() == 200) {
+                    PlanResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlanResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

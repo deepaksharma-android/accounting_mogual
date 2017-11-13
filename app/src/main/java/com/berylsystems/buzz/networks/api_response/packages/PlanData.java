@@ -1,8 +1,12 @@
-package com.berylsystems.buzz.networks.api_response.account;
+package com.berylsystems.buzz.networks.api_response.packages;
 
-import com.berylsystems.buzz.networks.api_response.packages.PackageAttributes;
 
-public class Data {
+public class PlanData {
+
+    public String type;
+    public String id;
+    public PackageAttributes attributes;
+
     public String getType() {
         return type;
     }
@@ -19,11 +23,6 @@ public class Data {
         this.id = id;
     }
 
-
-
-    public String type;
-    public String id;
-
     public PackageAttributes getAttributes() {
         return attributes;
     }
@@ -31,6 +30,4 @@ public class Data {
     public void setAttributes(PackageAttributes attributes) {
         this.attributes = attributes;
     }
-
-    public PackageAttributes attributes;
 }

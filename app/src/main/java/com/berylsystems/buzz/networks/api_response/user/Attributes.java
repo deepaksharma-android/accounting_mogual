@@ -83,4 +83,14 @@ public class Attributes {
     }
 
     public int wallet_amount;
+
+    public String getUser_plan() {
+        return user_plan;
+    }
+
+    public void setUser_plan(String user_plan) {
+        this.user_plan = user_plan;
+    }
+
+    public String user_plan;
 }

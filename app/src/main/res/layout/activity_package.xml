@@ -56,7 +56,6 @@
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:background="@null"
-                            android:entries="@array/package_arr"
                             android:overlapAnchor="false"
                             android:popupBackground="#ffffff" />
 
@@ -173,6 +172,7 @@
                     android:background="#fff"
                     android:gravity="center"
                     android:text="Submit"
+                    android:onClick="submit"
                     android:textColor="#000"
                     android:textSize="15sp" />
             </LinearLayout>

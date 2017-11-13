@@ -56,7 +56,7 @@ public class LoginActivity extends RegisterAbstractActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
         initActionbar();
         callbackManager = CallbackManager.Factory.create();
@@ -69,6 +69,7 @@ public class LoginActivity extends RegisterAbstractActivity {
         });
 
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -95,15 +96,16 @@ public class LoginActivity extends RegisterAbstractActivity {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @Subscribe
     public void fbAuthResponse(EventFbAuthResponse resp) {
-        appUser.fb_id=resp.id;
-        appUser.name=resp.first_name+" "+resp.last_name;
-        appUser.email=resp.email;
-        appUser.password="qwopaskl23";
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser.fb_id = resp.id;
+        appUser.name = resp.first_name + " " + resp.last_name;
+        appUser.email = resp.email;
+        appUser.password = "qwopaskl23";
+        LocalRepositories.saveAppUser(this, appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(LoginActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -111,15 +113,14 @@ public class LoginActivity extends RegisterAbstractActivity {
             mProgressDialog.show();
 
             ApiCallsService.action(this, Cv.ACTION_FACEBOOK_CHECK);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -128,28 +129,25 @@ public class LoginActivity extends RegisterAbstractActivity {
         }
 
 
-
     }
 
     @Subscribe
-    public void userexists(UserExistResponse response){
+    public void userexists(UserExistResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            if(response.is_present.equals("true")){
+        if (response.getStatus() == 200) {
+            if (response.is_present.equals("true")) {
                 appUser.user_id = response.getUser().getData().getId();
                 appUser.name = response.getUser().getData().getAttributes().getName();
-                appUser.mobile=response.getUser().getData().getAttributes().getMobile();
+                appUser.mobile = response.getUser().getData().getAttributes().getMobile();
                 appUser.email = response.getUser().getData().getAttributes().getEmail();
                 appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
                 LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+                startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
+            } else {
+                startActivity(new Intent(getApplicationContext(), FacebookHandlerActivity.class));
             }
-            else {
-                startActivity(new Intent(getApplicationContext(),FacebookHandlerActivity.class));
-            }
-        }
-        else {
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -163,7 +161,7 @@ public class LoginActivity extends RegisterAbstractActivity {
         return R.layout.activity_login;
     }
 
-    public void login(View v){
+    public void login(View v) {
 
         boolean cancel = false;
         View focusView = null;
@@ -192,9 +190,10 @@ public class LoginActivity extends RegisterAbstractActivity {
         }
 
     }
+
     private void logInRequest() {
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(LoginActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -202,15 +201,14 @@ public class LoginActivity extends RegisterAbstractActivity {
             mProgressDialog.show();
 
             ApiCallsService.action(this, Cv.ACTION_LOGIN);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -218,11 +216,13 @@ public class LoginActivity extends RegisterAbstractActivity {
             snackbar.show();
         }
     }
-    public void register(View v){
-        startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+
+    public void register(View v) {
+        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
     }
-    public void forgot(View v){
-        startActivity(new Intent(getApplicationContext(),ForgotPasswordActivity.class));
+
+    public void forgot(View v) {
+        startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
     }
 
     @Subscribe
@@ -231,25 +231,28 @@ public class LoginActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             appUser.user_id = response.getUser().getData().getId();
             appUser.name = response.getUser().getData().getAttributes().getName();
-            appUser.mobile=response.getUser().getData().getAttributes().getMobile();
+            appUser.mobile = response.getUser().getData().getAttributes().getMobile();
             appUser.email = response.getUser().getData().getAttributes().getEmail();
             appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
             LocalRepositories.saveAppUser(this, appUser);
-            Preferences.getInstance(getApplicationContext()).setLogin(true);
-            if(!response.getUser().getData().getAttributes().getActive()){
-                Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
-                intent.putExtra("fromLoginPage",true);
-                intent.putExtra("mobile",response.getUser().getData().getAttributes().getMobile());
+            if (!response.getUser().getData().getAttributes().getActive()) {
+
+                Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                intent.putExtra("fromLoginPage", true);
+                intent.putExtra("mobile", response.getUser().getData().getAttributes().getMobile());
                 startActivity(intent);
 
+
+            } else {
+                if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+                    Preferences.getInstance(getApplicationContext()).setLogin(true);
+                    startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
+                } else {
+                    startActivity(new Intent(getApplicationContext(), PackageActivity.class));
+                }
+
+
             }
-            else{
-                Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
-            }
-
-
-
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
@@ -260,7 +263,7 @@ public class LoginActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();

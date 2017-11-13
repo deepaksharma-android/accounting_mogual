@@ -43,27 +43,29 @@ public class VerificationActivity extends RegisterAbstractActivity {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
-    Boolean fromRegisterPage,fromLoginPage,fromForgotPasswordPage,fromProfilePage,fromUpdateMobileNumber;
+    Boolean fromRegisterPage, fromLoginPage, fromForgotPasswordPage, fromProfilePage, fromUpdateMobileNumber;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initActionbar();
-        String mobile=getIntent().getExtras().getString("mobile");
+        String mobile = getIntent().getExtras().getString("mobile");
         fromRegisterPage = getIntent().getExtras().getBoolean("fromRegisterPage");
         fromLoginPage = getIntent().getExtras().getBoolean("fromLoginPage");
         fromForgotPasswordPage = getIntent().getExtras().getBoolean("fromForgotPasswordPage");
         fromProfilePage = getIntent().getExtras().getBoolean("fromProfilePage");
         fromUpdateMobileNumber = getIntent().getExtras().getBoolean("fromUpdateMobileNumber");
-        if(fromForgotPasswordPage==true){
+        if (fromForgotPasswordPage == true) {
             mChangeMobileNumber.setVisibility(View.GONE);
         }
-        if(fromProfilePage==true){
+        if (fromProfilePage == true) {
             mChangeMobileNumber.setVisibility(View.GONE);
         }
         appUser = LocalRepositories.getAppUser(this);
         mMobileNumber.setText(mobile);
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -88,9 +90,9 @@ public class VerificationActivity extends RegisterAbstractActivity {
         return R.layout.activity_verification;
     }
 
-    public void resend(View v){
+    public void resend(View v) {
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(VerificationActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -98,15 +100,14 @@ public class VerificationActivity extends RegisterAbstractActivity {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(this, appUser);
             ApiCallsService.action(this, Cv.ACTION_RESEND_OTP);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -114,23 +115,23 @@ public class VerificationActivity extends RegisterAbstractActivity {
             snackbar.show();
         }
     }
-    public void changeMobileNumber(View v){
-        Intent intent=new Intent(getApplicationContext(),ChangeMobileActivity.class);
+
+    public void changeMobileNumber(View v) {
+        Intent intent = new Intent(getApplicationContext(), ChangeMobileActivity.class);
         intent.putExtra("mobile", mMobileNumber.getText().toString());
         startActivity(intent);
     }
-    public void submit(View v){
+
+    public void submit(View v) {
         Boolean isConnected = ConnectivityReceiver.isConnected();
         boolean cancel = false;
         View focusView = null;
 
 
-
-        if(!mOtp.getText().toString().equals("")){
-            appUser.otp=mOtp.getText().toString();
-            LocalRepositories.saveAppUser(this,appUser);
-        }
-        else {
+        if (!mOtp.getText().toString().equals("")) {
+            appUser.otp = mOtp.getText().toString();
+            LocalRepositories.saveAppUser(this, appUser);
+        } else {
             mOtp.setError(getString(R.string.err_otp));
             cancel = true;
             focusView = mOtp;
@@ -138,7 +139,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
         appUser.mobile = mMobileNumber.getText().toString();
         LocalRepositories.saveAppUser(this, appUser);
 
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(VerificationActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -146,15 +147,14 @@ public class VerificationActivity extends RegisterAbstractActivity {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(this, appUser);
             ApiCallsService.action(this, Cv.ACTION_VERIFICATION);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -164,14 +164,13 @@ public class VerificationActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void resendOtp(OtpResponse response){
+    public void resendOtp(OtpResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -182,38 +181,40 @@ public class VerificationActivity extends RegisterAbstractActivity {
     public void verify(UserApiResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            if(fromLoginPage){
+            if (fromLoginPage) {
+                if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
-            }
-            else if(fromRegisterPage){
-                appUser.fb_id="";
-                LocalRepositories.saveAppUser(this,appUser);
+                } else {
+                    startActivity(new Intent(getApplicationContext(), PackageActivity.class));
+                }
+            } else if (fromRegisterPage) {
+                appUser.fb_id = "";
+                LocalRepositories.saveAppUser(this, appUser);
+                //Preferences.getInstance(getApplicationContext()).setLogin(true);
+                Intent intent = new Intent(getApplicationContext(), PackageActivity.class);
+                startActivity(intent);
+            } else if (fromUpdateMobileNumber) {
+                if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+                    Preferences.getInstance(getApplicationContext()).setLogin(true);
+                    Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(getApplicationContext(), PackageActivity.class));
+                }
+            } else if (fromProfilePage) {
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
-            }
-            else if(fromUpdateMobileNumber){
-                Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                startActivity(intent);
-            }
-            else if(fromProfilePage){
-                Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                startActivity(intent);
-            }
-            else if(fromForgotPasswordPage){
-                startActivity(new Intent(getApplicationContext(),NewPasswordActivity.class));
-            }
-            else {
+            } else if (fromForgotPasswordPage) {
+                startActivity(new Intent(getApplicationContext(), NewPasswordActivity.class));
+            } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -222,7 +223,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
 
 
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();

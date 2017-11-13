@@ -16,6 +16,7 @@ import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
 import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
+import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
@@ -39,7 +40,8 @@ import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResp
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
-import com.berylsystems.buzz.networks.api_response.packages.PackageResponse;
+import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
+import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 
@@ -96,8 +98,6 @@ public interface Api {
     Call<IndustryTypeResponse> getIndustry();
     @POST("company_auth/{id}")
     Call<CompanyAuthenticateResponse> cauthenticate(@Body RequestCompanyAuthenticate payload, @Path("id") String id );
-    @GET("getplan")
-    Call<PackageResponse> getpackage();
     @GET("company/{id}")
     Call<CompanyResponse> getcompany(@Path("id") String id);
     @GET("company/{id}")
@@ -124,6 +124,11 @@ public interface Api {
     Call<DeleteAccountResponse> deleteaccount(@Path("id") String id);
     @DELETE("account_groups/{id}")
     Call<DeleteAccountGroupResponse> deleteaccountgroup(@Path("id") String id);
+    @GET("getplan")
+    Call<GetPackageResponse> getpackage();
+    @POST("user_plan")
+    Call<PlanResponse> plan(@Body RequestPlan payload);
+
 
 
 

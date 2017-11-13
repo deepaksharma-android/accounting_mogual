@@ -44,9 +44,10 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -65,6 +66,7 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     public void submit(View v) {
         Boolean isConnected = ConnectivityReceiver.isConnected();
         boolean cancel = false;
@@ -91,7 +93,7 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
                                 @Override
                                 public void onClick(View view) {
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if(isConnected){
+                                    if (isConnected) {
                                         snackbar.dismiss();
                                     }
                                 }
@@ -103,27 +105,30 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
             } else {
                 Toast.makeText(getApplicationContext(), "Password length should be more than 6 digits", Toast.LENGTH_LONG).show();
             }
-        }
-        else {
+        } else {
             mConfirmPassword.setError(getString(R.string.err_password));
             cancel = true;
             focusView = mConfirmPassword;
         }
     }
+
     @Override
     protected int layoutId() {
         return R.layout.activity_new_password;
     }
 
     @Subscribe
-    public void newPassword(UserApiResponse response){
+    public void newPassword(UserApiResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
-            Preferences.getInstance(getApplicationContext()).setLogin(true);
-            Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-            startActivity(intent);
-        }
-        else{
+        if (response.getStatus() == 200) {
+            if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+                Preferences.getInstance(getApplicationContext()).setLogin(true);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                startActivity(intent);
+            } else {
+                startActivity(new Intent(getApplicationContext(), PackageActivity.class));
+            }
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -131,7 +136,7 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();

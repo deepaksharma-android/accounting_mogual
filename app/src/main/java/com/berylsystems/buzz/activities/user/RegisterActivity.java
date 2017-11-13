@@ -261,7 +261,6 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 startActivity(intent);
             }
 
-
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);

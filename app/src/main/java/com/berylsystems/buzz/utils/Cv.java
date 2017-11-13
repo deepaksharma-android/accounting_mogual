@@ -25,6 +25,7 @@ public interface Cv {
   String ACTION_COMPANY_LIST= "company_list";
   String ACTION_DELETE_COMPANY= "delete_company";
   String ACTION_GET_PACKAGES= "get_packages";
+  String ACTION_PLANS= "plans";
   String ACTION_GET_INDUSTRY= "get_industry";
   String ACTION_EDIT_LOGIN="edit_login";
   String ACTION_CREATE_ACCOUNT_GROUP="create_account_group";

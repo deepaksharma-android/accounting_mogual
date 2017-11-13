@@ -1,6 +1,6 @@
 package com.berylsystems.buzz.networks.api_response.packages;
 
-public class PackageResponse {
+public class GetPackageResponse {
     public String message;
 
     public int getStatus() {
@@ -20,4 +20,14 @@ public class PackageResponse {
     }
 
     public int status;
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public Plan plan;
 }

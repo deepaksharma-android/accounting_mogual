@@ -63,7 +63,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.user.ChangeMobileActivity"
+        android:name=".activities.user.ChangeMobileActivity"
+        android:parentActivityName=".activities.user.LoginActivity"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.user.PackageActivity"
             android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
