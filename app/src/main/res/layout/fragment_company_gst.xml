@@ -29,8 +29,128 @@
                     android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="GSTIN"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
 
                     <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/gst"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="eg.must be 15 digits"
+                            android:inputType="text"
+                            android:maxLength="15"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Type Of Dealer"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/dealer_spinner"
+                            android:layout_width="fill_parent"
+                            android:entries="@array/dealer"
+                            android:spinnerMode="dialog"
+                            android:layout_height="40dp">
+                        </Spinner>
+                    </LinearLayout>
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Default Tax Rate-1 (%)"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/default1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="eg.2%"
+                            android:inputType="number"
+                            android:maxLength="15"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tax2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Default Tax Rate-2 (%)"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/default2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="eg.2%"
+                            android:inputType="number"
+                            android:maxLength="15"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                        </LinearLayout>
+                    <!--<LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -64,8 +184,8 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
-                    <LinearLayout
+                    </LinearLayout>-->
+                  <!--  <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -92,9 +212,9 @@
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
+                  <!--  <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -129,9 +249,9 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <LinearLayout
+                   <!-- <LinearLayout
                         android:id="@+id/tax2"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -167,7 +287,7 @@
                             android:layout_height="1dp"
                             android:background="@color/view_color" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
 
 

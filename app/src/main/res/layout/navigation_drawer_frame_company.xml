@@ -60,13 +60,347 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationViewCompany"
         android:layout_width="250dp"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="start"
-        android:background="#fff"
         app:headerLayout="@layout/header_company"
-        app:itemTextColor="#000"
-        android:visibility="visible"
-        app:menu="@menu/menu_nav_company" >
+        android:background="#fff"
+        app:itemTextColor="#000">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+           android:layout_marginTop="60dp" >
+
+
+
+        <LinearLayout
+            android:id="@+id/dashboard_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:weightSum="1"
+            android:onClick="dashboard"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.1"
+                android:src="@drawable/icon_mobile"/>
+
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:layout_weight="0.9"
+                android:layout_marginLeft="10dp"
+                style="@style/Gotham_Book"
+                android:onClick="dashboard"
+                android:textColor="#cc000000"
+                android:textSize="16sp"
+                android:text="Dashboard"
+                />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#e2e2e2" />
+
+            <LinearLayout
+                android:id="@+id/account_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="account"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="account"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Account"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+            <LinearLayout
+                android:id="@+id/transaction_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="transaction"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="transaction"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Transaction"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+
+            <LinearLayout
+                android:id="@+id/inventory_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="inventory"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="inventory"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Inventory"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+
+            <LinearLayout
+                android:id="@+id/reports_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="reports"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="reports"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Reports"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+
+            <LinearLayout
+                android:id="@+id/tools_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="tools"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="tools"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Tools"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+            <LinearLayout
+                android:id="@+id/settings_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="settings"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="settings"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Settings"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+
+            <LinearLayout
+                android:id="@+id/buy_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:onClick="buy"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/icon_mobile"/>
+
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_weight="0.9"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Gotham_Book"
+                    android:onClick="buy"
+                    android:textColor="#cc000000"
+                    android:textSize="16sp"
+                    android:text="Buy Bahi Khata"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e2e2e2" />
+
+    </LinearLayout>
 
 
 

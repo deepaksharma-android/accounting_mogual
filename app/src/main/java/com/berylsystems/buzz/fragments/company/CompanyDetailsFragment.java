@@ -40,8 +40,8 @@ public class CompanyDetailsFragment extends Fragment {
     EditText mAddress;
     @Bind(R.id.city)
     EditText mCity;
-    @Bind(R.id.country_spinner)
-    Spinner mCountrySpinner;
+/*    @Bind(R.id.country_spinner)
+    Spinner mCountrySpinner;*/
     @Bind(R.id.state_spinner)
     Spinner mStateSpinner;
     @Bind(R.id.industry_spinner)
@@ -86,10 +86,10 @@ public class CompanyDetailsFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
 
 
-        spinnerCountryAdapter = new ArrayAdapter<String>(getActivity(),
+      /*  spinnerCountryAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.country));
         spinnerCountryAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mCountrySpinner.setAdapter(spinnerCountryAdapter);
+        mCountrySpinner.setAdapter(spinnerCountryAdapter);*/
 
         spinnerStateAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.state));
@@ -119,7 +119,7 @@ public class CompanyDetailsFragment extends Fragment {
             Timber.i("INDEX" + index);
             mIndustrySpinner.setSelection(index);
         }
-        if(!Preferences.getInstance(getActivity()).getCcountry().equals("")) {
+       /* if(!Preferences.getInstance(getActivity()).getCcountry().equals("")) {
             String country = Preferences.getInstance(getActivity()).getCcountry().trim();// insert code here
             int countryindex = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.country).length; i++) {
@@ -130,7 +130,7 @@ public class CompanyDetailsFragment extends Fragment {
             }
             Timber.i("INDEX" + countryindex);
             mCountrySpinner.setSelection(countryindex);
-        }
+        }*/
 
         if(!Preferences.getInstance(getActivity()).getCstate().equals("")) {
             String state = Preferences.getInstance(getActivity()).getCstate().trim();// insert code here
@@ -166,7 +166,7 @@ public class CompanyDetailsFragment extends Fragment {
                             appUser.fax=mFax.getText().toString();
                             appUser.company_email=mEmail.getText().toString();
                             appUser.address=mAddress.getText().toString();
-                            appUser.country=mCountrySpinner.getSelectedItem().toString();
+                           // appUser.country=mCountrySpinner.getSelectedItem().toString();
                             appUser.state=mStateSpinner.getSelectedItem().toString();
                             appUser.industryId= String.valueOf(appUser.industry_id.get(pos));
                             appUser.city=mCity.getText().toString();
