@@ -10,9 +10,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
@@ -22,9 +24,11 @@ import com.berylsystems.buzz.activities.company.EditCompanyActivity;
 import com.berylsystems.buzz.adapters.CompanyDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventOpenCompany;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -105,37 +109,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
         mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(CompanyDashboardActivity.this)
-                        .setTitle("Delete Company")
-                        .setMessage("Are you sure you want to delete this company ?")
-                        .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_COMPANY);
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
-                                                }
-                                            }
-                                        });
-                                snackbar.show();
-                            }
-
-                        })
-                        .setNegativeButton(R.string.btn_cancel, null)
-                        .show();
-
+                showpopup();
             }
         });
         mRecyclerView.setHasFixedSize(true);
@@ -233,18 +207,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
     }
 
 
-    @Subscribe
-    public void deletecompany(DeleteCompanyResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
-        }
-    }
+
 
 
     @Override
@@ -272,5 +235,121 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
         snackbar.show();
         mProgressDialog.dismiss();
 
+    }
+    public void showpopup(){
+        dialog = new Dialog(CompanyDashboardActivity.this);
+        dialog.setContentView(R.layout.layout_login_dialog);
+        dialog.setTitle("Company Login");
+        dialog.setCancelable(true);
+        // set the custom dialog components - text, image and button
+        EditText username = (EditText) dialog.findViewById(R.id.cusername);
+        EditText password = (EditText) dialog.findViewById(R.id.cpassword);
+        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+
+        // if button is clicked, close the custom dialog
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!username.getText().toString().equals("")){
+                    if(!password.getText().toString().equals("")){
+                        appUser.cusername=username.getText().toString();
+                        appUser.cpassword=password.getText().toString();
+                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_COMPANY_AUTHENTICATE);
+                            dialog.dismiss();
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
+                                        }
+                                    });
+                            snackbar.show();
+                        }
+
+
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Enter password",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Enter username",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+        dialog.show();
+    }
+
+    @Subscribe
+    public void authenticate(CompanyAuthenticateResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            new AlertDialog.Builder(CompanyDashboardActivity.this)
+                    .setTitle("Delete Company")
+                    .setMessage("Are you sure you want to delete this company ?")
+                    .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_COMPANY);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
+                                        }
+                                    });
+                            snackbar.show();
+                        }
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();
+
+        }
+        else{
+
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+        }
+    }
+
+    @Subscribe
+    public void deletecompany(DeleteCompanyResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+        }
+        else{
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+        }
     }
 }

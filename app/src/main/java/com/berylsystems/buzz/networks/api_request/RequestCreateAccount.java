@@ -23,7 +23,7 @@ public class RequestCreateAccount {
         account.put("mobile_number", appUser.account_mobile_number);
         account.put("account_master_group_id", appUser.create_account_group_id);
         account.put("address", appUser.account_address);
-        account.put("city", appUser.city);
+        account.put("city", appUser.account_city);
         account.put("state", appUser.account_state);
         account.put("country","India");
         account.put("adhar_number", appUser.account_aadhaar);

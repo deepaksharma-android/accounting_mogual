@@ -37,6 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
@@ -104,16 +105,15 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerPrimary.setAdapter(mPrimaryGroupAdapter);
+        mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.layout_trademark_type_spinner_dropdown_item,appUser.group_name);
+        mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
         mSpinnerPrimary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==1){
                     mUnderGroupLayout.setVisibility(View.VISIBLE);
-                    mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                            R.layout.layout_trademark_type_spinner_dropdown_item,appUser.group_name);
-                    mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-                    mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
-
                     mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -323,14 +323,18 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 mGroupName.setText(response.getAccount_group_details().getData().getAttributes().getName());
                 mSpinnerPrimary.setSelection(1);
                 mSpinnerUnderGroup.setVisibility(View.VISIBLE);
-                String group_type = response.getAccount_group_details().getData().getAttributes().getAccount_group().trim();// insert code here
+                String group_type = response.getAccount_group_details().getData().getAttributes().getAccount_group().trim();
+                Timber.i("GROUPINDEX"+group_type);
+                // insert code here
                 int groupindex = -1;
                 for (int i = 0; i<appUser.group_name.size(); i++) {
-                    if (appUser.group_name.equals(group_type)) {
+                    Timber.i("GROUPINDEX"+appUser.group_name);
+                    if (appUser.group_name.get(i).equals(group_type)) {
                         groupindex = i;
                         break;
                     }
                 }
+                Timber.i("GROUPINDEX"+groupindex);
                 mSpinnerUnderGroup.setSelection(groupindex);
 
             }
@@ -347,6 +351,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Intent intent = new Intent(this, AccountGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreategroup",true);
+            startActivity(intent);
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

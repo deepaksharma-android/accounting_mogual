@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -149,7 +150,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     }
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),MasterDashboardActivity.class));
+       super.onBackPressed();
     }
 
     @Subscribe
@@ -172,30 +173,40 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     public void deletegroup(EventDeleteGroup pos){
         appUser.delete_group_id= String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
         LocalRepositories.saveAppUser(this,appUser);
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
-            mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT_GROUP);
-        }
-        else{
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+        new AlertDialog.Builder(AccountGroupListActivity.this)
+                .setTitle("Delete Company")
+                .setMessage("Are you sure you want to delete this group ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if(isConnected) {
+                        mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT_GROUP);
+                    }
+                    else{
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if(isConnected){
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+
+
     }
 
     @Subscribe

@@ -142,7 +142,7 @@
                             android:gravity="center"
                             android:onClick="openingbalance"
                             android:padding="10dp"
-                            android:text="Opening Balance"
+                            android:text="OPENING BALANCE"
                             android:textAllCaps="false"
                             android:textColor="#000" />
                     </LinearLayout>
@@ -162,7 +162,7 @@
                             android:gravity="center"
                             android:onClick="address"
                             android:padding="10dp"
-                            android:text="Address"
+                            android:text="ADDRESS"
                             android:textAllCaps="false"
                             android:textColor="#000" />
                     </LinearLayout>
@@ -204,7 +204,7 @@
                             android:gravity="center"
                             android:onClick="creaditinfo"
                             android:padding="10dp"
-                            android:text="Credit Information"
+                            android:text="CREDIT INFORMATION"
                             android:textAllCaps="false"
                             android:textColor="#000" />
                     </LinearLayout>

@@ -413,6 +413,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             appUser.account_credit_limit= Helpers.mystring(response.getAccount().getData().getAttributes().getCredit_limit());
             appUser.account_credit_sale= Helpers.mystring(response.getAccount().getData().getAttributes().getCredit_days_for_sale());
             appUser.account_credit_purchase= Helpers.mystring(response.getAccount().getData().getAttributes().getCredit_days_for_purchase());
+
             LocalRepositories.saveAppUser(this,appUser);
         }
         else{
