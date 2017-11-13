@@ -13,23 +13,18 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="0.1"
-            android:src="@drawable/icon_package_add" />
 
         <com.berylsystems.buzz.utils.BuzzTextView
             android:id="@+id/itemName"
             style="@style/Gotham_Book"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
+            android:layout_weight="0.9"
             android:gravity="center"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_marginLeft="10dp"
             android:textAlignment="viewStart"
+
             android:textColor="@color/button_color" />
 
         <ImageView
