@@ -133,13 +133,12 @@
                                 android:layout_height="wrap_content"
                                 android:text="र"
                                 android:textColor="#fff"
-                                android:textSize="25sp" />
+                                android:textSize="30sp" />
 
                             <com.berylsystems.buzz.utils.BuzzTextView
                                 android:id="@+id/packageAmount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="100"
                                 android:textColor="#fff"
                                 android:textSize="40sp" />
                         </LinearLayout>

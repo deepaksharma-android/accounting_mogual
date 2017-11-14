@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.user;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,8 +14,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -93,29 +97,49 @@ public class PackageActivity extends RegisterAbstractActivity {
     }
 
     public void submit(View v){
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(PackageActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(this, Cv.ACTION_PLANS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+        Dialog dialogbal = new Dialog(PackageActivity.this);
+        dialogbal.setContentView(R.layout.dialog_package_serial_number);
+        dialogbal.setCancelable(true);
+        EditText serial = (EditText) dialogbal.findViewById(R.id.serial);
+        RadioGroup radiogrp = (RadioGroup) dialogbal.findViewById(R.id.radioGroup);
+        RadioButton cash = (RadioButton) dialogbal.findViewById(R.id.radioButtonCash);
+        RadioButton cheque = (RadioButton) dialogbal.findViewById(R.id.radioButtonCheque);
+        LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUser.package_serail_number = serial.getText().toString();
+                appUser.package_mode = String.valueOf(radiogrp.getCheckedRadioButtonId());
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(PackageActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_PLANS);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+                dialogbal.dismiss();
+            }
+        });
+        dialogbal.show();
+
     }
+
 
     @Override
     protected int layoutId() {

@@ -272,6 +272,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
     public void createCompany(CreateCompanyResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
             Preferences.getInstance(getApplicationContext()).setCid(String.valueOf(response.getId()));
             startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
             snackbar = Snackbar

@@ -90,6 +90,8 @@ public class AppUser {
     public String edit_account_id;
     public String package_id;
     public String package_amount;
+    public String package_serail_number;
+    public String package_mode;
 
 
 
