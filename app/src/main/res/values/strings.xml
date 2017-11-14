@@ -85,6 +85,13 @@
         <item>Composition</item>
         <item>UIN Holder</item>
     </string-array>
+
+    <string-array name="uqc">
+        <item>BAG-BAGS</item>
+        <item>BAL-BALE</item>
+        <item>BDL-BUNDLES</item>
+        <item>BOX-BOXr</item>
+    </string-array>
     <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
     <string name="err_invalid_mobile">Invalid Mobile Number</string>
     <string name="err_invalid_email">Invalid Email</string>

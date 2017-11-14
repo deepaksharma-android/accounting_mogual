@@ -12,12 +12,9 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.CreateAccountGroupActivity;
-import com.berylsystems.buzz.activities.company.administration.master.accountgroup.EditGroupActivity;
 import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
-import com.berylsystems.buzz.utils.EventEditGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
-import com.berylsystems.buzz.utils.EventOpenCompany;
 
 import org.greenrobot.eventbus.EventBus;
 

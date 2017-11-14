@@ -14,6 +14,10 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ItemListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.unitconversion.UnitConversionListActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,8 +57,18 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 if(i==2){
                     context.startActivity(new Intent(context, ItemListActivity.class));
                 }
-
-
+                if(i==4){
+                    context.startActivity(new Intent(context, MaterialCentreListActivity.class));
+                }
+                if(i==5){
+                    context.startActivity(new Intent(context, MaterialCentreGroupListActivity.class));
+                }
+                if(i==6){
+                    context.startActivity(new Intent(context, UnitListActivity.class));
+                }
+                if(i==6){
+                    context.startActivity(new Intent(context, UnitConversionListActivity.class));
+                }
             }
         });
 
