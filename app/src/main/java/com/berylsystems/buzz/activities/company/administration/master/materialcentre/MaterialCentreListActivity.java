@@ -224,7 +224,7 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
         String groupid = arr[0];
         String childid = arr[1];
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.edit_account_id = arrid;
+        appUser.edit_material_centre_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
         Intent intent = new Intent(getApplicationContext(), CreateMaterialCentreActivity.class);
         intent.putExtra("frommaterialcentrelist", true);

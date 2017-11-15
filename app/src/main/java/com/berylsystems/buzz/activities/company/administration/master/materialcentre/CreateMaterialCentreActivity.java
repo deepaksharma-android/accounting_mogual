@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.company.administration.master.materialcentre;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,16 +22,23 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
+import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
@@ -59,9 +67,9 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         setContentView(R.layout.activity_create_material_centre);
         ButterKnife.bind(this);
         initActionbar();
-        frommaterialcentrelist=getIntent().getExtras().getBoolean("frommaterialcentrelist");
-        appUser= LocalRepositories.getAppUser(this);
-        if(frommaterialcentrelist){
+        frommaterialcentrelist = getIntent().getExtras().getBoolean("frommaterialcentrelist");
+        appUser = LocalRepositories.getAppUser(this);
+        if (frommaterialcentrelist) {
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -106,11 +114,11 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mCentreName.getText().toString().equals("")){
-                    appUser.material_centre_name=mCentreName.getText().toString();
-                    appUser.material_centre_address=mCentreAddress.getText().toString();
-                    appUser.material_centre_city=mCentreCity.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!mCentreName.getText().toString().equals("")) {
+                    appUser.material_centre_name = mCentreName.getText().toString();
+                    appUser.material_centre_address = mCentreAddress.getText().toString();
+                    appUser.material_centre_city = mCentreCity.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
@@ -133,9 +141,8 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                                 });
                         snackbar.show();
                     }
-                }
-                else{
-                    Snackbar.make(coordinatorLayout,"Enter the centre name",Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -143,11 +150,11 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mCentreName.getText().toString().equals("")){
-                    appUser.material_centre_name=mCentreName.getText().toString();
-                    appUser.material_centre_address=mCentreAddress.getText().toString();
-                    appUser.material_centre_city=mCentreCity.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!mCentreName.getText().toString().equals("")) {
+                    appUser.material_centre_name = mCentreName.getText().toString();
+                    appUser.material_centre_address = mCentreAddress.getText().toString();
+                    appUser.material_centre_city = mCentreCity.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
@@ -170,9 +177,8 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                                 });
                         snackbar.show();
                     }
-                }
-                else{
-                    Snackbar.make(coordinatorLayout,"Enter the centre name",Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -204,10 +210,50 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void createMaterialCentre(CreateMaterialCentreResponse response){
+    public void createMaterialCentre(CreateMaterialCentreResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(), MaterialCentreListActivity.class));
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getaccountaccount(GetMaterialCentreDetailResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            mCentreName.setText(response.getMaterial_center().getData().getAttributes().getName());
+            mCentreAddress.setText(response.getMaterial_center().getData().getAttributes().getAddress());
+            String group_type = response.getMaterial_center().getData().getAttributes().getMaterial_center_group_name().trim();
+            // insert code here
+            int groupindex = -1;
+            for (int i = 0; i<appUser.arr_materialCentreGroupName.size(); i++) {
+                if (appUser.arr_materialCentreGroupName.get(i).equals(group_type)) {
+                    groupindex = i;
+                    break;
+                }
+            }
+            mSpinnerUnderGroup.setSelection(groupindex);
+
+        } else {
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void editaccount(EditMaterialCentreReponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),MaterialCentreListActivity.class));
+        }
+        else{
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
