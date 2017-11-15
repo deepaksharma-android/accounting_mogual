@@ -20,7 +20,9 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.MaterialC
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventDeleteMaterailCentreGroup;
+import com.berylsystems.buzz.utils.EventDeleteMaterialCentre;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventEditMaterialCentre;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,14 +81,14 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventDeleteAccount(id));
+                EventBus.getDefault().post(new EventDeleteMaterialCentre(id));
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventEditAccount(id));
+                EventBus.getDefault().post(new EventEditMaterialCentre(id));
 
             }
         });

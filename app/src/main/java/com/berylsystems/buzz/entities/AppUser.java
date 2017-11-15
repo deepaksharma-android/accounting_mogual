@@ -105,6 +105,7 @@ public class AppUser {
     public ArrayList<String> materialCentreGroupName=new ArrayList<>();
     public ArrayList<String> arr_materialCentreGroupId=new ArrayList<>();
     public ArrayList<String> arr_materialCentreGroupName=new ArrayList<>();
+    public String material_centre_city;
 
 
 

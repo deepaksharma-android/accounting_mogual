@@ -1,5 +1,7 @@
 package com.berylsystems.buzz.networks.api_response.materialcentre;
 
+import java.util.ArrayList;
+
 public class GetMaterialCentreListResponse {
     public String getMessage() {
         return message;
@@ -19,4 +21,14 @@ public class GetMaterialCentreListResponse {
 
     public String message;
     public int status;
+
+    public ArrayList<OrderedMaterialCentre> getOrdered_material_centers() {
+        return ordered_material_centers;
+    }
+
+    public void setOrdered_material_centers(ArrayList<OrderedMaterialCentre> ordered_material_centers) {
+        this.ordered_material_centers = ordered_material_centers;
+    }
+
+    public ArrayList<OrderedMaterialCentre> ordered_material_centers;
 }

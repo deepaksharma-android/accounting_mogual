@@ -45,7 +45,7 @@
                         android:orientation="vertical">
 
                         <com.berylsystems.buzz.utils.BuzzEditText
-                            android:id="@+id/group_name"
+                            android:id="@+id/centre_name"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -56,7 +56,60 @@
 
                     </LinearLayout>
 
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Address"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
 
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/centre_address"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Material Centre Address"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="City"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/centre_city"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Material Centre City"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
                     <com.berylsystems.buzz.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
@@ -75,7 +128,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/primary_spinner"
+                            android:id="@+id/under_group_spinner"
                             android:layout_width="fill_parent"
                             android:spinnerMode="dialog"
                             android:layout_height="40dp">

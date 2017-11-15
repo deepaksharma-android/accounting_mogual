@@ -1,20 +1,57 @@
 package com.berylsystems.buzz.activities.company.administration.master.materialcentre;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
+import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreateMaterialCentreActivity extends AppCompatActivity {
+public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.under_group_spinner)
+    Spinner mSpinnerUnderGroup;
+    @Bind(R.id.centre_name)
+    EditText mCentreName;
+    @Bind(R.id.centre_address)
+    EditText mCentreAddress;
+    @Bind(R.id.centre_city)
+    EditText mCentreCity;
+    @Bind(R.id.submit)
+    LinearLayout mSubmit;
+    @Bind(R.id.update)
+    LinearLayout mUpdate;
+    ArrayAdapter<String> mUnderGroupAdapter;
+    Snackbar snackbar;
+    ProgressDialog mProgressDialog;
+    AppUser appUser;
+    Boolean frommaterialcentrelist;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,6 +59,129 @@ public class CreateMaterialCentreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_material_centre);
         ButterKnife.bind(this);
         initActionbar();
+        frommaterialcentrelist=getIntent().getExtras().getBoolean("frommaterialcentrelist");
+        appUser= LocalRepositories.getAppUser(this);
+        if(frommaterialcentrelist){
+            mSubmit.setVisibility(View.GONE);
+            mUpdate.setVisibility(View.VISIBLE);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_MATERIAL_CENTRE_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
+        mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_materialCentreGroupName);
+        mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
+        mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                appUser.material_centre_group_id = String.valueOf(appUser.arr_materialCentreGroupId.get(i));
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mCentreName.getText().toString().equals("")){
+                    appUser.material_centre_name=mCentreName.getText().toString();
+                    appUser.material_centre_address=mCentreAddress.getText().toString();
+                    appUser.material_centre_city=mCentreCity.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_MATERIAL_CENTRE);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                }
+                else{
+                    Snackbar.make(coordinatorLayout,"Enter the centre name",Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        mUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mCentreName.getText().toString().equals("")){
+                    appUser.material_centre_name=mCentreName.getText().toString();
+                    appUser.material_centre_address=mCentreAddress.getText().toString();
+                    appUser.material_centre_city=mCentreCity.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_MATERIAL_CENTRE);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                }
+                else{
+                    Snackbar.make(coordinatorLayout,"Enter the centre name",Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_create_material_centre;
+
     }
 
     private void initActionbar() {
@@ -42,4 +202,14 @@ public class CreateMaterialCentreActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
+    @Subscribe
+    public void createMaterialCentre(CreateMaterialCentreResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+
+        }
+    }
+
+
 }
