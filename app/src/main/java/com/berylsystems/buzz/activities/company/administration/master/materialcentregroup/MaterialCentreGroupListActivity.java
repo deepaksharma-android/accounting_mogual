@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.materialcentregroup;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventDeleteMaterailCentreGroup;
+import com.berylsystems.buzz.utils.EventMaterialCentreGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -193,4 +195,19 @@ public class MaterialCentreGroupListActivity extends BaseActivityCompany {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
+    @Subscribe
+    public void materialcentregroupclickedevent(EventMaterialCentreGroupClicked pos){
+        Timber.i("POSITION" + pos.getPosition());
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+        returnIntent.putExtra("name", appUser.arr_materialCentreGroupName.get(pos.getPosition()));
+        returnIntent.putExtra("id",String.valueOf(appUser.arr_materialCentreGroupId.get(pos.getPosition())));
+            /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+            LocalRepositories.saveAppUser(this, appUser);*/
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+
 }

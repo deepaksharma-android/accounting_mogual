@@ -15,6 +15,7 @@ import com.berylsystems.buzz.activities.company.administration.master.materialce
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.MaterialCentreGroupListData;
 import com.berylsystems.buzz.utils.EventDeleteMaterailCentreGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventMaterialCentreGroupClicked;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -69,7 +70,7 @@ public class MaterialCentreGroupListAdapter extends RecyclerView.Adapter<Materia
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new EventGroupClicked(i));
+                EventBus.getDefault().post(new EventMaterialCentreGroupClicked(i));
             }
         });
     }

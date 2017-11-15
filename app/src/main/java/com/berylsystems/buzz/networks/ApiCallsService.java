@@ -27,6 +27,7 @@ import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
 import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
+import com.berylsystems.buzz.networks.api_request.RequestStock;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
@@ -52,6 +53,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterial
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreListResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.StockResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.DeleteMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
@@ -185,6 +187,8 @@ public class ApiCallsService extends IntentService {
             handleDeleteMaterialCentre();
         }else if (Cv.ACTION_GET_MATERIAL_CENTRE_DETAILS.equals(action)) {
             handleGetMaterialCentreDetails();
+        }else if (Cv.ACTION_GET_STOCK.equals(action)) {
+            handleGetStock();
         }
 
 
@@ -1257,6 +1261,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetMaterialCentreDetailResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetStock() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getstock(new RequestStock(this)).enqueue(new Callback<StockResponse>() {
+            @Override
+            public void onResponse(Call<StockResponse> call, Response<StockResponse> r) {
+                if (r.code() == 200) {
+                    StockResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StockResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

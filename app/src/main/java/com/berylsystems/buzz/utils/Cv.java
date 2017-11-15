@@ -48,6 +48,7 @@ public interface Cv {
   String ACTION_EDIT_MATERIAL_CENTRE="edit_material_centre";
   String ACTION_DELETE_MATERIAL_CENTRE="delete_material_centre";
   String ACTION_GET_MATERIAL_CENTRE_DETAILS="get_material_centre_details";
+  String ACTION_GET_STOCK="get_stock";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";
   String ACTION_SEARCH_COMPANY= "search_company";

@@ -47,4 +47,14 @@ public class GetMaterialCentreDetailAttributes {
     public String address;
     public String city;
     public String material_center_group_name;
+
+    public String getMaterial_centre_stock_name() {
+        return material_centre_stock_name;
+    }
+
+    public void setMaterial_centre_stock_name(String material_centre_stock_name) {
+        this.material_centre_stock_name = material_centre_stock_name;
+    }
+
+    public String material_centre_stock_name;
 }

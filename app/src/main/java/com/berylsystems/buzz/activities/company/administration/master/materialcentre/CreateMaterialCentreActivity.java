@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.materialcentre;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,6 +24,8 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
@@ -30,11 +33,14 @@ import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResp
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.StockResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,8 +49,6 @@ import timber.log.Timber;
 public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.under_group_spinner)
-    Spinner mSpinnerUnderGroup;
     @Bind(R.id.centre_name)
     EditText mCentreName;
     @Bind(R.id.centre_address)
@@ -55,25 +59,33 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     LinearLayout mSubmit;
     @Bind(R.id.update)
     LinearLayout mUpdate;
-    ArrayAdapter<String> mUnderGroupAdapter;
+    @Bind(R.id.group_layout)
+    LinearLayout mGroupLayout;
+    @Bind(R.id.group_name)
+    TextView mGroupName;
+    @Bind(R.id.stock_account_spinner)
+    Spinner mStockSpinner;
+    ArrayAdapter<String> mStockAdapter;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean frommaterialcentrelist;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_material_centre);
         ButterKnife.bind(this);
         initActionbar();
+
+
         frommaterialcentrelist = getIntent().getExtras().getBoolean("frommaterialcentrelist");
         appUser = LocalRepositories.getAppUser(this);
         if (frommaterialcentrelist) {
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
-            Boolean isConnected = ConnectivityReceiver.isConnected();
-            if (isConnected) {
+            Boolean isaConnected = ConnectivityReceiver.isConnected();
+            if (isaConnected) {
                 mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
@@ -95,22 +107,39 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-        mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_materialCentreGroupName);
-        mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
-        mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                appUser.material_centre_group_id = String.valueOf(appUser.arr_materialCentreGroupId.get(i));
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        else{
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_STOCK);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
             }
-
+        }
+        mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MaterialCentreGroupListActivity.class);
+                intent.putExtra("frommaster", false);
+                startActivityForResult(intent, 1);
             }
         });
+
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +211,23 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                 }
             }
         });
+
+        mStockAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_stock_name);
+        mStockAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mStockSpinner.setAdapter(mStockAdapter);
+        mStockSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                appUser.stock_id = appUser.arr_stock_id.get(i);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -226,16 +272,21 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             mCentreName.setText(response.getMaterial_center().getData().getAttributes().getName());
             mCentreAddress.setText(response.getMaterial_center().getData().getAttributes().getAddress());
-            String group_type = response.getMaterial_center().getData().getAttributes().getMaterial_center_group_name().trim();
+            mCentreCity.setText(response.getMaterial_center().getData().getAttributes().getCity());
+            mGroupName.setText(response.getMaterial_center().getData().getAttributes().getMaterial_center_group_name());
+            String group_type = response.getMaterial_center().getData().getAttributes().getMaterial_centre_stock_name().trim();
+            Timber.i("GROUPINDEX"+group_type);
             // insert code here
             int groupindex = -1;
-            for (int i = 0; i<appUser.arr_materialCentreGroupName.size(); i++) {
-                if (appUser.arr_materialCentreGroupName.get(i).equals(group_type)) {
+            for (int i = 0; i<appUser.arr_stock_name.size(); i++) {
+                Timber.i("GROUPINDEX"+appUser.arr_stock_name);
+                if (appUser.arr_stock_name.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
             }
-            mSpinnerUnderGroup.setSelection(groupindex);
+            Timber.i("GROUPINDEX"+groupindex);
+            mStockSpinner.setSelection(groupindex);
 
         } else {
             Snackbar
@@ -254,6 +305,39 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         else{
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.material_centre_group_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mGroupName.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                mGroupName.setText("");
+            }
+        }
+    }
+
+    @Subscribe
+    public void getstock(StockResponse response){
+        mProgressDialog.dismiss();
+        appUser.arr_stock_id.clear();
+        appUser.arr_stock_name.clear();
+        LocalRepositories.saveAppUser(this,appUser);
+        if(response.getStatus()==200){
+            for(int i=0;i<response.getStock_in_hand_accounts().getData().size();i++){
+                appUser.arr_stock_name.add(response.getStock_in_hand_accounts().getData().get(i).getAttributes().getName());
+                appUser.arr_stock_id.add(response.getStock_in_hand_accounts().getData().get(i).getId());
+            }
+
         }
     }
 

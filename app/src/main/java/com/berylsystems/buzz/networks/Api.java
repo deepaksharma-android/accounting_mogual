@@ -21,6 +21,7 @@ import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
 import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
+import com.berylsystems.buzz.networks.api_request.RequestStock;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
@@ -46,6 +47,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterial
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreListResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.StockResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.DeleteMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
@@ -159,6 +161,8 @@ public interface Api {
     Call<DeleteMaterialCentreResponse> deletematerialcentre(@Path("id") String id);
     @GET("material_center/{id}")
     Call<GetMaterialCentreDetailResponse> getmaterialcentredetails(@Path("id") String id);
+    @POST("stock_account")
+    Call<StockResponse> getstock(@Body RequestStock payload);
 
 
 

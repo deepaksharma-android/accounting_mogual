@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.materialcentregroup;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +25,8 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.materialcentre.CreateMaterialCentreActivity;
+import com.berylsystems.buzz.adapters.MaterialCentreGroupListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
@@ -31,7 +35,10 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupD
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupListResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventMaterialCentreGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -228,16 +235,15 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void getMaterialCentreGroupDetails(GetMaterialCentreGroupDetailResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            if(!response.getMaterial_center_group().getData().getAttributes().getName().equals("")){
-                mGroupName.setText(response.getMaterial_center_group().getData().getAttributes().getName());
+            mGroupName.setText(response.getMaterial_center_group().getData().getAttributes().getName());
+            if(response.getMaterial_center_group().getData().getAttributes().getMaterial_center_group()!=null){
+
                 mSpinnerPrimary.setSelection(1);
                 mSpinnerUnderGroup.setVisibility(View.VISIBLE);
                 String group_type = response.getMaterial_center_group().getData().getAttributes().getMaterial_center_group().trim();
-                Timber.i("GROUPINDEX"+group_type);
                 // insert code here
                 int groupindex = -1;
                 for (int i = 0; i<appUser.materialCentreGroupName.size(); i++) {
-                    Timber.i("GROUPINDEX"+appUser.group_name);
                     if (appUser.materialCentreGroupName.get(i).equals(group_type)) {
                         groupindex = i;
                         break;
@@ -246,6 +252,10 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 Timber.i("GROUPINDEX"+groupindex);
                 mSpinnerUnderGroup.setSelection(groupindex);
 
+            }
+            else{
+                mSpinnerPrimary.setSelection(0);
+                mSpinnerUnderGroup.setVisibility(View.GONE);
             }
 
 
@@ -259,7 +269,31 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void createAccountGroup(CreateMaterialCentreGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if(isConnected) {
+                mProgressDialog = new ProgressDialog(CreateMaterialCentreGroupActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_LIST);
+            }
+            else{
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if(isConnected){
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+
             startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
         }
         else{
@@ -280,6 +314,31 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getmaterialcentregrouplist(GetMaterialCentreGroupListResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            appUser.arr_materialCentreGroupId.clear();
+            appUser.arr_materialCentreGroupName.clear();
+            LocalRepositories.saveAppUser(this,appUser);
+            Timber.i("I AM HERE");
+            for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
+                appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
+                appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreatematerialcentregroup",true);
+            startActivity(intent);
+
+        }
+        else{
+            Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).show();
         }
     }
 
