@@ -51,7 +51,7 @@ public class AppUser {
     public String company_id;
     public String cusername;
     public String cpassword;
-    public String titlecname;
+    public String titlecname="";
     public String search_company_id;
     public String company_user_id;
 
@@ -92,6 +92,22 @@ public class AppUser {
     public String package_amount;
     public String package_serail_number;
     public String package_mode;
+    public String material_centre_name="";
+    public String material_centre_group_id="";
+    public String material_centre_account_id="";
+    public String material_centre_address="";
+    public String material_centre_group_name="";
+    public String edit_material_centre_group_id;
+    public String delete_material_centre_group_id;
+    public String edit_material_centre_id;
+    public String delete_material_centre_id;
+    public ArrayList<String> materialCentreGroupId=new ArrayList<>();
+    public ArrayList<String> materialCentreGroupName=new ArrayList<>();
+    public ArrayList<String> arr_materialCentreGroupId=new ArrayList<>();
+    public ArrayList<String> arr_materialCentreGroupName=new ArrayList<>();
+
+
+
 
 
 

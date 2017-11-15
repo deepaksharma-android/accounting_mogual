@@ -3,6 +3,7 @@ package com.berylsystems.buzz.networks;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
@@ -17,6 +18,8 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
+import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
@@ -44,6 +47,16 @@ import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreListResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.DeleteMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupListResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
@@ -152,7 +165,28 @@ public class ApiCallsService extends IntentService {
             handleGetPackages();
         }else if (Cv.ACTION_PLANS.equals(action)) {
             handlePlans();
+        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_LIST.equals(action)) {
+            handleGetMaterialCentreGroupList();
+        }else if (Cv.ACTION_CREATE_MATERIAL_CENTRE_GROUP.equals(action)) {
+            handleCreateMaterialCentreGroup();
+        }else if (Cv.ACTION_EDIT_MATERIAL_CENTRE_GROUP.equals(action)) {
+            handleEditMaterialCentreGroup();
+        }else if (Cv.ACTION_DELETE_MATERIAL_CENTRE_GROUP.equals(action)) {
+            handleDeleteMaterialCentreGroup();
+        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_DETAILS.equals(action)) {
+            handleGetMaterialCentreGroupDetails();
+        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_LIST.equals(action)) {
+            handleGetMaterialCentreList();
+        }else if (Cv.ACTION_CREATE_MATERIAL_CENTRE.equals(action)) {
+            handleCreateMaterialCentre();
+        }else if (Cv.ACTION_EDIT_MATERIAL_CENTRE.equals(action)) {
+            handleEditMaterialCentre();
+        }else if (Cv.ACTION_DELETE_MATERIAL_CENTRE.equals(action)) {
+            handleDeleteMaterialCentre();
+        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_DETAILS.equals(action)) {
+            handleGetMaterialCentreDetails();
         }
+
 
 
     }
@@ -995,6 +1029,243 @@ public class ApiCallsService extends IntentService {
 
     }
 
+    private void handleGetMaterialCentreGroupList() {
+        api.getmaterialcentregrouplist(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetMaterialCentreGroupListResponse>() {
+            @Override
+            public void onResponse(Call<GetMaterialCentreGroupListResponse> call, Response<GetMaterialCentreGroupListResponse> r) {
+                if (r.code() == 200) {
+                    GetMaterialCentreGroupListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMaterialCentreGroupListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateMaterialCentreGroup() {
+        api.creatematerialcentregroup(new RequestCreateMaterialCentreGroup(this)).enqueue(new Callback<CreateMaterialCentreGroupResponse>() {
+            @Override
+            public void onResponse(Call<CreateMaterialCentreGroupResponse> call, Response<CreateMaterialCentreGroupResponse> r) {
+                if (r.code() == 200) {
+                    CreateMaterialCentreGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateMaterialCentreGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleEditMaterialCentreGroup() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.editmaterialcentregroup(new RequestCreateMaterialCentreGroup(this),appUser.edit_material_centre_group_id).enqueue(new Callback<EditMaterialCentreGroupResponse>() {
+            @Override
+            public void onResponse(Call<EditMaterialCentreGroupResponse> call, Response<EditMaterialCentreGroupResponse> r) {
+                if (r.code() == 200) {
+                    EditMaterialCentreGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditMaterialCentreGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleDeleteMaterialCentreGroup() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deletematerialcentregroup(appUser.delete_material_centre_group_id).enqueue(new Callback<DeleteMaterialCentreGroupResponse>() {
+            @Override
+            public void onResponse(Call<DeleteMaterialCentreGroupResponse> call, Response<DeleteMaterialCentreGroupResponse> r) {
+                if (r.code() == 200) {
+                    DeleteMaterialCentreGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteMaterialCentreGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetMaterialCentreGroupDetails() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getmaterialcentregroupdetails(appUser.edit_material_centre_group_id).enqueue(new Callback<GetMaterialCentreGroupDetailResponse>() {
+            @Override
+            public void onResponse(Call<GetMaterialCentreGroupDetailResponse> call, Response<GetMaterialCentreGroupDetailResponse> r) {
+                if (r.code() == 200) {
+                    GetMaterialCentreGroupDetailResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMaterialCentreGroupDetailResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleGetMaterialCentreList() {
+        api.getmaterialcentrelist(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetMaterialCentreListResponse>() {
+            @Override
+            public void onResponse(Call<GetMaterialCentreListResponse> call, Response<GetMaterialCentreListResponse> r) {
+                if (r.code() == 200) {
+                    GetMaterialCentreListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMaterialCentreListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateMaterialCentre() {
+        api.creatematerialcentre(new RequestCreateMaterialCentre(this)).enqueue(new Callback<CreateMaterialCentreResponse>() {
+            @Override
+            public void onResponse(Call<CreateMaterialCentreResponse> call, Response<CreateMaterialCentreResponse> r) {
+                if (r.code() == 200) {
+                    CreateMaterialCentreResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateMaterialCentreResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleEditMaterialCentre() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.editmaterialcentre(new RequestCreateMaterialCentre(this),appUser.edit_material_centre_id).enqueue(new Callback<EditMaterialCentreReponse>() {
+            @Override
+            public void onResponse(Call<EditMaterialCentreReponse> call, Response<EditMaterialCentreReponse> r) {
+                if (r.code() == 200) {
+                    EditMaterialCentreReponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditMaterialCentreReponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleDeleteMaterialCentre() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deletematerialcentre(appUser.delete_material_centre_id).enqueue(new Callback<DeleteMaterialCentreResponse>() {
+            @Override
+            public void onResponse(Call<DeleteMaterialCentreResponse> call, Response<DeleteMaterialCentreResponse> r) {
+                if (r.code() == 200) {
+                    DeleteMaterialCentreResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteMaterialCentreResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetMaterialCentreDetails() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getmaterialcentredetails(appUser.edit_material_centre_id).enqueue(new Callback<GetMaterialCentreDetailResponse>() {
+            @Override
+            public void onResponse(Call<GetMaterialCentreDetailResponse> call, Response<GetMaterialCentreDetailResponse> r) {
+                if (r.code() == 200) {
+                    GetMaterialCentreDetailResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMaterialCentreDetailResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
     private void processUserApiResponse(Response<UserApiResponse> response) {
         if (response.code() == 200) {
             UserApiResponse body = response.body();

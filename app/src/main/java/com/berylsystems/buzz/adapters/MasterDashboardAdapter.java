@@ -66,7 +66,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 if(i==6){
                     context.startActivity(new Intent(context, UnitListActivity.class));
                 }
-                if(i==6){
+                if(i==7){
                     context.startActivity(new Intent(context, UnitConversionListActivity.class));
                 }
             }

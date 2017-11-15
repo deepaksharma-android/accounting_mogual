@@ -23,7 +23,7 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
     @Bind(R.id.material_centre_list_recycler_view)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    MaterialCentreListAdapter mAdapter;
+   // MaterialCentreListAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,11 +32,11 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         setAddCompany(1);
         setAppBarTitleCompany(1,"MATERIAL CENTRE LIST");
-        mRecyclerView.setHasFixedSize(true);
+       /* mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MaterialCentreListAdapter(this, null);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
     }
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateMaterialCentreActivity.class);

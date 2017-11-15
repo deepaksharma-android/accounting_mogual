@@ -2,8 +2,8 @@ package com.berylsystems.buzz.utils;
 
 
 public interface Cv {
-  String BASE_URL="http://accounts.geeksonrails.com/api/v1/";
-  //String BASE_URL ="http://192.168.1.4:3000/api/v1/";
+  //String BASE_URL="http://accounts.geeksonrails.com/api/v1/";
+  String BASE_URL ="http://192.168.1.4:3000/api/v1/";
   int PERMISSIONS_BUZZ_REQUEST = 0xABC;
   String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
   String ACTION_LOGIN = "login_user";
@@ -38,6 +38,16 @@ public interface Cv {
   String ACTION_GET_ACCOUNT_DETAILS="get_account_details";
   String ACTION_EDIT_ACCOUNT="edit_account";
   String ACTION_DELETE_ACCOUNT="delete_account";
+  String ACTION_GET_MATERIAL_CENTRE_GROUP_LIST="get_material_centre_group_list";
+  String ACTION_CREATE_MATERIAL_CENTRE_GROUP="create_material_centre_group";
+  String ACTION_EDIT_MATERIAL_CENTRE_GROUP="edit_material_centre_group";
+  String ACTION_DELETE_MATERIAL_CENTRE_GROUP="delete_material_centre_group";
+  String ACTION_GET_MATERIAL_CENTRE_GROUP_DETAILS="get_material_centre_group_details";
+  String ACTION_GET_MATERIAL_CENTRE_LIST="get_material_centre_list";
+  String ACTION_CREATE_MATERIAL_CENTRE="create_material_centre";
+  String ACTION_EDIT_MATERIAL_CENTRE="edit_material_centre";
+  String ACTION_DELETE_MATERIAL_CENTRE="delete_material_centre";
+  String ACTION_GET_MATERIAL_CENTRE_DETAILS="get_material_centre_details";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";
   String ACTION_SEARCH_COMPANY= "search_company";

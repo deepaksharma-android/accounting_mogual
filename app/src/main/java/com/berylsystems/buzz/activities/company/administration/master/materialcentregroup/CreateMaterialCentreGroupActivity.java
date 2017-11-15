@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.company.administration.master.materialcentregroup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,13 +20,27 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupDetailResponse;
+import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-public class CreateMaterialCentreGroupActivity extends AppCompatActivity {
+public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.under_group_spinner)
@@ -45,51 +60,149 @@ public class CreateMaterialCentreGroupActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    Boolean fromMaterailCentreGroupList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_material_centre_group);
         ButterKnife.bind(this);
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
-                R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.primary_group));
-        mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSpinnerPrimary.setAdapter(mPrimaryGroupAdapter);
-        mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item,appUser.group_name);
-        mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
-        mSpinnerPrimary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
-                    mUnderGroupLayout.setVisibility(View.VISIBLE);
-                    mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            appUser.account_group_id= String.valueOf(appUser.group_id.get(i));
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
-                }
-                else{
-                    appUser.account_group_id="";
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                    mUnderGroupLayout.setVisibility(View.GONE);
-                }
+        fromMaterailCentreGroupList = getIntent().getExtras().getBoolean("frommaterialcentregrouplist");
+        if (fromMaterailCentreGroupList == true) {
+            mSubmit.setVisibility(View.GONE);
+            mUpdate.setVisibility(View.VISIBLE);
+            appUser.edit_material_centre_group_id = getIntent().getExtras().getString("id");
+            LocalRepositories.saveAppUser(this, appUser);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateMaterialCentreGroupActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
             }
+        }
+            mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
+                    R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
+            mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mSpinnerPrimary.setAdapter(mPrimaryGroupAdapter);
+            mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.materialCentreGroupName);
+            mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
+            mSpinnerPrimary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (i == 1) {
+                        mUnderGroupLayout.setVisibility(View.VISIBLE);
+                        mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                appUser.material_centre_group_id = String.valueOf(appUser.materialCentreGroupId.get(i));
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+                            }
+                        });
+                    } else {
+                        appUser.material_centre_group_id = "";
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        mUnderGroupLayout.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+            mSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!mGroupName.getText().toString().equals("")) {
+                        appUser.material_centre_group_name = mGroupName.getText().toString();
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CreateMaterialCentreGroupActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_MATERIAL_CENTRE_GROUP);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
+                                        }
+                                    });
+                            snackbar.show();
+                        }
+                    }
+                }
+            });
+
+            mUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!mGroupName.getText().toString().equals("")) {
+                        appUser.material_centre_group_name = mGroupName.getText().toString();
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CreateMaterialCentreGroupActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_MATERIAL_CENTRE_GROUP);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
+                                        }
+                                    });
+                            snackbar.show();
+                        }
+                    }
+                }
+            });
+        }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_create_material_centre_group;
     }
 
     private void initActionbar() {
@@ -110,4 +223,64 @@ public class CreateMaterialCentreGroupActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
+    @Subscribe
+    public void getMaterialCentreGroupDetails(GetMaterialCentreGroupDetailResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            if(!response.getMaterial_center_group().getData().getAttributes().getName().equals("")){
+                mGroupName.setText(response.getMaterial_center_group().getData().getAttributes().getName());
+                mSpinnerPrimary.setSelection(1);
+                mSpinnerUnderGroup.setVisibility(View.VISIBLE);
+                String group_type = response.getMaterial_center_group().getData().getAttributes().getMaterial_center_group().trim();
+                Timber.i("GROUPINDEX"+group_type);
+                // insert code here
+                int groupindex = -1;
+                for (int i = 0; i<appUser.materialCentreGroupName.size(); i++) {
+                    Timber.i("GROUPINDEX"+appUser.group_name);
+                    if (appUser.materialCentreGroupName.get(i).equals(group_type)) {
+                        groupindex = i;
+                        break;
+                    }
+                }
+                Timber.i("GROUPINDEX"+groupindex);
+                mSpinnerUnderGroup.setSelection(groupindex);
+
+            }
+
+
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void createAccountGroup(CreateMaterialCentreGroupResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Subscribe
+    public void editAccountGroupDetails(EditMaterialCentreGroupResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreategroup",true);
+            startActivity(intent);
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 }

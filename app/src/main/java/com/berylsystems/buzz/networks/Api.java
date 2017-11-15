@@ -12,6 +12,8 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
+import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
@@ -39,13 +41,22 @@ import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreListResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.DeleteMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupListResponse;
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 
-import butterknife.Bind;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -128,6 +139,28 @@ public interface Api {
     Call<GetPackageResponse> getpackage();
     @POST("user_plan")
     Call<PlanResponse> plan(@Body RequestPlan payload);
+    @GET("company_material_center_groups/{id}")
+    Call<GetMaterialCentreGroupListResponse> getmaterialcentregrouplist(@Path("id") String id);
+    @POST("material_center_group")
+    Call<CreateMaterialCentreGroupResponse> creatematerialcentregroup(@Body RequestCreateMaterialCentreGroup payload);
+    @PATCH("material_center_group/{id}")
+    Call<EditMaterialCentreGroupResponse> editmaterialcentregroup(@Body RequestCreateMaterialCentreGroup payload,@Path("id") String id);
+    @DELETE("material_center_group/{id}")
+    Call<DeleteMaterialCentreGroupResponse> deletematerialcentregroup(@Path("id") String id);
+    @GET("material_center_group/{id}")
+    Call<GetMaterialCentreGroupDetailResponse> getmaterialcentregroupdetails(@Path("id") String id);
+    @GET("company_material_center/{id}")
+    Call<GetMaterialCentreListResponse> getmaterialcentrelist(@Path("id") String id);
+    @POST("material_center")
+    Call<CreateMaterialCentreResponse> creatematerialcentre(@Body RequestCreateMaterialCentre payload);
+    @PATCH("material_center/{id}")
+    Call<EditMaterialCentreReponse> editmaterialcentre(@Body RequestCreateMaterialCentre payload, @Path("id") String id);
+    @DELETE("material_center/{id}")
+    Call<DeleteMaterialCentreResponse> deletematerialcentre(@Path("id") String id);
+    @GET("material_center/{id}")
+    Call<GetMaterialCentreDetailResponse> getmaterialcentredetails(@Path("id") String id);
+
+
 
 
 

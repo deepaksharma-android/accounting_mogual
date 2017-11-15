@@ -60,7 +60,7 @@ public class CreateUnitActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE MATERIAL CENTRE GROUP");
+        actionbarTitle.setText("CREATE UNIT");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
