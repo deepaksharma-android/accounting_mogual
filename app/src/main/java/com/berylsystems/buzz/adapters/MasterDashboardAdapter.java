@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity;
@@ -68,6 +69,9 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 }
                 if(i==7){
                     context.startActivity(new Intent(context, UnitConversionListActivity.class));
+                }
+                if(i==7){
+                    context.startActivity(new Intent(context, BillSundryListActivity.class));
                 }
             }
         });

@@ -24,8 +24,7 @@
             android:textSize="14sp"
             android:layout_marginLeft="10dp"
             android:textAlignment="viewStart"
-
-            android:textColor="@color/button_color" />
+            android:textColor="#000" />
 
         <ImageView
             android:id="@+id/imageques"

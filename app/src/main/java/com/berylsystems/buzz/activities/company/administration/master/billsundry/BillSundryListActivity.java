@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.administration.master.item;
+package com.berylsystems.buzz.activities.company.administration.master.billsundry;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,15 +10,16 @@ import android.view.View;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
+import com.berylsystems.buzz.activities.company.administration.master.item.CreateItemActivity;
 import com.berylsystems.buzz.adapters.ItemListAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ItemListActivity  extends BaseActivityCompany {
+public class BillSundryListActivity extends BaseActivityCompany {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.item_list_recycler_view)
+    @Bind(R.id.bill_sundry_list_recycler_view)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     ItemListAdapter mAdapter;
@@ -29,7 +30,7 @@ public class ItemListActivity  extends BaseActivityCompany {
         setContentView(R.layout.activity_bill_sundry_list);
         ButterKnife.bind(this);
         setAddCompany(1);
-        setAppBarTitleCompany(1,"ITEM LIST");
+        setAppBarTitleCompany(1,"BILL SUNDRY LIST");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -37,7 +38,7 @@ public class ItemListActivity  extends BaseActivityCompany {
         mRecyclerView.setAdapter(mAdapter);
     }
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateItemActivity.class);
+        Intent intent=new Intent(getApplicationContext(), CreateBillSundryActivity.class);
         startActivity(intent);
     }
 }

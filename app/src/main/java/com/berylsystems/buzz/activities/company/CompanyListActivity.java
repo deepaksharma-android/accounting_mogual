@@ -194,7 +194,7 @@ public class CompanyListActivity extends BaseActivity {
 
     public void showpopup(){
         dialog = new Dialog(CompanyListActivity.this);
-        dialog.setContentView(R.layout.layout_login_dialog);
+        dialog.setContentView(R.layout.dialog_login);
         dialog.setTitle("Company Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button

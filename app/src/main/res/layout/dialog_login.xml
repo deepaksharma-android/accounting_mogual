@@ -21,9 +21,9 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -39,7 +39,7 @@
                         android:layout_weight="0.8"
                         android:gravity="center"
                         android:layout_marginLeft="40dp"
-                        android:text="GSTIN INFO"
+                        android:text="COMPANY LOGIN"
                         android:textColor="#000"
                         android:textSize="18sp" />
 
@@ -57,10 +57,11 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="GSTIN | UIN"
+                    android:text="Username"
                     android:layout_marginTop="20dp"
                     android:textColor="#000"
                     android:textSize="15sp"
@@ -75,77 +76,46 @@
                     android:orientation="vertical"
                     >
                     <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/gst"
+                        android:id="@+id/cusername"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:maxLength="15"
                         android:textColor="#000"
+                        android:layout_marginLeft="5dp"
                         android:inputType="text"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="eg.must be 15 digits"/>
-
-                </LinearLayout>
-
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Aadhaar Number"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#000"
-                    android:textSize="15sp"
-                    style="@style/Gotham_Medium"/>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:background="@drawable/bg_grey_stroke"
-                    android:orientation="vertical"
-                    >
-                    <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/aadhaar"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#000"
-                        android:maxLength="12"
-                        android:inputType="number"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="eg.must be 12 digits"/>
-
-                </LinearLayout>
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="PAN Number"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#000"
-                    android:textSize="15sp"
-                    style="@style/Gotham_Medium"/>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:background="@drawable/bg_grey_stroke"
-                    android:orientation="vertical"
-                    >
-                    <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/pan"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#000"
                         android:maxLength="10"
-                        android:inputType="text"
+                        android:background="@android:color/transparent"
+                        android:hint="eg.abc"/>
+
+                </LinearLayout>
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Password"
+                    android:textColor="#000"
+                    android:layout_marginTop="10dp"
+                    android:textSize="15sp"
+                    style="@style/Gotham_Medium"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:orientation="vertical"
+                    >
+                    <com.berylsystems.buzz.utils.BuzzEditText
+                        android:id="@+id/cpassword"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:inputType="textPassword"
                         android:layout_marginLeft="5dp"
                         android:background="@android:color/transparent"
-                        android:hint="eg.must be 10 digits"/>
+                        android:hint="*******"/>
 
                 </LinearLayout>
 

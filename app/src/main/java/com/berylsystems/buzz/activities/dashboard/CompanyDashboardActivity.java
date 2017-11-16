@@ -28,7 +28,6 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateRe
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.EventOpenCompany;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -239,7 +238,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
     }
     public void showpopup(){
         dialog = new Dialog(CompanyDashboardActivity.this);
-        dialog.setContentView(R.layout.layout_login_dialog);
+        dialog.setContentView(R.layout.dialog_login);
         dialog.setTitle("Company Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button

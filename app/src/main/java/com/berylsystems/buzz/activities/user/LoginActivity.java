@@ -111,7 +111,6 @@ public class LoginActivity extends RegisterAbstractActivity {
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-
             ApiCallsService.action(this, Cv.ACTION_FACEBOOK_CHECK);
         } else {
             snackbar = Snackbar
@@ -149,7 +148,7 @@ public class LoginActivity extends RegisterAbstractActivity {
             }
         } else {
             snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
 

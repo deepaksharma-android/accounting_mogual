@@ -22,26 +22,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
-
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Book"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     android:gravity="center"
-                    android:text="ADDRESS INFO"
-                    android:textColor="#000"
-                    android:textSize="15sp" />
+                    android:weightSum="1">
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:text="ADDRESS INFO"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#e2e2e2" />
+                    <LinearLayout
+                        android:id="@+id/close"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:gravity="right"
+                        android:layout_weight="0.2">
 
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/icon_cancel"/>
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <com.berylsystems.buzz.utils.BuzzTextView
                     style="@style/Gotham_Medium"
@@ -132,35 +145,6 @@
 
                 </LinearLayout>
 
-               <!-- <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Medium"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Country"
-                    android:textColor="#000"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_grey_stroke"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <Spinner
-                        android:id="@+id/country_spinner"
-                        android:layout_width="fill_parent"
-                        android:entries="@array/country"
-                        android:spinnerMode="dialog"
-                        android:layout_height="40dp">
-
-                    </Spinner>
-
-                </LinearLayout>-->
-
-
                 <LinearLayout
                     android:id="@+id/submit"
                     android:layout_width="fill_parent"
@@ -169,7 +153,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
-                    android:background="@color/button_color"
+                    android:background="@drawable/solid_blue"
                     android:gravity="center">
 
 

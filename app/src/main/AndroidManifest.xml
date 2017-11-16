@@ -110,6 +110,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.administration.master.materialcentre.CreateMaterialCentreActivity"
             android:parentActivityName=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
             android:screenOrientation="portrait"
@@ -166,6 +170,11 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.unitconversion.UnitConversionListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.administration.master.billsundry.BillSundryListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />

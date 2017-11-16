@@ -1,11 +1,13 @@
 package com.berylsystems.buzz.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -70,13 +72,23 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
     public void showpopup(int pos){
         dialog = new Dialog(context);
-        dialog.setContentView(R.layout.layout_login_dialog);
+        dialog.setContentView(R.layout.dialog_login);
         dialog.setTitle("Company Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText username = (EditText) dialog.findViewById(R.id.cusername);
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager inputManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                dialog.dismiss();
+            }
+        });
 
         // if button is clicked, close the custom dialog
         submit.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +117,8 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
         dialog.show();
     }
+
+
 
     @Override
     public int getItemCount() {

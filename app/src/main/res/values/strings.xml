@@ -85,7 +85,15 @@
         <item>Composition</item>
         <item>UIN Holder</item>
     </string-array>
-
+    <string-array name="bill_sundry_type">
+        <item>Others</item>
+        <item>Subtractive</item>
+    </string-array>
+    <string-array name="bill_sundry_nature">
+        <item>CGST</item>
+        <item>SGST</item>
+        <item>IGST</item>
+    </string-array>
     <string-array name="uqc">
         <item>BAG-BAGS</item>
         <item>BAL-BALE</item>

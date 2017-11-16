@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.administration.master.unit;
+package com.berylsystems.buzz.activities.company.administration.master.billsundry;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -11,8 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -25,13 +23,9 @@ import com.berylsystems.buzz.utils.LocalRepositories;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreateUnitActivity extends AppCompatActivity {
+public class CreateBillSundryActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.uqc_spinner)
-    Spinner mSpinnerUqc;
-    @Bind(R.id.group_name)
-    EditText mGroupName;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     @Bind(R.id.update)
@@ -42,7 +36,7 @@ public class CreateUnitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_unit);
+        setContentView(R.layout.activity_create_bill_sundry);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
@@ -60,7 +54,7 @@ public class CreateUnitActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE UNIT");
+        actionbarTitle.setText("CREATE BILL SUNDRY");
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

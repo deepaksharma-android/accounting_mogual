@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -60,6 +61,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     Boolean fromaccountlist;
+    String title;
 
 
     @Override
@@ -67,6 +69,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initActionbar();
+        title="CREATE ACCOUNT";
         fromaccountlist=getIntent().getExtras().getBoolean("fromaccountlist");
         appUser = LocalRepositories.getAppUser(this);
         appUser.account_amount_receivable = "";
@@ -82,6 +85,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         appUser.account_credit_purchase = "";
         LocalRepositories.saveAppUser(this, appUser);
         if(fromaccountlist){
+            title="EDIT ACCOUNT";
             mSubmitButton.setVisibility(View.GONE);
             mUpdateButton.setVisibility(View.VISIBLE);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -220,7 +224,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ACCOUNT");
+        actionbarTitle.setText(title);
+        actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -230,11 +235,19 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void openingbalance(View v) {
         Dialog dialogbal = new Dialog(AccountDetailsActivity.this);
         dialogbal.setContentView(R.layout.dialog_opening_balance);
-        dialogbal.setTitle("Opening Balance");
         dialogbal.setCancelable(true);
         EditText amount_receivable = (EditText) dialogbal.findViewById(R.id.receive);
         EditText amount_payable = (EditText) dialogbal.findViewById(R.id.payable);
         LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialogbal.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard();
+                dialogbal.dismiss();
+
+            }
+        });
         if (!appUser.account_amount_receivable.equals("")) {
             amount_receivable.setText(appUser.account_amount_receivable);
         }
@@ -257,13 +270,20 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void address(View v) {
         Dialog dialogaddress = new Dialog(AccountDetailsActivity.this);
         dialogaddress.setContentView(R.layout.dialog_address);
-        dialogaddress.setTitle("Address");
         dialogaddress.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText account_address = (EditText) dialogaddress.findViewById(R.id.address);
         EditText account_city = (EditText) dialogaddress.findViewById(R.id.city);
         Spinner spinner_state = (Spinner) dialogaddress.findViewById(R.id.state_spinner);
         LinearLayout submit = (LinearLayout) dialogaddress.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialogaddress.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard();
+                dialogaddress.dismiss();
+            }
+        });
         if (!appUser.account_address.equals("")) {
             account_address.setText(appUser.account_address);
         }
@@ -298,13 +318,20 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void gstin(View v) {
         Dialog dialoggst = new Dialog(AccountDetailsActivity.this);
         dialoggst.setContentView(R.layout.dialog_gstin);
-        dialoggst.setTitle("GSTIN Info");
         dialoggst.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText account_gst = (EditText) dialoggst.findViewById(R.id.gst);
         EditText account_aadhaar = (EditText) dialoggst.findViewById(R.id.aadhaar);
         EditText account_pan = (EditText) dialoggst.findViewById(R.id.pan);
         LinearLayout submit = (LinearLayout) dialoggst.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialoggst.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard();
+                dialoggst.dismiss();
+            }
+        });
 
         if (!appUser.account_gst.equals("")) {
             account_gst.setText(appUser.account_gst);
@@ -333,12 +360,19 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void creaditinfo(View v) {
         Dialog dialogcredit = new Dialog(AccountDetailsActivity.this);
         dialogcredit.setContentView(R.layout.dialog_credit);
-        dialogcredit.setTitle("Credit Info");
         dialogcredit.setCancelable(true);
         EditText account_credit_limit = (EditText) dialogcredit.findViewById(R.id.credit_limit);
         EditText account_credit_sale = (EditText) dialogcredit.findViewById(R.id.credit_sale);
         EditText account_credit_purchase = (EditText) dialogcredit.findViewById(R.id.credit_purchase);
         LinearLayout submit = (LinearLayout) dialogcredit.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialogcredit.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard();s
+                dialogcredit.dismiss();
+            }
+        });
         if (!appUser.account_credit_limit.equals("")) {
             account_credit_limit.setText(appUser.account_credit_limit);
         }
@@ -435,6 +469,14 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
 
 
 
