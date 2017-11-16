@@ -37,6 +37,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentre.StockResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -250,6 +251,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CREATE MATERIAL CENTRE");
         actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -261,7 +263,10 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(), MaterialCentreListActivity.class));
+            Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -301,7 +306,9 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),MaterialCentreListActivity.class));
+            Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           startActivity(intent);
         }
         else{
             Snackbar
@@ -334,9 +341,13 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         appUser.arr_stock_name.clear();
         LocalRepositories.saveAppUser(this,appUser);
         if(response.getStatus()==200){
-            for(int i=0;i<response.getStock_in_hand_accounts().getData().size();i++){
-                appUser.arr_stock_name.add(response.getStock_in_hand_accounts().getData().get(i).getAttributes().getName());
-                appUser.arr_stock_id.add(response.getStock_in_hand_accounts().getData().get(i).getId());
+            for(int i=0;i<response.getCompany_account_groups().getData().size();i++){
+                appUser.arr_stock_name.add(response.getCompany_account_groups().getData().get(i).getAttributes().getName());
+                appUser.arr_stock_id.add(response.getCompany_account_groups().getData().get(i).getId());
+                mStockAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                        R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_stock_name);
+                mStockAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+                mStockSpinner.setAdapter(mStockAdapter);
             }
 
         }

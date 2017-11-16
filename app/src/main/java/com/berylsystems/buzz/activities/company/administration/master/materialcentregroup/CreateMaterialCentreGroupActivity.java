@@ -40,6 +40,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.EventMaterialCentreGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -226,6 +227,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CREATE MATERIAL CENTRE GROUP");
         actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

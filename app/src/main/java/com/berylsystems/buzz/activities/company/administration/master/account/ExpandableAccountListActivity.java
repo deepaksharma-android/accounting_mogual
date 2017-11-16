@@ -59,7 +59,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_expandabl_list);
         ButterKnife.bind(this);
-        setAddCompany(1);
+        setAddCompany(0);
         setAppBarTitleCompany(1, "ACCOUNT LIST");
         appUser = LocalRepositories.getAppUser(this);
 
@@ -160,7 +160,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         appUser.delete_account_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ExpandableAccountListActivity.this)
-                .setTitle("Delete Company")
+                .setTitle("Delete Account")
                 .setMessage("Are you sure you want to delete this account ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();

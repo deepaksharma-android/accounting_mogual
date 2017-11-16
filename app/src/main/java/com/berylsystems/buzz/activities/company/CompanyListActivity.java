@@ -2,6 +2,7 @@ package com.berylsystems.buzz.activities.company;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,12 +69,13 @@ public class CompanyListActivity extends BaseActivity {
 
         appUser=LocalRepositories.getAppUser(this);
         setNavigation(1);
-        setAdd(1);
+        setAdd(0);
         setAppBarTitle(1, "COMPANY LIST");
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 if(!mSearchText.getText().toString().equals("")){
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {
@@ -105,6 +108,7 @@ public class CompanyListActivity extends BaseActivity {
         mReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 mReset.setVisibility(View.GONE);
                 mMainLayout.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
@@ -195,17 +199,24 @@ public class CompanyListActivity extends BaseActivity {
     public void showpopup(){
         dialog = new Dialog(CompanyListActivity.this);
         dialog.setContentView(R.layout.dialog_login);
-        dialog.setTitle("Company Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText username = (EditText) dialog.findViewById(R.id.cusername);
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                dialog.dismiss();
+            }
+        });
         // if button is clicked, close the custom dialog
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideSoftKeyboard(v);
                 if(!username.getText().toString().equals("")){
                     if(!password.getText().toString().equals("")){
                         appUser.cusername=username.getText().toString();
@@ -392,5 +403,10 @@ public class CompanyListActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
+    }
+    public void hideSoftKeyboard(View v) {
+        InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

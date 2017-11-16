@@ -161,8 +161,8 @@ public interface Api {
     Call<DeleteMaterialCentreResponse> deletematerialcentre(@Path("id") String id);
     @GET("material_center/{id}")
     Call<GetMaterialCentreDetailResponse> getmaterialcentredetails(@Path("id") String id);
-    @POST("stock_account")
-    Call<StockResponse> getstock(@Body RequestStock payload);
+    @GET("stock_account/{id}")
+    Call<StockResponse> getstock(@Path("id") String id);
 
 
 

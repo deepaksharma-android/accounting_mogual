@@ -10,8 +10,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/curve_background_shadow"
+        android:background="#fff"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,13 +20,6 @@
             android:weightSum="1">
 
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.1"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/icn_open_company"/>
 
 
 
@@ -46,26 +38,41 @@
                 android:textColor="#050505"
                 android:textSize="14sp" />
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/edit"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.1"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center"
-                android:visibility="visible"
-                android:src="@drawable/icon_edit"/>
+                android:layout_height="fill_parent"
+                android:layout_weight="0.15"
+                android:gravity="center">
 
-            <ImageView
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_edit"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:id="@+id/delete"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.1"
-                android:layout_marginRight="10dp"
-                android:visibility="visible"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_delete_circle"/>
+                android:layout_height="fill_parent"
+                android:layout_weight="0.15"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_delete"
+                    android:visibility="visible" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#e2e2e2"/>
 </LinearLayout>

@@ -54,7 +54,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         fromCreateGroup=getIntent().getExtras().getBoolean("fromcreategroup");
         ButterKnife.bind(this);
         appUser=LocalRepositories.getAppUser(this);
-        setAddCompany(1);
+        setAddCompany(0);
         setAppBarTitleCompany(1,"ACCOUNT GROUP LIST");
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -174,8 +174,8 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         appUser.delete_group_id= String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
         LocalRepositories.saveAppUser(this,appUser);
         new AlertDialog.Builder(AccountGroupListActivity.this)
-                .setTitle("Delete Company")
-                .setMessage("Are you sure you want to delete this group ?")
+                .setTitle("Delete Account Group")
+                .setMessage("Are you sure you want to delete this account group ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {

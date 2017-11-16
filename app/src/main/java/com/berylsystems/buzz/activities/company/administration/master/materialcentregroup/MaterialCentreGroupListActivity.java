@@ -54,7 +54,7 @@ public class MaterialCentreGroupListActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_centre_group_list);
         ButterKnife.bind(this);
-        setAddCompany(1);
+        setAddCompany(0);
         setAppBarTitleCompany(1,"MATERIAL GROUP LIST");
         appUser=LocalRepositories.getAppUser(this);
 
@@ -147,8 +147,8 @@ public class MaterialCentreGroupListActivity extends BaseActivityCompany {
         appUser.delete_material_centre_group_id= String.valueOf(appUser.arr_materialCentreGroupId.get(pos.getPosition()));
         LocalRepositories.saveAppUser(this,appUser);
         new AlertDialog.Builder(MaterialCentreGroupListActivity.this)
-                .setTitle("Delete Company")
-                .setMessage("Are you sure you want to delete this group ?")
+                .setTitle("Delete Material Group")
+                .setMessage("Are you sure you want to delete this material group ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {

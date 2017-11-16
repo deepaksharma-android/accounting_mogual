@@ -3,6 +3,7 @@ package com.berylsystems.buzz.activities.company.administration.master.account;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,6 +27,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
@@ -35,6 +37,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -68,7 +71,6 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        initActionbar();
         title="CREATE ACCOUNT";
         fromaccountlist=getIntent().getExtras().getBoolean("fromaccountlist");
         appUser = LocalRepositories.getAppUser(this);
@@ -111,9 +113,11 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+        initActionbar();
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 Intent intent = new Intent(getApplicationContext(), AccountGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -123,6 +127,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 if (!mAccountName.getText().toString().equals("")) {
                     if (!mMobileNumber.getText().toString().equals("")) {
                         if (!mGroupName.getText().toString().equals("")) {
@@ -166,6 +171,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 if (!mAccountName.getText().toString().equals("")) {
                     if (!mMobileNumber.getText().toString().equals("")) {
                         if (!mGroupName.getText().toString().equals("")) {
@@ -225,6 +231,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -243,7 +250,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideSoftKeyboard();
+                hideSoftKeyboard(view);
                 dialogbal.dismiss();
 
             }
@@ -257,6 +264,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 appUser.account_amount_receivable = amount_receivable.getText().toString();
                 appUser.account_amount_payable = amount_payable.getText().toString();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -280,7 +288,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideSoftKeyboard();
+                hideSoftKeyboard(view);
                 dialogaddress.dismiss();
             }
         });
@@ -305,6 +313,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 appUser.account_address = account_address.getText().toString();
                 appUser.account_city = account_city.getText().toString();
                 appUser.account_state = spinner_state.getSelectedItem().toString();
@@ -328,7 +337,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideSoftKeyboard();
+                hideSoftKeyboard(view);
                 dialoggst.dismiss();
             }
         });
@@ -346,6 +355,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 appUser.account_gst = account_gst.getText().toString();
                 appUser.account_aadhaar = account_aadhaar.getText().toString();
                 appUser.account_pan = account_pan.getText().toString();
@@ -369,7 +379,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideSoftKeyboard();s
+                hideSoftKeyboard(view);
                 dialogcredit.dismiss();
             }
         });
@@ -385,6 +395,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard(view);
                 appUser.account_credit_limit = account_credit_limit.getText().toString();
                 appUser.account_credit_sale = account_credit_sale.getText().toString();
                 appUser.account_credit_purchase = account_credit_purchase.getText().toString();
@@ -418,8 +429,10 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void createaccount(CreateAccountResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            startActivity(new Intent(getApplicationContext(),ExpandableAccountListActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
 
         } else {
             Snackbar
@@ -462,7 +475,9 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),ExpandableAccountListActivity.class));
+            Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
         else{
             Snackbar
@@ -470,12 +485,12 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         }
     }
 
-    public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
+    public void hideSoftKeyboard(View v) {
+        InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
 
 
 

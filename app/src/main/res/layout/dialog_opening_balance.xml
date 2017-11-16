@@ -36,7 +36,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.8"
                         android:gravity="center"
-                        android:layout_marginLeft="40dp"
                         android:text="OPENING BALANCE"
                         android:textColor="#000"
                         android:textSize="18sp" />

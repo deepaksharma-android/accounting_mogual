@@ -1272,7 +1272,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleGetStock() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.getstock(new RequestStock(this)).enqueue(new Callback<StockResponse>() {
+        api.getstock(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<StockResponse>() {
             @Override
             public void onResponse(Call<StockResponse> call, Response<StockResponse> r) {
                 if (r.code() == 200) {

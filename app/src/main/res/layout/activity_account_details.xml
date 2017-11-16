@@ -83,7 +83,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:hint="Mobile number"
-                            android:inputType="phone"
+                            android:inputType="number"
                             android:maxLength="10"
                             android:textColor="#000"
                             android:textSize="16sp" />

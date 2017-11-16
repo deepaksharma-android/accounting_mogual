@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -83,6 +85,42 @@ public class BaseActivityCompany extends AppCompatActivity {
 
 
     }
+    public void dashboard(View view){
+        startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
+    }
+    public void account(View v){
+
+    }
+    public void transaction(View v){
+
+    }
+    public void inventory(View v){
+
+    }
+    public void reports(View v){
+
+    }
+    public void tools(View v){
+
+    }
+    public void settings(View v){
+
+    }
+    public void buy(View v){
+
+    }
+    public void exit(View v){
+        new AlertDialog.Builder(BaseActivityCompany.this)
+                .setTitle("Exit Company")
+                .setMessage("Do you want to exit this company ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
+
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
 
     protected void setNavigationCompany(int id){
         if(id==2){

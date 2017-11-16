@@ -94,6 +94,9 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 if(!username.getText().toString().equals("")){
                     if(!password.getText().toString().equals("")){
                         appUser.cusername=username.getText().toString();

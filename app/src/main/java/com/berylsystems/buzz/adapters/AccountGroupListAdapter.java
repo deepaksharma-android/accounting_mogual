@@ -89,9 +89,9 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         @Bind(R.id.mainLayout)
         LinearLayout mMainLayout;
         @Bind(R.id.delete)
-        ImageView mDelete;
+        LinearLayout mDelete;
         @Bind(R.id.edit)
-        ImageView mEdit;
+        LinearLayout mEdit;
 
 
         public ViewHolder(View view) {

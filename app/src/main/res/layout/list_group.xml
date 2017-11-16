@@ -3,16 +3,20 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="#000000">
+    android:gravity="center"
+    android:background="#e2e2e2">
 
 
-    <TextView
+
+
+    <com.berylsystems.buzz.utils.BuzzTextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textSize="17dp"
-        android:textColor="#f9f93d" />
+        style="@style/Gotham_Medium"
+        android:gravity="center_vertical"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:textColor="#000" />
 
 </LinearLayout>

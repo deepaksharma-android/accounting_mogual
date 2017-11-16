@@ -19,14 +19,17 @@ public class StockResponse {
         this.message = message;
     }
 
-    public StockInHandAccounts getStock_in_hand_accounts() {
-        return stock_in_hand_accounts;
-    }
 
-    public void setStock_in_hand_accounts(StockInHandAccounts stock_in_hand_accounts) {
-        this.stock_in_hand_accounts = stock_in_hand_accounts;
-    }
 
     public int status;
-    public StockInHandAccounts stock_in_hand_accounts;
+
+    public StockInHandAccounts getCompany_account_groups() {
+        return company_account_groups;
+    }
+
+    public void setCompany_account_groups(StockInHandAccounts company_account_groups) {
+        this.company_account_groups = company_account_groups;
+    }
+
+    public StockInHandAccounts company_account_groups;
 }

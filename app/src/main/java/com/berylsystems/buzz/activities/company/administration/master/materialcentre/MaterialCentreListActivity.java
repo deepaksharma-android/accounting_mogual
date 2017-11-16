@@ -64,7 +64,7 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_expandabl_list);
         ButterKnife.bind(this);
-        setAddCompany(1);
+        setAddCompany(0);
         setAppBarTitleCompany(1, "MATERIAL CENTRE LIST");
         appUser = LocalRepositories.getAppUser(this);
 

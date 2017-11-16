@@ -31,6 +31,7 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupD
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -236,6 +237,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CREATE ACCOUNT GROUP");
         actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -285,13 +287,13 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
 
     }
 
-    @Override
+/*    @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, AccountGroupListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromcreategroup",true);
         startActivity(intent);
-    }
+    }*/
 
     @Subscribe
     public void getAccountGroup(GetAccountGroupResponse response) {

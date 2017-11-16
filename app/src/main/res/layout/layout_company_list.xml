@@ -21,13 +21,7 @@
         android:weightSum="1">
 
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.1"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/icn_open_company"/>
+
 
 
 
@@ -41,7 +35,7 @@
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="0.85"
+            android:layout_weight="0.95"
             android:text="COMPANY"
             android:textColor="#050505"
             android:textSize="14sp" />
