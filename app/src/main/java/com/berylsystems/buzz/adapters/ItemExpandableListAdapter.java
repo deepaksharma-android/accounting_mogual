@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -60,8 +61,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
-        ImageView delete=(ImageView) convertView.findViewById(R.id.delete_icon);
-        ImageView edit=(ImageView) convertView.findViewById(R.id.edit_icon);
+        LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
+        LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

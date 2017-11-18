@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
-import com.berylsystems.buzz.activities.company.administration.master.item.CreateItemActivity;
 import com.berylsystems.buzz.adapters.ItemListAdapter;
 
 import butterknife.Bind;

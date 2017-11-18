@@ -54,7 +54,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
-        setAddCompany(1);
+        setAddCompany(0);
         setAppBarTitleCompany(1, "ITEM LIST");
         appUser = LocalRepositories.getAppUser(this);
 
