@@ -191,6 +191,29 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
+	     <activity
+            android:name=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".activities.company.administration.master.item.ExpandableItemListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+	 <activity
+            android:name=".activities.company.administration.master.item_group.ItemGroupListActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+	      <activity
+            android:name=".activities.company.administration.master.item_group.CreateItemGroupActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
 
         <service android:name=".networks.ApiCallsService" />
 

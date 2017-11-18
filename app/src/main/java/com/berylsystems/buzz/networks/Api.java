@@ -43,6 +43,7 @@ import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
+import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
@@ -69,6 +70,14 @@ import com.berylsystems.buzz.networks.api_response.unitconversion.DeleteUnitConv
 import com.berylsystems.buzz.networks.api_response.unitconversion.EditUnitConversionResponse;
 import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionListResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.CreateItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.DeleteItemGroupReponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
+import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
+import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -194,7 +203,20 @@ public interface Api {
     Call<DeleteUnitConversionResponse> deleteunitconversion(@Path("id") String id);
     @GET("unit_conversion/{id}")
     Call<GetUnitConversionDetailsResponse> getunitconversiondetails(@Path("id") String id);
-
+   @GET("item/{id}")
+	Call<GetItemResponse> getitem(@Path("id") String id);
+	@POST("item")
+	Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);
+	 @GET("company_item_groups/{id}")
+    Call<GetItemGroupResponse>getitemgroup(@Path("id") String id);
+    @POST("item_group")
+    Call<CreateItemGroupResponse> createitemgroup(@Body RequestCreateItemGroup payload);
+    @DELETE("item_group/{id}")
+    Call<DeleteItemGroupReponse> deleteitemgroup(@Path("id") String id);
+    @GET("item_group/{id}")
+    Call<GetItemGroupDetailsResponse> getitemgroupdetails(@Path("id") String id);
+    @PATCH("item_group/{id}")
+    Call<EditItemGroupResponse> edititemgroup(@Body RequestCreateItemGroup payload, @Path("id") String id);
 
 
 

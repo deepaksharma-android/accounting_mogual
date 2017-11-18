@@ -73,7 +73,6 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
     public void showpopup(int pos){
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_login);
-        dialog.setTitle("Company Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText username = (EditText) dialog.findViewById(R.id.cusername);

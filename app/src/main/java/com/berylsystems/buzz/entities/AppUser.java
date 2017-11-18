@@ -45,6 +45,10 @@ public class AppUser {
     public ArrayList<Integer> group_id=new ArrayList<>();
     public ArrayList<String> arr_account_group_name=new ArrayList<>();
     public ArrayList<Integer> arr_account_group_id=new ArrayList<>();
+    public ArrayList<String> arr_item_group_name=new ArrayList<>();
+    public ArrayList<Integer> arr_item_group_id=new ArrayList<>();
+    public ArrayList<String> group_name1=new ArrayList<>();
+    public ArrayList<Integer> group_id1=new ArrayList<>();
     public String industryId;
     public String default_tax_rate1;
     public String default_tax_rate2;
@@ -56,7 +60,8 @@ public class AppUser {
     public String company_user_id;
 
     public String account_group_id;
-
+    public String item_group_id;
+    public String item_group_name;
     public String account_name;
     public String account_type_of_dealer;
     public String acount_opening_balance;
@@ -72,6 +77,7 @@ public class AppUser {
     public String delete_group_id;
     public String delete_account_id;
     public String edit_group_id;
+    public String edit_group_id1;
     public String account_group_from_group_list="";
     public String account_amount_receivable="";
     public String account_amount_payable="";
@@ -132,12 +138,39 @@ public class AppUser {
     public String confactor;
     public String main_unit_id;
     public String sub_unit_id;
+	 public String item_id="";
+    public String item_name="";
+    public String item_company_id="";
+    public String item_item_group_id="";
+    public String item_unit_id="";
+    public String item_stock_quantity="";
+    public String item_stock_amount="";
+    public String item_alternate_unit_id="";
+    /* public String barcode;*/
+    public String item_conversion_factor="";
+    public String item_conversion_type="";
+    public String item_opening_stock_quantity_alternate="";
+    public String item_price_info_id="";
+    public String item_package_unit_detail_id="";
+	 public String item_default_unit_for_sales="";
+    public String item_default_unit_for_purchase="";
+    public String item_tax_category="";
+    public String item_hsn_number="";
+    public String item_description="";
+    public String item_serial_number_wise_detail="";
+    public String item_batch_wise_detail="";
+    public String item_set_critical_level="";
+    public String item_critical_level_id="";
+    public String item_parameterized_detail="";
+    public String item_exp_month_date_required="";
+    public String item_dont_maintain_stock_balance="";
+    public String item_specify_purchase_account="";
+    public String item_specify_sales_account="";
 
-
-
-
-
-
+    public String item_stock_value="";
+    public String item_stock_quantity_alternate="";
+    public String item_conversion_factor_pkg_unit="";
+    public String item_salse_price="";
 
 
 }

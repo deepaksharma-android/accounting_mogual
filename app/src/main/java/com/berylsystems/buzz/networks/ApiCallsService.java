@@ -48,6 +48,7 @@ import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.CreateItemGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
@@ -74,6 +75,14 @@ import com.berylsystems.buzz.networks.api_response.unitconversion.DeleteUnitConv
 import com.berylsystems.buzz.networks.api_response.unitconversion.EditUnitConversionResponse;
 import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionListResponse;
+import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
+import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
+import com.berylsystems.buzz.networks.api_response.itemgroup.DeleteItemGroupReponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -219,9 +228,164 @@ public class ApiCallsService extends IntentService {
             handleDeleteUnitConversion();
         }else if (Cv.ACTION_GET_UNIT_CONVERSION_DETAILS.equals(action)) {
             handleGetUnitConversionDetails();
+        } else if (Cv.ACTION_GET_ITEM.equals(action)) {
+            handleGetItem();
+        } else if (Cv.ACTION_CREATE_ITEM.equals(action)) {
+            handleCreateItem();
+        } else if (Cv.ACTION_GET_ITEM_GROUP.equals(action)) {
+            handleGetItemGroup();
+        } else if (Cv.ACTION_CREATE_ITEM_GROUP.equals(action)) {
+            handleCreateItemGroup();
+        } else if (Cv.ACTION_DELETE_ITEM_GROUP.equals(action)) {
+            handleDeleteItemGroup();
+        } else if (Cv.ACTION_GET_ITEM_GROUP_DETAILS.equals(action)) {
+            handleGetItemGroupDetails();
+        } else if (Cv.ACTION_EDIT_ITEM_GROUP.equals(action)) {
+            handleEditItemGroup();
         }
+    }
+
+    private void handleGetItemGroupDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getitemgroupdetails(appUser.edit_group_id1).enqueue(new Callback<GetItemGroupDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetItemGroupDetailsResponse> call, Response<GetItemGroupDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetItemGroupDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetItemGroupDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleDeleteItemGroup() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deleteitemgroup(appUser.delete_group_id).enqueue(new Callback<DeleteItemGroupReponse>() {
+            @Override
+            public void onResponse(Call<DeleteItemGroupReponse> call, Response<DeleteItemGroupReponse> r) {
+                if (r.code() == 200) {
+                    DeleteItemGroupReponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteItemGroupReponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleEditItemGroup() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.edititemgroup(new RequestCreateItemGroup(this), appUser.edit_group_id1).enqueue(new Callback<EditItemGroupResponse>() {
+            @Override
+            public void onResponse(Call<EditItemGroupResponse> call, Response<EditItemGroupResponse> r) {
+                if (r.code() == 200) {
+                    EditItemGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditItemGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleGetItemGroup() {
+        api.getitemgroup(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetItemGroupResponse>() {
+            @Override
+            public void onResponse(Call<GetItemGroupResponse> call, Response<GetItemGroupResponse> r) {
+                if (r.code() == 200) {
+                    GetItemGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
 
 
+            @Override
+            public void onFailure(Call<GetItemGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateItem() {
+        api.createitem(new RequestCreateItem(this)).enqueue(new Callback<CreateItemResponse>() {
+            @Override
+            public void onResponse(Call<CreateItemResponse> call, Response<CreateItemResponse> r) {
+                if (r.code() == 200) {
+                    CreateItemResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateItemResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateItemGroup() {
+        api.createitemgroup(new RequestCreateItemGroup(this)).enqueue(new Callback<CreateItemGroupResponse>() {
+            @Override
+            public void onResponse(Call<CreateItemGroupResponse> call, Response<CreateItemGroupResponse> r) {
+                if (r.code() == 200) {
+                    CreateItemGroupResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateItemGroupResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+
+        });
 
     }
 
@@ -443,6 +607,29 @@ public class ApiCallsService extends IntentService {
             }
         });
 
+    }
+
+    private void handleGetItem() {
+        api.getitem(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetItemResponse>() {
+            @Override
+            public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
+                if (r.code() == 200) {
+                    GetItemResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetItemResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 
     private void handleCompanyDetails() {

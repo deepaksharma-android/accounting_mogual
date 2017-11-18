@@ -26,13 +26,15 @@ public class ItemListActivity  extends BaseActivityCompany {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bill_sundry_list);
+        setContentView(R.layout.activity_item_list);
         ButterKnife.bind(this);
         setAddCompany(1);
         setAppBarTitleCompany(1,"ITEM LIST");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
+
+
         mAdapter = new ItemListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
     }

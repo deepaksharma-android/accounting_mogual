@@ -14,7 +14,9 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ItemListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
@@ -56,7 +58,10 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                     context.startActivity(intent);
                 }
                 if(i==2){
-                    context.startActivity(new Intent(context, ItemListActivity.class));
+                    context.startActivity(new Intent(context, ExpandableItemListActivity.class));
+                }
+                if(i==3){
+                    context.startActivity(new Intent(context, ItemGroupListActivity.class));
                 }
                 if(i==4){
                     context.startActivity(new Intent(context, MaterialCentreListActivity.class));

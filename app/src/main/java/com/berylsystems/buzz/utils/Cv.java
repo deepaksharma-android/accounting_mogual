@@ -59,6 +59,13 @@ public interface Cv {
   String ACTION_DELETE_UNIT_CONVERSION="delete_unit_conversion";
   String ACTION_GET_UNIT_CONVERSION_DETAILS="get_unit_conversion_details";
   String ACTION_GET_STOCK="get_stock";
+    String ACTION_GET_ITEM_GROUP = "action_get_item_group";
+    String ACTION_CREATE_ITEM_GROUP = "action_create_item_group";
+    String ACTION_DELETE_ITEM_GROUP = "action_delete_item_group";
+    String ACTION_GET_ITEM_GROUP_DETAILS = "action_get_item_group_details";
+    String ACTION_EDIT_ITEM_GROUP = "action_edit_item_group";
+	    String ACTION_GET_ITEM = "action_get_item";
+    String ACTION_CREATE_ITEM = "action_create_item";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";
   String ACTION_SEARCH_COMPANY= "search_company";
