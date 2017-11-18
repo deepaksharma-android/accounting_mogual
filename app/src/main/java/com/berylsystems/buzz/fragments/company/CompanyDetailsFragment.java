@@ -91,11 +91,13 @@ public class CompanyDetailsFragment extends Fragment {
         spinnerCountryAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mCountrySpinner.setAdapter(spinnerCountryAdapter);*/
 
+
+
         spinnerStateAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.state));
         spinnerStateAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mStateSpinner.setAdapter(spinnerStateAdapter);
-
+        Timber.i("INDUSTRY"+appUser.industry_type);
         spinnerAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.layout_trademark_type_spinner_dropdown_item,appUser.industry_type);
         spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);

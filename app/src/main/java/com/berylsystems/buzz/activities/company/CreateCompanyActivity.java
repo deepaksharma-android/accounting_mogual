@@ -116,6 +116,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
                                                                 appUser.it_pin = mPan.getText().toString();
                                                                 appUser.gst = mGst.getText().toString();
                                                                 appUser.address = mAddress.getText().toString();
+                                                                appUser.city=mCity.getText().toString();
                                                                 appUser.state = mStateSpinner.getSelectedItem().toString();
                                                                 appUser.companyUserName = mUserName.getText().toString();
                                                                 appUser.companyUserPassword = mPassword.getText().toString();

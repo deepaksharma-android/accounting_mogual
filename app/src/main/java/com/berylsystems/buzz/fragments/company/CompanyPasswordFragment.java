@@ -194,11 +194,10 @@ public class CompanyPasswordFragment extends Fragment {
     }
 
 
-    public void hideSoftKeyboard() {
-        if(getActivity().getCurrentFocus()!=null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
+    public void hideSoftKeyboard(View v) {
+        InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void showpopup(){
@@ -211,6 +210,14 @@ public class CompanyPasswordFragment extends Fragment {
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
         EditText confirmpassword = (EditText) dialog.findViewById(R.id.cconfirmpassword);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                dialog.dismiss();
+            }
+        });
 
         // if button is clicked, close the custom dialog
         submit.setOnClickListener(new View.OnClickListener() {
