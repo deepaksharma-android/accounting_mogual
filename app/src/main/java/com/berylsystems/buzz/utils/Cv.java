@@ -48,6 +48,16 @@ public interface Cv {
   String ACTION_EDIT_MATERIAL_CENTRE="edit_material_centre";
   String ACTION_DELETE_MATERIAL_CENTRE="delete_material_centre";
   String ACTION_GET_MATERIAL_CENTRE_DETAILS="get_material_centre_details";
+  String ACTION_GET_UNIT_LIST="get_unit_list";
+  String ACTION_CREATE_UNIT="create_unit";
+  String ACTION_EDIT_UNIT="edit_unit";
+  String ACTION_DELETE_UNIT="delete_unit";
+  String ACTION_GET_UNIT_DETAILS="get_unit_details";
+  String ACTION_GET_UNIT_CONVERSION_LIST="get_unit_conversion_list";
+  String ACTION_CREATE_UNIT_CONVERSION="create_unit_conversion";
+  String ACTION_EDIT_UNIT_CONVERSION="edit_unit_conversion";
+  String ACTION_DELETE_UNIT_CONVERSION="delete_unit_conversion";
+  String ACTION_GET_UNIT_CONVERSION_DETAILS="get_unit_conversion_details";
   String ACTION_GET_STOCK="get_stock";
   String ACTION_COMPANY_AUTHENTICATE= "company_authenticate";
   String ACTION_GET_COMPANY= "get_company";

@@ -14,6 +14,8 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
+import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
@@ -21,7 +23,6 @@ import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
 import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
-import com.berylsystems.buzz.networks.api_request.RequestStock;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
@@ -58,6 +59,16 @@ import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
+import com.berylsystems.buzz.networks.api_response.unit.CreateUnitResponse;
+import com.berylsystems.buzz.networks.api_response.unit.DeleteUnitResponse;
+import com.berylsystems.buzz.networks.api_response.unit.EditUnitResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUnitDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.CreateUnitConversionResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.DeleteUnitConversionResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.EditUnitConversionResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionListResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -163,6 +174,26 @@ public interface Api {
     Call<GetMaterialCentreDetailResponse> getmaterialcentredetails(@Path("id") String id);
     @GET("stock_account/{id}")
     Call<StockResponse> getstock(@Path("id") String id);
+    @GET("company_item_units/{id}")
+    Call<GetUnitListResponse> getunitlist(@Path("id") String id);
+    @POST("item_unit")
+    Call<CreateUnitResponse> createunit(@Body RequestCreateUnit payload);
+    @PATCH("item_unit/{id}")
+    Call<EditUnitResponse> editunit(@Body RequestCreateUnit payload, @Path("id") String id);
+    @DELETE("item_unit/{id}")
+    Call<DeleteUnitResponse> deleteunit(@Path("id") String id);
+    @GET("item_unit/{id}")
+    Call<GetUnitDetailsResponse> getunitdetails(@Path("id") String id);
+    @GET("company_unit_conversion/{id}")
+    Call<GetUnitConversionListResponse> getunitconversionlist(@Path("id") String id);
+    @POST("unit_conversion")
+    Call<CreateUnitConversionResponse> createunitconversion(@Body RequestCreateUnitConversion payload);
+    @PATCH("unit_conversion/{id}")
+    Call<EditUnitConversionResponse> editunitconversion(@Body RequestCreateUnitConversion payload, @Path("id") String id);
+    @DELETE("unit_conversion/{id}")
+    Call<DeleteUnitConversionResponse> deleteunitconversion(@Path("id") String id);
+    @GET("unit_conversion/{id}")
+    Call<GetUnitConversionDetailsResponse> getunitconversiondetails(@Path("id") String id);
 
 
 

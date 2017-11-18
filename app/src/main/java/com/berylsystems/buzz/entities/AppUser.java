@@ -101,14 +101,37 @@ public class AppUser {
     public String delete_material_centre_group_id;
     public String edit_material_centre_id;
     public String delete_material_centre_id;
+    public ArrayList<String> unitConversionId=new ArrayList<>();
+    public ArrayList<String> unitConversionUnitName=new ArrayList<>();
+    public ArrayList<String> unitConversionSubUnitName=new ArrayList<>();
+    public ArrayList<String> arr_unitConversionId=new ArrayList<>();
+    public ArrayList<String> arr_unitlistConversionId=new ArrayList<>();
+    public ArrayList<String> arr_unitConversionUnitName=new ArrayList<>();
+    public ArrayList<String> arr_unitConversionSubUnitName=new ArrayList<>();
     public ArrayList<String> materialCentreGroupId=new ArrayList<>();
     public ArrayList<String> materialCentreGroupName=new ArrayList<>();
     public ArrayList<String> arr_materialCentreGroupId=new ArrayList<>();
     public ArrayList<String> arr_materialCentreGroupName=new ArrayList<>();
+    public ArrayList<String> arr_unitId=new ArrayList<>();
+    public ArrayList<String> arr_unitName=new ArrayList<>();
+    public ArrayList<String> arr_subunitName=new ArrayList<>();
+    public ArrayList<String> unitId=new ArrayList<>();
+    public ArrayList<String> unitName=new ArrayList<>();
+    public ArrayList<String> subunitName=new ArrayList<>();
     public String material_centre_city;
     public String stock_id;
     public ArrayList<String> arr_stock_name=new ArrayList<>();
     public ArrayList<String> arr_stock_id=new ArrayList<>();
+
+    public String delete_unit_id;
+    public String edit_unit_id;
+    public String delete_unit_conversion_id;
+    public String edit_unit_conversion_id;
+    public String uqc;
+    public String unit_name;
+    public String confactor;
+    public String main_unit_id;
+    public String sub_unit_id;
 
 
 

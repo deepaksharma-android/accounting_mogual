@@ -124,6 +124,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.unitconversion.CreateUnitConversionActivity"
+            android:parentActivityName=".activities.company.administration.master.unitconversion.UnitConversionListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

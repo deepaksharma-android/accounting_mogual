@@ -3,7 +3,6 @@ package com.berylsystems.buzz.networks;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
@@ -20,6 +19,8 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
+import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
 import com.berylsystems.buzz.networks.api_request.RequestForgotPassword;
 import com.berylsystems.buzz.networks.api_request.RequestLoginEmail;
@@ -27,7 +28,6 @@ import com.berylsystems.buzz.networks.api_request.RequestNewPassword;
 import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
-import com.berylsystems.buzz.networks.api_request.RequestStock;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
@@ -64,6 +64,16 @@ import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
+import com.berylsystems.buzz.networks.api_response.unit.CreateUnitResponse;
+import com.berylsystems.buzz.networks.api_response.unit.DeleteUnitResponse;
+import com.berylsystems.buzz.networks.api_response.unit.EditUnitResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUnitDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.CreateUnitConversionResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.DeleteUnitConversionResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.EditUnitConversionResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -189,6 +199,26 @@ public class ApiCallsService extends IntentService {
             handleGetMaterialCentreDetails();
         }else if (Cv.ACTION_GET_STOCK.equals(action)) {
             handleGetStock();
+        }else if (Cv.ACTION_GET_UNIT_LIST.equals(action)) {
+            handleGetUnitList();
+        }else if (Cv.ACTION_CREATE_UNIT.equals(action)) {
+            handleCreateUnit();
+        }else if (Cv.ACTION_EDIT_UNIT.equals(action)) {
+            handleEditUnit();
+        }else if (Cv.ACTION_DELETE_UNIT.equals(action)) {
+            handleDeleteUnit();
+        }else if (Cv.ACTION_GET_UNIT_DETAILS.equals(action)) {
+            handleGetUnitDetails();
+        }else if (Cv.ACTION_GET_UNIT_CONVERSION_LIST.equals(action)) {
+            handleGetUnitConversionList();
+        }else if (Cv.ACTION_CREATE_UNIT_CONVERSION.equals(action)) {
+            handleCreateUnitConversion();
+        }else if (Cv.ACTION_EDIT_UNIT_CONVERSION.equals(action)) {
+            handleEditUnitConversion();
+        }else if (Cv.ACTION_DELETE_UNIT_CONVERSION.equals(action)) {
+            handleDeleteUnitConversion();
+        }else if (Cv.ACTION_GET_UNIT_CONVERSION_DETAILS.equals(action)) {
+            handleGetUnitConversionDetails();
         }
 
 
@@ -1285,6 +1315,243 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<StockResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetUnitList() {
+        api.getunitlist(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetUnitListResponse>() {
+            @Override
+            public void onResponse(Call<GetUnitListResponse> call, Response<GetUnitListResponse> r) {
+                if (r.code() == 200) {
+                    GetUnitListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUnitListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateUnit() {
+        api.createunit(new RequestCreateUnit(this)).enqueue(new Callback<CreateUnitResponse>() {
+            @Override
+            public void onResponse(Call<CreateUnitResponse> call, Response<CreateUnitResponse> r) {
+                if (r.code() == 200) {
+                    CreateUnitResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateUnitResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleEditUnit() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.editunit(new RequestCreateUnit(this),appUser.edit_unit_id).enqueue(new Callback<EditUnitResponse>() {
+            @Override
+            public void onResponse(Call<EditUnitResponse> call, Response<EditUnitResponse> r) {
+                if (r.code() == 200) {
+                    EditUnitResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditUnitResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleDeleteUnit() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deleteunit(appUser.delete_unit_id).enqueue(new Callback<DeleteUnitResponse>() {
+            @Override
+            public void onResponse(Call<DeleteUnitResponse> call, Response<DeleteUnitResponse> r) {
+                if (r.code() == 200) {
+                    DeleteUnitResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteUnitResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetUnitDetails() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getunitdetails(appUser.edit_unit_id).enqueue(new Callback<GetUnitDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetUnitDetailsResponse> call, Response<GetUnitDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetUnitDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUnitDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleGetUnitConversionList() {
+        api.getunitconversionlist(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetUnitConversionListResponse>() {
+            @Override
+            public void onResponse(Call<GetUnitConversionListResponse> call, Response<GetUnitConversionListResponse> r) {
+                if (r.code() == 200) {
+                    GetUnitConversionListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUnitConversionListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCreateUnitConversion() {
+        api.createunitconversion(new RequestCreateUnitConversion(this)).enqueue(new Callback<CreateUnitConversionResponse>() {
+            @Override
+            public void onResponse(Call<CreateUnitConversionResponse> call, Response<CreateUnitConversionResponse> r) {
+                if (r.code() == 200) {
+                    CreateUnitConversionResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateUnitConversionResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleEditUnitConversion() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.editunitconversion(new RequestCreateUnitConversion(this),appUser.edit_unit_conversion_id).enqueue(new Callback<EditUnitConversionResponse>() {
+            @Override
+            public void onResponse(Call<EditUnitConversionResponse> call, Response<EditUnitConversionResponse> r) {
+                if (r.code() == 200) {
+                    EditUnitConversionResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditUnitConversionResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleDeleteUnitConversion() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deleteunitconversion(appUser.delete_unit_conversion_id).enqueue(new Callback<DeleteUnitConversionResponse>() {
+            @Override
+            public void onResponse(Call<DeleteUnitConversionResponse> call, Response<DeleteUnitConversionResponse> r) {
+                if (r.code() == 200) {
+                    DeleteUnitConversionResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteUnitConversionResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetUnitConversionDetails() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getunitconversiondetails(appUser.edit_unit_conversion_id).enqueue(new Callback<GetUnitConversionDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetUnitConversionDetailsResponse> call, Response<GetUnitConversionDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetUnitConversionDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUnitConversionDetailsResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

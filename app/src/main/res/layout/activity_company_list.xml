@@ -69,7 +69,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="0.2"
                 android:gravity="center"
-                android:background="@color/button_color">
+                >
 
                 <ImageView
                     android:layout_width="30dp"
