@@ -65,6 +65,15 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
 
         frommunitconversionlist = getIntent().getExtras().getBoolean("fromunitconversionlist");
         if (frommunitconversionlist) {
+            mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
+            mMainUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mMainUnitSpinner.setAdapter(mMainUnitAdapter);
+
+            mSubUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
+            mSubUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mSubUnitSpinner.setAdapter(mSubUnitAdapter);
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_unit_conversion_id = String.valueOf(getIntent().getExtras().getInt("id"));
@@ -118,15 +127,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-    /*    mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
-        mMainUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mMainUnitSpinner.setAdapter(mMainUnitAdapter);
 
-        mSubUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
-        mSubUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSubUnitSpinner.setAdapter(mSubUnitAdapter);*/
 Timber.i("AR****"+appUser.arr_unitConversionId);
         mMainUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
