@@ -20,7 +20,7 @@ public class RequestCreateUnit {
         item_unit = new HashMap<>();
         item_unit.put("company_id", Preferences.getInstance(ctx).getCid());
         item_unit.put("name",appUser.unit_name);
-        item_unit.put("uqc", appUser.uqc);
+        item_unit.put("uqc_id", appUser.uqc);
 
 
     }

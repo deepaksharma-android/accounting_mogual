@@ -49,6 +49,9 @@ public class AppUser {
     public ArrayList<Integer> arr_item_group_id=new ArrayList<>();
     public ArrayList<String> group_name1=new ArrayList<>();
     public ArrayList<Integer> group_id1=new ArrayList<>();
+    public ArrayList<String> arr_uqcname=new ArrayList<>();
+    public ArrayList<Integer> arr_uqcid=new ArrayList<>();
+    public String uqc_id;
     public String industryId;
     public String default_tax_rate1;
     public String default_tax_rate2;

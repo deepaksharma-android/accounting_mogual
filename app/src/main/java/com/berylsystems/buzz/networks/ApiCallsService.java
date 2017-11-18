@@ -63,6 +63,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.networks.api_response.unit.CreateUnitResponse;
@@ -208,6 +209,8 @@ public class ApiCallsService extends IntentService {
             handleGetMaterialCentreDetails();
         }else if (Cv.ACTION_GET_STOCK.equals(action)) {
             handleGetStock();
+        }else if (Cv.ACTION_GET_UQC.equals(action)) {
+            handleGetUqc();
         }else if (Cv.ACTION_GET_UNIT_LIST.equals(action)) {
             handleGetUnitList();
         }else if (Cv.ACTION_CREATE_UNIT.equals(action)) {
@@ -1502,6 +1505,29 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<StockResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetUqc() {
+        api.getuqc().enqueue(new Callback<GetUqcResponse>() {
+            @Override
+            public void onResponse(Call<GetUqcResponse> call, Response<GetUqcResponse> r) {
+                if (r.code() == 200) {
+                    GetUqcResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUqcResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

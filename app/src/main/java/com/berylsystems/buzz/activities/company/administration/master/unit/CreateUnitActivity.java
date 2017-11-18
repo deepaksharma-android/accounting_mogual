@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -25,6 +26,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.unit.CreateUnitResponse;
 import com.berylsystems.buzz.networks.api_response.unit.EditUnitResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUnitDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -50,6 +52,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean frommunitlist;
+    ArrayAdapter<String> muqcAdapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,10 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         initActionbar();
         frommunitlist = getIntent().getExtras().getBoolean("fromunitlist");
         if (frommunitlist) {
+            muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_uqcname);
+            muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mSpinnerUqc.setAdapter(muqcAdapter);
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_unit_id = getIntent().getExtras().getString("id");
@@ -86,10 +93,39 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+        else{
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateUnitActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UQC);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
+   /*     muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_uqcname);
+        muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mSpinnerUqc.setAdapter(muqcAdapter);*/
+
         mSpinnerUqc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                appUser.uqc=mSpinnerUqc.getSelectedItem().toString();
+                appUser.uqc= String.valueOf(appUser.arr_uqcid.get(i));
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
 
@@ -98,6 +134,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
 
             }
         });
+
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,9 +270,9 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             Timber.i("GROUPINDEX"+group_type);
             // insert code here
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.uqc).length; i++) {
+            for (int i = 0; i<appUser.arr_uqcname.size(); i++) {
                 Timber.i("GROUPINDEX"+appUser.arr_stock_name);
-                if (getResources().getStringArray(R.array.state)[i].equals(group_type)) {
+                if (appUser.arr_uqcname.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
@@ -244,8 +281,28 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             mSpinnerUqc.setSelection(groupindex);
 
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getuqc(GetUqcResponse response){
+        mProgressDialog.dismiss();
+        appUser.arr_uqcid.clear();
+        appUser.arr_uqcname.clear();
+        if(response.getStatus()==200){
+            for(int i=0;i<response.getUqc().getData().size();i++){
+                appUser.arr_uqcid.add(response.getUqc().getData().get(i).getAttributes().getId());
+                appUser.arr_uqcname.add(response.getUqc().getData().get(i).getAttributes().getName());
+                LocalRepositories.saveAppUser(this,appUser);
+            }
+
+            muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_uqcname);
+            muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mSpinnerUqc.setAdapter(muqcAdapter);
+
+
         }
     }
 }

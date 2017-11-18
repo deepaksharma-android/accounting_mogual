@@ -58,6 +58,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
 import com.berylsystems.buzz.networks.api_response.unit.CreateUnitResponse;
@@ -91,138 +92,197 @@ import retrofit2.http.Query;
 public interface Api {
     @POST("signup")
     Call<UserApiResponse> register(@Body RequestRegister payload);
+
     @PATCH("forgot_password")
     Call<UserApiResponse> forgotpassword(@Body RequestForgotPassword payload);
+
     @POST("verify_otp")
     Call<UserApiResponse> verifyotp(@Body RequestVerification payload);
+
     @PATCH("update_user")
     Call<UserApiResponse> newpassword(@Body RequestNewPassword payload);
+
     @PATCH("resend_otp")
     Call<OtpResponse> resendotp(@Body RequestResendOtp payload);
+
     @POST("login")
-    Call<UserApiResponse>login(@Body RequestLoginEmail payload);
+    Call<UserApiResponse> login(@Body RequestLoginEmail payload);
+
     @PATCH("update_user")
     Call<UserApiResponse> updatemobile(@Body RequestUpdateMobileNumber payload);
+
     @GET("check_exist")
     Call<UserExistResponse> exist(@Query("fb_id") String fb_id);
+
     @POST("company")
-    Call<CreateCompanyResponse>createcompany(@Body RequestCreateCompany payload);
+    Call<CreateCompanyResponse> createcompany(@Body RequestCreateCompany payload);
+
     @PATCH("company/{id}")
-    Call<CreateCompanyResponse>cbasiccompany(@Body RequestBasic payload, @Path("id") String id);
+    Call<CreateCompanyResponse> cbasiccompany(@Body RequestBasic payload, @Path("id") String id);
+
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload, @Path("id") String id);
+
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cgst(@Body RequestCompanyGst payload, @Path("id") String id);
+
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cadditional(@Body RequestCompanyAdditional payload, @Path("id") String id);
+
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> clogo(@Body RequestCompanyLogo payload, @Path("id") String id);
+
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> csignature(@Body RequestCompanySignature payload, @Path("id") String id);
+
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> ceditlogin(@Body RequestEditLogin payload, @Path("id") String id);
+
     @POST("companylogin/{id}")
     Call<CompanyLoginResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);
+
     @GET("get_company/{id}")
     Call<CompanyListResponse> getCompanyList(@Path("id") String id);
+
     @DELETE("company/{id}")
     Call<DeleteCompanyResponse> cdelete(@Path("id") String id);
+
     @GET("get_industry")
     Call<IndustryTypeResponse> getIndustry();
+
     @POST("company_auth/{id}")
-    Call<CompanyAuthenticateResponse> cauthenticate(@Body RequestCompanyAuthenticate payload, @Path("id") String id );
+    Call<CompanyAuthenticateResponse> cauthenticate(@Body RequestCompanyAuthenticate payload, @Path("id") String id);
+
     @GET("company/{id}")
     Call<CompanyResponse> getcompany(@Path("id") String id);
+
     @GET("company/{id}")
     Call<CompanyResponse> searchcompany(@Path("id") String id);
+
     @GET("companyusers/{id}")
     Call<CompanyUserResponse> getcompanyusers(@Path("id") String id);
+
     @POST("create_account_group")
     Call<CreateAccountGroupResponse> createaccountgroup(@Body RequestCreateAccountGroup payload);
+
     @GET("account_groups/{id}")
     Call<GetAccountGroupResponse> getaccountgroup(@Path("id") String id);
+
     @GET("account_groups_details/{id}")
     Call<GetAccountGroupDetailsResponse> getaccountgroupdetails(@Path("id") String id);
+
     @PATCH("account_groups/{id}")
     Call<EditAccountGroupResponse> editaccountgroup(@Body RequestCreateAccountGroup payload, @Path("id") String id);
+
     @POST("account")
     Call<CreateAccountResponse> createaccount(@Body RequestCreateAccount payload);
+
     @GET("account/{id}")
     Call<GetAccountResponse> getaccount(@Path("id") String id);
+
     @GET("account_detail/{id}")
     Call<GetAccountDetailsResponse> getaccountdetails(@Path("id") String id);
+
     @PATCH("account/{id}")
-    Call<EditAccountResponse> editaccount(@Body RequestCreateAccount payload,@Path("id") String id);
+    Call<EditAccountResponse> editaccount(@Body RequestCreateAccount payload, @Path("id") String id);
+
     @DELETE("account/{id}")
     Call<DeleteAccountResponse> deleteaccount(@Path("id") String id);
+
     @DELETE("account_groups/{id}")
     Call<DeleteAccountGroupResponse> deleteaccountgroup(@Path("id") String id);
+
     @GET("getplan")
     Call<GetPackageResponse> getpackage();
+
     @POST("user_plan")
     Call<PlanResponse> plan(@Body RequestPlan payload);
+
     @GET("company_material_center_groups/{id}")
     Call<GetMaterialCentreGroupListResponse> getmaterialcentregrouplist(@Path("id") String id);
+
     @POST("material_center_group")
     Call<CreateMaterialCentreGroupResponse> creatematerialcentregroup(@Body RequestCreateMaterialCentreGroup payload);
+
     @PATCH("material_center_group/{id}")
-    Call<EditMaterialCentreGroupResponse> editmaterialcentregroup(@Body RequestCreateMaterialCentreGroup payload,@Path("id") String id);
+    Call<EditMaterialCentreGroupResponse> editmaterialcentregroup(@Body RequestCreateMaterialCentreGroup payload, @Path("id") String id);
+
     @DELETE("material_center_group/{id}")
     Call<DeleteMaterialCentreGroupResponse> deletematerialcentregroup(@Path("id") String id);
+
     @GET("material_center_group/{id}")
     Call<GetMaterialCentreGroupDetailResponse> getmaterialcentregroupdetails(@Path("id") String id);
+
     @GET("company_material_center/{id}")
     Call<GetMaterialCentreListResponse> getmaterialcentrelist(@Path("id") String id);
+
     @POST("material_center")
     Call<CreateMaterialCentreResponse> creatematerialcentre(@Body RequestCreateMaterialCentre payload);
+
     @PATCH("material_center/{id}")
     Call<EditMaterialCentreReponse> editmaterialcentre(@Body RequestCreateMaterialCentre payload, @Path("id") String id);
+
     @DELETE("material_center/{id}")
     Call<DeleteMaterialCentreResponse> deletematerialcentre(@Path("id") String id);
+
     @GET("material_center/{id}")
     Call<GetMaterialCentreDetailResponse> getmaterialcentredetails(@Path("id") String id);
+
     @GET("stock_account/{id}")
     Call<StockResponse> getstock(@Path("id") String id);
+    @GET("uqc_details")
+    Call<GetUqcResponse> getuqc();
+
     @GET("company_item_units/{id}")
     Call<GetUnitListResponse> getunitlist(@Path("id") String id);
+
     @POST("item_unit")
     Call<CreateUnitResponse> createunit(@Body RequestCreateUnit payload);
+
     @PATCH("item_unit/{id}")
     Call<EditUnitResponse> editunit(@Body RequestCreateUnit payload, @Path("id") String id);
+
     @DELETE("item_unit/{id}")
     Call<DeleteUnitResponse> deleteunit(@Path("id") String id);
+
     @GET("item_unit/{id}")
     Call<GetUnitDetailsResponse> getunitdetails(@Path("id") String id);
+
     @GET("company_unit_conversion/{id}")
     Call<GetUnitConversionListResponse> getunitconversionlist(@Path("id") String id);
+
     @POST("unit_conversion")
     Call<CreateUnitConversionResponse> createunitconversion(@Body RequestCreateUnitConversion payload);
+
     @PATCH("unit_conversion/{id}")
     Call<EditUnitConversionResponse> editunitconversion(@Body RequestCreateUnitConversion payload, @Path("id") String id);
+
     @DELETE("unit_conversion/{id}")
     Call<DeleteUnitConversionResponse> deleteunitconversion(@Path("id") String id);
+
     @GET("unit_conversion/{id}")
     Call<GetUnitConversionDetailsResponse> getunitconversiondetails(@Path("id") String id);
-   @GET("item/{id}")
-	Call<GetItemResponse> getitem(@Path("id") String id);
-	@POST("item")
-	Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);
-	 @GET("company_item_groups/{id}")
-    Call<GetItemGroupResponse>getitemgroup(@Path("id") String id);
+
+    @GET("item/{id}")
+    Call<GetItemResponse> getitem(@Path("id") String id);
+
+    @POST("item")
+    Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);
+
+    @GET("company_item_groups/{id}")
+    Call<GetItemGroupResponse> getitemgroup(@Path("id") String id);
+
     @POST("item_group")
     Call<CreateItemGroupResponse> createitemgroup(@Body RequestCreateItemGroup payload);
+
     @DELETE("item_group/{id}")
     Call<DeleteItemGroupReponse> deleteitemgroup(@Path("id") String id);
+
     @GET("item_group/{id}")
     Call<GetItemGroupDetailsResponse> getitemgroupdetails(@Path("id") String id);
+
     @PATCH("item_group/{id}")
     Call<EditItemGroupResponse> edititemgroup(@Body RequestCreateItemGroup payload, @Path("id") String id);
-
-
-
-
-
-
 
 
 }
