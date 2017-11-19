@@ -42,7 +42,7 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
     @Override
     public void onBindViewHolder(BillSundryListAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
-        if(data.get(i).getAttributes().getUndefined()==true){
+        if(data.get(i).getAttributes().getUndefined()==false){
             viewHolder.mDelete.setVisibility(View.VISIBLE);
             viewHolder.mEdit.setVisibility(View.VISIBLE);
         }

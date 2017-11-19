@@ -44,13 +44,7 @@ public class BillSundryAttributes {
         this.number_of_bill_sundry = number_of_bill_sundry;
     }
 
-    public int getDefault_value() {
-        return default_value;
-    }
 
-    public void setDefault_value(int default_value) {
-        this.default_value = default_value;
-    }
 
     public String getBill_sundry_type() {
         return bill_sundry_type;
@@ -69,7 +63,16 @@ public class BillSundryAttributes {
     }
 
     public String bill_sundry_nature;
-    public int default_value;
+
+    public Double getDefault_value() {
+        return default_value;
+    }
+
+    public void setDefault_value(Double default_value) {
+        this.default_value = default_value;
+    }
+
+    public Double default_value;
     public int number_of_bill_sundry;
     public BillSundryAffectCost bill_sundry_affects_cost;
     public BillSundryAffectSale bill_sundry_affects_sale;

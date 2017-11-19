@@ -172,9 +172,10 @@ public class BillSundryListActivity extends BaseActivityCompany {
     public void deletebillsundryresponse(DeleteBillSundryResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BILL_SUNDRY_LIST);
+
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BILL_SUNDRY_LIST);
         }
         else{
             Snackbar

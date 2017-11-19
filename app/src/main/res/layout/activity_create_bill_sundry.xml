@@ -48,7 +48,7 @@
                         android:orientation="vertical">
 
                         <com.berylsystems.buzz.utils.BuzzEditText
-                            android:id="@+id/account_name"
+                            android:id="@+id/sundry_name"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -158,7 +158,8 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.berylsystems.buzz.utils.BuzzEditText
+
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
