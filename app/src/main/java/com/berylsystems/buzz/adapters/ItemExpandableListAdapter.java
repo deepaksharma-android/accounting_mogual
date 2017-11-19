@@ -1,6 +1,8 @@
 package com.berylsystems.buzz.adapters;
 
+import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+
 import com.berylsystems.buzz.utils.EventDeleteAccount;
+import com.berylsystems.buzz.utils.EventDeleteItem;
 import com.berylsystems.buzz.utils.EventEditAccount;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,11 +67,12 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventDeleteAccount(id));
+                EventBus.getDefault().post(new EventDeleteItem(id));
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {

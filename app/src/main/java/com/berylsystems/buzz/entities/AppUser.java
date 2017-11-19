@@ -215,6 +215,7 @@ public class AppUser {
 
     public String edit_bill_sundry_id;
     public String delete_bill_sundry_id;
+    public String delete_item_id="";
 
 
 

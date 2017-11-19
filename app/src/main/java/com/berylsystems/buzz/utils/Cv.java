@@ -81,5 +81,6 @@ public interface Cv {
     String KEY_FB_PARAMS = "fields";
     String FB_PARAMETERS = "id,email,first_name,last_name,birthday";
 
+    String ACTION_DELETE_ITEM="action_delete_item";
 
 }

@@ -54,6 +54,8 @@ import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
+import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.CreateItemGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
@@ -261,6 +263,8 @@ public class ApiCallsService extends IntentService {
             handleGetBillSundryDetails();;
         } else if (Cv.ACTION_EDIT_BILL_SUNDRY.equals(action)) {
             handleEditBillSundry();
+        } else if (Cv.ACTION_DELETE_ITEM.equals(action)) {
+            handleDeleteItem();
         }
     }
 
@@ -337,6 +341,29 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleDeleteItem() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.deleteitem(appUser.delete_item_id).enqueue(new Callback<DeleteItemResponse>() {
+            @Override
+            public void onResponse(Call<DeleteItemResponse> call, Response<DeleteItemResponse> r) {
+                if (r.code() == 200) {
+                    DeleteItemResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteItemResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
     private void handleGetItemGroup() {
         api.getitemgroup(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetItemGroupResponse>() {
             @Override

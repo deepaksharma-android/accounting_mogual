@@ -118,7 +118,7 @@
                         android:orientation="horizontal">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/unit"
+                            android:id="@+id/item_unit"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -220,9 +220,10 @@
                             android:textColor="#000" />
                     </LinearLayout>
 
-                  <!--  <LinearLayout
+                    <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="40dp"
+                        android:visibility="gone"
                         android:layout_gravity="center"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
@@ -235,10 +236,30 @@
                             android:id="@+id/item_price_info_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:entries="@array/item_price_info"
                             android:spinnerMode="dialog"></Spinner>
 
-                    </LinearLayout>-->
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/setting"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:onClick="setting"
+                            android:padding="10dp"
+                            android:text="SETTINGS"
+                            android:textAllCaps="false"
+                            android:textColor="#000" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="fill_parent"

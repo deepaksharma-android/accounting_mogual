@@ -71,6 +71,10 @@
         <item>Uttarakhand</item>
         <item>West Bengal</item>
     </string-array>
+    <string-array name="setting_array">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
     <string-array name="primary_group">
         <item>Yes</item>
         <item>No</item>

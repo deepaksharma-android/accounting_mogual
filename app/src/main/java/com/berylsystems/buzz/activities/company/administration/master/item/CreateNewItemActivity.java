@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,11 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.text.method.TimeKeyListener;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,10 +40,12 @@ import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
@@ -47,6 +53,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateNewItemActivity extends RegisterAbstractActivity {
 
@@ -73,14 +80,28 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     @Bind(R.id.group_layout)
     LinearLayout mGroupLayout;
 
+    @Bind(R.id.unit_layout)
+    LinearLayout mUnitLayout;
+
     @Bind(R.id.item_group)
     TextView mItemGroup;
+
+    @Bind(R.id.item_unit)
+    TextView mItemUnit;
+
+    @Bind(R.id.item_name)
+    EditText itemName;
 
     Animation blinkOnClick;
 
     AppUser appUser;
 
     Double first, second, third;
+
+
+    LinearLayout group_layout;
+
+    TextView item_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +116,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         appUser.item_stock_value = "";
 
         appUser.item_conversion_factor = "";
-        appUser.item_stock_quantity_alternate = "";
+        appUser.item_stock_quantity = "";
 
         appUser.item_conversion_factor_pkg_unit = "";
         appUser.item_salse_price = "";
+
+        appUser.item_description = "";
 
         LocalRepositories.saveAppUser(this, appUser);
 
@@ -109,6 +132,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 mSubmitButton.startAnimation(blinkOnClick);
+                appUser.item_name = itemName.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
             }
         });
@@ -122,6 +147,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 startActivityForResult(intent, 1);
             }
         });
+
+        mUnitLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+                intent.putExtra("frommaster", false);
+                startActivityForResult(intent, 2);
+            }
+        });
+
 
     }
 
@@ -248,6 +283,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         cancelImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(view);
                 dialog.dismiss();
             }
         });
@@ -260,28 +296,40 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         dialog.setContentView(R.layout.dialog_alternate_unit_details);
         dialog.setCancelable(true);
         dialog.show();
+        item_group = (TextView) dialog.findViewById(R.id.item_group);
+
+        group_layout = (LinearLayout) dialog.findViewById(R.id.group_layout);
+        group_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+                intent.putExtra("frommaster", false);
+                startActivityForResult(intent, 3);
+            }
+        });
+
 
         EditText item_conversion_factor = (EditText) dialog.findViewById(R.id.con_factor);
-        EditText item_stock_quantity_alternate = (EditText) dialog.findViewById(R.id.stock_quantity);
+        EditText item_stock_quantity = (EditText) dialog.findViewById(R.id.stock_quantity);
 
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
 
         if (!appUser.item_conversion_factor.equals("")) {
             item_conversion_factor.setText(appUser.item_conversion_factor);
         }
-        if (!appUser.item_stock_quantity_alternate.equals("")) {
-            item_stock_quantity_alternate.setText(appUser.item_stock_quantity_alternate);
+        if (!appUser.item_stock_quantity.equals("")) {
+            item_stock_quantity.setText(appUser.item_stock_quantity);
         }
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appUser.item_conversion_factor = item_conversion_factor.getText().toString();
-                appUser.item_stock_quantity_alternate = item_stock_quantity_alternate.getText().toString();
+                appUser.item_stock_quantity = item_stock_quantity.getText().toString();
                 if (!appUser.item_conversion_factor.equals("")) {
                     item_conversion_factor.setText(appUser.item_conversion_factor);
                 }
-                if (!appUser.item_stock_quantity_alternate.equals("")) {
-                    item_stock_quantity_alternate.setText(appUser.item_stock_quantity_alternate);
+                if (!appUser.item_stock_quantity.equals("")) {
+                    item_stock_quantity.setText(appUser.item_stock_quantity);
                 }
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 dialog.dismiss();
@@ -292,6 +340,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         cancleImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(view);
                 dialog.dismiss();
             }
         });
@@ -309,6 +358,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         cancleImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(view);
                 dialog.dismiss();
             }
         });
@@ -330,6 +380,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         dialog.setCancelable(true);
         dialog.show();
 
+        item_group = (TextView) dialog.findViewById(R.id.item_group);
+        group_layout = (LinearLayout) dialog.findViewById(R.id.group_layout);
+        group_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+                intent.putExtra("frommaster", false);
+                startActivityForResult(intent, 4);
+            }
+        });
 
         EditText item_conversion_factor_pkg_unit = (EditText) dialog.findViewById(R.id.con_factor);
         EditText item_sales_price = (EditText) dialog.findViewById(R.id.Sales_price);
@@ -364,6 +424,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         cancleImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(view);
                 dialog.dismiss();
             }
         });
@@ -376,28 +437,91 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         dialog.setContentView(R.layout.dialog_item_description);
         dialog.setCancelable(true);
         dialog.show();
+        EditText item_description = (EditText) dialog.findViewById(R.id.item_description);
+        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        if (!appUser.item_description.equals("")) {
+            item_description.setText(appUser.item_description);
+        }
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUser.item_description = item_description.getText().toString();
+                if (!appUser.item_description.equals("")) {
+                    item_description.setText(appUser.item_description);
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                dialog.dismiss();
+            }
+        });
         LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
         cancleImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyBoard(view);
                 dialog.dismiss();
             }
         });
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
+
+
+    }
+
+    public void setting(View view) {
+
+        view.startAnimation(blinkOnClick);
+
+        Dialog dialog = new Dialog(CreateNewItemActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_setting);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
+        cancleImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submit.startAnimation(blinkOnClick);
+                hideKeyBoard(view);
+                dialog.dismiss();
             }
         });
 
+        Spinner spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (id == 0) {
+
+                } else {
+                    Dialog dialog = new Dialog(CreateNewItemActivity.this);
+                    dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_critical_level);
+                    dialog.setCancelable(true);
+                    dialog.show();
+                    LinearLayout cancelImage = (LinearLayout) dialog.findViewById(R.id.imageCancel);
+                    cancelImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    //spinner.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
+
 
     @Subscribe
     public void createitem(CreateItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            //startActivity(new Intent(getApplicationContext(),ExpandableAccountListActivity.class));
+            startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 
         } else {
@@ -412,7 +536,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.create_account_group_id = id;
+                appUser.item_group_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mItemGroup.setText(result);
             }
@@ -420,6 +544,71 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 //Write your code if there's no result
                 mItemGroup.setText("");
             }
+        }
+
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.item_unit_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mItemUnit.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                mItemGroup.setText("");
+            }
+        }
+
+        if (requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.item_alternate_unit_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                item_group.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                item_group.setText("");
+            }
+        }
+
+
+        if (requestCode == 4) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                Timber.i("MYID" + id);
+                appUser.item_package_unit_detail_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                item_group.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                item_group.setText("");
+            }
+        }
+    }
+
+    private void hideKeyBoard(View view) {
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+    @Subscribe
+    public void editItem(EditItemGroupResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Intent intent = new Intent(this, ItemGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreategroup", true);
+            startActivity(intent);
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 }

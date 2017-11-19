@@ -571,7 +571,7 @@ public class CreateBillSundryActivity extends AppCompatActivity {
         LinearLayout close = (LinearLayout) dialogbal.findViewById(R.id.close);
         Spinner spinner1=(Spinner)dialogbal.findViewById(R.id.spinner1);
         Spinner spinner2=(Spinner)dialogbal.findViewById(R.id.spinner2);
-        EditText
+
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

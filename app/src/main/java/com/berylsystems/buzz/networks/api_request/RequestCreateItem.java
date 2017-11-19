@@ -15,9 +15,9 @@ public class RequestCreateItem {
     public RequestCreateItem(Context ctx) {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
         item = new HashMap<>();
-        item.put("id", appUser.item_id);
+        item.put("name", appUser.item_name);
         item.put("company_id", Preferences.getInstance(ctx).getCid());
-        item.put("item_group_id", appUser.item_item_group_id);
+        item.put("item_group_id", appUser.item_group_id);
         item.put("item_unit_id", appUser.item_unit_id);
         item.put("stock_quantity", appUser.item_stock_quantity);
         item.put("stock_amount", appUser.item_stock_amount);

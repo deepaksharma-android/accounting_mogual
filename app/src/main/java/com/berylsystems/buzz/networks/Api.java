@@ -50,6 +50,8 @@ import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResp
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
@@ -274,6 +276,9 @@ public interface Api {
 
     @POST("item")
     Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);
+	
+	    @DELETE("item/{id}")
+    Call<DeleteItemResponse> deleteitem(@Path("id") String id);
 
     @GET("company_item_groups/{id}")
     Call<GetItemGroupResponse> getitemgroup(@Path("id") String id);
