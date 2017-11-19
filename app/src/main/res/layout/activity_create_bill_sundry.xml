@@ -266,7 +266,7 @@
                             android:layout_height="40dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
-                            android:onClick="creaditinfo"
+                            android:onClick="roundof"
                             android:padding="10dp"
                             android:text="BILL SUNDRY AMOUNT ROUND OF"
                             android:textAllCaps="false"

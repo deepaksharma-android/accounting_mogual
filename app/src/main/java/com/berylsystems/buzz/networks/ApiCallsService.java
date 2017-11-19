@@ -16,6 +16,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
@@ -40,6 +41,11 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGro
 import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.CreateBillSundryResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -129,107 +135,107 @@ public class ApiCallsService extends IntentService {
             handleResendOtp();
         } else if (Cv.ACTION_LOGIN.equals(action)) {
             handleLogin();
-        }else if (Cv.ACTION_FACEBOOK_CHECK.equals(action)) {
+        } else if (Cv.ACTION_FACEBOOK_CHECK.equals(action)) {
             handlefacebookcheck();
-        }else if (Cv.ACTION_CREATE_COMPANY.equals(action)) {
+        } else if (Cv.ACTION_CREATE_COMPANY.equals(action)) {
             handleCreateCompany();
         } else if (Cv.ACTION_CREATE_BASIC.equals(action)) {
             handleBasic();
         } else if (Cv.ACTION_CREATE_DETAILS.equals(action)) {
             handleCompanyDetails();
-        }else if (Cv.ACTION_CREATE_GST.equals(action)) {
+        } else if (Cv.ACTION_CREATE_GST.equals(action)) {
             handleCompanyGst();
         } else if (Cv.ACTION_CREATE_ADDITIONAL.equals(action)) {
             handleCompanyAdditional();
-        }else if (Cv.ACTION_CREATE_LOGO.equals(action)) {
+        } else if (Cv.ACTION_CREATE_LOGO.equals(action)) {
             handleCompanyLogo();
-        }else if (Cv.ACTION_CREATE_SIGNATURE.equals(action)) {
+        } else if (Cv.ACTION_CREATE_SIGNATURE.equals(action)) {
             handleCompanySignature();
-        }else if (Cv.ACTION_CREATE_LOGIN.equals(action)) {
+        } else if (Cv.ACTION_CREATE_LOGIN.equals(action)) {
             handleCompanyLogin();
         } else if (Cv.ACTION_COMPANY_LIST.equals(action)) {
             handleCompanyList();
-        }else if (Cv.ACTION_DELETE_COMPANY.equals(action)) {
+        } else if (Cv.ACTION_DELETE_COMPANY.equals(action)) {
             handleDeleteCompany();
-        }else if (Cv.ACTION_GET_INDUSTRY.equals(action)) {
+        } else if (Cv.ACTION_GET_INDUSTRY.equals(action)) {
             handleGetIndustry();
         } else if (Cv.ACTION_COMPANY_AUTHENTICATE.equals(action)) {
             handleAuthenticateCompany();
-        }else if (Cv.ACTION_GET_COMPANY.equals(action)) {
+        } else if (Cv.ACTION_GET_COMPANY.equals(action)) {
             handleGetCompany();
-        }else if (Cv.ACTION_SEARCH_COMPANY.equals(action)) {
+        } else if (Cv.ACTION_SEARCH_COMPANY.equals(action)) {
             handleSearchCompany();
-        }else if (Cv.ACTION_GET_COMPANY_USER.equals(action)) {
+        } else if (Cv.ACTION_GET_COMPANY_USER.equals(action)) {
             handleGetCompanyUser();
-        }else if (Cv.ACTION_EDIT_LOGIN.equals(action)) {
+        } else if (Cv.ACTION_EDIT_LOGIN.equals(action)) {
             handleEditLogin();
-        }else if (Cv.ACTION_CREATE_ACCOUNT_GROUP.equals(action)) {
+        } else if (Cv.ACTION_CREATE_ACCOUNT_GROUP.equals(action)) {
             handleCreateAccountGroup();
-        }else if (Cv.ACTION_GET_ACCOUNT_GROUP.equals(action)) {
+        } else if (Cv.ACTION_GET_ACCOUNT_GROUP.equals(action)) {
             handleGetAccountGroup();
-        }else if (Cv.ACTION_GET_ACCOUNT_GROUP_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_GET_ACCOUNT_GROUP_DETAILS.equals(action)) {
             handleGetAccountGroupDetails();
-        }else if (Cv.ACTION_EDIT_ACCOUNT_GROUP.equals(action)) {
+        } else if (Cv.ACTION_EDIT_ACCOUNT_GROUP.equals(action)) {
             handleEditAccountGroup();
-        }else if (Cv.ACTION_CREATE_ACCOUNT.equals(action)) {
+        } else if (Cv.ACTION_CREATE_ACCOUNT.equals(action)) {
             handleCreateAccount();
-        }else if (Cv.ACTION_GET_ACCOUNT.equals(action)) {
+        } else if (Cv.ACTION_GET_ACCOUNT.equals(action)) {
             handleGetAccount();
-        }else if (Cv.ACTION_GET_ACCOUNT_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_GET_ACCOUNT_DETAILS.equals(action)) {
             handleGetAccountDetails();
-        }else if (Cv.ACTION_EDIT_ACCOUNT.equals(action)) {
+        } else if (Cv.ACTION_EDIT_ACCOUNT.equals(action)) {
             handleEditAccount();
-        }else if (Cv.ACTION_DELETE_ACCOUNT.equals(action)) {
+        } else if (Cv.ACTION_DELETE_ACCOUNT.equals(action)) {
             handleDeleteAccount();
-        }else if (Cv.ACTION_DELETE_ACCOUNT_GROUP.equals(action)) {
+        } else if (Cv.ACTION_DELETE_ACCOUNT_GROUP.equals(action)) {
             handleDeleteAccountGroup();
-        }else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
+        } else if (Cv.ACTION_GET_PACKAGES.equals(action)) {
             handleGetPackages();
-        }else if (Cv.ACTION_PLANS.equals(action)) {
+        } else if (Cv.ACTION_PLANS.equals(action)) {
             handlePlans();
-        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_LIST.equals(action)) {
+        } else if (Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_LIST.equals(action)) {
             handleGetMaterialCentreGroupList();
-        }else if (Cv.ACTION_CREATE_MATERIAL_CENTRE_GROUP.equals(action)) {
+        } else if (Cv.ACTION_CREATE_MATERIAL_CENTRE_GROUP.equals(action)) {
             handleCreateMaterialCentreGroup();
-        }else if (Cv.ACTION_EDIT_MATERIAL_CENTRE_GROUP.equals(action)) {
+        } else if (Cv.ACTION_EDIT_MATERIAL_CENTRE_GROUP.equals(action)) {
             handleEditMaterialCentreGroup();
-        }else if (Cv.ACTION_DELETE_MATERIAL_CENTRE_GROUP.equals(action)) {
+        } else if (Cv.ACTION_DELETE_MATERIAL_CENTRE_GROUP.equals(action)) {
             handleDeleteMaterialCentreGroup();
-        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_GET_MATERIAL_CENTRE_GROUP_DETAILS.equals(action)) {
             handleGetMaterialCentreGroupDetails();
-        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_LIST.equals(action)) {
+        } else if (Cv.ACTION_GET_MATERIAL_CENTRE_LIST.equals(action)) {
             handleGetMaterialCentreList();
-        }else if (Cv.ACTION_CREATE_MATERIAL_CENTRE.equals(action)) {
+        } else if (Cv.ACTION_CREATE_MATERIAL_CENTRE.equals(action)) {
             handleCreateMaterialCentre();
-        }else if (Cv.ACTION_EDIT_MATERIAL_CENTRE.equals(action)) {
+        } else if (Cv.ACTION_EDIT_MATERIAL_CENTRE.equals(action)) {
             handleEditMaterialCentre();
-        }else if (Cv.ACTION_DELETE_MATERIAL_CENTRE.equals(action)) {
+        } else if (Cv.ACTION_DELETE_MATERIAL_CENTRE.equals(action)) {
             handleDeleteMaterialCentre();
-        }else if (Cv.ACTION_GET_MATERIAL_CENTRE_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_GET_MATERIAL_CENTRE_DETAILS.equals(action)) {
             handleGetMaterialCentreDetails();
-        }else if (Cv.ACTION_GET_STOCK.equals(action)) {
+        } else if (Cv.ACTION_GET_STOCK.equals(action)) {
             handleGetStock();
-        }else if (Cv.ACTION_GET_UQC.equals(action)) {
+        } else if (Cv.ACTION_GET_UQC.equals(action)) {
             handleGetUqc();
-        }else if (Cv.ACTION_GET_UNIT_LIST.equals(action)) {
+        } else if (Cv.ACTION_GET_UNIT_LIST.equals(action)) {
             handleGetUnitList();
-        }else if (Cv.ACTION_CREATE_UNIT.equals(action)) {
+        } else if (Cv.ACTION_CREATE_UNIT.equals(action)) {
             handleCreateUnit();
-        }else if (Cv.ACTION_EDIT_UNIT.equals(action)) {
+        } else if (Cv.ACTION_EDIT_UNIT.equals(action)) {
             handleEditUnit();
-        }else if (Cv.ACTION_DELETE_UNIT.equals(action)) {
+        } else if (Cv.ACTION_DELETE_UNIT.equals(action)) {
             handleDeleteUnit();
-        }else if (Cv.ACTION_GET_UNIT_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_GET_UNIT_DETAILS.equals(action)) {
             handleGetUnitDetails();
-        }else if (Cv.ACTION_GET_UNIT_CONVERSION_LIST.equals(action)) {
+        } else if (Cv.ACTION_GET_UNIT_CONVERSION_LIST.equals(action)) {
             handleGetUnitConversionList();
-        }else if (Cv.ACTION_CREATE_UNIT_CONVERSION.equals(action)) {
+        } else if (Cv.ACTION_CREATE_UNIT_CONVERSION.equals(action)) {
             handleCreateUnitConversion();
-        }else if (Cv.ACTION_EDIT_UNIT_CONVERSION.equals(action)) {
+        } else if (Cv.ACTION_EDIT_UNIT_CONVERSION.equals(action)) {
             handleEditUnitConversion();
-        }else if (Cv.ACTION_DELETE_UNIT_CONVERSION.equals(action)) {
+        } else if (Cv.ACTION_DELETE_UNIT_CONVERSION.equals(action)) {
             handleDeleteUnitConversion();
-        }else if (Cv.ACTION_GET_UNIT_CONVERSION_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_GET_UNIT_CONVERSION_DETAILS.equals(action)) {
             handleGetUnitConversionDetails();
         } else if (Cv.ACTION_GET_ITEM.equals(action)) {
             handleGetItem();
@@ -245,6 +251,16 @@ public class ApiCallsService extends IntentService {
             handleGetItemGroupDetails();
         } else if (Cv.ACTION_EDIT_ITEM_GROUP.equals(action)) {
             handleEditItemGroup();
+        } else if (Cv.ACTION_GET_BILL_SUNDRY_LIST.equals(action)) {
+            handleGetBillSundryList();
+        } else if (Cv.ACTION_CREATE_BILL_SUNDRY.equals(action)) {
+            handleCreateBillSundry();
+        } else if (Cv.ACTION_DELETE_BILL_SUNDRY.equals(action)) {
+            handleDeleteBillSundry();
+        } else if (Cv.ACTION_GET_BILL_SUNDRY_DETAILS.equals(action)) {
+            handleGetBillSundryDetails();;
+        } else if (Cv.ACTION_EDIT_BILL_SUNDRY.equals(action)) {
+            handleEditBillSundry();
         }
     }
 
@@ -271,6 +287,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleDeleteItemGroup() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteitemgroup(appUser.delete_group_id).enqueue(new Callback<DeleteItemGroupReponse>() {
@@ -319,6 +336,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleGetItemGroup() {
         api.getitemgroup(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetItemGroupResponse>() {
             @Override
@@ -343,6 +361,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateItem() {
         api.createitem(new RequestCreateItem(this)).enqueue(new Callback<CreateItemResponse>() {
             @Override
@@ -366,6 +385,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateItemGroup() {
         api.createitemgroup(new RequestCreateItemGroup(this)).enqueue(new Callback<CreateItemGroupResponse>() {
             @Override
@@ -494,8 +514,9 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handlefacebookcheck() {
-        AppUser appUser= LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.exist(appUser.fb_id).enqueue(new Callback<UserExistResponse>() {
             @Override
             public void onResponse(Call<UserExistResponse> call, Response<UserExistResponse> r) {
@@ -588,8 +609,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleBasic() {
-        api.cbasiccompany(new RequestBasic(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        api.cbasiccompany(new RequestBasic(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -636,7 +658,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleCompanyDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.cdetails(new RequestCompanyDetails(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
@@ -659,9 +681,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCompanyGst() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.cgst(new RequestCompanyGst(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.cgst(new RequestCompanyGst(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -683,9 +706,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCompanyAdditional() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.cadditional(new RequestCompanyAdditional(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.cadditional(new RequestCompanyAdditional(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -707,9 +731,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCompanyLogo() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.clogo(new RequestCompanyLogo(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.clogo(new RequestCompanyLogo(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -731,9 +756,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCompanySignature() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.csignature(new RequestCompanySignature(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.csignature(new RequestCompanySignature(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -755,9 +781,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleEditLogin() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.ceditlogin(new RequestEditLogin(this),appUser.company_user_id).enqueue(new Callback<CreateCompanyResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.ceditlogin(new RequestEditLogin(this), appUser.company_user_id).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {
@@ -779,9 +806,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCompanyLogin() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.clogin(new RequestCompanyLogin(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyLoginResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.clogin(new RequestCompanyLogin(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyLoginResponse>() {
             @Override
             public void onResponse(Call<CompanyLoginResponse> call, Response<CompanyLoginResponse> r) {
                 if (r.code() == 200) {
@@ -803,8 +831,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCompanyList() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getCompanyList(appUser.user_id).enqueue(new Callback<CompanyListResponse>() {
             @Override
             public void onResponse(Call<CompanyListResponse> call, Response<CompanyListResponse> r) {
@@ -827,8 +856,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleDeleteCompany() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.cdelete(appUser.company_id).enqueue(new Callback<DeleteCompanyResponse>() {
             @Override
             public void onResponse(Call<DeleteCompanyResponse> call, Response<DeleteCompanyResponse> r) {
@@ -851,6 +881,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetIndustry() {
         api.getIndustry().enqueue(new Callback<IndustryTypeResponse>() {
             @Override
@@ -874,9 +905,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleAuthenticateCompany() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.cauthenticate(new RequestCompanyAuthenticate(this),appUser.company_id).enqueue(new Callback<CompanyAuthenticateResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.cauthenticate(new RequestCompanyAuthenticate(this), appUser.company_id).enqueue(new Callback<CompanyAuthenticateResponse>() {
             @Override
             public void onResponse(Call<CompanyAuthenticateResponse> call, Response<CompanyAuthenticateResponse> r) {
                 if (r.code() == 200) {
@@ -922,8 +954,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleSearchCompany() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.searchcompany(appUser.search_company_id).enqueue(new Callback<CompanyResponse>() {
             @Override
             public void onResponse(Call<CompanyResponse> call, Response<CompanyResponse> r) {
@@ -946,6 +979,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetCompanyUser() {
         api.getcompanyusers(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CompanyUserResponse>() {
             @Override
@@ -969,6 +1003,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateAccountGroup() {
         api.createaccountgroup(new RequestCreateAccountGroup(this)).enqueue(new Callback<CreateAccountGroupResponse>() {
             @Override
@@ -1016,8 +1051,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetAccountGroupDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getaccountgroupdetails(appUser.edit_group_id).enqueue(new Callback<GetAccountGroupDetailsResponse>() {
             @Override
             public void onResponse(Call<GetAccountGroupDetailsResponse> call, Response<GetAccountGroupDetailsResponse> r) {
@@ -1040,9 +1076,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleEditAccountGroup() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editaccountgroup(new RequestCreateAccountGroup(this),appUser.edit_group_id).enqueue(new Callback<EditAccountGroupResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editaccountgroup(new RequestCreateAccountGroup(this), appUser.edit_group_id).enqueue(new Callback<EditAccountGroupResponse>() {
             @Override
             public void onResponse(Call<EditAccountGroupResponse> call, Response<EditAccountGroupResponse> r) {
                 if (r.code() == 200) {
@@ -1064,6 +1101,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateAccount() {
         api.createaccount(new RequestCreateAccount(this)).enqueue(new Callback<CreateAccountResponse>() {
             @Override
@@ -1087,6 +1125,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetAccount() {
         api.getaccount(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetAccountResponse>() {
             @Override
@@ -1109,8 +1148,9 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleGetAccountDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getaccountdetails(appUser.edit_account_id).enqueue(new Callback<GetAccountDetailsResponse>() {
             @Override
             public void onResponse(Call<GetAccountDetailsResponse> call, Response<GetAccountDetailsResponse> r) {
@@ -1134,8 +1174,8 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleEditAccount() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editaccount( new RequestCreateAccount(this),appUser.edit_account_id).enqueue(new Callback<EditAccountResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editaccount(new RequestCreateAccount(this), appUser.edit_account_id).enqueue(new Callback<EditAccountResponse>() {
             @Override
             public void onResponse(Call<EditAccountResponse> call, Response<EditAccountResponse> r) {
                 if (r.code() == 200) {
@@ -1158,7 +1198,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleDeleteAccount() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteaccount(appUser.delete_account_id).enqueue(new Callback<DeleteAccountResponse>() {
             @Override
             public void onResponse(Call<DeleteAccountResponse> call, Response<DeleteAccountResponse> r) {
@@ -1181,8 +1221,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleDeleteAccountGroup() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteaccountgroup(appUser.delete_group_id).enqueue(new Callback<DeleteAccountGroupResponse>() {
             @Override
             public void onResponse(Call<DeleteAccountGroupResponse> call, Response<DeleteAccountGroupResponse> r) {
@@ -1205,6 +1246,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetPackages() {
         api.getpackage().enqueue(new Callback<GetPackageResponse>() {
             @Override
@@ -1276,6 +1318,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateMaterialCentreGroup() {
         api.creatematerialcentregroup(new RequestCreateMaterialCentreGroup(this)).enqueue(new Callback<CreateMaterialCentreGroupResponse>() {
             @Override
@@ -1299,9 +1342,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleEditMaterialCentreGroup() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editmaterialcentregroup(new RequestCreateMaterialCentreGroup(this),appUser.edit_material_centre_group_id).enqueue(new Callback<EditMaterialCentreGroupResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editmaterialcentregroup(new RequestCreateMaterialCentreGroup(this), appUser.edit_material_centre_group_id).enqueue(new Callback<EditMaterialCentreGroupResponse>() {
             @Override
             public void onResponse(Call<EditMaterialCentreGroupResponse> call, Response<EditMaterialCentreGroupResponse> r) {
                 if (r.code() == 200) {
@@ -1323,8 +1367,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleDeleteMaterialCentreGroup() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deletematerialcentregroup(appUser.delete_material_centre_group_id).enqueue(new Callback<DeleteMaterialCentreGroupResponse>() {
             @Override
             public void onResponse(Call<DeleteMaterialCentreGroupResponse> call, Response<DeleteMaterialCentreGroupResponse> r) {
@@ -1347,8 +1392,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetMaterialCentreGroupDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getmaterialcentregroupdetails(appUser.edit_material_centre_group_id).enqueue(new Callback<GetMaterialCentreGroupDetailResponse>() {
             @Override
             public void onResponse(Call<GetMaterialCentreGroupDetailResponse> call, Response<GetMaterialCentreGroupDetailResponse> r) {
@@ -1395,6 +1441,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateMaterialCentre() {
         api.creatematerialcentre(new RequestCreateMaterialCentre(this)).enqueue(new Callback<CreateMaterialCentreResponse>() {
             @Override
@@ -1418,9 +1465,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleEditMaterialCentre() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editmaterialcentre(new RequestCreateMaterialCentre(this),appUser.edit_material_centre_id).enqueue(new Callback<EditMaterialCentreReponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editmaterialcentre(new RequestCreateMaterialCentre(this), appUser.edit_material_centre_id).enqueue(new Callback<EditMaterialCentreReponse>() {
             @Override
             public void onResponse(Call<EditMaterialCentreReponse> call, Response<EditMaterialCentreReponse> r) {
                 if (r.code() == 200) {
@@ -1442,8 +1490,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleDeleteMaterialCentre() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deletematerialcentre(appUser.delete_material_centre_id).enqueue(new Callback<DeleteMaterialCentreResponse>() {
             @Override
             public void onResponse(Call<DeleteMaterialCentreResponse> call, Response<DeleteMaterialCentreResponse> r) {
@@ -1466,8 +1515,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetMaterialCentreDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getmaterialcentredetails(appUser.edit_material_centre_id).enqueue(new Callback<GetMaterialCentreDetailResponse>() {
             @Override
             public void onResponse(Call<GetMaterialCentreDetailResponse> call, Response<GetMaterialCentreDetailResponse> r) {
@@ -1490,8 +1540,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetStock() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getstock(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<StockResponse>() {
             @Override
             public void onResponse(Call<StockResponse> call, Response<StockResponse> r) {
@@ -1514,6 +1565,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetUqc() {
         api.getuqc().enqueue(new Callback<GetUqcResponse>() {
             @Override
@@ -1537,6 +1589,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetUnitList() {
         api.getunitlist(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetUnitListResponse>() {
             @Override
@@ -1560,6 +1613,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateUnit() {
         api.createunit(new RequestCreateUnit(this)).enqueue(new Callback<CreateUnitResponse>() {
             @Override
@@ -1583,9 +1637,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleEditUnit() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editunit(new RequestCreateUnit(this),appUser.edit_unit_id).enqueue(new Callback<EditUnitResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editunit(new RequestCreateUnit(this), appUser.edit_unit_id).enqueue(new Callback<EditUnitResponse>() {
             @Override
             public void onResponse(Call<EditUnitResponse> call, Response<EditUnitResponse> r) {
                 if (r.code() == 200) {
@@ -1607,8 +1662,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleDeleteUnit() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteunit(appUser.delete_unit_id).enqueue(new Callback<DeleteUnitResponse>() {
             @Override
             public void onResponse(Call<DeleteUnitResponse> call, Response<DeleteUnitResponse> r) {
@@ -1631,8 +1687,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetUnitDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getunitdetails(appUser.edit_unit_id).enqueue(new Callback<GetUnitDetailsResponse>() {
             @Override
             public void onResponse(Call<GetUnitDetailsResponse> call, Response<GetUnitDetailsResponse> r) {
@@ -1679,6 +1736,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleCreateUnitConversion() {
         api.createunitconversion(new RequestCreateUnitConversion(this)).enqueue(new Callback<CreateUnitConversionResponse>() {
             @Override
@@ -1702,9 +1760,10 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleEditUnitConversion() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
-        api.editunitconversion(new RequestCreateUnitConversion(this),appUser.edit_unit_conversion_id).enqueue(new Callback<EditUnitConversionResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editunitconversion(new RequestCreateUnitConversion(this), appUser.edit_unit_conversion_id).enqueue(new Callback<EditUnitConversionResponse>() {
             @Override
             public void onResponse(Call<EditUnitConversionResponse> call, Response<EditUnitConversionResponse> r) {
                 if (r.code() == 200) {
@@ -1726,8 +1785,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleDeleteUnitConversion() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteunitconversion(appUser.delete_unit_conversion_id).enqueue(new Callback<DeleteUnitConversionResponse>() {
             @Override
             public void onResponse(Call<DeleteUnitConversionResponse> call, Response<DeleteUnitConversionResponse> r) {
@@ -1750,8 +1810,9 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetUnitConversionDetails() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.getunitconversiondetails(appUser.edit_unit_conversion_id).enqueue(new Callback<GetUnitConversionDetailsResponse>() {
             @Override
             public void onResponse(Call<GetUnitConversionDetailsResponse> call, Response<GetUnitConversionDetailsResponse> r) {
@@ -1774,6 +1835,130 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
+    private void handleGetBillSundryList() {
+        api.getbillsundrylist(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetBillSundryListResponse>() {
+            @Override
+            public void onResponse(Call<GetBillSundryListResponse> call, Response<GetBillSundryListResponse> r) {
+                if (r.code() == 200) {
+                    GetBillSundryListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetBillSundryListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleCreateBillSundry() {
+        api.createbillsundry(new RequestCreateBillSundry(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBillSundryResponse>() {
+            @Override
+            public void onResponse(Call<CreateBillSundryResponse> call, Response<CreateBillSundryResponse> r) {
+                if (r.code() == 200) {
+                    CreateBillSundryResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateBillSundryResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleEditBillSundry() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editbillsundry(new RequestCreateBillSundry(this), appUser.edit_bill_sundry_id).enqueue(new Callback<EditBillSundryResponse>() {
+            @Override
+            public void onResponse(Call<EditBillSundryResponse> call, Response<EditBillSundryResponse> r) {
+                if (r.code() == 200) {
+                    EditBillSundryResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditBillSundryResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleDeleteBillSundry() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletebillsundry(appUser.delete_bill_sundry_id).enqueue(new Callback<DeleteBillSundryResponse>() {
+            @Override
+            public void onResponse(Call<DeleteBillSundryResponse> call, Response<DeleteBillSundryResponse> r) {
+                if (r.code() == 200) {
+                    DeleteBillSundryResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteBillSundryResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handleGetBillSundryDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getbillsundrydetails(appUser.edit_bill_sundry_id).enqueue(new Callback<GetBillSundryDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetBillSundryDetailsResponse> call, Response<GetBillSundryDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetBillSundryDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetBillSundryDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
     private void processUserApiResponse(Response<UserApiResponse> response) {
         if (response.code() == 200) {
             UserApiResponse body = response.body();

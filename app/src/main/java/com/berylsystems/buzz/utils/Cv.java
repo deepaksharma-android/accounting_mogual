@@ -3,7 +3,7 @@ package com.berylsystems.buzz.utils;
 
 public interface Cv {
     String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-    //String BASE_URL ="http://192.168.1.4:3000/api/v1/";
+    //String BASE_URL ="http://192.168.1.18:3000/api/v1/";
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
     String ACTION_LOGIN = "login_user";
@@ -65,6 +65,11 @@ public interface Cv {
     String ACTION_DELETE_ITEM_GROUP = "action_delete_item_group";
     String ACTION_GET_ITEM_GROUP_DETAILS = "action_get_item_group_details";
     String ACTION_EDIT_ITEM_GROUP = "action_edit_item_group";
+    String ACTION_GET_BILL_SUNDRY_LIST = "action_get_bill_sundry_list";
+    String ACTION_CREATE_BILL_SUNDRY = "action_create_bill_sundry";
+    String ACTION_DELETE_BILL_SUNDRY = "action_delete_bill_sundry";
+    String ACTION_GET_BILL_SUNDRY_DETAILS = "action_get_bill_sundry_details";
+    String ACTION_EDIT_BILL_SUNDRY = "action_edit_bill_sundry";
     String ACTION_GET_ITEM = "action_get_item";
     String ACTION_CREATE_ITEM = "action_create_item";
     String ACTION_COMPANY_AUTHENTICATE = "company_authenticate";

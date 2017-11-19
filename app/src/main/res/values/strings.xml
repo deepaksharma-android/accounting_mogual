@@ -86,7 +86,7 @@
         <item>UIN Holder</item>
     </string-array>
     <string-array name="bill_sundry_type">
-        <item>Others</item>
+        <item>Additive</item>
         <item>Subtractive</item>
     </string-array>
     <string-array name="bill_sundry_nature">
@@ -104,6 +104,20 @@
         <item>Gms/Kg</item>
         <item>Kg/Gms</item>
       </string-array>
+    <string-array name="round_off_spinner">
+        <item>Upper Limit</item>
+        <item>Lower Limit</item>
+        <item>Automatic</item>
+    </string-array>
+    <string-array name="bill_sundry">
+        <item>Upper Limit</item>
+        <item>Lower Limit</item>
+        <item>Automatic</item>
+    </string-array>
+    <string-array name="specify_in">
+        <item>Specify Acc. Here</item>
+        <item>Specify Acc. in Voucher</item>
+    </string-array>
     <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
     <string name="err_invalid_mobile">Invalid Mobile Number</string>
     <string name="err_invalid_email">Invalid Email</string>

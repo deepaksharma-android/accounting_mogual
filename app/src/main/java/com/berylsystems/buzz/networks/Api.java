@@ -11,6 +11,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
@@ -35,6 +36,11 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGro
 import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.CreateBillSundryResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -283,6 +289,23 @@ public interface Api {
 
     @PATCH("item_group/{id}")
     Call<EditItemGroupResponse> edititemgroup(@Body RequestCreateItemGroup payload, @Path("id") String id);
+
+    @GET("get_bill_sundry/{id}")
+    Call<GetBillSundryListResponse> getbillsundrylist(@Path("id") String id);
+
+    @POST("create_bill_sundry/{id}")
+    Call<CreateBillSundryResponse> createbillsundry(@Body RequestCreateBillSundry payload, @Path("id") String id);
+
+    @DELETE("delete_bill_sundry/{id}")
+    Call<DeleteBillSundryResponse> deletebillsundry(@Path("id") String id);
+
+    @GET("bill_sundry_info/{id}")
+    Call<GetBillSundryDetailsResponse> getbillsundrydetails(@Path("id") String id);
+
+    @PATCH("edit_bill_sundry/{id}")
+    Call<EditBillSundryResponse> editbillsundry(@Body RequestCreateBillSundry payload, @Path("id") String id);
+
+
 
 
 }
