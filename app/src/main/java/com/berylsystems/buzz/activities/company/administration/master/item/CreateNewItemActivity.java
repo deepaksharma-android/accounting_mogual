@@ -521,8 +521,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public void createitem(CreateItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Intent intent=new Intent(getApplicationContext(),ExpandableItemListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
