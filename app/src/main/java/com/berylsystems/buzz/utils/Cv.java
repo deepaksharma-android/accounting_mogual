@@ -80,7 +80,8 @@ public interface Cv {
     String TIMEOUT = "Something went wrong. Please try again";
     String KEY_FB_PARAMS = "fields";
     String FB_PARAMETERS = "id,email,first_name,last_name,birthday";
-
-    String ACTION_DELETE_ITEM="action_delete_item";
+    String ACTION_EDIT_ITEM = "action_edit_account";
+    String ACTION_DELETE_ITEM = "action_delete_item";
+    String ACTION_GET_ITEM_DETAILS="action_get_item_details";
 
 }

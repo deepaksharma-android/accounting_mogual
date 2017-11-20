@@ -56,6 +56,7 @@ import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserRespo
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.CreateItemGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
@@ -265,6 +266,10 @@ public class ApiCallsService extends IntentService {
             handleEditBillSundry();
         } else if (Cv.ACTION_DELETE_ITEM.equals(action)) {
             handleDeleteItem();
+        } else if (Cv.ACTION_EDIT_ITEM.equals(action)) {
+            handleEditItem();
+        } else if (Cv.ACTION_GET_ITEM_DETAILS.equals(action)) {
+            handleGetItemDetails();
         }
     }
 
@@ -315,6 +320,29 @@ public class ApiCallsService extends IntentService {
             }
         });
 
+    }
+
+    private void handleGetItemDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getitemdetails(appUser.edit_item_id).enqueue(new Callback<GetItemDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetItemDetailsResponse> call, Response<GetItemDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetItemDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetItemDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 
     private void handleEditItemGroup() {
@@ -1215,6 +1243,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<EditAccountResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditItem() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.edititem(new RequestCreateItem(this), appUser.edit_item_id).enqueue(new Callback<EditItemResponse>() {
+            @Override
+            public void onResponse(Call<EditItemResponse> call, Response<EditItemResponse> r) {
+                if (r.code() == 200) {
+                    EditItemResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditItemResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

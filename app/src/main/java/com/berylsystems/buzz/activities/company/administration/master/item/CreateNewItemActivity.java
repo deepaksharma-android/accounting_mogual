@@ -20,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,14 +29,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -77,38 +85,64 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     @Bind(R.id.item_group)
     TextView mItemGroup;
 
+    @Bind(R.id.item_name)
+    TextView mItemName;
+
     @Bind(R.id.item_unit)
     TextView mItemUnit;
 
-    @Bind(R.id.item_name)
-    EditText itemName;
+    @Bind(R.id.update)
+    LinearLayout mUpdateButton;
+
+    Snackbar snackbar;
 
     Animation blinkOnClick;
-
     AppUser appUser;
-
-    Double first, second, third;
-
-
+    Double first, second;
     LinearLayout group_layout;
 
     TextView item_group;
-
-    LinearLayout mConFactorLinear, mStockLinear;
-
+    LinearLayout mConFactorLinear, mStockLinear, mConTypeLinear;
     ArrayList<String> mArrayList;
+    Boolean fromitemlist;
     String title;
-
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        title="CREATE ITEM";
         initActionbar();
+        appUser=LocalRepositories.getAppUser(this);
+        fromitemlist=getIntent().getExtras().getBoolean("fromitemlist");
+        if(fromitemlist){
+            title="EDIT ITEM";
+            mSubmitButton.setVisibility(View.GONE);
+            mUpdateButton.setVisibility(View.VISIBLE);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
 
-        mProgressDialog = new ProgressDialog(this);
-        appUser = LocalRepositories.getAppUser(this);
         appUser.item_stock_quantity = "";
         appUser.item_stock_amount = "";
         appUser.item_stock_value = "";
@@ -130,12 +164,78 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 mSubmitButton.startAnimation(blinkOnClick);
-                appUser.item_name = itemName.getText().toString();
+                appUser.item_name = mItemName.getText().toString();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
             }
         });
 
+        mUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!mItemName.getText().toString().equals("")) {
+                    if (!mItemUnit.getText().toString().equals("")) {
+                        if (!mItemGroup.getText().toString().equals("")) {
+                            appUser.item_name = mItemName.getText().toString();
+                            appUser.item_group_id = mItemGroup.getText().toString();
+                            appUser.item_unit_id = mItemUnit.getText().toString();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+                                mProgressDialog.setMessage("Info...");
+                                mProgressDialog.setIndeterminate(false);
+                                mProgressDialog.setCancelable(true);
+                                mProgressDialog.show();
+                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_ITEM);
+
+                            } else {
+                                snackbar = Snackbar
+                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                        .setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if (isConnected) {
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                snackbar.show();
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Enter group name", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Snackbar.make(coordinatorLayout, "Enter mobile number", Snackbar.LENGTH_LONG).show();
+                    }
+                } else {
+                    Snackbar.make(coordinatorLayout, "Enter account name", Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
 
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +275,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText(title);
+        actionbarTitle.setText("CREATE ITEM");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -309,9 +409,13 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         EditText item_conversion_factor = (EditText) dialog.findViewById(R.id.con_factor);
         EditText item_stock_quantity = (EditText) dialog.findViewById(R.id.stock_quantity);
+        spinner = (Spinner) dialog.findViewById(R.id.spinner);
 
-        mConFactorLinear =(LinearLayout) dialog.findViewById(R.id.conFactorLinear);
-        mStockLinear =(LinearLayout)dialog.findViewById(R.id.stockLinear);
+
+        mConFactorLinear = (LinearLayout) dialog.findViewById(R.id.conFactorLinear);
+        mStockLinear = (LinearLayout) dialog.findViewById(R.id.stockLinear);
+        mConTypeLinear = (LinearLayout) dialog.findViewById(R.id.conTypeLinear);
+
 
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
 
@@ -571,18 +675,22 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 appUser.item_alternate_unit_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 item_group.setText(result);
-                mArrayList.add(mItemUnit.getText().toString()+"/"+item_group.getText().toString());
-                mArrayList.add(item_group.getText().toString()+"/"+mItemUnit.getText().toString());
-
-                if (result.equals(mItemUnit.getText().toString())){
-                    Toast.makeText(this, "same", Toast.LENGTH_SHORT).show();
+                mArrayList.clear();
+                mArrayList.add(mItemUnit.getText().toString() + "/" + item_group.getText().toString());
+                mArrayList.add(item_group.getText().toString() + "/" + mItemUnit.getText().toString());
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_spinner_item, mArrayList);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(dataAdapter);
+                if (result.equals(mItemUnit.getText().toString())) {
                     mConFactorLinear.setVisibility(View.GONE);
                     mStockLinear.setVisibility(View.GONE);
-                }
-                else{
+                    mConTypeLinear.setVisibility(View.GONE);
+                } else {
                     Toast.makeText(this, "same", Toast.LENGTH_SHORT).show();
                     mConFactorLinear.setVisibility(View.VISIBLE);
                     mStockLinear.setVisibility(View.VISIBLE);
+                    mConTypeLinear.setVisibility(View.VISIBLE);
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -614,9 +722,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-
     @Subscribe
-    public void editItem(EditItemGroupResponse response) {
+    public void editItem(EditItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -628,4 +735,21 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
+    @Subscribe
+    public void getedititem(GetItemDetailsResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            appUser.edit_item_id=String.valueOf(response.getItem().getData().getAttributes().getId());
+            LocalRepositories.saveAppUser(this,appUser);
+            mItemName.setText(response.getItem().getData().getAttributes().getName());
+            mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
+            mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
+            LocalRepositories.saveAppUser(this,appUser);
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 }

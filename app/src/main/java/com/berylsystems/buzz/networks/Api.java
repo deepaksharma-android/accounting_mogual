@@ -52,6 +52,7 @@ import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
@@ -311,7 +312,10 @@ public interface Api {
     Call<EditBillSundryResponse> editbillsundry(@Body RequestCreateBillSundry payload, @Path("id") String id);
 
 
+    @PATCH("item/{id}")
+    Call<EditItemResponse> edititem(@Body RequestCreateItem payload, @Path("id") String id);
 
-
+    @GET("item_detail/{id}")
+    Call<GetItemDetailsResponse> getitemdetails(@Path("id") String id);
 }
 

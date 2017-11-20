@@ -179,6 +179,8 @@ public class AppUser {
     public String item_conversion_factor_pkg_unit="";
     public String item_salse_price="";
 
+    public String edit_item_id="";
+
     public String bill_sundry_name="";
     public String bill_sundry_nature="";
     public String bill_sundry_default_value="";

@@ -16,6 +16,7 @@ import android.widget.ExpandableListView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.adapters.ItemExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -26,6 +27,8 @@ import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteItem;
+import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventEditItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -212,18 +215,18 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         }
     }
 
-   /* @Subscribe
-    public void editgroup(EventEditAccount pos) {
+    @Subscribe
+    public void editgroup(EventEditItem pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];
         String childid = arr[1];
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.edit_account_id = arrid;
+        appUser.edit_item_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
-        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
-        intent.putExtra("fromaccountlist", true);
+        Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+        intent.putExtra("fromitemlist", true);
         startActivity(intent);
 
-    }*/
+    }
 }

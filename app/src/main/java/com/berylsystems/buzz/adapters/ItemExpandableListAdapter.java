@@ -18,6 +18,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteItem;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventEditItem;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -79,7 +80,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventEditAccount(id));
+                EventBus.getDefault().post(new EventEditItem(id));
 
             }
         });
