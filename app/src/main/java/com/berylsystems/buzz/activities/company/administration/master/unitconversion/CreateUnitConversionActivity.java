@@ -56,15 +56,18 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean frommunitconversionlist;
+    String title;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
-        initActionbar();
+        title="CREATE ITEM UNIT CONVERSION";
+
 
         frommunitconversionlist = getIntent().getExtras().getBoolean("fromunitconversionlist");
         if (frommunitconversionlist) {
+            title="EDIT ITEM UNIT CONVERSION";
             mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
             mMainUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -127,8 +130,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-
-Timber.i("AR****"+appUser.arr_unitConversionId);
+        initActionbar();
         mMainUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -244,8 +246,8 @@ Timber.i("AR****"+appUser.arr_unitConversionId);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE UNIT CONVERSION");
-        actionbarTitle.setTextSize(16);
+        actionbarTitle.setText(title);
+        actionbarTitle.setTextSize(14);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

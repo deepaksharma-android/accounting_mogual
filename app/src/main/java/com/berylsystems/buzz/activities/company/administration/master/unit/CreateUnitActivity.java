@@ -53,14 +53,18 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Boolean frommunitlist;
     ArrayAdapter<String> muqcAdapter;
+    public String title;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
-        initActionbar();
+        appUser = LocalRepositories.getAppUser(this);
+        title="CREATE ITEM UNIT";
+
         frommunitlist = getIntent().getExtras().getBoolean("fromunitlist");
         if (frommunitlist) {
+            title="EDIT ITEM UNIT";
             muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_uqcname);
             muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -92,8 +96,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-        }
-        else{
+        } else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateUnitActivity.this);
@@ -117,16 +120,19 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-   /*     muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
+        initActionbar();
+        muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_uqcname);
         muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mSpinnerUqc.setAdapter(muqcAdapter);*/
+        mSpinnerUqc.setAdapter(muqcAdapter);
 
-      /*  mSpinnerUqc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerUqc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                appUser.uqc= String.valueOf(appUser.arr_uqcid.get(i));
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if(appUser.arr_uqcid!=null) {
+                    appUser.uqc = String.valueOf(appUser.arr_uqcid.get(i));
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
             }
 
             @Override
@@ -134,13 +140,12 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
 
             }
         });
-*/
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mUnitName.getText().toString().equals("")){
-                    appUser.unit_name=mUnitName.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!mUnitName.getText().toString().equals("")) {
+                    appUser.unit_name = mUnitName.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateUnitActivity.this);
@@ -166,15 +171,15 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                 } else {
                     Snackbar.make(coordinatorLayout, "Enter the unit name", Snackbar.LENGTH_LONG).show();
                 }
-                }
+            }
 
         });
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mUnitName.getText().toString().equals("")){
-                    appUser.unit_name=mUnitName.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!mUnitName.getText().toString().equals("")) {
+                    appUser.unit_name = mUnitName.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateUnitActivity.this);
@@ -222,9 +227,9 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE UNIT");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -232,30 +237,28 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void createunit(CreateUnitResponse response){
+    public void createunit(CreateUnitResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent=new Intent(getApplicationContext(),UnitListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void editunit(EditUnitResponse response){
+    public void editunit(EditUnitResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent=new Intent(getApplicationContext(),UnitListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -267,17 +270,17 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             mUnitName.setText(response.getItem_unit().getData().getAttributes().getName());
             String group_type = response.getItem_unit().getData().getAttributes().getUqc().trim();
-            Timber.i("GROUPINDEX"+group_type);
+            Timber.i("GROUPINDEX" + group_type);
             // insert code here
             int groupindex = -1;
-            for (int i = 0; i<appUser.arr_uqcname.size(); i++) {
-                Timber.i("GROUPINDEX"+appUser.arr_stock_name);
+            for (int i = 0; i < appUser.arr_uqcname.size(); i++) {
+                Timber.i("GROUPINDEX" + appUser.arr_stock_name);
                 if (appUser.arr_uqcname.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
             }
-            Timber.i("GROUPINDEX"+groupindex);
+            Timber.i("GROUPINDEX" + groupindex);
             mSpinnerUqc.setSelection(groupindex);
 
         } else {
@@ -286,15 +289,15 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void getuqc(GetUqcResponse response){
+    public void getuqc(GetUqcResponse response) {
         mProgressDialog.dismiss();
         appUser.arr_uqcid.clear();
         appUser.arr_uqcname.clear();
-        if(response.getStatus()==200){
-            for(int i=0;i<response.getUqc().getData().size();i++){
+        if (response.getStatus() == 200) {
+            for (int i = 0; i < response.getUqc().getData().size(); i++) {
                 appUser.arr_uqcid.add(response.getUqc().getData().get(i).getAttributes().getId());
                 appUser.arr_uqcname.add(response.getUqc().getData().get(i).getAttributes().getName());
-                LocalRepositories.saveAppUser(this,appUser);
+                LocalRepositories.saveAppUser(this, appUser);
             }
 
             muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -304,5 +307,6 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
 
 
         }
+
     }
 }

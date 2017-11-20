@@ -69,14 +69,17 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean fromMaterailCentreGroupList;
+    public String title;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-        initActionbar();
+        title="CREATE MATERIAL CENTRE GROUP";
+
         fromMaterailCentreGroupList = getIntent().getExtras().getBoolean("frommaterialcentregrouplist");
         if (fromMaterailCentreGroupList == true) {
+            title="EDIT MATERIAL CENTRE GROUP";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_material_centre_group_id = getIntent().getExtras().getString("id");
@@ -105,6 +108,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 snackbar.show();
             }
         }
+        initActionbar();
             mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                     R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
             mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -225,8 +229,8 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE MATERIAL CENTRE GROUP");
-        actionbarTitle.setTextSize(16);
+        actionbarTitle.setText(title);
+        actionbarTitle.setTextSize(14);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

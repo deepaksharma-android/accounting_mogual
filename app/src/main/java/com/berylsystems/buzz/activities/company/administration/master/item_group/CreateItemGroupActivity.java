@@ -67,17 +67,20 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Boolean fromItemGroupList;
     Snackbar snackbar;
+    String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);
-        initActionbar();
+
         appUser = LocalRepositories.getAppUser(this);
+        title="CREATE ITEM GROUP";
         fromItemGroupList = getIntent().getExtras().getBoolean("fromitemgrouplist");
         if (fromItemGroupList == true) {
             Timber.i("ItemGrop");
+            title="EDIT ITEM GROUP";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_group_id1 = getIntent().getExtras().getString("id");
@@ -106,7 +109,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-
+        initActionbar();
         mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -232,7 +235,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ITEM GROUP");
+        actionbarTitle.setText(title);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

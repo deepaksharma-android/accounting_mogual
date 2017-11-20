@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,15 +67,18 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     String value = "";
     String valuepercentage = "";
     String valuepercentagecal = "";
+    String title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-        initActionbar();
+        title="CREATE BILL SUNDRY";
+
         frommbillsundrylist = getIntent().getExtras().getBoolean("frommbillsundrylist");
         if (frommbillsundrylist) {
+            title="EDIT BILL SUNDRY";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_bill_sundry_id = getIntent().getExtras().getString("id");
@@ -103,7 +107,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-
+        initActionbar();
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,7 +202,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE BILL SUNDRY");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -209,6 +213,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
     public void billsundryaffect(View v) {
         Dialog dialog = new Dialog(CreateBillSundryActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_affect_of_bill_sundry);
         dialog.setCancelable(true);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
@@ -260,6 +265,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
     public void accountinginsale(View v) {
         Dialog dialog = new Dialog(CreateBillSundryActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_accounting_in_sale);
         dialog.setCancelable(true);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
@@ -359,6 +365,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
     public void accountinginpurchase(View v) {
         Dialog dialog = new Dialog(CreateBillSundryActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_accounting_in_purchase);
         dialog.setCancelable(true);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
@@ -457,6 +464,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
     public void amountfed(View v) {
         Dialog dialog = new Dialog(CreateBillSundryActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_amount_of_bill_sundry_to_be_fed_as);
         dialog.setCancelable(true);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
@@ -506,6 +514,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 value = radioButton.getText().toString();
                 if (value.equals("Percentage")) {
                     Dialog dialogpercentage = new Dialog(CreateBillSundryActivity.this);
+                    dialogpercentage.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogpercentage.setContentView(R.layout.dialog_amount_of_bill_sundry_to_be_fed_as_percentage);
                     dialogpercentage.setCancelable(true);
                     LinearLayout submitpercentage = (LinearLayout) dialogpercentage.findViewById(R.id.submit);
@@ -536,6 +545,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
                             if (valuepercentage.equals("Other Bill Sundry")) {
                                 Dialog dialogcalculated = new Dialog(CreateBillSundryActivity.this);
+                                dialogcalculated.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                                 dialogcalculated.setContentView(R.layout.dialog_percentage_bill_sundry_to_be_calculated_on);
                                 dialogcalculated.setCancelable(true);
                                 LinearLayout submitpercentagecal = (LinearLayout) dialogcalculated.findViewById(R.id.submit);
@@ -578,6 +588,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                                 dialogcalculated.show();
                             } else if (valuepercentage.equals("Previous Bill Sundry(s) Amount")) {
                                 Dialog dialogprevious = new Dialog(CreateBillSundryActivity.this);
+                                dialogprevious.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                                 dialogprevious.setContentView(R.layout.dialog_percentage_previous_bill_sundry_s_details);
                                 dialogprevious.setCancelable(true);
                                 LinearLayout submitpercentageprev = (LinearLayout) dialogprevious.findViewById(R.id.submit);
@@ -646,6 +657,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
     public void roundof(View v) {
         Dialog dialogbal = new Dialog(CreateBillSundryActivity.this);
+        dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialogbal.setContentView(R.layout.dialog_bill_sundry_amount_round_off);
         dialogbal.setCancelable(true);
         LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);

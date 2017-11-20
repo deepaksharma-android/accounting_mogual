@@ -71,18 +71,18 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean frommaterialcentrelist;
+    String title;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        initActionbar();
-
-
+        title="CREATE MATERIAL CENTRE";
         frommaterialcentrelist = getIntent().getExtras().getBoolean("frommaterialcentrelist");
         appUser = LocalRepositories.getAppUser(this);
         if (frommaterialcentrelist) {
+            title="EDIT MATERIAL CENTRE";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             Boolean isaConnected = ConnectivityReceiver.isConnected();
@@ -108,6 +108,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+
         else{
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
@@ -132,6 +133,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+        initActionbar();
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,7 +251,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE MATERIAL CENTRE");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);

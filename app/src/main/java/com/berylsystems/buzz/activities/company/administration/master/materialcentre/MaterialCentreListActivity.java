@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 
 import com.berylsystems.buzz.R;
@@ -52,11 +53,12 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_expandabl_list);
+        setContentView(R.layout.activity_material_centre_list);
         ButterKnife.bind(this);
         setAddCompany(0);
         setAppBarTitleCompany(1, "MATERIAL CENTRE LIST");
         appUser = LocalRepositories.getAppUser(this);
+
 
        /* mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -126,7 +128,7 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
                 name = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_material_centers().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getName());
+                    name.add(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getName()+","+String.valueOf(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getUndefined()));
                     id.add(response.getOrdered_material_centers().get(i).getData().get(j).getId());
                 }
                 listDataChild.put(listDataHeader.get(i), name);
@@ -137,18 +139,26 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
             // setting list adapter
             expListView.setAdapter(listAdapter);
 
-            expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    // Doing nothing
-                    return true;
-                }
-            });
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+      /*  expListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount
+                    , int totalItemCount) {
+                if(firstVisibleItem+visibleItemCount>=totalItemCount){
+                    //the last item is visible
+                }
+
+            }
+        });*/
     }
 
     @Subscribe

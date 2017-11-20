@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 
 import com.berylsystems.buzz.R;
@@ -142,18 +143,14 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             // setting list adapter
             expListView.setAdapter(listAdapter);
 
-            expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    // Doing nothing
-                    return true;
-                }
-            });
+
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+
+
     }
 
 

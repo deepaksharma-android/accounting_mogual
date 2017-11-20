@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -202,6 +203,7 @@ public class CompanyPasswordFragment extends Fragment {
 
     public void showpopup(){
         dialog = new Dialog(getActivity());
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_company_login_diolog);
         dialog.setTitle("Company Login");
         dialog.setCancelable(true);

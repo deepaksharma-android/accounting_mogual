@@ -41,7 +41,7 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
-    public MaterialCentreListAdapter(Context context, List<String> listDataHeader,
+    public  MaterialCentreListAdapter(Context context, List<String> listDataHeader,
                                         HashMap<String, List<String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
@@ -64,6 +64,9 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
+        String arr[]=childText.split(",");
+        String acc_name=arr[0];
+        String undefined=arr[1];
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -74,9 +77,18 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
 
-        txtListChild.setText(childText);
+        txtListChild.setText(acc_name);
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
+        if(undefined.equals("true")){
+            delete.setVisibility(View.VISIBLE);
+            edit.setVisibility(View.VISIBLE);
+        }
+        else{
+            delete.setVisibility(View.GONE);
+            edit.setVisibility(View.GONE);
+        }
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,14 +136,20 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
-            ExpandableListView mExpandableListView = (ExpandableListView) parent;
-            mExpandableListView.expandGroup(groupPosition);
+
         }
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
+        if(isExpanded){
+            imageview.setImageResource(R.drawable.up_arrow);
+        }
+        else{
+            imageview.setImageResource(R.drawable.down_arrow);
+        }
 
         return convertView;
     }

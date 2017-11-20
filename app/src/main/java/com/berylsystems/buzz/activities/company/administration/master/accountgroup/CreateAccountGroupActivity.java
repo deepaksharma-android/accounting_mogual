@@ -61,16 +61,18 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean fromAccountGroupList;
+    String title;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        initActionbar();
+        title="CREATE ACCOUNT GROUP";
         appUser=LocalRepositories.getAppUser(this);
         fromAccountGroupList=getIntent().getExtras().getBoolean("fromaccountgrouplist");
         if(fromAccountGroupList==true){
+            title="EDIT ACCOUNT GROUP";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_group_id=getIntent().getExtras().getString("id");
@@ -101,7 +103,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
             }
         }
 
-
+        initActionbar();
         mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -235,7 +237,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ACCOUNT GROUP");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -322,8 +324,8 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void getAccountGroupDetails(GetAccountGroupDetailsResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            if(!response.getAccount_group_details().getData().getAttributes().getName().equals("")){
-                mGroupName.setText(response.getAccount_group_details().getData().getAttributes().getName());
+            mGroupName.setText(response.getAccount_group_details().getData().getAttributes().getName());
+            if(!response.getAccount_group_details().getData().getAttributes().getAccount_group().equals("")){
                 mSpinnerPrimary.setSelection(1);
                 mSpinnerUnderGroup.setVisibility(View.VISIBLE);
                 String group_type = response.getAccount_group_details().getData().getAttributes().getAccount_group().trim();
@@ -340,6 +342,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 Timber.i("GROUPINDEX"+groupindex);
                 mSpinnerUnderGroup.setSelection(groupindex);
 
+            }
+            else{
+                mSpinnerPrimary.setSelection(1);
+                mSpinnerUnderGroup.setVisibility(View.VISIBLE);
             }
 
 

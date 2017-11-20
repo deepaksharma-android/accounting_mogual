@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -135,19 +136,13 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
-
-            expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    // Doing nothing
-                    return true;
-                }
-            });
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+
+
     }
 
     @Subscribe

@@ -97,12 +97,14 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     LinearLayout mConFactorLinear, mStockLinear;
 
     ArrayList<String> mArrayList;
+    String title;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        title="CREATE ITEM";
         initActionbar();
 
         mProgressDialog = new ProgressDialog(this);
@@ -173,7 +175,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ITEM");
+        actionbarTitle.setText(title);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

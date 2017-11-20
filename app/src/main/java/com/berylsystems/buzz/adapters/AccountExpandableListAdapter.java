@@ -3,6 +3,7 @@ package com.berylsystems.buzz.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,14 +130,21 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
-            ExpandableListView mExpandableListView = (ExpandableListView) parent;
-            mExpandableListView.expandGroup(groupPosition);
         }
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
+        if(isExpanded){
+            imageview.setImageResource(R.drawable.up_arrow);
+        }
+        else{
+            imageview.setImageResource(R.drawable.down_arrow);
+        }
+
+
 
         return convertView;
     }

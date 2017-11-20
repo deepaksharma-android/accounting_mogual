@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -238,8 +239,9 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
     }
     public void showpopup(){
         dialog = new Dialog(CompanyDashboardActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_login);
-        dialog.setTitle("Company Login");
+
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText username = (EditText) dialog.findViewById(R.id.cusername);

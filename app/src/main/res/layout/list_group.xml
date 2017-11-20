@@ -7,16 +7,36 @@
     android:background="#e2e2e2">
 
 
-
-
-    <com.berylsystems.buzz.utils.BuzzTextView
-        android:id="@+id/lblListHeader"
+    <LinearLayout
         android:layout_width="fill_parent"
-        style="@style/Gotham_Medium"
-        android:gravity="center_vertical"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="15sp"
-        android:textColor="#000" />
+        android:layout_height="50dp"
+        android:weightSum="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:id="@+id/lblListHeader"
+            android:layout_width="0dp"
+            style="@style/Gotham_Medium"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="#000" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_weight="0.1"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/down_arrow"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#fff"/>
 
 </LinearLayout>

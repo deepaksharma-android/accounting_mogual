@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -241,6 +242,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
     public void openingbalance(View v) {
         Dialog dialogbal = new Dialog(AccountDetailsActivity.this);
+        dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialogbal.setContentView(R.layout.dialog_opening_balance);
         dialogbal.setCancelable(true);
         EditText amount_receivable = (EditText) dialogbal.findViewById(R.id.receive);
@@ -277,6 +279,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
     public void address(View v) {
         Dialog dialogaddress = new Dialog(AccountDetailsActivity.this);
+        dialogaddress.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialogaddress.setContentView(R.layout.dialog_address);
         dialogaddress.setCancelable(true);
         // set the custom dialog components - text, image and button
@@ -326,6 +329,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
     public void gstin(View v) {
         Dialog dialoggst = new Dialog(AccountDetailsActivity.this);
+        dialoggst.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialoggst.setContentView(R.layout.dialog_gstin);
         dialoggst.setCancelable(true);
         // set the custom dialog components - text, image and button
@@ -369,6 +373,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
     public void creaditinfo(View v) {
         Dialog dialogcredit = new Dialog(AccountDetailsActivity.this);
+        dialogcredit.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialogcredit.setContentView(R.layout.dialog_credit);
         dialogcredit.setCancelable(true);
         EditText account_credit_limit = (EditText) dialogcredit.findViewById(R.id.credit_limit);

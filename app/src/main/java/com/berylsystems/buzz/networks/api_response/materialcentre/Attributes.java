@@ -39,4 +39,14 @@ public class Attributes {
     public String address;
     public String material_center_group_name;
 
+    public Boolean getUndefined() {
+        return undefined;
+    }
+
+    public void setUndefined(Boolean undefined) {
+        this.undefined = undefined;
+    }
+
+    public Boolean undefined;
+
 }

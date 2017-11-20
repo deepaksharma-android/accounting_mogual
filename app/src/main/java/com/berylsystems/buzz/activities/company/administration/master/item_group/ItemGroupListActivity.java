@@ -165,8 +165,8 @@ public class ItemGroupListActivity extends BaseActivityCompany {
         appUser.delete_group_id= String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
         LocalRepositories.saveAppUser(this,appUser);
         new AlertDialog.Builder(ItemGroupListActivity.this)
-                .setTitle("Delete Company")
-                .setMessage("Are you sure you want to delete this group ?")
+                .setTitle("Delete Item Group")
+                .setMessage("Are you sure you want to delete this item group ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {

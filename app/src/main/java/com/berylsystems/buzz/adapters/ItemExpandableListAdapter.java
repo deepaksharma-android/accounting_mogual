@@ -115,14 +115,19 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
-            ExpandableListView mExpandableListView = (ExpandableListView) parent;
-            mExpandableListView.expandGroup(groupPosition);
         }
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
+        if(isExpanded){
+            imageview.setImageResource(R.drawable.up_arrow);
+        }
+        else{
+            imageview.setImageResource(R.drawable.down_arrow);
+        }
 
         return convertView;
     }
