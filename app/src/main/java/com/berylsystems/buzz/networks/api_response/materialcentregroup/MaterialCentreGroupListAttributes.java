@@ -19,13 +19,15 @@ public class MaterialCentreGroupListAttributes {
 
     public int id;
     public String name;
-    public Boolean primary_group;
 
-    public Boolean getPrimary_group() {
-        return primary_group;
+    public Boolean getUndefined() {
+        return undefined;
     }
 
-    public void setPrimary_group(Boolean primary_group) {
-        this.primary_group = primary_group;
+    public void setUndefined(Boolean undefined) {
+        this.undefined = undefined;
     }
+
+    public Boolean undefined;
+
 }

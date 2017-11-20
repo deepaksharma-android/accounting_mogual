@@ -2,24 +2,17 @@ package com.berylsystems.buzz.activities.company.administration.master.item;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.ScrollingMovementMethod;
-import android.text.method.TimeKeyListener;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -29,7 +22,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,19 +29,18 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
-import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
-import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -102,6 +93,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     LinearLayout group_layout;
 
     TextView item_group;
+
+    LinearLayout mConFactorLinear, mStockLinear;
+
+    ArrayList<String> mArrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,8 +292,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         dialog.setContentView(R.layout.dialog_alternate_unit_details);
         dialog.setCancelable(true);
         dialog.show();
-        item_group = (TextView) dialog.findViewById(R.id.item_group);
 
+        item_group = (TextView) dialog.findViewById(R.id.item_group);
         group_layout = (LinearLayout) dialog.findViewById(R.id.group_layout);
         group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,6 +307,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         EditText item_conversion_factor = (EditText) dialog.findViewById(R.id.con_factor);
         EditText item_stock_quantity = (EditText) dialog.findViewById(R.id.stock_quantity);
+
+        mConFactorLinear =(LinearLayout) dialog.findViewById(R.id.conFactorLinear);
+        mStockLinear =(LinearLayout)dialog.findViewById(R.id.stockLinear);
 
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
 
@@ -563,12 +562,26 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         }
 
         if (requestCode == 3) {
+            mArrayList=new ArrayList<>();
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.item_alternate_unit_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 item_group.setText(result);
+                mArrayList.add(mItemUnit.getText().toString()+"/"+item_group.getText().toString());
+                mArrayList.add(item_group.getText().toString()+"/"+mItemUnit.getText().toString());
+
+                if (result.equals(mItemUnit.getText().toString())){
+                    Toast.makeText(this, "same", Toast.LENGTH_SHORT).show();
+                    mConFactorLinear.setVisibility(View.GONE);
+                    mStockLinear.setVisibility(View.GONE);
+                }
+                else{
+                    Toast.makeText(this, "same", Toast.LENGTH_SHORT).show();
+                    mConFactorLinear.setVisibility(View.VISIBLE);
+                    mStockLinear.setVisibility(View.VISIBLE);
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

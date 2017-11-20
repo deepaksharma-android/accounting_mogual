@@ -56,6 +56,9 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
+        String arr[]=childText.split(",");
+        String acc_name=arr[0];
+        String undefined=arr[1];
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -66,9 +69,19 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
 
-        txtListChild.setText(childText);
+        txtListChild.setText(acc_name);
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
+
+        if(undefined.equals("true")){
+            delete.setVisibility(View.VISIBLE);
+            edit.setVisibility(View.VISIBLE);
+        }
+        else{
+            delete.setVisibility(View.GONE);
+            edit.setVisibility(View.GONE);
+        }
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

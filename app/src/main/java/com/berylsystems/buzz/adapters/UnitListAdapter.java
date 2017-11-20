@@ -13,6 +13,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.unit.CreateUnitActivity;
 import com.berylsystems.buzz.networks.api_response.unit.ItemUnitData;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
+import com.berylsystems.buzz.utils.EventGroupClicked;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -61,6 +62,12 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.ViewHo
                 intent.putExtra("fromunitlist",true);
                 intent.putExtra("id",data.get(i).getId());
                 context.startActivity(intent);
+            }
+        });
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventGroupClicked(i));
             }
         });
     }

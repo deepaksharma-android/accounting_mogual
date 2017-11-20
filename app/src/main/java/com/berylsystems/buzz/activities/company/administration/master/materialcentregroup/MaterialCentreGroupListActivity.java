@@ -123,7 +123,7 @@ public class MaterialCentreGroupListActivity extends BaseActivityCompany {
              for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
                  appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
                  appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
-                 if(response.getMaterial_center_groups().getData().get(i).getAttributes().getPrimary_group()==true){
+                 if(response.getMaterial_center_groups().getData().get(i).getAttributes().getUndefined()==false){
                      appUser.materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
                      appUser.materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
                  }

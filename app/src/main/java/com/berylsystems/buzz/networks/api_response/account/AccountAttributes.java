@@ -34,6 +34,16 @@ public class AccountAttributes {
     public String city;
     public String state;
 
+    public Boolean getUndefined() {
+        return undefined;
+    }
+
+    public void setUndefined(Boolean undefined) {
+        this.undefined = undefined;
+    }
+
+    public Boolean undefined;
+
     public String getMobile_number() {
         return mobile_number;
     }

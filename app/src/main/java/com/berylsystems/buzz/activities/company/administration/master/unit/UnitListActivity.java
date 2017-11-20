@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.unit;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.berylsystems.buzz.networks.api_response.unit.DeleteUnitResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
+import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -176,5 +178,22 @@ public class UnitListActivity  extends BaseActivityCompany {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+
+    @Subscribe
+    public void itemclickedevent(EventGroupClicked pos){
+
+        Timber.i("POSITION" + pos.getPosition());
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+        returnIntent.putExtra("name", appUser.arr_unitName.get(pos.getPosition()));
+        returnIntent.putExtra("id",String.valueOf(appUser.arr_unitId.get(pos.getPosition())));
+        Timber.i("PASSSS"+appUser.arr_unitId.get(pos.getPosition()));
+        /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+          LocalRepositories.saveAppUser(this, appUser);*/
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+
     }
 }

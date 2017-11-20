@@ -122,7 +122,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerUqc.setAdapter(muqcAdapter);*/
 
-        mSpinnerUqc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      /*  mSpinnerUqc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 appUser.uqc= String.valueOf(appUser.arr_uqcid.get(i));
@@ -134,7 +134,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
 
             }
         });
-
+*/
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -125,7 +125,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
                 name = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName()+","+String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()));
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                 }
                 listDataChild.put(listDataHeader.get(i), name);

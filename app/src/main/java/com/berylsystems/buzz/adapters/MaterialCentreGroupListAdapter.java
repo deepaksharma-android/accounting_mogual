@@ -43,7 +43,7 @@ public class MaterialCentreGroupListAdapter extends RecyclerView.Adapter<Materia
     @Override
     public void onBindViewHolder(MaterialCentreGroupListAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mGroupName.setText(data.get(i).getAttributes().getName());
-        if(data.get(i).getAttributes().getPrimary_group()==true){
+        if(data.get(i).getAttributes().getUndefined()==false){
             viewHolder.mEdit.setVisibility(View.GONE);
             viewHolder.mDelete.setVisibility(View.GONE);
         }

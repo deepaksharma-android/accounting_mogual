@@ -11,14 +11,16 @@ public class OrderedAccounts {
         this.group_name = group_name;
     }
 
-    public ArrayList<Data> getData() {
+
+    public String group_name;
+
+    public ArrayList<AccountData> getData() {
         return data;
     }
 
-    public void setData(ArrayList<Data> data) {
+    public void setData(ArrayList<AccountData> data) {
         this.data = data;
     }
 
-    public String group_name;
-    public ArrayList<Data> data;
+    public ArrayList<AccountData> data;
 }
