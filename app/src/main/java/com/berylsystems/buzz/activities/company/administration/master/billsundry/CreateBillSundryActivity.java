@@ -354,7 +354,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 //                appUser.sale_account_head_to_post_sale_amount = spinner3.getSelectedItem().toString();
                 appUser.sale_adjust_in_party_amount = spinner4.getSelectedItem().toString();
                 appUser.sale_party_amount_specify_in = spinner41.getSelectedItem().toString();
-                appUser.sale_account_head_to_post_party_amount = spinner5.getSelectedItem().toString();
+//                appUser.sale_account_head_to_post_party_amount = spinner5.getSelectedItem().toString();
                 appUser.sale_post_over_above = spinner6.getSelectedItem().toString();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 dialog.dismiss();
@@ -386,7 +386,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (i == 1) {
                     specifyin.setVisibility(View.VISIBLE);
                 } else {
-                    specifyin.setVisibility(View.VISIBLE);
+                    specifyin.setVisibility(View.GONE);
                 }
             }
 
@@ -450,10 +450,10 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 appUser.purchase_affect_accounting = spinner1.getSelectedItem().toString();
                 appUser.purchase_affect_purchase_amount = spinner2.getSelectedItem().toString();
                 appUser.purchase_affect_purchase_amount_specify_in = spinner21.getSelectedItem().toString();
-                appUser.purchase_account_head_to_post_purchase_amount = spinner3.getSelectedItem().toString();
+//                appUser.purchase_account_head_to_post_purchase_amount = spinner3.getSelectedItem().toString();
                 appUser.purchase_adjust_in_party_amount = spinner4.getSelectedItem().toString();
                 appUser.purchase_party_amount_specify_in = spinner41.getSelectedItem().toString();
-                appUser.purchase_account_head_to_post_party_amount = spinner5.getSelectedItem().toString();
+              //  appUser.purchase_account_head_to_post_party_amount = spinner5.getSelectedItem().toString();
                 appUser.purchase_post_over_above = spinner6.getSelectedItem().toString();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 dialog.dismiss();
