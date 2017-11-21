@@ -18,6 +18,9 @@ import com.berylsystems.buzz.activities.company.administration.master.item.Expan
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.purchasetype.PurchaseTypeListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.taxcategory.TaxCategoryeListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unitconversion.UnitConversionListActivity;
 
@@ -76,6 +79,15 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 }
                 if(i==8){
                     context.startActivity(new Intent(context, BillSundryListActivity.class));
+                }
+                if(i==9){
+                    context.startActivity(new Intent(context, PurchaseTypeListActivity.class));
+                }
+                if(i==10){
+                    context.startActivity(new Intent(context, SaleTypeListActivity.class));
+                }
+                if(i==11){
+                    context.startActivity(new Intent(context, TaxCategoryeListActivity.class));
                 }
             }
         });

@@ -160,7 +160,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (!mSundryName.getText().toString().equals("")) {
                     appUser.bill_sundry_name = mSundryName.getText().toString();
                     appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_default_value= Double.parseDouble(mDefaultText.getText().toString());
+                    appUser.bill_sundry_default_value = mDefaultText.getText().toString();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -196,7 +196,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (!mSundryName.getText().toString().equals("")) {
                     appUser.bill_sundry_name = mSundryName.getText().toString();
                     appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_default_value= Double.parseDouble(mDefaultText.getText().toString());
+                    appUser.bill_sundry_default_value = mDefaultText.getText().toString();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {

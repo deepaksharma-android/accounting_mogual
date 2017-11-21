@@ -28,7 +28,7 @@ public class MasterDashboardActivity extends BaseActivityCompany {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
-    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites,R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer};
+    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites,R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_display, R.drawable.icon_display, R.drawable.icon_display};
     private String[] title = {
             "Account",
             "Account Group",
@@ -39,6 +39,9 @@ public class MasterDashboardActivity extends BaseActivityCompany {
             "Unit",
             "Unit Conversion",
             "Bill Sundry",
+            "Purchase Type",
+            "Sale Type",
+            "Tax Category"
     };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

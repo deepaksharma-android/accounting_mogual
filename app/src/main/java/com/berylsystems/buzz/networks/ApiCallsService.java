@@ -73,6 +73,9 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
+import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
+import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
@@ -273,6 +276,13 @@ public class ApiCallsService extends IntentService {
             handleEditBillSundry();
         } else if (Cv.ACTION_GET_BILL_SUNDRY_NATURE.equals(action)) {
             handleGetBillSundryNature();
+        }   else if (Cv.ACTION_GET_PURCHASE_TYPE.equals(action)) {
+            handleGetPurchaseType();
+        }
+        else if (Cv.ACTION_GET_SALE_TYPE.equals(action)) {
+            handleGetSaleType();
+        }else if(Cv.ACTION_GET_TAX_CATEGORY.equals(action)){
+            hadleGetTaxCategory();
         }
     }
 
@@ -442,6 +452,76 @@ public class ApiCallsService extends IntentService {
             }
         });
 
+    }
+    private void handleGetPurchaseType() {
+        api.getpurchasetype().enqueue(new Callback<GetPurchaseTypeResponse>() {
+            @Override
+            public void onResponse(Call<GetPurchaseTypeResponse> call, Response<GetPurchaseTypeResponse> r) {
+                if (r.code() == 200) {
+                    GetPurchaseTypeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPurchaseTypeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetSaleType() {
+        api.getsaletype().enqueue(new Callback<GetSaleTypeResponse>() {
+            @Override
+            public void onResponse(Call<GetSaleTypeResponse> call, Response<GetSaleTypeResponse> r) {
+                if (r.code() == 200) {
+                    GetSaleTypeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleTypeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void hadleGetTaxCategory(){
+        api.gettaxcategory().enqueue(new Callback<GetTaxCategoryResponse>() {
+            @Override
+            public void onResponse(Call<GetTaxCategoryResponse> call, Response<GetTaxCategoryResponse> r) {
+                if(r.code()==200){
+                    GetTaxCategoryResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                }else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetTaxCategoryResponse> call, Throwable t) {
+
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 
     private void handleCreateItemGroup() {

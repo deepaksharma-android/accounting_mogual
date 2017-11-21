@@ -84,6 +84,8 @@ public interface Cv {
     String TIMEOUT = "Something went wrong. Please try again";
     String KEY_FB_PARAMS = "fields";
     String FB_PARAMETERS = "id,email,first_name,last_name,birthday";
-
+ String ACTION_GET_PURCHASE_TYPE="action_get_purchase_type";
+    String ACTION_GET_SALE_TYPE="action_get_sale_type";
+    String ACTION_GET_TAX_CATEGORY="action_get_tax_category";
 
 }

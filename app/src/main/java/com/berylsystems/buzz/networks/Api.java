@@ -68,6 +68,9 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
+import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
+import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
@@ -321,6 +324,14 @@ public interface Api {
 
     @GET("bill_sundry_nature")
     Call<GetBillSundryNatureResponse> getbillsundrynature();
+	 @GET("purchase_type")
+    Call<GetPurchaseTypeResponse> getpurchasetype();
+
+    @GET("sale_type")
+    Call<GetSaleTypeResponse> getsaletype();
+
+    @GET("tax_category")
+    Call<GetTaxCategoryResponse> gettaxcategory();
 
 
 }

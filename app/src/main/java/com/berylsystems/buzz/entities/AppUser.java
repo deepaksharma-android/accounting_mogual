@@ -185,7 +185,7 @@ public class AppUser {
 
     public String bill_sundry_name="";
     public String bill_sundry_nature="";
-    public double bill_sundry_default_value;
+    public String bill_sundry_default_value="";
     public String bill_sundry_amount_of_bill_sundry_fed_as="";
     public String bill_sundry_of_percentage="";
     public String bill_sundry_number_of_bill_sundry="";
