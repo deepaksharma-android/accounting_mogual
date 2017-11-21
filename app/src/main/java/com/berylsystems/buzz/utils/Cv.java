@@ -60,6 +60,11 @@ public interface Cv {
     String ACTION_GET_UNIT_CONVERSION_DETAILS = "get_unit_conversion_details";
     String ACTION_GET_STOCK = "get_stock";
     String ACTION_GET_UQC="get_uqc";
+    String ACTION_GET_ITEM = "action_get_item";
+    String ACTION_CREATE_ITEM = "action_create_item";
+    String ACTION_EDIT_ITEM = "action_edit_account";
+    String ACTION_DELETE_ITEM = "action_delete_item";
+    String ACTION_GET_ITEM_DETAILS="action_get_item_details";
     String ACTION_GET_ITEM_GROUP = "action_get_item_group";
     String ACTION_CREATE_ITEM_GROUP = "action_create_item_group";
     String ACTION_DELETE_ITEM_GROUP = "action_delete_item_group";
@@ -70,8 +75,7 @@ public interface Cv {
     String ACTION_DELETE_BILL_SUNDRY = "action_delete_bill_sundry";
     String ACTION_GET_BILL_SUNDRY_DETAILS = "action_get_bill_sundry_details";
     String ACTION_EDIT_BILL_SUNDRY = "action_edit_bill_sundry";
-    String ACTION_GET_ITEM = "action_get_item";
-    String ACTION_CREATE_ITEM = "action_create_item";
+    String ACTION_GET_BILL_SUNDRY_NATURE = "action_get_bill_sundry_nature";
     String ACTION_COMPANY_AUTHENTICATE = "company_authenticate";
     String ACTION_GET_COMPANY = "get_company";
     String ACTION_SEARCH_COMPANY = "search_company";
@@ -80,8 +84,6 @@ public interface Cv {
     String TIMEOUT = "Something went wrong. Please try again";
     String KEY_FB_PARAMS = "fields";
     String FB_PARAMETERS = "id,email,first_name,last_name,birthday";
-    String ACTION_EDIT_ITEM = "action_edit_account";
-    String ACTION_DELETE_ITEM = "action_delete_item";
-    String ACTION_GET_ITEM_DETAILS="action_get_item_details";
+
 
 }

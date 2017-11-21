@@ -41,6 +41,7 @@ import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryR
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryListResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryNatureResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -239,6 +240,7 @@ public interface Api {
 
     @GET("stock_account/{id}")
     Call<StockResponse> getstock(@Path("id") String id);
+
     @GET("uqc_details")
     Call<GetUqcResponse> getuqc();
 
@@ -277,9 +279,15 @@ public interface Api {
 
     @POST("item")
     Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);
-	
-	    @DELETE("item/{id}")
+
+    @DELETE("item/{id}")
     Call<DeleteItemResponse> deleteitem(@Path("id") String id);
+
+    @PATCH("item/{id}")
+    Call<EditItemResponse> edititem(@Body RequestCreateItem payload, @Path("id") String id);
+
+    @GET("item_detail/{id}")
+    Call<GetItemDetailsResponse> getitemdetails(@Path("id") String id);
 
     @GET("company_item_groups/{id}")
     Call<GetItemGroupResponse> getitemgroup(@Path("id") String id);
@@ -311,11 +319,9 @@ public interface Api {
     @PATCH("edit_bill_sundry/{id}")
     Call<EditBillSundryResponse> editbillsundry(@Body RequestCreateBillSundry payload, @Path("id") String id);
 
+    @GET("bill_sundry_nature")
+    Call<GetBillSundryNatureResponse> getbillsundrynature();
 
-    @PATCH("item/{id}")
-    Call<EditItemResponse> edititem(@Body RequestCreateItem payload, @Path("id") String id);
 
-    @GET("item_detail/{id}")
-    Call<GetItemDetailsResponse> getitemdetails(@Path("id") String id);
 }
 

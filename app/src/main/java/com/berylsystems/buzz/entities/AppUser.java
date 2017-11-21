@@ -127,6 +127,8 @@ public class AppUser {
     public ArrayList<String> billSundryName=new ArrayList<>();
     public ArrayList<String> arr_billSundryId=new ArrayList<>();
     public ArrayList<String> billSundryId=new ArrayList<>();
+    public ArrayList<String> arr_bill_sundry_nature_id=new ArrayList<>();
+    public ArrayList<String> arr_bill_sundry_nature_name=new ArrayList<>();
     public ArrayList<String> arr_subunitName=new ArrayList<>();
     public ArrayList<String> unitId=new ArrayList<>();
     public ArrayList<String> unitName=new ArrayList<>();
@@ -183,7 +185,7 @@ public class AppUser {
 
     public String bill_sundry_name="";
     public String bill_sundry_nature="";
-    public String bill_sundry_default_value="";
+    public double bill_sundry_default_value;
     public String bill_sundry_amount_of_bill_sundry_fed_as="";
     public String bill_sundry_of_percentage="";
     public String bill_sundry_number_of_bill_sundry="";

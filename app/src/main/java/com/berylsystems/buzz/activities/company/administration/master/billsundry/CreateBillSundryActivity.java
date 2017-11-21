@@ -34,6 +34,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.CreateBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryNatureResponse;
 import com.berylsystems.buzz.networks.api_response.unit.EditUnitResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -68,6 +69,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     String valuepercentage = "";
     String valuepercentagecal = "";
     String title;
+    public ArrayAdapter<String> mNatureAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +80,10 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
         frommbillsundrylist = getIntent().getExtras().getBoolean("frommbillsundrylist");
         if (frommbillsundrylist) {
+            mNatureAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_bill_sundry_nature_name);
+            mNatureAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mBillSundryNatureSpinner.setAdapter(mNatureAdapter);
             title="EDIT BILL SUNDRY";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
@@ -107,15 +113,54 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+        else{
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateBillSundryActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BILL_SUNDRY_NATURE);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
         initActionbar();
+        mNatureAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_bill_sundry_nature_name);
+        mNatureAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mBillSundryNatureSpinner.setAdapter(mNatureAdapter);
+        mBillSundryNatureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                appUser.bill_sundry_nature=appUser.arr_bill_sundry_nature_id.get(i);
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!mSundryName.getText().toString().equals("")) {
                     appUser.bill_sundry_name = mSundryName.getText().toString();
                     appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_nature = mBillSundryNatureSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_default_value=mDefaultText.getText().toString();
+                    appUser.bill_sundry_default_value= Double.parseDouble(mDefaultText.getText().toString());
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -151,8 +196,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (!mSundryName.getText().toString().equals("")) {
                     appUser.bill_sundry_name = mSundryName.getText().toString();
                     appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_nature = mBillSundryNatureSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_default_value=mDefaultText.getText().toString();
+                    appUser.bill_sundry_default_value= Double.parseDouble(mDefaultText.getText().toString());
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -760,6 +804,24 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
         else{
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getbillsundrynature(GetBillSundryNatureResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            for(int i=0;i<response.getBill_sundry_nature().getData().size();i++){
+                appUser.arr_bill_sundry_nature_id.add(response.getBill_sundry_nature().getData().get(i).getId());
+                appUser.arr_bill_sundry_nature_name.add(response.getBill_sundry_nature().getData().get(i).getAttributes().getName());
+                LocalRepositories.saveAppUser(this,appUser);
+            }
+
+            mNatureAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_bill_sundry_nature_name);
+            mNatureAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mBillSundryNatureSpinner.setAdapter(mNatureAdapter);
+
         }
     }
 

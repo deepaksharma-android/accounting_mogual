@@ -46,6 +46,7 @@ import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryR
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryListResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryNatureResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
@@ -244,6 +245,12 @@ public class ApiCallsService extends IntentService {
             handleGetItem();
         } else if (Cv.ACTION_CREATE_ITEM.equals(action)) {
             handleCreateItem();
+        }else if (Cv.ACTION_DELETE_ITEM.equals(action)) {
+            handleDeleteItem();
+        } else if (Cv.ACTION_EDIT_ITEM.equals(action)) {
+            handleEditItem();
+        } else if (Cv.ACTION_GET_ITEM_DETAILS.equals(action)) {
+            handleGetItemDetails();
         } else if (Cv.ACTION_GET_ITEM_GROUP.equals(action)) {
             handleGetItemGroup();
         } else if (Cv.ACTION_CREATE_ITEM_GROUP.equals(action)) {
@@ -264,12 +271,8 @@ public class ApiCallsService extends IntentService {
             handleGetBillSundryDetails();;
         } else if (Cv.ACTION_EDIT_BILL_SUNDRY.equals(action)) {
             handleEditBillSundry();
-        } else if (Cv.ACTION_DELETE_ITEM.equals(action)) {
-            handleDeleteItem();
-        } else if (Cv.ACTION_EDIT_ITEM.equals(action)) {
-            handleEditItem();
-        } else if (Cv.ACTION_GET_ITEM_DETAILS.equals(action)) {
-            handleGetItemDetails();
+        } else if (Cv.ACTION_GET_BILL_SUNDRY_NATURE.equals(action)) {
+            handleGetBillSundryNature();
         }
     }
 
@@ -1962,32 +1965,6 @@ public class ApiCallsService extends IntentService {
         });
 
     }
-
-    private void handleEditBillSundry() {
-        AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editbillsundry(new RequestCreateBillSundry(this), appUser.edit_bill_sundry_id).enqueue(new Callback<EditBillSundryResponse>() {
-            @Override
-            public void onResponse(Call<EditBillSundryResponse> call, Response<EditBillSundryResponse> r) {
-                if (r.code() == 200) {
-                    EditBillSundryResponse body = r.body();
-                    EventBus.getDefault().post(body);
-                } else {
-                    EventBus.getDefault().post(Cv.TIMEOUT);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<EditBillSundryResponse> call, Throwable t) {
-                try {
-                    EventBus.getDefault().post(t.getMessage());
-                } catch (Exception ex) {
-                    EventBus.getDefault().post(Cv.TIMEOUT);
-                }
-            }
-        });
-
-    }
-
     private void handleDeleteBillSundry() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.deletebillsundry(appUser.delete_bill_sundry_id).enqueue(new Callback<DeleteBillSundryResponse>() {
@@ -2037,6 +2014,58 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
+    private void handleGetBillSundryNature() {
+        api.getbillsundrynature().enqueue(new Callback<GetBillSundryNatureResponse>() {
+            @Override
+            public void onResponse(Call<GetBillSundryNatureResponse> call, Response<GetBillSundryNatureResponse> r) {
+                if (r.code() == 200) {
+                    GetBillSundryNatureResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetBillSundryNatureResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+
+    private void handleEditBillSundry() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editbillsundry(new RequestCreateBillSundry(this), appUser.edit_bill_sundry_id).enqueue(new Callback<EditBillSundryResponse>() {
+            @Override
+            public void onResponse(Call<EditBillSundryResponse> call, Response<EditBillSundryResponse> r) {
+                if (r.code() == 200) {
+                    EditBillSundryResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditBillSundryResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+
 
     private void processUserApiResponse(Response<UserApiResponse> response) {
         if (response.code() == 200) {
