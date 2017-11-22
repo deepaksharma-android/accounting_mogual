@@ -221,7 +221,23 @@
         <activity android:name=".activities.company.administration.master.taxcategory.TaxCategoryeListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.dashboard.TransactionDashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transection.bankcasedeposit.BankCaseDepositListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.company.transection.bankcasedeposit.CreateBankCaseDepositActivity" />
+        <activity android:name=".activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity"></activity>
     </application>
 
 </manifest>
