@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestCreateItem {
-    public Map<String, String> item;
+    public HashMap item;
 
     public RequestCreateItem(Context ctx) {
         AppUser appUser = LocalRepositories.getAppUser(ctx);

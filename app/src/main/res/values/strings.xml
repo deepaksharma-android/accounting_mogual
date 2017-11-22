@@ -75,6 +75,18 @@
         <item>No</item>
         <item>Yes</item>
     </string-array>
+
+    <string-array name="array_more_option">
+        <item>Main Unit</item>
+        <item>Alternate Unit</item>
+        <item>Not Required</item>
+    </string-array>
+    <string-array name="array_text_category">
+        <item>Text Category</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
     <string-array name="primary_group">
         <item>Yes</item>
         <item>No</item>
