@@ -79,6 +79,10 @@
         <item>Yes</item>
         <item>No</item>
     </string-array>
+    <string-array name="primary_group_cost">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
     <string-array name="bill_by_bill_balancing">
         <item>Yes</item>
         <item>No</item>

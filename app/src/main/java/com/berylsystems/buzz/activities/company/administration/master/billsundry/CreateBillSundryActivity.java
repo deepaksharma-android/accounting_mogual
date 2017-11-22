@@ -164,6 +164,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                     if(!mDefaultText.getText().toString().equals("")) {
                         appUser.bill_sundry_default_value = Double.valueOf(mDefaultText.getText().toString());
                     }
+
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -272,19 +273,19 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
         Spinner spinner3 = (Spinner) dialog.findViewById(R.id.spinner3);
         Spinner spinner4 = (Spinner) dialog.findViewById(R.id.spinner4);
         Spinner spinner5 = (Spinner) dialog.findViewById(R.id.spinner5);
-        if (appUser.cost_goods_in_sale.equals("No")) {
+        if (appUser.cost_goods_in_sale.equals("Yes")) {
             spinner1.setSelection(1);
         }
-        if (appUser.cost_goods_in_purchase.equals("No")) {
+        if (appUser.cost_goods_in_purchase.equals("Yes")) {
             spinner2.setSelection(1);
         }
-        if (appUser.cost_material_issue.equals("No")) {
+        if (appUser.cost_material_issue.equals("Yes")) {
             spinner3.setSelection(1);
         }
-        if (appUser.cost_material_receipt.equals("No")) {
+        if (appUser.cost_material_receipt.equals("Yes")) {
             spinner4.setSelection(1);
         }
-        if (appUser.cost_stock_transfer.equals("No")) {
+        if (appUser.cost_stock_transfer.equals("Yes")) {
             spinner5.setSelection(1);
         }
         close.setOnClickListener(new View.OnClickListener() {
@@ -672,7 +673,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 LocalRepositories.saveAppUser(this, appUser);
             }
 
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_purchase()==false){
+            if (!response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_purchase()==false){
                 appUser.cost_goods_in_purchase = "No";
                 LocalRepositories.saveAppUser(this, appUser);
             }

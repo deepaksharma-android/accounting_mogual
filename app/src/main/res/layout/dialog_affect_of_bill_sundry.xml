@@ -86,7 +86,7 @@
                     <Spinner
                         android:id="@+id/spinner1"
                         android:layout_width="fill_parent"
-                        android:entries="@array/primary_group"
+                        android:entries="@array/primary_group_cost"
                         android:spinnerMode="dialog"
                         android:layout_height="40dp">
                     </Spinner>
@@ -113,7 +113,7 @@
                     <Spinner
                         android:id="@+id/spinner2"
                         android:layout_width="fill_parent"
-                        android:entries="@array/primary_group"
+                        android:entries="@array/primary_group_cost"
                         android:spinnerMode="dialog"
                         android:layout_height="40dp">
                     </Spinner>
@@ -140,7 +140,7 @@
                     <Spinner
                         android:id="@+id/spinner3"
                         android:layout_width="fill_parent"
-                        android:entries="@array/primary_group"
+                        android:entries="@array/primary_group_cost"
                         android:spinnerMode="dialog"
                         android:layout_height="40dp">
                     </Spinner>
@@ -167,7 +167,7 @@
                     <Spinner
                         android:id="@+id/spinner4"
                         android:layout_width="fill_parent"
-                        android:entries="@array/primary_group"
+                        android:entries="@array/primary_group_cost"
                         android:spinnerMode="dialog"
                         android:layout_height="40dp">
                     </Spinner>
@@ -194,7 +194,7 @@
                     <Spinner
                         android:id="@+id/spinner5"
                         android:layout_width="fill_parent"
-                        android:entries="@array/primary_group"
+                        android:entries="@array/primary_group_cost"
                         android:spinnerMode="dialog"
                         android:layout_height="40dp">
                     </Spinner>

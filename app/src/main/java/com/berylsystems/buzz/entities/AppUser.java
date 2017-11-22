@@ -210,7 +210,7 @@ public class AppUser {
     public String purchase_party_amount_specify_in="";
     public String purchase_account_head_to_post_party_amount="";
     public String purchase_post_over_above="";
-    public String cost_goods_in_sale;
+    public String cost_goods_in_sale="";
     public String cost_goods_in_purchase="";
     public String cost_material_issue="";
     public String cost_material_receipt="";
