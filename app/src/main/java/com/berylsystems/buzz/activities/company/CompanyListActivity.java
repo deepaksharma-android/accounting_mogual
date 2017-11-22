@@ -342,11 +342,16 @@ public class CompanyListActivity extends BaseActivity {
     public void getCompnayList(CompanyListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter=new CompanyListAdapter(this,response.getCompanies().getData());
-            mRecyclerView.setAdapter(mAdapter);
+            if(response.getCompanies().getData().size()>0) {
+                mRecyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                mRecyclerView.setLayoutManager(layoutManager);
+                mAdapter = new CompanyListAdapter(this, response.getCompanies().getData());
+                mRecyclerView.setAdapter(mAdapter);
+            }
+            else{
+                Snackbar.make(coordinatorLayout,"No Company Found!",Snackbar.LENGTH_LONG).show();
+            }
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

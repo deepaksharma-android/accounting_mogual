@@ -62,6 +62,7 @@ public class EditCompanyActivity extends RegisterAbstractActivity {
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
+        mHeaderViewPager.setOffscreenPageLimit(0);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(EditCompanyActivity.this);

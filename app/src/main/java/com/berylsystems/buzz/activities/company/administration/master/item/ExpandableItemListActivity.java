@@ -133,22 +133,26 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
-
-            for (int i = 0; i < response.getOrdered_items().size(); i++) {
-                listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
-                name = new ArrayList<>();
-                id = new ArrayList<>();
-                for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
-                    id.add(response.getOrdered_items().get(i).getData().get(j).getId());
-                }
-                listDataChild.put(listDataHeader.get(i), name);
-                listDataChildId.put(i, id);
+            if(response.getOrdered_items().size()==0){
+                Snackbar.make(coordinatorLayout,"No Item Found!!",Snackbar.LENGTH_LONG).show();
             }
-            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
+                for (int i = 0; i < response.getOrdered_items().size(); i++) {
+                    listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
+                    name = new ArrayList<>();
+                    id = new ArrayList<>();
+                    for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
+                        name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
+                        id.add(response.getOrdered_items().get(i).getData().get(j).getId());
+                    }
+                    listDataChild.put(listDataHeader.get(i), name);
+                    listDataChildId.put(i, id);
+                }
+                listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
 
-            // setting list adapter
-            expListView.setAdapter(listAdapter);
+                // setting list adapter
+                expListView.setAdapter(listAdapter);
+
+
 
 
         } else {

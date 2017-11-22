@@ -11,10 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
-import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity;
-import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
-import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

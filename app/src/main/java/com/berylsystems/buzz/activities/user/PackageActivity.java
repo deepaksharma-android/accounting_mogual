@@ -94,6 +94,8 @@ public class PackageActivity extends RegisterAbstractActivity {
                     });
             snackbar.show();
         }
+
+
     }
 
     public void submit(View v){

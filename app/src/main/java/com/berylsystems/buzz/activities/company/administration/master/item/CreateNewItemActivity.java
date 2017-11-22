@@ -42,6 +42,7 @@ import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -69,6 +70,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.pck_unit_detail)
     Button pkgUnitDetailBtn;
+    @Bind(R.id.hsn_layout)
+    LinearLayout mHsnLayout;
+    @Bind(R.id.hsn_number)
+    EditText mHsnNumber;
+
 
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
@@ -93,6 +99,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.update)
     LinearLayout mUpdateButton;
+    @Bind(R.id.tax_category)
+    Spinner mTaxCategory;
 
     Snackbar snackbar;
 
@@ -107,6 +115,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     Boolean fromitemlist;
     String title;
     Spinner spinner;
+    ArrayAdapter<String> mTaxCategoryArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +151,30 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TAX_CATEGORY);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
+
 
         appUser.item_stock_quantity = "";
         appUser.item_stock_amount = "";
@@ -171,7 +204,28 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         LocalRepositories.saveAppUser(this, appUser);
 
+        mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
+        mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+        mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);
+        mTaxCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                    mHsnLayout.setVisibility(View.GONE);
+                    appUser.item_hsn_number="";
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                }else {
+                    mHsnLayout.setVisibility(View.VISIBLE);
 
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +233,15 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
                 mSubmitButton.startAnimation(blinkOnClick);
                 appUser.item_name = mItemName.getText().toString();
+                appUser.item_hsn_number=mHsnNumber.getText().toString();
+                for(int i=0;i<appUser.arr_tax_category_name.size();i++){
+                    if(mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))){
+                        appUser.item_tax_category= Integer.parseInt(appUser.arr_tax_category_id.get(i));
+                        break;
+                    }
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
                 if (mItemName.getText().toString().equals("")||mItemUnit.getText().toString().equals("")||mItemGroup.getText().toString().equals("")) {
                     Toast.makeText(CreateNewItemActivity.this, "Name, Group And Unit is mendetory", Toast.LENGTH_SHORT).show();
                     return;
@@ -192,7 +255,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
-                    appUser.item_tax_category=9;
                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
                 } else {
                     snackbar = Snackbar
@@ -759,9 +821,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         Spinner default_unit_for_sales= (Spinner) dialog.findViewById(R.id.default_unit_for_sales);
         Spinner default_unit_for_purchase= (Spinner) dialog.findViewById(R.id.default_unit_for_purchase);
-        LinearLayout hsn_Layout= (LinearLayout) dialog.findViewById(R.id.hsn_layout);
-        EditText hsn_number= (EditText) dialog.findViewById(R.id.hsn_number);
-        Spinner text_category= (Spinner) dialog.findViewById(R.id.text_category);
+
+
+
+
         LinearLayout submit= (LinearLayout) dialog.findViewById(R.id.submit);
         LinearLayout cancelImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
 
@@ -771,9 +834,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         if (!appUser.item_default_unit_for_purchase.equals("")){
             default_unit_for_purchase.setSelection(Integer.parseInt(appUser.item_default_unit_for_purchase));
         }
-        if (!appUser.item_hsn_number.equals("")){
-            hsn_number.setText(appUser.item_hsn_number);
-        }
+
 
         default_unit_for_sales.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -807,29 +868,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
         });
 
-        text_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
-                    hsn_Layout.setVisibility(View.GONE);
-                }else {
-                    hsn_Layout.setVisibility(View.VISIBLE);
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!hsn_number.getText().toString().equals("")){
-                    appUser.item_hsn_number=hsn_number.getText().toString();
-                }
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
                 dialog.dismiss();
             }
         });
@@ -965,6 +1009,21 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void gettaxcategory(GetTaxCategoryResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            appUser.arr_tax_category_name.clear();
+            appUser.arr_tax_category_id.clear();
+            LocalRepositories.saveAppUser(this,appUser);
+            for(int i=0;i<response.getTax_category().getData().size();i++){
+                appUser.arr_tax_category_name.add(response.getTax_category().getData().get(i).getAttributes().getName());
+                appUser.arr_tax_category_id.add(response.getTax_category().getData().get(i).getId());
+                LocalRepositories.saveAppUser(this,appUser);
+            }
         }
     }
 

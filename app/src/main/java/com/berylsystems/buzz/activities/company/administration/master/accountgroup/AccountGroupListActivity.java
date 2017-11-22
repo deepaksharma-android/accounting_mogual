@@ -44,21 +44,21 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     AppUser appUser;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
-    Boolean fromGeneral,fromMaster,fromCreateGroup;
+    Boolean fromGeneral, fromMaster, fromCreateGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_group_list);
-        fromMaster=getIntent().getExtras().getBoolean("frommaster");
-        fromCreateGroup=getIntent().getExtras().getBoolean("fromcreategroup");
+        fromMaster = getIntent().getExtras().getBoolean("frommaster");
+        fromCreateGroup = getIntent().getExtras().getBoolean("fromcreategroup");
         ButterKnife.bind(this);
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         setAddCompany(0);
-        setAppBarTitleCompany(1,"ACCOUNT GROUP LIST");
+        setAppBarTitleCompany(1, "ACCOUNT GROUP LIST");
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -66,15 +66,14 @@ public class AccountGroupListActivity extends BaseActivityCompany {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT_GROUP);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -85,7 +84,6 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     }
 
 
-
     @Override
     protected void onResume() {
 
@@ -93,9 +91,10 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     }
 
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateAccountGroupActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CreateAccountGroupActivity.class);
         startActivity(intent);
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
@@ -109,37 +108,39 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         EventBus.getDefault().unregister(this);
         mProgressDialog.dismiss();
     }
+
     @Subscribe
-    public void getAccountGroup(GetAccountGroupResponse response){
+    public void getAccountGroup(GetAccountGroupResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             appUser.group_id.clear();
             appUser.group_name.clear();
             appUser.arr_account_group_id.clear();
             appUser.arr_account_group_name.clear();
-            LocalRepositories.saveAppUser(this,appUser);
-            for(int i=0;i<response.getAccount_groups().getData().size();i++){
+            LocalRepositories.saveAppUser(this, appUser);
+            if (response.getAccount_groups().getData().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Account Group Found!!", Snackbar.LENGTH_LONG).show();
+            }
+            for (int i = 0; i < response.getAccount_groups().getData().size(); i++) {
                 appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
-                LocalRepositories.saveAppUser(this,appUser);
-                if(response.getAccount_groups().getData().get(i).getAttributes().getUndefined()==false) {
+                LocalRepositories.saveAppUser(this, appUser);
+                if (response.getAccount_groups().getData().get(i).getAttributes().getUndefined() == false) {
                     appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                     appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
                     LocalRepositories.saveAppUser(this, appUser);
                 }
             }
-
-
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new AccountGroupListAdapter(this, response.getAccount_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
@@ -148,20 +149,21 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         mProgressDialog.dismiss();
 
     }
+
     @Override
     public void onBackPressed() {
-       super.onBackPressed();
+        super.onBackPressed();
     }
 
     @Subscribe
-    public void groupclickedevent(EventGroupClicked pos){
-        if((!fromMaster&&fromCreateGroup)||!fromMaster&&!fromCreateGroup) {
+    public void groupclickedevent(EventGroupClicked pos) {
+        if ((!fromMaster && fromCreateGroup) || !fromMaster && !fromCreateGroup) {
             Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
             returnIntent.putExtra("name", appUser.arr_account_group_name.get(pos.getPosition()));
-            returnIntent.putExtra("id",String.valueOf(appUser.arr_account_group_id.get(pos.getPosition())));
-            Timber.i("PASSSS"+appUser.arr_account_group_id.get(pos.getPosition()));
+            returnIntent.putExtra("id", String.valueOf(appUser.arr_account_group_id.get(pos.getPosition())));
+            Timber.i("PASSSS" + appUser.arr_account_group_id.get(pos.getPosition()));
             /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
             LocalRepositories.saveAppUser(this, appUser);*/
             setResult(Activity.RESULT_OK, returnIntent);
@@ -170,15 +172,15 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     }
 
     @Subscribe
-    public void deletegroup(EventDeleteGroup pos){
-        appUser.delete_group_id= String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletegroup(EventDeleteGroup pos) {
+        appUser.delete_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(AccountGroupListActivity.this)
                 .setTitle("Delete Account Group")
                 .setMessage("Are you sure you want to delete this account group ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -186,15 +188,14 @@ public class AccountGroupListActivity extends BaseActivityCompany {
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT_GROUP);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -210,14 +211,13 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     }
 
     @Subscribe
-    public void deletegroupresponse(DeleteAccountGroupResponse response){
+    public void deletegroupresponse(DeleteAccountGroupResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT_GROUP);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

@@ -121,13 +121,13 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
     public void newPassword(UserApiResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+           /* if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
-            } else {
+           /* } else {
                 startActivity(new Intent(getApplicationContext(), PackageActivity.class));
-            }
+            }*/
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);

@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.transection.bankcasewithdraw;
+package com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

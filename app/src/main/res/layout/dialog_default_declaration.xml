@@ -67,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:spinnerMode="dialog"
                 android:entries="@array/array_more_option"
                 android:gravity="center"></Spinner>
 
@@ -89,59 +90,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:spinnerMode="dialog"
                 android:entries="@array/array_more_option"
                 android:gravity="center"></Spinner>
 
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_grey_stroke"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible">
 
-            <Spinner
-                android:id="@+id/text_category"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:entries="@array/array_text_category"
-                android:gravity="center"></Spinner>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/hsn_layout"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:visibility="gone"
-            android:layout_marginTop="20dp"
-            android:gravity="center">
-            <com.berylsystems.buzz.utils.BuzzEditText
-                android:id="@+id/hsn_number"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_grey_stroke"
-                android:gravity="center"
-                android:padding="10dp"
-                android:hint="HSN NUMBER"
-                android:textAllCaps="false"
-                android:textColor="#000" />
-        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/submit"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_below="@+id/item_description"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

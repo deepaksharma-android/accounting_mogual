@@ -120,28 +120,32 @@ public class ItemGroupListActivity extends BaseActivityCompany {
     @Subscribe
     public void getItemGroup(GetItemGroupResponse response){
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if(response.getStatus()==200) {
             appUser.group_name1.clear();
             appUser.group_id1.clear();
             appUser.arr_item_group_name.clear();
             appUser.arr_item_group_id.clear();
-            LocalRepositories.saveAppUser(this,appUser);
-            for(int i=0;i<response.getItem_groups().getData().size();i++){
-                appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
-                appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());
-                LocalRepositories.saveAppUser(this,appUser);
-
-                if(response.getItem_groups().getData().get(i).getAttributes().getUndefined()==false) {
-                    appUser.group_name1.add(response.getItem_groups().getData().get(i).getAttributes().getName());
-                    appUser.group_id1.add(response.getItem_groups().getData().get(i).getAttributes().getId());
-                    LocalRepositories.saveAppUser(this, appUser);
-                }
+            LocalRepositories.saveAppUser(this, appUser);
+            if(response.getItem_groups().getData().size()==0){
+                Snackbar.make(coordinatorLayout,"No Item Group Found!!",Snackbar.LENGTH_LONG).show();
             }
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new ItemGroupListAdapter(this,response.getItem_groups().data);
-            mRecyclerView.setAdapter(mAdapter);
+                for (int i = 0; i < response.getItem_groups().getData().size(); i++) {
+                    appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
+                    appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());
+                    LocalRepositories.saveAppUser(this, appUser);
+
+                    if (response.getItem_groups().getData().get(i).getAttributes().getUndefined() == false) {
+                        appUser.group_name1.add(response.getItem_groups().getData().get(i).getAttributes().getName());
+                        appUser.group_id1.add(response.getItem_groups().getData().get(i).getAttributes().getId());
+                        LocalRepositories.saveAppUser(this, appUser);
+                    }
+                }
+                mRecyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                mRecyclerView.setLayoutManager(layoutManager);
+                mAdapter = new ItemGroupListAdapter(this, response.getItem_groups().data);
+                mRecyclerView.setAdapter(mAdapter);
+
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

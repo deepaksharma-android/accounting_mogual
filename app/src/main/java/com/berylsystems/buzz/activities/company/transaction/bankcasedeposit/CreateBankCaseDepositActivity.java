@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.transection.bankcasedeposit;
+package com.berylsystems.buzz.activities.company.transaction.bankcasedeposit;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

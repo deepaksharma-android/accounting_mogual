@@ -5,7 +5,16 @@ import java.util.ArrayList;
 public class PackageAttributes {
     public String name;
     public String description;
-    public int amount;
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public double amount;
     public boolean active;
     public ArrayList<Features> features;
 
@@ -25,13 +34,7 @@ public class PackageAttributes {
         this.description = description;
     }
 
-    public int getAmount() {
-        return amount;
-    }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
 
     public boolean isActive() {
         return active;

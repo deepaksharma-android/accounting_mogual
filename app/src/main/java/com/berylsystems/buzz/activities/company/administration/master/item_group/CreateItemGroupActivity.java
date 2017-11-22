@@ -319,8 +319,8 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     public void getItemGroupDetails(GetItemGroupDetailsResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            mGroupName.setText(response.getItem_group().getData().getAttributes().getName());
                 if(!response.getItem_group().getData().getAttributes().getName().equals("")){
-                    mGroupName.setText(response.getItem_group().getData().getAttributes().getName());
                     mSpinnerPrimary.setSelection(1);
                     mSpinnerUnderGroup.setVisibility(View.VISIBLE);
                     String group_type = response.getItem_group().getData().getAttributes().getItem_groups().trim();

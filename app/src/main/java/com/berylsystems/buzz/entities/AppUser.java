@@ -129,6 +129,8 @@ public class AppUser {
     public ArrayList<String> billSundryId=new ArrayList<>();
     public ArrayList<String> arr_bill_sundry_nature_id=new ArrayList<>();
     public ArrayList<String> arr_bill_sundry_nature_name=new ArrayList<>();
+    public ArrayList<String> arr_tax_category_id=new ArrayList<>();
+    public ArrayList<String> arr_tax_category_name=new ArrayList<>();
     public ArrayList<String> arr_subunitName=new ArrayList<>();
     public ArrayList<String> unitId=new ArrayList<>();
     public ArrayList<String> unitName=new ArrayList<>();
@@ -223,6 +225,7 @@ public class AppUser {
     public String delete_item_id="";
 
     public String item_alternate_unit_name = "";
+
 
 
 

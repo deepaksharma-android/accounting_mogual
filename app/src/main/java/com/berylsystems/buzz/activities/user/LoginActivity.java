@@ -243,12 +243,12 @@ public class LoginActivity extends RegisterAbstractActivity {
 
 
             } else {
-                if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+                /*if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                     Preferences.getInstance(getApplicationContext()).setLogin(true);
                     startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
-                } else {
+               /* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
-                }
+                }*/
 
 
             }

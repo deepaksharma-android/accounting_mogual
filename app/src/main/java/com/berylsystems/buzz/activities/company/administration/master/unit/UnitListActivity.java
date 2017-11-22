@@ -108,6 +108,9 @@ public class UnitListActivity  extends BaseActivityCompany {
             appUser.unitName.clear();
             LocalRepositories.saveAppUser(this,appUser);
             Timber.i("I AM HERE");
+            if(response.getItem_units().getData().size()==0){
+                Snackbar.make(coordinatorLayout,"No Unit Found!!",Snackbar.LENGTH_LONG).show();
+            }
             for(int i=0;i<response.getItem_units().getData().size();i++) {
                 appUser.arr_unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
                 appUser.arr_unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));

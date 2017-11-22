@@ -113,28 +113,31 @@ public class MaterialCentreGroupListActivity extends BaseActivityCompany {
     @Subscribe
      public void getmaterialcentregrouplist(GetMaterialCentreGroupListResponse response){
          mProgressDialog.dismiss();
-         if(response.getStatus()==200){
+         if(response.getStatus()==200) {
              appUser.arr_materialCentreGroupId.clear();
              appUser.arr_materialCentreGroupName.clear();
              appUser.materialCentreGroupId.clear();
              appUser.materialCentreGroupName.clear();
-             LocalRepositories.saveAppUser(this,appUser);
+             LocalRepositories.saveAppUser(this, appUser);
              Timber.i("I AM HERE");
-             for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
-                 appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
-                 appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
-                 if(response.getMaterial_center_groups().getData().get(i).getAttributes().getUndefined()==false){
-                     appUser.materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
-                     appUser.materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
-                 }
-
-                 LocalRepositories.saveAppUser(this, appUser);
+             if(response.getMaterial_center_groups().getData().size()==0){
+                 Snackbar.make(coordinatorLayout,"No Material Centre Group Found!!",Snackbar.LENGTH_LONG).show();
              }
-             mRecyclerView.setHasFixedSize(true);
-             layoutManager = new LinearLayoutManager(getApplicationContext());
-             mRecyclerView.setLayoutManager(layoutManager);
-             mAdapter = new MaterialCentreGroupListAdapter(this, response.getMaterial_center_groups().getData());
-             mRecyclerView.setAdapter(mAdapter);
+                 for (int i = 0; i < response.getMaterial_center_groups().getData().size(); i++) {
+                     appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
+                     appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
+                     if (response.getMaterial_center_groups().getData().get(i).getAttributes().getUndefined() == false) {
+                         appUser.materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
+                         appUser.materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
+                     }
+
+                     LocalRepositories.saveAppUser(this, appUser);
+                 }
+                 mRecyclerView.setHasFixedSize(true);
+                 layoutManager = new LinearLayoutManager(getApplicationContext());
+                 mRecyclerView.setLayoutManager(layoutManager);
+                 mAdapter = new MaterialCentreGroupListAdapter(this, response.getMaterial_center_groups().getData());
+                 mRecyclerView.setAdapter(mAdapter);
          }
          else{
              Snackbar

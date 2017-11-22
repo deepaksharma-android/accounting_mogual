@@ -182,27 +182,27 @@ public class VerificationActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             if (fromLoginPage) {
-                if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+              /*  if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
-                } else {
+               /* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
-                }
+                }*/
             } else if (fromRegisterPage) {
                 appUser.fb_id = "";
                 LocalRepositories.saveAppUser(this, appUser);
-                //Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), PackageActivity.class);
+                Preferences.getInstance(getApplicationContext()).setLogin(true);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 startActivity(intent);
             } else if (fromUpdateMobileNumber) {
-                if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {
+              /*  if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                     Preferences.getInstance(getApplicationContext()).setLogin(true);
                     Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                     startActivity(intent);
-                } else {
+               /* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
-                }
+                }*/
             } else if (fromProfilePage) {
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);

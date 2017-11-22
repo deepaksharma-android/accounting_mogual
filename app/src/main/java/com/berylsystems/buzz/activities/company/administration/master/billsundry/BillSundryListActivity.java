@@ -103,28 +103,31 @@ public class BillSundryListActivity extends BaseActivityCompany {
     @Subscribe
     public void getUnitList(GetBillSundryListResponse response){
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if(response.getStatus()==200) {
             appUser.arr_billSundryId.clear();
             appUser.arr_billSundryName.clear();
             appUser.billSundryName.clear();
             appUser.billSundryId.clear();
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
-            for(int i=0;i<response.getBill_sundries().getData().size();i++) {
-                appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
-                appUser.arr_billSundryId.add(String.valueOf(response.getBill_sundries().getData().get(i).getId()));
-                if(response.getBill_sundries().getData().get(i).getAttributes().getUndefined()==false){
-                    appUser.billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
-                    appUser.billSundryId.add(String.valueOf(response.getBill_sundries().getData().get(i).getId()));
-                }
-
-                LocalRepositories.saveAppUser(this, appUser);
+            if(response.getBill_sundries().getData().size()==0){
+                Snackbar.make(coordinatorLayout,"No Bill Sundry Found!!",Snackbar.LENGTH_LONG).show();
             }
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new BillSundryListAdapter(this, response.getBill_sundries().getData());
-            mRecyclerView.setAdapter(mAdapter);
+                for (int i = 0; i < response.getBill_sundries().getData().size(); i++) {
+                    appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
+                    appUser.arr_billSundryId.add(String.valueOf(response.getBill_sundries().getData().get(i).getId()));
+                    if (response.getBill_sundries().getData().get(i).getAttributes().getUndefined() == false) {
+                        appUser.billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
+                        appUser.billSundryId.add(String.valueOf(response.getBill_sundries().getData().get(i).getId()));
+                    }
+
+                    LocalRepositories.saveAppUser(this, appUser);
+                }
+                mRecyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                mRecyclerView.setLayoutManager(layoutManager);
+                mAdapter = new BillSundryListAdapter(this, response.getBill_sundries().getData());
+                mRecyclerView.setAdapter(mAdapter);
         }
     }
 

@@ -29,7 +29,7 @@ public class RequestCreateItem {
         item.put("item_package_unit_detail_id", appUser.item_package_unit_detail_id);
         item.put("default_unit_for_sales", appUser.item_default_unit_for_sales);
         item.put("default_unit_for_purchase", appUser.item_default_unit_for_purchase);
-        item.put("tax_category", appUser.item_tax_category);
+        item.put("tax_category_id", appUser.item_tax_category);
         item.put("hsn_number", appUser.item_hsn_number);
         item.put("item_description", appUser.item_description);
         item.put("serial_number_wise_detail", appUser.item_serial_number_wise_detail);
