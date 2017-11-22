@@ -91,7 +91,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
         setAddCompany(2);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-        setAppBarTitleCompany(1,appUser.titlecname);
+        setAppBarTitleCompany(1,appUser.company_name);
         mOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,7 +171,6 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
     public void getcompanydetail(CompanyResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            appUser.titlecname=response.getCompany().getData().getAttributes().getName();
             LocalRepositories.saveAppUser(this,appUser);
             Preferences.getInstance(getApplicationContext()).setCname(Helpers.mystring(response.getCompany().getData().getAttributes().getName()));
             Preferences.getInstance(getApplicationContext()).setCprintname(Helpers.mystring(response.getCompany().getData().getAttributes().getPrint_name()));

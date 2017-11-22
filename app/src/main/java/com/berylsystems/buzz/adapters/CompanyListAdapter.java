@@ -52,7 +52,6 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.titlecname=data.get(i).getAttributes().getName();
                 appUser.company_id=data.get(i).getId();
                 Preferences.getInstance(context).setCid(data.get(i).getId());
                 LocalRepositories.saveAppUser(context,appUser);

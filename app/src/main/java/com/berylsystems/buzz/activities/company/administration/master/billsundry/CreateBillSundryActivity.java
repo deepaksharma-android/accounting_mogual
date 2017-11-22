@@ -37,6 +37,7 @@ import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryDeta
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryNatureResponse;
 import com.berylsystems.buzz.networks.api_response.unit.EditUnitResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -160,7 +161,9 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (!mSundryName.getText().toString().equals("")) {
                     appUser.bill_sundry_name = mSundryName.getText().toString();
                     appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_default_value = mDefaultText.getText().toString();
+                    if(!mDefaultText.getText().toString().equals("")) {
+                        appUser.bill_sundry_default_value = Double.valueOf(mDefaultText.getText().toString());
+                    }
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -196,7 +199,9 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (!mSundryName.getText().toString().equals("")) {
                     appUser.bill_sundry_name = mSundryName.getText().toString();
                     appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    appUser.bill_sundry_default_value = mDefaultText.getText().toString();
+                    if(!mDefaultText.getText().toString().equals("")) {
+                        appUser.bill_sundry_default_value = Double.valueOf(mDefaultText.getText().toString());
+                    }
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -522,6 +527,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 radioGroup.check(R.id.radioButtonAbsoluteAmount);
             } else if (radiostring.equals("Percentage")) {
                 radioGroup.check(R.id.radioButtonPercentage);
+                dialogpercentage();
             } else if (radiostring.equals("Per Main Qty")) {
                 radioGroup.check(R.id.radioButtonPerMainQty);
             } else if (radiostring.equals("Per Alt. Qty.")) {
@@ -557,138 +563,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
                 value = radioButton.getText().toString();
                 if (value.equals("Percentage")) {
-                    Dialog dialogpercentage = new Dialog(CreateBillSundryActivity.this);
-                    dialogpercentage.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                    dialogpercentage.setContentView(R.layout.dialog_amount_of_bill_sundry_to_be_fed_as_percentage);
-                    dialogpercentage.setCancelable(true);
-                    LinearLayout submitpercentage = (LinearLayout) dialogpercentage.findViewById(R.id.submit);
-                    LinearLayout closepercentage = (LinearLayout) dialogpercentage.findViewById(R.id.close);
-                    RadioGroup radioGrouppercentage = (RadioGroup) dialogpercentage.findViewById(R.id.radioGroup1);
-                    closepercentage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            hideSoftKeyboard(view);
-                            dialogpercentage.dismiss();
-
-                        }
-                    });
-                    submitpercentage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            hideSoftKeyboard(view);
-                            appUser.bill_sundry_of_percentage = valuepercentage;
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            dialogpercentage.dismiss();
-                        }
-                    });
-                    radioGrouppercentage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(RadioGroup radioGroup1, int j) {
-                            RadioButton radioButton1 = (RadioButton) radioGroup1.findViewById(j);
-                            valuepercentage = radioButton1.getText().toString();
-
-                            if (valuepercentage.equals("Other Bill Sundry")) {
-                                Dialog dialogcalculated = new Dialog(CreateBillSundryActivity.this);
-                                dialogcalculated.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                                dialogcalculated.setContentView(R.layout.dialog_percentage_bill_sundry_to_be_calculated_on);
-                                dialogcalculated.setCancelable(true);
-                                LinearLayout submitpercentagecal = (LinearLayout) dialogcalculated.findViewById(R.id.submit);
-                                LinearLayout closepercentagecal = (LinearLayout) dialogcalculated.findViewById(R.id.close);
-                                RadioGroup radioGrouppercentagecal = (RadioGroup) dialogcalculated.findViewById(R.id.radioGroup);
-                                radioGrouppercentagecal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                                        RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
-                                        valuepercentagecal = radioButton.getText().toString();
-
-                                    }
-                                });
-                               /* if (!appUser.bill_sundry_calculated_on.equals("")) {
-                                    String radiostringpercentagecal = appUser.bill_sundry_calculated_on;
-                                    if(radiostringpercentagecal.equals("Bill Sundry Amount")) {
-                                        radioGroup.check(R.id.radioButton1);
-                                    }
-                                    else if(radioGrouppercentagecal.equals("Bill Sundry Applied On")) {
-                                        radioGroup.check(R.id.radioButton2);
-                                    }
-                                }*/
-                                closepercentagecal.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        hideSoftKeyboard(view);
-                                        dialogcalculated.dismiss();
-
-                                    }
-                                });
-                                submitpercentagecal.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        hideSoftKeyboard(view);
-                                        appUser.bill_sundry_calculated_on = valuepercentagecal;
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        dialogcalculated.dismiss();
-                                    }
-                                });
-                                dialogcalculated.show();
-                            } else if (valuepercentage.equals("Previous Bill Sundry(s) Amount")) {
-                                Dialog dialogprevious = new Dialog(CreateBillSundryActivity.this);
-                                dialogprevious.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                                dialogprevious.setContentView(R.layout.dialog_percentage_previous_bill_sundry_s_details);
-                                dialogprevious.setCancelable(true);
-                                LinearLayout submitpercentageprev = (LinearLayout) dialogprevious.findViewById(R.id.submit);
-                                LinearLayout closepercentageprev = (LinearLayout) dialogprevious.findViewById(R.id.close);
-                                Spinner spinner1 = (Spinner) dialogprevious.findViewById(R.id.spinner1);
-                                EditText editText1 = (EditText) dialogprevious.findViewById(R.id.edit_text1);
-
-                                closepercentageprev.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        hideSoftKeyboard(view);
-                                        dialogprevious.dismiss();
-
-                                    }
-                                });
-                                submitpercentageprev.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        hideSoftKeyboard(view);
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        dialogprevious.dismiss();
-                                    }
-                                });
-                                dialogprevious.show();
-
-                            }
-
-                        }
-                    });
-
-              /*      if (!appUser.bill_sundry_of_percentage.equals("")) {
-                        String radiostringpercentage = appUser.bill_sundry_of_percentage;
-                        if(radiostringpercentage.equals("Nett Bill Amount")) {
-                            radioGroup.check(R.id.radiobutton1);
-                        }
-                        else if(radiostringpercentage.equals("Item Basic Amt.")) {
-                            radioGroup.check(R.id.radiobutton2);
-                        }
-                        else if(radiostringpercentage.equals("Total MRP of Items")) {
-                            radioGroup.check(R.id.radioButton3);
-                        }
-                        else if(radiostringpercentage.equals("Taxable Amount")) {
-                            radioGroup.check(R.id.radiobutton3);
-                        }
-                        else if(radiostringpercentage.equals("Previous Bill Sundry(s) Amount")) {
-                            radioGroup.check(R.id.radiobutton4);
-                        }
-                        else if(radiostringpercentage.equals("Other Bill Sundry")) {
-                            radioGroup.check(R.id.radiobutton5);
-                        }
-
-
-                    }*/
-                    dialogpercentage.show();
-
-
+                    dialogpercentage();
                 }
 
 
@@ -780,14 +655,130 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             mBillSundryTypeSpinner.setSelection(sundrytypeindex);
             String sundrynature=response.getBill_sundry_info().getData().getAttributes().getBill_sundry_nature();
             int sundrynatureindex = -1;
-            for (int i = 0; i < getResources().getStringArray(R.array.bill_sundry_nature).length; i++) {
-                if (getResources().getStringArray(R.array.bill_sundry_nature)[i].equals(sundrynature)) {
+            for (int i = 0; i <appUser.arr_bill_sundry_nature_name.size(); i++) {
+                if (appUser.arr_bill_sundry_nature_name.get(i).equals(sundrynature)) {
                     sundrynatureindex = i;
                     break;
                 }
             }
             mBillSundryNatureSpinner.setSelection(sundrynatureindex);
             mDefaultText.setText(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getDefault_value()));
+            if(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale()==false) {
+                appUser.cost_goods_in_sale = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.cost_goods_in_sale = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_purchase()==false){
+                appUser.cost_goods_in_purchase = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.cost_goods_in_purchase = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_issue()==false){
+                appUser.cost_material_issue = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.cost_material_issue = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_receipt()==false){
+                appUser.cost_material_receipt = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.cost_material_receipt = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getStock_transfer()==false){
+                appUser.cost_stock_transfer = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.cost_stock_transfer = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_accounting()==false){
+                appUser.sale_affect_accounting = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.sale_affect_accounting = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount()==false){
+                appUser.sale_affect_sale_amount = "No";
+                appUser.sale_affect_sale_amount_specify_in=response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount_specify_in();
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.sale_affect_sale_amount = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAdjust_in_party_amount()==false){
+                appUser.sale_adjust_in_party_amount = "No";
+                appUser.sale_party_amount_specify_in=response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getParty_amount_specify_in();
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.sale_adjust_in_party_amount = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getPost_over_above()==false){
+                appUser.sale_post_over_above = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.sale_post_over_above = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_accounting()==false){
+                appUser.purchase_affect_accounting = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.purchase_affect_accounting = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount()==false){
+                appUser.purchase_affect_purchase_amount = "No";
+                appUser.purchase_affect_purchase_amount_specify_in=response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount_specify_in();
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.purchase_affect_purchase_amount = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAdjust_in_party_amount()==false){
+                appUser.purchase_adjust_in_party_amount = "No";
+                appUser.purchase_party_amount_specify_in=response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getParty_amount_specify_in();
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.purchase_adjust_in_party_amount = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getPost_over_above()==false){
+                appUser.purchase_post_over_above = "No";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            else{
+                appUser.purchase_post_over_above = "Yes";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+            appUser.bill_sundry_of_percentage=response.getBill_sundry_info().getData().getAttributes().getBill_sundry_of_percentage();
+            appUser.bill_sundry_amount_of_bill_sundry_fed_as=response.getBill_sundry_info().getData().getAttributes().getAmount_of_bill_sundry_fed_as();
+            LocalRepositories.saveAppUser(this, appUser);
+
+
         }
     }
 
@@ -811,6 +802,8 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     public void getbillsundrynature(GetBillSundryNatureResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            appUser.arr_bill_sundry_nature_id.clear();
+            appUser.arr_bill_sundry_nature_name.clear();
             for(int i=0;i<response.getBill_sundry_nature().getData().size();i++){
                 appUser.arr_bill_sundry_nature_id.add(response.getBill_sundry_nature().getData().get(i).getId());
                 appUser.arr_bill_sundry_nature_name.add(response.getBill_sundry_nature().getData().get(i).getAttributes().getName());
@@ -824,6 +817,153 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
         }
     }
+
+    public void dialogpercentage(){
+        Dialog dialogpercentage = new Dialog(CreateBillSundryActivity.this);
+        dialogpercentage.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialogpercentage.setContentView(R.layout.dialog_amount_of_bill_sundry_to_be_fed_as_percentage);
+        dialogpercentage.setCancelable(true);
+        LinearLayout submitpercentage = (LinearLayout) dialogpercentage.findViewById(R.id.submit);
+        LinearLayout closepercentage = (LinearLayout) dialogpercentage.findViewById(R.id.close);
+        RadioGroup radioGrouppercentage = (RadioGroup) dialogpercentage.findViewById(R.id.radioGroup1);
+        radioGrouppercentage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
+                valuepercentage=radioButton.getText().toString();
+            }
+        });
+        closepercentage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                dialogpercentage.dismiss();
+
+            }
+        });
+        submitpercentage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                appUser.bill_sundry_of_percentage = valuepercentage;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                dialogpercentage.dismiss();
+            }
+        });
+       /* if (!appUser.bill_sundry_of_percentage.equals("")) {
+            String radiostringpercentage = appUser.bill_sundry_of_percentage;
+
+            if(radiostringpercentage.equals("Nett Bill Amount")) {
+                radioGrouppercentage.check(R.id.radiobutton1);
+            }
+            else if(radiostringpercentage.equals("Item Basic Amt.")) {
+                radioGrouppercentage.check(R.id.radiobutton2);
+            }
+            else if(radiostringpercentage.equals("Total MRP of Items")) {
+                radioGrouppercentage.check(R.id.radioButton3);
+            }
+            else if(radiostringpercentage.equals("Taxable Amount")) {
+                radioGrouppercentage.check(R.id.radiobutton3);
+            }
+            else if(radiostringpercentage.equals("Previous Bill Sundry(s) Amount")) {
+                radioGrouppercentage.check(R.id.radiobutton4);
+               // previous();
+            }
+            else if(radiostringpercentage.equals("Other Bill Sundry")) {
+                radioGrouppercentage.check(R.id.radiobutton5);
+               // calculatedon();
+            }
+
+
+        }
+        radioGrouppercentage.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup1, int j) {
+                RadioButton radioButton1 = (RadioButton) radioGroup1.findViewById(j);
+                valuepercentage = radioButton1.getText().toString();
+                if (valuepercentage.equals("Other Bill Sundry")) {
+                    calculatedon();
+                } else if (valuepercentage.equals("Previous Bill Sundry(s) Amount")) {
+                    previous();
+                }
+
+            }
+        });*/
+        dialogpercentage.show();
+    }
+
+    /*public void calculatedon(){
+        Dialog dialogcalculated = new Dialog(CreateBillSundryActivity.this);
+        dialogcalculated.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialogcalculated.setContentView(R.layout.dialog_percentage_bill_sundry_to_be_calculated_on);
+        dialogcalculated.setCancelable(true);
+        LinearLayout submitpercentagecal = (LinearLayout) dialogcalculated.findViewById(R.id.submit);
+        LinearLayout closepercentagecal = (LinearLayout) dialogcalculated.findViewById(R.id.close);
+        RadioGroup radioGrouppercentagecal = (RadioGroup) dialogcalculated.findViewById(R.id.radioGroup);
+        radioGrouppercentagecal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
+                valuepercentagecal = radioButton.getText().toString();
+
+            }
+        });
+                               *//* if (!appUser.bill_sundry_calculated_on.equals("")) {
+                                    String radiostringpercentagecal = appUser.bill_sundry_calculated_on;
+                                    if(radiostringpercentagecal.equals("Bill Sundry Amount")) {
+                                        radioGroup.check(R.id.radioButton1);
+                                    }
+                                    else if(radioGrouppercentagecal.equals("Bill Sundry Applied On")) {
+                                        radioGroup.check(R.id.radioButton2);
+                                    }
+                                }*//*
+        closepercentagecal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                dialogcalculated.dismiss();
+
+            }
+        });
+        submitpercentagecal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                appUser.bill_sundry_calculated_on = valuepercentagecal;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                dialogcalculated.dismiss();
+            }
+        });
+        dialogcalculated.show();
+    }
+
+    public void previous(){
+        Dialog dialogprevious = new Dialog(CreateBillSundryActivity.this);
+        dialogprevious.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialogprevious.setContentView(R.layout.dialog_percentage_previous_bill_sundry_s_details);
+        dialogprevious.setCancelable(true);
+        LinearLayout submitpercentageprev = (LinearLayout) dialogprevious.findViewById(R.id.submit);
+        LinearLayout closepercentageprev = (LinearLayout) dialogprevious.findViewById(R.id.close);
+        Spinner spinner1 = (Spinner) dialogprevious.findViewById(R.id.spinner1);
+        EditText editText1 = (EditText) dialogprevious.findViewById(R.id.edit_text1);
+
+        closepercentageprev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                dialogprevious.dismiss();
+
+            }
+        });
+        submitpercentageprev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(view);
+                dialogprevious.dismiss();
+            }
+        });
+        dialogprevious.show();
+    }*/
 
 
 }

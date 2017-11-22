@@ -23,7 +23,7 @@ public class RequestCreateBillSundry {
         bill_sundry = new HashMap<>();
         bill_sundry.put("name",appUser.bill_sundry_name);
         bill_sundry.put("bill_sundry_type", appUser.bill_sundry_type);
-        bill_sundry.put("bill_sundry_nature",appUser.bill_sundry_nature);
+        bill_sundry.put("bill_sundry_nature_id",appUser.bill_sundry_nature);
         bill_sundry.put("default_value", appUser.bill_sundry_default_value);
         bill_sundry.put("amount_of_bill_sundry_fed_as", appUser.bill_sundry_amount_of_bill_sundry_fed_as);
         bill_sundry.put("bill_sundry_of_percentage", appUser.bill_sundry_of_percentage);

@@ -265,11 +265,12 @@ public class Helpers {
     }
 
     public static String mystring(String string) {
-        if (string == null) {
+        if (string == null||string.equals("null")) {
             string = "";
         }
         return string;
     }
+
 
 
 

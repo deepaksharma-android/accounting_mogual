@@ -58,7 +58,6 @@ public class AppUser {
     public String company_id;
     public String cusername;
     public String cpassword;
-    public String titlecname="";
     public String search_company_id;
     public String company_user_id;
 
@@ -185,7 +184,7 @@ public class AppUser {
 
     public String bill_sundry_name="";
     public String bill_sundry_nature="";
-    public String bill_sundry_default_value="";
+    public Double bill_sundry_default_value;
     public String bill_sundry_amount_of_bill_sundry_fed_as="";
     public String bill_sundry_of_percentage="";
     public String bill_sundry_number_of_bill_sundry="";
@@ -211,7 +210,7 @@ public class AppUser {
     public String purchase_party_amount_specify_in="";
     public String purchase_account_head_to_post_party_amount="";
     public String purchase_post_over_above="";
-    public String cost_goods_in_sale="";
+    public String cost_goods_in_sale;
     public String cost_goods_in_purchase="";
     public String cost_material_issue="";
     public String cost_material_receipt="";

@@ -88,4 +88,22 @@ public class BillSundryAttributes {
 
     public Boolean undefined;
 
+    public String getAmount_of_bill_sundry_fed_as() {
+        return amount_of_bill_sundry_fed_as;
+    }
+
+    public void setAmount_of_bill_sundry_fed_as(String amount_of_bill_sundry_fed_as) {
+        this.amount_of_bill_sundry_fed_as = amount_of_bill_sundry_fed_as;
+    }
+
+    public String amount_of_bill_sundry_fed_as;
+    public String bill_sundry_of_percentage;
+
+    public String getBill_sundry_of_percentage() {
+        return bill_sundry_of_percentage;
+    }
+
+    public void setBill_sundry_of_percentage(String bill_sundry_of_percentage) {
+        this.bill_sundry_of_percentage = bill_sundry_of_percentage;
+    }
 }
