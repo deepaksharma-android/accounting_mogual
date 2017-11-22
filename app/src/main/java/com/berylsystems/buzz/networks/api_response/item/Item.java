@@ -5,13 +5,13 @@ package com.berylsystems.buzz.networks.api_response.item;
  */
 
 public class Item {
-    public getItemDetailData data;
+    public GetItemDetailData data;
 
-    public getItemDetailData getData() {
+    public GetItemDetailData getData() {
         return data;
     }
 
-    public void setData(getItemDetailData data) {
+    public void setData(GetItemDetailData data) {
         this.data = data;
     }
 }

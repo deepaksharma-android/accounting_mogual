@@ -11,54 +11,48 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.dashboard.AdministrationDashboardActivity;
+import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CompanyDashboardAdapter extends RecyclerView.Adapter<CompanyDashboardAdapter.ViewHolder> {
+public class TransactionDashboardAdapter extends RecyclerView.Adapter<TransactionDashboardAdapter.ViewHolder> {
+
     private String[] data;
     private Context context;
     int[] images;
 
-    public CompanyDashboardAdapter(Context context, String[] data, int[] images) {
+    public TransactionDashboardAdapter(Context context, String[] data, int[] images) {
         this.data = data;
         this.context = context;
         this.images=images;
     }
 
     @Override
-    public CompanyDashboardAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public TransactionDashboardAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_generic_grid_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CompanyDashboardAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(TransactionDashboardAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
-        if(i==0){
-            viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(new Intent(context, AdministrationDashboardActivity.class));
+        viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(i==6){
+                    context.startActivity(new Intent(context, BankCaseDepositListActivity.class));
                 }
-            });
-        }
-        if(i==1){
-            viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(new Intent(context, TransactionDashboardActivity.class));
+                if(i==7){
+                    context.startActivity(new Intent(context, BankCaseWithdrawActivity.class));
                 }
-            });
-        }
-
-
+            }
+        });
     }
-
     @Override
     public int getItemCount() {
         return data.length;

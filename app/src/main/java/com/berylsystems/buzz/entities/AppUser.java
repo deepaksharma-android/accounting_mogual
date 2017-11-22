@@ -58,6 +58,7 @@ public class AppUser {
     public String company_id;
     public String cusername;
     public String cpassword;
+    public String titlecname = "";
     public String search_company_id;
     public String company_user_id;
 
@@ -158,11 +159,12 @@ public class AppUser {
     public String item_conversion_factor="";
     public String item_conversion_type="";
     public String item_opening_stock_quantity_alternate="";
+    public String item_package_unit_detail_name="";
     public String item_price_info_id="";
     public String item_package_unit_detail_id="";
 	 public String item_default_unit_for_sales="";
     public String item_default_unit_for_purchase="";
-    public String item_tax_category="";
+    public int item_tax_category;
     public String item_hsn_number="";
     public String item_description="";
     public String item_serial_number_wise_detail="";
@@ -220,6 +222,7 @@ public class AppUser {
     public String delete_bill_sundry_id;
     public String delete_item_id="";
 
+    public String item_alternate_unit_name = "";
 
 
 

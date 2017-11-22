@@ -86,7 +86,7 @@
                             android:orientation="horizontal">
 
                             <Spinner
-                                android:id="@+id/spinner"
+                                android:id="@+id/set_critical_level"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"></Spinner>
@@ -109,7 +109,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-
+                                android:id="@+id/serial_number_wise_detail"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"
@@ -138,6 +138,7 @@
                             <Spinner
 
                                 android:layout_width="fill_parent"
+                                android:id="@+id/batch_wise_detail"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"
                                 ></Spinner>
@@ -176,7 +177,8 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Specify Saves Details"
+                            android:id="@+id/specify_sale_amount"
+                            android:text="Specify sales Details"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -189,7 +191,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-
+                                android:id="@+id/specify_sales_account"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"></Spinner>
@@ -233,6 +235,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
+                            android:id="@+id/specify_purchase_account"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
@@ -267,8 +270,31 @@
                             <Spinner
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
+                                android:id="@+id/dont_maintain_stock_balance"
                                 android:layout_height="40dp"></Spinner>
+                        </LinearLayout>
 
+
+                        <LinearLayout
+                            android:id="@+id/submit"
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/solid_blue"
+                            android:gravity="center">
+
+
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                style="@style/Gotham_Book"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Submit"
+                                android:textColor="#fff"
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                     </LinearLayout>

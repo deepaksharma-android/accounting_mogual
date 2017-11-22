@@ -663,7 +663,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 }
             }
             mBillSundryNatureSpinner.setSelection(sundrynatureindex);
-            mDefaultText.setText(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getDefault_value()));
+          //  mDefaultText.setText(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getDefault_value()));
             if(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale()==false) {
                 appUser.cost_goods_in_sale = "No";
                 LocalRepositories.saveAppUser(this, appUser);

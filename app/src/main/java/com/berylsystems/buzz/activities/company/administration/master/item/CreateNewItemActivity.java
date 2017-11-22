@@ -148,12 +148,26 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         appUser.item_stock_value = "";
 
         appUser.item_conversion_factor = "";
-        appUser.item_stock_quantity = "";
-
+        appUser.item_opening_stock_quantity_alternate = "";
         appUser.item_conversion_factor_pkg_unit = "";
         appUser.item_salse_price = "";
 
         appUser.item_description = "";
+        appUser.item_alternate_unit_name = "";
+        appUser.item_package_unit_detail_id = "";
+        appUser.item_package_unit_detail_name = "";
+        appUser.item_specify_purchase_account = "";
+
+        appUser.item_serial_number_wise_detail = "";
+        appUser.item_set_critical_level = "";
+        appUser.item_specify_sales_account = "";
+        appUser.item_specify_purchase_account = "";
+        appUser.item_dont_maintain_stock_balance = "";
+
+        appUser.item_default_unit_for_sales="";
+        appUser.item_default_unit_for_purchase="";
+        appUser.item_hsn_number="";
+        appUser.item_batch_wise_detail="";
 
         LocalRepositories.saveAppUser(this, appUser);
 
@@ -165,6 +179,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
                 mSubmitButton.startAnimation(blinkOnClick);
                 appUser.item_name = mItemName.getText().toString();
+                if (mItemName.getText().toString().equals("")||mItemUnit.getText().toString().equals("")||mItemGroup.getText().toString().equals("")) {
+                    Toast.makeText(CreateNewItemActivity.this, "Name, Group And Unit is mendetory", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -173,6 +192,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
+                    appUser.item_tax_category=9;
                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
                 } else {
                     snackbar = Snackbar
@@ -199,9 +219,22 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
                             appUser.item_name = mItemName.getText().toString();
-                            appUser.item_group_id = mItemGroup.getText().toString();
-                            appUser.item_unit_id = mItemUnit.getText().toString();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                            for (int i = 0; i < appUser.arr_item_group_id.size(); i++) {
+                                if (appUser.arr_item_group_name.get(i).equals(mItemGroup.getText().toString())) {
+                                    appUser.item_group_id = String.valueOf(appUser.arr_item_group_id.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    break;
+                                }
+                            }
+                            for (int i = 0; i < appUser.arr_unitId.size(); i++) {
+                                if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
+                                    appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    break;
+                                }
+                            }
+
                             Boolean isConnected = ConnectivityReceiver.isConnected();
                             if (isConnected) {
                                 mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
@@ -408,7 +441,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
 
         EditText item_conversion_factor = (EditText) dialog.findViewById(R.id.con_factor);
-        EditText item_stock_quantity = (EditText) dialog.findViewById(R.id.stock_quantity);
+        EditText item_opening_stock_quantity_alternate = (EditText) dialog.findViewById(R.id.stock_quantity);
         spinner = (Spinner) dialog.findViewById(R.id.spinner);
 
 
@@ -422,19 +455,22 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         if (!appUser.item_conversion_factor.equals("")) {
             item_conversion_factor.setText(appUser.item_conversion_factor);
         }
-        if (!appUser.item_stock_quantity.equals("")) {
-            item_stock_quantity.setText(appUser.item_stock_quantity);
+        if (!appUser.item_opening_stock_quantity_alternate.equals("")) {
+            item_opening_stock_quantity_alternate.setText(appUser.item_opening_stock_quantity_alternate);
+        }
+        if (!appUser.item_alternate_unit_name.equals("")) {
+            item_group.setText(appUser.item_alternate_unit_name);
         }
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appUser.item_conversion_factor = item_conversion_factor.getText().toString();
-                appUser.item_stock_quantity = item_stock_quantity.getText().toString();
+                appUser.item_opening_stock_quantity_alternate = item_opening_stock_quantity_alternate.getText().toString();
                 if (!appUser.item_conversion_factor.equals("")) {
                     item_conversion_factor.setText(appUser.item_conversion_factor);
                 }
-                if (!appUser.item_stock_quantity.equals("")) {
-                    item_stock_quantity.setText(appUser.item_stock_quantity);
+                if (!appUser.item_opening_stock_quantity_alternate.equals("")) {
+                    item_opening_stock_quantity_alternate.setText(appUser.item_opening_stock_quantity_alternate);
                 }
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 dialog.dismiss();
@@ -498,7 +534,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         EditText item_conversion_factor_pkg_unit = (EditText) dialog.findViewById(R.id.con_factor);
         EditText item_sales_price = (EditText) dialog.findViewById(R.id.Sales_price);
-
+        EditText specify_purchase_account = (EditText) dialog.findViewById(R.id.specify_purchase_account);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
 
         if (!appUser.item_conversion_factor_pkg_unit.equals("")) {
@@ -507,11 +543,18 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         if (!appUser.item_salse_price.equals("")) {
             item_sales_price.setText(appUser.item_salse_price);
         }
+        if (!appUser.item_package_unit_detail_id.equals("")) {
+            item_group.setText(appUser.item_package_unit_detail_name);
+        }
+        if (!appUser.item_specify_purchase_account.equals("")) {
+            specify_purchase_account.setText(appUser.item_specify_purchase_account);
+        }
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appUser.item_conversion_factor_pkg_unit = item_conversion_factor_pkg_unit.getText().toString();
                 appUser.item_salse_price = item_sales_price.getText().toString();
+                appUser.item_specify_purchase_account = specify_purchase_account.getText().toString();
 
                 if (!appUser.item_conversion_factor_pkg_unit.equals("")) {
                     item_conversion_factor_pkg_unit.setText(appUser.item_conversion_factor_pkg_unit);
@@ -588,19 +631,42 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 dialog.dismiss();
             }
         });
+        Spinner set_critical_level = (Spinner) dialog.findViewById(R.id.set_critical_level);
+        Spinner serial_number_wise_detail = (Spinner) dialog.findViewById(R.id.serial_number_wise_detail);
+        Spinner batch_wise_detail = (Spinner) dialog.findViewById(R.id.batch_wise_detail);
 
-        Spinner spinner = (Spinner) dialog.findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Spinner specify_sales_account = (Spinner) dialog.findViewById(R.id.specify_sales_account);
+        Spinner dont_maintain_stock_balance = (Spinner) dialog.findViewById(R.id.dont_maintain_stock_balance);
+
+        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+
+
+        if (appUser.item_set_critical_level.equals("Yes")) {
+            set_critical_level.setSelection(1);
+        }
+        if (appUser.item_serial_number_wise_detail.equals("Yes")) {
+            serial_number_wise_detail.setSelection(1);
+        }
+        if (appUser.item_batch_wise_detail.equals("Yes")) {
+            batch_wise_detail.setSelection(1);
+        }
+        if (appUser.item_specify_sales_account.equals("Yes")) {
+            specify_sales_account.setSelection(1);
+        }
+        if (appUser.item_dont_maintain_stock_balance.equals("Yes")) {
+            dont_maintain_stock_balance.setSelection(1);
+        }
+
+        set_critical_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (id == 0) {
-
-                } else {
+                if (position == 1) {
                     Dialog dialog = new Dialog(CreateNewItemActivity.this);
                     dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_critical_level);
                     dialog.setCancelable(true);
                     dialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     LinearLayout cancelImage = (LinearLayout) dialog.findViewById(R.id.imageCancel);
                     cancelImage.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -618,7 +684,155 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
         });
 
+        serial_number_wise_detail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        batch_wise_detail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        specify_sales_account.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        dont_maintain_stock_balance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser.item_set_critical_level = set_critical_level.getSelectedItem().toString();
+                appUser.item_serial_number_wise_detail = serial_number_wise_detail.getSelectedItem().toString();
+                appUser.item_batch_wise_detail=batch_wise_detail.getSelectedItem().toString();
+                appUser.item_specify_sales_account = specify_sales_account.getSelectedItem().toString();
+                appUser.item_dont_maintain_stock_balance = dont_maintain_stock_balance.getSelectedItem().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    public void defaultOptionDialog(View view){
+        view.startAnimation(blinkOnClick);
+
+        Dialog dialog = new Dialog(CreateNewItemActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_default_declaration);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        Spinner default_unit_for_sales= (Spinner) dialog.findViewById(R.id.default_unit_for_sales);
+        Spinner default_unit_for_purchase= (Spinner) dialog.findViewById(R.id.default_unit_for_purchase);
+        LinearLayout hsn_Layout= (LinearLayout) dialog.findViewById(R.id.hsn_layout);
+        EditText hsn_number= (EditText) dialog.findViewById(R.id.hsn_number);
+        Spinner text_category= (Spinner) dialog.findViewById(R.id.text_category);
+        LinearLayout submit= (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout cancelImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
+
+        if (!appUser.item_default_unit_for_sales.equals("")){
+            default_unit_for_sales.setSelection(Integer.parseInt(appUser.item_default_unit_for_sales));
+        }
+        if (!appUser.item_default_unit_for_purchase.equals("")){
+            default_unit_for_purchase.setSelection(Integer.parseInt(appUser.item_default_unit_for_purchase));
+        }
+        if (!appUser.item_hsn_number.equals("")){
+            hsn_number.setText(appUser.item_hsn_number);
+        }
+
+        default_unit_for_sales.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                appUser.item_default_unit_for_sales=String.valueOf(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        default_unit_for_purchase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                appUser.item_default_unit_for_purchase=String.valueOf(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cancelImageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyBoard(view);
+                dialog.dismiss();
+            }
+        });
+
+        text_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                    hsn_Layout.setVisibility(View.GONE);
+                }else {
+                    hsn_Layout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!hsn_number.getText().toString().equals("")){
+                    appUser.item_hsn_number=hsn_number.getText().toString();
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                dialog.dismiss();
+            }
+        });
     }
 
 
@@ -649,7 +863,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                mItemGroup.setText("");
+                //mItemGroup.setText("");
             }
         }
 
@@ -663,7 +877,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                mItemGroup.setText("");
+                //mItemUnit.setText("");
             }
         }
 
@@ -672,6 +886,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
+                appUser.item_alternate_unit_name = result;
                 appUser.item_alternate_unit_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 item_group.setText(result);
@@ -706,6 +921,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 String id = data.getStringExtra("id");
                 Timber.i("MYID" + id);
                 appUser.item_package_unit_detail_id = id;
+                appUser.item_package_unit_detail_name = result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 item_group.setText(result);
             }
@@ -727,7 +943,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent = new Intent(this, ItemGroupListActivity.class);
+            Intent intent = new Intent(this, ExpandableItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup", true);
             startActivity(intent);

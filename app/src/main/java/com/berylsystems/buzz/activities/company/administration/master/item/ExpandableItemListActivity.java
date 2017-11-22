@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -48,6 +49,9 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
+    @Bind(R.id.floating_button)
+    FloatingActionButton floatingActionButton;
+
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -67,7 +71,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         setAddCompany(0);
         setAppBarTitleCompany(1, "ITEM LIST");
         appUser = LocalRepositories.getAppUser(this);
-
+        floatingActionButton.bringToFront();
     }
 
     @Override
