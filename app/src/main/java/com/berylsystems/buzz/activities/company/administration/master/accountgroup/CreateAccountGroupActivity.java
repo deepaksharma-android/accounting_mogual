@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +71,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         title="CREATE ACCOUNT GROUP";
         appUser=LocalRepositories.getAppUser(this);
+
         fromAccountGroupList=getIntent().getExtras().getBoolean("fromaccountgrouplist");
         if(fromAccountGroupList==true){
             title="EDIT ACCOUNT GROUP";

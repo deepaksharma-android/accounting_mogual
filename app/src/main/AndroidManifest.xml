@@ -239,6 +239,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity"></activity>
+        <activity android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"></activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +47,8 @@ public class ItemGroupListActivity extends BaseActivityCompany {
     Snackbar snackbar;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.floating_button)
+    FloatingActionButton mFloatingButton;
     RecyclerView.LayoutManager layoutManager;
     ItemGroupListAdapter mAdapter;
     @Bind(R.id.item_group_list_recycler_view)
@@ -62,6 +65,7 @@ public class ItemGroupListActivity extends BaseActivityCompany {
         appUser= LocalRepositories.getAppUser(this);
         setAddCompany(0);
         setAppBarTitleCompany(1,"ITEM GROUP LIST");
+        mFloatingButton.bringToFront();
         EventBus.getDefault().register(this);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();

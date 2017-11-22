@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -44,6 +45,8 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
+    @Bind(R.id.floating_button)
+    FloatingActionButton mFloatingButton;
     AccountExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -62,6 +65,7 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         setAddCompany(0);
         setAppBarTitleCompany(1, "ACCOUNT LIST");
+        mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);
 
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,8 @@ public class UnitListActivity  extends BaseActivityCompany {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.unit_list_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.floating_button)
+    FloatingActionButton mFloatingButton;
     RecyclerView.LayoutManager layoutManager;
     UnitListAdapter mAdapter;
     ProgressDialog mProgressDialog;
@@ -52,6 +55,7 @@ public class UnitListActivity  extends BaseActivityCompany {
         setAddCompany(0);
         setAppBarTitleCompany(1,"UNIT LIST");
         appUser=LocalRepositories.getAppUser(this);
+        mFloatingButton.bringToFront();
 
     }
     @Override

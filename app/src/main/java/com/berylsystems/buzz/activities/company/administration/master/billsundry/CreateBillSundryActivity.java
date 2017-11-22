@@ -262,7 +262,8 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     }
 
     public void billsundryaffect(View v) {
-        Dialog dialog = new Dialog(CreateBillSundryActivity.this);
+        startActivity(new Intent(getApplicationContext(),AffectOfBillSundryActivity.class));
+        /*Dialog dialog = new Dialog(CreateBillSundryActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_affect_of_bill_sundry);
         dialog.setCancelable(true);
@@ -309,7 +310,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 dialog.dismiss();
             }
         });
-        dialog.show();
+        dialog.show();*/
 
     }
 

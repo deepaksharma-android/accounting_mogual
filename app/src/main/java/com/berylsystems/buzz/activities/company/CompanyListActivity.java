@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,8 @@ public class CompanyListActivity extends BaseActivity {
     RecyclerView.LayoutManager layoutManager;
     @Bind(R.id.search)
     LinearLayout mSearchButton;
+    @Bind(R.id.floating_button)
+    FloatingActionButton mFloatingButton;
     @Bind(R.id.searchtext)
     EditText mSearchText;
     @Bind(R.id.company_name)
@@ -71,6 +74,7 @@ public class CompanyListActivity extends BaseActivity {
         setNavigation(1);
         setAdd(0);
         setAppBarTitle(1, "COMPANY LIST");
+        mFloatingButton.bringToFront();
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override

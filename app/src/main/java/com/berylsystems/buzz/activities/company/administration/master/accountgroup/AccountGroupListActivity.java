@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,8 @@ public class AccountGroupListActivity extends BaseActivityCompany {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.account_group_list_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.floating_button)
+    FloatingActionButton mFloatingButton;
     RecyclerView.LayoutManager layoutManager;
     AccountGroupListAdapter mAdapter;
     AppUser appUser;
@@ -57,6 +60,7 @@ public class AccountGroupListActivity extends BaseActivityCompany {
         setAddCompany(0);
         setAppBarTitleCompany(1, "ACCOUNT GROUP LIST");
         EventBus.getDefault().register(this);
+        mFloatingButton.bringToFront();
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(AccountGroupListActivity.this);
