@@ -196,6 +196,7 @@ public class AppUser {
     public String bill_sundry_calculated_on="";
     public String bill_sundry_amount_round_off="";
     public String bill_sundry_rouding_off_nearest="";
+    public String bill_sundry_rounding_off_limit="";
     public String bill_sundry_type="";
     public String sale_affect_accounting="";
     public String sale_affect_sale_amount="";
@@ -223,6 +224,11 @@ public class AppUser {
     public String edit_bill_sundry_id;
     public String delete_bill_sundry_id;
     public String delete_item_id="";
+    public String sale_account_head_to_post_sale_amount_id;
+    public String sale_account_head_to_post_party_amount_id;
+    public String purchase_account_head_to_post_purchase_amount_id;
+    public String purchase_account_head_to_post_party_amount_id;
+    public String calculated_on_bill_sundry_id;
 
     public String item_alternate_unit_name = "";
 

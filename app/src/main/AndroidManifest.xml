@@ -238,8 +238,57 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity"></activity>
-        <activity android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"></activity>
+        <activity android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.AccountingInSaleActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.AccountingInPurchaseActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.BillSundryToBeFedAsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.BillSundryFedAsPercentageActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.OtherBillSundryActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.PreviousBillSundryActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.billsundry.RoundOffActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
     </application>
 
 </manifest>

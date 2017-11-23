@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.account;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventAccountChildClicked;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventEditAccount;
@@ -222,5 +224,20 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         intent.putExtra("fromaccountlist", true);
         startActivity(intent);
 
+    }
+
+    @Subscribe
+    public void clickEvent(EventAccountChildClicked pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name", name);
+        returnIntent.putExtra("id",arrid);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 }

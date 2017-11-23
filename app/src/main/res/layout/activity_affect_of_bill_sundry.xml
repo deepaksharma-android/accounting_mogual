@@ -83,7 +83,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/spinner1"
+                            android:id="@+id/spinner_goods_in_sale"
                             android:layout_width="fill_parent"
                             android:entries="@array/primary_group_cost"
                             android:spinnerMode="dialog"
@@ -110,7 +110,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/spinner2"
+                            android:id="@+id/spinner_goods_in_purchase"
                             android:layout_width="fill_parent"
                             android:entries="@array/primary_group_cost"
                             android:spinnerMode="dialog"
@@ -137,7 +137,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/spinner3"
+                            android:id="@+id/spinner_material_issue"
                             android:layout_width="fill_parent"
                             android:entries="@array/primary_group_cost"
                             android:spinnerMode="dialog"
@@ -164,7 +164,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/spinner4"
+                            android:id="@+id/spinner_material_receipt"
                             android:layout_width="fill_parent"
                             android:entries="@array/primary_group_cost"
                             android:spinnerMode="dialog"
@@ -191,7 +191,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/spinner5"
+                            android:id="@+id/spinner_stock_transfer"
                             android:layout_width="fill_parent"
                             android:entries="@array/primary_group_cost"
                             android:spinnerMode="dialog"

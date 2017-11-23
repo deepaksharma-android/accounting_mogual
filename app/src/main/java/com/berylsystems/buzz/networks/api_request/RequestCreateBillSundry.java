@@ -33,6 +33,7 @@ public class RequestCreateBillSundry {
         bill_sundry.put("bill_sundry_amount_round_off", appUser.bill_sundry_amount_round_off);
         bill_sundry.put("bill_sundry_round_off_limit", appUser.bill_sundry_default_value);
         bill_sundry.put("rounding_off_nearest", appUser.bill_sundry_rouding_off_nearest);
+        bill_sundry.put("bill_sundry_id",appUser.calculated_on_bill_sundry_id);
 
 
 
@@ -42,17 +43,18 @@ public class RequestCreateBillSundry {
         sale.put("affect_sale_amount_specify_in", appUser.sale_affect_sale_amount_specify_in);
         sale.put("adjust_in_party_amount", appUser.sale_adjust_in_party_amount);
         sale.put("party_amount_specify_in", appUser.sale_party_amount_specify_in);
-        sale.put("account_head_to_post_party_amount", appUser.sale_account_head_to_post_party_amount);
+        sale.put("account_head_to_post_sale_amount",appUser.sale_account_head_to_post_sale_amount_id);
+        sale.put("account_head_to_post_party_amount", appUser.sale_account_head_to_post_party_amount_id);
         sale.put("post_over_above", appUser.sale_post_over_above);
 
         purchase = new HashMap<>();
         purchase.put("affect_accounting",appUser.purchase_affect_accounting);
         purchase.put("affect_purchase_amount",appUser.purchase_affect_purchase_amount);
         purchase.put("affect_purchase_amount_specify_in",appUser.purchase_affect_purchase_amount_specify_in);
-        purchase.put("account_head_to_post_purchase_amount",appUser.purchase_account_head_to_post_purchase_amount);
+        purchase.put("account_head_to_post_purchase_amount",appUser.purchase_account_head_to_post_purchase_amount_id);
         purchase.put("affect_accounting",appUser.purchase_affect_accounting);
         purchase.put("party_amount_specify_in",appUser.purchase_party_amount_specify_in);
-        purchase.put("account_head_to_post_party_amount",appUser.purchase_account_head_to_post_party_amount);
+        purchase.put("account_head_to_post_party_amount",appUser.purchase_account_head_to_post_party_amount_id);
         purchase.put("post_over_above",appUser.purchase_post_over_above);
 
         cost = new HashMap<>();

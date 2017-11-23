@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
+import com.berylsystems.buzz.utils.EventAccountChildClicked;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditGroup;
@@ -73,6 +74,7 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(acc_name);
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
+        LinearLayout mMainLayout=(LinearLayout)convertView.findViewById(R.id.main_layout);
 
         if(undefined.equals("true")){
             delete.setVisibility(View.VISIBLE);
@@ -96,6 +98,13 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
                 String id=groupPosition+","+childPosition;
                 EventBus.getDefault().post(new EventEditAccount(id));
 
+            }
+        });
+        mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id=groupPosition+","+childPosition;
+                EventBus.getDefault().post(new EventAccountChildClicked(id));
             }
         });
         return convertView;

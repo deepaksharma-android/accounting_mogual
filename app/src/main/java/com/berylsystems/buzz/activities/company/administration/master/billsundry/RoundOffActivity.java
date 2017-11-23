@@ -1,17 +1,23 @@
 package com.berylsystems.buzz.activities.company.administration.master.billsundry;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
@@ -21,56 +27,71 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AffectOfBillSundryActivity extends AppCompatActivity {
-    @Bind(R.id.spinner_goods_in_sale)
-    Spinner mSpinnerGoodsInSale;
-    @Bind(R.id.spinner_goods_in_purchase)
-    Spinner mSpinnerGoodsInPurchase;
-    @Bind(R.id.spinner_material_issue)
-    Spinner mSpinnerMaterialIssue;
-    @Bind(R.id.spinner_material_receipt)
-    Spinner mSpinnerMaterialReceipt;
-    @Bind(R.id.spinner_stock_transfer)
-    Spinner mSpinnerStockTransfer;
+public class RoundOffActivity extends AppCompatActivity {
+
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
+    @Bind(R.id.round_off_amount_spinner)
+    Spinner mSpinnerRounfOffAmount;
+    @Bind(R.id.round_off_spinner)
+    Spinner mSpinnerRounfOff;
+    @Bind(R.id.round_off_layout)
+    LinearLayout mRoundOffLayout;
+    @Bind(R.id.round_off_value)
+    EditText mRoundOffValue;
     AppUser appUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affect_of_bill_sundry);
+        setContentView(R.layout.activity_round_off);
         ButterKnife.bind(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
-        if (appUser.cost_goods_in_sale.equals("Yes")) {
-            mSpinnerGoodsInSale.setSelection(1);
+        mSpinnerRounfOffAmount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==1){
+                    mRoundOffLayout.setVisibility(View.VISIBLE);
+                }
+                else{
+                    mRoundOffLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        if(!appUser.bill_sundry_rouding_off_nearest.equals("")){
+            mRoundOffValue.setText(appUser.bill_sundry_rouding_off_nearest);
         }
-        if (appUser.cost_goods_in_purchase.equals("Yes")) {
-            mSpinnerGoodsInPurchase.setSelection(1);
+        if( appUser.bill_sundry_amount_round_off.equals("Yes")){
+            mSpinnerRounfOffAmount.setSelection(1);
         }
-        if (appUser.cost_material_issue.equals("Yes")) {
-            mSpinnerMaterialIssue.setSelection(1);
-        }
-        if (appUser.cost_material_receipt.equals("Yes")) {
-            mSpinnerMaterialReceipt.setSelection(1);
-        }
-        if (appUser.cost_stock_transfer.equals("Yes")) {
-            mSpinnerStockTransfer.setSelection(1);
+        if( !appUser.bill_sundry_rounding_off_limit.equals("")){
+            String state = appUser.bill_sundry_rounding_off_limit.trim();// insert code here
+            int stateindex = -1;
+            for (int i = 0; i < getResources().getStringArray(R.array.round_off_spinner).length; i++) {
+                if (getResources().getStringArray(R.array.round_off_spinner)[i].equals(state)) {
+                    stateindex = i;
+                    break;
+                }
+            }
+            mSpinnerRounfOff.setSelection(stateindex);
         }
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.cost_goods_in_sale = mSpinnerGoodsInSale.getSelectedItem().toString();
-                appUser.cost_goods_in_purchase = mSpinnerGoodsInPurchase.getSelectedItem().toString();
-                appUser.cost_material_issue = mSpinnerMaterialIssue.getSelectedItem().toString();
-                appUser.cost_material_receipt = mSpinnerMaterialReceipt.getSelectedItem().toString();
-                appUser.cost_stock_transfer = mSpinnerStockTransfer.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+              appUser.bill_sundry_amount_round_off=mSpinnerRounfOffAmount.getSelectedItem().toString();
+                appUser.bill_sundry_rouding_off_nearest=mRoundOffValue.getText().toString();
+                appUser.bill_sundry_rounding_off_limit=mSpinnerRounfOff.getSelectedItem().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 finish();
+
             }
         });
-
     }
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
@@ -84,7 +105,7 @@ public class AffectOfBillSundryActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("AFFECT OF BILL SUNDRY");
+        actionbarTitle.setText("PREVIOUS BILL SUNDRY");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);

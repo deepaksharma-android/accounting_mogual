@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.billsundry;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,7 +11,8 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -21,56 +23,63 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AffectOfBillSundryActivity extends AppCompatActivity {
-    @Bind(R.id.spinner_goods_in_sale)
-    Spinner mSpinnerGoodsInSale;
-    @Bind(R.id.spinner_goods_in_purchase)
-    Spinner mSpinnerGoodsInPurchase;
-    @Bind(R.id.spinner_material_issue)
-    Spinner mSpinnerMaterialIssue;
-    @Bind(R.id.spinner_material_receipt)
-    Spinner mSpinnerMaterialReceipt;
-    @Bind(R.id.spinner_stock_transfer)
-    Spinner mSpinnerStockTransfer;
+public class BillSundryToBeFedAsActivity extends AppCompatActivity {
+    @Bind(R.id.radioGroup)
+    RadioGroup mRadioGroup;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     AppUser appUser;
+    String value;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affect_of_bill_sundry);
+        setContentView(R.layout.activity_amount_bill_sundry_fed_as);
         ButterKnife.bind(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
-        if (appUser.cost_goods_in_sale.equals("Yes")) {
-            mSpinnerGoodsInSale.setSelection(1);
+        if (!appUser.bill_sundry_amount_of_bill_sundry_fed_as.equals("")) {
+            String radiostring = appUser.bill_sundry_amount_of_bill_sundry_fed_as;
+            if (radiostring.equals("Absolute Amount")) {
+                mRadioGroup.check(R.id.radioButtonAbsoluteAmount);
+            } else if (radiostring.equals("Percentage")) {
+                mRadioGroup.check(R.id.radioButtonPercentage);
+            } else if (radiostring.equals("Per Main Qty.")) {
+                mRadioGroup.check(R.id.radioButtonPerMainQty);
+            } else if (radiostring.equals("Per Alt. Qty.")) {
+                mRadioGroup.check(R.id.radioButtonPerAltQty);
+            } else if (radiostring.equals("Per Packaging Qty.")) {
+                mRadioGroup.check(R.id.radioButtonPerPackagingQty);
+            }
+
         }
-        if (appUser.cost_goods_in_purchase.equals("Yes")) {
-            mSpinnerGoodsInPurchase.setSelection(1);
-        }
-        if (appUser.cost_material_issue.equals("Yes")) {
-            mSpinnerMaterialIssue.setSelection(1);
-        }
-        if (appUser.cost_material_receipt.equals("Yes")) {
-            mSpinnerMaterialReceipt.setSelection(1);
-        }
-        if (appUser.cost_stock_transfer.equals("Yes")) {
-            mSpinnerStockTransfer.setSelection(1);
-        }
+      /*  mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
+                value = radioButton.getText().toString();
+
+
+
+            }
+        });*/
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.cost_goods_in_sale = mSpinnerGoodsInSale.getSelectedItem().toString();
-                appUser.cost_goods_in_purchase = mSpinnerGoodsInPurchase.getSelectedItem().toString();
-                appUser.cost_material_issue = mSpinnerMaterialIssue.getSelectedItem().toString();
-                appUser.cost_material_receipt = mSpinnerMaterialReceipt.getSelectedItem().toString();
-                appUser.cost_stock_transfer = mSpinnerStockTransfer.getSelectedItem().toString();
+                int selectedId = mRadioGroup.getCheckedRadioButtonId();
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) findViewById(selectedId);
+                value= radioButton.getText().toString();
+                appUser.bill_sundry_amount_of_bill_sundry_fed_as =value;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                finish();
+                if (value.equals("Percentage")) {
+                    startActivity(new Intent(getApplicationContext(),BillSundryFedAsPercentageActivity.class));
+                }
+                else{
+                    finish();
+                }
             }
         });
-
     }
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
@@ -84,7 +93,7 @@ public class AffectOfBillSundryActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("AFFECT OF BILL SUNDRY");
+        actionbarTitle.setText("BILL SUNDRY FED AS");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
