@@ -53,16 +53,7 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
             }
 
         }
-      /*  mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
-                value = radioButton.getText().toString();
 
-
-
-            }
-        });*/
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +67,11 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),BillSundryFedAsPercentageActivity.class));
                 }
                 else{
+                    appUser.bill_sundry_of_percentage="";
+                    appUser.bill_sundry_calculated_on="";
+                    appUser.bill_sundry_number_of_bill_sundry = "";
+                    appUser.bill_sundry_consolidate_bill_sundry = "";
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     finish();
                 }
             }

@@ -50,6 +50,17 @@ public class PreviousBillSundryActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
+        if(!appUser.bill_sundry_number_of_bill_sundry.equals("")){
+            mNumberOfSundry.setText(appUser.bill_sundry_number_of_bill_sundry);
+            if ((Integer.parseInt(mNumberOfSundry.getText().toString())) > 1) {
+                mConsolidatedLayout.setVisibility(View.VISIBLE);
+            } else {
+                mConsolidatedLayout.setVisibility(View.GONE);
+            }
+        }
+        if( appUser.bill_sundry_consolidate_bill_sundry.equals("No")){
+            mSpinnerConsolidatedAmount.setSelection(1);
+        }
         mNumberOfSundry.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -58,10 +69,14 @@ public class PreviousBillSundryActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if ((Integer.parseInt(mNumberOfSundry.getText().toString())) > 1) {
-                    mConsolidatedLayout.setVisibility(View.VISIBLE);
+                if (!mNumberOfSundry.getText().toString().equals("")) {
+                    if ((Integer.parseInt(mNumberOfSundry.getText().toString())) > 1) {
+                        mConsolidatedLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        mConsolidatedLayout.setVisibility(View.GONE);
+                    }
                 } else {
-                    mConsolidatedLayout.setVisibility(View.GONE);
+
                 }
             }
 

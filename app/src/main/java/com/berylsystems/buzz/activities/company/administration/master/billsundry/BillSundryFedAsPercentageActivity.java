@@ -67,16 +67,7 @@ public class BillSundryFedAsPercentageActivity extends AppCompatActivity {
 
 
         }
-       /* mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = (RadioButton) radioGroup.findViewById(i);
-                value = radioButton.getText().toString();
 
-
-
-            }
-        });*/
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -61,6 +61,7 @@ public class BillSundryListActivity extends BaseActivityCompany {
     }
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateBillSundryActivity.class);
+        intent.putExtra("fromlist",true);
         startActivity(intent);
     }
 

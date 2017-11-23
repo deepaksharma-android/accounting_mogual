@@ -65,7 +65,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
-    Boolean frommbillsundrylist;
+    Boolean frommbillsundrylist, fromList;
     String title;
     public ArrayAdapter<String> mNatureAdapter;
 
@@ -75,41 +75,49 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         title = "CREATE BILL SUNDRY";
-        appUser.bill_sundry_name = "";
-        appUser.bill_sundry_nature = "";
-        appUser.bill_sundry_amount_of_bill_sundry_fed_as = "";
-        appUser.bill_sundry_of_percentage = "";
-        appUser.bill_sundry_number_of_bill_sundry = "";
-        appUser.bill_sundry_consolidate_bill_sundry = "";
-        appUser.bill_sundry_calculated_on = "";
-        appUser.bill_sundry_amount_round_off = "";
-        appUser.bill_sundry_rouding_off_nearest = "";
-        appUser.bill_sundry_type = "";
-        appUser.sale_affect_accounting = "";
-        appUser.sale_affect_sale_amount = "";
-        appUser.sale_affect_sale_amount_specify_in = "";
-        appUser.sale_adjust_in_party_amount = "";
-        appUser.sale_party_amount_specify_in = "";
-        appUser.sale_account_head_to_post_party_amount = "";
-        appUser.sale_account_head_to_post_sale_amount = "";
-        appUser.sale_post_over_above = "";
-        appUser.purchase_affect_accounting = "";
-        appUser.purchase_affect_purchase_amount = "";
-        appUser.purchase_affect_purchase_amount_specify_in = "";
-        appUser.purchase_account_head_to_post_purchase_amount = "";
-        appUser.purchase_adjust_in_party_amount = "";
-        appUser.bill_sundry_amount_round_off = "";
-        appUser.bill_sundry_rouding_off_nearest = "";
-        appUser.bill_sundry_rounding_off_limit = "";
-        appUser.purchase_party_amount_specify_in = "";
-        appUser.purchase_account_head_to_post_party_amount = "";
-        appUser.purchase_post_over_above = "";
-        appUser.cost_goods_in_sale = "";
-        appUser.cost_goods_in_purchase = "";
-        appUser.cost_material_issue = "";
-        appUser.cost_material_receipt = "";
-        appUser.cost_stock_transfer = "";
-        LocalRepositories.saveAppUser(this,appUser);
+        fromList = getIntent().getExtras().getBoolean("fromlist");
+        if (fromList) {
+            appUser.bill_sundry_name = "";
+            appUser.bill_sundry_nature = "";
+            appUser.bill_sundry_amount_of_bill_sundry_fed_as = "";
+            appUser.bill_sundry_of_percentage = "";
+            appUser.bill_sundry_number_of_bill_sundry = "";
+            appUser.bill_sundry_consolidate_bill_sundry = "";
+            appUser.bill_sundry_calculated_on = "";
+            appUser.bill_sundry_amount_round_off = "";
+            appUser.bill_sundry_rouding_off_nearest = "";
+            appUser.bill_sundry_type = "";
+            appUser.sale_affect_accounting = "";
+            appUser.sale_affect_sale_amount = "";
+            appUser.sale_affect_sale_amount_specify_in = "";
+            appUser.sale_adjust_in_party_amount = "";
+            appUser.sale_party_amount_specify_in = "";
+            appUser.sale_account_head_to_post_party_amount = "";
+            appUser.sale_account_head_to_post_sale_amount = "";
+            appUser.sale_post_over_above = "";
+            appUser.purchase_affect_accounting = "";
+            appUser.purchase_affect_purchase_amount = "";
+            appUser.purchase_affect_purchase_amount_specify_in = "";
+            appUser.purchase_account_head_to_post_purchase_amount = "";
+            appUser.purchase_adjust_in_party_amount = "";
+            appUser.bill_sundry_rounding_off_limit = "";
+            appUser.purchase_party_amount_specify_in = "";
+            appUser.purchase_account_head_to_post_party_amount = "";
+            appUser.purchase_post_over_above = "";
+            appUser.cost_goods_in_sale = "";
+            appUser.cost_goods_in_purchase = "";
+            appUser.cost_material_issue = "";
+            appUser.cost_material_receipt = "";
+            appUser.cost_stock_transfer = "";
+            appUser.sale_account_head_to_post_sale_amount_id = "";
+            appUser.sale_account_head_to_post_sale_amount_id="";
+            appUser.sale_account_head_to_post_party_amount_id="";
+            appUser.purchase_account_head_to_post_purchase_amount_id="";
+            appUser.purchase_account_head_to_post_party_amount_id="";
+            appUser.calculated_on_bill_sundry_id="";
+            LocalRepositories.saveAppUser(this, appUser);
+        }
+
         frommbillsundrylist = getIntent().getExtras().getBoolean("frommbillsundrylist");
         if (frommbillsundrylist) {
             mNatureAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -145,6 +153,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         } else {
+
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateBillSundryActivity.this);
