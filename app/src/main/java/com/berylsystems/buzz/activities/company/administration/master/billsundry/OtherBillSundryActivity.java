@@ -26,6 +26,7 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class OtherBillSundryActivity extends AppCompatActivity {
     @Bind(R.id.radioGroup)
@@ -54,14 +55,25 @@ public class OtherBillSundryActivity extends AppCompatActivity {
 
         ;
 
-        if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as().equals("")) {
-            String radiostring = Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as();
+        if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_calculated_on().equals("")) {
+            String radiostring = Preferences.getInstance(getApplicationContext()).getbill_sundry_calculated_on();
             if (radiostring.equals("Bill Sundry Amount")) {
                 mRadioGroup.check(R.id.radioButtonBillSundryAmount);
             } else if (radiostring.equals("Bill Sundry Applied On")) {
                 mRadioGroup.check(R.id.radioButtonBillSundryAppliedOn);
             }
 
+        }
+        if(!Preferences.getInstance(getApplicationContext()).getcalculated_on_bill_sundry_id().equals("")){
+            int groupindex = -1;
+            for (int i = 0; i<appUser.arr_billSundryName.size(); i++) {
+                if (appUser.arr_billSundryName.get(i).equals(Preferences.getInstance(getApplicationContext()).getcalculated_on_bill_sundry_id())) {
+                    groupindex = i;
+                    break;
+                }
+            }
+            Timber.i("GROUPINDEX"+groupindex);
+            mSpinnerCalculatedOn.setSelection(groupindex);
         }
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -73,16 +85,12 @@ public class OtherBillSundryActivity extends AppCompatActivity {
                 value= radioButton.getText().toString();
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on(value);
                 for(int i=0;i<appUser.arr_billSundryName.size();i++){
-                    if(Preferences.getInstance(getApplicationContext()).getbill_sundry_calculated_on().equals(mSpinnerCalculatedOn.getSelectedItem().toString())){
-                        appUser.calculated_on_bill_sundry_id=appUser.arr_billSundryId.get(i);
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    if(appUser.arr_billSundryName.equals(mSpinnerCalculatedOn.getSelectedItem().toString())){
+                        Preferences.getInstance(getApplicationContext()).setcalculated_on_bill_sundry_id(appUser.arr_billSundryId.get(i));
                         break;
                     }
                 }
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent intent=new Intent(getApplicationContext(),CreateBillSundryActivity.class);
-                intent.putExtra("frommbillsundrylist",false);
-                startActivity(intent);
+                finish();
             }
         });
     }

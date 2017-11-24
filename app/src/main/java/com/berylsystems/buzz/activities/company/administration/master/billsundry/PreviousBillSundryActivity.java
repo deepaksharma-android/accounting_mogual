@@ -95,9 +95,7 @@ public class PreviousBillSundryActivity extends AppCompatActivity {
                 if (!mNumberOfSundry.getText().toString().equals("")) {
                     Preferences.getInstance(getApplicationContext()).setbill_sundry_number_of_bill_sundry(mNumberOfSundry.getText().toString());
                     Preferences.getInstance(getApplicationContext()).setbill_sundry_consolidate_bill_sundry(mSpinnerConsolidatedAmount.getSelectedItem().toString());
-                    Intent intent = new Intent(getApplicationContext(), CreateBillSundryActivity.class);
-                    intent.putExtra("frommbillsundrylist", false);
-                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Number of sundries can't be zero", Toast.LENGTH_LONG).show();
                 }

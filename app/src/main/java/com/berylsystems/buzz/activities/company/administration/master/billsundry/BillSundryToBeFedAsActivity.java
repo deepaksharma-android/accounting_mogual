@@ -65,7 +65,10 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
                 value= radioButton.getText().toString();
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_of_bill_sundry_fed_as(value);
                 if (value.equals("Percentage")) {
-                    startActivity(new Intent(getApplicationContext(),BillSundryFedAsPercentageActivity.class));
+                    Intent intent=new Intent(getApplicationContext(),BillSundryFedAsPercentageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 }
                 else{
                     Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on("");

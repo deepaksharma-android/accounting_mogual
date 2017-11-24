@@ -25,7 +25,7 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AccountingInSaleActivity  extends AppCompatActivity {
+public class AccountingInSaleActivity extends AppCompatActivity {
     @Bind(R.id.spinner_affect_accounting)
     Spinner mSpinnerAffectAccounting;
     @Bind(R.id.spinner_adjust_in_sale_amount)
@@ -68,7 +68,7 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_accounting_in_sale);
         ButterKnife.bind(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         mHeadToPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,10 +84,9 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         mSpinnerAffectAccounting.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if (i == 1) {
                     mAffectAccountingLayout.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     mAffectAccountingLayout.setVisibility(View.VISIBLE);
                 }
             }
@@ -101,11 +100,10 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         mSpinnerAdjustInSaleAmount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if (i == 1) {
                     mSpecifyInLayout.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     mSpecifyInLayout.setVisibility(View.GONE);
                 }
             }
@@ -119,10 +117,9 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         mSpinnerSpecifyIn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if (i == 1) {
                     mHeadToPostMainLayout.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     mHeadToPostMainLayout.setVisibility(View.VISIBLE);
                 }
             }
@@ -133,30 +130,28 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
             }
         });
 
-      mSpinnerAdjustPartyAmount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-          @Override
-          public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-              if(i==1){
-                  mPartySpecifyInLayout.setVisibility(View.VISIBLE);
+        mSpinnerAdjustPartyAmount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 1) {
+                    mPartySpecifyInLayout.setVisibility(View.VISIBLE);
 
-              }
-              else{
-                  mPartySpecifyInLayout.setVisibility(View.GONE);
-              }
-          }
+                } else {
+                    mPartySpecifyInLayout.setVisibility(View.GONE);
+                }
+            }
 
-          @Override
-          public void onNothingSelected(AdapterView<?> adapterView) {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-          }
-      });
+            }
+        });
         mSpinnerPartySpecifyIn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if (i == 1) {
                     mPartyHeadToPostMainLayout.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     mPartyHeadToPostMainLayout.setVisibility(View.VISIBLE);
                 }
             }
@@ -176,7 +171,7 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
             mSpinnerAdjustInSaleAmount.setSelection(1);
             mSpecifyInLayout.setVisibility(View.VISIBLE);
         }
-        if ( Preferences.getInstance(getApplicationContext()).getsale_affect_sale_amount_specify_in().equals("Specify Acc. in Voucher")) {
+        if (Preferences.getInstance(getApplicationContext()).getsale_affect_sale_amount_specify_in().equals("Specify Acc. in Voucher")) {
             mSpinnerSpecifyIn.setSelection(1);
             mHeadToPostLayout.setVisibility(View.GONE);
         }
@@ -184,7 +179,7 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
             mHeadToPostMainLayout.setVisibility(View.VISIBLE);
             mAccountHeadToPost.setText(Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_sale_amount());
         }
-        if ( Preferences.getInstance(getApplicationContext()).getsale_adjust_in_party_amount().equals("No")) {
+        if (Preferences.getInstance(getApplicationContext()).getsale_adjust_in_party_amount().equals("No")) {
             mSpinnerAdjustPartyAmount.setSelection(1);
             mPartySpecifyInLayout.setVisibility(View.VISIBLE);
         }
@@ -193,7 +188,7 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
             mPartyHeadToPostMainLayout.setVisibility(View.GONE);
         }
 
-        if (! Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_party_amount().equals("")) {
+        if (!Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_party_amount().equals("")) {
             mPartyHeadToPost.setText(Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_party_amount());
         }
         if (Preferences.getInstance(getApplicationContext()).getsale_post_over_above().equals("No")) {
@@ -204,19 +199,35 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Preferences.getInstance(getApplicationContext()).setsale_affect_accounting(mSpinnerAffectAccounting.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount(mSpinnerAdjustInSaleAmount.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount_specify_in(mSpinnerSpecifyIn.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_sale_amount(mAccountHeadToPost.getText().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_adjust_in_party_amount(mSpinnerAdjustPartyAmount.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_party_amount_specify_in(mSpinnerPartySpecifyIn.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_party_amount(mPartyHeadToPost.getText().toString());
-                Preferences.getInstance(getApplicationContext()).setsale_post_over_above(mPostOverSpinner.getSelectedItem().toString());
+                if (mSpinnerAffectAccounting.getSelectedItem().toString().equals("Yes")) {
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_accounting(mSpinnerAffectAccounting.getSelectedItem().toString());
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount(mSpinnerAdjustInSaleAmount.getSelectedItem().toString());
+                    if (mSpinnerAdjustInSaleAmount.getSelectedItem().toString().equals("No")) {
+                        Preferences.getInstance(getApplicationContext()).setsale_post_over_above(mPostOverSpinner.getSelectedItem().toString());
+                        Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount_specify_in(mSpinnerSpecifyIn.getSelectedItem().toString());
+                        if (mSpinnerSpecifyIn.getSelectedItem().toString().equals("Specify Acc. Here")) {
+                            Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_sale_amount(mAccountHeadToPost.getText().toString());
+                        }
+                    }
+                    Preferences.getInstance(getApplicationContext()).setsale_adjust_in_party_amount(mSpinnerAdjustPartyAmount.getSelectedItem().toString());
+                    if (mSpinnerAdjustPartyAmount.getSelectedItem().toString().equals("No")) {
+                        Preferences.getInstance(getApplicationContext()).setsale_party_amount_specify_in(mSpinnerPartySpecifyIn.getSelectedItem().toString());
+                        if (mSpinnerPartySpecifyIn.getSelectedItem().toString().equals("Specify Acc. Here")) {
+                            Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_party_amount(mPartyHeadToPost.getText().toString());
+                        }
+                    }
+                }
+                else{
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_accounting(mSpinnerAffectAccounting.getSelectedItem().toString());
+                }
+
+
                 finish();
             }
         });
 
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -245,8 +256,8 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                String arr[]=result.split(",");
-                String headtopost=arr[0];
+                String arr[] = result.split(",");
+                String headtopost = arr[0];
 
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mAccountHeadToPost.setText(headtopost);
@@ -259,8 +270,8 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("name");
-                String arr[]=result.split(",");
-                String partyheadtopost=arr[0];
+                String arr[] = result.split(",");
+                String partyheadtopost = arr[0];
                 String id = data.getStringExtra("id");
                 Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_party_amount_id(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

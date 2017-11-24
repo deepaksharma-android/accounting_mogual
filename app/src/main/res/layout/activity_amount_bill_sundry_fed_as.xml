@@ -37,7 +37,7 @@
                         android:layout_height="wrap_content"
                         android:text="Absolute Amount"
                         android:id="@+id/radioButtonAbsoluteAmount"
-                        android:checked="false"
+                        android:checked="true"
                         android:textSize="16dp" />
 
                     <RadioButton

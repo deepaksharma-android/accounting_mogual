@@ -76,7 +76,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         title = "CREATE BILL SUNDRY";
-       fromList = getIntent().getExtras().getBoolean("fromlist");
+        fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
             Preferences.getInstance(getApplicationContext()).setbill_sundry_number_of_bill_sundry("");
             Preferences.getInstance(getApplicationContext()).setbill_sundry_consolidate_bill_sundry("");
@@ -107,6 +107,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setpurchase_party_amount_specify_in("");
             Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount("");
             Preferences.getInstance(getApplicationContext()).setpurchase_post_over_above("");
+            Preferences.getInstance(getApplicationContext()).setcalculated_on_bill_sundry_id("");
         }
         frommbillsundrylist = getIntent().getExtras().getBoolean("frommbillsundrylist");
         if (frommbillsundrylist) {
@@ -355,73 +356,137 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             }
 
 
-
-
-
             mBillSundryNatureSpinner.setSelection(sundrynatureindex);
             mDefaultText.setText(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getDefault_value()));
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale() == false) {
-                Preferences.getInstance(getApplicationContext()).setcost_goods_in_sale("No");
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale() == false) {
+                    Preferences.getInstance(getApplicationContext()).setcost_goods_in_sale("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setcost_goods_in_sale("Yes");
+                }
             }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_purchase() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_purchase() == false) {
+                    Preferences.getInstance(getApplicationContext()).setcost_goods_in_purchase("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setcost_goods_in_purchase("Yes");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_issue() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_issue() == false) {
+                    Preferences.getInstance(getApplicationContext()).setcost_material_issue("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setcost_material_issue("Yes");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_receipt() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_receipt() == false) {
+                    Preferences.getInstance(getApplicationContext()).setcost_material_receipt("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setcost_material_receipt("Yes");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getStock_transfer() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getStock_transfer() == false) {
+                    Preferences.getInstance(getApplicationContext()).setcost_stock_transfer("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setcost_stock_transfer("Yes");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_accounting() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_accounting() == false) {
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_accounting("No");
+                }
+                Preferences.getInstance(getApplicationContext()).setsale_affect_accounting("Yes");
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount() == false) {
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount("No");
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount_specify_in());
+                    Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_sale_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAccount_head_to_post_sale_amount());
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount("No");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAdjust_in_party_amount() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAdjust_in_party_amount() == false) {
+                    Preferences.getInstance(getApplicationContext()).setsale_adjust_in_party_amount("No");
+                    Preferences.getInstance(getApplicationContext()).setsale_party_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getParty_amount_specify_in());
+                    Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAccount_head_to_post_party_amount());
 
-            if (!response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_purchase() == false) {
-                Preferences.getInstance(getApplicationContext()).setcost_goods_in_purchase("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setsale_adjust_in_party_amount("Yes");
+                }
             }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getPost_over_above() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getPost_over_above() == false) {
+                    Preferences.getInstance(getApplicationContext()).setsale_post_over_above("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setsale_post_over_above("Yes");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_accounting() != null) {
 
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_issue() == false) {
-                Preferences.getInstance(getApplicationContext()).setcost_material_issue("No");
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_accounting() == false) {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_affect_accounting("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_affect_accounting("Yes");
+                }
             }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getMaterial_receipt() == false) {
-                Preferences.getInstance(getApplicationContext()).setcost_material_receipt("No");
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount() == false) {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount("No");
+                    Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount_specify_in());
+                    Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_purchase_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAccount_head_to_post_party_amount());
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount("Yes");
+                }
             }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getStock_transfer() == false) {
-                Preferences.getInstance(getApplicationContext()).setcost_stock_transfer("No");
-            }
-
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_accounting() == false) {
-                Preferences.getInstance(getApplicationContext()).setsale_affect_accounting("No");
-            }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount() == false) {
-                Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount("No");
-                Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAffect_sale_amount_specify_in());
-                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_sale_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAccount_head_to_post_sale_amount());
-            }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAdjust_in_party_amount() == false) {
-                Preferences.getInstance(getApplicationContext()).setsale_adjust_in_party_amount("No");
-                Preferences.getInstance(getApplicationContext()).setsale_party_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getParty_amount_specify_in());
-                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getAccount_head_to_post_party_amount());
-
-            }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_sale().getPost_over_above() == false) {
-                Preferences.getInstance(getApplicationContext()).setsale_post_over_above("No");
-            }
-
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_accounting() == false) {
-                Preferences.getInstance(getApplicationContext()).setpurchase_affect_accounting("No");
-            }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount() == false) {
-                Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount("No");
-                Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAffect_purchase_amount_specify_in());
-                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_purchase_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAccount_head_to_post_party_amount());
-
-            }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAdjust_in_party_amount() == false) {
-                Preferences.getInstance(getApplicationContext()).setpurchase_adjust_in_party_amount("No");
-                Preferences.getInstance(getApplicationContext()).setpurchase_party_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getParty_amount_specify_in());
-                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAccount_head_to_post_party_amount());
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAdjust_in_party_amount() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAdjust_in_party_amount() == false) {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_adjust_in_party_amount("No");
+                    if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getParty_amount_specify_in() != null) {
+                        Preferences.getInstance(getApplicationContext()).setpurchase_party_amount_specify_in(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getParty_amount_specify_in());
+                    }
+                    if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAccount_head_to_post_party_amount() != null)
+                        Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getAccount_head_to_post_party_amount());
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_adjust_in_party_amount("Yes");
+                }
 
             }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getPost_over_above() == false) {
-                Preferences.getInstance(getApplicationContext()).setpurchase_post_over_above("No");
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getPost_over_above() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_purchase().getPost_over_above() == false) {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_post_over_above("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setpurchase_post_over_above("Yes");
+                }
             }
-            Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_calculated_on());
-            Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_of_bill_sundry_fed_as(response.getBill_sundry_info().getData().getAttributes().getAmount_of_bill_sundry_fed_as());
-            Preferences.getInstance(getApplicationContext()).setbill_sundry_of_percentage(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_of_percentage());
-            Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getRounding_off_nearest()));
-            if(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_amount_round_off()==false) {
-                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off("No");
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_calculated_on() != null) {
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_calculated_on());
             }
-            Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit());
+            if (response.getBill_sundry_info().getData().getAttributes().getAmount_of_bill_sundry_fed_as() != null) {
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_of_bill_sundry_fed_as(response.getBill_sundry_info().getData().getAttributes().getAmount_of_bill_sundry_fed_as());
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_of_percentage() != null) {
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_of_percentage(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_of_percentage());
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getRounding_off_nearest() != null) {
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getRounding_off_nearest()));
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_amount_round_off() != null) {
+                if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_amount_round_off() == false) {
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off("No");
+                }
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit() != null) {
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit());
+            }
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_id() != null) {
+                Preferences.getInstance(getApplicationContext()).setcalculated_on_bill_sundry_id(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit());
+            }
 
 
         }

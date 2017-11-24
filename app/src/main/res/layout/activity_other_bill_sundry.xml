@@ -36,7 +36,7 @@
                         android:layout_height="50dp"
                         android:text="Bill Sundry Amount"
                         android:id="@+id/radioButtonBillSundryAmount"
-                        android:checked="false"
+                        android:checked="true"
                         android:textSize="16dp" />
 
                     <RadioButton

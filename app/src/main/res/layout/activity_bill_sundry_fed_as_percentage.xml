@@ -34,7 +34,7 @@
                         android:layout_height="wrap_content"
                         android:text="Nett Bill Amount"
                         android:id="@+id/radioButtonNetBillAmount"
-                        android:checked="false"
+                        android:checked="true"
                         android:textSize="16dp" />
 
                     <RadioButton
