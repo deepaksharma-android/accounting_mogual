@@ -198,14 +198,14 @@ public class AppUser {
     public String bill_sundry_rouding_off_nearest="";
     public String bill_sundry_rounding_off_limit="";
     public String bill_sundry_type="";
-    public String sale_affect_accounting="";
+    public String sale_affect_accounting="Yes";
     public String sale_affect_sale_amount="";
-    public String sale_affect_sale_amount_specify_in="";
-    public String sale_adjust_in_party_amount="";
-    public String sale_party_amount_specify_in="";
-    public String sale_account_head_to_post_party_amount="";
-    public String sale_account_head_to_post_sale_amount="";
-    public String sale_post_over_above="";
+    public String sale_affect_sale_amount_specify_in="vbn";
+    public String sale_adjust_in_party_amount="vbn";
+    public String sale_party_amount_specify_in="fnv";
+    public String sale_account_head_to_post_party_amount="vcbn";
+    public String sale_account_head_to_post_sale_amount="vbn";
+    public String sale_post_over_above="vbn";
     public String purchase_affect_accounting="";
     public String purchase_affect_purchase_amount="";
     public String purchase_affect_purchase_amount_specify_in="";
@@ -223,12 +223,12 @@ public class AppUser {
 
     public String edit_bill_sundry_id;
     public String delete_bill_sundry_id;
-    public String delete_item_id="";
-    public String sale_account_head_to_post_sale_amount_id;
-    public String sale_account_head_to_post_party_amount_id;
-    public String purchase_account_head_to_post_purchase_amount_id;
-    public String purchase_account_head_to_post_party_amount_id;
-    public String calculated_on_bill_sundry_id;
+    public String delete_item_id;
+    public String sale_account_head_to_post_sale_amount_id="";
+    public String sale_account_head_to_post_party_amount_id="";
+    public String purchase_account_head_to_post_purchase_amount_id="";
+    public String purchase_account_head_to_post_party_amount_id="";
+    public String calculated_on_bill_sundry_id="";
 
     public String item_alternate_unit_name = "";
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -43,30 +44,29 @@ public class AffectOfBillSundryActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser= LocalRepositories.getAppUser(this);
-        if (appUser.cost_goods_in_sale.equals("Yes")) {
+        if (Preferences.getInstance(getApplicationContext()).getcost_goods_in_sale().equals("Yes")) {
             mSpinnerGoodsInSale.setSelection(1);
         }
-        if (appUser.cost_goods_in_purchase.equals("Yes")) {
+        if (Preferences.getInstance(getApplicationContext()).getcost_goods_in_purchase().equals("Yes")) {
             mSpinnerGoodsInPurchase.setSelection(1);
         }
-        if (appUser.cost_material_issue.equals("Yes")) {
+        if (Preferences.getInstance(getApplicationContext()).getcost_material_issue().equals("Yes")) {
             mSpinnerMaterialIssue.setSelection(1);
         }
-        if (appUser.cost_material_receipt.equals("Yes")) {
+        if (Preferences.getInstance(getApplicationContext()).getcost_material_receipt().equals("Yes")) {
             mSpinnerMaterialReceipt.setSelection(1);
         }
-        if (appUser.cost_stock_transfer.equals("Yes")) {
+        if (Preferences.getInstance(getApplicationContext()).getcost_stock_transfer().equals("Yes")) {
             mSpinnerStockTransfer.setSelection(1);
         }
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.cost_goods_in_sale = mSpinnerGoodsInSale.getSelectedItem().toString();
-                appUser.cost_goods_in_purchase = mSpinnerGoodsInPurchase.getSelectedItem().toString();
-                appUser.cost_material_issue = mSpinnerMaterialIssue.getSelectedItem().toString();
-                appUser.cost_material_receipt = mSpinnerMaterialReceipt.getSelectedItem().toString();
-                appUser.cost_stock_transfer = mSpinnerStockTransfer.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setcost_goods_in_sale(mSpinnerGoodsInSale.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setcost_goods_in_purchase(mSpinnerGoodsInPurchase.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setcost_material_issue(mSpinnerMaterialIssue.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setcost_material_receipt(mSpinnerMaterialReceipt.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setcost_stock_transfer(mSpinnerStockTransfer.getSelectedItem().toString());
                 finish();
             }
         });

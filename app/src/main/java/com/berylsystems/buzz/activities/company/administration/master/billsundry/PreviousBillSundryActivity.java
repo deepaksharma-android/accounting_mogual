@@ -26,6 +26,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -50,15 +51,16 @@ public class PreviousBillSundryActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        if(!appUser.bill_sundry_number_of_bill_sundry.equals("")){
-            mNumberOfSundry.setText(appUser.bill_sundry_number_of_bill_sundry);
+
+        if(!Preferences.getInstance(getApplicationContext()).getbill_sundry_number_of_bill_sundry().equals("")){
+            mNumberOfSundry.setText(Preferences.getInstance(getApplicationContext()).getbill_sundry_number_of_bill_sundry());
             if ((Integer.parseInt(mNumberOfSundry.getText().toString())) > 1) {
                 mConsolidatedLayout.setVisibility(View.VISIBLE);
             } else {
                 mConsolidatedLayout.setVisibility(View.GONE);
             }
         }
-        if( appUser.bill_sundry_consolidate_bill_sundry.equals("No")){
+        if( Preferences.getInstance(getApplicationContext()).getbill_sundry_consolidate_bill_sundry().equals("No")){
             mSpinnerConsolidatedAmount.setSelection(1);
         }
         mNumberOfSundry.addTextChangedListener(new TextWatcher() {
@@ -91,9 +93,8 @@ public class PreviousBillSundryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!mNumberOfSundry.getText().toString().equals("")) {
-                    appUser.bill_sundry_number_of_bill_sundry = mNumberOfSundry.getText().toString();
-                    appUser.bill_sundry_consolidate_bill_sundry = mSpinnerConsolidatedAmount.getSelectedItem().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_number_of_bill_sundry(mNumberOfSundry.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_consolidate_bill_sundry(mSpinnerConsolidatedAmount.getSelectedItem().toString());
                     Intent intent = new Intent(getApplicationContext(), CreateBillSundryActivity.class);
                     intent.putExtra("frommbillsundrylist", false);
                     startActivity(intent);

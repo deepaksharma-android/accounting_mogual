@@ -147,9 +147,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
                         android:background="@drawable/bg_grey_stroke"
                         android:orientation="vertical"
                         android:visibility="visible">
@@ -167,21 +164,19 @@
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:id="@+id/hsn_layout"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
                         android:visibility="gone"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center">
                         <com.berylsystems.buzz.utils.BuzzEditText
                             android:id="@+id/hsn_number"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
                             android:padding="10dp"
-                            android:hint="HSN NUMBER"
+                            android:hint="HSN number"
+                            android:textSize="16sp"
                             android:textAllCaps="false"
                             android:textColor="#000" />
                     </LinearLayout>

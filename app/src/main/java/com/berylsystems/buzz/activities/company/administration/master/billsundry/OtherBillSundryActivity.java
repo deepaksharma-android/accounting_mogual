@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -51,9 +52,10 @@ public class OtherBillSundryActivity extends AppCompatActivity {
         mSpinnerCalculatedOn.setAdapter(mCalculateOnAdapter);
 
 
+        ;
 
-        if (!appUser.bill_sundry_calculated_on.equals("")) {
-            String radiostring = appUser.bill_sundry_amount_of_bill_sundry_fed_as;
+        if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as().equals("")) {
+            String radiostring = Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as();
             if (radiostring.equals("Bill Sundry Amount")) {
                 mRadioGroup.check(R.id.radioButtonBillSundryAmount);
             } else if (radiostring.equals("Bill Sundry Applied On")) {
@@ -69,9 +71,9 @@ public class OtherBillSundryActivity extends AppCompatActivity {
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) findViewById(selectedId);
                 value= radioButton.getText().toString();
-                appUser.bill_sundry_calculated_on = value;
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on(value);
                 for(int i=0;i<appUser.arr_billSundryName.size();i++){
-                    if(appUser.arr_billSundryName.equals(mSpinnerCalculatedOn.getSelectedItem().toString())){
+                    if(Preferences.getInstance(getApplicationContext()).getbill_sundry_calculated_on().equals(mSpinnerCalculatedOn.getSelectedItem().toString())){
                         appUser.calculated_on_bill_sundry_id=appUser.arr_billSundryId.get(i);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         break;
@@ -98,7 +100,7 @@ public class OtherBillSundryActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("BILL SUNDRY CALCULATED ON");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

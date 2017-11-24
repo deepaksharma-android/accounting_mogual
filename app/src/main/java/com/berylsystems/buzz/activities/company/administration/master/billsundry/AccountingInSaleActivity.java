@@ -19,6 +19,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -166,35 +167,36 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
             }
         });
 
-        if (appUser.sale_affect_accounting.equals("No")) {
+
+        if (Preferences.getInstance(getApplicationContext()).getsale_affect_accounting().equals("No")) {
             mSpinnerAffectAccounting.setSelection(1);
             mAffectAccountingLayout.setVisibility(View.GONE);
         }
-        if (appUser.sale_affect_sale_amount.equals("No")) {
+        if (Preferences.getInstance(getApplicationContext()).getsale_affect_sale_amount().equals("No")) {
             mSpinnerAdjustInSaleAmount.setSelection(1);
             mSpecifyInLayout.setVisibility(View.VISIBLE);
         }
-        if (appUser.sale_affect_sale_amount_specify_in.equals("Specify Acc. in Voucher")) {
+        if ( Preferences.getInstance(getApplicationContext()).getsale_affect_sale_amount_specify_in().equals("Specify Acc. in Voucher")) {
             mSpinnerSpecifyIn.setSelection(1);
             mHeadToPostLayout.setVisibility(View.GONE);
         }
-        if (!appUser.sale_account_head_to_post_sale_amount.equals("")) {
+        if (!Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_sale_amount().equals("")) {
             mHeadToPostMainLayout.setVisibility(View.VISIBLE);
-            mAccountHeadToPost.setText(appUser.sale_account_head_to_post_sale_amount);
+            mAccountHeadToPost.setText(Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_sale_amount());
         }
-        if (appUser.sale_adjust_in_party_amount.equals("No")) {
+        if ( Preferences.getInstance(getApplicationContext()).getsale_adjust_in_party_amount().equals("No")) {
             mSpinnerAdjustPartyAmount.setSelection(1);
             mPartySpecifyInLayout.setVisibility(View.VISIBLE);
         }
-        if (appUser.sale_party_amount_specify_in.equals("Specify Acc. in Voucher")) {
+        if (Preferences.getInstance(getApplicationContext()).getsale_party_amount_specify_in().equals("Specify Acc. in Voucher")) {
             mSpinnerPartySpecifyIn.setSelection(1);
             mPartyHeadToPostMainLayout.setVisibility(View.GONE);
         }
 
-        if (!appUser.sale_account_head_to_post_party_amount.equals("")) {
-            mPartyHeadToPost.setText(appUser.sale_account_head_to_post_party_amount);
+        if (! Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_party_amount().equals("")) {
+            mPartyHeadToPost.setText(Preferences.getInstance(getApplicationContext()).getsale_account_head_to_post_party_amount());
         }
-        if (appUser.sale_post_over_above.equals("No")) {
+        if (Preferences.getInstance(getApplicationContext()).getsale_post_over_above().equals("No")) {
             mPostOverSpinner.setSelection(1);
         }
 
@@ -202,15 +204,14 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.sale_affect_accounting = mSpinnerAffectAccounting.getSelectedItem().toString();
-                appUser.sale_affect_sale_amount = mSpinnerAdjustInSaleAmount.getSelectedItem().toString();
-                appUser.sale_affect_sale_amount_specify_in = mSpinnerSpecifyIn.getSelectedItem().toString();
-                appUser.sale_account_head_to_post_sale_amount = mAccountHeadToPost.getText().toString();
-                appUser.sale_adjust_in_party_amount = mSpinnerAdjustPartyAmount.getSelectedItem().toString();
-                appUser.sale_party_amount_specify_in = mSpinnerPartySpecifyIn.getSelectedItem().toString();
-                appUser.sale_account_head_to_post_party_amount = mPartyHeadToPost.getText().toString();
-                appUser.sale_post_over_above = mPostOverSpinner.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setsale_affect_accounting(mSpinnerAffectAccounting.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount(mSpinnerAdjustInSaleAmount.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_affect_sale_amount_specify_in(mSpinnerSpecifyIn.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_sale_amount(mAccountHeadToPost.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_adjust_in_party_amount(mSpinnerAdjustPartyAmount.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_party_amount_specify_in(mSpinnerPartySpecifyIn.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_party_amount(mPartyHeadToPost.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setsale_post_over_above(mPostOverSpinner.getSelectedItem().toString());
                 finish();
             }
         });
@@ -246,7 +247,7 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
                 String id = data.getStringExtra("id");
                 String arr[]=result.split(",");
                 String headtopost=arr[0];
-                appUser.sale_account_head_to_post_sale_amount_id=id;
+
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mAccountHeadToPost.setText(headtopost);
             }
@@ -261,7 +262,7 @@ public class AccountingInSaleActivity  extends AppCompatActivity {
                 String arr[]=result.split(",");
                 String partyheadtopost=arr[0];
                 String id = data.getStringExtra("id");
-                appUser.sale_account_head_to_post_party_amount_id=id;
+                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_party_amount_id(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPartyHeadToPost.setText(partyheadtopost);
             }

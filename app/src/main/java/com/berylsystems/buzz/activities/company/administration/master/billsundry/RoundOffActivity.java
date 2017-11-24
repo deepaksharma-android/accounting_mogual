@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -64,14 +65,16 @@ public class RoundOffActivity extends AppCompatActivity {
 
             }
         });
-        if(!appUser.bill_sundry_rouding_off_nearest.equals("")){
-            mRoundOffValue.setText(appUser.bill_sundry_rouding_off_nearest);
+        if(!Preferences.getInstance(getApplicationContext()).getbill_sundry_rouding_off_nearest().equals("")){
+            mRoundOffValue.setText(Preferences.getInstance(getApplicationContext()).getbill_sundry_rouding_off_nearest());
         }
-        if( appUser.bill_sundry_amount_round_off.equals("Yes")){
+
+        if(  Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_round_off().equals("Yes")){
             mSpinnerRounfOffAmount.setSelection(1);
         }
-        if( !appUser.bill_sundry_rounding_off_limit.equals("")){
-            String state = appUser.bill_sundry_rounding_off_limit.trim();// insert code here
+
+        if( ! Preferences.getInstance(getApplicationContext()).getbill_sundry_rounding_off_limit().equals("")){
+            String state =  Preferences.getInstance(getApplicationContext()).getbill_sundry_rounding_off_limit().trim();// insert code here
             int stateindex = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.round_off_spinner).length; i++) {
                 if (getResources().getStringArray(R.array.round_off_spinner)[i].equals(state)) {
@@ -84,10 +87,9 @@ public class RoundOffActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              appUser.bill_sundry_amount_round_off=mSpinnerRounfOffAmount.getSelectedItem().toString();
-                appUser.bill_sundry_rouding_off_nearest=mRoundOffValue.getText().toString();
-                appUser.bill_sundry_rounding_off_limit=mSpinnerRounfOff.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(mSpinnerRounfOffAmount.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off(mRoundOffValue.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(mSpinnerRounfOff.getSelectedItem().toString());
                 finish();
 
             }

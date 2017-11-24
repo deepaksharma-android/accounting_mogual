@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -38,8 +39,9 @@ public class BillSundryFedAsPercentageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        if (!appUser.bill_sundry_of_percentage.equals("")) {
-            String radiostringpercentage = appUser.bill_sundry_of_percentage;
+
+        if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_of_percentage().equals("")) {
+            String radiostringpercentage = Preferences.getInstance(getApplicationContext()).getbill_sundry_of_percentage();
 
             if(radiostringpercentage.equals("Nett Bill Amount")) {
                 mRadioGroup.check(R.id.radioButtonNetBillAmount);
@@ -75,8 +77,7 @@ public class BillSundryFedAsPercentageActivity extends AppCompatActivity {
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) findViewById(selectedId);
                 value= radioButton.getText().toString();
-                appUser.bill_sundry_of_percentage =value;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_of_percentage(value);
                 if (value.equals("Other Bill Sundry")) {
                     startActivity(new Intent(getApplicationContext(),OtherBillSundryActivity.class));
                 } else if (value.equals("Previous Bill Sundry(s) Amount")) {

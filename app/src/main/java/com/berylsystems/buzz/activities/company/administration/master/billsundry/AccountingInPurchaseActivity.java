@@ -19,6 +19,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -160,52 +161,52 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
 
             }
         });
-
-        if (appUser.purchase_affect_accounting.equals("No")) {
+        if (Preferences.getInstance(getApplicationContext()).getpurchase_affect_accounting().equals("No")) {
             mSpinnerAffectAccounting.setSelection(1);
             mAffectAccountingLayout.setVisibility(View.GONE);
         }
-        if (appUser.purchase_affect_purchase_amount.equals("No")) {
+        if (Preferences.getInstance(getApplicationContext()).getpurchase_affect_purchase_amount().equals("No")) {
             mSpinnerAdjustInPurchaseAmount.setSelection(1);
             mSpecifyInLayout.setVisibility(View.VISIBLE);
         }
-        if (appUser.purchase_affect_purchase_amount_specify_in.equals("Specify Acc. in Voucher")) {
+        if ( Preferences.getInstance(getApplicationContext()).getpurchase_affect_purchase_amount_specify_in().equals("Specify Acc. in Voucher")) {
             mSpinnerSpecifyIn.setSelection(1);
             mHeadToPostLayout.setVisibility(View.GONE);
         }
-        if (!appUser.purchase_account_head_to_post_purchase_amount.equals("")) {
+        if (!Preferences.getInstance(getApplicationContext()).getpurchase_account_head_to_post_purchase_amount().equals("")) {
             mHeadToPostMainLayout.setVisibility(View.VISIBLE);
-            mAccountHeadToPost.setText(appUser.sale_account_head_to_post_sale_amount);
+            mAccountHeadToPost.setText(Preferences.getInstance(getApplicationContext()).getpurchase_account_head_to_post_purchase_amount());
         }
-        if (appUser.purchase_adjust_in_party_amount.equals("No")) {
+        if ( Preferences.getInstance(getApplicationContext()).getpurchase_adjust_in_party_amount().equals("No")) {
             mSpinnerAdjustPartyAmount.setSelection(1);
             mPartySpecifyInLayout.setVisibility(View.VISIBLE);
         }
-        if (appUser.sale_party_amount_specify_in.equals("Specify Acc. in Voucher")) {
+        if (Preferences.getInstance(getApplicationContext()).getpurchase_party_amount_specify_in().equals("Specify Acc. in Voucher")) {
             mSpinnerPartySpecifyIn.setSelection(1);
             mPartyHeadToPostMainLayout.setVisibility(View.GONE);
         }
 
-        if (!appUser.purchase_account_head_to_post_party_amount.equals("")) {
-            mPartyHeadToPost.setText(appUser.sale_account_head_to_post_party_amount);
+        if (! Preferences.getInstance(getApplicationContext()).getpurchase_account_head_to_post_party_amount().equals("")) {
+            mPartyHeadToPost.setText(Preferences.getInstance(getApplicationContext()).getpurchase_account_head_to_post_party_amount());
         }
-        if (appUser.sale_post_over_above.equals("No")) {
+        if (Preferences.getInstance(getApplicationContext()).getpurchase_post_over_above().equals("No")) {
             mPostOverSpinner.setSelection(1);
         }
+
+
 
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.purchase_affect_accounting = mSpinnerAffectAccounting.getSelectedItem().toString();
-                appUser.purchase_affect_purchase_amount = mSpinnerAdjustInPurchaseAmount.getSelectedItem().toString();
-                appUser.purchase_affect_purchase_amount_specify_in = mSpinnerSpecifyIn.getSelectedItem().toString();
-                appUser.purchase_account_head_to_post_purchase_amount = mAccountHeadToPost.getText().toString();
-                appUser.purchase_adjust_in_party_amount = mSpinnerAdjustPartyAmount.getSelectedItem().toString();
-                appUser.purchase_party_amount_specify_in = mSpinnerPartySpecifyIn.getSelectedItem().toString();
-                appUser.purchase_account_head_to_post_party_amount = mPartyHeadToPost.getText().toString();
-                appUser.purchase_post_over_above = mPostOverSpinner.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setpurchase_affect_accounting(mSpinnerAffectAccounting.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount(mSpinnerAdjustInPurchaseAmount.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_affect_purchase_amount_specify_in(mSpinnerSpecifyIn.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_purchase_amount(mAccountHeadToPost.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_adjust_in_party_amount(mSpinnerAdjustPartyAmount.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_party_amount_specify_in(mSpinnerPartySpecifyIn.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount(mPartyHeadToPost.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setpurchase_post_over_above(mPostOverSpinner.getSelectedItem().toString());
                 finish();
             }
         });
@@ -251,8 +252,7 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
                 String id = data.getStringExtra("id");
                 String arr[]=result.split(",");
                 String headtopost=arr[0];
-                appUser.purchase_account_head_to_post_purchase_amount_id=id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_purchase_amount_id(id);
                 mAccountHeadToPost.setText(headtopost);
             }
             if (resultCode == RESULT_CANCELED) {
@@ -266,6 +266,7 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
                 String arr[]=result.split(",");
                 String partyheadtopost=arr[0];
                 String id = data.getStringExtra("id");
+                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount_id(id);
                 appUser.purchase_account_head_to_post_party_amount_id=id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPartyHeadToPost.setText(partyheadtopost);

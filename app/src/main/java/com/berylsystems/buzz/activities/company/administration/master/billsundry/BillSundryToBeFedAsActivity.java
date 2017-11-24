@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -38,8 +39,9 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        if (!appUser.bill_sundry_amount_of_bill_sundry_fed_as.equals("")) {
-            String radiostring = appUser.bill_sundry_amount_of_bill_sundry_fed_as;
+
+        if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as().equals("")) {
+            String radiostring = Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as();
             if (radiostring.equals("Absolute Amount")) {
                 mRadioGroup.check(R.id.radioButtonAbsoluteAmount);
             } else if (radiostring.equals("Percentage")) {
@@ -61,17 +63,15 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) findViewById(selectedId);
                 value= radioButton.getText().toString();
-                appUser.bill_sundry_amount_of_bill_sundry_fed_as =value;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_of_bill_sundry_fed_as(value);
                 if (value.equals("Percentage")) {
                     startActivity(new Intent(getApplicationContext(),BillSundryFedAsPercentageActivity.class));
                 }
                 else{
-                    appUser.bill_sundry_of_percentage="";
-                    appUser.bill_sundry_calculated_on="";
-                    appUser.bill_sundry_number_of_bill_sundry = "";
-                    appUser.bill_sundry_consolidate_bill_sundry = "";
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on("");
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_of_percentage("");
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_number_of_bill_sundry("");
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_consolidate_bill_sundry("");
                     finish();
                 }
             }
