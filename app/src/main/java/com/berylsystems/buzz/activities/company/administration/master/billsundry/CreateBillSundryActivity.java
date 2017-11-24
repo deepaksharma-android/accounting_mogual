@@ -358,7 +358,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
 
             mBillSundryNatureSpinner.setSelection(sundrynatureindex);
             mDefaultText.setText(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getDefault_value()));
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale() != null) {
+            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale()!= null) {
                 if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_affects_cost().getGoods_in_sale() == false) {
                     Preferences.getInstance(getApplicationContext()).setcost_goods_in_sale("No");
                 } else {
@@ -478,7 +478,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
                 if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_amount_round_off() == false) {
                     Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off("No");
                 } else {
-                    Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off("No");
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off("Yes");
                 }
             }
             if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit() != null) {

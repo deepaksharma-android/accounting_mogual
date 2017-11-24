@@ -87,8 +87,8 @@ public class RoundOffActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(mSpinnerRounfOffAmount.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off(mRoundOffValue.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(mRoundOffValue.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off(mSpinnerRounfOffAmount.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(mSpinnerRounfOff.getSelectedItem().toString());
                 finish();
 
