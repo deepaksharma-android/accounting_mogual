@@ -289,6 +289,18 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
+        <activity android:name=".activities.company.administration.master.item.ItemOpeningStockActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.item.ItemAlternateUnitDetails"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
     </application>
 
 </manifest>

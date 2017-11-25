@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
 
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -24,13 +23,14 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="30dp"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="Round off Bill Sundry Amount"
                     android:textColor="#000"
-                    android:layout_marginTop="20dp"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -44,64 +44,69 @@
                     <Spinner
                         android:id="@+id/round_off_amount_spinner"
                         android:layout_width="fill_parent"
+                        android:layout_height="40dp"
                         android:entries="@array/setting_array"
-                        android:spinnerMode="dialog"
-                        android:layout_height="40dp">
-                    </Spinner>
+                        android:spinnerMode="dialog"></Spinner>
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/round_off_layout"
                     android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:background="@drawable/bg_grey_stroke"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <Spinner
-                        android:id="@+id/round_off_spinner"
-                        android:layout_width="fill_parent"
-                        android:entries="@array/round_off_spinner"
-                        android:spinnerMode="dialog"
-                        android:layout_height="40dp">
-                    </Spinner>
-
-                </LinearLayout>
-
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Medium"
-                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rounding off Bill Sundry Amount"
-                    android:textColor="#000"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
-                    >
-                    <com.berylsystems.buzz.utils.BuzzEditText
-                        android:id="@+id/round_off_value"
+                    android:visibility="gone">
+
+                    <LinearLayout
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/round_off_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/round_off_spinner"
+                            android:spinnerMode="dialog"></Spinner>
+
+                    </LinearLayout>
+
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:inputType="number"
-                        android:maxLength="3"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Rounding off Bill Sundry Amount"
                         android:textColor="#000"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="eg. only 1 digit amount enter "/>
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/round_off_value"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="eg. only 1 digit amount enter "
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

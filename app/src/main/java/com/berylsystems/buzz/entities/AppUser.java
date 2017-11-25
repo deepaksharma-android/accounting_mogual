@@ -156,11 +156,12 @@ public class AppUser {
     public String item_unit_id="";
     public String item_stock_quantity="";
     public String item_stock_amount="";
-    public String item_alternate_unit_id="";
+    public String item_alternate_unit_id;
+    public String item_alternate_unit_name;
     /* public String barcode;*/
-    public String item_conversion_factor="";
-    public String item_conversion_type="";
-    public String item_opening_stock_quantity_alternate="";
+    public String item_conversion_factor;
+    public String item_conversion_type;
+    public String item_opening_stock_quantity_alternate;
     public String item_package_unit_detail_name="";
     public String item_price_info_id="";
     public String item_package_unit_detail_id="";
@@ -189,48 +190,13 @@ public class AppUser {
     public String bill_sundry_name="";
     public String bill_sundry_nature="";
     public Double bill_sundry_default_value;
-    public String bill_sundry_amount_of_bill_sundry_fed_as="";
-    public String bill_sundry_of_percentage="";
-    public String bill_sundry_number_of_bill_sundry="";
-    public String bill_sundry_consolidate_bill_sundry="";
-    public String bill_sundry_calculated_on="";
-    public String bill_sundry_amount_round_off="";
-    public String bill_sundry_rouding_off_nearest="";
-    public String bill_sundry_rounding_off_limit="";
     public String bill_sundry_type="";
-    public String sale_affect_accounting="Yes";
-    public String sale_affect_sale_amount="";
-    public String sale_affect_sale_amount_specify_in="vbn";
-    public String sale_adjust_in_party_amount="vbn";
-    public String sale_party_amount_specify_in="fnv";
-    public String sale_account_head_to_post_party_amount="vcbn";
-    public String sale_account_head_to_post_sale_amount="vbn";
-    public String sale_post_over_above="vbn";
-    public String purchase_affect_accounting="";
-    public String purchase_affect_purchase_amount="";
-    public String purchase_affect_purchase_amount_specify_in="";
-    public String purchase_account_head_to_post_purchase_amount="";
-    public String purchase_adjust_in_party_amount="";
-
-    public String purchase_party_amount_specify_in="";
-    public String purchase_account_head_to_post_party_amount="";
-    public String purchase_post_over_above="";
-    public String cost_goods_in_sale="";
-    public String cost_goods_in_purchase="";
-    public String cost_material_issue="";
-    public String cost_material_receipt="";
-    public String cost_stock_transfer="";
-
     public String edit_bill_sundry_id;
     public String delete_bill_sundry_id;
     public String delete_item_id;
-    public String sale_account_head_to_post_sale_amount_id="";
-    public String sale_account_head_to_post_party_amount_id="";
-    public String purchase_account_head_to_post_purchase_amount_id="";
-    public String purchase_account_head_to_post_party_amount_id="";
-    public String calculated_on_bill_sundry_id="";
 
-    public String item_alternate_unit_name = "";
+
+
 
 
 

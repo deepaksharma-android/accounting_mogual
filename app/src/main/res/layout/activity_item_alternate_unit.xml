@@ -33,7 +33,7 @@
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:id="@+id/group_layout"
+                    android:id="@+id/alternate_unit_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
@@ -42,7 +42,7 @@
                     android:orientation="horizontal">
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        android:id="@+id/item_group"
+                        android:id="@+id/alternate_unit"
                         style="@style/Gotham_Book"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                             android:textColor="#000"
                             android:textSize="16sp" />
                     </LinearLayout>
-                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/spinner"
+                            android:id="@+id/spinner_con_factor"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"></Spinner>
 
@@ -169,7 +169,7 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
-
+                </LinearLayout>
                 </LinearLayout>
 
 

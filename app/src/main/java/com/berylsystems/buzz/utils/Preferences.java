@@ -84,6 +84,13 @@ public class Preferences {
     private static final String cost_material_receipt = "cost_material_receipt";
     private static final String cost_stock_transfer = "cost_stock_transfer";
 
+    private static final String item_stock_quantity = "item_stock_quantity";
+    private static final String item_stock_amount = "item_stock_amount";
+    private static final String item_stock_value = "item_stock_value";
+
+
+
+
 
     private Preferences(Context context) {
         this._context = context;
@@ -676,5 +683,32 @@ public class Preferences {
 
     public String getcost_stock_transfer() {
         return pref.getString(cost_stock_transfer, "");
+    }
+
+    public void setItem_stock_quantity(String itemstockquantity) {
+        editor.putString(item_stock_quantity, itemstockquantity);
+        editor.commit();
+    }
+
+    public String getItem_stock_quantity() {
+        return pref.getString(item_stock_quantity, "");
+    }
+
+    public void setItem_stock_amount(String itemstockamount) {
+        editor.putString(item_stock_amount, itemstockamount);
+        editor.commit();
+    }
+
+    public String getItem_stock_amount() {
+        return pref.getString(item_stock_amount, "");
+    }
+
+    public void setItem_stock_value(String itemstockvalue) {
+        editor.putString(item_stock_value, itemstockvalue);
+        editor.commit();
+    }
+
+    public String getItem_stock_value() {
+        return pref.getString(item_stock_value, "");
     }
 }

@@ -60,7 +60,7 @@ public class PreviousBillSundryActivity extends AppCompatActivity {
                 mConsolidatedLayout.setVisibility(View.GONE);
             }
         }
-        if( Preferences.getInstance(getApplicationContext()).getbill_sundry_consolidate_bill_sundry().equals("No")){
+        if( Preferences.getInstance(getApplicationContext()).getbill_sundry_consolidate_bill_sundry().equals("Yes")){
             mSpinnerConsolidatedAmount.setSelection(1);
         }
         mNumberOfSundry.addTextChangedListener(new TextWatcher() {

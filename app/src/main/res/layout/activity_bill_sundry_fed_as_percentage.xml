@@ -40,7 +40,7 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Item Basic Amount"
+                        android:text="Items Basic Amount"
                         android:id="@+id/radioButtonBasicAmount"
                         android:checked="false"
                         android:textSize="16sp" />
@@ -48,7 +48,7 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Total MRP Of Item"
+                        android:text="Total MRP of Items"
                         android:id="@+id/radioButtonMrp"
                         android:checked="false"
                         android:textSize="16dp" />

@@ -378,8 +378,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void openingStock(View view) {
-        view.startAnimation(blinkOnClick);
-
+        startActivity(new Intent(getApplicationContext(),ItemOpeningStockActivity.class));
+   /*     view.startAnimation(blinkOnClick);
         Dialog dialog = new Dialog(CreateNewItemActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_opening_stock);
@@ -479,11 +479,20 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 hideKeyBoard(view);
                 dialog.dismiss();
             }
-        });
+        });*/
     }
 
     public void alternateUnitDetails(View view) {
-        view.startAnimation(blinkOnClick);
+        if(!mItemUnit.getText().toString().equals("")) {
+            Intent intent = new Intent(getApplicationContext(), ItemAlternateUnitDetails.class);
+            intent.putExtra("unit", mItemUnit.getText().toString());
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Please enter the unit",Toast.LENGTH_LONG).show();
+        }
+
+      /*  view.startAnimation(blinkOnClick);
         Dialog dialog = new Dialog(CreateNewItemActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_alternate_unit_details);
@@ -546,7 +555,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 hideKeyBoard(view);
                 dialog.dismiss();
             }
-        });
+        });*/
     }
 
     public void itemPriceInfo(View view) {
@@ -1024,6 +1033,29 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 appUser.arr_tax_category_id.add(response.getTax_category().getData().get(i).getId());
                 LocalRepositories.saveAppUser(this,appUser);
             }
+
+            mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
+            mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);
+            mTaxCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (position==0){
+                        mHsnLayout.setVisibility(View.GONE);
+                        appUser.item_hsn_number="";
+                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    }else {
+                        mHsnLayout.setVisibility(View.VISIBLE);
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         }
     }
 

@@ -165,7 +165,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:text="Total"
-                            android:inputType="numberDecimal"
+                            android:inputType="text"
                             android:textColor="#000"
                             android:textSize="16sp" />
 

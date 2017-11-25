@@ -46,14 +46,11 @@ public class BillSundryFedAsPercentageActivity extends AppCompatActivity {
             if(radiostringpercentage.equals("Nett Bill Amount")) {
                 mRadioGroup.check(R.id.radioButtonNetBillAmount);
             }
-            else if(radiostringpercentage.equals("Item Basic Amt.")) {
+            else if(radiostringpercentage.equals("Total MRP of Items")) {
+                mRadioGroup.check(R.id.radioButtonMrp);
+            }
+            else if(radiostringpercentage.equals("Items Basic Amount")) {
                 mRadioGroup.check(R.id.radioButtonBasicAmount);
-            }
-            else if(radiostringpercentage.equals("Total MRP of Items")) {
-                mRadioGroup.check(R.id.radioButtonMrp);
-            }
-            else if(radiostringpercentage.equals("Total MRP of Items")) {
-                mRadioGroup.check(R.id.radioButtonMrp);
             }
             else if(radiostringpercentage.equals("Taxable Amount")) {
                 mRadioGroup.check(R.id.radioButtonTaxAmount);
