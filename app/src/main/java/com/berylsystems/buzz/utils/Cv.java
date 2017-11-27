@@ -87,5 +87,6 @@ public interface Cv {
  String ACTION_GET_PURCHASE_TYPE="action_get_purchase_type";
     String ACTION_GET_SALE_TYPE="action_get_sale_type";
     String ACTION_GET_TAX_CATEGORY="action_get_tax_category";
+    String ACTION_CREATE_SALE_VOUCHER = "action_create_sale_voucher";
 
 }

@@ -19,6 +19,7 @@ import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.ItemExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -30,6 +31,7 @@ import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteItem;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditItem;
+import com.berylsystems.buzz.utils.EventSaleAddItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,6 +58,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     HashMap<Integer, List<String>> listDataChildId;
+    HashMap<Integer, List<String>> listDataChildasdfs;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
@@ -235,6 +238,22 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
         intent.putExtra("fromitemlist", true);
         startActivity(intent);
+    }
 
+    @Subscribe
+    public void ClickEventAddSaleVoucher(EventSaleAddItem pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        appUser.childId = arrid;
+        LocalRepositories.saveAppUser(this, appUser);
+        Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+        String itemName=name.get(Integer.valueOf(childid)).toString();
+        intent.putExtra("fromitemlist", true);
+        intent.putExtra("id",childid);
+        intent.putExtra("name",itemName);
+        startActivity(intent);
     }
 }

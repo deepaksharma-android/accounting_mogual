@@ -24,6 +24,7 @@ import com.berylsystems.buzz.utils.EventDeleteMaterialCentre;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditMaterialCentre;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventSelectSaleVoucher;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,6 +81,8 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(acc_name);
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
+        LinearLayout mainLayout=(LinearLayout) convertView.findViewById(R.id.main_layout);
+
         if(undefined.equals("true")){
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
@@ -104,6 +107,17 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
 
             }
         });
+
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id=groupPosition+","+childPosition;
+                EventBus.getDefault().post(new EventSelectSaleVoucher(id));
+
+            }
+        });
+
+
         return convertView;
     }
 

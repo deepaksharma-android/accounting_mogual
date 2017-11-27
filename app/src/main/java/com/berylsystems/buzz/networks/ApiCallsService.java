@@ -20,6 +20,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
@@ -74,6 +75,7 @@ import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
+import com.berylsystems.buzz.networks.api_response.sale.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
@@ -283,6 +285,8 @@ public class ApiCallsService extends IntentService {
             handleGetSaleType();
         }else if(Cv.ACTION_GET_TAX_CATEGORY.equals(action)){
             hadleGetTaxCategory();
+        } else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
+            handleSaleVoucher();
         }
     }
 
@@ -2045,6 +2049,31 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
+    private void handleSaleVoucher() {
+        api.createSaleVoucher(new RequestCreateSaleVoucher(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateSaleVoucherResponse>() {
+            @Override
+            public void onResponse(Call<CreateSaleVoucherResponse> call, Response<CreateSaleVoucherResponse> r) {
+                if (r.code() == 200) {
+                    CreateSaleVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
     private void handleDeleteBillSundry() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.deletebillsundry(appUser.delete_bill_sundry_id).enqueue(new Callback<DeleteBillSundryResponse>() {

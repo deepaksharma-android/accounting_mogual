@@ -15,11 +15,14 @@ import android.view.View;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.BillSundryListAdapter;
 import com.berylsystems.buzz.adapters.ItemListAdapter;
 import com.berylsystems.buzz.adapters.UnitListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.GetBillSundryListResponse;
 import com.berylsystems.buzz.networks.api_response.unit.DeleteUnitResponse;
@@ -27,10 +30,15 @@ import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteBillSundry;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
+import com.berylsystems.buzz.utils.EventSaleAddBill;
+import com.berylsystems.buzz.utils.EventSaleAddItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,9 +63,9 @@ public class BillSundryListActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_bill_sundry_list);
         ButterKnife.bind(this);
         setAddCompany(0);
-        setAppBarTitleCompany(1,"BILL SUNDRY LIST");
-        appUser=LocalRepositories.getAppUser(this);
         mFloatingButton.bringToFront();
+        setAppBarTitleCompany(1, "BILL SUNDRY LIST");
+        appUser = LocalRepositories.getAppUser(this);
     }
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateBillSundryActivity.class);
@@ -190,4 +198,14 @@ public class BillSundryListActivity extends BaseActivityCompany {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
+
+    @Subscribe
+    public void ClickEventAddSaleVoucher(EventSaleAddBill pos) {
+        String id = pos.getPosition();
+        Intent intent = new Intent(getApplicationContext(), SaleVoucherAddBillActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
 }

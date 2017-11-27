@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:fillViewport="true">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="100dp"
+                    android:orientation="vertical">
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textSize="12sp" />
+                    <ListView
+                        android:id="@+id/listViewItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:dividerHeight="0dp"
+                        android:divider="@null"
+                        android:layout_marginTop="10dp"
+                        android:background="#E9EBF2" />
+
+                    <LinearLayout
+                        android:id="@+id/no_finish_trademark_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:weightSum="1"
+                        android:visibility="gone"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        >
+
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="0.1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+                            />
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.9"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"
+                           />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/finish_file_new_trademark_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:onClick="filetrademark"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.1"
+                            />
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="0.6"
+                            android:textColor="#fff"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.3"
+                            android:onClick="viewAllFinished"
+                            android:gravity="center">
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center"
+                                android:text="VIEW ALL"
+                                style="@style/Gotham_Medium"
+                                android:textSize="12sp"
+                               />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <com.berylsystems.buzz.utils.BuzzTextView
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+
+                        android:textSize="12sp" />
+                    <ListView
+                        android:id="@+id/listViewBills"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:dividerHeight="0dp"
+                        android:divider="@null"
+                        android:layout_marginRight="20dp"
+                        android:background="#E9EBF2" />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:onClick="filetrademark"
+                        android:layout_marginBottom="110dp"
+
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.1"/>
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="0.6"
+
+                            android:textColor="#fff"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.3"
+                            android:onClick="viewAllUnFinished"
+
+                            android:gravity="center">
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center"
+                                android:text="VIEW ALL"
+                                style="@style/Gotham_Medium"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="70dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="80dp"
+                        android:weightSum="1">
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="ITEMS"
+                            android:gravity="center"
+                            android:layout_marginTop="17dp"
+                            android:layout_weight="0.8"
+                            android:textSize="20sp" />
+                        <LinearLayout
+                            android:id="@+id/menu_icon"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="5dp"
+                            android:background="#000"
+                            android:layout_marginRight="20dp"
+                            android:layout_weight="0.18"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="15dp"
+                                android:id="@+id/add_bill_button"
+                                android:src="@drawable/icon_add" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+                <!-- <ImageView
+                     android:id="@+id/menu_icon"
+                     android:layout_width="60dp"
+                     android:layout_height="60dp"
+                     android:layout_marginTop="35dp"
+                     android:layout_gravity="right"
+                     android:layout_marginRight="2dp"
+                     android:src="@drawable/dashboard_icn_menu" />-->
+            </FrameLayout>
+        </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

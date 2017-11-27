@@ -12,9 +12,13 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.CreateBillSundryActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.CreateUnitActivity;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundry;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.utils.EventDeleteBillSundry;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
+import com.berylsystems.buzz.utils.EventSaleAddBill;
+import com.berylsystems.buzz.utils.EventSaleAddItem;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -63,6 +67,14 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
                 intent.putExtra("frommbillsundrylist",true);
                 intent.putExtra("id",data.get(i).getId());
                 context.startActivity(intent);
+            }
+        });
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String id=groupPosition+","+childPosition;
+                SaleVoucherAddBillActivity.data=data.get(i);
+                EventBus.getDefault().post(new EventSaleAddBill(String.valueOf(i)));
             }
         });
     }
