@@ -113,7 +113,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     TextView item_group;
     LinearLayout mConFactorLinear, mStockLinear, mConTypeLinear;
     ArrayList<String> mArrayList;
-    Boolean fromitemlist,fromList;
+    Boolean fromitemlist, fromList;
     String title;
     Spinner spinner;
     ArrayAdapter<String> mTaxCategoryArrayAdapter;
@@ -124,9 +124,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initActionbar();
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         fromList = getIntent().getExtras().getBoolean("fromlist");
-        if(fromList){
+        if (fromList) {
             Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_factor("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_type("");
@@ -160,9 +160,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_description("");
 
         }
-        fromitemlist=getIntent().getExtras().getBoolean("fromitemlist");
-        if(fromitemlist){
-            title="EDIT ITEM";
+        fromitemlist = getIntent().getExtras().getBoolean("fromitemlist");
+        if (fromitemlist) {
+            title = "EDIT ITEM";
             Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_factor("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_type("");
@@ -222,8 +222,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-        }
-        else {
+        } else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
@@ -249,8 +248,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         }
 
 
-
-
         mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
         mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -258,11 +255,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mTaxCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
+                if (position == 0) {
                     mHsnLayout.setVisibility(View.GONE);
-                    appUser.item_hsn_number="";
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                }else {
+                    appUser.item_hsn_number = "";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                } else {
                     mHsnLayout.setVisibility(View.VISIBLE);
 
                 }
@@ -280,16 +277,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
                 mSubmitButton.startAnimation(blinkOnClick);
                 appUser.item_name = mItemName.getText().toString();
-                appUser.item_hsn_number=mHsnNumber.getText().toString();
-                for(int i=0;i<appUser.arr_tax_category_name.size();i++){
-                    if(mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))){
-                        appUser.item_tax_category= Integer.parseInt(appUser.arr_tax_category_id.get(i));
+                appUser.item_hsn_number = mHsnNumber.getText().toString();
+                for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
+                    if (mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))) {
+                        appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
                         break;
                     }
                 }
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                if (mItemName.getText().toString().equals("")||mItemUnit.getText().toString().equals("")||mItemGroup.getText().toString().equals("")) {
+                if (mItemName.getText().toString().equals("") || mItemUnit.getText().toString().equals("") || mItemGroup.getText().toString().equals("")) {
                     Toast.makeText(CreateNewItemActivity.this, "Name, Group And Unit is mendetory", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -328,7 +325,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
                             appUser.item_name = mItemName.getText().toString();
-                            appUser.item_hsn_number=mHsnNumber.getText().toString();
+                            appUser.item_hsn_number = mHsnNumber.getText().toString();
 
                             for (int i = 0; i < appUser.arr_item_group_name.size(); i++) {
                                 if (appUser.arr_item_group_name.get(i).equals(mItemGroup.getText().toString())) {
@@ -433,50 +430,47 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void openingStock(View view) {
-        startActivity(new Intent(getApplicationContext(),ItemOpeningStockActivity.class));
+        startActivity(new Intent(getApplicationContext(), ItemOpeningStockActivity.class));
     }
 
     public void alternateUnitDetails(View view) {
-        if(!mItemUnit.getText().toString().equals("")) {
+        if (!mItemUnit.getText().toString().equals("")) {
             Intent intent = new Intent(getApplicationContext(), ItemAlternateUnitDetails.class);
             intent.putExtra("unit", mItemUnit.getText().toString());
             startActivity(intent);
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Please enter the unit",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enter the unit", Toast.LENGTH_LONG).show();
         }
 
     }
 
     public void itemPriceInfo(View view) {
 
-        if(!mItemUnit.getText().toString().equals("")) {
-            if(!Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals("")) {
+        if (!mItemUnit.getText().toString().equals("")) {
+            if (!Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals("")) {
                 Intent intent = new Intent(getApplicationContext(), ItemPriceInfoActivity.class);
                 intent.putExtra("unit", mItemUnit.getText().toString());
                 startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Please enter the alternate unit", Toast.LENGTH_LONG).show();
             }
-            else{
-                Toast.makeText(getApplicationContext(),"Please enter the alternate unit",Toast.LENGTH_LONG).show();
-            }
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Please enter the unit",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enter the unit", Toast.LENGTH_LONG).show();
         }
     }
 
     public void packagingUnitDetail(View view) {
-        startActivity(new Intent(getApplicationContext(),ItemPackagingUnitDetailsActivity.class));
+        startActivity(new Intent(getApplicationContext(), ItemPackagingUnitDetailsActivity.class));
 
     }
 
     public void itemDescription(View view) {
-        startActivity(new Intent(getApplicationContext(),ItemDescriptionActivity.class));
+        startActivity(new Intent(getApplicationContext(), ItemDescriptionActivity.class));
 
     }
 
     public void setting(View view) {
-        startActivity(new Intent(getApplicationContext(),ItemSettingsActivity.class));
+        startActivity(new Intent(getApplicationContext(), ItemSettingsActivity.class));
 
     }
 
@@ -486,8 +480,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent=new Intent(getApplicationContext(),ExpandableItemListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
         } else {
@@ -549,62 +543,184 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void getedititem(GetItemDetailsResponse response){
+    public void getedititem(GetItemDetailsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            appUser.edit_item_id=String.valueOf(response.getItem().getData().getAttributes().getId());
-            LocalRepositories.saveAppUser(this,appUser);
+        if (response.getStatus() == 200) {
+            appUser.edit_item_id = String.valueOf(response.getItem().getData().getAttributes().getId());
+            LocalRepositories.saveAppUser(this, appUser);
             mItemName.setText(response.getItem().getData().getAttributes().getName());
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
             String taxcat = response.getItem().getData().getAttributes().getTax_category().trim();// insert code here
             int taxcatindex = -1;
-            for (int i = 0; i <appUser.arr_tax_category_name.size(); i++) {
+            for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                 if (appUser.arr_tax_category_name.get(i).equals(taxcat)) {
                     taxcatindex = i;
                     break;
                 }
             }
             mTaxCategory.setSelection(taxcatindex);
-            if(!response.getItem().getData().getAttributes().getTax_category().equals("None")){
+            if (!response.getItem().getData().getAttributes().getTax_category().equals("None")) {
                 mHsnLayout.setVisibility(View.VISIBLE);
                 mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());
             }
-            if(String.valueOf(response.getItem().getData().getAttributes().getStock_quantity())!=null){
+            if (String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()) != null) {
                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()));
             }
-            if(String.valueOf(response.getItem().getData().getAttributes().getStock_amount())!=null){
+            if (String.valueOf(response.getItem().getData().getAttributes().getStock_amount()) != null) {
                 Preferences.getInstance(getApplicationContext()).setItem_stock_amount(String.valueOf(response.getItem().getData().getAttributes().getStock_amount()));
             }
-            appUser.item_stock_value= String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()*response.getItem().getData().getAttributes().getStock_amount());
-            if(String .valueOf(response.getItem().getData().getAttributes().getConversion_factor())!=null){
-                appUser.item_conversion_factor=String .valueOf(response.getItem().getData().getAttributes().getConversion_factor());
+            appUser.item_stock_value = String.valueOf(response.getItem().getData().getAttributes().getStock_quantity() * response.getItem().getData().getAttributes().getStock_amount());
+            if (String.valueOf(response.getItem().getData().getAttributes().getConversion_factor()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_conversion_factor(String.valueOf(response.getItem().getData().getAttributes().getConversion_factor()));
             }
-            if(String.valueOf(response.getItem().getData().getAttributes().getOpening_stock_quantity_alternate())!=null){
-                appUser.item_opening_stock_quantity_alternate=String .valueOf(response.getItem().getData().getAttributes().getOpening_stock_quantity_alternate());
+            if (String.valueOf(response.getItem().getData().getAttributes().getOpening_stock_quantity_alternate()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_opening_stock_quantity_alternate(String.valueOf(response.getItem().getData().getAttributes().getOpening_stock_quantity_alternate()));
+
             }
-            if(response.getItem().getData().getAttributes().getConversion_type()!=null){
-                appUser.item_conversion_type=response.getItem().getData().getAttributes().getConversion_type();
+            if (response.getItem().getData().getAttributes().getConversion_type() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_conversion_type(response.getItem().getData().getAttributes().getConversion_type());
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getConversion_factor_package()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_conversion_type(String.valueOf(response.getItem().getData().getAttributes().getConversion_factor_package()));
+            }
+            if (response.getItem().getData().getAttributes().getItem_package_unit() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_package_unit_detail_name(response.getItem().getData().getAttributes().getItem_package_unit());
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getPurchase_price()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_purchase_price(String.valueOf(response.getItem().getData().getAttributes().getPurchase_price()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getSales_price()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_salse_price(String.valueOf(response.getItem().getData().getAttributes().getSales_price()));
+            }
+            if (response.getItem().getData().getAttributes().getDefault_unit_for_sales() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_default_unit_for_sales(response.getItem().getData().getAttributes().getDefault_unit_for_sales());
+            }
+            if (response.getItem().getData().getAttributes().getDefault_unit_for_purchase() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_default_unit_for_purchase(response.getItem().getData().getAttributes().getDefault_unit_for_purchase());
+            }
+            if (response.getItem().getData().getAttributes().getSales_price_applied_on() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_applied_on(response.getItem().getData().getAttributes().getSales_price_applied_on());
+            }
+            if (response.getItem().getData().getAttributes().getPurchase_price_applied_on() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_applied_on(response.getItem().getData().getAttributes().getPurchase_price_applied_on());
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getSales_price_main()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_sales_price_edittext(String.valueOf(response.getItem().getData().getAttributes().getSales_price_main()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getSales_price_alternate()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_alt_unit_edittext(String.valueOf(response.getItem().getData().getAttributes().getSales_price_alternate()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMin_sales_price_main()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_main_edittext(String.valueOf(response.getItem().getData().getAttributes().getMin_sales_price_main()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMin_sale_price_alternate()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_alt_edittext(String.valueOf(response.getItem().getData().getAttributes().getMin_sale_price_alternate()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getPurchase_price_main()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_min_edittext(String.valueOf(response.getItem().getData().getAttributes().getPurchase_price_main()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getPurchase_price_alternate()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_alt_edittext(String.valueOf(response.getItem().getData().getAttributes().getPurchase_price_alternate()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMrp()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_mrp(String.valueOf(response.getItem().getData().getAttributes().getMrp()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getSelf_value_price()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_self_val_price(String.valueOf(response.getItem().getData().getAttributes().getSelf_value_price()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isSet_critical_level()) != null) {
+                if (response.getItem().getData().getAttributes().isSet_critical_level()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_set_critical_level("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_set_critical_level("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isSerial_number_wise_detail()) != null) {
+                if (response.getItem().getData().getAttributes().isSerial_number_wise_detail()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isBatch_wise_detail()) != null) {
+                if (response.getItem().getData().getAttributes().isBatch_wise_detail()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isAlternate_unit_detail()) != null) {
+                if (response.getItem().getData().getAttributes().isAlternate_unit_detail()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isSpecify_sales_account()) != null) {
+                if (response.getItem().getData().getAttributes().isSpecify_sales_account()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isSpecify_purchase_account()) != null) {
+                if (response.getItem().getData().getAttributes().isSpecify_purchase_account()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().isDont_maintain_stock_balance()) != null) {
+                if (response.getItem().getData().getAttributes().isDont_maintain_stock_balance()) {
+                    Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("No");
+                } else {
+                    Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("Yes");
+                }
+
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMinimum_level_quantity()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty(String.valueOf(response.getItem().getData().getAttributes().getMinimum_level_quantity()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getReorder_level_quantity()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_qty(String.valueOf(response.getItem().getData().getAttributes().getReorder_level_quantity()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_quantity()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_qty(String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_quantity()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMinimum_level_days()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_days(String.valueOf(response.getItem().getData().getAttributes().getMinimum_level_days()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getReorder_level_days()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_days(String.valueOf(response.getItem().getData().getAttributes().getReorder_level_days()));
+            }
+            if (String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()) != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days(String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()));
             }
 
-            LocalRepositories.saveAppUser(this,appUser);
-        }
-        else{
+
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void gettaxcategory(GetTaxCategoryResponse response){
+    public void gettaxcategory(GetTaxCategoryResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             appUser.arr_tax_category_name.clear();
             appUser.arr_tax_category_id.clear();
-            LocalRepositories.saveAppUser(this,appUser);
-            for(int i=0;i<response.getTax_category().getData().size();i++){
+            LocalRepositories.saveAppUser(this, appUser);
+            for (int i = 0; i < response.getTax_category().getData().size(); i++) {
                 appUser.arr_tax_category_name.add(response.getTax_category().getData().get(i).getAttributes().getName());
                 appUser.arr_tax_category_id.add(response.getTax_category().getData().get(i).getId());
-                LocalRepositories.saveAppUser(this,appUser);
+                LocalRepositories.saveAppUser(this, appUser);
             }
 
             mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -614,11 +730,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             mTaxCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position==0){
+                    if (position == 0) {
                         mHsnLayout.setVisibility(View.GONE);
-                        appUser.item_hsn_number="";
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                    }else {
+                        appUser.item_hsn_number = "";
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    } else {
                         mHsnLayout.setVisibility(View.VISIBLE);
 
                     }
