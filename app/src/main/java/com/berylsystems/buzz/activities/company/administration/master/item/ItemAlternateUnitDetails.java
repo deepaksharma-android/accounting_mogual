@@ -22,6 +22,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
@@ -72,8 +73,8 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerConFactor.setAdapter(dataAdapter);
 
-            if (appUser.item_conversion_type != null) {
-                String contype = appUser.item_conversion_type;// insert code here
+            if (!Preferences.getInstance(getApplicationContext()).getitem_conversion_type().equals("")) {
+                String contype =Preferences.getInstance(getApplicationContext()).getitem_conversion_type();// insert code here
                 int contypeindex = -1;
                 for (int i = 0; i < appUser.arr_con_type.size(); i++) {
                     if (appUser.arr_con_type.get(i).equals(contype)) {
@@ -85,15 +86,15 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
             }
         }
 
-        if(appUser.item_alternate_unit_name!=null){
-            mAlternateUnit.setText(appUser.item_alternate_unit_name);
+        if(!Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals("")){
+            mAlternateUnit.setText(Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name());
         }
-        if(appUser.item_opening_stock_quantity_alternate!=null){
-            mStockQuantity.setText(appUser.item_opening_stock_quantity_alternate);
+        if( !Preferences.getInstance(getApplicationContext()).getitem_opening_stock_quantity_alternate().equals("")){
+            mStockQuantity.setText(Preferences.getInstance(getApplicationContext()).getitem_opening_stock_quantity_alternate());
         }
 
-        if(appUser.item_conversion_factor!=null){
-            mConFactor.setText(appUser.item_conversion_factor);
+        if( !Preferences.getInstance(getApplicationContext()).getitem_conversion_factor().equals("")){
+            mConFactor.setText(Preferences.getInstance(getApplicationContext()).getitem_conversion_factor());
         }
 
 
@@ -103,10 +104,9 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!mAlternateUnit.getText().toString().equals("")) {
-                    appUser.item_conversion_factor = mConFactor.getText().toString();
-                    appUser.item_opening_stock_quantity_alternate = mStockQuantity.getText().toString();
-                    appUser.item_conversion_type = mSpinnerConFactor.getSelectedItem().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_conversion_factor( mConFactor.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_conversion_type(mSpinnerConFactor.getSelectedItem().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_opening_stock_quantity_alternate(mStockQuantity.getText().toString());
                     finish();
                 }
                 else{
@@ -150,9 +150,9 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.item_alternate_unit_name = result;
-                appUser.item_alternate_unit_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                //appUser.item_alternate_unit_name = result;
+                Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_name(result);
+                Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id(id);
                 mAlternateUnit.setText(result);
                 mArrayList.clear();
                 appUser.arr_con_type.clear();

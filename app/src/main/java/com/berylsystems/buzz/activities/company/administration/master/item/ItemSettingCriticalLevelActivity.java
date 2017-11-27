@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -44,35 +45,23 @@ public class ItemSettingCriticalLevelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_critical_level);
         ButterKnife.bind(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
-        if(appUser.item_setting_critical_min_level_qty!=null){
-            minimum_level_qty.setText(appUser.item_setting_critical_min_level_qty);
-        }
-        if(appUser.item_setting_critical_recorded_level_qty!=null){
-            recorded_level_qty.setText(appUser.item_setting_critical_recorded_level_qty);
-        }
-        if(appUser.item_setting_critical_max_level_qty!=null){
-            maximum_level_qty.setText(appUser.item_setting_critical_max_level_qty);
-        }
-        if(appUser.item_setting_critical_min_level_days!=null){
-            minimum_level_days.setText(appUser.item_setting_critical_min_level_days);
-        }
-        if(appUser.item_setting_critical_recorded_level_days!=null){
-            recorded_level_days.setText(appUser.item_setting_critical_recorded_level_days);
-        }
-        if(appUser.item_setting_critical_max_level_days!=null){
-            maximum_level_days.setText(appUser.item_setting_critical_max_level_days);
-        }
+        appUser = LocalRepositories.getAppUser(this);
+        minimum_level_qty.setText(Preferences.getInstance(getApplicationContext()).getitem_setting_critical_min_level_qty());
+        recorded_level_qty.setText(Preferences.getInstance(getApplicationContext()).getitem_setting_critical_recorded_level_qty());
+        maximum_level_qty.setText(Preferences.getInstance(getApplicationContext()).getitem_setting_critical_max_level_qty());
+        minimum_level_days.setText(Preferences.getInstance(getApplicationContext()).getitem_setting_critical_min_level_days());
+        recorded_level_days.setText(Preferences.getInstance(getApplicationContext()).getitem_setting_critical_recorded_level_days());
+        maximum_level_days.setText(Preferences.getInstance(getApplicationContext()).getitem_setting_critical_max_level_days());
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.item_setting_critical_min_level_qty=minimum_level_qty.getText().toString();
-                appUser.item_setting_critical_recorded_level_qty=recorded_level_qty.getText().toString();
-                appUser.item_setting_critical_max_level_qty=maximum_level_qty.getText().toString();
-                appUser.item_setting_critical_min_level_days=minimum_level_days.getText().toString();
-                appUser.item_setting_critical_recorded_level_days=recorded_level_days.getText().toString();
-                appUser.item_setting_critical_max_level_days=maximum_level_days.getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty(minimum_level_qty.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_qty(recorded_level_qty.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_qty(maximum_level_qty.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_days(minimum_level_days.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_days(recorded_level_days.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days(maximum_level_days.getText().toString());
                 finish();
 
             }
@@ -93,7 +82,7 @@ public class ItemSettingCriticalLevelActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CRITICAL LEVEL SETTING");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

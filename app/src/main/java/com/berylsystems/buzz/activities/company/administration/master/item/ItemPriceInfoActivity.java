@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -83,64 +84,67 @@ public class ItemPriceInfoActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         item_unit = getIntent().getStringExtra("unit");
         sales_price_main_unit_text.setText("Sales Price Main Unit (" + item_unit + ")");
-        sale_price_alt_unit_text.setText("Sales Price Alt. Unit (" + appUser.item_alternate_unit_name + ")");
+        sale_price_alt_unit_text.setText("Sales Price Alt. Unit (" + Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name() + ")");
         min_sale_price_main_text.setText("Min Sales Price Main Unit (" + item_unit + ")");
-        min_sale_price_alt_text.setText("Min Sales Price Alt. Unit (" + appUser.item_alternate_unit_name + ")");
+        min_sale_price_alt_text.setText("Min Sales Price Alt. Unit (" + Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name() + ")");
         purchase_price_min_text.setText("Purchase Price Main Unit (" + item_unit + ")");
-        purchase_price_alt_text.setText("Purchase Price Alt. Unit (" + appUser.item_alternate_unit_name + ")");
-        if (appUser.item_price_info_sale_price_applied_on != null) {
-            if (appUser.item_price_info_sale_price_applied_on.equals("Main Unit")) {
+        purchase_price_alt_text.setText("Purchase Price Alt. Unit (" + Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name() + ")");
+        mrp.setText(Preferences.getInstance(getApplicationContext()).getitem_price_mrp());
+        self_val_price.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_self_val_price());
+        if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_applied_on().equals("")) {
+            if (Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_applied_on().equals("Main Unit")) {
                 mSpinnerSalePriceApplied.setSelection(0);
-                if (appUser.item_price_info_sales_price_edittext != null) {
-                    sales_price_edittext.setText(appUser.item_price_info_sales_price_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sales_price_edittext().equals("")) {
+                    sales_price_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_sales_price_edittext());
                 }
-                if (appUser.item_price_info_min_sale_price_main_edittext != null) {
-                    min_sale_price_main_edittext.setText(appUser.item_price_info_min_sale_price_main_edittext);
+                if (Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext().equals("")) {
+                    min_sale_price_main_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext());
                 }
-            } else if (appUser.item_price_info_sale_price_applied_on.equals("Alternate Unit")) {
+            } else if (Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_applied_on().equals("Alternate Unit")) {
                 mSpinnerSalePriceApplied.setSelection(1);
-                if (appUser.item_price_info_sale_price_alt_unit_edittext != null) {
-                    sale_price_alt_unit_edittext.setText(appUser.item_price_info_sale_price_alt_unit_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_alt_unit_edittext().equals("")) {
+                    sale_price_alt_unit_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_alt_unit_edittext());
                 }
-                if (appUser.item_price_info_min_sale_price_alt_edittext != null) {
-                    min_sale_price_alt_edittext.setText(appUser.item_price_info_min_sale_price_alt_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_alt_edittext().equals("")) {
+                    min_sale_price_alt_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_alt_edittext());
                 }
             } else {
                 mSpinnerSalePriceApplied.setSelection(2);
-
-                sales_price_edittext.setText(appUser.item_price_info_sales_price_edittext);
-                if (appUser.item_price_info_sales_price_edittext != null) {
-                    sales_price_edittext.setText(appUser.item_price_info_sales_price_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sales_price_edittext().equals("")) {
+                    sales_price_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_sales_price_edittext());
                 }
-                if (appUser.item_price_info_min_sale_price_main_edittext != null) {
-                    min_sale_price_main_edittext.setText(appUser.item_price_info_min_sale_price_main_edittext);
+                if (Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext().equals("")) {
+                    min_sale_price_main_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext());
                 }
-                if (appUser.item_price_info_sale_price_alt_unit_edittext != null) {
-                    sale_price_alt_unit_edittext.setText(appUser.item_price_info_sale_price_alt_unit_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_alt_unit_edittext().equals("")) {
+                    sale_price_alt_unit_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_alt_unit_edittext());
                 }
-                if (appUser.item_price_info_min_sale_price_alt_edittext != null) {
-                    min_sale_price_alt_edittext.setText(appUser.item_price_info_min_sale_price_alt_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_alt_edittext().equals("")) {
+                    min_sale_price_alt_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_alt_edittext());
                 }
             }
         }
 
-        if(appUser.item_price_info_purchase_price_applied_on!=null) {
+        if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_applied_on().equals("")) {
 
-            if (appUser.item_price_info_purchase_price_applied_on.equals("Main Unit")) {
-                if(appUser.item_price_info_purchase_price_min_edittext!=null) {
-                    purchase_price_min_edittext.setText(appUser.item_price_info_purchase_price_min_edittext);
+            if (Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_applied_on().equals("Main Unit")) {
+                mSpinnerPurchasePriceApplied.setSelection(0);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_min_edittext().equals("")) {
+                    purchase_price_min_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_min_edittext());
                 }
 
-            } else if (appUser.item_price_info_purchase_price_applied_on.equals("Alternate Unit")) {
-                if(appUser.item_price_info_purchase_price_alt_edittext!=null) {
-                    purchase_price_alt_edittext.setText(appUser.item_price_info_purchase_price_alt_edittext);
+            } else if (Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_applied_on().equals("Alternate Unit")) {
+                mSpinnerPurchasePriceApplied.setSelection(1);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_alt_edittext().equals("")) {
+                    purchase_price_alt_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_alt_edittext());
                 }
             } else {
-                if(appUser.item_price_info_purchase_price_min_edittext!=null) {
-                    purchase_price_min_edittext.setText(appUser.item_price_info_purchase_price_min_edittext);
+                mSpinnerPurchasePriceApplied.setSelection(2);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_min_edittext().equals("")) {
+                    purchase_price_min_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_min_edittext());
                 }
-                if(appUser.item_price_info_purchase_price_alt_edittext!=null) {
-                    purchase_price_alt_edittext.setText(appUser.item_price_info_purchase_price_alt_edittext);
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_alt_edittext().equals("")) {
+                    purchase_price_alt_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_purchase_price_alt_edittext());
                 }
             }
         }
@@ -197,46 +201,43 @@ public class ItemPriceInfoActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.item_price_mrp = mrp.getText().toString();
-                appUser.item_price_info_self_val_price = self_val_price.getText().toString();
-                appUser.item_price_info_sale_price_applied_on = mSpinnerSalePriceApplied.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_applied_on( mSpinnerSalePriceApplied.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_applied_on( mSpinnerPurchasePriceApplied.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_price_mrp(mrp.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_price_info_self_val_price(self_val_price.getText().toString());
+
                 if (mSpinnerSalePriceApplied.getSelectedItem().toString().equals("Main Unit")) {
-                    appUser.item_price_info_sales_price_edittext = sales_price_edittext.getText().toString();
-                    appUser.item_price_info_sale_price_alt_unit_edittext = "";
-                    appUser.item_price_info_min_sale_price_main_edittext = min_sale_price_main_edittext.getText().toString();
-                    appUser.item_price_info_min_sale_price_alt_edittext = "";
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_sales_price_edittext(sales_price_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_alt_unit_edittext("");
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_main_edittext(min_sale_price_main_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_alt_edittext("");
 
                 } else if (mSpinnerSalePriceApplied.getSelectedItem().toString().equals("Alternate Unit")) {
                     appUser.item_price_info_sales_price_edittext = "";
-                    appUser.item_price_info_sale_price_alt_unit_edittext = sale_price_alt_unit_edittext.getText().toString();
-                    appUser.item_price_info_min_sale_price_main_edittext = "";
-                    appUser.item_price_info_min_sale_price_alt_edittext = min_sale_price_alt_edittext.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_sales_price_edittext("");
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_alt_unit_edittext(sale_price_alt_unit_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_main_edittext("");
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_alt_edittext(min_sale_price_alt_edittext.getText().toString());
+
                 } else {
-                    appUser.item_price_info_sales_price_edittext = sales_price_edittext.getText().toString();
-                    appUser.item_price_info_sale_price_alt_unit_edittext = sale_price_alt_unit_edittext.getText().toString();
-                    appUser.item_price_info_min_sale_price_main_edittext = min_sale_price_main_edittext.getText().toString();
-                    appUser.item_price_info_min_sale_price_alt_edittext = min_sale_price_alt_edittext.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_sales_price_edittext(sales_price_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_main_edittext(min_sale_price_main_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_alt_unit_edittext(sale_price_alt_unit_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_min_sale_price_alt_edittext(min_sale_price_alt_edittext.getText().toString());
+
                 }
-                appUser.item_price_info_purchase_price_applied_on = mSpinnerPurchasePriceApplied.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 if (mSpinnerPurchasePriceApplied.getSelectedItem().toString().equals("Main Unit")) {
-                    appUser.item_price_info_purchase_price_min_edittext = purchase_price_min_edittext.getText().toString();
-                    appUser.item_price_info_purchase_price_alt_edittext = "";
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_min_edittext(purchase_price_min_edittext.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_alt_edittext("");
+
                 } else if (mSpinnerPurchasePriceApplied.getSelectedItem().toString().equals("Alternate Unit")) {
-                    appUser.item_price_info_purchase_price_min_edittext = "";
-                    appUser.item_price_info_purchase_price_alt_edittext = purchase_price_alt_edittext.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_min_edittext("");
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_alt_edittext(purchase_price_alt_edittext.getText().toString());
 
                 } else {
-                    appUser.item_price_info_purchase_price_min_edittext = purchase_price_min_edittext.getText().toString();
-                    appUser.item_price_info_purchase_price_alt_edittext = purchase_price_alt_edittext.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_min_edittext("");
+                    Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_alt_edittext(purchase_price_alt_edittext.getText().toString());
                 }
 
                 finish();
@@ -261,7 +262,7 @@ public class ItemPriceInfoActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("PRICE INFO");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

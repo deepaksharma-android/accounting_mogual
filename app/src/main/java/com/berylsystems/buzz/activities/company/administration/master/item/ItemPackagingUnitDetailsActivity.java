@@ -22,6 +22,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
@@ -48,13 +49,14 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     AppUser appUser;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packaging_unit_details);
         ButterKnife.bind(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         mPackagingUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,45 +65,40 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
                 startActivityForResult(intent, 4);
             }
         });
+        ;
 
-        if (appUser.item_conversion_factor_pkg_unit!=null) {
-            mConFactor.setText(appUser.item_conversion_factor_pkg_unit);
+        if (!Preferences.getInstance(getApplicationContext()).getitem_conversion_factor_pkg_unit().equals("")) {
+            mConFactor.setText(Preferences.getInstance(getApplicationContext()).getitem_conversion_factor_pkg_unit());
         }
-        if (appUser.item_salse_price!=null) {
-            mSalesPrice.setText(appUser.item_salse_price);
+        if (!Preferences.getInstance(getApplicationContext()).getitem_salse_price().equals("")) {
+            mSalesPrice.setText(Preferences.getInstance(getApplicationContext()).getitem_salse_price());
         }
-        if (appUser.item_package_unit_detail_id!=null) {
-            mPackagingUnit.setText(appUser.item_package_unit_detail_name);
+        if (Preferences.getInstance(getApplicationContext()).getitem_package_unit_detail_name().equals("")) {
+            mPackagingUnit.setText(Preferences.getInstance(getApplicationContext()).getitem_package_unit_detail_name());
         }
-        if (appUser.item_specify_purchase_account!=null) {
-            mPurchasePrice.setText(appUser.item_specify_purchase_account);
+        if (!Preferences.getInstance(getApplicationContext()).getitem_specify_purchase_account().equals("")) {
+            mPurchasePrice.setText(Preferences.getInstance(getApplicationContext()).getitem_specify_purchase_account());
         }
-        if(appUser.item_default_unit_for_purchase!=null){
-            if(appUser.item_default_unit_for_purchase.equals("Not Req.")) {
+        if (!Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_purchase().equals("")) {
+            if (Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_purchase().equals("Not Req.")) {
                 mSpinnerDefaultUnitForPurchase.setSelection(0);
-            }
-            else if(appUser.item_default_unit_for_purchase.equals("Main Unit")){
+            } else if (Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_purchase().equals("Main Unit")) {
                 mSpinnerDefaultUnitForPurchase.setSelection(1);
-            }
-            else if(appUser.item_default_unit_for_purchase.equals("Alt. Unit")){
+            } else if (Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_purchase().equals("Alt. Unit")) {
                 mSpinnerDefaultUnitForPurchase.setSelection(2);
-            }
-            else {
+            } else {
                 mSpinnerDefaultUnitForPurchase.setSelection(3);
             }
         }
 
-        if(appUser.item_default_unit_for_sales!=null){
-            if(appUser.item_default_unit_for_sales.equals("Not Req.")){
+        if (!Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_sales().equals("")) {
+            if (Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_sales().equals("Not Req.")) {
                 mSpinnerDefaultUnitForSale.setSelection(0);
-            }
-            else if(appUser.item_default_unit_for_sales.equals("Main Unit")){
+            } else if (Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_sales().equals("Main Unit")) {
                 mSpinnerDefaultUnitForSale.setSelection(1);
-            }
-            else if(appUser.item_default_unit_for_sales.equals("Alt. Unit")){
+            } else if (Preferences.getInstance(getApplicationContext()).getitem_default_unit_for_sales().equals("Alt. Unit")) {
                 mSpinnerDefaultUnitForSale.setSelection(2);
-            }
-            else {
+            } else {
                 mSpinnerDefaultUnitForSale.setSelection(3);
             }
         }
@@ -109,12 +106,12 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.item_conversion_factor_pkg_unit = mConFactor.getText().toString();
-                appUser.item_salse_price = mSalesPrice.getText().toString();
-                appUser.item_specify_purchase_account = mPurchasePrice.getText().toString();
-                appUser.item_default_unit_for_sales=mSpinnerDefaultUnitForSale.getSelectedItem().toString();
-                appUser.item_default_unit_for_purchase=mSpinnerDefaultUnitForPurchase.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+                Preferences.getInstance(getApplicationContext()).setitem_purchase_price(mPurchasePrice.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_conversion_factor_pkg_unit(mConFactor.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_salse_price(mSalesPrice.getText().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_default_unit_for_sales(mSpinnerDefaultUnitForSale.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_default_unit_for_purchase(mSpinnerDefaultUnitForPurchase.getSelectedItem().toString());
                 finish();
             }
         });
@@ -135,7 +132,7 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("PACKAGING UNIT DETAILS");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -152,9 +149,8 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("MYID" + id);
-                appUser.item_package_unit_detail_id = id;
-                appUser.item_package_unit_detail_name = result;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Preferences.getInstance(getApplicationContext()).setitem_package_unit_detail_id(id);
+                Preferences.getInstance(getApplicationContext()).setitem_package_unit_detail_name(result);
                 mPackagingUnit.setText(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {

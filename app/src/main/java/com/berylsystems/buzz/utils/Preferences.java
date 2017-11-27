@@ -88,6 +88,43 @@ public class Preferences {
     private static final String item_stock_amount = "item_stock_amount";
     private static final String item_stock_value = "item_stock_value";
 
+    private static final String item_alternate_unit_name="item_alternate_unit_name";
+    private static final String item_alternate_unit_id="item_alternate_unit_id";
+    private static final String item_conversion_factor="item_conversion_factor";
+    private static final String item_conversion_type="item_conversion_type";
+    private static final String item_opening_stock_quantity_alternate="item_opening_stock_quantity_alternate";
+    private static final String item_price_info_sale_price_applied_on="item_price_info_sale_price_applied_on";
+    private static final String item_price_info_purchase_price_applied_on="item_price_info_purchase_price_applied_on";
+    private static final String item_price_info_sales_price_edittext="item_price_info_sales_price_edittext";
+    private static final String item_price_info_sale_price_alt_unit_edittext="item_price_info_sale_price_alt_unit_edittext";
+    private static final String item_price_info_purchase_price_min_edittext="item_price_info_purchase_price_min_edittext";
+    public static final String item_price_info_purchase_price_alt_edittext="item_price_info_purchase_price_alt_edittext";
+    private static final String item_price_mrp="item_price_mrp";
+    private static final String item_price_info_min_sale_price_main_edittext="item_price_info_min_sale_price_main_edittext";
+    private static final String item_price_info_min_sale_price_alt_edittext="item_price_info_min_sale_price_alt_edittext";
+    private static final String item_price_info_self_val_price="item_price_info_self_val_price";
+    private static final String item_package_unit_detail_id="item_package_unit_detail_id";
+    private static final String item_package_unit_detail_name="item_package_unit_detail_name";
+    private static final String item_conversion_factor_pkg_unit="item_conversion_factor_pkg_unit";
+    private static final String item_salse_price="item_salse_price";
+    private static final String item_purchase_price="item_purchase_price";
+    private static final String item_default_unit_for_sales="item_default_unit_for_sales";
+    private static final String item_default_unit_for_purchase="item_default_unit_for_purchase";
+    private static final String item_setting_critical_min_level_qty="item_setting_critical_min_level_qty";
+    private static final String item_setting_critical_recorded_level_qty="item_setting_critical_recorded_level_qty";
+    private static final String item_setting_critical_max_level_qty="item_setting_critical_max_level_qty";
+    private static final String item_setting_critical_recorded_level_days="item_setting_critical_recorded_level_days";
+    private static final String item_setting_critical_max_level_days="item_setting_critical_max_level_days";
+    private static final String item_setting_critical_min_level_days="item_setting_critical_min_level_days";
+    private static final String item_set_critical_level="item_set_critical_level";
+    private static final String item_serial_number_wise_detail="item_serial_number_wise_detail";
+    private static final String item_batch_wise_detail="item_batch_wise_detail";
+    private static final String item_specify_sales_account="item_specify_sales_account";
+    private static final String item_specify_purchase_account="item_specify_purchase_account";
+    private static final String item_dont_maintain_stock_balance="item_dont_maintain_stock_balance";
+    private static final String item_settings_alternate_unit="item_settings_alternate_unit";
+    private static final String item_description="item_description";
+
 
 
 
@@ -711,4 +748,301 @@ public class Preferences {
     public String getItem_stock_value() {
         return pref.getString(item_stock_value, "");
     }
+
+    public void setitem_alternate_unit_id(String itemalternateunitid) {
+        editor.putString(item_alternate_unit_id, itemalternateunitid);
+        editor.commit();
+    }
+
+    public String getitem_alternate_unit_id() {
+        return pref.getString(item_alternate_unit_id, "");
+    }
+    public void setitem_alternate_unit_name(String itemalternateunitname) {
+        editor.putString(item_alternate_unit_name, itemalternateunitname);
+        editor.commit();
+    }
+
+    public String getitem_alternate_unit_name() {
+        return pref.getString(item_alternate_unit_name, "");
+    }
+
+    public void setitem_conversion_factor(String itemconversionfactor) {
+        editor.putString(item_conversion_factor, itemconversionfactor);
+        editor.commit();
+    }
+
+    public String getitem_conversion_factor() {
+        return pref.getString(item_conversion_factor, "");
+    }
+
+    public void setitem_conversion_type(String itemconversiontype) {
+        editor.putString(item_conversion_type, itemconversiontype);
+        editor.commit();
+    }
+
+    public String getitem_conversion_type() {
+        return pref.getString(item_conversion_type, "");
+    }
+
+    public void setitem_opening_stock_quantity_alternate(String itemopeningstockquantityalternate) {
+        editor.putString(item_opening_stock_quantity_alternate, itemopeningstockquantityalternate);
+        editor.commit();
+    }
+
+    public String getitem_opening_stock_quantity_alternate() {
+        return pref.getString(item_opening_stock_quantity_alternate, "");
+    }
+
+    public void setitem_price_info_sale_price_applied_on(String itempriceinfosalepriceapplied_on) {
+        editor.putString(item_price_info_sale_price_applied_on, itempriceinfosalepriceapplied_on);
+        editor.commit();
+    }
+
+    public String getitem_price_info_sale_price_applied_on() {
+        return pref.getString(item_price_info_sale_price_applied_on, "");
+    }
+
+    public void setitem_price_info_purchase_price_applied_on(String itempriceinfopurchasepriceapplied_on) {
+        editor.putString(item_price_info_purchase_price_applied_on, itempriceinfopurchasepriceapplied_on);
+        editor.commit();
+    }
+
+    public String getitem_price_info_purchase_price_applied_on() {
+        return pref.getString(item_price_info_purchase_price_applied_on, "");
+    }
+    public void setitem_price_info_sales_price_edittext(String itempriceinfosalespriceedittext) {
+        editor.putString(item_price_info_sales_price_edittext, itempriceinfosalespriceedittext);
+        editor.commit();
+    }
+
+    public String getitem_price_info_sales_price_edittext() {
+        return pref.getString(item_price_info_sales_price_edittext, "");
+    }
+    public void setitem_price_info_sale_price_alt_unit_edittext(String itempriceinfosalepricealtunitedittext) {
+        editor.putString(item_price_info_sale_price_alt_unit_edittext, itempriceinfosalepricealtunitedittext);
+        editor.commit();
+    }
+
+    public String getitem_price_info_sale_price_alt_unit_edittext() {
+        return pref.getString(item_price_info_sale_price_alt_unit_edittext, "");
+    }
+    public void setitem_price_info_purchase_price_min_edittext(String itempriceinfopurchasepriceminedittext) {
+        editor.putString(item_price_info_purchase_price_min_edittext, itempriceinfopurchasepriceminedittext);
+        editor.commit();
+    }
+
+    public String getitem_price_info_purchase_price_min_edittext() {
+        return pref.getString(item_price_info_purchase_price_min_edittext, "");
+    }
+    public void setitem_price_info_purchase_price_alt_edittext(String itempriceinfopurchasepricealtedittext) {
+        editor.putString(item_price_info_purchase_price_alt_edittext, itempriceinfopurchasepricealtedittext);
+        editor.commit();
+    }
+
+    public String getitem_price_info_purchase_price_alt_edittext() {
+        return pref.getString(item_price_info_purchase_price_alt_edittext, "");
+    }
+    public void setitem_price_mrp(String itempricemrp) {
+        editor.putString(item_price_mrp, itempricemrp);
+        editor.commit();
+    }
+
+    public String getitem_price_mrp() {
+        return pref.getString(item_price_mrp, "");
+    }
+    public void setitem_price_info_min_sale_price_main_edittext(String itempriceinfominsalepricemainedittext) {
+        editor.putString(item_price_info_min_sale_price_main_edittext, itempriceinfominsalepricemainedittext);
+        editor.commit();
+    }
+
+    public String getitem_price_info_min_sale_price_main_edittext() {
+        return pref.getString(item_price_info_min_sale_price_main_edittext, "");
+    }
+    public void setitem_price_info_min_sale_price_alt_edittext(String itempriceinfominsalepricealtedittext) {
+        editor.putString(item_price_info_min_sale_price_alt_edittext, itempriceinfominsalepricealtedittext);
+        editor.commit();
+    }
+
+    public String getitem_price_info_min_sale_price_alt_edittext() {
+        return pref.getString(item_price_info_min_sale_price_alt_edittext, "");
+    }
+
+    public void setitem_price_info_self_val_price(String itempriceinfoselfvalprice) {
+        editor.putString(item_price_info_self_val_price, itempriceinfoselfvalprice);
+        editor.commit();
+    }
+
+    public String getitem_price_info_self_val_price() {
+        return pref.getString(item_price_info_self_val_price, "");
+    }
+    public void setitem_package_unit_detail_id(String itempackageunitdetailid) {
+        editor.putString(item_package_unit_detail_id, itempackageunitdetailid);
+        editor.commit();
+    }
+
+    public String getitem_package_unit_detail_id() {
+        return pref.getString(item_package_unit_detail_id, "");
+    }
+    public void setitem_package_unit_detail_name(String itempackageunitdetailname) {
+        editor.putString(item_package_unit_detail_name, itempackageunitdetailname);
+        editor.commit();
+    }
+
+    public String getitem_package_unit_detail_name() {
+        return pref.getString(item_package_unit_detail_name, "");
+    }
+    public void setitem_conversion_factor_pkg_unit(String itemconversionfactorpkg_unit) {
+        editor.putString(item_conversion_factor_pkg_unit, itemconversionfactorpkg_unit);
+        editor.commit();
+    }
+
+    public String getitem_conversion_factor_pkg_unit() {
+        return pref.getString(item_conversion_factor_pkg_unit, "");
+    }
+    public void setitem_salse_price(String itemsalseprice) {
+        editor.putString(item_salse_price, itemsalseprice);
+        editor.commit();
+    }
+
+    public String getitem_salse_price() {
+        return pref.getString(item_salse_price, "");
+    }
+    public void setitem_purchase_price(String itempurchaseprice) {
+        editor.putString(item_purchase_price, itempurchaseprice);
+        editor.commit();
+    }
+
+    public String getitem_purchase_price() {
+        return pref.getString(item_purchase_price, "");
+    }
+    public void setitem_default_unit_for_sales(String itemdefaultunitforsales) {
+        editor.putString(item_default_unit_for_sales, itemdefaultunitforsales);
+        editor.commit();
+    }
+
+    public String getitem_default_unit_for_sales() {
+        return pref.getString(item_default_unit_for_sales, "");
+    }
+    public void setitem_default_unit_for_purchase(String itemdefaultunitforpurchase) {
+        editor.putString(item_default_unit_for_purchase, itemdefaultunitforpurchase);
+        editor.commit();
+    }
+
+    public String getitem_default_unit_for_purchase() {
+        return pref.getString(item_default_unit_for_purchase, "");
+    }
+    public void setitem_setting_critical_min_level_qty(String itemsettingcriticalminlevelqty) {
+        editor.putString(item_setting_critical_min_level_qty, itemsettingcriticalminlevelqty);
+        editor.commit();
+    }
+
+    public String getitem_setting_critical_min_level_qty() {
+        return pref.getString(item_setting_critical_min_level_qty, "");
+    }
+    public void setitem_setting_critical_recorded_level_qty(String itemsettingcriticalrecordedlevelqty) {
+        editor.putString(item_setting_critical_recorded_level_qty, itemsettingcriticalrecordedlevelqty);
+        editor.commit();
+    }
+
+    public String getitem_setting_critical_recorded_level_qty() {
+        return pref.getString(item_setting_critical_recorded_level_qty, "");
+    }
+    public void setitem_setting_critical_max_level_qty(String itemsettingcriticalmaxlevelqty) {
+        editor.putString(item_setting_critical_max_level_qty, itemsettingcriticalmaxlevelqty);
+        editor.commit();
+    }
+
+    public String getitem_setting_critical_max_level_qty() {
+        return pref.getString(item_setting_critical_max_level_qty, "");
+    }
+
+    public void setitem_setting_critical_min_level_days(String itemsettingcriticalminleveldays) {
+        editor.putString(item_setting_critical_min_level_days, itemsettingcriticalminleveldays);
+        editor.commit();
+    }
+
+    public String getitem_setting_critical_min_level_days() {
+        return pref.getString(item_setting_critical_min_level_days, "");
+    }
+    public void setitem_setting_critical_recorded_level_days(String itemsettingcriticalrecordedleveldays) {
+        editor.putString(item_setting_critical_recorded_level_days, itemsettingcriticalrecordedleveldays);
+        editor.commit();
+    }
+    public String getitem_setting_critical_recorded_level_days() {
+        return pref.getString(item_setting_critical_recorded_level_days, "");
+    }
+    public void setitem_setting_critical_max_level_days(String itemsettingcriticalmaxleveldays) {
+        editor.putString(item_setting_critical_max_level_days, itemsettingcriticalmaxleveldays);
+        editor.commit();
+    }
+
+    public String getitem_setting_critical_max_level_days() {
+        return pref.getString(item_setting_critical_max_level_days, "");
+    }
+    public void setitem_set_critical_level(String itemsetcriticallevel) {
+        editor.putString(item_set_critical_level, itemsetcriticallevel);
+        editor.commit();
+    }
+
+    public String getitem_set_critical_level() {
+        return pref.getString(item_set_critical_level, "");
+    }
+    public void setitem_serial_number_wise_detail(String itemserialnumberwisedetail) {
+        editor.putString(item_serial_number_wise_detail, itemserialnumberwisedetail);
+        editor.commit();
+    }
+
+    public String getitem_serial_number_wise_detail() {
+        return pref.getString(item_serial_number_wise_detail, "");
+    }
+    public void setitem_batch_wise_detail(String itembatchwisedetail) {
+        editor.putString(item_batch_wise_detail, itembatchwisedetail);
+        editor.commit();
+    }
+
+    public String getitem_batch_wise_detail() {
+        return pref.getString(item_batch_wise_detail, "");
+    }
+    public void setitem_specify_sales_account(String itemspecifysalesaccount) {
+        editor.putString(item_specify_sales_account, itemspecifysalesaccount);
+        editor.commit();
+    }
+
+    public String getitem_specify_sales_account() {
+        return pref.getString(item_specify_sales_account, "");
+    }
+    public void setitem_specify_purchase_account(String itemspecifypurchaseaccount) {
+        editor.putString(item_specify_purchase_account, itemspecifypurchaseaccount);
+        editor.commit();
+    }
+
+    public String getitem_specify_purchase_account() {
+        return pref.getString(item_specify_purchase_account, "");
+    }
+    public void setitem_dont_maintain_stock_balance(String itemdontmaintainstockbalance) {
+        editor.putString(item_dont_maintain_stock_balance, itemdontmaintainstockbalance);
+        editor.commit();
+    }
+
+    public String getitem_dont_maintain_stock_balance() {
+        return pref.getString(item_dont_maintain_stock_balance, "");
+    }
+    public void setitem_settings_alternate_unit(String itemsettingsalternateunit) {
+        editor.putString(item_settings_alternate_unit, itemsettingsalternateunit);
+        editor.commit();
+    }
+
+    public String getitem_settings_alternate_unit() {
+        return pref.getString(item_settings_alternate_unit, "");
+    }
+    public void setitem_description(String itemdescription) {
+        editor.putString(item_description, itemdescription);
+        editor.commit();
+    }
+
+    public String getitem_description() {
+        return pref.getString(item_description, "");
+    }
+
+
 }

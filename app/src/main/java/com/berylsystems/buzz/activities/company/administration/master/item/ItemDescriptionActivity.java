@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -27,20 +28,21 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     AppUser appUser;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_description);
         ButterKnife.bind(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        if(appUser.item_description!=null){
-            mItemDescription.setText(appUser.item_description);
+        if (!Preferences.getInstance(getApplicationContext()).getitem_description().equals("")) {
+            mItemDescription.setText(Preferences.getInstance(getApplicationContext()).getitem_description());
         }
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.item_description=mItemDescription.getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                Preferences.getInstance(getApplicationContext()).setitem_description(mItemDescription.getText().toString());
                 finish();
             }
         });
@@ -60,7 +62,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("DESCRIPTION");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

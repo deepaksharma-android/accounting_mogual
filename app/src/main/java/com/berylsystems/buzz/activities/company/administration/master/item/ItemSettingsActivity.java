@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -65,70 +66,72 @@ public class ItemSettingsActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),ItemSettingCriticalLevelActivity.class));
         }
         else{
-            appUser.item_setting_critical_min_level_qty="";
-            appUser.item_setting_critical_recorded_level_qty="";
-            appUser.item_setting_critical_max_level_qty="";
-            appUser.item_setting_critical_min_level_days="";
-            appUser.item_setting_critical_recorded_level_days="";
-            appUser.item_setting_critical_max_level_days="";
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty("");
+            Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_qty("");
+            Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_qty("");
+            Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_days("");
+            Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_days("");
+            Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days("");
         }
-        if(appUser.item_set_critical_level!=null){
-            if (appUser.item_set_critical_level.equals("Yes")) {
+
+            if (Preferences.getInstance(getApplicationContext()).getitem_set_critical_level().equals("Yes")) {
                 mSpinnerCriticalLevel.setSelection(1);
             }
-        }
-        if(appUser.item_serial_number_wise_detail!=null){
-            if (appUser.item_serial_number_wise_detail.equals("Yes")) {
+
+
+            if (Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("Yes")) {
                 mSpinnerSerialNumber.setSelection(1);
             }
-        }
-        if(appUser.item_batch_wise_detail!=null){
-            if (appUser.item_batch_wise_detail.equals("Yes")) {
+
+
+            if ( Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("Yes")) {
                 mSpinnerBatchWise.setSelection(1);
             }
-        }
-        if(appUser.item_settings_alternate_unit!=null){
-            if (appUser.item_settings_alternate_unit.equals("Yes")) {
+
+
+            if (Preferences.getInstance(getApplicationContext()).getitem_settings_alternate_unit().equals("Yes")) {
                 mSpinnerAlternateUnit.setSelection(1);
             }
-        }
-        if(appUser.item_settings_specify_purchase_account!=null){
-            if (appUser.item_settings_specify_purchase_account.equals("Yes")) {
+
+
+            if ( Preferences.getInstance(getApplicationContext()).getitem_specify_purchase_account().equals("Yes")) {
                 mSpinnerSpecifyPurchase.setSelection(1);
             }
-        }
-        if(appUser.item_specify_sales_account!=null){
-            if (appUser.item_specify_sales_account.equals("Yes")) {
+
+
+            if (Preferences.getInstance(getApplicationContext()).getitem_specify_sales_account().equals("Yes")) {
                 mSpinnerSpecifySales.setSelection(1);
             }
-        }
-        if(appUser.item_dont_maintain_stock_balance!=null){
-            if (appUser.item_dont_maintain_stock_balance.equals("Yes")) {
+
+
+            if (  Preferences.getInstance(getApplicationContext()).getitem_dont_maintain_stock_balance().equals("Yes")) {
                 mSpinnerDontMaintainStockBalance.setSelection(1);
             }
 
-        }
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Preferences.getInstance(getApplicationContext()).setitem_set_critical_level(mSpinnerCriticalLevel.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail(mSpinnerSerialNumber.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail(mSpinnerBatchWise.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account(mSpinnerSpecifySales.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account(mSpinnerSpecifyPurchase.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance( mSpinnerDontMaintainStockBalance.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit(mSpinnerAlternateUnit.getSelectedItem().toString());
+
+
+
                 if(mSpinnerCriticalLevel.getSelectedItem().toString().equals("No")){
-                    appUser.item_setting_critical_min_level_qty="";
-                    appUser.item_setting_critical_recorded_level_qty="";
-                    appUser.item_setting_critical_max_level_qty="";
-                    appUser.item_setting_critical_min_level_days="";
-                    appUser.item_setting_critical_recorded_level_days="";
-                    appUser.item_setting_critical_max_level_days="";
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty("");
+                    Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_qty("");
+                    Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_qty("");
+                    Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_days("");
+                    Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_days("");
+                    Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days("");
                 }
-                appUser.item_set_critical_level = mSpinnerCriticalLevel.getSelectedItem().toString();
-                appUser.item_serial_number_wise_detail = mSpinnerSerialNumber.getSelectedItem().toString();
-                appUser.item_batch_wise_detail=mSpinnerBatchWise.getSelectedItem().toString();
-                appUser.item_settings_alternate_unit = mSpinnerAlternateUnit.getSelectedItem().toString();
-                appUser.item_settings_specify_purchase_account=mSpinnerSpecifyPurchase.getSelectedItem().toString();
-                appUser.item_specify_sales_account = mSpinnerSpecifySales.getSelectedItem().toString();
-                appUser.item_dont_maintain_stock_balance = mSpinnerDontMaintainStockBalance.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
                 finish();
             }
         });
