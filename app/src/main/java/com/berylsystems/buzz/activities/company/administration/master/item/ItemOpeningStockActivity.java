@@ -113,7 +113,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                 Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
                 if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
-                Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(appUser.item_stock_quantity) * Double.valueOf(appUser.item_stock_amount)));
+                Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
                 }
                 else{
                     Preferences.getInstance(getApplicationContext()).setItem_stock_value("");

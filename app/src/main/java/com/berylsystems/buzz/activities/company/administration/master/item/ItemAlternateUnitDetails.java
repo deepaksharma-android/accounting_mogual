@@ -66,6 +66,24 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
                 startActivityForResult(intent, 3);
             }
         });
+        if(appUser.arr_con_type!=null) {
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, appUser.arr_con_type);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerConFactor.setAdapter(dataAdapter);
+
+            if (appUser.item_conversion_type != null) {
+                String contype = appUser.item_conversion_type;// insert code here
+                int contypeindex = -1;
+                for (int i = 0; i < appUser.arr_con_type.size(); i++) {
+                    if (appUser.arr_con_type.get(i).equals(contype)) {
+                        contypeindex = i;
+                        break;
+                    }
+                }
+                mSpinnerConFactor.setSelection(contypeindex);
+            }
+        }
 
         if(appUser.item_alternate_unit_name!=null){
             mAlternateUnit.setText(appUser.item_alternate_unit_name);
@@ -137,8 +155,11 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mAlternateUnit.setText(result);
                 mArrayList.clear();
+                appUser.arr_con_type.clear();
                 mArrayList.add(mAlternateUnit.getText().toString() + "/" + item_unit);
                 mArrayList.add(item_unit + "/" + mAlternateUnit.getText().toString());
+                appUser.arr_con_type=mArrayList;
+                LocalRepositories.saveAppUser(this,appUser);
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                         android.R.layout.simple_spinner_item, mArrayList);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

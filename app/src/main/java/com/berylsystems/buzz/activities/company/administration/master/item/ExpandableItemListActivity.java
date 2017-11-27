@@ -121,7 +121,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 R.anim.blink_on_click);
         v.startAnimation(animFadeIn);
         Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
-        intent.putExtra("fromlist",false);
+        intent.putExtra("fromlist",true);
         startActivity(intent);
     }
 

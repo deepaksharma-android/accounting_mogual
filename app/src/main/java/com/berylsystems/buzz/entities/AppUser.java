@@ -44,6 +44,7 @@ public class AppUser {
     public ArrayList<String> group_name=new ArrayList<>();
     public ArrayList<Integer> group_id=new ArrayList<>();
     public ArrayList<String> arr_account_group_name=new ArrayList<>();
+    public ArrayList<String> arr_con_type=new ArrayList<>();
     public ArrayList<Integer> arr_account_group_id=new ArrayList<>();
     public ArrayList<String> arr_item_group_name=new ArrayList<>();
     public ArrayList<Integer> arr_item_group_id=new ArrayList<>();
@@ -150,10 +151,10 @@ public class AppUser {
     public String main_unit_id;
     public String sub_unit_id;
 	 public String item_id="";
-    public String item_name="";
+    public String item_name;
     public String item_company_id="";
     public String item_item_group_id="";
-    public String item_unit_id="";
+    public String item_unit_id;
     public String item_stock_quantity="";
     public String item_stock_amount="";
     public String item_alternate_unit_id;
@@ -162,13 +163,13 @@ public class AppUser {
     public String item_conversion_factor;
     public String item_conversion_type;
     public String item_opening_stock_quantity_alternate;
-    public String item_package_unit_detail_name="";
+    public String item_package_unit_detail_name;
     public String item_price_info_id="";
     public String item_package_unit_detail_id;
 	 public String item_default_unit_for_sales;
     public String item_default_unit_for_purchase;
     public int item_tax_category;
-    public String item_hsn_number="";
+    public String item_hsn_number;
     public String item_description;
     public String item_serial_number_wise_detail;
     public String item_batch_wise_detail;

@@ -127,7 +127,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         appUser=LocalRepositories.getAppUser(this);
         fromList = getIntent().getExtras().getBoolean("fromlist");
         if(fromList){
-            appUser.item_name="";
+           /* appUser.item_name="";
             appUser.item_group_id="";
             appUser.item_unit_id="";
             appUser.item_tax_category=-1;
@@ -167,13 +167,58 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             appUser.item_dont_maintain_stock_balance="";
             appUser.item_settings_alternate_unit="";
             appUser.item_description="";
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this,appUser);*/
         }
         fromitemlist=getIntent().getExtras().getBoolean("fromitemlist");
         if(fromitemlist){
             title="EDIT ITEM";
+           /* appUser.item_name="";
+            appUser.item_group_id="";
+            appUser.item_unit_id="";
+            appUser.item_tax_category=-1;
+            appUser.item_hsn_number="";
+            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
+            Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
+            appUser.item_alternate_unit_id="";
+            appUser.item_conversion_factor="";
+            appUser.item_conversion_type="";
+            appUser.item_opening_stock_quantity_alternate="";
+            appUser.item_price_info_sale_price_applied_on="";
+            appUser.item_price_info_purchase_price_applied_on="";
+            appUser.item_price_info_sales_price_edittext="";
+            appUser.item_price_info_sale_price_alt_unit_edittext="";
+            appUser.item_price_info_purchase_price_min_edittext="";
+            appUser.item_price_mrp="";
+            appUser.item_price_info_min_sale_price_main_edittext="";
+            appUser.item_price_info_min_sale_price_alt_edittext="";
+            appUser.item_price_info_self_val_price="";
+            appUser.item_package_unit_detail_id="";
+            appUser.item_conversion_factor_pkg_unit="";
+            appUser.item_salse_price="";
+            appUser.item_specify_purchase_account="";
+            appUser.item_default_unit_for_sales="";
+            appUser.item_default_unit_for_purchase="";
+            appUser.item_setting_critical_min_level_qty="";
+            appUser.item_setting_critical_recorded_level_qty="";
+            appUser.item_setting_critical_max_level_qty="";
+            appUser.item_setting_critical_max_level_days="";
+            appUser.item_setting_critical_recorded_level_days="";
+            appUser.item_setting_critical_max_level_days="";
+            appUser.item_set_critical_level="";
+            appUser.item_serial_number_wise_detail="";
+            appUser.item_batch_wise_detail="";
+            appUser.item_specify_sales_account="";
+            appUser.item_specify_purchase_account="";
+            appUser.item_dont_maintain_stock_balance="";
+            appUser.item_settings_alternate_unit="";
+            appUser.item_description="";
+            LocalRepositories.saveAppUser(this,appUser);*/
             mSubmitButton.setVisibility(View.GONE);
             mUpdateButton.setVisibility(View.VISIBLE);
+            mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
+            mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
@@ -197,27 +242,29 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TAX_CATEGORY);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
+        else {
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TAX_CATEGORY);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
                             }
-                        }
-                    });
-            snackbar.show();
+                        });
+                snackbar.show();
+            }
         }
 
 
@@ -300,17 +347,25 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
                             appUser.item_name = mItemName.getText().toString();
+                            appUser.item_hsn_number=mHsnNumber.getText().toString();
 
-                            for (int i = 0; i < appUser.arr_item_group_id.size(); i++) {
+                            for (int i = 0; i < appUser.arr_item_group_name.size(); i++) {
                                 if (appUser.arr_item_group_name.get(i).equals(mItemGroup.getText().toString())) {
                                     appUser.item_group_id = String.valueOf(appUser.arr_item_group_id.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }
                             }
-                            for (int i = 0; i < appUser.arr_unitId.size(); i++) {
+                            for (int i = 0; i < appUser.arr_unitName.size(); i++) {
                                 if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
                                     appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    break;
+                                }
+                            }
+                            for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
+                                if (appUser.arr_tax_category_name.get(i).equals(mTaxCategory.getSelectedItem().toString())) {
+                                    appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }
@@ -398,107 +453,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     public void openingStock(View view) {
         startActivity(new Intent(getApplicationContext(),ItemOpeningStockActivity.class));
-   /*     view.startAnimation(blinkOnClick);
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_opening_stock);
-        dialog.setCancelable(true);
-
-        EditText stock_quantity = (EditText) dialog.findViewById(R.id.stock_quantity);
-        EditText stock_price = (EditText) dialog.findViewById(R.id.stock_price);
-        TextView stock_value = (TextView) dialog.findViewById(R.id.stock_value);
-
-        stock_quantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!stock_quantity.getText().toString().isEmpty()) {
-                    first = Double.valueOf(stock_quantity.getText().toString());
-                    if (!stock_price.getText().toString().isEmpty()) {
-                        second = Double.valueOf(stock_price.getText().toString());
-                        stock_value.setText("" + (first * second));
-                    }
-                } else {
-                    stock_value.setText("");
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        stock_price.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!stock_quantity.getText().toString().isEmpty()) {
-                    if (!stock_price.getText().toString().isEmpty()) {
-                        second = Double.valueOf(stock_price.getText().toString());
-                        if (!stock_quantity.getText().toString().isEmpty()) {
-                            first = Double.valueOf(stock_quantity.getText().toString());
-                            stock_value.setText("" + (first * second));
-                        }
-                    } else {
-                        stock_value.setText("");
-                    }
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-        if (!appUser.item_stock_quantity.equals("")) {
-            stock_quantity.setText(appUser.item_stock_quantity);
-        }
-        if (!appUser.item_stock_amount.equals("")) {
-            stock_price.setText(appUser.item_stock_amount);
-        }
-        if (!appUser.item_stock_value.equals("")) {
-            stock_value.setText(appUser.item_stock_value);
-        }
-
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                appUser.item_stock_quantity = stock_quantity.getText().toString();
-                appUser.item_stock_amount = stock_price.getText().toString();
-                if (!stock_price.getText().toString().isEmpty() && !stock_quantity.getText().toString().isEmpty()) {
-                    appUser.item_stock_value = String.valueOf(Double.valueOf(appUser.item_stock_quantity) * Double.valueOf(appUser.item_stock_amount));
-                } else {
-                    appUser.item_stock_value = "";
-                }
-
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
-        LinearLayout cancelImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-        cancelImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });*/
     }
 
     public void alternateUnitDetails(View view) {
@@ -511,76 +465,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Toast.makeText(getApplicationContext(),"Please enter the unit",Toast.LENGTH_LONG).show();
         }
 
-      /*  view.startAnimation(blinkOnClick);
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_alternate_unit_details);
-        dialog.setCancelable(true);
-        dialog.show();
-
-        item_group = (TextView) dialog.findViewById(R.id.item_group);
-        group_layout = (LinearLayout) dialog.findViewById(R.id.group_layout);
-        group_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
-                intent.putExtra("frommaster", false);
-                startActivityForResult(intent, 3);
-            }
-        });
-
-
-        EditText item_conversion_factor = (EditText) dialog.findViewById(R.id.con_factor);
-        EditText item_opening_stock_quantity_alternate = (EditText) dialog.findViewById(R.id.stock_quantity);
-        spinner = (Spinner) dialog.findViewById(R.id.spinner);
-
-
-        mConFactorLinear = (LinearLayout) dialog.findViewById(R.id.conFactorLinear);
-        mStockLinear = (LinearLayout) dialog.findViewById(R.id.stockLinear);
-        mConTypeLinear = (LinearLayout) dialog.findViewById(R.id.conTypeLinear);
-
-
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-
-        if (!appUser.item_conversion_factor.equals("")) {
-            item_conversion_factor.setText(appUser.item_conversion_factor);
-        }
-        if (!appUser.item_opening_stock_quantity_alternate.equals("")) {
-            item_opening_stock_quantity_alternate.setText(appUser.item_opening_stock_quantity_alternate);
-        }
-        if (!appUser.item_alternate_unit_name.equals("")) {
-            item_group.setText(appUser.item_alternate_unit_name);
-        }
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                appUser.item_conversion_factor = item_conversion_factor.getText().toString();
-                appUser.item_opening_stock_quantity_alternate = item_opening_stock_quantity_alternate.getText().toString();
-                if (!appUser.item_conversion_factor.equals("")) {
-                    item_conversion_factor.setText(appUser.item_conversion_factor);
-                }
-                if (!appUser.item_opening_stock_quantity_alternate.equals("")) {
-                    item_opening_stock_quantity_alternate.setText(appUser.item_opening_stock_quantity_alternate);
-                }
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                dialog.dismiss();
-            }
-        });
-
-        LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-        cancleImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });*/
     }
 
     public void itemPriceInfo(View view) {
 
         if(!mItemUnit.getText().toString().equals("")) {
-            if(appUser.item_alternate_unit_name!=null) {
+            if(appUser.item_alternate_unit_id!=null) {
                 Intent intent = new Intent(getApplicationContext(), ItemPriceInfoActivity.class);
                 intent.putExtra("unit", mItemUnit.getText().toString());
                 startActivity(intent);
@@ -592,336 +482,23 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         else{
             Toast.makeText(getApplicationContext(),"Please enter the unit",Toast.LENGTH_LONG).show();
         }
-        /*view.startAnimation(blinkOnClick);
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_item_price_info);
-        dialog.setCancelable(true);
-        dialog.show();
-
-        LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-        cancleImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });
-
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submit.startAnimation(blinkOnClick);
-            }
-        });*/
     }
 
     public void packagingUnitDetail(View view) {
         startActivity(new Intent(getApplicationContext(),ItemPackagingUnitDetailsActivity.class));
-       /* view.startAnimation(blinkOnClick);
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_packaging_unit_detail);
-        dialog.setCancelable(true);
-        dialog.show();
 
-        item_group = (TextView) dialog.findViewById(R.id.item_group);
-        group_layout = (LinearLayout) dialog.findViewById(R.id.group_layout);
-        group_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
-                intent.putExtra("frommaster", false);
-                startActivityForResult(intent, 4);
-            }
-        });
-
-        EditText item_conversion_factor_pkg_unit = (EditText) dialog.findViewById(R.id.con_factor);
-        EditText item_sales_price = (EditText) dialog.findViewById(R.id.Sales_price);
-        EditText specify_purchase_account = (EditText) dialog.findViewById(R.id.specify_purchase_account);
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-
-        if (!appUser.item_conversion_factor_pkg_unit.equals("")) {
-            item_conversion_factor_pkg_unit.setText(appUser.item_conversion_factor_pkg_unit);
-        }
-        if (!appUser.item_salse_price.equals("")) {
-            item_sales_price.setText(appUser.item_salse_price);
-        }
-        if (!appUser.item_package_unit_detail_id.equals("")) {
-            item_group.setText(appUser.item_package_unit_detail_name);
-        }
-        if (!appUser.item_specify_purchase_account.equals("")) {
-            specify_purchase_account.setText(appUser.item_specify_purchase_account);
-        }
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                appUser.item_conversion_factor_pkg_unit = item_conversion_factor_pkg_unit.getText().toString();
-                appUser.item_salse_price = item_sales_price.getText().toString();
-                appUser.item_specify_purchase_account = specify_purchase_account.getText().toString();
-
-                if (!appUser.item_conversion_factor_pkg_unit.equals("")) {
-                    item_conversion_factor_pkg_unit.setText(appUser.item_conversion_factor_pkg_unit);
-                }
-                if (!appUser.item_salse_price.equals("")) {
-                    item_sales_price.setText(appUser.item_salse_price);
-                }
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                dialog.dismiss();
-            }
-        });
-
-
-        LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-        cancleImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });*/
     }
 
     public void itemDescription(View view) {
-        view.startAnimation(blinkOnClick);
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_item_description);
-        dialog.setCancelable(true);
-        dialog.show();
-        EditText item_description = (EditText) dialog.findViewById(R.id.item_description);
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-        if (!appUser.item_description.equals("")) {
-            item_description.setText(appUser.item_description);
-        }
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                appUser.item_description = item_description.getText().toString();
-                if (!appUser.item_description.equals("")) {
-                    item_description.setText(appUser.item_description);
-                }
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                dialog.dismiss();
-            }
-        });
-        LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-        cancleImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });
-
+        startActivity(new Intent(getApplicationContext(),ItemDescriptionActivity.class));
 
     }
 
     public void setting(View view) {
         startActivity(new Intent(getApplicationContext(),ItemSettingsActivity.class));
-     /*   view.startAnimation(blinkOnClick);
-
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_setting);
-        dialog.setCancelable(true);
-        dialog.show();
-
-        LinearLayout cancleImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-        cancleImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });
-        Spinner set_critical_level = (Spinner) dialog.findViewById(R.id.set_critical_level);
-        Spinner serial_number_wise_detail = (Spinner) dialog.findViewById(R.id.serial_number_wise_detail);
-        Spinner batch_wise_detail = (Spinner) dialog.findViewById(R.id.batch_wise_detail);
-
-        Spinner specify_sales_account = (Spinner) dialog.findViewById(R.id.specify_sales_account);
-        Spinner dont_maintain_stock_balance = (Spinner) dialog.findViewById(R.id.dont_maintain_stock_balance);
-
-        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
-
-
-        if (appUser.item_set_critical_level.equals("Yes")) {
-            set_critical_level.setSelection(1);
-        }
-        if (appUser.item_serial_number_wise_detail.equals("Yes")) {
-            serial_number_wise_detail.setSelection(1);
-        }
-        if (appUser.item_batch_wise_detail.equals("Yes")) {
-            batch_wise_detail.setSelection(1);
-        }
-        if (appUser.item_specify_sales_account.equals("Yes")) {
-            specify_sales_account.setSelection(1);
-        }
-        if (appUser.item_dont_maintain_stock_balance.equals("Yes")) {
-            dont_maintain_stock_balance.setSelection(1);
-        }
-
-        set_critical_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {
-                    Dialog dialog = new Dialog(CreateNewItemActivity.this);
-                    dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.dialog_critical_level);
-                    dialog.setCancelable(true);
-                    dialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    LinearLayout cancelImage = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-                    cancelImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    //spinner.setSelection(0);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        serial_number_wise_detail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        batch_wise_detail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        specify_sales_account.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        dont_maintain_stock_balance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                appUser.item_set_critical_level = set_critical_level.getSelectedItem().toString();
-                appUser.item_serial_number_wise_detail = serial_number_wise_detail.getSelectedItem().toString();
-                appUser.item_batch_wise_detail=batch_wise_detail.getSelectedItem().toString();
-                appUser.item_specify_sales_account = specify_sales_account.getSelectedItem().toString();
-                appUser.item_dont_maintain_stock_balance = dont_maintain_stock_balance.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                dialog.dismiss();
-            }
-        });
-*/
 
     }
 
-   /* public void defaultOptionDialog(View view){
-        view.startAnimation(blinkOnClick);
-
-        Dialog dialog = new Dialog(CreateNewItemActivity.this);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_default_declaration);
-        dialog.setCancelable(true);
-        dialog.show();
-
-        Spinner default_unit_for_sales= (Spinner) dialog.findViewById(R.id.default_unit_for_sales);
-        Spinner default_unit_for_purchase= (Spinner) dialog.findViewById(R.id.default_unit_for_purchase);
-
-
-
-
-        LinearLayout submit= (LinearLayout) dialog.findViewById(R.id.submit);
-        LinearLayout cancelImageLayout = (LinearLayout) dialog.findViewById(R.id.imageCancel);
-
-        if (!appUser.item_default_unit_for_sales.equals("")){
-            default_unit_for_sales.setSelection(Integer.parseInt(appUser.item_default_unit_for_sales));
-        }
-        if (!appUser.item_default_unit_for_purchase.equals("")){
-            default_unit_for_purchase.setSelection(Integer.parseInt(appUser.item_default_unit_for_purchase));
-        }
-
-
-        default_unit_for_sales.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                appUser.item_default_unit_for_sales=String.valueOf(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        default_unit_for_purchase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                appUser.item_default_unit_for_purchase=String.valueOf(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        cancelImageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyBoard(view);
-                dialog.dismiss();
-            }
-        });
-
-
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-            }
-        });
-    }
-*/
 
     @Subscribe
     public void createitem(CreateItemResponse response) {
@@ -950,7 +527,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                //mItemGroup.setText("");
+                mItemGroup.setText("");
             }
         }
 
@@ -964,59 +541,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                //mItemUnit.setText("");
+                mItemUnit.setText("");
             }
         }
 
-        if (requestCode == 3) {
-            mArrayList=new ArrayList<>();
-            if (resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                appUser.item_alternate_unit_name = result;
-                appUser.item_alternate_unit_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                item_group.setText(result);
-                mArrayList.clear();
-                mArrayList.add(mItemUnit.getText().toString() + "/" + item_group.getText().toString());
-                mArrayList.add(item_group.getText().toString() + "/" + mItemUnit.getText().toString());
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_spinner_item, mArrayList);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(dataAdapter);
-                if (result.equals(mItemUnit.getText().toString())) {
-                    mConFactorLinear.setVisibility(View.GONE);
-                    mStockLinear.setVisibility(View.GONE);
-                    mConTypeLinear.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(this, "same", Toast.LENGTH_SHORT).show();
-                    mConFactorLinear.setVisibility(View.VISIBLE);
-                    mStockLinear.setVisibility(View.VISIBLE);
-                    mConTypeLinear.setVisibility(View.VISIBLE);
-                }
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-                item_group.setText("");
-            }
-        }
-
-
-        if (requestCode == 4) {
-            if (resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                Timber.i("MYID" + id);
-                appUser.item_package_unit_detail_id = id;
-                appUser.item_package_unit_detail_name = result;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                item_group.setText(result);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-                item_group.setText("");
-            }
-        }
     }
 
     private void hideKeyBoard(View view) {
@@ -1048,7 +576,36 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             mItemName.setText(response.getItem().getData().getAttributes().getName());
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
-           // Preferences.getInstance(getApplicationContext()).setItem_stock_quantity();
+            String taxcat = response.getItem().getData().getAttributes().getTax_category().trim();// insert code here
+            int taxcatindex = -1;
+            for (int i = 0; i <appUser.arr_tax_category_name.size(); i++) {
+                if (appUser.arr_tax_category_name.get(i).equals(taxcat)) {
+                    taxcatindex = i;
+                    break;
+                }
+            }
+            mTaxCategory.setSelection(taxcatindex);
+            if(!response.getItem().getData().getAttributes().getTax_category().equals("None")){
+                mHsnLayout.setVisibility(View.VISIBLE);
+                mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());
+            }
+            if(String.valueOf(response.getItem().getData().getAttributes().getStock_quantity())!=null){
+                Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()));
+            }
+            if(String.valueOf(response.getItem().getData().getAttributes().getStock_amount())!=null){
+                Preferences.getInstance(getApplicationContext()).setItem_stock_amount(String.valueOf(response.getItem().getData().getAttributes().getStock_amount()));
+            }
+            appUser.item_stock_value= String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()*response.getItem().getData().getAttributes().getStock_amount());
+            if(String .valueOf(response.getItem().getData().getAttributes().getConversion_factor())!=null){
+                appUser.item_conversion_factor=String .valueOf(response.getItem().getData().getAttributes().getConversion_factor());
+            }
+            if(String.valueOf(response.getItem().getData().getAttributes().getOpening_stock_quantity_alternate())!=null){
+                appUser.item_opening_stock_quantity_alternate=String .valueOf(response.getItem().getData().getAttributes().getOpening_stock_quantity_alternate());
+            }
+            if(response.getItem().getData().getAttributes().getConversion_type()!=null){
+                appUser.item_conversion_type=response.getItem().getData().getAttributes().getConversion_type();
+            }
+
             LocalRepositories.saveAppUser(this,appUser);
         }
         else{
