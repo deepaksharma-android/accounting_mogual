@@ -30,77 +30,96 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class ItemAlternateUnitDetails extends AppCompatActivity {
-    @Bind(R.id.alternate_unit)
-    TextView mAlternateUnit;
+public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
+    @Bind(R.id.packaging_unit_layout)
+    LinearLayout mPackagingUnitLayout;
+    @Bind(R.id.packaging_unit)
+    TextView mPackagingUnit;
+    @Bind(R.id.purchase_price)
+    EditText mPurchasePrice;
+    @Bind(R.id.sales_price)
+    EditText mSalesPrice;
     @Bind(R.id.con_factor)
     EditText mConFactor;
-    @Bind(R.id.spinner_con_factor)
-    Spinner mSpinnerConFactor;
-    @Bind(R.id.stock_quantity)
-    EditText mStockQuantity;
-    @Bind(R.id.alternate_unit_layout)
-    LinearLayout mAlternateUnitLayout;
+    @Bind(R.id.default_unit_for_sales)
+    Spinner mSpinnerDefaultUnitForSale;
+    @Bind(R.id.default_unit_for_purchase)
+    Spinner mSpinnerDefaultUnitForPurchase;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
-    @Bind(R.id.conFactorLinear)
-    LinearLayout mConTypeLayout;
     AppUser appUser;
-    ArrayList<String> mArrayList;
-    String item_unit;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_alternate_unit);
+        setContentView(R.layout.activity_packaging_unit_details);
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
-        item_unit=getIntent().getStringExtra("unit");
         initActionbar();
-        mAlternateUnit.setOnClickListener(new View.OnClickListener() {
+        appUser= LocalRepositories.getAppUser(this);
+        mPackagingUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
                 intent.putExtra("frommaster", false);
-                startActivityForResult(intent, 3);
+                startActivityForResult(intent, 4);
             }
         });
 
-        if(appUser.item_alternate_unit_name!=null){
-            mAlternateUnit.setText(appUser.item_alternate_unit_name);
+        if (appUser.item_conversion_factor_pkg_unit!=null) {
+            mConFactor.setText(appUser.item_conversion_factor_pkg_unit);
         }
-        if(appUser.item_opening_stock_quantity_alternate!=null){
-            mStockQuantity.setText(appUser.item_opening_stock_quantity_alternate);
+        if (appUser.item_salse_price!=null) {
+            mSalesPrice.setText(appUser.item_salse_price);
+        }
+        if (appUser.item_package_unit_detail_id!=null) {
+            mPackagingUnit.setText(appUser.item_package_unit_detail_name);
+        }
+        if (appUser.item_specify_purchase_account!=null) {
+            mPurchasePrice.setText(appUser.item_specify_purchase_account);
+        }
+        if(appUser.item_default_unit_for_purchase!=null){
+            if(appUser.item_default_unit_for_purchase.equals("Not Req.")) {
+                mSpinnerDefaultUnitForPurchase.setSelection(0);
+            }
+            else if(appUser.item_default_unit_for_purchase.equals("Main Unit")){
+                mSpinnerDefaultUnitForPurchase.setSelection(1);
+            }
+            else if(appUser.item_default_unit_for_purchase.equals("Alt. Unit")){
+                mSpinnerDefaultUnitForPurchase.setSelection(2);
+            }
+            else {
+                mSpinnerDefaultUnitForPurchase.setSelection(3);
+            }
         }
 
-        if(appUser.item_conversion_factor!=null){
-            mConFactor.setText(appUser.item_conversion_factor);
+        if(appUser.item_default_unit_for_sales!=null){
+            if(appUser.item_default_unit_for_sales.equals("Not Req.")){
+                mSpinnerDefaultUnitForSale.setSelection(0);
+            }
+            else if(appUser.item_default_unit_for_sales.equals("Main Unit")){
+                mSpinnerDefaultUnitForSale.setSelection(1);
+            }
+            else if(appUser.item_default_unit_for_sales.equals("Alt. Unit")){
+                mSpinnerDefaultUnitForSale.setSelection(2);
+            }
+            else {
+                mSpinnerDefaultUnitForSale.setSelection(3);
+            }
         }
-
-
-
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mAlternateUnit.getText().toString().equals("")) {
-                    appUser.item_conversion_factor = mConFactor.getText().toString();
-                    appUser.item_opening_stock_quantity_alternate = mStockQuantity.getText().toString();
-                    appUser.item_conversion_type = mSpinnerConFactor.getSelectedItem().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    finish();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Enter the alternate unit",Toast.LENGTH_LONG).show();
-                }
+                appUser.item_conversion_factor_pkg_unit = mConFactor.getText().toString();
+                appUser.item_salse_price = mSalesPrice.getText().toString();
+                appUser.item_specify_purchase_account = mPurchasePrice.getText().toString();
+                appUser.item_default_unit_for_sales=mSpinnerDefaultUnitForSale.getSelectedItem().toString();
+                appUser.item_default_unit_for_purchase=mSpinnerDefaultUnitForPurchase.getSelectedItem().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         });
 
-
-
-
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -113,7 +132,7 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("OPENING STOCK");
+        actionbarTitle.setText("PACKAGING UNIT DETAILS");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -122,39 +141,26 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-
-        if (requestCode == 3) {
-            mArrayList=new ArrayList<>();
+        if (requestCode == 4) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.item_alternate_unit_name = result;
-                appUser.item_alternate_unit_id = id;
+                Timber.i("MYID" + id);
+                appUser.item_package_unit_detail_id = id;
+                appUser.item_package_unit_detail_name = result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                mAlternateUnit.setText(result);
-                mArrayList.clear();
-                mArrayList.add(mAlternateUnit.getText().toString() + "/" + item_unit);
-                mArrayList.add(item_unit + "/" + mAlternateUnit.getText().toString());
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_spinner_item, mArrayList);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mSpinnerConFactor.setAdapter(dataAdapter);
-                if (result.equals(item_unit)) {
-                   mConTypeLayout.setVisibility(View.GONE);
-                } else {
-                    mConTypeLayout.setVisibility(View.VISIBLE);
-                }
+                mPackagingUnit.setText(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                mAlternateUnit.setText("");
+                mPackagingUnit.setText("");
             }
         }
-
     }
 
     @Override
@@ -166,5 +172,4 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
         }
         return true;
     }
-
 }

@@ -559,7 +559,21 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void itemPriceInfo(View view) {
-        view.startAnimation(blinkOnClick);
+
+        if(!mItemUnit.getText().toString().equals("")) {
+            if(appUser.item_alternate_unit_name!=null) {
+                Intent intent = new Intent(getApplicationContext(), ItemPriceInfoActivity.class);
+                intent.putExtra("unit", mItemUnit.getText().toString());
+                startActivity(intent);
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Please enter the alternate unit",Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Please enter the unit",Toast.LENGTH_LONG).show();
+        }
+        /*view.startAnimation(blinkOnClick);
         Dialog dialog = new Dialog(CreateNewItemActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_item_price_info);
@@ -581,11 +595,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
             }
-        });
+        });*/
     }
 
     public void packagingUnitDetail(View view) {
-        view.startAnimation(blinkOnClick);
+        startActivity(new Intent(getApplicationContext(),ItemPackagingUnitDetailsActivity.class));
+       /* view.startAnimation(blinkOnClick);
         Dialog dialog = new Dialog(CreateNewItemActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_packaging_unit_detail);
@@ -646,7 +661,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 hideKeyBoard(view);
                 dialog.dismiss();
             }
-        });
+        });*/
     }
 
     public void itemDescription(View view) {
@@ -685,8 +700,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void setting(View view) {
-
-        view.startAnimation(blinkOnClick);
+        startActivity(new Intent(getApplicationContext(),ItemSettingsActivity.class));
+     /*   view.startAnimation(blinkOnClick);
 
         Dialog dialog = new Dialog(CreateNewItemActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -815,11 +830,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 dialog.dismiss();
             }
         });
-
+*/
 
     }
 
-    public void defaultOptionDialog(View view){
+   /* public void defaultOptionDialog(View view){
         view.startAnimation(blinkOnClick);
 
         Dialog dialog = new Dialog(CreateNewItemActivity.this);
@@ -887,7 +902,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
         });
     }
-
+*/
 
     @Subscribe
     public void createitem(CreateItemResponse response) {

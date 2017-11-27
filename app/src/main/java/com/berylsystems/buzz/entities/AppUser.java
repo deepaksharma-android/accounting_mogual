@@ -165,25 +165,48 @@ public class AppUser {
     public String item_package_unit_detail_name="";
     public String item_price_info_id="";
     public String item_package_unit_detail_id="";
-	 public String item_default_unit_for_sales="";
-    public String item_default_unit_for_purchase="";
+	 public String item_default_unit_for_sales;
+    public String item_default_unit_for_purchase;
     public int item_tax_category;
     public String item_hsn_number="";
-    public String item_description="";
-    public String item_serial_number_wise_detail="";
-    public String item_batch_wise_detail="";
-    public String item_set_critical_level="";
+    public String item_description;
+    public String item_serial_number_wise_detail;
+    public String item_batch_wise_detail;
+    public String item_set_critical_level;
     public String item_critical_level_id="";
     public String item_parameterized_detail="";
     public String item_exp_month_date_required="";
-    public String item_dont_maintain_stock_balance="";
-    public String item_specify_purchase_account="";
-    public String item_specify_sales_account="";
+    public String item_dont_maintain_stock_balance;
+    public String item_specify_purchase_account;
+    public String item_settings_specify_purchase_account;
+    public String item_settings_mrp;
+    public String item_settings_alternate_unit;
+    public String item_specify_sales_account;
+    public String item_price_info_sale_price_applied_on;
+    public String item_price_info_purchase_price_applied_on;
+    public String item_price_info_sales_price_edittext;
+    public String item_price_info_sale_price_alt_unit_edittext;
+    public String item_price_info_min_sale_price_alt_edittext;
+    public String item_price_info_purchase_price_min_edittext;
+    public String item_price_info_purchase_price_alt_edittext;
+    public String item_price_mrp;
+    public String item_price_info_self_val_price;
+    public String item_price_info_min_sale_price_main_edittext;
+    public String item_setting_critical_min_level_qty;
+    public String item_setting_critical_recorded_level_qty;
+    public String item_setting_critical_max_level_qty;
+    public String item_setting_critical_min_level_days;
+    public String item_setting_critical_recorded_level_days;
+    public String item_setting_critical_max_level_days;
+
+
+
+
 
     public String item_stock_value="";
     public String item_stock_quantity_alternate="";
-    public String item_conversion_factor_pkg_unit="";
-    public String item_salse_price="";
+    public String item_conversion_factor_pkg_unit;
+    public String item_salse_price;
 
     public String edit_item_id="";
 

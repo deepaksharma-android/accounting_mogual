@@ -301,6 +301,30 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
+        <activity android:name=".activities.company.administration.master.item.ItemPriceInfoActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.item.ItemPackagingUnitDetailsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.item.ItemSettingsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity android:name=".activities.company.administration.master.item.ItemSettingCriticalLevelActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
     </application>
 
 </manifest>

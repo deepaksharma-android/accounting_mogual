@@ -81,6 +81,12 @@
         <item>Alternate Unit</item>
         <item>Not Required</item>
     </string-array>
+    <string-array name="array_default_unit">
+        <item>Not Req.</item>
+        <item>Main Unit</item>
+        <item>Alt. Unit</item>
+        <item>Pckg. Unit</item>
+    </string-array>
     <string-array name="item_price">
         <item>Main Unit</item>
         <item>Alternate Unit</item>

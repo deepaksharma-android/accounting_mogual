@@ -35,6 +35,7 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/minimum_level_qty"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -64,7 +65,7 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzEditText
-
+                    android:id="@+id/recorded_level_qty"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -93,6 +94,7 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/maximum_level_qty"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -121,6 +123,7 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/minimum_level_days"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -149,6 +152,7 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/recorded_level_days"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -177,6 +181,7 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzEditText
+                    android:id="@+id/maximum_level_days"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

@@ -51,7 +51,7 @@
                             android:orientation="horizontal">
 
                             <Spinner
-                                android:id="@+id/set_critical_level"
+                                android:id="@+id/settings_set_critical_level_spinner"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"></Spinner>
@@ -74,7 +74,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-                                android:id="@+id/serial_number_wise_detail"
+                                android:id="@+id/settings_serial_number_wise_detail_spinner"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"
@@ -101,9 +101,8 @@
                             android:orientation="vertical">
 
                             <Spinner
-
                                 android:layout_width="fill_parent"
-                                android:id="@+id/batch_wise_detail"
+                                android:id="@+id/setting_batch_wise_detail_spinner"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"
                                 ></Spinner>
@@ -129,7 +128,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-
+                                android:id="@+id/setting_alternate_unit_details_spinner"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"
@@ -142,7 +141,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:id="@+id/specify_sale_amount"
+                            android:id="@+id/spinner_specify_sale_amount"
                             android:text="Specify sales Details"
                             android:textColor="#000"
                             android:textSize="15sp" />
@@ -156,7 +155,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-                                android:id="@+id/specify_sales_account"
+                                android:id="@+id/setting_pecify_sales_account_spinner"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"></Spinner>
@@ -181,7 +180,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-
+                                android:id="@+id/settings_mrp_spinner"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"></Spinner>
@@ -207,7 +206,7 @@
                             android:orientation="vertical">
 
                             <Spinner
-
+                                android:id="@+id/setting_specify_purchase_spinner"
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
                                 android:layout_height="40dp"></Spinner>
@@ -235,7 +234,7 @@
                             <Spinner
                                 android:layout_width="fill_parent"
                                 android:entries="@array/setting_array"
-                                android:id="@+id/dont_maintain_stock_balance"
+                                android:id="@+id/setting_dont_maintain_stock_balance_spinner"
                                 android:layout_height="40dp"></Spinner>
                         </LinearLayout>
 
