@@ -239,6 +239,8 @@ public class ItemPriceInfoActivity extends AppCompatActivity {
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
 
+                finish();
+
             }
         });
 

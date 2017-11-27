@@ -34,8 +34,6 @@ public class ItemSettingsActivity extends AppCompatActivity {
     Spinner mSpinnerAlternateUnit;
     @Bind(R.id.setting_pecify_sales_account_spinner)
     Spinner mSpinnerSpecifySales;
-    @Bind(R.id.settings_mrp_spinner)
-    Spinner mSpinnerMrp;
     @Bind(R.id.setting_specify_purchase_spinner)
     Spinner mSpinnerSpecifyPurchase;
     @Bind(R.id.setting_dont_maintain_stock_balance_spinner)
@@ -95,11 +93,6 @@ public class ItemSettingsActivity extends AppCompatActivity {
                 mSpinnerAlternateUnit.setSelection(1);
             }
         }
-        if(appUser.item_settings_mrp!=null){
-            if (appUser.item_settings_mrp.equals("Yes")) {
-                mSpinnerMrp.setSelection(1);
-            }
-        }
         if(appUser.item_settings_specify_purchase_account!=null){
             if (appUser.item_settings_specify_purchase_account.equals("Yes")) {
                 mSpinnerSpecifyPurchase.setSelection(1);
@@ -132,11 +125,11 @@ public class ItemSettingsActivity extends AppCompatActivity {
                 appUser.item_serial_number_wise_detail = mSpinnerSerialNumber.getSelectedItem().toString();
                 appUser.item_batch_wise_detail=mSpinnerBatchWise.getSelectedItem().toString();
                 appUser.item_settings_alternate_unit = mSpinnerAlternateUnit.getSelectedItem().toString();
-                appUser.item_settings_mrp=mSpinnerMrp.getSelectedItem().toString();
                 appUser.item_settings_specify_purchase_account=mSpinnerSpecifyPurchase.getSelectedItem().toString();
                 appUser.item_specify_sales_account = mSpinnerSpecifySales.getSelectedItem().toString();
                 appUser.item_dont_maintain_stock_balance = mSpinnerDontMaintainStockBalance.getSelectedItem().toString();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                finish();
             }
         });
     }

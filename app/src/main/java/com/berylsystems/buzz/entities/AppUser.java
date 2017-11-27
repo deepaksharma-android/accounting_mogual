@@ -164,7 +164,7 @@ public class AppUser {
     public String item_opening_stock_quantity_alternate;
     public String item_package_unit_detail_name="";
     public String item_price_info_id="";
-    public String item_package_unit_detail_id="";
+    public String item_package_unit_detail_id;
 	 public String item_default_unit_for_sales;
     public String item_default_unit_for_purchase;
     public int item_tax_category;
@@ -179,7 +179,7 @@ public class AppUser {
     public String item_dont_maintain_stock_balance;
     public String item_specify_purchase_account;
     public String item_settings_specify_purchase_account;
-    public String item_settings_mrp;
+
     public String item_settings_alternate_unit;
     public String item_specify_sales_account;
     public String item_price_info_sale_price_applied_on;

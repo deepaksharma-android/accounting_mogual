@@ -115,6 +115,7 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
                 appUser.item_default_unit_for_sales=mSpinnerDefaultUnitForSale.getSelectedItem().toString();
                 appUser.item_default_unit_for_purchase=mSpinnerDefaultUnitForPurchase.getSelectedItem().toString();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                finish();
             }
         });
 

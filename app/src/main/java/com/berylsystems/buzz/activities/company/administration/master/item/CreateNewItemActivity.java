@@ -46,6 +46,7 @@ import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryRes
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -112,10 +113,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     TextView item_group;
     LinearLayout mConFactorLinear, mStockLinear, mConTypeLinear;
     ArrayList<String> mArrayList;
-    Boolean fromitemlist;
+    Boolean fromitemlist,fromList;
     String title;
     Spinner spinner;
     ArrayAdapter<String> mTaxCategoryArrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,50 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        fromList = getIntent().getExtras().getBoolean("fromlist");
+        if(fromList){
+            appUser.item_name="";
+            appUser.item_group_id="";
+            appUser.item_unit_id="";
+            appUser.item_tax_category=-1;
+            appUser.item_hsn_number="";
+            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
+            Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
+            appUser.item_alternate_unit_id="";
+            appUser.item_conversion_factor="";
+            appUser.item_conversion_type="";
+            appUser.item_opening_stock_quantity_alternate="";
+            appUser.item_price_info_sale_price_applied_on="";
+            appUser.item_price_info_purchase_price_applied_on="";
+            appUser.item_price_info_sales_price_edittext="";
+            appUser.item_price_info_sale_price_alt_unit_edittext="";
+            appUser.item_price_info_purchase_price_min_edittext="";
+            appUser.item_price_mrp="";
+            appUser.item_price_info_min_sale_price_main_edittext="";
+            appUser.item_price_info_min_sale_price_alt_edittext="";
+            appUser.item_price_info_self_val_price="";
+            appUser.item_package_unit_detail_id="";
+            appUser.item_conversion_factor_pkg_unit="";
+            appUser.item_salse_price="";
+            appUser.item_specify_purchase_account="";
+            appUser.item_default_unit_for_sales="";
+            appUser.item_default_unit_for_purchase="";
+            appUser.item_setting_critical_min_level_qty="";
+            appUser.item_setting_critical_recorded_level_qty="";
+            appUser.item_setting_critical_max_level_qty="";
+            appUser.item_setting_critical_max_level_days="";
+            appUser.item_setting_critical_recorded_level_days="";
+            appUser.item_setting_critical_max_level_days="";
+            appUser.item_set_critical_level="";
+            appUser.item_serial_number_wise_detail="";
+            appUser.item_batch_wise_detail="";
+            appUser.item_specify_sales_account="";
+            appUser.item_specify_purchase_account="";
+            appUser.item_dont_maintain_stock_balance="";
+            appUser.item_settings_alternate_unit="";
+            appUser.item_description="";
+            LocalRepositories.saveAppUser(this,appUser);
+        }
         fromitemlist=getIntent().getExtras().getBoolean("fromitemlist");
         if(fromitemlist){
             title="EDIT ITEM";
@@ -176,33 +222,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
 
 
-        appUser.item_stock_quantity = "";
-        appUser.item_stock_amount = "";
-        appUser.item_stock_value = "";
-
-        appUser.item_conversion_factor = "";
-        appUser.item_opening_stock_quantity_alternate = "";
-        appUser.item_conversion_factor_pkg_unit = "";
-        appUser.item_salse_price = "";
-
-        appUser.item_description = "";
-        appUser.item_alternate_unit_name = "";
-        appUser.item_package_unit_detail_id = "";
-        appUser.item_package_unit_detail_name = "";
-        appUser.item_specify_purchase_account = "";
-
-        appUser.item_serial_number_wise_detail = "";
-        appUser.item_set_critical_level = "";
-        appUser.item_specify_sales_account = "";
-        appUser.item_specify_purchase_account = "";
-        appUser.item_dont_maintain_stock_balance = "";
-
-        appUser.item_default_unit_for_sales="";
-        appUser.item_default_unit_for_purchase="";
-        appUser.item_hsn_number="";
-        appUser.item_batch_wise_detail="";
-
-        LocalRepositories.saveAppUser(this, appUser);
 
         mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
@@ -1029,6 +1048,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             mItemName.setText(response.getItem().getData().getAttributes().getName());
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
+           // Preferences.getInstance(getApplicationContext()).setItem_stock_quantity();
             LocalRepositories.saveAppUser(this,appUser);
         }
         else{
