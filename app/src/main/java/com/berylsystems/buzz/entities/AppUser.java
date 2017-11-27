@@ -2,6 +2,9 @@ package com.berylsystems.buzz.entities;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AppUser {
     public String auth_token;
@@ -158,7 +161,7 @@ public class AppUser {
     public String item_stock_quantity="";
     public String item_stock_amount="";
     public String item_alternate_unit_id;
-    public String item_alternate_unit_name;
+   // public String item_alternate_unit_name;
     /* public String barcode;*/
     public String item_conversion_factor;
     public String item_conversion_type;
@@ -214,16 +217,55 @@ public class AppUser {
     public String bill_sundry_name="";
     public String bill_sundry_nature="";
     public Double bill_sundry_default_value;
-    public String bill_sundry_type="";
+    public String bill_sundry_amount_of_bill_sundry_fed_as = "";
+    public String bill_sundry_of_percentage = "";
+    public String bill_sundry_number_of_bill_sundry = "";
+    public String bill_sundry_consolidate_bill_sundry = "";
+    public String bill_sundry_calculated_on = "";
+    public String bill_sundry_amount_round_off = "";
+    public String bill_sundry_rouding_off_nearest = "";
+    public String bill_sundry_type = "";
+    public String sale_affect_accounting = "";
+    public String sale_affect_sale_amount = "";
+    public String sale_affect_sale_amount_specify_in = "";
+    public String sale_adjust_in_party_amount = "";
+    public String sale_party_amount_specify_in = "";
+    public String sale_account_head_to_post_party_amount = "";
+    public String sale_account_head_to_post_sale_amount = "";
+    public String sale_post_over_above = "";
+    public String purchase_affect_accounting = "";
+    public String purchase_affect_purchase_amount = "";
+    public String purchase_affect_purchase_amount_specify_in = "";
+    public String purchase_account_head_to_post_purchase_amount = "";
+    public String purchase_adjust_in_party_amount = "";
+
+    public String purchase_party_amount_specify_in = "";
+    public String purchase_account_head_to_post_party_amount = "";
+    public String purchase_post_over_above = "";
+    public String cost_goods_in_sale = "";
+    public String cost_goods_in_purchase = "";
+    public String cost_material_issue = "";
+    public String cost_material_receipt = "";
+    public String cost_stock_transfer = "";
+
     public String edit_bill_sundry_id;
     public String delete_bill_sundry_id;
     public String delete_item_id;
+    public String item_alternate_unit_name = "";
 
+    public String sale_series = "";
+    public String sale_date = "";
+    public String sale_vchNo = "";
+    public String sale_saleType = "";
+    public String sale_store = "";
+    public String sale_partyName = "";
+    public String sale_mobileNumber = "";
+    public String sale_cash_credit = "";
+    public String sale_narration = "";
 
-
-
-
-
-
+    public String childId = "";
+    public List<Map<String, String>> mListMap = new ArrayList();
+    public List<Map<String, String>> mListMapForBill = new ArrayList();
+    public Map map = new HashMap();
 
 }

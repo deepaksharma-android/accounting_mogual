@@ -12,6 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 
@@ -19,6 +20,7 @@ import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteItem;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditItem;
+import com.berylsystems.buzz.utils.EventSaleAddItem;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,6 +52,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return childPosition;
     }
 
+    String childName;
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -68,6 +71,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
+        LinearLayout mainLayout=(LinearLayout) convertView.findViewById(R.id.main_layout);
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +86,13 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 String id=groupPosition+","+childPosition;
                 EventBus.getDefault().post(new EventEditItem(id));
 
+            }
+        });
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=groupPosition+","+childPosition;
+                EventBus.getDefault().post(new EventSaleAddItem(id));
             }
         });
         return convertView;

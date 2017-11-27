@@ -11,8 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
-import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.sale.GetSaleListActivity;
+import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
+import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,6 +46,10 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
         viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(i==0){
+                    context.startActivity(new Intent(context, CreateSaleActivity.class));
+                }
+
                 if(i==6){
                     context.startActivity(new Intent(context, BankCaseDepositListActivity.class));
                 }

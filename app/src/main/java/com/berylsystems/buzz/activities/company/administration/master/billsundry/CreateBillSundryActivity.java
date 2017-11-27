@@ -67,6 +67,9 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean frommbillsundrylist, fromList;
+    String value = "";
+    String valuepercentage = "";
+    String valuepercentagecal = "";
     String title;
     public ArrayAdapter<String> mNatureAdapter;
 

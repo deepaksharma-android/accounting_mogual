@@ -331,6 +331,16 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
+	
+	   <activity android:name=".activities.company.sale.GetSaleListActivity" />
+        <activity
+	            android:name=".activities.company.sale.CreateSaleActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
+            android:windowSoftInputMode="stateHidden" />
+	            <activity android:name=".activities.company.sale.SaleVoucherAddItemActivity" />
+        <activity android:name=".activities.company.sale.SaleVoucherAddBillActivity"></activity>
+
     </application>
 
 </manifest>

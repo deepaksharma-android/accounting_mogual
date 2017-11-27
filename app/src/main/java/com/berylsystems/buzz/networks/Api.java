@@ -15,6 +15,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
 import com.berylsystems.buzz.networks.api_request.RequestEditLogin;
@@ -26,6 +27,7 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.sale.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
@@ -333,6 +335,8 @@ public interface Api {
     @GET("tax_category")
     Call<GetTaxCategoryResponse> gettaxcategory();
 
+    @POST("sale_voucher/{id}")
+    Call<CreateSaleVoucherResponse> createSaleVoucher(@Body RequestCreateSaleVoucher createItem, @Path("id") String id);
 
 }
 

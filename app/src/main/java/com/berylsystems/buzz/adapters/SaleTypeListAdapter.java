@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.saletype.SaleTypeData;
+import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventSaleClicked;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -37,6 +41,14 @@ public class SaleTypeListAdapter extends RecyclerView.Adapter<SaleTypeListAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.mGroupName.setText(data.get(position).getAttributes().getName());
+
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String s=data.get(position).getAttributes().getName()+","+data.get(position).getId();
+                EventBus.getDefault().post(new EventSaleClicked(s));
+            }
+        });
 
     }
 
