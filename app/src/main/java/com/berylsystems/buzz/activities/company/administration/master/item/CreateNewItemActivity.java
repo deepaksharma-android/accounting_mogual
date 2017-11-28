@@ -161,6 +161,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("");
             Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("");
             Preferences.getInstance(getApplicationContext()).setitem_description("");
+            Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_name("");
+            Preferences.getInstance(getApplicationContext()).setitem_purchase_price("");
+            Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
 
         }
         fromitemlist = getIntent().getExtras().getBoolean("fromitemlist");
@@ -172,6 +175,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_factor("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_type("");
+            Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_name("");
+            Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
+            Preferences.getInstance(getApplicationContext()).setitem_purchase_price("");
             Preferences.getInstance(getApplicationContext()).setitem_opening_stock_quantity_alternate("");
             Preferences.getInstance(getApplicationContext()).setitem_price_info_sale_price_applied_on("");
             Preferences.getInstance(getApplicationContext()).setitem_price_info_purchase_price_applied_on("");
