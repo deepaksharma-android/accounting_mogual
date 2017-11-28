@@ -27,10 +27,14 @@ import butterknife.ButterKnife;
 public class ItemSettingsActivity extends AppCompatActivity {
     @Bind(R.id.settings_set_critical_level_spinner)
     Spinner mSpinnerCriticalLevel;
+    @Bind(R.id.serailwiselayout)
+    LinearLayout mSerialWiseLayout;
     @Bind(R.id.settings_serial_number_wise_detail_spinner)
     Spinner mSpinnerSerialNumber;
     @Bind(R.id.setting_batch_wise_detail_spinner)
     Spinner mSpinnerBatchWise;
+    @Bind(R.id.batchwiselayout)
+    LinearLayout mBatchWiseLayout;
     @Bind(R.id.setting_alternate_unit_details_spinner)
     Spinner mSpinnerAlternateUnit;
     @Bind(R.id.setting_pecify_sales_account_spinner)
@@ -97,11 +101,14 @@ public class ItemSettingsActivity extends AppCompatActivity {
 
             if (Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("Yes")) {
                 mSpinnerSerialNumber.setSelection(1);
+                mBatchWiseLayout.setVisibility(View.GONE);
             }
 
 
             if ( Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("Yes")) {
                 mSpinnerBatchWise.setSelection(1);
+                mSerialWiseLayout.setVisibility(View.GONE);
+
             }
 
 
@@ -123,15 +130,53 @@ public class ItemSettingsActivity extends AppCompatActivity {
             if (  Preferences.getInstance(getApplicationContext()).getitem_dont_maintain_stock_balance().equals("Yes")) {
                 mSpinnerDontMaintainStockBalance.setSelection(1);
             }
+        mSpinnerSerialNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==1){
+                    mBatchWiseLayout.setVisibility(View.GONE);
+                }
+                else{
+                    mBatchWiseLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        mSpinnerBatchWise.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==1){
+                    mSpinnerSerialNumber.setVisibility(View.GONE);
+                }
+                else{
+                    mSpinnerSerialNumber.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(mSpinnerBatchWise.getSelectedItem().toString().equals("Yes")){
+                    Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("");
+                    Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail(mSpinnerBatchWise.getSelectedItem().toString());
+                }
+                if(mSpinnerSerialNumber.getSelectedItem().toString().equals("Yes")){
+                    Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail(mSpinnerSerialNumber.getSelectedItem().toString());
+                    Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("");
+                }
                 Preferences.getInstance(getApplicationContext()).setitem_set_critical_level(mSpinnerCriticalLevel.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail(mSpinnerSerialNumber.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail(mSpinnerBatchWise.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account(mSpinnerSpecifySales.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account(mSpinnerSpecifyPurchase.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance( mSpinnerDontMaintainStockBalance.getSelectedItem().toString());

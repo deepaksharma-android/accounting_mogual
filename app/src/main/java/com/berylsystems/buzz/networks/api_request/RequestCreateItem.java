@@ -70,6 +70,9 @@ public class RequestCreateItem {
         if (!Preferences.getInstance(ctx).getitem_price_info_purchase_price_min_edittext().equals("")) {
             item.put("purchase_price_main", Preferences.getInstance(ctx).getitem_price_info_purchase_price_min_edittext());
         }
+        if (!Preferences.getInstance(ctx).getitem_price_info_purchase_price_alt_edittext().equals("")) {
+            item.put("purchase_price_alternate", Preferences.getInstance(ctx).getitem_price_info_purchase_price_alt_edittext());
+        }
 
 
         if (!Preferences.getInstance(ctx).getitem_price_mrp().equals("")) {

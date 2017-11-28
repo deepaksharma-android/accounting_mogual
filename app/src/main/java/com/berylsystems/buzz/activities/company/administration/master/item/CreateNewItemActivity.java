@@ -652,7 +652,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 Preferences.getInstance(getApplicationContext()).setitem_price_info_self_val_price(String.valueOf(response.getItem().getData().getAttributes().getSelf_value_price()));
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isSet_critical_level()) != null) {
-                if (response.getItem().getData().getAttributes().isSet_critical_level()) {
+                if (!response.getItem().getData().getAttributes().isSet_critical_level()) {
                     Preferences.getInstance(getApplicationContext()).setitem_set_critical_level("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_set_critical_level("Yes");
@@ -660,7 +660,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isSerial_number_wise_detail()) != null) {
-                if (response.getItem().getData().getAttributes().isSerial_number_wise_detail()) {
+                if (!response.getItem().getData().getAttributes().isSerial_number_wise_detail()) {
                     Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
@@ -668,7 +668,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isBatch_wise_detail()) != null) {
-                if (response.getItem().getData().getAttributes().isBatch_wise_detail()) {
+                if (!response.getItem().getData().getAttributes().isBatch_wise_detail()) {
                     Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("Yes");
@@ -676,7 +676,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isAlternate_unit_detail()) != null) {
-                if (response.getItem().getData().getAttributes().isAlternate_unit_detail()) {
+                if (!response.getItem().getData().getAttributes().isAlternate_unit_detail()) {
                     Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("Yes");
@@ -684,7 +684,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isSpecify_sales_account()) != null) {
-                if (response.getItem().getData().getAttributes().isSpecify_sales_account()) {
+                if (!response.getItem().getData().getAttributes().isSpecify_sales_account()) {
                     Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account("Yes");
@@ -692,7 +692,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isSpecify_purchase_account()) != null) {
-                if (response.getItem().getData().getAttributes().isSpecify_purchase_account()) {
+                if (!response.getItem().getData().getAttributes().isSpecify_purchase_account()) {
                     Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account("Yes");
@@ -700,7 +700,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
             if (String.valueOf(response.getItem().getData().getAttributes().isDont_maintain_stock_balance()) != null) {
-                if (response.getItem().getData().getAttributes().isDont_maintain_stock_balance()) {
+                if (!response.getItem().getData().getAttributes().isDont_maintain_stock_balance()) {
                     Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("No");
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("Yes");
@@ -728,7 +728,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (response.getItem().getData().getAttributes().getItem_description() != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_description(String.valueOf(response.getItem().getData().getAttributes().getItem_description()));
             }
-
+            if (response.getItem().getData().getAttributes().getAlternate_unit() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_name(response.getItem().getData().getAttributes().getAlternate_unit());
+            }
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

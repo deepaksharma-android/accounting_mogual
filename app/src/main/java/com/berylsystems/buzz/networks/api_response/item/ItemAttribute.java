@@ -334,6 +334,16 @@ public class ItemAttribute {
     public boolean specify_purchase_account;
     public boolean dont_maintain_stock_balance;
 
+    public String getAlternate_unit() {
+        return alternate_unit;
+    }
+
+    public void setAlternate_unit(String alternate_unit) {
+        this.alternate_unit = alternate_unit;
+    }
+
+    public String alternate_unit;
+
     public int minimum_level_quantity;
     public int reorder_level_quantity;
 

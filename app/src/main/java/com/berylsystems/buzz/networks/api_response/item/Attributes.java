@@ -37,4 +37,42 @@ public class Attributes {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getAlternate_unit() {
+        return alternate_unit;
+    }
+
+    public void setAlternate_unit(String alternate_unit) {
+        this.alternate_unit = alternate_unit;
+    }
+
+    public String getItem_description() {
+        return item_description;
+    }
+
+    public void setItem_description(String item_description) {
+        this.item_description = item_description;
+    }
+
+    public String alternate_unit;
+    public String item_description;
+
+    public double getSales_price_main() {
+        return sales_price_main;
+    }
+
+    public void setSales_price_main(double sales_price_main) {
+        this.sales_price_main = sales_price_main;
+    }
+
+    public double getSales_price_alternate() {
+        return sales_price_alternate;
+    }
+
+    public void setSales_price_alternate(double sales_price_alternate) {
+        this.sales_price_alternate = sales_price_alternate;
+    }
+
+    public double sales_price_main;
+    public double sales_price_alternate;
 }
