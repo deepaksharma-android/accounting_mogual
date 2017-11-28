@@ -23,6 +23,8 @@ import com.berylsystems.buzz.activities.company.administration.master.saletype.S
 import com.berylsystems.buzz.activities.company.administration.master.taxcategory.TaxCategoryeListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unitconversion.UnitConversionListActivity;
+import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +54,9 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
             @Override
             public void onClick(View view) {
                 if(i==0){
+                    AppUser appUser= LocalRepositories.getAppUser(context);
+                    appUser.account_master_group="";
+                    LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, ExpandableAccountListActivity.class));
                 }
                 if(i==1){

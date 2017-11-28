@@ -1,15 +1,15 @@
-package com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw;
+package com.berylsystems.buzz.activities.company.transection.journalvoucher;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.berylsystems.buzz.R;
 
-public class CreateBankCaseWithdrawActivity extends AppCompatActivity {
+public class JournalVoucherActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_bank_case_withdraw);
+        setContentView(R.layout.activity_journal_voucher);
     }
 }

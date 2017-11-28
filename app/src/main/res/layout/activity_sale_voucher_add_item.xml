@@ -34,6 +34,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_weight="0.8"
                     android:gravity="center"
+                    android:id="@+id/heading"
                     android:text="ADD ITEM"
                     android:textColor="#000"
                     android:textSize="18sp" />

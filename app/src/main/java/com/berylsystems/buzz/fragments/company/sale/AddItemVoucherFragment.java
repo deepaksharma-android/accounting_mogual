@@ -25,6 +25,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
@@ -68,7 +69,10 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 add_item_button.startAnimation(blinkOnClick);
-                startActivity(new Intent(getContext(), ExpandableItemListActivity.class));
+                Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
+                intent.putExtra("bool",true);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
         add_bill_button.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +80,11 @@ public class AddItemVoucherFragment extends Fragment {
             public void onClick(View v) {
                 add_bill_button.startAnimation(blinkOnClick);
                 startActivity(new Intent(getContext(), BillSundryListActivity.class));
+                getActivity().finish();
             }
         });
-        Timber.i("tyrty" + appUser.mListMap);
-        Timber.i("tyrty" + appUser.mListMapForBill);
+        Timber.i("mlistmap" + appUser.mListMap);
+        Timber.i("mlistmapforbill" + appUser.mListMapForBill);
 
         listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMap));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
@@ -88,7 +93,18 @@ public class AddItemVoucherFragment extends Fragment {
         listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBill));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
+        ProgressDialog progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setMessage("Removing...");
 
+        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getContext(), SaleVoucherAddItemActivity.class);
+                intent.putExtra("bool",true);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,15 +113,15 @@ public class AddItemVoucherFragment extends Fragment {
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        progressDialog.show();
                         AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMap.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
-                        Intent intent=new Intent(getApplicationContext(),CreateSaleActivity.class);
-                        intent.putExtra("is",true);
-                        startActivity(intent);
-                        getActivity().finish();
+                        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMap));
+                        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+                        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+                        progressDialog.dismiss();
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -128,16 +144,15 @@ public class AddItemVoucherFragment extends Fragment {
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        progressDialog.show();
                         AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMapForBill.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
-                        Intent intent=new Intent(getApplicationContext(),CreateSaleActivity.class);
-                        intent.putExtra("is",true);
-                        startActivity(intent);
-                        getActivity().finish();
-
+                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBill));
+                        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
+                        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
+                        progressDialog.dismiss();
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

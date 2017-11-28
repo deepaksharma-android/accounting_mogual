@@ -11,6 +11,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashDeposit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
@@ -28,6 +29,7 @@ import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.sale.CreateSaleVoucherResponse;
+
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
@@ -38,6 +40,7 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGro
 import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.CreateBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.CreateBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
@@ -96,6 +99,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -103,6 +107,10 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.EditBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
 
 public interface Api {
     @POST("signup")
@@ -193,7 +201,7 @@ public interface Api {
     Call<CreateAccountResponse> createaccount(@Body RequestCreateAccount payload);
 
     @GET("account/{id}")
-    Call<GetAccountResponse> getaccount(@Path("id") String id);
+    Call<GetAccountResponse> getaccount( @Path("id") String id, @Query("account_master_group") String account_master_group);
 
     @GET("account_detail/{id}")
     Call<GetAccountDetailsResponse> getaccountdetails(@Path("id") String id);
@@ -338,5 +346,19 @@ public interface Api {
     @POST("sale_voucher/{id}")
     Call<CreateSaleVoucherResponse> createSaleVoucher(@Body RequestCreateSaleVoucher createItem, @Path("id") String id);
 
+    @GET("company_bank_cash_deposits/{id}")
+    Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id);
+
+    @DELETE("bank_cash_deposits/{id}")
+    Call<DeleteBankCashDepositResponse> deletebankcashdeposit(@Path("id") String id);
+
+    @GET("bank_cash_deposits/{id}")
+    Call<GetBankCashDepositDetailsResponse> getbankcashdepositdetails(@Path("id") String id);
+
+    @PATCH("bank_cash_deposits/{id}")
+    Call<EditBankCashDepositResponse> editbankcashdeposit(@Body RequestCreateBankCashDeposit payload, @Path("id") String id);
+
+	@POST("bank_cash_deposits")
+    Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload);
 }
 

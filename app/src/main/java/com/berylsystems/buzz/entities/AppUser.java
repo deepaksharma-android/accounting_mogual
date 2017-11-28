@@ -41,6 +41,7 @@ public class AppUser {
     public String currenyString;
     public String currenySubString;
     public String cid;
+    public String account_master_group;
     public ArrayList<String> cname=new ArrayList<>();
     public ArrayList<String> industry_type=new ArrayList<>();
     public ArrayList<Integer> industry_id=new ArrayList<>();
@@ -267,5 +268,16 @@ public class AppUser {
     public List<Map<String, String>> mListMap = new ArrayList();
     public List<Map<String, String>> mListMapForBill = new ArrayList();
     public Map map = new HashMap();
+	
+	 public String deposit_to_id="";
+    public String deposit_by_id="";
+    public String bank_cash_deposit_voucher_series="";
+    public String bank_cash_deposit_date="";
+    public String bank_cash_deposit_voucher_no="";
+    public Double bank_cash_deposit_amount;
+    public String bank_cash_deposit_narration="";
+    public String bank_cash_deposit_attachment="";
+    public String delete_bank_cash_deposit_id;
+    public String edit_bank_cash_deposit_id;
 
 }

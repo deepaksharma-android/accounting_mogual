@@ -25,7 +25,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     RecyclerView.LayoutManager layoutManager;
     TransactionDashboardAdapter mAdapter;
 
-    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer,R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display,};
+    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer,R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display,R.drawable.icon_administration, R.drawable.icon_transaction};
     private String[] title={
             "Sales",
             "Purchase",
@@ -38,6 +38,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             "Income",
             "Expence",
             "Journal Voucher",
+            "Debit Note W/O Item",
+            "Credit Note W/O Item",
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {

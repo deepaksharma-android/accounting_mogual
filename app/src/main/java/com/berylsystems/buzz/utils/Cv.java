@@ -88,5 +88,10 @@ public interface Cv {
     String ACTION_GET_SALE_TYPE="action_get_sale_type";
     String ACTION_GET_TAX_CATEGORY="action_get_tax_category";
     String ACTION_CREATE_SALE_VOUCHER = "action_create_sale_voucher";
+String ACTION_CREATE_BANK_CASH_DEPOSIT="action_create_bank_cash_deposit";
+    String ACTION_GET_BANK_CASH_DEPOSIT="action_get_bank_cash_deposit";
+    String ACTION_DELETE_BANK_CASH_DEPOSIT = "action_delete_bank_cash_deposit";
+    String ACTION_GET_BANK_CASH_DEPOSIT_DETAILS="action_get_bank_cash_deposit_details";
+    String ACTION_EDIT_BANK_CASH_DEPOSIT="action_edit_bank_cash_deposit";
 
 }

@@ -24,7 +24,7 @@ public class BankCaseWithdrawActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_bank_case_withdraw);
 
         setAddCompany(0);
-        setAppBarTitleCompany(1,"BANK CASE WITHDRAW");
+        setAppBarTitleCompany(1,"BANK CASH WITHDRAW");
     }
 
     public void add(View v){
