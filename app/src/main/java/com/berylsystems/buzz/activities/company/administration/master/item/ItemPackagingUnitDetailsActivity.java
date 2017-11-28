@@ -1,12 +1,15 @@
 package com.berylsystems.buzz.activities.company.administration.master.item;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -19,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -46,15 +52,19 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
     Spinner mSpinnerDefaultUnitForSale;
     @Bind(R.id.default_unit_for_purchase)
     Spinner mSpinnerDefaultUnitForPurchase;
+    @Bind(R.id.layout)
+    LinearLayout mLayout;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     AppUser appUser;
+    String item_unit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packaging_unit_details);
         ButterKnife.bind(this);
+        item_unit=getIntent().getStringExtra("unit");
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         mPackagingUnitLayout.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +159,22 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("MYID" + id);
+                if(result.equals(item_unit)){
+                    mLayout.setVisibility(View.GONE);
+                }
+                else{
+                    mLayout.setVisibility(View.VISIBLE);
+                }
+                 if(result.equals(Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name())){
+                    new AlertDialog.Builder(ItemPackagingUnitDetailsActivity.this)
+                            .setTitle("Invalid Data")
+                            .setMessage("Alternate Unit and Packaging Unit cannot be the same !")
+                            .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                                mPackagingUnit.setText("");
+                                return;
+
+                            }).show();
+                }
                 Preferences.getInstance(getApplicationContext()).setitem_package_unit_detail_id(id);
                 Preferences.getInstance(getApplicationContext()).setitem_package_unit_detail_name(result);
                 mPackagingUnit.setText(result);

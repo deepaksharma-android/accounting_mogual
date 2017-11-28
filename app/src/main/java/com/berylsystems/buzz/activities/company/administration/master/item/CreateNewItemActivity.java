@@ -127,6 +127,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         appUser = LocalRepositories.getAppUser(this);
         fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
+            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
+            Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
+            Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
             Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_factor("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_type("");
@@ -163,6 +166,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         fromitemlist = getIntent().getExtras().getBoolean("fromitemlist");
         if (fromitemlist) {
             title = "EDIT ITEM";
+            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
+            Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
+            Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
             Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_factor("");
             Preferences.getInstance(getApplicationContext()).setitem_conversion_type("");
@@ -460,7 +466,17 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void packagingUnitDetail(View view) {
-        startActivity(new Intent(getApplicationContext(), ItemPackagingUnitDetailsActivity.class));
+        if (!mItemUnit.getText().toString().equals("")) {
+            if (!Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals("")) {
+                Intent intent = new Intent(getApplicationContext(), ItemPackagingUnitDetailsActivity.class);
+                intent.putExtra("unit", mItemUnit.getText().toString());
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Please enter the alternate unit", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enter the unit", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -702,6 +718,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             if (String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()) != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days(String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()));
+            }
+            if (response.getItem().getData().getAttributes().getItem_description() != null) {
+                Preferences.getInstance(getApplicationContext()).setitem_description(String.valueOf(response.getItem().getData().getAttributes().getItem_description()));
             }
 
 

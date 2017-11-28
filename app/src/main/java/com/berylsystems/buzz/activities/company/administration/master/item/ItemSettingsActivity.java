@@ -41,6 +41,8 @@ public class ItemSettingsActivity extends AppCompatActivity {
     Spinner mSpinnerDontMaintainStockBalance;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
+    @Bind(R.id.show_more)
+    LinearLayout mShowMoreLayout;
     AppUser appUser;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +55,11 @@ public class ItemSettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==1){
-                    startActivity(new Intent(getApplicationContext(),ItemSettingCriticalLevelActivity.class));
+                    mShowMoreLayout.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    mShowMoreLayout.setVisibility(View.GONE);
                 }
             }
 
@@ -62,17 +68,27 @@ public class ItemSettingsActivity extends AppCompatActivity {
 
             }
         });
+        mShowMoreLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ItemSettingCriticalLevelActivity.class));
+            }
+        });
         if(mSpinnerCriticalLevel.getSelectedItem().toString().equals("Yes")){
-            startActivity(new Intent(getApplicationContext(),ItemSettingCriticalLevelActivity.class));
+            mShowMoreLayout.setVisibility(View.VISIBLE);
+
         }
         else{
+            mShowMoreLayout.setVisibility(View.GONE);
+        }
+       /* else{
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty("");
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_qty("");
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_qty("");
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_days("");
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_days("");
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days("");
-        }
+        }*/
 
             if (Preferences.getInstance(getApplicationContext()).getitem_set_critical_level().equals("Yes")) {
                 mSpinnerCriticalLevel.setSelection(1);
@@ -123,7 +139,7 @@ public class ItemSettingsActivity extends AppCompatActivity {
 
 
 
-                if(mSpinnerCriticalLevel.getSelectedItem().toString().equals("No")){
+              /*  if(mSpinnerCriticalLevel.getSelectedItem().toString().equals("No")){
                     Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty("");
                     Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_qty("");
                     Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_qty("");
@@ -131,7 +147,7 @@ public class ItemSettingsActivity extends AppCompatActivity {
                     Preferences.getInstance(getApplicationContext()).setitem_setting_critical_recorded_level_days("");
                     Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days("");
                 }
-
+*/
                 finish();
             }
         });

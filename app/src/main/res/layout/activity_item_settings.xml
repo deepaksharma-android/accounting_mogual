@@ -4,237 +4,257 @@
     android:layout_height="match_parent">
 
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-
-                <ScrollView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:orientation="vertical">
-
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
                             style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
+                            android:layout_weight="0.8"
                             android:text="Set Critical Level"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
                         <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <Spinner
-                                android:id="@+id/settings_set_critical_level_spinner"
-                                android:layout_width="fill_parent"
-                                android:entries="@array/setting_array"
-                                android:layout_height="40dp"></Spinner>
-                        </LinearLayout>
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Serial No.-wise Details"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Spinner
-                                android:id="@+id/settings_serial_number_wise_detail_spinner"
-                                android:layout_width="fill_parent"
-                                android:entries="@array/setting_array"
-                                android:layout_height="40dp"
-                                ></Spinner>
-
-                        </LinearLayout>
-
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Batch-wise Details"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Spinner
-                                android:layout_width="fill_parent"
-                                android:id="@+id/setting_batch_wise_detail_spinner"
-                                android:entries="@array/setting_array"
-                                android:layout_height="40dp"
-                                ></Spinner>
-
-                        </LinearLayout>
-
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Alternate Unit Details"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Spinner
-                                android:id="@+id/setting_alternate_unit_details_spinner"
-                                android:layout_width="fill_parent"
-                                android:entries="@array/setting_array"
-                                android:layout_height="40dp"
-                                ></Spinner>
-
-                        </LinearLayout>
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/spinner_specify_sale_amount"
-                            android:text="Specify sales Details"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Spinner
-                                android:id="@+id/setting_pecify_sales_account_spinner"
-                                android:layout_width="fill_parent"
-                                android:entries="@array/setting_array"
-                                android:layout_height="40dp"></Spinner>
-
-                        </LinearLayout>
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Specify Purchase Details"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:id="@+id/specify_purchase_account"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Spinner
-                                android:id="@+id/setting_specify_purchase_spinner"
-                                android:layout_width="fill_parent"
-                                android:entries="@array/setting_array"
-                                android:layout_height="40dp"></Spinner>
-
-                        </LinearLayout>
-
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Don't Maintain Stock Balance"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="vertical">
-
-                            <Spinner
-                                android:layout_width="fill_parent"
-                                android:entries="@array/setting_array"
-                                android:id="@+id/setting_dont_maintain_stock_balance_spinner"
-                                android:layout_height="40dp"></Spinner>
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/submit"
-                            android:layout_width="fill_parent"
+                            android:id="@+id/show_more"
+                            android:layout_width="0dp"
                             android:layout_height="50dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@drawable/solid_blue"
-                            android:gravity="center">
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="0.2"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_show_more" />
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
-                                style="@style/Gotham_Book"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Submit"
-                                android:textColor="#fff"
-                                android:textSize="16sp" />
                         </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/settings_set_critical_level_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
+                    </LinearLayout>
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Serial No.-wise Details"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/settings_serial_number_wise_detail_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
 
                     </LinearLayout>
-                </ScrollView>
-            </LinearLayout>
+
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Batch-wise Details"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/setting_batch_wise_detail_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
+
+                    </LinearLayout>
+
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Alternate Unit Details"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/setting_alternate_unit_details_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
+
+                    </LinearLayout>
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        android:id="@+id/spinner_specify_sale_amount"
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Specify sales Details"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/setting_pecify_sales_account_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
+
+                    </LinearLayout>
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Specify Purchase Details"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:id="@+id/specify_purchase_account"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/setting_specify_purchase_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
+
+                    </LinearLayout>
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Don't Maintain Stock Balance"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/setting_dont_maintain_stock_balance_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/setting_array"></Spinner>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/submit"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/solid_blue"
+                        android:gravity="center">
+
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Book"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Submit"
+                            android:textColor="#fff"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -390,4 +390,14 @@ public class ItemAttribute {
     public int reorder_level_days;
     public int maximum_level_days;
 
+    public String getItem_description() {
+        return item_description;
+    }
+
+    public void setItem_description(String item_description) {
+        this.item_description = item_description;
+    }
+
+    public String item_description;
+
 }
