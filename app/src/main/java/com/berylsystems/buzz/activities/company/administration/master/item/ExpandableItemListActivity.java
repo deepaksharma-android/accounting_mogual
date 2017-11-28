@@ -64,6 +64,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     HashMap<Integer, List<String>> listDataChildAlternateUnit;
     HashMap<Integer, List<String>> listDataChildSalePriceMain;
     HashMap<Integer, List<String>> listDataChildSalePriceAlternate;
+    HashMap<Integer, List<Boolean>> listDataChildSerialWise;
+    HashMap<Integer, List<Boolean>> listDataChildBatchWise;
 
     ProgressDialog mProgressDialog;
     AppUser appUser;
@@ -75,6 +77,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     List<String> alternateUnit;
     List<String> salesPriceMain;
     List<String> salesPriceAlternate;
+    List<Boolean> serailWise;
+    List<Boolean> batchWise;
 
 
     @Override
@@ -150,6 +154,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             listDataChildAlternateUnit =new HashMap<Integer, List<String>>();
             listDataChildSalePriceMain =new HashMap<Integer, List<String>>();
             listDataChildSalePriceAlternate =new HashMap<Integer, List<String>>();
+            listDataChildSerialWise =new HashMap<Integer, List<Boolean>>();
+            listDataChildBatchWise =new HashMap<Integer, List<Boolean>>();
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if(response.getOrdered_items().size()==0){
@@ -163,6 +169,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                     salesPriceMain = new ArrayList<>();
                     salesPriceAlternate = new ArrayList<>();
                     alternateUnit = new ArrayList<>();
+                    serailWise = new ArrayList<>();
+                    batchWise = new ArrayList<>();
                     id = new ArrayList<>();
                     for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                         name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
@@ -319,8 +327,10 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         intent.putExtra("desc",descr);
         intent.putExtra("main_unit",main_unit);
         intent.putExtra("alternate_unit",alternate_unit);
+        intent.putExtra("serial","6");
         intent.putExtra("sales_price_main",sales_price_main);
         intent.putExtra("sales_price_alternate",sales_price_alternate);
+
         startActivity(intent);
         finish();
     }

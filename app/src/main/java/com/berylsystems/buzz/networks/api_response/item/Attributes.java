@@ -75,4 +75,23 @@ public class Attributes {
 
     public double sales_price_main;
     public double sales_price_alternate;
+    public boolean serial_number_wise_detail;
+
+    public boolean isBatch_wise_detail() {
+        return batch_wise_detail;
+    }
+
+    public void setBatch_wise_detail(boolean batch_wise_detail) {
+        this.batch_wise_detail = batch_wise_detail;
+    }
+
+    public boolean isSerial_number_wise_detail() {
+        return serial_number_wise_detail;
+    }
+
+    public void setSerial_number_wise_detail(boolean serial_number_wise_detail) {
+        this.serial_number_wise_detail = serial_number_wise_detail;
+    }
+
+    public boolean batch_wise_detail;
 }

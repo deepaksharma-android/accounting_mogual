@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.sale;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -7,9 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -48,6 +51,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     Spinner mSpinnerUnit;
     @Bind(R.id.sr_no)
     EditText mSr_no;
+    @Bind(R.id.serail_number_layout)
+    LinearLayout mSerialNumberLayout;
     @Bind(R.id.rate)
     EditText mRate;
     @Bind(R.id.discount)
@@ -86,6 +91,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         });
 
 
+
+
        /* intent = getIntent();
         boolean b = intent.getBooleanExtra("bool", false);
         if (b) {
@@ -104,6 +111,35 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         String alternate_unit=intent.getStringExtra("alternate_unit");
         String sales_price_main=intent.getStringExtra("sales_price_main");
         String sales_price_alternate=intent.getStringExtra("sales_price_alternate");
+        String serial=intent.getStringExtra("serial");
+        mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
+                dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                dialogbal.setContentView(R.layout.dialog_serail);
+                dialogbal.setCancelable(true);
+                LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                EditText[] pairs=new EditText[Integer.parseInt(serial)];
+                for(int l=0; l<Integer.parseInt(serial); l++)
+                {
+                    pairs[l] = new EditText(getApplicationContext());
+                    pairs[l].setHeight(50);
+                    pairs[l].setPadding(10,10,10,0);
+                    pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
+                    pairs[l].setWidth(500);
+                    pairs[l].setTextSize(15);
+                    pairs[l].setLayoutParams(lp);
+                    pairs[l].setId(l);
+                    //pairs[l].setText((l + 1) + ": something");
+                    serialLayout.addView(pairs[l]);
+                }
+                dialogbal.show();
+
+            }
+
+        });
         mItemName.setText(name);
         mDescription.setText(desc);
         mUnitList.add(main_unit);
