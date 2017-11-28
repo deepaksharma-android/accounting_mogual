@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
@@ -45,11 +48,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     EditText mTotal;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
-
+    @Bind(R.id.heading)
+    TextView heading;
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map<String, String> mMap;
     Double first, second, third;
+    Intent intent;
+    Animation blinkOnClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,16 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
+
+
+        intent = getIntent();
+        boolean b = intent.getBooleanExtra("bool", false);
+        if (b) {
+            heading.setText("EDIT ITEM");
+        } else {
+            heading.setText("ADD ITEM");
+        }
+        blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         CreateSaleActivity.hideKeyPad(this);
         Intent intent = getIntent();
@@ -72,6 +88,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSubmit.startAnimation(blinkOnClick);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
                 mMap.put("quality", mQuantity.getText().toString());
@@ -86,9 +103,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 // appUser.mListMap = mListMap;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                Intent in=new Intent(getApplicationContext(), CreateSaleActivity.class);
-                in.putExtra("is",true);
+                Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                in.putExtra("is", true);
                 startActivity(in);
+                finish();
             }
         });
 
@@ -159,8 +177,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            third=Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third-first)*second);
+                            third = Double.valueOf(mRate.getText().toString());
+                            mTotal.setText("" + (third - first) * second);
                         }
                     } else {
                         mTotal.setText("");
@@ -189,7 +207,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
                             third = Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third-first)*second);
+                            mTotal.setText("" + (third - first) * second);
                         }
                     } else {
                         mTotal.setText("");
@@ -205,8 +223,22 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         });
 
 
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent=getIntent();
+        boolean b=intent.getBooleanExtra("bool",false);
+        if (b){
+            Intent intent1 = new Intent(this, CreateSaleActivity.class);
+            intent1.putExtra("is",true);
+            startActivity(intent1);
+            finish();
+        }else {
+            Intent intent2 = new Intent(this, ExpandableItemListActivity.class);
+            startActivity(intent2);
+            finish();
+        }
     }
 
 }

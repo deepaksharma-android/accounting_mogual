@@ -19,6 +19,7 @@ import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.ItemExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -255,5 +256,14 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         intent.putExtra("id",childid);
         intent.putExtra("name",itemName);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(this, CreateSaleActivity.class);
+        intent.putExtra("is",true);
+        startActivity(intent);
+        finish();
     }
 }
