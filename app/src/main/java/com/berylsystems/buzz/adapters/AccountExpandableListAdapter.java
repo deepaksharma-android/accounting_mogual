@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.utils.EventAccountChildClicked;
+import com.berylsystems.buzz.events.EventSelectBankCaseDeposit;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditGroup;
@@ -58,9 +59,9 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
-        String arr[]=childText.split(",");
-        String acc_name=arr[0];
-        String undefined=arr[1];
+        String arr[] = childText.split(",");
+        String acc_name = arr[0];
+        String undefined = arr[1];
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -68,19 +69,18 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
 
         txtListChild.setText(acc_name);
-        LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
-        LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mMainLayout=(LinearLayout)convertView.findViewById(R.id.main_layout);
+        LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+        LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.mainLayout);
 
-        if(undefined.equals("true")){
+        if (undefined.equals("true")) {
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             delete.setVisibility(View.GONE);
             edit.setVisibility(View.GONE);
         }
@@ -88,14 +88,14 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id=groupPosition+","+childPosition;
+                String id = groupPosition + "," + childPosition;
                 EventBus.getDefault().post(new EventDeleteAccount(id));
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id=groupPosition+","+childPosition;
+                String id = groupPosition + "," + childPosition;
                 EventBus.getDefault().post(new EventEditAccount(id));
 
             }
@@ -103,7 +103,7 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id=groupPosition+","+childPosition;
+                String id = groupPosition + "," + childPosition;
                 EventBus.getDefault().post(new EventAccountChildClicked(id));
             }
         });

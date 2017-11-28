@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.transection.bankcasewithdraw;
+package com.berylsystems.buzz.activities.company.transection.debitnotewoitem;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.date)
     TextView set_date;
@@ -134,7 +134,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_create_bank_case_withdraw;
+        return R.layout.activity_create_debit_note_wo_item;
     }
 
     private void initActionbar() {
@@ -149,7 +149,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("BANK CASH WITHDRAW");
+        actionbarTitle.setText("DEBIT NOTE W/O ITEM");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -162,8 +162,6 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
-        //mProgressDialog.dismiss();
-
     }
     @Override
     public void onBackPressed() {

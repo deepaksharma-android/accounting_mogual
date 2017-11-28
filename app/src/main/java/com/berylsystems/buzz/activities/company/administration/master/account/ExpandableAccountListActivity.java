@@ -20,6 +20,7 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.events.EventSelectBankCaseDeposit;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
@@ -69,13 +70,14 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
         setAppBarTitleCompany(1, "ACCOUNT LIST");
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        /*appUser.account_master_group="";
+        LocalRepositories.saveAppUser(this,appUser);*/
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(ExpandableAccountListActivity.this);
@@ -228,6 +230,21 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
 
     @Subscribe
     public void clickEvent(EventAccountChildClicked pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name", name);
+        returnIntent.putExtra("id",arrid);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+	
+	 @Subscribe
+    public void clickEvent(EventSelectBankCaseDeposit pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];

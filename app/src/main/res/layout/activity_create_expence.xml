@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -44,8 +46,9 @@
                         android:background="@drawable/bg_grey_stroke"
                         android:gravity="center"
                         android:orientation="vertical">
+
                         <Spinner
-                            android:id="@+id/transaction_spinner"
+                            android:id="@+id/transaction_voucher_spinner"
                             android:layout_width="fill_parent"
                             android:entries="@array/main"
                             android:spinnerMode="dialog"
@@ -77,6 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
+                            android:hint="eg.2 Nov 2017"
                             android:textColor="#000"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -114,7 +118,7 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Deposit To"
+                        android:text="Paid From"
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:id="@+id/deposit1"/>
@@ -129,14 +133,14 @@
                         android:orientation="horizontal">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/deposit_to"
+                            android:id="@+id/bank_to_textview"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="0.9"
                             android:background="@android:color/transparent"
-                            android:hint="Deposit To"
+                            android:hint="Paid From"
                             android:textColor="#000"
                             android:textSize="16sp" />
 
@@ -152,7 +156,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Deposit By"
+                        android:text="Paid To"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -166,14 +170,14 @@
                         android:orientation="horizontal">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/deposit_by"
+                            android:id="@+id/bank_by_textview"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="0.9"
                             android:background="@android:color/transparent"
-                            android:hint="Deposit By"
+                            android:hint="Paid To"
                             android:textColor="#000"
                             android:textSize="16sp" />
 
@@ -291,7 +295,7 @@
                                     android:layout_height="35dp"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center"
-                                    android:text="Attachment"
+                                    android:text="Add Logo"
                                     android:textColor="@color/white"
                                     android:textSize="10sp" />
                             </LinearLayout>
@@ -316,26 +320,6 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Submit"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/update"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/vendorText"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="20dp"
-                    android:visibility="gone"
-                    android:background="@drawable/solid_blue">
-
-                    <com.berylsystems.buzz.utils.BuzzTextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Update"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                 </LinearLayout>

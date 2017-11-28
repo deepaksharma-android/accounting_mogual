@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.transection.bankcasewithdraw;
+package com.berylsystems.buzz.activities.company.transection.payment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -14,14 +14,17 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import org.greenrobot.eventbus.Subscribe;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +37,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class CreatePaymentActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.date)
     TextView set_date;
@@ -43,9 +46,17 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
     Snackbar snackbar;
+    @Bind(R.id.transaction_spinner)
+    Spinner type_spinner;
+    @Bind(R.id.date_pdc_textview)
+    TextView date_pdc_textview;
+    @Bind(R.id.date_pdc_layout)
+    LinearLayout date_pdc_layout;
+    @Bind(R.id.date_pdc)
+    TextView set_date_pdc;
     CoordinatorLayout coordinatorLayout;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1;
+    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private static final int SELECT_PICTURE=1;
     private String selectedImagePath;
     InputStream inputStream = null;
@@ -66,14 +77,35 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);
             }
         });
+
+        type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if(i==1){
+                    date_pdc_layout.setVisibility(View.GONE);
+                    date_pdc_textview.setVisibility(View.GONE);
+                }
+                else{
+                    date_pdc_layout.setVisibility(View.VISIBLE);
+                    date_pdc_textview.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void setDateField() {
         set_date.setOnClickListener(this);
+        set_date_pdc.setOnClickListener(this);
 
         final Calendar newCalendar = Calendar.getInstance();
 
         set_date.setText("22 Nov 2017");
+        set_date_pdc.setText("22 Nov 2017");
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -86,12 +118,28 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date1 = dateFormatter.format(newDate.getTime());
+                set_date_pdc.setText(date1);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     @Override
     public void onClick(View view) {
         if (view == set_date) {
             DatePickerDialog1.show();
+        }
+        else if(view == set_date_pdc){
+            DatePickerDialog2.show();
         }
     }
 
@@ -134,7 +182,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_create_bank_case_withdraw;
+        return R.layout.activity_create_payment;
     }
 
     private void initActionbar() {
@@ -149,7 +197,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("BANK CASH WITHDRAW");
+        actionbarTitle.setText("PAYMENT");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -162,8 +210,6 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
-        //mProgressDialog.dismiss();
-
     }
     @Override
     public void onBackPressed() {

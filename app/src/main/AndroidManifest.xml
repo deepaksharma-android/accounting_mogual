@@ -228,19 +228,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity" />
-        <activity android:name=".activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity">
 
-        </activity>
         <activity android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
@@ -340,7 +328,30 @@
             android:windowSoftInputMode="stateHidden" />
 	            <activity android:name=".activities.company.sale.SaleVoucherAddItemActivity" />
         <activity android:name=".activities.company.sale.SaleVoucherAddBillActivity"></activity>
+	<activity
+            android:name=".activities.company.transection.bankcasedeposit.BankCaseDepositListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.company.transection.bankcasedeposit.CreateBankCaseDepositActivity" />
+        <activity
+            android:name=".activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity" />
+        <activity android:name=".activities.company.transection.payment.PaymentActivity" />
+        <activity android:name=".activities.company.transection.payment.CreatePaymentActivity" />
+	 <activity android:name=".activities.company.transection.receipt.ReceiptActivity" />
+        <activity android:name=".activities.company.transection.receipt.CreateReceiptActivity" />  
+ <activity android:name=".activities.company.transection.income.IncomeActivity" />
+        <activity android:name=".activities.company.transection.income.CreateIncomeActivity" />
+	 <activity android:name=".activities.company.transection.expence.ExpenceActivity" />
+        <activity android:name=".activities.company.transection.expence.CreateExpenceActivity" />
+	<activity android:name=".activities.company.transection.journalvoucher.JournalVoucherActivity" />
+	 <activity android:name=".activities.company.transection.journalvoucher.CreateJournalVoucherActivity" />
+        <activity android:name=".activities.company.transection.debitnotewoitem.CreateDebitNoteWoItemActivity" />
+	 <activity android:name=".activities.company.transection.creditnotewoitem.CreateCreditNoteWoItemActivity"></activity>
 
-    </application>
-
-</manifest>
+	</application>
+   </manifest>

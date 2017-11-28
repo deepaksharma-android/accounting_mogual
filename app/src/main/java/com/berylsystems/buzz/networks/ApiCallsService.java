@@ -3,6 +3,7 @@ package com.berylsystems.buzz.networks;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
@@ -16,6 +17,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanyLogo;
 import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashDeposit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
@@ -42,6 +44,11 @@ import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGro
 import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.CreateBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.EditBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.CreateBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
@@ -287,6 +294,21 @@ public class ApiCallsService extends IntentService {
             hadleGetTaxCategory();
         } else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
             handleSaleVoucher();
+        }
+        else if(Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)){
+            handleGetBankCashDeposit();
+        }
+        else if (Cv.ACTION_DELETE_BANK_CASH_DEPOSIT.equals(action)) {
+            handleDeleteBankCashDeposit();
+        }
+        else if(Cv.ACTION_GET_BANK_CASH_DEPOSIT_DETAILS.equals(action)){
+            handleGetBankCashDepositDetails();
+        }
+        else if(Cv.ACTION_EDIT_BANK_CASH_DEPOSIT.equals(action)){
+            handleEditBankCashDeposit();
+        }
+		else if(Cv.ACTION_CREATE_BANK_CASH_DEPOSIT.equals(action)) {
+            handleCreateBankCashDeposit();
         }
     }
 
@@ -551,7 +573,120 @@ public class ApiCallsService extends IntentService {
 
 
         });
+    }
 
+    private void handleCreateBankCashDeposit() {
+        api.createbankcashdeposit(new RequestCreateBankCashDeposit(this)).enqueue(new Callback<CreateBankCashDepositResponse>() {
+            @Override
+            public void onResponse(Call<CreateBankCashDepositResponse> call, Response<CreateBankCashDepositResponse> r) {
+                if (r.code() == 200) {
+                    CreateBankCashDepositResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<CreateBankCashDepositResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetBankCashDeposit() {
+        api.getbankcashdeposit(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetBankCashDepositResponse>() {
+            @Override
+            public void onResponse(Call<GetBankCashDepositResponse> call, Response<GetBankCashDepositResponse> r) {
+                if (r.code() == 200) {
+                    GetBankCashDepositResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetBankCashDepositResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteBankCashDeposit() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletebankcashdeposit(appUser.delete_bank_cash_deposit_id).enqueue(new Callback<DeleteBankCashDepositResponse>() {
+            @Override
+            public void onResponse(Call<DeleteBankCashDepositResponse> call, Response<DeleteBankCashDepositResponse> r) {
+                if (r.code() == 200) {
+                    DeleteBankCashDepositResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteBankCashDepositResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetBankCashDepositDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getbankcashdepositdetails(appUser.edit_bank_cash_deposit_id).enqueue(new Callback<GetBankCashDepositDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetBankCashDepositDetailsResponse> call, Response<GetBankCashDepositDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetBankCashDepositDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetBankCashDepositDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditBankCashDeposit() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editbankcashdeposit(new RequestCreateBankCashDeposit(this), appUser.edit_bank_cash_deposit_id).enqueue(new Callback<EditBankCashDepositResponse>()  {
+            @Override
+            public void onResponse(Call<EditBankCashDepositResponse> call, Response<EditBankCashDepositResponse> r) {
+                if (r.code() == 200) {
+                    EditBankCashDepositResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditBankCashDepositResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 
     private void handleRegister() {
@@ -1269,7 +1404,8 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetAccount() {
-        api.getaccount(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetAccountResponse>() {
+        AppUser appUser= LocalRepositories.getAppUser(this);
+        api.getaccount(Preferences.getInstance(getApplicationContext()).getCid(),appUser.account_master_group).enqueue(new Callback<GetAccountResponse>() {
             @Override
             public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> r) {
                 if (r.code() == 200) {
