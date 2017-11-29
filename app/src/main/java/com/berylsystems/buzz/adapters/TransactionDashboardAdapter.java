@@ -14,6 +14,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.GetSaleListActivity;
+import com.berylsystems.buzz.activities.company.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
 import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity;
@@ -40,7 +41,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
     public TransactionDashboardAdapter(Context context, String[] data, int[] images) {
         this.data = data;
         this.context = context;
-        this.images=images;
+        this.images = images;
     }
 
     @Override
@@ -56,54 +57,59 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
         viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(i==0){
+                if (i == 0) {
                     context.startActivity(new Intent(context, CreateSaleActivity.class));
                 }
-                if(i==1){
+                if (i == 1) {
                     context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                 }
-				 if(i==4){
+                if (i == 2) {
+                    context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+                }
+                if (i == 4) {
                     context.startActivity(new Intent(context, CreatePaymentActivity.class));
                 }
-                if(i==5){
+                if (i == 5) {
                     context.startActivity(new Intent(context, CreateReceiptActivity.class));
                 }
-                if(i==6){
+                if (i == 6) {
                     context.startActivity(new Intent(context, CreateBankCaseDepositActivity.class));
                 }
-                if(i==7){
+                if (i == 7) {
                     context.startActivity(new Intent(context, CreateBankCaseWithdrawActivity.class));
                 }
-                if(i==8){
+                if (i == 8) {
                     context.startActivity(new Intent(context, CreateIncomeActivity.class));
                 }
-                if(i==9){
+                if (i == 9) {
                     context.startActivity(new Intent(context, CreateExpenceActivity.class));
                 }
-                if(i==10){
+                if (i == 10) {
                     context.startActivity(new Intent(context, CreateJournalVoucherActivity.class));
                 }
-                if(i==11){
+                if (i == 11) {
                     context.startActivity(new Intent(context, CreateDebitNoteWoItemActivity.class));
                 }
-                if(i==12){
+                if (i == 12) {
                     context.startActivity(new Intent(context, CreateCreditNoteWoItemActivity.class));
                 }
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return data.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.title)
         TextView mTitleText;
         @Bind(R.id.imageicon)
         ImageView mImage;
         @Bind(R.id.grid_layout)
         LinearLayout mGridLayout;
+
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);

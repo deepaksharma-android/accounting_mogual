@@ -131,10 +131,10 @@
         <item>BDL-BUNDLES</item>
         <item>BOX-BOXr</item>
     </string-array>
-      <string-array name="item_con_type">
+    <string-array name="item_con_type">
         <item>Gms/Kg</item>
         <item>Kg/Gms</item>
-      </string-array>
+    </string-array>
     <string-array name="round_off_spinner">
         <item>Upper Limit</item>
         <item>Lower Limit</item>
@@ -183,4 +183,8 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>
+    <string name="title_activity_create_sale_type">CreateSaleTypeActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

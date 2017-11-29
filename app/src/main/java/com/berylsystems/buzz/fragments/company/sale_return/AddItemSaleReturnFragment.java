@@ -1,31 +1,24 @@
-package com.berylsystems.buzz.fragments.company.sale;
+package com.berylsystems.buzz.fragments.company.sale_return;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
-import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemVoucherAdapter;
@@ -44,7 +37,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by BerylSystems on 11/22/2017.
  */
 
-public class AddItemVoucherFragment extends Fragment {
+public class AddItemSaleReturnFragment extends Fragment {
     @Bind(R.id.add_item_button)
     LinearLayout add_item_button;
     @Bind(R.id.add_bill_button)
@@ -61,7 +54,7 @@ public class AddItemVoucherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_item_voucher, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_item_sale_return, container, false);
         ButterKnife.bind(this, view);
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
@@ -70,7 +63,6 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 add_item_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=0;
                 Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
                 intent.putExtra("bool",true);
                 startActivity(intent);
@@ -102,17 +94,6 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getContext(), SaleVoucherAddItemActivity.class);
-                intent.putExtra("bool",true);
-                ExpandableItemListActivity.comingFrom=0;
-                intent.putExtra("position",position);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
-        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getContext(), SaleVoucherAddBillActivity.class);
                 intent.putExtra("bool",true);
                 startActivity(intent);
                 getActivity().finish();
