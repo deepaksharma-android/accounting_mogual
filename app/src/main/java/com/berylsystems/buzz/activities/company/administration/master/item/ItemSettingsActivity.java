@@ -169,12 +169,12 @@ public class ItemSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(mSpinnerBatchWise.getSelectedItem().toString().equals("Yes")){
-                    Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("");
+                    Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("No");
                     Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail(mSpinnerBatchWise.getSelectedItem().toString());
                 }
                 if(mSpinnerSerialNumber.getSelectedItem().toString().equals("Yes")){
                     Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail(mSpinnerSerialNumber.getSelectedItem().toString());
-                    Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("");
+                    Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
                 }
                 Preferences.getInstance(getApplicationContext()).setitem_set_critical_level(mSpinnerCriticalLevel.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account(mSpinnerSpecifySales.getSelectedItem().toString());

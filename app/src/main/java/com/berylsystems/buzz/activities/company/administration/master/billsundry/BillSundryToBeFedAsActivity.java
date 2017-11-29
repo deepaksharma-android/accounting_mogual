@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,6 +28,10 @@ import butterknife.ButterKnife;
 public class BillSundryToBeFedAsActivity extends AppCompatActivity {
     @Bind(R.id.radioGroup)
     RadioGroup mRadioGroup;
+    @Bind(R.id.percentagetext)
+    EditText mPercentage;
+    @Bind(R.id.percentage_layout)
+    LinearLayout mPercentageLayout;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     AppUser appUser;
@@ -39,12 +44,27 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                String val=radioGroup.toString();
+                if(val.equals("Percentage")){
+                    mPercentageLayout.setVisibility(View.VISIBLE);
+                }
+                else{
+                    mPercentageLayout.setVisibility(View.GONE);
+                    mPercentage.setText("");
+                }
+            }
+        });
 
         if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as().equals("")) {
             String radiostring = Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as();
             if (radiostring.equals("Absolute Amount")) {
                 mRadioGroup.check(R.id.radioButtonAbsoluteAmount);
             } else if (radiostring.equals("Percentage")) {
+                mPercentageLayout.setVisibility(View.VISIBLE);
+                mPercentage.setText(Preferences.getInstance(getApplicationContext()).getbill_sundry_amount_of_bill_sundry_fed_as_percent());
                 mRadioGroup.check(R.id.radioButtonPercentage);
             } else if (radiostring.equals("Per Main Qty.")) {
                 mRadioGroup.check(R.id.radioButtonPerMainQty);
@@ -65,6 +85,7 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
                 value= radioButton.getText().toString();
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_of_bill_sundry_fed_as(value);
                 if (value.equals("Percentage")) {
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_of_bill_sundry_fed_as_percent(mPercentage.getText().toString());
                     Intent intent=new Intent(getApplicationContext(),BillSundryFedAsPercentageActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

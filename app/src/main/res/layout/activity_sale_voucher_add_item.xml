@@ -146,7 +146,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.berylsystems.buzz.utils.BuzzEditText
+                <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

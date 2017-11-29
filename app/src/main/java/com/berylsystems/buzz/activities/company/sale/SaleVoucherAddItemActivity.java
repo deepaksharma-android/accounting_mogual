@@ -50,7 +50,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     @Bind(R.id.spinner_unit)
     Spinner mSpinnerUnit;
     @Bind(R.id.sr_no)
-    EditText mSr_no;
+    TextView mSr_no;
     @Bind(R.id.serail_number_layout)
     LinearLayout mSerialNumberLayout;
     @Bind(R.id.rate)
@@ -72,6 +72,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     Animation blinkOnClick;
     ArrayList<String> mUnitList;
     ArrayAdapter<String> mUnitAdapter;
+    String serial="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,32 +112,48 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         String alternate_unit=intent.getStringExtra("alternate_unit");
         String sales_price_main=intent.getStringExtra("sales_price_main");
         String sales_price_alternate=intent.getStringExtra("sales_price_alternate");
-        String serial=intent.getStringExtra("serial");
+        Boolean serailwise=intent.getExtras().getBoolean("serial_wise");
+        Boolean batchwise=intent.getExtras().getBoolean("batch_wise");
+
+
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
-                dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                dialogbal.setContentView(R.layout.dialog_serail);
-                dialogbal.setCancelable(true);
-                LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                EditText[] pairs=new EditText[Integer.parseInt(serial)];
-                for(int l=0; l<Integer.parseInt(serial); l++)
-                {
-                    pairs[l] = new EditText(getApplicationContext());
-                    pairs[l].setHeight(50);
-                    pairs[l].setPadding(10,10,10,0);
-                    pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
-                    pairs[l].setWidth(500);
-                    pairs[l].setTextSize(15);
-                    pairs[l].setLayoutParams(lp);
-                    pairs[l].setId(l);
-                    //pairs[l].setText((l + 1) + ": something");
-                    serialLayout.addView(pairs[l]);
-                }
-                dialogbal.show();
+                if (batchwise && !serailwise) {
+                    serial = "1";
+                } else if (!batchwise && serailwise) {
+                    if (mQuantity.getText().toString().equals("")) {
+                        serial = "0";
+                    } else {
+                        serial = mQuantity.getText().toString();
+                    }
 
+                } else {
+                    serial = "0";
+                }
+                if (!serial.equals("0")) {
+                    Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
+                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                    dialogbal.setContentView(R.layout.dialog_serail);
+                    dialogbal.setCancelable(true);
+                    LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    EditText[] pairs = new EditText[Integer.parseInt(serial)];
+                    for (int l = 0; l < Integer.parseInt(serial); l++) {
+                        pairs[l] = new EditText(getApplicationContext());
+                        pairs[l].setHeight(50);
+                        pairs[l].setPadding(10, 10, 10, 0);
+                        pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
+                        pairs[l].setWidth(500);
+                        pairs[l].setTextSize(15);
+                        pairs[l].setLayoutParams(lp);
+                        pairs[l].setId(l);
+                        //pairs[l].setText((l + 1) + ": something");
+                        serialLayout.addView(pairs[l]);
+                    }
+                    dialogbal.show();
+
+                }
             }
 
         });

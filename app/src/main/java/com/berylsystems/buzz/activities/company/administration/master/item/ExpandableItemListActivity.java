@@ -199,6 +199,18 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                         else{
                             alternateUnit.add("");
                         }
+                        if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail())!=null) {
+                            batchWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail());
+                        }
+                        else{
+                            batchWise.add(false);
+                        }
+                        if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail())!=null) {
+                            serailWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail());
+                        }
+                        else{
+                            serailWise.add(false);
+                        }
                         id.add(response.getOrdered_items().get(i).getData().get(j).getId());
                     }
                     listDataChild.put(listDataHeader.get(i), name);
@@ -208,6 +220,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                     listDataChildAlternateUnit.put(i, alternateUnit);
                     listDataChildSalePriceMain.put(i, salesPriceMain);
                     listDataChildSalePriceAlternate.put(i, salesPriceAlternate);
+                    listDataChildSerialWise.put(i, serailWise);
+                    listDataChildBatchWise.put(i, batchWise);
                 }
                 listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -315,11 +329,14 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         String alternate_unit;
         String sales_price_main;
         String sales_price_alternate;
+        Boolean batch,serial;
         descr =listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         sales_price_main=listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         sales_price_alternate=listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        String main_unit=unit.get(Integer.valueOf(childid)).toString();;
+        batch=listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        serial=listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        String main_unit=listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));;
 
         intent.putExtra("fromitemlist", true);
         intent.putExtra("id",childid);
@@ -327,7 +344,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         intent.putExtra("desc",descr);
         intent.putExtra("main_unit",main_unit);
         intent.putExtra("alternate_unit",alternate_unit);
-        intent.putExtra("serial","6");
+        intent.putExtra("serial_wise",serial);
+        intent.putExtra("batch_wise",batch);
         intent.putExtra("sales_price_main",sales_price_main);
         intent.putExtra("sales_price_alternate",sales_price_alternate);
 

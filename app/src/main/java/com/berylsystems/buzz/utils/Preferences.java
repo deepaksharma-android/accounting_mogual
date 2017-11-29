@@ -44,7 +44,7 @@ public class Preferences {
     private static final String CUSERNAME = "username";
     private static final String CPASSWORD = "password";
 
-
+    private static final String bill_sundry_amount_of_bill_sundry_fed_as_percent="bill_sundry_amount_of_bill_sundry_fed_as_percent";
     private static final String bill_sundry_amount_of_bill_sundry_fed_as = "bill_sundry_amount_of_bill_sundry_fed_as";
     private static final String bill_sundry_of_percentage = "bill_sundry_of_percentage";
     private static final String bill_sundry_number_of_bill_sundry = "bill_sundry_number_of_bill_sundry";
@@ -412,6 +412,14 @@ public class Preferences {
 
     public String getbill_sundry_amount_of_bill_sundry_fed_as() {
         return pref.getString(bill_sundry_amount_of_bill_sundry_fed_as, "");
+    }
+    public void setbill_sundry_amount_of_bill_sundry_fed_as_percent(String billsundryamountofbillsundryfedaspercent) {
+        editor.putString(bill_sundry_amount_of_bill_sundry_fed_as_percent, billsundryamountofbillsundryfedaspercent);
+        editor.commit();
+    }
+
+    public String getbill_sundry_amount_of_bill_sundry_fed_as_percent() {
+        return pref.getString(bill_sundry_amount_of_bill_sundry_fed_as_percent, "");
     }
 
     public void setbill_sundry_of_percentage(String billsundryofpercentage) {

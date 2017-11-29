@@ -27,52 +27,89 @@
 
 
                 <RadioGroup
+                    android:id="@+id/radioGroup"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/radioGroup"
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:id="@+id/radioButtonAbsoluteAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Absolute Amount"
-                        android:id="@+id/radioButtonAbsoluteAmount"
                         android:checked="true"
+                        android:text="Absolute Amount"
                         android:textSize="16dp" />
 
                     <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="Per Main Qty."
                         android:id="@+id/radioButtonPerMainQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
                         android:checked="false"
+                        android:text="Per Main Qty."
                         android:textSize="16sp" />
 
                     <RadioButton
+                        android:id="@+id/radioButtonPerAltQty"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Per Alt. Qty."
-                        android:id="@+id/radioButtonPerAltQty"
                         android:checked="false"
+                        android:text="Per Alt. Qty."
                         android:textSize="16dp" />
 
                     <RadioButton
+                        android:id="@+id/radioButtonPerPackagingQty"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Per Packaging Qty."
-                        android:id="@+id/radioButtonPerPackagingQty"
                         android:checked="false"
+                        android:text="Per Packaging Qty."
                         android:textSize="16sp" />
 
                     <RadioButton
+                        android:id="@+id/radioButtonPercentage"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:text="Percentage"
-                        android:id="@+id/radioButtonPercentage"
                         android:checked="false"
+                        android:text="Percentage"
                         android:textSize="16dp" />
 
                 </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/percentage_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Percentage"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.berylsystems.buzz.utils.BuzzEditText
+                            android:id="@+id/percentagetext"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="eg.10%"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/submit"
