@@ -48,7 +48,7 @@ public class BillSundryToBeFedAsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 String val=radioGroup.toString();
-                if(val.equals("Percentage")){
+                if(i==R.id.radioButtonPercentage){
                     mPercentageLayout.setVisibility(View.VISIBLE);
                 }
                 else{

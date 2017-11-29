@@ -137,6 +137,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     dialogbal.setContentView(R.layout.dialog_serail);
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
+                    LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogbal.dismiss();
+                        }
+                    });
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     EditText[] pairs = new EditText[Integer.parseInt(serial)];
                     for (int l = 0; l < Integer.parseInt(serial); l++) {

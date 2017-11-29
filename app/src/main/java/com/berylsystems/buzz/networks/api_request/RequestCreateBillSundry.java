@@ -25,7 +25,9 @@ public class RequestCreateBillSundry {
         bill_sundry.put("bill_sundry_nature_id", appUser.bill_sundry_nature);
         bill_sundry.put("default_value", appUser.bill_sundry_default_value);
 
-
+        if (!Preferences.getInstance(ctx).getbill_sundry_amount_of_bill_sundry_fed_as_percent().equals("")) {
+            bill_sundry.put("bill_sundry_percentage_value", Preferences.getInstance(ctx).getbill_sundry_amount_of_bill_sundry_fed_as_percent());
+        }
         if (!Preferences.getInstance(ctx).getbill_sundry_amount_of_bill_sundry_fed_as().equals("")) {
             bill_sundry.put("amount_of_bill_sundry_fed_as", Preferences.getInstance(ctx).getbill_sundry_amount_of_bill_sundry_fed_as());
         }
