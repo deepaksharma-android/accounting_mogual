@@ -13,19 +13,20 @@ import java.util.HashMap;
  */
 
 public class RequestCreateSaleVoucher {
-    public HashMap item;
+    public HashMap voucher;
     public RequestCreateSaleVoucher(Context ctx){
        AppUser appUser = LocalRepositories.getAppUser(ctx);
-       item = new HashMap<>();
-        item.put("sale_date", appUser.sale_date);
-        item.put("voucher_series", appUser.sale_series);
-        item.put("voucher_number", appUser.sale_vchNo);
-        item.put("company_id", Preferences.getInstance(ctx).getCid());
-        item.put("sale_type_id", appUser.sale_saleType);
-        item.put("payment_type", appUser.sale_cash_credit);
-        item.put("account_master_id", appUser.sale_partyName);
-        item.put("mobile_number", appUser.sale_mobileNumber);
-        item.put("material_center_id", appUser.sale_store);
-        item.put("narration", appUser.sale_narration);
+       voucher = new HashMap<>();
+        voucher.put("sale_date", appUser.sale_date);
+        voucher.put("voucher_series", appUser.sale_series);
+        voucher.put("voucher_number", appUser.sale_vchNo);
+        voucher.put("company_id", Preferences.getInstance(ctx).getCid());
+        voucher.put("sale_type_id", appUser.sale_saleType);
+        voucher.put("payment_type", appUser.sale_cash_credit);
+        voucher.put("account_master_id", appUser.sale_partyName);
+        voucher.put("mobile_number", appUser.sale_mobileNumber);
+        voucher.put("material_center_id", appUser.sale_store);
+        voucher.put("narration", appUser.sale_narration);
+        voucher.put("items", appUser.mListMapForItemSale);
    }
 }

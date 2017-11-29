@@ -377,6 +377,15 @@
         <activity android:name=".activities.company.transection.journalvoucher.CreateJournalVoucherActivity" />
         <activity android:name=".activities.company.transection.debitnotewoitem.CreateDebitNoteWoItemActivity" />
         <activity android:name=".activities.company.transection.creditnotewoitem.CreateCreditNoteWoItemActivity"></activity>
-
+        <activity
+            android:name=".activities.company.purchase.CreatePurchaseActivity"
+            android:label="@string/title_activity_create_purchase"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.purchase.PurchaseAddItemActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.purchase.PurchaseAddBillActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 </manifest>

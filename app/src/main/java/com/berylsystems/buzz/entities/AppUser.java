@@ -1,6 +1,8 @@
 package com.berylsystems.buzz.entities;
 
 
+import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -265,8 +267,11 @@ public class AppUser {
     public String sale_narration = "";
 
     public String childId = "";
-    public List<Map<String, String>> mListMap = new ArrayList();
-    public List<Map<String, String>> mListMapForBill = new ArrayList();
+    public List<Map<String, String>> mListMapForItemSale = new ArrayList();
+    public List<Map<String, String>> mListMapForBillSale = new ArrayList();
+
+    public List<Map<String, String>> mListMapForItemPurchase = new ArrayList();
+    public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();
     public Map map = new HashMap();
 	
 	 public String deposit_to_id="";
@@ -279,5 +284,21 @@ public class AppUser {
     public String bank_cash_deposit_attachment="";
     public String delete_bank_cash_deposit_id;
     public String edit_bank_cash_deposit_id;
+
+    public ArrayList<BillSundryData> billSundryData = new ArrayList<>();
+
+    public String purchase_date = "";
+    public String purchase_voucher_series="";
+    public String purchase_company_id="";
+    public String purchase_voucher_number="";
+    public String purchase_puchase_type_id="";
+    public String purchase_payment_type="";
+    public String purchase_mobile_number="";
+    public String purchase_account_master_id="";
+    public String purchase_material_center_id="";
+    public String purchase_itc_eligibility="";
+    public String purchase_narration = "";
+    public String purchase_created_at="";
+    public String purchase_update_at="";
 
 }

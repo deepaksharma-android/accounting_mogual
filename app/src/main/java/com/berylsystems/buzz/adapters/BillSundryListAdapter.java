@@ -11,14 +11,18 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.CreateBillSundryActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.CreateUnitActivity;
+import com.berylsystems.buzz.activities.company.purchase.PurchaseAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
+import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundry;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.utils.EventDeleteBillSundry;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
 import com.berylsystems.buzz.utils.EventSaleAddBill;
 import com.berylsystems.buzz.utils.EventSaleAddItem;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -73,7 +77,15 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
             @Override
             public void onClick(View v) {
                 //String id=groupPosition+","+childPosition;
-                SaleVoucherAddBillActivity.data=data.get(i);
+                if (ExpandableItemListActivity.comingFrom==0){
+                    SaleVoucherAddBillActivity.data=data.get(i);
+                }else if(ExpandableItemListActivity.comingFrom==1){
+                    PurchaseAddBillActivity.data=data.get(i);
+                    AppUser appUser= LocalRepositories.getAppUser(context);
+                    appUser.billSundryData=data;
+                    LocalRepositories.saveAppUser(context,appUser);
+                }
+
                 EventBus.getDefault().post(new EventSaleAddBill(String.valueOf(i)));
             }
         });

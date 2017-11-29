@@ -22,6 +22,7 @@ import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -105,6 +106,7 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
                 String id = groupPosition + "," + childPosition;
                 EventBus.getDefault().post(new EventAccountChildClicked(id));
+                EventBus.getDefault().post(new EventSelectAccountPurchase(id));
             }
         });
         return convertView;

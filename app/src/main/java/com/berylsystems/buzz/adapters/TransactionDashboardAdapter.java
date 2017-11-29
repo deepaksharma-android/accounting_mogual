@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.GetSaleListActivity;
 import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
@@ -57,6 +58,9 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
             public void onClick(View view) {
                 if(i==0){
                     context.startActivity(new Intent(context, CreateSaleActivity.class));
+                }
+                if(i==1){
+                    context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                 }
 				 if(i==4){
                     context.startActivity(new Intent(context, CreatePaymentActivity.class));

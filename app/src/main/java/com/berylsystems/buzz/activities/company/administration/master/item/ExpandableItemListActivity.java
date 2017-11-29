@@ -19,6 +19,7 @@ import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.purchase.PurchaseAddItemActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.ItemExpandableListAdapter;
@@ -47,6 +48,8 @@ import butterknife.ButterKnife;
 
 public class ExpandableItemListActivity extends BaseActivityCompany {
 
+
+    public static Integer comingFrom=0;
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -323,6 +326,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         appUser.childId = arrid;
         LocalRepositories.saveAppUser(this, appUser);
+ if (ExpandableItemListActivity.comingFrom==0){
         Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
         String itemName=listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
         String descr;
@@ -351,6 +355,16 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
 
         startActivity(intent);
         finish();
+		}
+		else if (ExpandableItemListActivity.comingFrom==1){
+            Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
+            String itemName=name.get(Integer.valueOf(childid)).toString();
+            intent.putExtra("fromitemlist", true);
+            intent.putExtra("id",childid);
+            intent.putExtra("name",itemName);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

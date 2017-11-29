@@ -77,8 +77,8 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
                 mMap.put("courier_charges",billSundryCharges);
                 mMap.put("percentage",billSundaryPercentage);
                 mMap.put("amount", billSundryAmount);
-                appUser.mListMapForBill.add(mMap);
-                Timber.i("************************************"+appUser.mListMapForBill);
+                appUser.mListMapForBillSale.add(mMap);
+                Timber.i("************************************"+appUser.mListMapForBillSale);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent intent =new Intent(getApplicationContext(),CreateSaleActivity.class);
                 intent.putExtra("is",true);

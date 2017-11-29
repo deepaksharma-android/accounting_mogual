@@ -22,6 +22,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -81,6 +82,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.networks.api_response.sale.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
@@ -309,6 +311,8 @@ public class ApiCallsService extends IntentService {
         }
 		else if(Cv.ACTION_CREATE_BANK_CASH_DEPOSIT.equals(action)) {
             handleCreateBankCashDeposit();
+        }else if(Cv.ACTION_CREATE_PURCHASE.equals(action)) {
+            handlePurchase();
         }
     }
 
@@ -2319,6 +2323,31 @@ public class ApiCallsService extends IntentService {
         } else {
             EventBus.getDefault().post(Cv.TIMEOUT);
         }
+
+    }
+
+
+    private void handlePurchase() {
+        api.createpurchase(new RequestCreatePurchase(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreatePurchaseResponce>() {
+            @Override
+            public void onResponse(Call<CreatePurchaseResponce> call, Response<CreatePurchaseResponce> r) {
+                if (r.code() == 200) {
+                    CreatePurchaseResponce body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePurchaseResponce> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
 
     }
 

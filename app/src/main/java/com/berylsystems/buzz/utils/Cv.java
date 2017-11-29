@@ -94,4 +94,6 @@ String ACTION_CREATE_BANK_CASH_DEPOSIT="action_create_bank_cash_deposit";
     String ACTION_GET_BANK_CASH_DEPOSIT_DETAILS="action_get_bank_cash_deposit_details";
     String ACTION_EDIT_BANK_CASH_DEPOSIT="action_edit_bank_cash_deposit";
 
+    String ACTION_CREATE_PURCHASE = "action_create_purchase";
+    String ACTION_ADD_ITEM_PURCHASE = "action_add_item_purchase";
 }

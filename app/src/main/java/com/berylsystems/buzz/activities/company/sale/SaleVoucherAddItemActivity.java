@@ -205,7 +205,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 mMap.put("value", mValue.getText().toString());
                 mMap.put("total", mTotal.getText().toString());
                 // mListMap.add(mMap);
-                appUser.mListMap.add(mMap);
+                appUser.mListMapForItemSale.add(mMap);
                 // appUser.mListMap = mListMap;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 

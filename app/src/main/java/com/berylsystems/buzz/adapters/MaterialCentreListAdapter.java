@@ -24,6 +24,7 @@ import com.berylsystems.buzz.utils.EventDeleteMaterialCentre;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditMaterialCentre;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventSelectPurchase;
 import com.berylsystems.buzz.utils.EventSelectSaleVoucher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -113,6 +114,8 @@ public class MaterialCentreListAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
                 String id=groupPosition+","+childPosition;
                 EventBus.getDefault().post(new EventSelectSaleVoucher(id));
+                EventBus.getDefault().post(new EventSelectPurchase(id));
+
 
             }
         });

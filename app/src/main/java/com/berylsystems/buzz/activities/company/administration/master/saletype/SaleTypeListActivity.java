@@ -23,6 +23,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventPurchaseClicked;
 import com.berylsystems.buzz.utils.EventSaleClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
@@ -124,6 +125,23 @@ public class SaleTypeListActivity extends BaseActivityCompany {
 
     @Subscribe
     public void itemclickedevent(EventSaleClicked pos){
+
+        Timber.i("POSITION" + pos.getPosition());
+        String str=pos.getPosition();
+        String[] strAr=str.split(",");
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name",strAr[0]);
+        returnIntent.putExtra("id",strAr[1]);
+        /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+          LocalRepositories.saveAppUser(this, appUser);*/
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+
+    }
+
+
+    @Subscribe
+    public void itemclickedevent(EventPurchaseClicked pos){
 
         Timber.i("POSITION" + pos.getPosition());
         String str=pos.getPosition();

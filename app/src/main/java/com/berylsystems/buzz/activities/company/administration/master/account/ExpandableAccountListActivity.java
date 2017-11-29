@@ -30,6 +30,7 @@ import com.berylsystems.buzz.utils.EventAccountChildClicked;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -245,6 +246,22 @@ public class ExpandableAccountListActivity extends BaseActivityCompany {
 	
 	 @Subscribe
     public void clickEvent(EventSelectBankCaseDeposit pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name", name);
+        returnIntent.putExtra("id",arrid);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+
+    @Subscribe
+    public void clickEventPurchase(EventSelectAccountPurchase pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];
