@@ -1,11 +1,15 @@
 package com.berylsystems.buzz.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,7 +60,26 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
             @Override
             public void onClick(View view) {
                 if(i==0){
-                    context.startActivity(new Intent(context, CreateSaleActivity.class));
+                    Dialog dialogbal = new Dialog(context);
+                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                    dialogbal.setContentView(R.layout.dialog_operation);
+                    dialogbal.setCancelable(true);
+                    LinearLayout add=(LinearLayout)dialogbal.findViewById(R.id.add_layout);
+                    LinearLayout modify=(LinearLayout)dialogbal.findViewById(R.id.modify_layout);
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            context.startActivity(new Intent(context,CreateSaleActivity.class));
+                        }
+                    });
+                    modify.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            context.startActivity(new Intent(context,GetSaleListActivity.class));
+                        }
+                    });
+                    //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
+                    //context.startActivity(new Intent(context, CreateSaleActivity.class));
                 }
 				 if(i==4){
                     context.startActivity(new Intent(context, CreatePaymentActivity.class));
@@ -105,5 +128,27 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
             ButterKnife.bind(this, itemView);
 
         }
+    }
+
+    public void operationDialog(final Class<?> ActivityToadd, final Class<?> Activitytomodify){
+        Dialog dialogbal = new Dialog(context);
+        dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialogbal.setContentView(R.layout.dialog_operation);
+        dialogbal.setCancelable(true);
+        LinearLayout add=(LinearLayout)dialogbal.findViewById(R.id.add_layout);
+        LinearLayout modify=(LinearLayout)dialogbal.findViewById(R.id.modify_layout);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context,ActivityToadd.getClass()));
+            }
+        });
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context,Activitytomodify.getClass()));
+            }
+        });
+        dialogbal.show();
     }
 }

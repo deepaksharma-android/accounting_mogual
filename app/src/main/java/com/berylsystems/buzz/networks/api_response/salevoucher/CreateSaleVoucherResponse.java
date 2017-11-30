@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.networks.api_response.sale;
+package com.berylsystems.buzz.networks.api_response.salevoucher;
 
 /**
  * Created by BerylSystems on 11/23/2017.

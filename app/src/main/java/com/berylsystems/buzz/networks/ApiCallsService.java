@@ -3,7 +3,6 @@ package com.berylsystems.buzz.networks;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 
 import com.berylsystems.buzz.ThisApp;
 import com.berylsystems.buzz.entities.AppUser;
@@ -82,8 +81,9 @@ import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
-import com.berylsystems.buzz.networks.api_response.sale.CreateSaleVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
+import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
@@ -294,6 +294,8 @@ public class ApiCallsService extends IntentService {
             hadleGetTaxCategory();
         } else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
             handleSaleVoucher();
+        }else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
+            handleGetSaleVoucherList();
         }
         else if(Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)){
             handleGetBankCashDeposit();
@@ -2200,6 +2202,29 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleGetSaleVoucherList() {
+        api.getsalevoucherlist(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetSaleVoucherListResponse>() {
+            @Override
+            public void onResponse(Call<GetSaleVoucherListResponse> call, Response<GetSaleVoucherListResponse> r) {
+                if (r.code() == 200) {
+                    GetSaleVoucherListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleVoucherListResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
