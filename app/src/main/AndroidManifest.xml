@@ -30,6 +30,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -98,7 +99,6 @@
             android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activities.company.administration.master.accountgroup.CreateAccountGroupActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
@@ -187,14 +187,11 @@
             android:name=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activities.company.administration.master.item.ExpandableItemListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item_group.ItemGroupListActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
@@ -206,7 +203,6 @@
             android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
 
         <service android:name=".networks.ApiCallsService" />
 
@@ -240,117 +236,82 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity">
-
-        </activity>
-
-
+        <activity android:name=".activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.AccountingInSaleActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.AccountingInPurchaseActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.BillSundryToBeFedAsActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.BillSundryFedAsPercentageActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.OtherBillSundryActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.PreviousBillSundryActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.billsundry.RoundOffActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemOpeningStockActivity"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemAlternateUnitDetails"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemPriceInfoActivity"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemPackagingUnitDetailsActivity"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemSettingsActivity"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemSettingCriticalLevelActivity"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.company.administration.master.item.ItemDescriptionActivity"
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
-
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".activities.company.sale.GetSaleListActivity" />
         <activity
             android:name=".activities.company.sale.CreateSaleActivity"
@@ -362,21 +323,44 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.sale.SaleVoucherAddBillActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.company.transection.bankcasedeposit.CreateBankCaseDepositActivity" />
-
         <activity android:name=".activities.company.transection.payment.PaymentActivity" />
         <activity android:name=".activities.company.transection.payment.CreatePaymentActivity" />
         <activity android:name=".activities.company.transection.receipt.ReceiptActivity" />
         <activity android:name=".activities.company.transection.receipt.CreateReceiptActivity" />
-        <activity android:name=".activities.company.transection.income.IncomeActivity" />
-        <activity android:name=".activities.company.transection.income.CreateIncomeActivity" />
-        <activity android:name=".activities.company.transection.expence.ExpenceActivity" />
-        <activity android:name=".activities.company.transection.expence.CreateExpenceActivity" />
+        <activity android:name=".activities.company.transection.income.IncomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transection.income.CreateIncomeActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transection.expence.ExpenceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transection.expence.CreateExpenceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.company.transection.journalvoucher.JournalVoucherActivity" />
         <activity android:name=".activities.company.transection.journalvoucher.CreateJournalVoucherActivity" />
         <activity android:name=".activities.company.transection.debitnotewoitem.CreateDebitNoteWoItemActivity" />
-        <activity android:name=".activities.company.transection.creditnotewoitem.CreateCreditNoteWoItemActivity"></activity>
-
+        <activity android:name=".activities.company.transection.creditnotewoitem.CreateCreditNoteWoItemActivity" />
+        <activity
+            android:name=".activities.company.purchase.CreatePurchaseActivity"
+            android:label="@string/title_activity_create_purchase"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.purchase.PurchaseAddItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.purchase.PurchaseAddBillActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".activities.company.sale_return.CreateSaleReturnActivity"
+            android:label="@string/title_activity_create_sale_type"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
+
 </manifest>

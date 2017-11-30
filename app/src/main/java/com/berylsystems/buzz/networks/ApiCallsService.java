@@ -17,10 +17,14 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashDeposit;
+import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashWithdraw;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestCreateEXpence;
+import com.berylsystems.buzz.networks.api_request.RequestCreateIncome;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -48,6 +52,11 @@ import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCas
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.EditBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.EditBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.CreateBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.DeleteBillSundryResponse;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.EditBillSundryResponse;
@@ -61,7 +70,17 @@ import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
+import com.berylsystems.buzz.networks.api_response.expence.CreateExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.expence.DeleteExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.expence.EditExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.expence.GetExpenceDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.expence.GetExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
+import com.berylsystems.buzz.networks.api_response.income.CreateIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.income.DeleteIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.income.EditIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.income.GetIncomeDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.income.GetIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
@@ -80,6 +99,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
@@ -311,6 +331,54 @@ public class ApiCallsService extends IntentService {
         }
 		else if(Cv.ACTION_CREATE_BANK_CASH_DEPOSIT.equals(action)) {
             handleCreateBankCashDeposit();
+			}
+		else if(Cv.ACTION_CREATE_PURCHASE.equals(action)) { 
+			handlePurchase();
+		}
+		else if(Cv.ACTION_CREATE_BANK_CASH_WITHDRAW.equals(action)){
+            handleCreateBankCashWithdraw();
+        }
+        else if(Cv.ACTION_GET_BANK_CASH_WITHDRAW.equals(action)){
+            handleGetBankCashWithdraw();
+        }
+        else if(Cv.ACTION_DELETE_BANK_CASH_WITHDRAW.equals(action)){
+            handleDeleteBankCashWithdraw();
+        }
+        else if(Cv.ACTION_GET_BANK_CASH_WITHDRAW_DETAILS.equals(action)){
+            handleGetBankCashWithdrawDetails();
+        }
+        else if(Cv.ACTION_EDIT_BANK_CASH_WITHDRAW.equals(action)){
+            handleEditBankCashWithdraw();
+        }
+        else if(Cv.ACTION_CREATE_INCOME.equals(action)){
+            handleCreateIncome();
+        }
+        else if(Cv.ACTION_GET_INCOME.equals(action)){
+            handleGetIncome();
+        }
+        else if(Cv.ACTION_DELETE_INCOME.equals(action)){
+            handleDeleteIncome();
+        }
+        else if(Cv.ACTION_GET_INCOME_DETAILS.equals(action)){
+            handleGetIncomeDetails();
+        }
+        else if(Cv.ACTION_EDIT_INCOME.equals(action)){
+            handleEditIncome();
+        }
+        else if(Cv.ACTION_CREATE_EXPENCE.equals(action)){
+            handleCreateExpence();
+        }
+        else if(Cv.ACTION_GET_EXPENCE.equals(action)){
+            handleGetExpence();
+        }
+        else if(Cv.ACTION_DELETE_EXPENCE.equals(action)){
+            handleDeleteExpence();
+        }
+        else if(Cv.ACTION_GET_EXPENCE_DETAILS.equals(action)){
+            handleGetExpenceDetails();
+        }
+        else if(Cv.ACTION_EDIT_EXPENCE.equals(action)){
+            handleEditExpence();
         }
     }
 
@@ -525,7 +593,6 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
-
     }
 
     private void hadleGetTaxCategory(){
@@ -598,6 +665,347 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+    private void handleCreateBankCashWithdraw() {
+        api.createbankcashwithdraw(new RequestCreateBankCashWithdraw(this)).enqueue(new Callback<CreateBankCashWithdrawResponse>() {
+            @Override
+            public void onResponse(Call<CreateBankCashWithdrawResponse> call, Response<CreateBankCashWithdrawResponse> r) {
+                if (r.code() == 200) {
+                    CreateBankCashWithdrawResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<CreateBankCashWithdrawResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetBankCashWithdraw() {
+        api.getbankcashwithdraw(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetBankCashWithdrawResponse>() {
+            @Override
+            public void onResponse(Call<GetBankCashWithdrawResponse> call, Response<GetBankCashWithdrawResponse> r) {
+                if (r.code() == 200) {
+                    GetBankCashWithdrawResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetBankCashWithdrawResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteBankCashWithdraw() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletebankcashwithdraw(appUser.delete_bank_cash_withdraw_id).enqueue(new Callback<DeleteBankCashWithdrawResponse>() {
+            @Override
+            public void onResponse(Call<DeleteBankCashWithdrawResponse> call, Response<DeleteBankCashWithdrawResponse> r) {
+                if (r.code() == 200) {
+                    DeleteBankCashWithdrawResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteBankCashWithdrawResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetBankCashWithdrawDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getbankcashwithdrawdetails(appUser.edit_bank_cash_withdraw_id).enqueue(new Callback<GetBankCashWithdrawDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetBankCashWithdrawDetailsResponse> call, Response<GetBankCashWithdrawDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetBankCashWithdrawDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetBankCashWithdrawDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditBankCashWithdraw() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editbankcashwithdraw(new RequestCreateBankCashWithdraw(this), appUser.edit_bank_cash_withdraw_id).enqueue(new Callback<EditBankCashWithdrawResponse>()  {
+            @Override
+            public void onResponse(Call<EditBankCashWithdrawResponse> call, Response<EditBankCashWithdrawResponse> r) {
+                if (r.code() == 200) {
+                    EditBankCashWithdrawResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditBankCashWithdrawResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateIncome() {
+        api.createincome(new RequestCreateIncome(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateIncomeResponse>() {
+            @Override
+            public void onResponse(Call<CreateIncomeResponse> call, Response<CreateIncomeResponse> r) {
+                if (r.code() == 200) {
+                    CreateIncomeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateIncomeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleGetIncome() {
+        api.getincome(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetIncomeResponse>() {
+            @Override
+            public void onResponse(Call<GetIncomeResponse> call, Response<GetIncomeResponse> r) {
+                if (r.code() == 200) {
+                    GetIncomeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetIncomeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleDeleteIncome() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deleteincome(appUser.delete_income_id).enqueue(new Callback<DeleteIncomeResponse>() {
+            @Override
+            public void onResponse(Call<DeleteIncomeResponse> call, Response<DeleteIncomeResponse> r) {
+                if (r.code() == 200) {
+                    DeleteIncomeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteIncomeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetIncomeDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getincomedetails(appUser.edit_income_id).enqueue(new Callback<GetIncomeDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetIncomeDetailsResponse> call, Response<GetIncomeDetailsResponse> response) {
+                if(response.code()==200){
+                    GetIncomeDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetIncomeDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleEditIncome() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editincome(new RequestCreateIncome(this), appUser.edit_income_id).enqueue(new Callback<EditIncomeResponse>()  {
+            @Override
+            public void onResponse(Call<EditIncomeResponse> call, Response<EditIncomeResponse> r) {
+                if (r.code() == 200) {
+                    EditIncomeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditIncomeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateExpence() {
+        api.createexpence(new RequestCreateEXpence(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateExpenceResponse>() {
+            @Override
+            public void onResponse(Call<CreateExpenceResponse> call, Response<CreateExpenceResponse> r) {
+                if (r.code() == 200) {
+                    CreateExpenceResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateExpenceResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetExpence() {
+        api.getexpence(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetExpenceResponse>() {
+            @Override
+            public void onResponse(Call<GetExpenceResponse> call, Response<GetExpenceResponse> r) {
+                if (r.code() == 200) {
+                    GetExpenceResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetExpenceResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteExpence() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deleteexpence(appUser.delete_expence_id).enqueue(new Callback<DeleteExpenceResponse>() {
+            @Override
+            public void onResponse(Call<DeleteExpenceResponse> call, Response<DeleteExpenceResponse> r) {
+                if (r.code() == 200) {
+                    DeleteExpenceResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteExpenceResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetExpenceDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getexpencedetails(appUser.edit_expence_id).enqueue(new Callback<GetExpenceDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetExpenceDetailsResponse> call, Response<GetExpenceDetailsResponse> response) {
+                if(response.code()==200){
+                    GetExpenceDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetExpenceDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditExpence() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editexpence(new RequestCreateEXpence(this), appUser.edit_expence_id).enqueue(new Callback<EditExpenceResponse>()  {
+            @Override
+            public void onResponse(Call<EditExpenceResponse> call, Response<EditExpenceResponse> r) {
+                if (r.code() == 200) {
+                    EditExpenceResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditExpenceResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
 
     private void handleGetBankCashDeposit() {
         api.getbankcashdeposit(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetBankCashDepositResponse>() {
@@ -2344,6 +2752,31 @@ public class ApiCallsService extends IntentService {
         } else {
             EventBus.getDefault().post(Cv.TIMEOUT);
         }
+
+    }
+
+
+    private void handlePurchase() {
+        api.createpurchase(new RequestCreatePurchase(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreatePurchaseResponce>() {
+            @Override
+            public void onResponse(Call<CreatePurchaseResponce> call, Response<CreatePurchaseResponce> r) {
+                if (r.code() == 200) {
+                    CreatePurchaseResponce body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePurchaseResponce> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
 
     }
 

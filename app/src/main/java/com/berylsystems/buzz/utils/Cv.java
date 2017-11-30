@@ -95,4 +95,24 @@ public interface Cv {
     String ACTION_GET_BANK_CASH_DEPOSIT_DETAILS="action_get_bank_cash_deposit_details";
     String ACTION_EDIT_BANK_CASH_DEPOSIT="action_edit_bank_cash_deposit";
 
+    String ACTION_CREATE_PURCHASE = "action_create_purchase";
+    String ACTION_ADD_ITEM_PURCHASE = "action_add_item_purchase";
+	
+String ACTION_CREATE_BANK_CASH_WITHDRAW="action_create_bank_cash_withdraw";
+    String ACTION_GET_BANK_CASH_WITHDRAW="action_get_bank_cash_withdraw";
+    String ACTION_DELETE_BANK_CASH_WITHDRAW="action_delete_bank_cash_withdraw";
+    String ACTION_GET_BANK_CASH_WITHDRAW_DETAILS="action_get_bank_cash_withdraw_details";
+    String ACTION_EDIT_BANK_CASH_WITHDRAW="action_edit_bank_cash_withdraw";
+
+    String ACTION_CREATE_INCOME="action_create_income";
+    String ACTION_GET_INCOME="action_get_income";
+    String ACTION_DELETE_INCOME="action_delete_income";
+    String ACTION_GET_INCOME_DETAILS="action_get_income_details";
+    String ACTION_EDIT_INCOME="action_edit_income";
+
+    String ACTION_CREATE_EXPENCE="action_create_expence";
+    String ACTION_GET_EXPENCE="action_get_expence";
+    String ACTION_DELETE_EXPENCE="action_delete_expence";
+    String ACTION_GET_EXPENCE_DETAILS="action_get_expence_details";
+    String ACTION_EDIT_EXPENCE="action_edit_expence";
 }

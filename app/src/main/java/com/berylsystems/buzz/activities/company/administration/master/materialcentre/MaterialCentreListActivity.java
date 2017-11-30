@@ -24,6 +24,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCen
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteMaterialCentre;
 import com.berylsystems.buzz.utils.EventEditMaterialCentre;
+import com.berylsystems.buzz.utils.EventSelectPurchase;
 import com.berylsystems.buzz.utils.EventSelectSaleVoucher;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
@@ -239,6 +240,21 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
     }
     @Subscribe
     public void clickEvent(EventSelectSaleVoucher pos) {
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name", name);
+        returnIntent.putExtra("id",arrid);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Subscribe
+    public void clickEventForPurchase(EventSelectPurchase pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];

@@ -13,10 +13,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
     </style>
+
     <style name="Theme.App.AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">false</item> <!-- that's the important bit -->
     </style>
@@ -42,9 +44,11 @@
     <style name="Gotham_Light">
         <item name="fontType">Gotham_Light</item>
     </style>
+
     <style name="Gotham_Book">
         <item name="fontType">Gotham_Book</item>
     </style>
+
     <style name="Gotham_Medium">
         <item name="fontType">Gotham_Medium</item>
     </style>
@@ -56,9 +60,14 @@
     <style name="Gothan_BookItalic">
         <item name="fontType">Gotham_BookItalic</item>
     </style>
+
     <style name="Gotham_Black">
         <item name="fontType">Gotham_Black</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

@@ -25,6 +25,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemVoucherAdapter;
@@ -69,6 +70,7 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 add_item_button.startAnimation(blinkOnClick);
+                ExpandableItemListActivity.comingFrom=0;
                 Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
                 intent.putExtra("bool",true);
                 startActivity(intent);
@@ -83,14 +85,14 @@ public class AddItemVoucherFragment extends Fragment {
                 getActivity().finish();
             }
         });
-        Timber.i("mlistmap" + appUser.mListMap);
-        Timber.i("mlistmapforbill" + appUser.mListMapForBill);
+        Timber.i("mlistmap" + appUser.mListMapForItemSale);
+        Timber.i("mlistmapforbill" + appUser.mListMapForBillSale);
 
-        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMap));
+        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
-        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBill));
+        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ProgressDialog progressDialog=new ProgressDialog(getActivity());
@@ -100,6 +102,17 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getContext(), SaleVoucherAddItemActivity.class);
+                intent.putExtra("bool",true);
+                ExpandableItemListActivity.comingFrom=0;
+                intent.putExtra("position",position);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getContext(), SaleVoucherAddBillActivity.class);
                 intent.putExtra("bool",true);
                 startActivity(intent);
                 getActivity().finish();
@@ -115,10 +128,10 @@ public class AddItemVoucherFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.show();
                         AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMap.remove(position);
+                        appUser.mListMapForItemSale.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
-                        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMap));
+                        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
                         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
                         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
                         progressDialog.dismiss();
@@ -146,10 +159,10 @@ public class AddItemVoucherFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.show();
                         AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForBill.remove(position);
+                        appUser.mListMapForBillSale.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
-                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBill));
+                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         progressDialog.dismiss();

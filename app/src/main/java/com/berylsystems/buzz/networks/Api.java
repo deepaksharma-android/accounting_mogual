@@ -12,10 +12,14 @@ import com.berylsystems.buzz.networks.api_request.RequestCompanySignature;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccount;
 import com.berylsystems.buzz.networks.api_request.RequestCreateAccountGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashDeposit;
+import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashWithdraw;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestCreateEXpence;
+import com.berylsystems.buzz.networks.api_request.RequestCreateIncome;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -29,7 +33,22 @@ import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
-
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.EditBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.expence.CreateExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.expence.DeleteExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.expence.EditExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.expence.GetExpenceDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.expence.GetExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
+import com.berylsystems.buzz.networks.api_response.income.DeleteIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.income.EditIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.income.GetIncomeDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.income.GetIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.income.CreateIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
@@ -363,5 +382,53 @@ public interface Api {
 
 	@POST("bank_cash_deposits")
     Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload);
+
+    @POST("bank_cash_withdraw")
+    Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload);
+
+    @GET("company_bank_cash_withdraw/{id}")
+    Call<GetBankCashWithdrawResponse> getbankcashwithdraw (@Path("id") String id);
+
+    @DELETE("bank_cash_withdraw/{id}")
+    Call<DeleteBankCashWithdrawResponse> deletebankcashwithdraw(@Path("id") String id);
+
+    @GET("bank_cash_withdraw/{id}")
+    Call<GetBankCashWithdrawDetailsResponse> getbankcashwithdrawdetails(@Path("id") String id);
+
+    @PATCH("bank_cash_withdraw/{id}")
+    Call<EditBankCashWithdrawResponse> editbankcashwithdraw(@Body RequestCreateBankCashWithdraw Payload, @Path("id") String id);
+    @POST("purchase_voucher/{id}")
+    Call<CreatePurchaseResponce> createpurchase(@Body RequestCreatePurchase payload, @Path("id") String id);
+	
+	@POST("incomes/{id}")
+    Call<CreateIncomeResponse> createincome(@Body RequestCreateIncome payload, @Path("id") String id);
+	
+    @GET("company_incomes/{id}")
+    Call<GetIncomeResponse> getincome(@Path("id") String id);
+
+    @DELETE("incomes/{id}")
+    Call<DeleteIncomeResponse> deleteincome(@Path("id") String id);
+
+    @GET("incomes/{id}")
+    Call<GetIncomeDetailsResponse> getincomedetails(@Path("id") String id);
+
+    @PATCH("incomes/{id}")
+    Call<EditIncomeResponse> editincome(@Body RequestCreateIncome payload,@Path("id") String id);
+
+    @POST("expenses/{id}")
+    Call<CreateExpenceResponse> createexpence (@Body RequestCreateEXpence payload, @Path("id") String id);
+
+    @GET("company_expenses/{id}")
+    Call<GetExpenceResponse>  getexpence(@Path("id") String id);
+
+    @DELETE("expenses/{id}")
+    Call<DeleteExpenceResponse> deleteexpence(@Path("id") String id);
+
+    @GET("expenses/{id}")
+    Call<GetExpenceDetailsResponse> getexpencedetails(@Path("id") String id);
+
+    @PATCH("expenses/{id}")
+    Call<EditExpenceResponse> editexpence(@Body RequestCreateEXpence payload, @Path("id") String id);
+
 }
 

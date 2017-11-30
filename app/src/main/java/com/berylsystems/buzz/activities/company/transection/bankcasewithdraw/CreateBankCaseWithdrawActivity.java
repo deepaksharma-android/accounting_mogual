@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.company.transection.bankcasewithdraw;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -13,16 +14,33 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.bankcashdeposit.CreateBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.EditBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawResponse;
+import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
+import com.bumptech.glide.Glide;
+
 import org.greenrobot.eventbus.Subscribe;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -34,6 +52,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
+
 public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.date)
@@ -42,7 +62,24 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     LinearLayout mBrowseImage;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
+    @Bind(R.id.withdraw_from)
+    TextView withdraw_from;
+    @Bind(R.id.withdraw_by)
+    TextView withdraw_by;
+    @Bind(R.id.transaction_spinner)
+    Spinner transaction_spinner;
+    @Bind(R.id.vouchar_no)
+    EditText voucher_no;
+    @Bind(R.id.transaction_amount)
+    EditText transaction_amount;
+    @Bind(R.id.transaction_narration)
+    EditText transaction_narration;
+    @Bind(R.id.submit)
+    LinearLayout mSubmit;
+    @Bind(R.id.update)
+    LinearLayout mUpdate;
     Snackbar snackbar;
+    @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog DatePickerDialog1;
@@ -50,6 +87,9 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     private String selectedImagePath;
     InputStream inputStream = null;
     String encodedString;
+    String title;
+    Boolean fromBankcashWithdraw;
+    ProgressDialog mProgressDialog;
     AppUser appUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +97,48 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
         initActionbar();
+        appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.drawable.list_button);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+
+        title = "CREATE BANK CASH WITHDRAW";
+        fromBankcashWithdraw = getIntent().getExtras().getBoolean("frombankcashwithdraw");
+        if (fromBankcashWithdraw == true) {
+            title = "EDIT BANK CASH WITHDRAW";
+            mSubmit.setVisibility(View.GONE);
+            mUpdate.setVisibility(View.VISIBLE);
+            appUser.edit_bank_cash_withdraw_id = getIntent().getExtras().getString("id");
+            LocalRepositories.saveAppUser(this, appUser);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_WITHDRAW_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
+
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +146,129 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);
             }
         });
+
+        withdraw_from.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUser.account_master_group = "Bank Accounts";
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
+                startActivityForResult(i, 4);
+            }
+        });
+
+        withdraw_by.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUser.account_master_group = "Cash-in-hand";
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
+                startActivityForResult(i, 5);
+            }
+        });
+
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!transaction_amount.getText().toString().equals("") &&
+                        !withdraw_from.getText().toString().equals("") && !withdraw_by.getText().toString().equals("")) {
+                    appUser.bank_cash_withdraw_voucher_series = transaction_spinner.getSelectedItem().toString();
+                    appUser.bank_cash_withdraw_date = set_date.getText().toString();
+                    appUser.bank_cash_withdraw_voucher_no = voucher_no.getText().toString();
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        appUser.bank_cash_withdraw_amount = Double.parseDouble(transaction_amount.getText().toString());
+                    }
+                    appUser.bank_cash_withdraw_narration = transaction_narration.getText().toString();
+                    appUser.bank_cash_withdraw_attachment = encodedString;
+
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_BANK_CASH_WITHDRAW);
+                    } else {
+                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                        snackbar.show();
+                    }
+                    voucher_no.setText("");
+                    transaction_amount.setText("");
+                    transaction_narration.setText("");
+                    withdraw_from.setText("");
+                    withdraw_by.setText("");
+                    //mSelectedImage.setImageResource(0);
+                    mSelectedImage.setImageDrawable(null);
+                }
+            }
+        });
+
+        mUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!withdraw_from.getText().toString().equals("") && !withdraw_by.getText().toString().equals("")) {
+                    appUser.bank_cash_withdraw_voucher_series = transaction_spinner.getSelectedItem().toString();
+                    appUser.bank_cash_withdraw_date = set_date.getText().toString();
+                    appUser.bank_cash_withdraw_voucher_no = voucher_no.getText().toString();
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        appUser.bank_cash_withdraw_amount = Double.parseDouble(transaction_amount.getText().toString());
+                    }
+                    appUser.bank_cash_withdraw_narration = transaction_narration.getText().toString();
+                    appUser.bank_cash_withdraw_attachment = encodedString;
+
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_BANK_CASH_WITHDRAW);
+                    } else {
+                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                        snackbar.show();
+                    }
+                }
+            }
+        });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),BankCaseWithdrawActivity.class);
+                startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setDateField() {
@@ -121,6 +324,25 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     e.printStackTrace();
                 }
             }
+
+            if (requestCode == 4) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                Timber.i("MY IDIDID"+id);
+                appUser.withdraw_from_id =id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                withdraw_from.setText(name[0]);
+            }
+            if (requestCode == 5) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                Timber.i("MY IDIDID"+id);
+                appUser.withdraw_by_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                withdraw_by.setText(name[0]);
+            }
         }
     }
 
@@ -157,12 +379,77 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
+    @Subscribe
+    public void createbankcashwithdrawresponse(CreateBankCashWithdrawResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getBankCashWithdrawDetails(GetBankCashWithdrawDetailsResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            set_date.setText(response.getBank_cash_withdraw().getData().getAttributes().getDate());
+            voucher_no.setText(response.getBank_cash_withdraw().getData().getAttributes().getVoucher_number());
+            withdraw_from.setText(response.getBank_cash_withdraw().getData().getAttributes().getWithdraw_from());
+            withdraw_by.setText(response.getBank_cash_withdraw().getData().getAttributes().getWithdraw_by());
+            transaction_amount.setText(String.valueOf(response.getBank_cash_withdraw().getData().getAttributes().getAmount()));
+            transaction_narration.setText(response.getBank_cash_withdraw().getData().getAttributes().getNarration());
+            Glide.with(this).load(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /* @Subscribe
+    public void getBankCashWithdraw(GetBankCashWithdrawResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+                Intent intent = new Intent(this, BankCaseWithdrawActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            Snackbar
+                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }*/
+
+    @Subscribe
+    public void editBankCashWithdraw(EditBankCashWithdrawResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Intent intent = new Intent(this, BankCaseWithdrawActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(intent);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
-        //mProgressDialog.dismiss();
+        mProgressDialog.dismiss();
 
     }
     @Override
