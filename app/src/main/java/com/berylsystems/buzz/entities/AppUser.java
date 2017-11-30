@@ -300,5 +300,38 @@ public class AppUser {
     public String purchase_narration = "";
     public String purchase_created_at="";
     public String purchase_update_at="";
+	
+	 public String withdraw_from_id;
+    public String withdraw_by_id;
+    public String bank_cash_withdraw_voucher_series="";
+    public String bank_cash_withdraw_date="";
+    public String bank_cash_withdraw_voucher_no="";
+    public Double bank_cash_withdraw_amount;
+    public String bank_cash_withdraw_narration="";
+    public String bank_cash_withdraw_attachment="";
+    public String delete_bank_cash_withdraw_id;
+    public String edit_bank_cash_withdraw_id;
+
+    public String received_into_id;
+    public String received_from_id;
+    public String income_voucher_series="";
+    public String income_date="";
+    public String income_voucher_no="";
+    public Double income_amount;
+    public String income_narration="";
+    public String income_attachment="";
+    public String delete_income_id;
+    public String edit_income_id;
+
+    public String paid_from_id;
+    public String paid_to_id;
+    public String expence_voucher_series="";
+    public String expence_date="";
+    public String expence_voucher_no="";
+    public Double expence_amount;
+    public String expence_narration="";
+    public String expence_attachment="";
+    public String delete_expence_id;
+	public String edit_expence_id;
 
 }
