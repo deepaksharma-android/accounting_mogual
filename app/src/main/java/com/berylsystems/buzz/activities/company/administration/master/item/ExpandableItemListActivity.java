@@ -70,6 +70,12 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     HashMap<Integer, List<Boolean>> listDataChildSerialWise;
     HashMap<Integer, List<Boolean>> listDataChildBatchWise;
     HashMap<Integer, List<String>> listDataChildApplied;
+    HashMap<Integer, List<String>> listDataChildAlternateConFactor;
+    HashMap<Integer, List<String>> listDataChildDefaultUnit;
+    HashMap<Integer, List<String>> listDataChildPackagingConfactor;
+    HashMap<Integer, List<String>> listDataChildPackagingSalesPrice;
+    HashMap<Integer, List<String>> listDataChildPackagingUnit;
+
 
     ProgressDialog mProgressDialog;
     AppUser appUser;
@@ -84,6 +90,12 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     List<Boolean> serailWise;
     List<Boolean> batchWise;
     List<String> applied;
+    List<String> alternate_con_factor;
+    List<String> default_unit;
+    List<String> packaging_con_factor;
+    List<String> packaging_sales_price;
+    List<String> packaging_unit;
+
 
 
     @Override
@@ -162,6 +174,12 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             listDataChildSerialWise = new HashMap<Integer, List<Boolean>>();
             listDataChildBatchWise = new HashMap<Integer, List<Boolean>>();
             listDataChildApplied = new HashMap<Integer, List<String>>();
+            listDataChildAlternateConFactor = new HashMap<Integer, List<String>>();
+            listDataChildDefaultUnit = new HashMap<Integer, List<String>>();
+            listDataChildPackagingUnit = new HashMap<Integer, List<String>>();
+            listDataChildDefaultUnit = new HashMap<Integer, List<String>>();
+            listDataChildPackagingSalesPrice = new HashMap<Integer, List<String>>();
+            listDataChildPackagingConfactor = new HashMap<Integer, List<String>>();
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_items().size() == 0) {
@@ -178,6 +196,11 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 serailWise = new ArrayList<>();
                 applied = new ArrayList<>();
                 batchWise = new ArrayList<>();
+                alternate_con_factor = new ArrayList<>();
+                default_unit = new ArrayList<>();
+                packaging_con_factor = new ArrayList<>();
+                packaging_sales_price = new ArrayList<>();
+                packaging_unit = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
@@ -201,11 +224,37 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                     } else {
                         salesPriceAlternate.add("");
                     }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getConversion_factor()) != null) {
+                        alternate_con_factor.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getConversion_factor()));
+                    } else {
+                        alternate_con_factor.add("");
+                    }
                     unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_unit());
+
                     if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getAlternate_unit() != null) {
                         alternateUnit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getAlternate_unit());
                     } else {
                         alternateUnit.add("");
+                    }
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_sales() != null) {
+                        default_unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_sales());
+                    } else {
+                        default_unit.add("");
+                    }
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_package_unit() != null) {
+                        packaging_unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_package_unit());
+                    } else {
+                        packaging_unit.add("");
+                    }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getConversion_factor_package()) != null) {
+                        packaging_con_factor.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getConversion_factor_package()));
+                    } else {
+                        packaging_con_factor.add("");
+                    }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSale_price()) != null) {
+                        packaging_sales_price.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSale_price()));
+                    } else {
+                        packaging_sales_price.add("");
                     }
                     if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail()) != null) {
                         batchWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail());
@@ -229,6 +278,11 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 listDataChildSerialWise.put(i, serailWise);
                 listDataChildBatchWise.put(i, batchWise);
                 listDataChildApplied.put(i, applied);
+                listDataChildAlternateConFactor.put(i, alternate_con_factor);
+                listDataChildDefaultUnit.put(i, default_unit);
+                listDataChildPackagingConfactor.put(i, packaging_con_factor);
+                listDataChildPackagingSalesPrice.put(i, packaging_sales_price);
+                listDataChildPackagingUnit.put(i, packaging_unit);
             }
             listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -342,6 +396,11 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String alternate_unit_con_factor=listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String default_unit=listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String packaging_unit_con_factor=listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String packaging_unit_sales_price=listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String packaging_unit=listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             intent.putExtra("fromitemlist", true);
             intent.putExtra("id", childid);
             intent.putExtra("name", itemName);
@@ -353,6 +412,11 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             intent.putExtra("sales_price_main", sales_price_main);
             intent.putExtra("sales_price_alternate", sales_price_alternate);
             intent.putExtra("applied", applied);
+            intent.putExtra("alternate_unit_con_factor",alternate_unit_con_factor);
+            intent.putExtra("default_unit",default_unit);
+            intent.putExtra("packaging_unit_con_factor",packaging_unit_con_factor);
+            intent.putExtra("packaging_unit_sales_price",packaging_unit_sales_price);
+            intent.putExtra("packaging_unit",packaging_unit);
             startActivity(intent);
             finish();
         } else if (ExpandableItemListActivity.comingFrom == 1) {

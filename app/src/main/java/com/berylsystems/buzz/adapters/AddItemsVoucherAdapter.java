@@ -63,7 +63,7 @@ public class AddItemsVoucherAdapter extends BaseAdapter {
         Timber.i("MEEEEEEEEEE"+mListMap.get(position));
         String itemName= (String) map.get("item_name");
         String description= (String) map.get("description");
-        String quality= (String) map.get("quality");
+        String quantity= (String) map.get("quantity");
         String unit= (String) map.get("unit");
         String srNo= (String) map.get("sr_no");
         String rate= (String) map.get("rate");
@@ -73,7 +73,7 @@ public class AddItemsVoucherAdapter extends BaseAdapter {
 
         holder.mItemName.setText(itemName);
         holder.mDiscount.setText(discount);
-        holder.mUnit.setText(unit);
+        holder.mUnit.setText(quantity+"*"+rate);
         holder.mSrNo.setText("Sr.No. "+srNo);
         holder.mTotal.setText(total);
         return convertView;

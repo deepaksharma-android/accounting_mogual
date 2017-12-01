@@ -104,4 +104,56 @@ public class Attributes {
     }
 
     public String sales_price_applied_on;
+
+    public double getConversion_factor() {
+        return conversion_factor;
+    }
+
+    public void setConversion_factor(double conversion_factor) {
+        this.conversion_factor = conversion_factor;
+    }
+
+    public double conversion_factor;
+
+    public String getDefault_unit_for_sales() {
+        return default_unit_for_sales;
+    }
+
+    public void setDefault_unit_for_sales(String default_unit_for_sales) {
+        this.default_unit_for_sales = default_unit_for_sales;
+    }
+
+    public String default_unit_for_sales;
+
+    public int getConversion_factor_package() {
+        return conversion_factor_package;
+    }
+
+    public void setConversion_factor_package(int conversion_factor_package) {
+        this.conversion_factor_package = conversion_factor_package;
+    }
+
+
+
+    public int conversion_factor_package;
+
+    public double getSale_price() {
+        return sale_price;
+    }
+
+    public void setSale_price(double sale_price) {
+        this.sale_price = sale_price;
+    }
+
+    public double sale_price;
+
+    public String getItem_package_unit() {
+        return item_package_unit;
+    }
+
+    public void setItem_package_unit(String item_package_unit) {
+        this.item_package_unit = item_package_unit;
+    }
+
+    public String item_package_unit;
 }

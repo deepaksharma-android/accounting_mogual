@@ -72,8 +72,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     Animation blinkOnClick;
     ArrayList<String> mUnitList;
     ArrayAdapter<String> mUnitAdapter;
-    String serial="";
+    String serial = "";
     String sales_price_applied_on;
+    String price_selected_unit;
+    String alternate_unit_con_factor;
+    String packaging_unit_con_factor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +87,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         initActionbar();
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
-        mUnitList=new ArrayList<>();
+        mUnitList = new ArrayList<>();
         mItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ExpandableItemListActivity.class));
+                startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
             }
         });
 
@@ -108,14 +111,19 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
         String name = intent.getStringExtra("name");
-        String desc=intent.getStringExtra("desc");
-        String main_unit=intent.getStringExtra("main_unit");
-        String alternate_unit=intent.getStringExtra("alternate_unit");
-        String sales_price_main=intent.getStringExtra("sales_price_main");
-        String sales_price_alternate=intent.getStringExtra("sales_price_alternate");
-        Boolean serailwise=intent.getExtras().getBoolean("serial_wise");
-        Boolean batchwise=intent.getExtras().getBoolean("batch_wise");
-        sales_price_applied_on=intent.getStringExtra("applied");
+        String desc = intent.getStringExtra("desc");
+        String main_unit = intent.getStringExtra("main_unit");
+        String alternate_unit = intent.getStringExtra("alternate_unit");
+        String sales_price_main = intent.getStringExtra("sales_price_main");
+        String sales_price_alternate = intent.getStringExtra("sales_price_alternate");
+        Boolean serailwise = intent.getExtras().getBoolean("serial_wise");
+        Boolean batchwise = intent.getExtras().getBoolean("batch_wise");
+        String packaging_unit = intent.getStringExtra("packaging_unit");
+        String default_unit = intent.getStringExtra("default_unit");
+        String packaging_unit_sales_price = intent.getStringExtra("packaging_unit_sales_price");
+        packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
+        sales_price_applied_on = intent.getStringExtra("applied");
+        alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
@@ -168,8 +176,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         });
         mItemName.setText(name);
         mDescription.setText(desc);
-        mUnitList.add(main_unit);
-        mUnitList.add(alternate_unit);
+        mUnitList.add("Main Unit : " + main_unit);
+        mUnitList.add("Alternate Unit :" + alternate_unit);
+        if (!packaging_unit.equals("")) {
+            mUnitList.add("Packaging Unit :" + packaging_unit);
+        }
+
         mItemName.setEnabled(false);
         mValue.setEnabled(false);
         mTotal.setEnabled(false);
@@ -177,22 +189,77 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, mUnitList);
         mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerUnit.setAdapter(mUnitAdapter);
-        mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
-                    mRate.setText(sales_price_alternate);
-                }
-                else{
-                    mRate.setText(sales_price_main);
-                }
-            }
+        if (!packaging_unit.equals("")) {
+            mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                        if (i == 2) {
+                            price_selected_unit = "packaging";
+                            if (sales_price_applied_on.equals("Main Unit")) {
+                                Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
+                                mRate.setText(String.valueOf(main_unit_price));
 
-            }
-        });
+                            } else if (sales_price_applied_on.equals("Alternate Unit")) {
+                                Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
+                                Double alternate_unit_price = main_unit_price / Double.parseDouble(alternate_unit_con_factor);
+                                mRate.setText(String.valueOf(alternate_unit_price));
+                            }
+
+                        }
+                        if (i == 0) {
+                            price_selected_unit = "main";
+                            if (sales_price_applied_on.equals("Alternate Unit")) {
+                                Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
+                                mRate.setText(String.valueOf(main_unit_price));
+                            } else {
+                                mRate.setText(sales_price_main);
+                            }
+                        } else if (i == 1) {
+                            price_selected_unit = "alternate";
+                            if (sales_price_applied_on.equals("Main Unit")) {
+                                Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
+                                mRate.setText(String.valueOf(alternate_unit_price));
+                            } else {
+                                mRate.setText(sales_price_alternate);
+                            }
+                        }
+                    }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        } else {
+            mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (i == 0) {
+                        price_selected_unit = "main";
+                        if (sales_price_applied_on.equals("Alternate Unit")) {
+                            Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
+                            mRate.setText(String.valueOf(main_unit_price));
+                        } else {
+                            mRate.setText(sales_price_main);
+                        }
+                    } else if (i == 1) {
+                        price_selected_unit = "alternate";
+                        if (sales_price_applied_on.equals("Main Unit")) {
+                            Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
+                            mRate.setText(String.valueOf(alternate_unit_price));
+                        } else {
+                            mRate.setText(sales_price_alternate);
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,7 +273,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 mMap.put("discount", mDiscount.getText().toString());
                 mMap.put("value", mValue.getText().toString());
                 mMap.put("total", mTotal.getText().toString());
-                mMap.put("applied",sales_price_applied_on);
+                mMap.put("applied", sales_price_applied_on);
+                mMap.put("price_selected_unit", price_selected_unit);
+                mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemSale.add(mMap);
                 // appUser.mListMap = mListMap;
@@ -348,7 +418,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("SALE VOUCHER ADD ITEM");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -357,14 +427,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent=getIntent();
-        boolean b=intent.getBooleanExtra("bool",false);
-        if (b){
+        Intent intent = getIntent();
+        boolean b = intent.getBooleanExtra("bool", false);
+        if (b) {
             Intent intent1 = new Intent(this, CreateSaleActivity.class);
-            intent1.putExtra("is",true);
+            intent1.putExtra("is", true);
             startActivity(intent1);
             finish();
-        }else {
+        } else {
             Intent intent2 = new Intent(this, ExpandableItemListActivity.class);
             startActivity(intent2);
             finish();
