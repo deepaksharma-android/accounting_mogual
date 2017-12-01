@@ -21,7 +21,6 @@ import com.berylsystems.buzz.activities.company.administration.master.billsundry
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
-import com.berylsystems.buzz.adapters.AddItemVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.ListHeight;
@@ -47,7 +46,6 @@ public class AddItemSaleReturnFragment extends Fragment {
     @Bind(R.id.listViewBills)
     ListView listViewBills;
     AppUser appUser;
-    AddItemVoucherAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
 

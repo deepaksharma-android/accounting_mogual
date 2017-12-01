@@ -62,27 +62,30 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
             @Override
             public void onClick(View view) {
 
-                if(i==0) {
+               /* if(i==0){
                     Dialog dialogbal = new Dialog(context);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogbal.setContentView(R.layout.dialog_operation);
                     dialogbal.setCancelable(true);
-                    LinearLayout add = (LinearLayout) dialogbal.findViewById(R.id.add_layout);
-                    LinearLayout modify = (LinearLayout) dialogbal.findViewById(R.id.modify_layout);
+                    LinearLayout add=(LinearLayout)dialogbal.findViewById(R.id.add_layout);
+                    LinearLayout modify=(LinearLayout)dialogbal.findViewById(R.id.modify_layout);
                     add.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            context.startActivity(new Intent(context, CreateSaleActivity.class));
+                            context.startActivity(new Intent(context,CreateSaleActivity.class));
                         }
                     });
                     modify.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            context.startActivity(new Intent(context, GetSaleListActivity.class));
+                            context.startActivity(new Intent(context,GetSaleListActivity.class));
                         }
-                    });
+                    });*/
                     //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
-                    //context.startActivity(new Intent(context, CreateSaleActivity.class));
+
+                if (i == 0) {
+                    context.startActivity(new Intent(context, CreateSaleActivity.class));
+
                 }
                 if (i == 1) {
                     context.startActivity(new Intent(context, CreatePurchaseActivity.class));

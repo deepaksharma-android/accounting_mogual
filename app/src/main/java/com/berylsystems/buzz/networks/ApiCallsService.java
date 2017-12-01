@@ -314,7 +314,7 @@ public class ApiCallsService extends IntentService {
             hadleGetTaxCategory();
         } else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
             handleSaleVoucher();
-        }else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
+        }else if (Cv.ACTION_GET_SALE_VOUCHER_LIST.equals(action)) {
             handleGetSaleVoucherList();
         }
         else if(Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)){

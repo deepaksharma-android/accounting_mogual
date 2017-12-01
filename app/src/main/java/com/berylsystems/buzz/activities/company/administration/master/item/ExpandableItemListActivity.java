@@ -49,7 +49,7 @@ import butterknife.ButterKnife;
 public class ExpandableItemListActivity extends BaseActivityCompany {
 
 
-    public static Integer comingFrom=0;
+    public static Integer comingFrom = 0;
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -69,6 +69,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     HashMap<Integer, List<String>> listDataChildSalePriceAlternate;
     HashMap<Integer, List<Boolean>> listDataChildSerialWise;
     HashMap<Integer, List<Boolean>> listDataChildBatchWise;
+    HashMap<Integer, List<String>> listDataChildApplied;
 
     ProgressDialog mProgressDialog;
     AppUser appUser;
@@ -82,6 +83,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     List<String> salesPriceAlternate;
     List<Boolean> serailWise;
     List<Boolean> batchWise;
+    List<String> applied;
 
 
     @Override
@@ -142,7 +144,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 R.anim.blink_on_click);
         v.startAnimation(animFadeIn);
         Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
-        intent.putExtra("fromlist",true);
+        intent.putExtra("fromlist", true);
         startActivity(intent);
     }
 
@@ -152,86 +154,86 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
-            listDataChildDesc =new HashMap<Integer, List<String>>();
-            listDataChildUnit =new HashMap<Integer, List<String>>();
-            listDataChildAlternateUnit =new HashMap<Integer, List<String>>();
-            listDataChildSalePriceMain =new HashMap<Integer, List<String>>();
-            listDataChildSalePriceAlternate =new HashMap<Integer, List<String>>();
-            listDataChildSerialWise =new HashMap<Integer, List<Boolean>>();
-            listDataChildBatchWise =new HashMap<Integer, List<Boolean>>();
+            listDataChildDesc = new HashMap<Integer, List<String>>();
+            listDataChildUnit = new HashMap<Integer, List<String>>();
+            listDataChildAlternateUnit = new HashMap<Integer, List<String>>();
+            listDataChildSalePriceMain = new HashMap<Integer, List<String>>();
+            listDataChildSalePriceAlternate = new HashMap<Integer, List<String>>();
+            listDataChildSerialWise = new HashMap<Integer, List<Boolean>>();
+            listDataChildBatchWise = new HashMap<Integer, List<Boolean>>();
+            listDataChildApplied = new HashMap<Integer, List<String>>();
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
-            if(response.getOrdered_items().size()==0){
-                Snackbar.make(coordinatorLayout,"No Item Found!!",Snackbar.LENGTH_LONG).show();
+            if (response.getOrdered_items().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
-                for (int i = 0; i < response.getOrdered_items().size(); i++) {
-                    listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
-                    name = new ArrayList<>();
-                    description = new ArrayList<>();
-                    unit = new ArrayList<>();
-                    salesPriceMain = new ArrayList<>();
-                    salesPriceAlternate = new ArrayList<>();
-                    alternateUnit = new ArrayList<>();
-                    serailWise = new ArrayList<>();
-                    batchWise = new ArrayList<>();
-                    id = new ArrayList<>();
-                    for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
-                        name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
-                        if(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description()!=null) {
-                            description.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description());
-                        }
-                        else{
-                            description.add("");
-                        }
-                        if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main())!=null) {
-                            salesPriceMain.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()));
-                        }
-                        else{
-                            salesPriceMain.add("");
-                        }
-                        if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_alternate())!=null) {
-                            salesPriceAlternate.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_alternate()));
-                        }
-                        else{
-                            salesPriceAlternate.add("");
-                        }
-                        unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_unit());
-                        if(response.getOrdered_items().get(i).getData().get(j).getAttributes().getAlternate_unit()!=null) {
-                            alternateUnit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getAlternate_unit());
-                        }
-                        else{
-                            alternateUnit.add("");
-                        }
-                        if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail())!=null) {
-                            batchWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail());
-                        }
-                        else{
-                            batchWise.add(false);
-                        }
-                        if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail())!=null) {
-                            serailWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail());
-                        }
-                        else{
-                            serailWise.add(false);
-                        }
-                        id.add(response.getOrdered_items().get(i).getData().get(j).getId());
+            for (int i = 0; i < response.getOrdered_items().size(); i++) {
+                listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
+                name = new ArrayList<>();
+                description = new ArrayList<>();
+                unit = new ArrayList<>();
+                salesPriceMain = new ArrayList<>();
+                salesPriceAlternate = new ArrayList<>();
+                alternateUnit = new ArrayList<>();
+                serailWise = new ArrayList<>();
+                applied = new ArrayList<>();
+                batchWise = new ArrayList<>();
+                id = new ArrayList<>();
+                for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
+                    name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description() != null) {
+                        description.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description());
+                    } else {
+                        description.add("");
                     }
-                    listDataChild.put(listDataHeader.get(i), name);
-                    listDataChildId.put(i, id);
-                    listDataChildDesc.put(i, description);
-                    listDataChildUnit.put(i, unit);
-                    listDataChildAlternateUnit.put(i, alternateUnit);
-                    listDataChildSalePriceMain.put(i, salesPriceMain);
-                    listDataChildSalePriceAlternate.put(i, salesPriceAlternate);
-                    listDataChildSerialWise.put(i, serailWise);
-                    listDataChildBatchWise.put(i, batchWise);
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_applied_on() != null) {
+                        applied.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_applied_on());
+                    } else {
+                        applied.add("");
+                    }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()) != null) {
+                        salesPriceMain.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()));
+                    } else {
+                        salesPriceMain.add("");
+                    }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_alternate()) != null) {
+                        salesPriceAlternate.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_alternate()));
+                    } else {
+                        salesPriceAlternate.add("");
+                    }
+                    unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_unit());
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getAlternate_unit() != null) {
+                        alternateUnit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getAlternate_unit());
+                    } else {
+                        alternateUnit.add("");
+                    }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail()) != null) {
+                        batchWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isBatch_wise_detail());
+                    } else {
+                        batchWise.add(false);
+                    }
+                    if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail()) != null) {
+                        serailWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail());
+                    } else {
+                        serailWise.add(false);
+                    }
+                    id.add(response.getOrdered_items().get(i).getData().get(j).getId());
                 }
-                listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
+                listDataChild.put(listDataHeader.get(i), name);
+                listDataChildId.put(i, id);
+                listDataChildDesc.put(i, description);
+                listDataChildUnit.put(i, unit);
+                listDataChildAlternateUnit.put(i, alternateUnit);
+                listDataChildSalePriceMain.put(i, salesPriceMain);
+                listDataChildSalePriceAlternate.put(i, salesPriceAlternate);
+                listDataChildSerialWise.put(i, serailWise);
+                listDataChildBatchWise.put(i, batchWise);
+                listDataChildApplied.put(i, applied);
+            }
+            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
 
-                // setting list adapter
-                expListView.setAdapter(listAdapter);
-
-
+            // setting list adapter
+            expListView.setAdapter(listAdapter);
 
 
         } else {
@@ -242,8 +244,6 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
 
 
     }
-
-
 
 
     @Subscribe
@@ -326,42 +326,41 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         appUser.childId = arrid;
         LocalRepositories.saveAppUser(this, appUser);
- if (ExpandableItemListActivity.comingFrom==0){
-        Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
-        String itemName=listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-        String descr;
-        String alternate_unit;
-        String sales_price_main;
-        String sales_price_alternate;
-        Boolean batch,serial;
-        descr =listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        sales_price_main=listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        sales_price_alternate=listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        batch=listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        serial=listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        String main_unit=listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));;
-
-        intent.putExtra("fromitemlist", true);
-        intent.putExtra("id",childid);
-        intent.putExtra("name",itemName);
-        intent.putExtra("desc",descr);
-        intent.putExtra("main_unit",main_unit);
-        intent.putExtra("alternate_unit",alternate_unit);
-        intent.putExtra("serial_wise",serial);
-        intent.putExtra("batch_wise",batch);
-        intent.putExtra("sales_price_main",sales_price_main);
-        intent.putExtra("sales_price_alternate",sales_price_alternate);
-
-        startActivity(intent);
-        finish();
-		}
-		else if (ExpandableItemListActivity.comingFrom==1){
-            Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
-            String itemName=name.get(Integer.valueOf(childid)).toString();
+        if (ExpandableItemListActivity.comingFrom == 0) {
+            Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+            String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+            String descr;
+            String alternate_unit;
+            String sales_price_main;
+            String sales_price_alternate;
+            Boolean batch, serial;
+            descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            sales_price_main = listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             intent.putExtra("fromitemlist", true);
-            intent.putExtra("id",childid);
-            intent.putExtra("name",itemName);
+            intent.putExtra("id", childid);
+            intent.putExtra("name", itemName);
+            intent.putExtra("desc", descr);
+            intent.putExtra("main_unit", main_unit);
+            intent.putExtra("alternate_unit", alternate_unit);
+            intent.putExtra("serial_wise", serial);
+            intent.putExtra("batch_wise", batch);
+            intent.putExtra("sales_price_main", sales_price_main);
+            intent.putExtra("sales_price_alternate", sales_price_alternate);
+            intent.putExtra("applied", applied);
+            startActivity(intent);
+            finish();
+        } else if (ExpandableItemListActivity.comingFrom == 1) {
+            Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
+            String itemName = name.get(Integer.valueOf(childid)).toString();
+            intent.putExtra("fromitemlist", true);
+            intent.putExtra("id", childid);
+            intent.putExtra("name", itemName);
             startActivity(intent);
             finish();
         }
@@ -369,8 +368,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
 
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(this, CreateSaleActivity.class);
-        intent.putExtra("is",true);
+        Intent intent = new Intent(this, CreateSaleActivity.class);
+        intent.putExtra("is", true);
         startActivity(intent);
         finish();
     }

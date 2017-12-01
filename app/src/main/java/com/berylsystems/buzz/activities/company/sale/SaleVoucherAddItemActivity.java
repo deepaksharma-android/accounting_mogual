@@ -73,6 +73,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     ArrayList<String> mUnitList;
     ArrayAdapter<String> mUnitAdapter;
     String serial="";
+    String sales_price_applied_on;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         String sales_price_alternate=intent.getStringExtra("sales_price_alternate");
         Boolean serailwise=intent.getExtras().getBoolean("serial_wise");
         Boolean batchwise=intent.getExtras().getBoolean("batch_wise");
+        sales_price_applied_on=intent.getStringExtra("applied");
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
@@ -197,13 +199,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 mSubmit.startAnimation(blinkOnClick);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
-                mMap.put("quality", mQuantity.getText().toString());
+                mMap.put("quantity", mQuantity.getText().toString());
                 mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
                 mMap.put("sr_no", mSr_no.getText().toString());
                 mMap.put("rate", mRate.getText().toString());
                 mMap.put("discount", mDiscount.getText().toString());
                 mMap.put("value", mValue.getText().toString());
                 mMap.put("total", mTotal.getText().toString());
+                mMap.put("applied",sales_price_applied_on);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemSale.add(mMap);
                 // appUser.mListMap = mListMap;

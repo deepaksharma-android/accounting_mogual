@@ -94,4 +94,14 @@ public class Attributes {
     }
 
     public boolean batch_wise_detail;
+
+    public String getSales_price_applied_on() {
+        return sales_price_applied_on;
+    }
+
+    public void setSales_price_applied_on(String sales_price_applied_on) {
+        this.sales_price_applied_on = sales_price_applied_on;
+    }
+
+    public String sales_price_applied_on;
 }

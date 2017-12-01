@@ -100,6 +100,7 @@
         android:background="#000">
 
         <com.berylsystems.buzz.utils.BuzzTextView
+            android:id="@+id/total"
             style="@style/Gotham_Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

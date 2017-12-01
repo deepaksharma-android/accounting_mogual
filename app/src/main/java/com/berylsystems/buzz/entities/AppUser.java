@@ -286,6 +286,7 @@ public class AppUser {
     public String edit_bank_cash_deposit_id;
 
     public ArrayList<BillSundryData> billSundryData = new ArrayList<>();
+    public ArrayList<BillSundryData> SalebillSundryData = new ArrayList<>();
 
     public String purchase_date = "";
     public String purchase_voucher_series="";
@@ -333,5 +334,7 @@ public class AppUser {
     public String expence_attachment="";
     public String delete_expence_id;
 	public String edit_expence_id;
+    public String bill_sundry_fed_as="";
+    public String bill_sundry_sale_voucher_type="";
 
 }

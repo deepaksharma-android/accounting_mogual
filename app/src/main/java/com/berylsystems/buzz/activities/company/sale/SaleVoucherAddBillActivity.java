@@ -74,8 +74,12 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 submit.startAnimation(blinkOnClick);
+               appUser.bill_sundry_fed_as=data.getAttributes().getAmount_of_bill_sundry_fed_as();
+                appUser.bill_sundry_sale_voucher_type=data.getAttributes().getBill_sundry_type();
                 mMap.put("courier_charges",billSundryCharges);
                 mMap.put("percentage",billSundaryPercentage);
+                mMap.put("fed_as",data.getAttributes().getAmount_of_bill_sundry_fed_as());
+                mMap.put("type",data.getAttributes().getBill_sundry_type());
                 mMap.put("amount", billSundryAmount);
                 appUser.mListMapForBillSale.add(mMap);
                 Timber.i("************************************"+appUser.mListMapForBillSale);

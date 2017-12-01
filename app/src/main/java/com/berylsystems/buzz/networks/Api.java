@@ -126,6 +126,7 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.EditBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
@@ -220,7 +221,7 @@ public interface Api {
     Call<CreateAccountResponse> createaccount(@Body RequestCreateAccount payload);
 
     @GET("account/{id}")
-    Call<GetAccountResponse> getaccount( @Path("id") String id, @Query("account_master_group") String account_master_group);
+    Call<GetAccountResponse> getaccount(@Path("id") String id, @Query("account_master_group") String account_master_group);
 
     @GET("account_detail/{id}")
     Call<GetAccountDetailsResponse> getaccountdetails(@Path("id") String id);
@@ -353,7 +354,8 @@ public interface Api {
 
     @GET("bill_sundry_nature")
     Call<GetBillSundryNatureResponse> getbillsundrynature();
-	 @GET("purchase_type")
+
+    @GET("purchase_type")
     Call<GetPurchaseTypeResponse> getpurchasetype();
 
     @GET("sale_type")
@@ -380,14 +382,14 @@ public interface Api {
     @PATCH("bank_cash_deposits/{id}")
     Call<EditBankCashDepositResponse> editbankcashdeposit(@Body RequestCreateBankCashDeposit payload, @Path("id") String id);
 
-	@POST("bank_cash_deposits")
+    @POST("bank_cash_deposits")
     Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload);
 
     @POST("bank_cash_withdraw")
     Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload);
 
     @GET("company_bank_cash_withdraw/{id}")
-    Call<GetBankCashWithdrawResponse> getbankcashwithdraw (@Path("id") String id);
+    Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id);
 
     @DELETE("bank_cash_withdraw/{id}")
     Call<DeleteBankCashWithdrawResponse> deletebankcashwithdraw(@Path("id") String id);
@@ -397,12 +399,13 @@ public interface Api {
 
     @PATCH("bank_cash_withdraw/{id}")
     Call<EditBankCashWithdrawResponse> editbankcashwithdraw(@Body RequestCreateBankCashWithdraw Payload, @Path("id") String id);
+
     @POST("purchase_voucher/{id}")
     Call<CreatePurchaseResponce> createpurchase(@Body RequestCreatePurchase payload, @Path("id") String id);
-	
-	@POST("incomes/{id}")
+
+    @POST("incomes/{id}")
     Call<CreateIncomeResponse> createincome(@Body RequestCreateIncome payload, @Path("id") String id);
-	
+
     @GET("company_incomes/{id}")
     Call<GetIncomeResponse> getincome(@Path("id") String id);
 
@@ -413,13 +416,13 @@ public interface Api {
     Call<GetIncomeDetailsResponse> getincomedetails(@Path("id") String id);
 
     @PATCH("incomes/{id}")
-    Call<EditIncomeResponse> editincome(@Body RequestCreateIncome payload,@Path("id") String id);
+    Call<EditIncomeResponse> editincome(@Body RequestCreateIncome payload, @Path("id") String id);
 
     @POST("expenses/{id}")
-    Call<CreateExpenceResponse> createexpence (@Body RequestCreateEXpence payload, @Path("id") String id);
+    Call<CreateExpenceResponse> createexpence(@Body RequestCreateEXpence payload, @Path("id") String id);
 
     @GET("company_expenses/{id}")
-    Call<GetExpenceResponse>  getexpence(@Path("id") String id);
+    Call<GetExpenceResponse> getexpence(@Path("id") String id);
 
     @DELETE("expenses/{id}")
     Call<DeleteExpenceResponse> deleteexpence(@Path("id") String id);

@@ -97,7 +97,7 @@ public class ItemPriceInfoActivity extends AppCompatActivity {
                 if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sales_price_edittext().equals("")) {
                     sales_price_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_sales_price_edittext());
                 }
-                if (Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext().equals("")) {
+                if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext().equals("")) {
                     min_sale_price_main_edittext.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_min_sale_price_main_edittext());
                 }
             } else if (Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_applied_on().equals("Alternate Unit")) {
