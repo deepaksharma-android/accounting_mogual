@@ -48,7 +48,7 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/transaction_voucher_spinner"
+                            android:id="@+id/transaction_spinner"
                             android:layout_width="fill_parent"
                             android:entries="@array/main"
                             android:spinnerMode="dialog"
@@ -133,8 +133,9 @@
                         android:orientation="vertical">
 
                         <Spinner
-                            android:id="@+id/Transaction_spinner"
+                            android:id="@+id/transaction_spinner2"
                             android:layout_width="fill_parent"
+                            android:entries="@array/gst_nature_credit_debit_note"
                             android:spinnerMode="dialog"
                             android:layout_height="40dp">
                         </Spinner>
@@ -160,14 +161,14 @@
                         android:orientation="horizontal">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/transaction_received_from"
+                            android:id="@+id/account_name_credit"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="0.9"
                             android:background="@android:color/transparent"
-                            android:hint="Party Name Debit"
+                            android:hint="Party Name Credit"
                             android:textColor="#000"
                             android:textSize="16sp" />
 
@@ -196,22 +197,24 @@
                         android:orientation="horizontal">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/transaction_received_by"
+                            android:id="@+id/account_name_debit"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="0.9"
+                            android:gravity="center"
+                            android:textStyle="bold"
                             android:background="@android:color/transparent"
-                            android:hint="Party Name Credit"
+                            android:text="Debit Note"
                             android:textColor="#000"
                             android:textSize="16sp" />
 
-                        <ImageView
+                      <!--  <ImageView
                             android:layout_width="0dp"
                             android:layout_height="10dp"
                             android:layout_weight="0.1"
-                            android:src="@drawable/right_carat" />
+                            android:src="@drawable/right_carat" />-->
                     </LinearLayout>
 
                     <com.berylsystems.buzz.utils.BuzzTextView
@@ -321,7 +324,7 @@
                                     android:layout_height="35dp"
                                     android:layout_marginLeft="10dp"
                                     android:gravity="center"
-                                    android:text="Add Logo"
+                                    android:text="Attachment"
                                     android:textColor="@color/white"
                                     android:textSize="10sp" />
                             </LinearLayout>
@@ -346,6 +349,27 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Submit"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/update"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/vendorText"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    android:background="@drawable/solid_blue">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Update"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                 </LinearLayout>

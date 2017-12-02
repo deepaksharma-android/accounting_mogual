@@ -20,11 +20,16 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashDeposit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashWithdraw;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestCreateCreditNote;
+import com.berylsystems.buzz.networks.api_request.RequestCreateDebitNote;
 import com.berylsystems.buzz.networks.api_request.RequestCreateEXpence;
 import com.berylsystems.buzz.networks.api_request.RequestCreateIncome;
+import com.berylsystems.buzz.networks.api_request.RequestCreateJournalVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreatePayment;
 import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
+import com.berylsystems.buzz.networks.api_request.RequestCreateReceipt;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -70,6 +75,16 @@ import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.CreateCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.DeleteCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.EditCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.CreateDebitNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.DeleteDebitNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.EditDebitNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteResponse;
 import com.berylsystems.buzz.networks.api_response.expence.CreateExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.DeleteExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.EditExpenceResponse;
@@ -85,6 +100,11 @@ import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.CreateItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.CreateJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.DeleteJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.EditJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.GetJournalVoucherDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.GetJournalVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.DeleteMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
@@ -99,8 +119,18 @@ import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMateri
 import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
+import com.berylsystems.buzz.networks.api_response.payment.CreatePaymentResponse;
+import com.berylsystems.buzz.networks.api_response.payment.DeletePaymentResponse;
+import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
+import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.payment.GetPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
@@ -379,6 +409,81 @@ public class ApiCallsService extends IntentService {
         }
         else if(Cv.ACTION_EDIT_EXPENCE.equals(action)){
             handleEditExpence();
+        }
+        else if(Cv.ACTION_CREATE_PAYMENT.equals(action)){
+            handleCreatePayment();
+        }
+        else if(Cv.ACTION_GET_PAYMENT.equals(action)){
+            handleGetPayment();
+        }
+        else if(Cv.ACTION_DELETE_PAYMENT.equals(action)){
+            handleDeletePayment();
+        }
+        else if(Cv.ACTION_GET_PAYMENT_DETAILS.equals(action)){
+            handleGetPaymentDetails();
+        }
+        else if(Cv.ACTION_EDIT_PAYMENT.equals(action)){
+            handleEditPayment();
+        }
+        else if(Cv.ACTION_CREATE_JOURNAL_VOUCHER.equals(action)){
+            handleCreateJournalVoucher();
+        }
+        else if(Cv.ACTION_GET_JOURNAL_VOUCHER.equals(action)){
+            handleGetJournalVoucher();
+        }
+        else if(Cv.ACTION_DELETE_JOURNAL_VOUCHER.equals(action)){
+            handleDeleteJournalVoucher();
+        }
+        else if(Cv.ACTION_GET_JOURNAL_VOUCHER_DETAILS.equals(action)){
+            handleGetJournalVoucherDetails();
+        }
+        else if(Cv.ACTION_EDIT_JOURNAL_VOUCHER.equals(action)){
+            handleEditJournalVoucher();
+        }
+        else if(Cv.ACTION_CREATE_RECEIPT_VOUCHER.equals(action)){
+            handleCreateReceipt();
+        }
+        else if(Cv.ACTION_GET_RECEIPT_VOUCHER.equals(action)){
+            handleGetreceiptVoucher();
+        }
+        else if(Cv.ACTION_DELETE_RECEIPT_VOUCHER.equals(action)){
+            handleDeleteReceiptVoucher();
+        }
+        else if(Cv.ACTION_GET_RECEIPT_VOUCHER_DETAILS.equals(action)){
+            handleGetReceiptVoucherDetails();
+        }
+        else if(Cv.ACTION_EDIT_RECEIPT_VOUCHER.equals(action)){
+            handleEditReceiptVoucher();
+        }
+        else if(Cv.ACTION_CREATE_CREDIT_NOTE.equals(action)){
+            handleCreateCreditNote();
+        }
+        else if(Cv.ACTION_GET_CREDIT_NOTE.equals(action)){
+            handleGetCreditNote();
+        }
+        else if(Cv.ACTION_DELETE_CREDIT_NOTE.equals(action)){
+            handleDeleteCreditNote();
+        }
+        else if(Cv.ACTION_GET_CREDIT_NOTE_DETAILS.equals(action)){
+            handleGetCreditNoteDetails();
+        }
+        else if(Cv.ACTION_EDIT_CREDIT_NOTE.equals(action)){
+            handleEditCreditNote();
+        }
+        else if(Cv.ACTION_CREATE_DEBIT_NOTE.equals(action)){
+            handleCreateDebitNote();
+        }
+        else if(Cv.ACTION_GET_DEBIT_NOTE.equals(action)){
+            handleGetDebitNote();
+        }
+        else if(Cv.ACTION_DELETE_DEBIT_NOTE.equals(action)){
+            handleDeleteDebitNote();
+        }
+        else if(Cv.ACTION_GET_DEBIT_NOTE_DETAILS.equals(action)){
+            handleGetDebitNoteDetails();
+        }
+        else if(Cv.ACTION_EDIT_DEBIT_NOTE.equals(action)){
+            handleEditDebitNote();
         }
     }
 
@@ -936,6 +1041,536 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleDeletePayment() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletepayment(appUser.delete_payment_id).enqueue(new Callback<DeletePaymentResponse>() {
+            @Override
+            public void onResponse(Call<DeletePaymentResponse> call, Response<DeletePaymentResponse> r) {
+                if (r.code() == 200) {
+                    DeletePaymentResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeletePaymentResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetPaymentDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getpaymentdetails(appUser.edit_payment_id).enqueue(new Callback<GetPaymentDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetPaymentDetailsResponse> call, Response<GetPaymentDetailsResponse> response) {
+                if(response.code()==200){
+                    GetPaymentDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPaymentDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleEditPayment() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editpayment(new RequestCreatePayment(this), appUser.edit_payment_id).enqueue(new Callback<EditPaymentResponse>()  {
+            @Override
+            public void onResponse(Call<EditPaymentResponse> call, Response<EditPaymentResponse> r) {
+                if (r.code() == 200) {
+                    EditPaymentResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditPaymentResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateJournalVoucher() {
+        api.createjournalvoucher(new RequestCreateJournalVoucher(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateJournalVoucherResponse>() {
+            @Override
+            public void onResponse(Call<CreateJournalVoucherResponse> call, Response<CreateJournalVoucherResponse> r) {
+                if (r.code() == 200) {
+                    CreateJournalVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateJournalVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetJournalVoucher() {
+        api.getjournalvoucher(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetJournalVoucherResponse>() {
+            @Override
+            public void onResponse(Call<GetJournalVoucherResponse> call, Response<GetJournalVoucherResponse> r) {
+                if (r.code() == 200) {
+                    GetJournalVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetJournalVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteJournalVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletejournalvoucher(appUser.delete_journal_voucher_id).enqueue(new Callback<DeleteJournalVoucherResponse>() {
+            @Override
+            public void onResponse(Call<DeleteJournalVoucherResponse> call, Response<DeleteJournalVoucherResponse> r) {
+                if (r.code() == 200) {
+                    DeleteJournalVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteJournalVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetJournalVoucherDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getjournalvoucherdetails(appUser.edit_journal_voucher_id).enqueue(new Callback<GetJournalVoucherDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetJournalVoucherDetailsResponse> call, Response<GetJournalVoucherDetailsResponse> response) {
+                if(response.code()==200){
+                    GetJournalVoucherDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetJournalVoucherDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditJournalVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editjournalvoucher(new RequestCreateJournalVoucher(this), appUser.edit_journal_voucher_id).enqueue(new Callback<EditJournalVoucherResponse>()  {
+            @Override
+            public void onResponse(Call<EditJournalVoucherResponse> call, Response<EditJournalVoucherResponse> r) {
+                if (r.code() == 200) {
+                    EditJournalVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditJournalVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateReceipt() {
+        api.createreceipt(new RequestCreateReceipt(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateReceiptVoucherResponse>() {
+            @Override
+            public void onResponse(Call<CreateReceiptVoucherResponse> call, Response<CreateReceiptVoucherResponse> r) {
+                if (r.code() == 200) {
+                    CreateReceiptVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateReceiptVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetreceiptVoucher() {
+        api.getreceiptvoucher(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetReceiptVoucherResponse>() {
+            @Override
+            public void onResponse(Call<GetReceiptVoucherResponse> call, Response<GetReceiptVoucherResponse> r) {
+                if (r.code() == 200) {
+                    GetReceiptVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetReceiptVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteReceiptVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletereceiptvoucher(appUser.delete_receipt_id).enqueue(new Callback<DeleteReceiptVoucherResponse>() {
+            @Override
+            public void onResponse(Call<DeleteReceiptVoucherResponse> call, Response<DeleteReceiptVoucherResponse> r) {
+                if (r.code() == 200) {
+                    DeleteReceiptVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteReceiptVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetReceiptVoucherDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getreceiptvoucherdetails(appUser.edit_receipt_id).enqueue(new Callback<GetReceiptVoucherDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetReceiptVoucherDetailsResponse> call, Response<GetReceiptVoucherDetailsResponse> response) {
+                if(response.code()==200){
+                    GetReceiptVoucherDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetReceiptVoucherDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditReceiptVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editreceiptvoucher(new RequestCreateReceipt(this), appUser.edit_receipt_id).enqueue(new Callback<EditReceiptVoucherResponse>()  {
+            @Override
+            public void onResponse(Call<EditReceiptVoucherResponse> call, Response<EditReceiptVoucherResponse> r) {
+                if (r.code() == 200) {
+                    EditReceiptVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditReceiptVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateCreditNote() {
+        api.createcreditnote(new RequestCreateCreditNote(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateCreditNoteResponse>() {
+            @Override
+            public void onResponse(Call<CreateCreditNoteResponse> call, Response<CreateCreditNoteResponse> r) {
+                if (r.code() == 200) {
+                    CreateCreditNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCreditNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetCreditNote() {
+        api.getcreditnote(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetCreditNoteResponse>() {
+            @Override
+            public void onResponse(Call<GetCreditNoteResponse> call, Response<GetCreditNoteResponse> r) {
+                if (r.code() == 200) {
+                    GetCreditNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetCreditNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteCreditNote() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletecrdeitnote(appUser.delete_credit_note_id).enqueue(new Callback<DeleteCreditNoteResponse>() {
+            @Override
+            public void onResponse(Call<DeleteCreditNoteResponse> call, Response<DeleteCreditNoteResponse> r) {
+                if (r.code() == 200) {
+                    DeleteCreditNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteCreditNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetCreditNoteDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getcreditnotedetails(appUser.edit_credit_note_id).enqueue(new Callback<GetCreditNoteDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetCreditNoteDetailsResponse> call, Response<GetCreditNoteDetailsResponse> response) {
+                if(response.code()==200){
+                    GetCreditNoteDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCreditNoteDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditCreditNote() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editcreditnote(new RequestCreateCreditNote(this), appUser.edit_credit_note_id).enqueue(new Callback<EditCreditNoteResponse>()  {
+            @Override
+            public void onResponse(Call<EditCreditNoteResponse> call, Response<EditCreditNoteResponse> r) {
+                if (r.code() == 200) {
+                    EditCreditNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditCreditNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateDebitNote() {
+        api.createdebitnote(new RequestCreateDebitNote(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateDebitNoteResponse>() {
+            @Override
+            public void onResponse(Call<CreateDebitNoteResponse> call, Response<CreateDebitNoteResponse> r) {
+                if (r.code() == 200) {
+                    CreateDebitNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateDebitNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetDebitNote() {
+        api.getdebitnote(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetDebitNoteResponse>() {
+            @Override
+            public void onResponse(Call<GetDebitNoteResponse> call, Response<GetDebitNoteResponse> r) {
+                if (r.code() == 200) {
+                    GetDebitNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetDebitNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteDebitNote() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletedebitnote(appUser.delete_debit_note_id).enqueue(new Callback<DeleteDebitNoteResponse>() {
+            @Override
+            public void onResponse(Call<DeleteDebitNoteResponse> call, Response<DeleteDebitNoteResponse> r) {
+                if (r.code() == 200) {
+                    DeleteDebitNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<DeleteDebitNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetDebitNoteDetails(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getdebitnotedetails(appUser.edit_debit_note_id).enqueue(new Callback<GetDebitNoteDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetDebitNoteDetailsResponse> call, Response<GetDebitNoteDetailsResponse> response) {
+                if(response.code()==200){
+                    GetDebitNoteDetailsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetDebitNoteDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditDebitNote() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editdebitnote(new RequestCreateDebitNote(this), appUser.edit_debit_note_id).enqueue(new Callback<EditDebitNoteResponse>()  {
+            @Override
+            public void onResponse(Call<EditDebitNoteResponse> call, Response<EditDebitNoteResponse> r) {
+                if (r.code() == 200) {
+                    EditDebitNoteResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<EditDebitNoteResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+
     private void handleDeleteExpence() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteexpence(appUser.delete_expence_id).enqueue(new Callback<DeleteExpenceResponse>() {
@@ -997,6 +1632,51 @@ public class ApiCallsService extends IntentService {
             }
             @Override
             public void onFailure(Call<EditExpenceResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+
+private void handleCreatePayment() {
+        api.createpayment(new RequestCreatePayment(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreatePaymentResponse>() {
+            @Override
+            public void onResponse(Call<CreatePaymentResponse> call, Response<CreatePaymentResponse> r) {
+                if (r.code() == 200) {
+                    CreatePaymentResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePaymentResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+ private void handleGetPayment() {
+        api.getpayment(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetPaymentResponse>() {
+            @Override
+            public void onResponse(Call<GetPaymentResponse> call, Response<GetPaymentResponse> r) {
+                if (r.code() == 200) {
+                    GetPaymentResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetPaymentResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

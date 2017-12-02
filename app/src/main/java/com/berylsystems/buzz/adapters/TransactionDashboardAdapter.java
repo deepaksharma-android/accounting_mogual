@@ -29,7 +29,7 @@ import com.berylsystems.buzz.activities.company.transection.expence.CreateExpenc
 import com.berylsystems.buzz.activities.company.transection.income.CreateIncomeActivity;
 import com.berylsystems.buzz.activities.company.transection.journalvoucher.CreateJournalVoucherActivity;
 import com.berylsystems.buzz.activities.company.transection.payment.CreatePaymentActivity;
-import com.berylsystems.buzz.activities.company.transection.receipt.CreateReceiptActivity;
+import com.berylsystems.buzz.activities.company.transection.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 
@@ -97,7 +97,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     context.startActivity(new Intent(context, CreatePaymentActivity.class));
                 }
                 if (i == 5) {
-                    context.startActivity(new Intent(context, CreateReceiptActivity.class));
+                    context.startActivity(new Intent(context, CreateReceiptVoucherActivity.class));
                 }
                 if (i == 6) {
                     context.startActivity(new Intent(context, CreateBankCaseDepositActivity.class));

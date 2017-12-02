@@ -339,4 +339,74 @@ public class AppUser {
     public String bill_sundry_fed_as="";
     public String bill_sundry_sale_voucher_type="";
 
+    public String account_name_debit_id;
+    public String account_name_credit_id;
+    public String journal_voucher_voucher_series="";
+    public String journal_voucher_date="";
+    public String journal_voucher_gst_nature="";
+    public String journal_voucher_gst_nature_description="";
+    public String journal_voucher_voucher_no="";
+    public Double journal_voucher_amount;
+    public String journal_voucher_narration="";
+    public String journal_voucher_attachment="";
+    public String delete_journal_voucher_id;
+    public String edit_journal_voucher_id;
+
+    public String receipt_received_from_id;
+    public String receipt_received_by_id;
+    public String receipt_voucher_series="";
+    public String receipt_date="";
+    public String receipt_date_pdc="";
+    public String receipt_type="";
+    public String receipt_gst_nature="";
+    public String receipt_gst_nature_description="";
+    public String receipt_voucher_no="";
+    public Double receipt_amount;
+    public String receipt_narration="";
+    public String receipt_attachment="";
+    public String delete_receipt_id;
+    public String edit_receipt_id;
+
+    public String account_name_credit_note_id;
+    public String account_name_debit_note="";
+    public String credit_note_voucher_series="";
+    public String credit_note_date="";
+    public String credit_note_gst_nature="";
+    public String credit_note_gst_nature_description="";
+    public String credit_note_voucher_no="";
+    public Double credit_note_amount;
+    public String credit_note_narration="";
+    public String credit_note_attachment="";
+    public String delete_credit_note_id;
+    public String edit_credit_note_id;
+
+    public String account_name_debit_note_id;
+    public String account_name_credit_note="";
+    public String debit_note_voucher_series="";
+    public String debit_note_date="";
+    public String debit_note_gst_nature="";
+    public String debit_note_gst_nature_description="";
+    public String debit_note_voucher_no="";
+    public Double debit_note_amount;
+    public String debit_note_narration="";
+    public String debit_note_attachment="";
+    public String delete_debit_note_id;
+    public String edit_debit_note_id;
+
+public String payment_paid_to_id;
+    public String payment_paid_from_id;
+    public String payment_voucher_series="";
+    public String payment_date="";
+    public String payment_date_pdc="";
+    public String payment_type="";
+    public String payment_gst_nature="";
+    public String payment_gst_nature_description="";
+    public String payment_voucher_no="";
+    public Double payment_amount;
+    public String payment_narration="";
+    public String payment_attachment="";
+    public String delete_payment_id;
+    public String edit_payment_id;
+
+
 }

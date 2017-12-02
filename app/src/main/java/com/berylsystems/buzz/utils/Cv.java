@@ -115,4 +115,37 @@ String ACTION_CREATE_BANK_CASH_WITHDRAW="action_create_bank_cash_withdraw";
     String ACTION_DELETE_EXPENCE="action_delete_expence";
     String ACTION_GET_EXPENCE_DETAILS="action_get_expence_details";
     String ACTION_EDIT_EXPENCE="action_edit_expence";
+
+    String ACTION_CREATE_PAYMENT="action_create_payment";
+    String ACTION_GET_PAYMENT="action_get_payment";
+    String ACTION_DELETE_PAYMENT="action_delete_payment";
+    String ACTION_GET_PAYMENT_DETAILS="action_get_payment_details";
+    String ACTION_EDIT_PAYMENT="action_edit_payment";
+
+    String ACTION_CREATE_JOURNAL_VOUCHER="action_create_journal_voucher";
+    String ACTION_GET_JOURNAL_VOUCHER="action_get_journal_voucher";
+    String ACTION_DELETE_JOURNAL_VOUCHER="action_delete_journal_voucher";
+    String ACTION_GET_JOURNAL_VOUCHER_DETAILS="action_get_journal_voucher_details";
+    String ACTION_EDIT_JOURNAL_VOUCHER="action_edit_journal_voucher";
+
+    String ACTION_CREATE_RECEIPT_VOUCHER="action_create_receipt_voucher";
+    String ACTION_GET_RECEIPT_VOUCHER="action_get_receipt_voucher";
+    String ACTION_DELETE_RECEIPT_VOUCHER="action_delete_receipt_voucher";
+    String ACTION_GET_RECEIPT_VOUCHER_DETAILS="action_get_receipt_voucher_details";
+    String ACTION_EDIT_RECEIPT_VOUCHER="action_edit_receipt_voucher";
+
+    String ACTION_CREATE_CREDIT_NOTE="action_create_credit_note";
+    String ACTION_GET_CREDIT_NOTE="action_get_credit_note";
+    String ACTION_DELETE_CREDIT_NOTE="action_delete_credit_note";
+    String ACTION_GET_CREDIT_NOTE_DETAILS="action_get_credit_note_details";
+    String ACTION_EDIT_CREDIT_NOTE="action_edit_credit_note";
+
+    String ACTION_CREATE_DEBIT_NOTE="action_create_debit_note";
+    String ACTION_GET_DEBIT_NOTE="action_get_debit_note";
+    String ACTION_DELETE_DEBIT_NOTE="action_delete_debit_note";
+    String ACTION_GET_DEBIT_NOTE_DETAILS="action_get_debit_note_details";
+    String ACTION_EDIT_DEBIT_NOTE="action_edit_debit_note";
+
+
+
 }
