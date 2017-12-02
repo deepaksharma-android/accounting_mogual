@@ -15,11 +15,16 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashDeposit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBankCashWithdraw;
 import com.berylsystems.buzz.networks.api_request.RequestCreateBillSundry;
 import com.berylsystems.buzz.networks.api_request.RequestCreateCompany;
+import com.berylsystems.buzz.networks.api_request.RequestCreateCreditNote;
+import com.berylsystems.buzz.networks.api_request.RequestCreateDebitNote;
 import com.berylsystems.buzz.networks.api_request.RequestCreateEXpence;
 import com.berylsystems.buzz.networks.api_request.RequestCreateIncome;
+import com.berylsystems.buzz.networks.api_request.RequestCreateJournalVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.berylsystems.buzz.networks.api_request.RequestCreatePayment;
 import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
+import com.berylsystems.buzz.networks.api_request.RequestCreateReceipt;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -38,16 +43,42 @@ import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCa
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.EditBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.CreateCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.DeleteCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.EditCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.CreateDebitNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.DeleteDebitNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.EditDebitNoteResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteResponse;
 import com.berylsystems.buzz.networks.api_response.expence.CreateExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.DeleteExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.EditExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.GetExpenceDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.expence.GetExpenceResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.CreateJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.DeleteJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.EditJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.GetJournalVoucherDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.journalvoucher.GetJournalVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.payment.CreatePaymentResponse;
+import com.berylsystems.buzz.networks.api_response.payment.DeletePaymentResponse;
+import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
+import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.payment.GetPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.networks.api_response.income.DeleteIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.income.EditIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.income.GetIncomeDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.income.GetIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.income.CreateIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
@@ -432,6 +463,82 @@ public interface Api {
 
     @PATCH("expenses/{id}")
     Call<EditExpenceResponse> editexpence(@Body RequestCreateEXpence payload, @Path("id") String id);
+
+    @POST("payments/{id}")
+    Call<CreatePaymentResponse> createpayment(@Body RequestCreatePayment payload, @Path("id") String id );
+
+    @GET("company_payments/{id}")
+    Call<GetPaymentResponse> getpayment(@Path("id") String id);
+
+    @DELETE("payments/{id}")
+    Call<DeletePaymentResponse> deletepayment(@Path("id") String id);
+
+    @GET("payments/{id}")
+    Call<GetPaymentDetailsResponse> getpaymentdetails(@Path("id") String id);
+
+    @PATCH("payments/{id}")
+    Call<EditPaymentResponse> editpayment(@Body RequestCreatePayment payload,@Path("id") String id);
+
+    @POST("journal_voucher/{id}")
+    Call<CreateJournalVoucherResponse> createjournalvoucher(@Body RequestCreateJournalVoucher payload,@Path("id") String id);
+
+    @GET("company_journal_voucher/{id}")
+    Call<GetJournalVoucherResponse> getjournalvoucher(@Path("id") String id);
+
+    @DELETE("journal_voucher/{id}")
+    Call<DeleteJournalVoucherResponse> deletejournalvoucher(@Path("id") String id);
+
+    @GET("journal_voucher/{id}")
+    Call<GetJournalVoucherDetailsResponse> getjournalvoucherdetails(@Path("id") String id);
+
+    @PATCH("journal_voucher/{id}")
+    Call<EditJournalVoucherResponse> editjournalvoucher(@Body RequestCreateJournalVoucher payload,@Path("id") String id);
+
+    @POST("receipt_vouchers/{id}")
+    Call<CreateReceiptVoucherResponse> createreceipt(@Body RequestCreateReceipt payload, @Path("id") String id);
+
+    @GET("company_receipt_vouchers/{id}")
+    Call<GetReceiptVoucherResponse> getreceiptvoucher(@Path("id") String id);
+
+    @DELETE("receipt_vouchers/{id}")
+    Call<DeleteReceiptVoucherResponse> deletereceiptvoucher(@Path("id") String id);
+
+    @GET("receipt_vouchers/{id}")
+    Call<GetReceiptVoucherDetailsResponse> getreceiptvoucherdetails(@Path("id") String id);
+
+    @PATCH("receipt_vouchers/{id}")
+    Call<EditReceiptVoucherResponse> editreceiptvoucher(@Body RequestCreateReceipt payload,@Path("id") String id);
+
+    @POST("credit_notes/{id}")
+    Call<CreateCreditNoteResponse> createcreditnote(@Body RequestCreateCreditNote payload,@Path("id") String id);
+
+    @GET("company_credit_notes/{id}")
+    Call<GetCreditNoteResponse> getcreditnote(@Path("id") String id);
+
+    @DELETE("credit_notes/{id}")
+    Call<DeleteCreditNoteResponse> deletecrdeitnote(@Path("id") String id);
+
+    @GET("credit_notes/{id}")
+    Call<GetCreditNoteDetailsResponse> getcreditnotedetails(@Path("id") String id);
+
+    @PATCH("credit_notes/{id}")
+    Call<EditCreditNoteResponse> editcreditnote(@Body RequestCreateCreditNote payload,@Path("id") String id);
+
+    @POST("debit_notes/{id}")
+    Call<CreateDebitNoteResponse> createdebitnote(@Body RequestCreateDebitNote payload,@Path("id") String id);
+
+    @GET("company_debit_notes/{id}")
+    Call<GetDebitNoteResponse> getdebitnote(@Path("id") String id);
+
+    @DELETE("debit_notes/{id}")
+    Call<DeleteDebitNoteResponse> deletedebitnote(@Path("id") String id);
+
+    @GET("debit_notes/{id}")
+    Call<GetDebitNoteDetailsResponse> getdebitnotedetails(@Path("id") String id);
+
+    @PATCH("debit_notes/{id}")
+    Call<EditDebitNoteResponse> editdebitnote(@Body RequestCreateDebitNote payload,@Path("id") String id);
+
 
 }
 
