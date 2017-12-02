@@ -208,6 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:id="@+id/discount"
+                    android:text="0"
                     android:inputType="numberDecimal"
                     android:background="@android:color/transparent"
                     android:textColor="#000"

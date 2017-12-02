@@ -57,7 +57,6 @@ public class AddItemVoucherFragment extends Fragment {
     @Bind(R.id.total)
     TextView mTotal;
     AppUser appUser;
-
     List<Map<String, String>> mListMap;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
@@ -100,13 +99,13 @@ public class AddItemVoucherFragment extends Fragment {
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
 
-        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
+        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale,appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Removing...");
 
-        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);
@@ -125,7 +124,7 @@ public class AddItemVoucherFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             }
-        });
+        });*/
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -175,7 +174,7 @@ public class AddItemVoucherFragment extends Fragment {
                         dialog.cancel();
                         amountCalculation();
 
-                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
+                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale,appUser.mListMapForItemSale));
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         progressDialog.dismiss();

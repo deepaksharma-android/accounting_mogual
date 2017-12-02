@@ -20,6 +20,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
+import com.berylsystems.buzz.adapters.AddBillsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -82,7 +83,7 @@ public class AddItemSaleReturnFragment extends Fragment {
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
-        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
+        listViewBills.setAdapter(new AddBillsPurchaseAdapter(getContext(), appUser.mListMapForBillSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ProgressDialog progressDialog=new ProgressDialog(getActivity());
@@ -141,7 +142,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                         appUser.mListMapForBillSale.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
-                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale));
+                        listViewBills.setAdapter(new AddBillsPurchaseAdapter(getContext(), appUser.mListMapForBillSale));
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         progressDialog.dismiss();

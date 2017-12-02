@@ -182,6 +182,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             mUnitList.add("Packaging Unit :" + packaging_unit);
         }
 
+
         mItemName.setEnabled(false);
         mValue.setEnabled(false);
         mTotal.setEnabled(false);
@@ -190,13 +191,36 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerUnit.setAdapter(mUnitAdapter);
         if (!packaging_unit.equals("")) {
+            if (default_unit.equals("Main Unit")) {
+                mSpinnerUnit.setSelection(0);
+            } else if (default_unit.equals("Alt. Unit")) {
+                mSpinnerUnit.setSelection(1);
+            } else if (default_unit.equals("Pckg. Unit")) {
+                mSpinnerUnit.setSelection(2);
+            } else {
+                mSpinnerUnit.setSelection(0);
+            }
+        } else {
+            if (default_unit.equals("Main Unit")) {
+                mSpinnerUnit.setSelection(0);
+            } else if (default_unit.equals("Alt. Unit")) {
+                mSpinnerUnit.setSelection(1);
+            } else {
+                mSpinnerUnit.setSelection(0);
+            }
+        }
+        if (!packaging_unit.equals("")) {
             mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        if (i == 2) {
-                            price_selected_unit = "packaging";
-                            if (sales_price_applied_on.equals("Main Unit")) {
+                    if (i == 2) {
+                        price_selected_unit = "packaging";
+                        if (default_unit.equals("Pckg. Unit")) {
+                            mRate.setText(String.valueOf(packaging_unit_sales_price));
+                        }
+
+                           /* if (sales_price_applied_on.equals("Main Unit")) {
                                 Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
                                 mRate.setText(String.valueOf(main_unit_price));
 
@@ -204,19 +228,29 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
                                 Double alternate_unit_price = main_unit_price / Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(alternate_unit_price));
-                            }
+                            }*/
 
-                        }
-                        if (i == 0) {
-                            price_selected_unit = "main";
+                    }
+                    if (i == 0) {
+                        price_selected_unit = "main";
+                        if (default_unit.equals("Pckg. Unit")) {
+                            Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
+                            mRate.setText(String.valueOf(main_unit_price));
+                        } else {
                             if (sales_price_applied_on.equals("Alternate Unit")) {
                                 Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(main_unit_price));
                             } else {
                                 mRate.setText(sales_price_main);
                             }
-                        } else if (i == 1) {
-                            price_selected_unit = "alternate";
+                        }
+                    } else if (i == 1) {
+                        price_selected_unit = "alternate";
+                        if (default_unit.equals("Pckg. Unit")) {
+                            Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
+                            Double alternate_unit_price = main_unit_price / Double.parseDouble(alternate_unit_con_factor);
+                            mRate.setText(String.valueOf(alternate_unit_price));
+                        } else {
                             if (sales_price_applied_on.equals("Main Unit")) {
                                 Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(alternate_unit_price));
@@ -225,6 +259,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             }
                         }
                     }
+                }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {

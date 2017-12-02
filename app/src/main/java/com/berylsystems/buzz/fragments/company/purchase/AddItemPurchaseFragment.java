@@ -160,7 +160,7 @@ public class AddItemPurchaseFragment extends Fragment {
                         appUser.mListMapForBillPurchase.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
-                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillPurchase));
+                        listViewBills.setAdapter(new AddBillsPurchaseAdapter(getContext(), appUser.mListMapForBillPurchase));
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         progressDialog.dismiss();
