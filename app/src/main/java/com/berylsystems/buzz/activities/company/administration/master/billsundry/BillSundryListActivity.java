@@ -210,6 +210,7 @@ public class BillSundryListActivity extends BaseActivityCompany {
         if (ExpandableItemListActivity.comingFrom==0){
             Intent intent = new Intent(getApplicationContext(), SaleVoucherAddBillActivity.class);
             intent.putExtra("id", id);
+            intent.putExtra("fromvoucherbilllist",false);
             startActivity(intent);
             finish();
         }
@@ -228,6 +229,7 @@ public class BillSundryListActivity extends BaseActivityCompany {
         if (ExpandableItemListActivity.comingFrom==0){
             Intent intent=new Intent(this, CreateSaleActivity.class);
             intent.putExtra("is",true);
+            intent.putExtra("fromvoucherbilllist",false);
             startActivity(intent);
             finish();
         } else  if (ExpandableItemListActivity.comingFrom==1){

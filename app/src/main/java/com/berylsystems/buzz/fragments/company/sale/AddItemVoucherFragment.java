@@ -115,12 +115,16 @@ public class AddItemVoucherFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             }
-        });
-        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        });*/
+       /* listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView item_name=(TextView)view.findViewById(R.id.item_name);
+                TextView amount=(TextView)view.findViewById(R.id.discount);
                 Intent intent = new Intent(getContext(), SaleVoucherAddBillActivity.class);
-                intent.putExtra("bool", true);
+                intent.putExtra("unit",item_name.getText().toString());
+                intent.putExtra("amount",amount.getText().toString());
+                intent.putExtra("fromvoucherbilllist", true);
                 startActivity(intent);
                 getActivity().finish();
             }

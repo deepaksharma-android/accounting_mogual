@@ -42,6 +42,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,6 +76,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     HashMap<Integer, List<String>> listDataChildPackagingConfactor;
     HashMap<Integer, List<String>> listDataChildPackagingSalesPrice;
     HashMap<Integer, List<String>> listDataChildPackagingUnit;
+    public Map<String,String> mSaleVoucherItem;
 
 
     ProgressDialog mProgressDialog;
@@ -112,6 +114,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     @Override
     protected void onResume() {
         super.onResume();
+        mSaleVoucherItem=new HashMap<>();
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -402,7 +405,26 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             String packaging_unit_sales_price=listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String packaging_unit=listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             intent.putExtra("fromitemlist", true);
+            intent.putExtra("fromSaleVoucherItemList", true);
             intent.putExtra("id", childid);
+            mSaleVoucherItem.put("name", itemName);
+            mSaleVoucherItem.put("desc", descr);
+            mSaleVoucherItem.put("main_unit", main_unit);
+            mSaleVoucherItem.put("alternate_unit", alternate_unit);
+            mSaleVoucherItem.put("serial_wise", String.valueOf(serial));
+            mSaleVoucherItem.put("batch_wise", String.valueOf(batch));
+            mSaleVoucherItem.put("sales_price_main", sales_price_main);
+            mSaleVoucherItem.put("applied", applied);
+            mSaleVoucherItem.put("alternate_unit_con_factor",alternate_unit_con_factor);
+            mSaleVoucherItem.put("default_unit",default_unit);
+            mSaleVoucherItem.put("packaging_unit_con_factor",packaging_unit_con_factor);
+            mSaleVoucherItem.put("packaging_unit_sales_price",packaging_unit_sales_price);
+            mSaleVoucherItem.put("packaging_unit",packaging_unit);
+            appUser.mMapSaleVoucherItem=mSaleVoucherItem;
+            LocalRepositories.saveAppUser(this,appUser);
+
+
+
             intent.putExtra("name", itemName);
             intent.putExtra("desc", descr);
             intent.putExtra("main_unit", main_unit);

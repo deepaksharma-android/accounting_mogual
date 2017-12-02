@@ -1,13 +1,16 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -246,6 +249,7 @@ public class AddBillsVoucherAdapter extends BaseAdapter {
         TextView mDiscount;
         @Bind(R.id.total)
         TextView mTotal;
+
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

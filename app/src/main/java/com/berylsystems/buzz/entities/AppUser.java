@@ -269,6 +269,8 @@ public class AppUser {
     public String childId = "";
     public List<Map<String, String>> mListMapForItemSale = new ArrayList();
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
+    public Map<String,String> mMapSaleVoucherBill=new HashMap<>();
+    public Map<String,String> mMapSaleVoucherItem=new HashMap<>();
 
     public List<Map<String, String>> mListMapForItemPurchase = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();

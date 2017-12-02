@@ -47,8 +47,12 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map<String, String> mMap;
-
+    Boolean fromSaleVoucherBillList;
     Animation blinkOnClick;
+    String billSundaryPercentage;
+    String billSundryAmount;
+    String billSundryCharges;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +60,30 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sale_voucher_add_bill);
         ButterKnife.bind(this);
         initActionbar();
-        blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
-        String billSundaryPercentage=data.getAttributes().getBill_sundry_of_percentage();
-        String billSundryAmount= String.valueOf(data.getAttributes().getDefault_value());
-        String billSundryCharges=data.getAttributes().getName();
-
         appUser=LocalRepositories.getAppUser(this);
-        //Toast.makeText(this, ""+data.getAttributes().getAmount_of_bill_sundry_fed_as(), Toast.LENGTH_SHORT).show();
+        blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
+        billSundaryPercentage=data.getAttributes().getBill_sundry_of_percentage();
+        billSundryAmount= String.valueOf(data.getAttributes().getDefault_value());
+        billSundryCharges=data.getAttributes().getName();
         courier_charges.setText(billSundryCharges);
         percentage.setText(billSundaryPercentage);
         billAmount.setText(billSundryAmount);
+       /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
+        if(fromSaleVoucherBillList){
+
+            billAmount.setText(getIntent().getStringExtra("amount"));
+            courier_charges.setText(getIntent().getStringExtra("unit"));
+        }
+        else{
+             billSundaryPercentage=data.getAttributes().getBill_sundry_of_percentage();
+             billSundryAmount= String.valueOf(data.getAttributes().getDefault_value());
+             billSundryCharges=data.getAttributes().getName();
+            courier_charges.setText(billSundryCharges);
+            percentage.setText(billSundaryPercentage);
+            billAmount.setText(billSundryAmount);
+        }*/
+
+
         mMap = new HashMap<>();
 
 
@@ -74,13 +92,13 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 submit.startAnimation(blinkOnClick);
-               appUser.bill_sundry_fed_as=data.getAttributes().getAmount_of_bill_sundry_fed_as();
+                appUser.bill_sundry_fed_as=data.getAttributes().getAmount_of_bill_sundry_fed_as();
                 appUser.bill_sundry_sale_voucher_type=data.getAttributes().getBill_sundry_type();
                 mMap.put("courier_charges",billSundryCharges);
                 mMap.put("percentage",billSundaryPercentage);
                 mMap.put("fed_as",data.getAttributes().getAmount_of_bill_sundry_fed_as());
                 mMap.put("type",data.getAttributes().getBill_sundry_type());
-                mMap.put("amount", billSundryAmount);
+                mMap.put("amount",billAmount.getText().toString());
                 appUser.mListMapForBillSale.add(mMap);
                 Timber.i("************************************"+appUser.mListMapForBillSale);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
