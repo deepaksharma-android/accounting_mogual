@@ -36,8 +36,8 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
     @Bind(R.id.bill_courier_charges)
     EditText courier_charges;
-    @Bind(R.id.bill_percentage)
-    EditText percentage;
+  /*  @Bind(R.id.bill_percentage)
+    EditText percentage;*/
     @Bind(R.id.bill_amount)
     EditText billAmount;
     @Bind(R.id.submit)
@@ -66,7 +66,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         billSundryAmount= String.valueOf(data.getAttributes().getDefault_value());
         billSundryCharges=data.getAttributes().getName();
         courier_charges.setText(billSundryCharges);
-        percentage.setText(billSundaryPercentage);
+        //percentage.setText(billSundaryPercentage);
         billAmount.setText(billSundryAmount);
        /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
         if(fromSaleVoucherBillList){

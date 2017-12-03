@@ -42,7 +42,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+       <!-- <com.berylsystems.buzz.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:id="@+id/bill_percentage"
                 android:textColor="#000"
                 android:textSize="16sp" />
-        </LinearLayout>
+        </LinearLayout>-->
 
         <com.berylsystems.buzz.utils.BuzzTextView
             style="@style/Gotham_Medium"
@@ -99,7 +99,7 @@
         </LinearLayout>
 
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+      <!--  <com.berylsystems.buzz.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                 android:hint="e.ge 1000000 "
                 android:textColor="#000"
                 android:textSize="16sp" />
-        </LinearLayout>
+        </LinearLayout>-->
 
 
         <LinearLayout

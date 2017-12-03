@@ -194,39 +194,51 @@ public class AddBillsVoucherAdapter extends BaseAdapter {
                         alternate_unit_con_factor = "1.0";
                     }
                     double con_factor = Double.parseDouble(alternate_unit_con_factor);
-                    if (price_selected_unit.equals("main")) {
-                        String quantity = (String) mapj.get("quantity");
-                        int quan = Integer.parseInt(quantity);
-                        subtot = subtot + (amt * quan * con_factor);
-                        if (type.equals("Additive")) {
-                            billsundrymamount = billsundrymamount + subtot;
-                        } else {
-                            billsundrymamount = billsundrymamount - subtot;
-                        }
+                    String packagingunitconfactor = (String) mapj.get("packaging_unit_con_factor");
+                    int pckconfac=Integer.parseInt(packagingunitconfactor);
+                    if (pckconfac!=0) {
+                        if (price_selected_unit.equals("main")) {
+                            String quantity = (String) mapj.get("quantity");
+                            String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
+                            if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")|| packaging_unit_con_factor.equals("0")) {
+                                packaging_unit_con_factor = "1.0";
+                            }
+                            double packaging_con = Double.parseDouble(packaging_unit_con_factor);
+                            int quan = Integer.parseInt(quantity);
+                            subtot = subtot + ((amt * quan) / packaging_con);
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + subtot;
+                            } else {
+                                billsundrymamount = billsundrymamount - subtot;
+                            }
 
-                    } else if (price_selected_unit.equals("alternate")) {
-                        String quantity = (String) mapj.get("quantity");
-                        int quan = Integer.parseInt(quantity);
-                        subtot = subtot + (amt * quan);
-                        if (type.equals("Additive")) {
-                            billsundrymamount = billsundrymamount + subtot;
+                        } else if (price_selected_unit.equals("alternate")) {
+                            String quantity = (String) mapj.get("quantity");
+                            String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
+                            if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")|| packaging_unit_con_factor.equals("0")) {
+                                packaging_unit_con_factor = "1.0";
+                            }
+                            double packaging_con = Double.parseDouble(packaging_unit_con_factor);
+                            int quan = Integer.parseInt(quantity);
+                            subtot = subtot + ((amt * quan) / (packaging_con * con_factor));
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + subtot;
+                            } else {
+                                billsundrymamount = billsundrymamount - subtot;
+                            }
                         } else {
-                            billsundrymamount = billsundrymamount - subtot;
+                            String quantity = (String) mapj.get("quantity");
+                            int quan = Integer.parseInt(quantity);
+                            subtot = subtot + (amt * quan);
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + subtot;
+                            } else {
+                                billsundrymamount = billsundrymamount - subtot;
+                            }
                         }
-                    } else {
-                        String quantity = (String) mapj.get("quantity");
-                        String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
-                        if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")) {
-                            packaging_unit_con_factor = "1.0";
-                        }
-                        double packaging_con = Double.parseDouble(packaging_unit_con_factor);
-                        int quan = Integer.parseInt(quantity);
-                        subtot = subtot + ((amt * quan) / (packaging_con * con_factor));
-                        if (type.equals("Additive")) {
-                            billsundrymamount = billsundrymamount + subtot;
-                        } else {
-                            billsundrymamount = billsundrymamount - subtot;
-                        }
+                    }
+                    else{
+                        billsundrymamount=0.0;
                     }
                 }
 
