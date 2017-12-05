@@ -19,12 +19,8 @@ import android.widget.ListView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
-import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsSaleReturnAdapter;
-import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
-import com.berylsystems.buzz.adapters.AddItemVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemsSaleReturnAdapterAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -51,7 +47,6 @@ public class AddItemSaleReturnFragment extends Fragment {
     @Bind(R.id.listViewBills)
     ListView listViewBills;
     AppUser appUser;
-    AddItemVoucherAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
 

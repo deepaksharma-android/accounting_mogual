@@ -70,9 +70,11 @@ public class AddItemsVoucherAdapter extends BaseAdapter {
         String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
+        String mrp= (String) map.get("mrp");
 
         holder.mItemName.setText(itemName);
-        holder.mDiscount.setText(discount);
+        holder.mDiscount.setText("Discount :"+discount);
+        holder.mMrp.setText("MRP :"+mrp);
         holder.mUnit.setText(quantity+"*"+rate);
         holder.mSrNo.setText("Sr.No. "+srNo);
         holder.mTotal.setText(total);
@@ -90,6 +92,9 @@ public class AddItemsVoucherAdapter extends BaseAdapter {
         TextView mSrNo;
         @Bind(R.id.total)
         TextView mTotal;
+        @Bind(R.id.mrp)
+        TextView mMrp;
+
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

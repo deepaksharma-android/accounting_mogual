@@ -156,4 +156,14 @@ public class Attributes {
     }
 
     public String item_package_unit;
+
+    public double getMrp() {
+        return mrp;
+    }
+
+    public void setMrp(double mrp) {
+        this.mrp = mrp;
+    }
+
+    public double mrp;
 }
