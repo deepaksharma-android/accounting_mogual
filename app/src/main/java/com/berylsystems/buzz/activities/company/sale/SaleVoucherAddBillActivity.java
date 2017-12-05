@@ -36,8 +36,10 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
     @Bind(R.id.bill_courier_charges)
     EditText courier_charges;
-  /*  @Bind(R.id.bill_percentage)
-    EditText percentage;*/
+    @Bind(R.id.bill_percentage)
+    EditText percentage;
+    @Bind(R.id.percentage_layout)
+    LinearLayout mPercentageLayout;
     @Bind(R.id.bill_amount)
     EditText billAmount;
     @Bind(R.id.submit)
@@ -62,12 +64,21 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
         blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
-        billSundaryPercentage=data.getAttributes().getBill_sundry_of_percentage();
+        billSundaryPercentage=data.getAttributes().getBill_sundry_percentage_value();
         billSundryAmount= String.valueOf(data.getAttributes().getDefault_value());
         billSundryCharges=data.getAttributes().getName();
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
         billAmount.setText(billSundryAmount);
+        if(data.getAttributes().getAmount_of_bill_sundry_fed_as().equals("Percentage")){
+            mPercentageLayout.setVisibility(View.VISIBLE);
+            percentage.setText(billSundaryPercentage);
+        }
+        else{
+            mPercentageLayout.setVisibility(View.GONE);
+            percentage.setText("");
+        }
+
        /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
         if(fromSaleVoucherBillList){
 
@@ -97,6 +108,8 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
                 mMap.put("courier_charges",billSundryCharges);
                 mMap.put("percentage",billSundaryPercentage);
                 mMap.put("fed_as",data.getAttributes().getAmount_of_bill_sundry_fed_as());
+                mMap.put("fed_as_percentage",data.getAttributes().getBill_sundry_of_percentage());
+                mMap.put("percentage_value",data.getAttributes().getBill_sundry_percentage_value());
                 mMap.put("type",data.getAttributes().getBill_sundry_type());
                 mMap.put("amount",billAmount.getText().toString());
                 appUser.mListMapForBillSale.add(mMap);

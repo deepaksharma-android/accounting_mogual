@@ -31,6 +31,7 @@ import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -60,6 +61,7 @@ public class AddItemVoucherFragment extends Fragment {
     List<Map<String, String>> mListMap;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
+    ArrayList<String> billsuncal;
 
 
     @Override
@@ -71,6 +73,11 @@ public class AddItemVoucherFragment extends Fragment {
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
+      //  appUser.billsundrytotal.clear();
+       // appUser.mListMapForBillSale.clear();
+       // appUser.mListMapForItemSale.clear();
+       // LocalRepositories.saveAppUser(getActivity(),appUser);
+
         Timber.i("FEDAS" + appUser.bill_sundry_fed_as);
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +106,7 @@ public class AddItemVoucherFragment extends Fragment {
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
 
-        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale,appUser.mListMapForItemSale));
+        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale, /*appUser.mListMapForItemSale*/appUser.billsundrytotal));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -174,11 +181,12 @@ public class AddItemVoucherFragment extends Fragment {
                         progressDialog.show();
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMapForBillSale.remove(position);
+                       // appUser.billsundrytotal.remove(position);
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
                         amountCalculation();
 
-                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale,appUser.mListMapForItemSale));
+                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale /*,appUser.mListMapForItemSale*/,appUser.billsundrytotal));
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         progressDialog.dismiss();
@@ -200,12 +208,18 @@ public class AddItemVoucherFragment extends Fragment {
     }
 
     public void amountCalculation() {
+     //   appUser.billsundrytotal.clear();
+       // LocalRepositories.saveAppUser(getActivity(),appUser);
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
+        double billsundrymamounttotal = 0.0;
+
+        billsuncal=new ArrayList<>();
         appUser = LocalRepositories.getAppUser(getApplicationContext());
 
         if (appUser.mListMapForItemSale.size() > 0) {
             for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
+
                 Map map = appUser.mListMapForItemSale.get(i);
                 String total = (String) map.get("total");
                 if (total.equals("")) {
@@ -223,10 +237,13 @@ public class AddItemVoucherFragment extends Fragment {
 
         if (appUser.mListMapForBillSale.size() > 0) {
             for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
+                billsundrymamount = 0.0;
                 Map map = appUser.mListMapForBillSale.get(i);
                 String amount = (String) map.get("amount");
                 String type = (String) map.get("type");
                 String fedas = (String) map.get("fed_as");
+                String fed_as_percentage = (String) map.get("fed_as_percentage");
+                String percentage_value = (String) map.get("percentage_value");
                 double amt = Double.parseDouble(amount);
                 if (fedas.equals("Absolute Amount")) {
                     if (type.equals("Additive")) {
@@ -252,7 +269,7 @@ public class AddItemVoucherFragment extends Fragment {
 
                             } else if (price_selected_unit.equals("alternate")) {
                                 String alternate_unit_con_factor = (String) mapj.get("alternate_unit_con_factor");
-                                if (alternate_unit_con_factor.equals("")||alternate_unit_con_factor.equals("0.0")) {
+                                if (alternate_unit_con_factor.equals("") || alternate_unit_con_factor.equals("0.0")) {
                                     alternate_unit_con_factor = "1.0";
                                 }
                                 double con_factor = Double.parseDouble(alternate_unit_con_factor);
@@ -267,7 +284,7 @@ public class AddItemVoucherFragment extends Fragment {
                             } else {
                                 String quantity = (String) mapj.get("quantity");
                                 String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
-                                if (packaging_unit_con_factor.equals("")||packaging_unit_con_factor.equals("0.0")) {
+                                if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")) {
                                     packaging_unit_con_factor = "1.0";
                                 }
                                 double packaging_con = Double.parseDouble(packaging_unit_con_factor);
@@ -294,7 +311,7 @@ public class AddItemVoucherFragment extends Fragment {
                             double subtot = 0.0;
                             String price_selected_unit = (String) mapj.get("price_selected_unit");
                             String alternate_unit_con_factor = (String) mapj.get("alternate_unit_con_factor");
-                            if (alternate_unit_con_factor.equals("0.0")||alternate_unit_con_factor.equals("")) {
+                            if (alternate_unit_con_factor.equals("0.0") || alternate_unit_con_factor.equals("")) {
                                 alternate_unit_con_factor = "1.0";
                             }
                             double con_factor = Double.parseDouble(alternate_unit_con_factor);
@@ -321,12 +338,12 @@ public class AddItemVoucherFragment extends Fragment {
 
                                 String quantity = (String) mapj.get("quantity");
                                 String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
-                                if (packaging_unit_con_factor.equals("")||packaging_unit_con_factor.equals("0.0")) {
+                                if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")) {
                                     packaging_unit_con_factor = "1.0";
                                 }
                                 double packaging_con = Double.parseDouble(packaging_unit_con_factor);
                                 int quan = Integer.parseInt(quantity);
-                                subtot = subtot + (amt * quan * packaging_con*con_factor);
+                                subtot = subtot + (amt * quan * packaging_con * con_factor);
                                 if (type.equals("Additive")) {
                                     billsundrymamount = billsundrymamount + subtot;
                                 } else {
@@ -352,12 +369,12 @@ public class AddItemVoucherFragment extends Fragment {
                             }
                             double con_factor = Double.parseDouble(alternate_unit_con_factor);
                             String packagingunitconfactor = (String) mapj.get("packaging_unit_con_factor");
-                            int pckconfac=Integer.parseInt(packagingunitconfactor);
-                            if (pckconfac!=0) {
+                            int pckconfac = Integer.parseInt(packagingunitconfactor);
+                            if (pckconfac != 0) {
                                 if (price_selected_unit.equals("main")) {
                                     String quantity = (String) mapj.get("quantity");
                                     String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
-                                    if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")|| packaging_unit_con_factor.equals("0")) {
+                                    if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0") || packaging_unit_con_factor.equals("0")) {
                                         packaging_unit_con_factor = "1.0";
                                     }
                                     double packaging_con = Double.parseDouble(packaging_unit_con_factor);
@@ -372,7 +389,7 @@ public class AddItemVoucherFragment extends Fragment {
                                 } else if (price_selected_unit.equals("alternate")) {
                                     String quantity = (String) mapj.get("quantity");
                                     String packaging_unit_con_factor = (String) mapj.get("packaging_unit_con_factor");
-                                    if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0")|| packaging_unit_con_factor.equals("0")) {
+                                    if (packaging_unit_con_factor.equals("") || packaging_unit_con_factor.equals("0.0") || packaging_unit_con_factor.equals("0")) {
                                         packaging_unit_con_factor = "1.0";
                                     }
                                     double packaging_con = Double.parseDouble(packaging_unit_con_factor);
@@ -393,9 +410,8 @@ public class AddItemVoucherFragment extends Fragment {
                                         billsundrymamount = billsundrymamount - subtot;
                                     }
                                 }
-                            }
-                            else{
-                                billsundrymamount=0.0;
+                            } else {
+                                // billsundrymamount=0.0;
                             }
                         }
 
@@ -404,15 +420,47 @@ public class AddItemVoucherFragment extends Fragment {
                         itemamount = 0.0;
 
                     }
+                } else if (fedas.equals("Percentage")) {
+                    if (fed_as_percentage.equals("Nett Bill Amount")) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
+                            double subtot = 0.0;
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
+                                String total = (String) mapj.get("total");
+                                double itemtot = Double.parseDouble(total);
+                                subtot = subtot + itemtot;
+
+
+
+                            }
+
+                            double per_val = Double.parseDouble(percentage_value);
+                            double percentagebillsundry = (billsundrymamounttotal+subtot) * (((per_val / 100) * amt) / 100);
+
+                           if (type.equals("Additive")) {
+                                    billsundrymamount = billsundrymamount + percentagebillsundry;
+                                } else {
+                                    billsundrymamount = billsundrymamount - percentagebillsundry;
+                                }
+
+
+                        }
+
+                    }
+
+
                 }
-
-
+                billsundrymamounttotal=billsundrymamounttotal+billsundrymamount;
+                appUser.billsundrytotal.add(i,String.valueOf(billsundrymamount));
+                LocalRepositories.saveAppUser(getActivity(),appUser);
             }
+
+
         } else {
-            billsundrymamount = 0.0;
+            billsundrymamounttotal = 0.0;
         }
 
-        mTotal.setText("Total Amount: " + String.valueOf(itemamount + billsundrymamount));
+        mTotal.setText("Total Amount: " + String.valueOf(itemamount + billsundrymamounttotal));
     }
 
 }
