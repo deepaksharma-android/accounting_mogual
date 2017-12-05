@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.test.mock.MockApplication;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +26,11 @@ import com.berylsystems.buzz.utils.Preferences;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,6 +85,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
         // set the custom dialog components - text, image and button
         EditText username = (EditText) dialog.findViewById(R.id.cusername);
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
+        CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.remember_password);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +98,21 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
             }
         });
 
+        for (int i = 0; i < appUser.companyLoginArray.size(); i++) {
+            Map map = appUser.companyLoginArray.get(i);
+            String position = (String) map.get("position");
+            if (pos == Integer.parseInt(position)) {
+                Boolean status = (Boolean) map.get("status");
+                String uName = (String) map.get("username");
+                String pass = (String) map.get("password");
+                if (status) {
+                    checkBox.setChecked(true);
+                    username.setText(uName);
+                    password.setText(pass);
+                }
+            }
+
+        }
         // if button is clicked, close the custom dialog
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,22 +120,55 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
                 InputMethodManager inputManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
-                if(!username.getText().toString().equals("")){
-                    if(!password.getText().toString().equals("")){
-                        appUser.cusername=username.getText().toString();
-                        appUser.cpassword=password.getText().toString();
-                        LocalRepositories.saveAppUser(context,appUser);
+                appUser.boolSetOrAddtoMap=false;
+                LocalRepositories.saveAppUser(context,appUser);
+                Map mapAdd= new HashMap();
+                if (!username.getText().toString().equals("")) {
+                    if (!password.getText().toString().equals("")) {
+                        appUser.cusername = username.getText().toString();
+                        appUser.cpassword = password.getText().toString();
+                        LocalRepositories.saveAppUser(context, appUser);
                         dialog.dismiss();
+
+                        if (checkBox.isChecked()) {
+
+
+                            mapAdd.put("position", String.valueOf(pos));
+                            mapAdd.put("username", username.getText().toString());
+                            mapAdd.put("password", password.getText().toString());
+                            mapAdd.put("status", true);
+
+                            for (int i=0;i<appUser.companyLoginArray.size();i++){
+                                Map mapGet=appUser.companyLoginArray.get(i);
+                                String str= (String) mapGet.get("position");
+                                Integer integer= Integer.valueOf(str);
+                                if (integer==Integer.valueOf(pos)){
+                                    LocalRepositories.saveAppUser(context,appUser);
+                                    appUser.companyLoginArray.set(i,mapGet);
+                                    LocalRepositories.saveAppUser(context, appUser);
+                                }
+                            }
+                            if (!appUser.boolSetOrAddtoMap){
+                                appUser.companyLoginArray.add(mapAdd);
+                                LocalRepositories.saveAppUser(context, appUser);
+                            }
+                        } else {
+                            for (int i = 0; i < appUser.companyLoginArray.size(); i++) {
+                                Map mapRemove = appUser.companyLoginArray.get(i);
+                                String position = (String) mapRemove.get("position");
+                                if (pos ==Integer.valueOf(position)) {
+                                    appUser.companyLoginArray.remove(i);
+                                    LocalRepositories.saveAppUser(context, appUser);
+                                }
+                            }
+                        }
                         EventBus.getDefault().post(new EventOpenCompany(pos));
 
-
-                }
-                    else{
-                        Toast.makeText(context,"Ente password",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "Enter password", Toast.LENGTH_LONG).show();
                     }
-                }
-                else{
-                    Toast.makeText(context,"Enter username",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Enter username", Toast.LENGTH_LONG).show();
                 }
 
             }
