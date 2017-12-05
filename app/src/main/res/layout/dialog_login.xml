@@ -119,6 +119,31 @@
 
                 </LinearLayout>
 
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp">
+
+                    <CheckBox
+                        android:id="@+id/remember_password"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_height="wrap_content" />
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        android:layout_width="wrap_content"
+                        android:text="Remember Password"
+                        android:textColor="#000"
+                        android:layout_gravity="center"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
 

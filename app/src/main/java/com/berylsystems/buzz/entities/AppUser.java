@@ -14,6 +14,7 @@ public class AppUser {
     public String password;
     public String name;
     public String email;
+    public String zipcode;
     public String user_id;
     public String otp;
     public String fb_id;
@@ -408,5 +409,6 @@ public String payment_paid_to_id;
     public String delete_payment_id;
     public String edit_payment_id;
 
-
+    public ArrayList<Map> companyLoginArray=new ArrayList();
+    public Boolean boolSetOrAddtoMap;
 }
