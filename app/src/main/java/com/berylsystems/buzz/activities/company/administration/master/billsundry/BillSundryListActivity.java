@@ -18,9 +18,13 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
 import com.berylsystems.buzz.activities.company.purchase.PurchaseAddBillActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
+import com.berylsystems.buzz.activities.company.sale_return.CreateSaleReturnActivity;
+import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddBillActivity;
 import com.berylsystems.buzz.adapters.BillSundryListAdapter;
 import com.berylsystems.buzz.adapters.ItemListAdapter;
 import com.berylsystems.buzz.adapters.UnitListAdapter;
@@ -219,6 +223,16 @@ public class BillSundryListActivity extends BaseActivityCompany {
             intent.putExtra("id", id);
             startActivity(intent);
             finish();
+        } else if (ExpandableItemListActivity.comingFrom == 2) {
+            Intent intent = new Intent(getApplicationContext(), SaleReturnAddBillActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+            finish();
+        } else if (ExpandableItemListActivity.comingFrom == 3) {
+            Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddBillActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+            finish();
         }
 
     }
@@ -235,6 +249,16 @@ public class BillSundryListActivity extends BaseActivityCompany {
         } else  if (ExpandableItemListActivity.comingFrom==1){
             Intent intent=new Intent(this, CreatePurchaseActivity.class);
             intent.putExtra("is",true);
+            startActivity(intent);
+            finish();
+        } else if (ExpandableItemListActivity.comingFrom == 2) {
+            Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+            intent.putExtra("is", true);
+            startActivity(intent);
+            finish();
+        } else if (ExpandableItemListActivity.comingFrom == 3) {
+            Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+            intent.putExtra("is", true);
             startActivity(intent);
             finish();
         }

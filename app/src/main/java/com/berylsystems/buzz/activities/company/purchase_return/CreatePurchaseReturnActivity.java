@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.sale_return;
+package com.berylsystems.buzz.activities.company.purchase_return;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -29,12 +29,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.fragments.company.sale.AddItemVoucherFragment;
-import com.berylsystems.buzz.fragments.company.sale.CreateSaleVoucherFragment;
-import com.berylsystems.buzz.fragments.company.sale_return.AddItemSaleReturnFragment;
-import com.berylsystems.buzz.fragments.company.sale_return.CreateSaleReturnFragment;
+import com.berylsystems.buzz.fragments.company.purchase.AddItemPurchaseFragment;
+import com.berylsystems.buzz.fragments.company.purchase.CreatePurchaseFragment;
+import com.berylsystems.buzz.fragments.company.purchase_return.AddItemPurchaseReturnFragment;
+import com.berylsystems.buzz.fragments.company.purchase_return.CreatePurchaseReturnFragment;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreateSaleReturnActivity extends AppCompatActivity {
+public class CreatePurchaseReturnActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -59,7 +59,7 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_sale_type);
+        setContentView(R.layout. activity_create_purchase_return);
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
@@ -74,10 +74,11 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
 
     }
 
+
     private void setupViewPager(ViewPager viewPager) {
-      ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreateSaleReturnFragment(), "CREATE SALE RETURN FRAGMENT");
-        adapter.addFragment(new AddItemSaleReturnFragment(), "ADD ITEM SALE RETURN");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CreatePurchaseReturnFragment(), "CREATE PURCHASE RETURN FRAGMENT");
+        adapter.addFragment(new AddItemPurchaseReturnFragment(), "ADD ITEM PURCHASE RETURN");
         viewPager.setAdapter(adapter);
     }
     private void initActionbar() {
@@ -92,13 +93,23 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE SALE RETURN VOUCHER");
+        actionbarTitle.setText("CREATE PURCHASE RETURN ");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
 
+    public static void hideKeyPad(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     public static class PlaceholderFragment extends Fragment {
 
@@ -134,4 +145,6 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+
 }

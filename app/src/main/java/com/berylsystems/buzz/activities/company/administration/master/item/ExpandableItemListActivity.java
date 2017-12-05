@@ -13,15 +13,23 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.purchase.PurchaseAddBillActivity;
 import com.berylsystems.buzz.activities.company.purchase.PurchaseAddItemActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddBillActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddItemActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
+import com.berylsystems.buzz.activities.company.sale_return.CreateSaleReturnActivity;
+import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddItemActivity;
 import com.berylsystems.buzz.adapters.ItemExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -58,7 +66,6 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton floatingActionButton;
-
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -423,8 +430,6 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             appUser.mMapSaleVoucherItem=mSaleVoucherItem;
             LocalRepositories.saveAppUser(this,appUser);
 
-
-
             intent.putExtra("name", itemName);
             intent.putExtra("desc", descr);
             intent.putExtra("main_unit", main_unit);
@@ -449,14 +454,48 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             intent.putExtra("name", itemName);
             startActivity(intent);
             finish();
+        } else if (ExpandableItemListActivity.comingFrom == 2) {
+            Intent intent = new Intent(getApplicationContext(), SaleReturnAddItemActivity.class);
+            String itemName = name.get(Integer.valueOf(childid)).toString();
+            intent.putExtra("fromitemlist", true);
+            intent.putExtra("id", childid);
+            intent.putExtra("name", itemName);
+            startActivity(intent);
+            finish();
+        }else if (ExpandableItemListActivity.comingFrom == 3) {
+            Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddItemActivity.class);
+            String itemName = name.get(Integer.valueOf(childid)).toString();
+            intent.putExtra("fromitemlist", true);
+            intent.putExtra("id", childid);
+            intent.putExtra("name", itemName);
+            startActivity(intent);
+            finish();
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, CreateSaleActivity.class);
-        intent.putExtra("is", true);
-        startActivity(intent);
-        finish();
+        if (ExpandableItemListActivity.comingFrom==0){
+            Intent intent = new Intent(this, CreateSaleActivity.class);
+            intent.putExtra("is", true);
+            startActivity(intent);
+            finish();
+        }else  if (ExpandableItemListActivity.comingFrom==1){
+            Intent intent = new Intent(this, CreatePurchaseActivity.class);
+            intent.putExtra("is", true);
+            startActivity(intent);
+            finish();
+        }else  if (ExpandableItemListActivity.comingFrom==2){
+            Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+            intent.putExtra("is", true);
+            startActivity(intent);
+            finish();
+        }else  if (ExpandableItemListActivity.comingFrom==3){
+            Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+            intent.putExtra("is", true);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }

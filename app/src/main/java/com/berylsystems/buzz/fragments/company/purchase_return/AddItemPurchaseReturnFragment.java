@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.fragments.company.sale_return;
+package com.berylsystems.buzz.fragments.company.purchase_return;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,13 +19,16 @@ import android.widget.ListView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddItemActivity;
-import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddBillActivity;
-import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddItemActivity;
-import com.berylsystems.buzz.adapters.AddBillsSaleReturnAdapter;
+import com.berylsystems.buzz.activities.company.purchase.PurchaseAddBillActivity;
+import com.berylsystems.buzz.activities.company.purchase.PurchaseAddItemActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddBillActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddItemActivity;
+import com.berylsystems.buzz.adapters.AddBillsPurchaseAdapter;
+import com.berylsystems.buzz.adapters.AddBillsPurchaseReturnAdapter;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemVoucherAdapter;
-import com.berylsystems.buzz.adapters.AddItemsSaleReturnAdapterAdapter;
+import com.berylsystems.buzz.adapters.AddItemsPurchaseAdapter;
+import com.berylsystems.buzz.adapters.AddItemsPurchaseReturnAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.ListHeight;
@@ -41,7 +44,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by BerylSystems on 11/22/2017.
  */
 
-public class AddItemSaleReturnFragment extends Fragment {
+public class AddItemPurchaseReturnFragment extends Fragment {
     @Bind(R.id.add_item_button)
     LinearLayout add_item_button;
     @Bind(R.id.add_bill_button)
@@ -58,18 +61,19 @@ public class AddItemSaleReturnFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_item_sale_return, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_purchase_return, container, false);
         ButterKnife.bind(this, view);
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
+
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 add_item_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=2;
-                Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
-                intent.putExtra("bool",true);
+                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                ExpandableItemListActivity.comingFrom = 3;
+                intent.putExtra("bool", true);
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -78,48 +82,62 @@ public class AddItemSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=2;
+                ExpandableItemListActivity.comingFrom = 3;
                 startActivity(new Intent(getContext(), BillSundryListActivity.class));
                 getActivity().finish();
             }
         });
-        Timber.i("mlistmap" + appUser.mListMapForItemSaleReturn);
-        Timber.i("mlistmapforbill" + appUser.mListMapForBillSaleReturn);
 
-        listViewItems.setAdapter(new AddItemsSaleReturnAdapterAdapter(getContext(), appUser.mListMapForItemSaleReturn));
+        Timber.i("mListMapForItemPurchaseReturn" + appUser.mListMapForItemPurchaseReturn);
+        Timber.i("mListMapForBillPurchaseReturn" + appUser.mListMapForBillPurchaseReturn);
+
+        listViewItems.setAdapter(new AddItemsPurchaseReturnAdapter(getContext(), appUser.mListMapForItemPurchaseReturn));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
-        listViewBills.setAdapter(new AddBillsSaleReturnAdapter(getContext(), appUser.mListMapForBillSaleReturn));
+        Timber.i("mListMapForBillPurchase" + appUser.mListMapForBillPurchaseReturn);
+        listViewBills.setAdapter(new AddBillsPurchaseReturnAdapter(getContext(), appUser.mListMapForBillPurchaseReturn));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-        ProgressDialog progressDialog=new ProgressDialog(getActivity());
+
+        ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Removing...");
 
         listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getContext(), SaleReturnAddItemActivity.class);
-                intent.putExtra("id", position);
-                intent.putExtra("bool",true);
+                Intent intent = new Intent(getContext(), PurchaseReturnAddItemActivity.class);
+                intent.putExtra("bool", true);
+                ExpandableItemListActivity.comingFrom = 3;
+                intent.putExtra("position", position);
                 startActivity(intent);
-                getActivity().finish();
             }
         });
+        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               /* Intent intent = new Intent(getContext(), PurchaseReturnAddBillActivity.class);
+                ExpandableItemListActivity.comingFrom = 3;
+                intent.putExtra("bool", true);
+                intent.putExtra("position", position);
+                startActivity(intent);*/
+            }
+        });
+
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder alertDialog = new  AlertDialog.Builder(getActivity());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.show();
-                        AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForItemSaleReturn.remove(position);
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForItemPurchaseReturn.remove(position);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
-                        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSaleReturn));
+                        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemPurchaseReturn));
                         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
                         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
                         progressDialog.dismiss();
@@ -127,7 +145,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
                 alertDialog.show();
@@ -139,16 +157,16 @@ public class AddItemSaleReturnFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder alertDialog = new  AlertDialog.Builder(getActivity());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.show();
-                        AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForBillSaleReturn.remove(position);
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForBillPurchaseReturn.remove(position);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
-                        listViewBills.setAdapter(new AddBillsSaleReturnAdapter(getContext(), appUser.mListMapForBillSaleReturn));
+                        listViewBills.setAdapter(new AddBillsPurchaseReturnAdapter(getContext(), appUser.mListMapForBillPurchaseReturn));
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
                         progressDialog.dismiss();
@@ -161,12 +179,8 @@ public class AddItemSaleReturnFragment extends Fragment {
                 });
                 alertDialog.show();
                 return true;
-
             }
         });
-
-
         return view;
     }
-
 }
