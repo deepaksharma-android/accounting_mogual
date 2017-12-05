@@ -1,10 +1,14 @@
 package com.berylsystems.buzz.activities.company.purchase;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,6 +22,7 @@ import com.berylsystems.buzz.activities.company.administration.master.item.Expan
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,86 +72,41 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
 
         appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
+        initActionbar();
+
         mListMapForItemPurchase = new ArrayList<>();
         mMap = new HashMap<>();
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
-        intent = getIntent();
-        boolean b = intent.getBooleanExtra("bool", false);
-        if (b) {
-            heading.setText("EDIT ITEM");
-            Integer position = intent.getIntExtra("id", 0);
-            appUser = LocalRepositories.getAppUser(this);
-            Map m = appUser.mListMapForItemPurchase.get(position);
-            Toast.makeText(this, "" + position, Toast.LENGTH_SHORT).show();
-            mItemName.setText("" + m.get("item_name"));
-            mDescription.setText("" + m.get("description"));
-            mQuantity.setText("" + m.get("quantity"));
-            mUnit.setText("" + m.get("unit"));
-            mSr_no.setText("" + m.get("sr_no"));
-            mRate.setText("" + m.get("rate"));
-            mDiscount.setText("" + m.get("discount"));
-            mValue.setText("" + m.get("value"));
-            if (m.get("value")!=null&&m.get("quantity")!=null){
-                mTotal.setText("" + m.get("total"));
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+        String name = intent.getStringExtra("name");
+        mItemName.setText(name);
+        mItemName.setEnabled(false);
+        mValue.setEnabled(false);
+        mTotal.setEnabled(false);
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSubmit.startAnimation(blinkOnClick);
+                mMap.put("item_name", mItemName.getText().toString());
+                mMap.put("description", mDescription.getText().toString());
+                mMap.put("quantity", mQuantity.getText().toString());
+                mMap.put("unit", mUnit.getText().toString());
+                mMap.put("sr_no", mSr_no.getText().toString());
+                mMap.put("rate", mRate.getText().toString());
+                mMap.put("discount", mDiscount.getText().toString());
+                mMap.put("value", mValue.getText().toString());
+                mMap.put("total", mTotal.getText().toString());
+                mListMapForItemPurchase.add(mMap);
+                appUser.mListMapForItemPurchase.add(mMap);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
+                in.putExtra("is", true);
+                startActivity(in);
+                finish();
             }
-            mValue.setEnabled(false);
-            mTotal.setEnabled(false);
-            mSubmit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mSubmit.startAnimation(blinkOnClick);
-                    mMap.put("item_name", mItemName.getText().toString());
-                    mMap.put("description", mDescription.getText().toString());
-                    mMap.put("quantity", mQuantity.getText().toString());
-                    mMap.put("unit", mUnit.getText().toString());
-                    mMap.put("sr_no", mSr_no.getText().toString());
-                    mMap.put("rate", mRate.getText().toString());
-                    mMap.put("discount", mDiscount.getText().toString());
-                    mMap.put("value", mValue.getText().toString());
-                    mMap.put("total", mTotal.getText().toString());
+        });
 
-                    appUser.mListMapForItemPurchase.set(position, mMap);
-
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                    Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
-                    in.putExtra("is", true);
-                    startActivity(in);
-                    finish();
-                }
-            });
-        } else {
-            heading.setText("ADD ITEM");
-            Intent intent = getIntent();
-            String id = intent.getStringExtra("id");
-            String name = intent.getStringExtra("name");
-            mItemName.setText(name);
-            mItemName.setEnabled(false);
-            mValue.setEnabled(false);
-            mTotal.setEnabled(false);
-            mSubmit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mSubmit.startAnimation(blinkOnClick);
-                    mMap.put("item_name", mItemName.getText().toString());
-                    mMap.put("description", mDescription.getText().toString());
-                    mMap.put("quantity", mQuantity.getText().toString());
-                    mMap.put("unit", mUnit.getText().toString());
-                    mMap.put("sr_no", mSr_no.getText().toString());
-                    mMap.put("rate", mRate.getText().toString());
-                    mMap.put("discount", mDiscount.getText().toString());
-                    mMap.put("value", mValue.getText().toString());
-                    mMap.put("total", mTotal.getText().toString());
-                    mListMapForItemPurchase.add(mMap);
-                    appUser.mListMapForItemPurchase.add(mMap);
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
-                    in.putExtra("is", true);
-                    startActivity(in);
-                    finish();
-                }
-            });
-        }
 
         mRate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -260,16 +220,31 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
 
     }
 
+    private void initActionbar() {
+        ActionBar actionBar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(viewActionBar, params);
+        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+        actionbarTitle.setText("PURCHASE ADD ITEM");
+        actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+    }
+
     @Override
     public void onBackPressed() {
-        Intent intent = getIntent();
-        boolean b = intent.getBooleanExtra("bool", false);
-        if (b && ExpandableItemListActivity.comingFrom == 0) {
-            Intent intent1 = new Intent(this, CreateSaleActivity.class);
-            intent1.putExtra("is", true);
-            startActivity(intent1);
-            finish();
-        } else if (b && ExpandableItemListActivity.comingFrom == 1) {
+        if ( ExpandableItemListActivity.comingFrom == 1) {
+            startActivity(new Intent(this, ExpandableItemListActivity.class));
             finish();
         }
     }
