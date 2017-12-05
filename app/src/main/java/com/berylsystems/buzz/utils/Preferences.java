@@ -467,8 +467,8 @@ public class Preferences {
         return pref.getString(bill_sundry_amount_round_off, "");
     }
 
-    public void setcalculated_on_bill_sundry_id(String billsundryroudingoffnearest) {
-        editor.putString(calculated_on_bill_sundry_id, billsundryroudingoffnearest);
+    public void setcalculated_on_bill_sundry_id(String calculatedonbillsundryid) {
+        editor.putString(calculated_on_bill_sundry_id, calculatedonbillsundryid);
         editor.commit();
     }
 

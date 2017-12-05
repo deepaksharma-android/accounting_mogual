@@ -163,4 +163,14 @@ public class BillSundryAttributes {
     }
 
     public String bill_sundry_percentage_value;
+
+    public boolean isConsolidate_bill_sundry() {
+        return consolidate_bill_sundry;
+    }
+
+    public void setConsolidate_bill_sundry(boolean consolidate_bill_sundry) {
+        this.consolidate_bill_sundry = consolidate_bill_sundry;
+    }
+
+    public boolean consolidate_bill_sundry;
 }

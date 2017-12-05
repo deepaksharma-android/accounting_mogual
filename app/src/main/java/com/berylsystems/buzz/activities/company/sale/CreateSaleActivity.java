@@ -58,9 +58,9 @@ public class CreateSaleActivity extends AppCompatActivity {
     ViewPager mHeaderViewPager;
     @Bind(R.id.tabs)
     TabLayout mTabLayout;
-    AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    AppUser appUser;
 
 
     @Override

@@ -136,10 +136,10 @@ public class BillSundryListActivity extends BaseActivityCompany {
             }
                 for (int i = 0; i < response.getBill_sundries().getData().size(); i++) {
                     appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
-                    appUser.arr_billSundryId.add(String.valueOf(response.getBill_sundries().getData().get(i).getId()));
+                    appUser.arr_billSundryId.add(response.getBill_sundries().getData().get(i).getId());
                     if (response.getBill_sundries().getData().get(i).getAttributes().getUndefined() == false) {
                         appUser.billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
-                        appUser.billSundryId.add(String.valueOf(response.getBill_sundries().getData().get(i).getId()));
+                        appUser.billSundryId.add(response.getBill_sundries().getData().get(i).getId());
                     }
 
                     LocalRepositories.saveAppUser(this, appUser);

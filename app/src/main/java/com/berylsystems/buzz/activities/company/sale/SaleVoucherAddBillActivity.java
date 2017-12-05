@@ -54,6 +54,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     String billSundaryPercentage;
     String billSundryAmount;
     String billSundryCharges;
+    String billsundryothername;
 
 
     @Override
@@ -70,6 +71,8 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
         billAmount.setText(billSundryAmount);
+        Timber.i("ID++++"+data.getAttributes().getBill_sundry_id());
+        Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if(data.getAttributes().getAmount_of_bill_sundry_fed_as().equals("Percentage")){
             mPercentageLayout.setVisibility(View.VISIBLE);
             percentage.setText(billSundaryPercentage);
@@ -112,6 +115,24 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
                 mMap.put("percentage_value",data.getAttributes().getBill_sundry_percentage_value());
                 mMap.put("type",data.getAttributes().getBill_sundry_type());
                 mMap.put("amount",billAmount.getText().toString());
+                if(String.valueOf(data.getAttributes().getNumber_of_bill_sundry())!=null) {
+                    mMap.put("number_of_bill", String.valueOf(data.getAttributes().getNumber_of_bill_sundry()));
+                }
+                if(String.valueOf(data.getAttributes().isConsolidate_bill_sundry())!=null) {
+                    mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
+                }
+
+                if(data.getAttributes().getBill_sundry_id()!=null) {
+                    int size=appUser.arr_billSundryId.size();
+                    for(int i=0;i<size;i++){
+                        String id=appUser.arr_billSundryId.get(i);
+                        if(id.equals(String.valueOf(data.getAttributes().getBill_sundry_id()))){
+                             billsundryothername=appUser.arr_billSundryName.get(i);
+                            break;
+                        }
+                    }
+                    mMap.put("other", billsundryothername);
+                }
                 appUser.mListMapForBillSale.add(mMap);
                 Timber.i("************************************"+appUser.mListMapForBillSale);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

@@ -33,7 +33,9 @@ import com.berylsystems.buzz.activities.company.transection.payment.CreatePaymen
 import com.berylsystems.buzz.activities.company.transection.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
+import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +45,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
     private String[] data;
     private Context context;
     int[] images;
+    AppUser appUser;
 
     public TransactionDashboardAdapter(Context context, String[] data, int[] images) {
         this.data = data;
@@ -58,6 +61,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
 
     @Override
     public void onBindViewHolder(TransactionDashboardAdapter.ViewHolder viewHolder, int i) {
+        appUser= LocalRepositories.getAppUser(context);
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
         viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +90,9 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                 //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
 
                 if (i == 0) {
+                    appUser.mListMapForItemSale.clear();
+                    appUser.mListMapForBillSale.clear();
+                    LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, CreateSaleActivity.class));
 
                 }

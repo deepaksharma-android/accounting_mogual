@@ -53,6 +53,7 @@ public class OtherBillSundryActivity extends AppCompatActivity {
         mSpinnerCalculatedOn.setAdapter(mCalculateOnAdapter);
 
 
+
         ;
 
         if (!Preferences.getInstance(getApplicationContext()).getbill_sundry_calculated_on().equals("")) {
@@ -84,8 +85,10 @@ public class OtherBillSundryActivity extends AppCompatActivity {
                 RadioButton radioButton = (RadioButton) findViewById(selectedId);
                 value= radioButton.getText().toString();
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_calculated_on(value);
+                String selected=mSpinnerCalculatedOn.getSelectedItem().toString();
                 for(int i=0;i<appUser.arr_billSundryName.size();i++){
-                    if(appUser.arr_billSundryName.equals(mSpinnerCalculatedOn.getSelectedItem().toString())){
+                    if(appUser.arr_billSundryName.get(i).equals(selected)){
+                        String id=appUser.arr_billSundryId.get(i);
                         Preferences.getInstance(getApplicationContext()).setcalculated_on_bill_sundry_id(appUser.arr_billSundryId.get(i));
                         break;
                     }
