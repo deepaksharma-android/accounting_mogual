@@ -97,27 +97,6 @@ public class AddItemPurchaseFragment extends Fragment {
         ProgressDialog progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Removing...");
 
-        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getContext(), PurchaseAddItemActivity.class);
-                intent.putExtra("bool",true);
-                ExpandableItemListActivity.comingFrom=1;
-                intent.putExtra("position",position);
-                startActivity(intent);
-            }
-        });
-        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getContext(), PurchaseAddBillActivity.class);
-                ExpandableItemListActivity.comingFrom=1;
-                intent.putExtra("bool",true);
-                intent.putExtra("position",position);
-                startActivity(intent);
-            }
-        });
-
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

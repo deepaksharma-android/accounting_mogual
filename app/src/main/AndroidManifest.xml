@@ -383,6 +383,7 @@
         <activity
             android:name=".activities.company.sale_return.CreateSaleReturnActivity"
             android:label="@string/title_activity_create_sale_type"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transection.creditnotewoitem.CreditNoteWoItemActivity"
