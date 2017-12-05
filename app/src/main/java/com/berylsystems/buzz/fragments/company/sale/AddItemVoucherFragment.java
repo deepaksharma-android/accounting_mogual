@@ -447,6 +447,32 @@ public class AddItemVoucherFragment extends Fragment {
                         }
 
                     }
+                    if (fed_as_percentage.equals("Items Basic Amount")) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
+                            double subtot = 0.0;
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
+                                String total = (String) mapj.get("total");
+                                double itemtot = Double.parseDouble(total);
+                                subtot = subtot + itemtot;
+
+
+
+                            }
+
+                            double per_val = Double.parseDouble(percentage_value);
+                            double percentagebillsundry = (subtot) * (((per_val / 100) * amt) / 100);
+
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + percentagebillsundry;
+                            } else {
+                                billsundrymamount = billsundrymamount - percentagebillsundry;
+                            }
+
+
+                        }
+
+                    }
 
 
                 }
