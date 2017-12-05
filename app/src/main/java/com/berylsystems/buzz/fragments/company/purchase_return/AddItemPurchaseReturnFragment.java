@@ -47,11 +47,6 @@ public class AddItemPurchaseReturnFragment extends Fragment {
     @Bind(R.id.listViewBills)
     ListView listViewBills;
     AppUser appUser;
-<<<<<<< HEAD
-    AddItemsVoucherAdapter adapter;
-=======
-
->>>>>>> 31191b994475676e88fda3bc8914ed99a25a45ca
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
 

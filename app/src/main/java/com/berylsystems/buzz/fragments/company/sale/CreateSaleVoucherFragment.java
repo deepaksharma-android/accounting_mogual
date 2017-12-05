@@ -2,6 +2,7 @@ package com.berylsystems.buzz.fragments.company.sale;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,10 +27,15 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,10 +75,16 @@ public class CreateSaleVoucherFragment extends Fragment {
     EditText mNarration;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    ProgressDialog mProgressDialog;
 
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -196,12 +208,27 @@ public class CreateSaleVoucherFragment extends Fragment {
                     Snackbar.make(coordinatorLayout, "Please enter narration", Snackbar.LENGTH_LONG).show();
                     return;
                 }
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
             }
         });
         return view;
     }
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -253,5 +280,32 @@ public class CreateSaleVoucherFragment extends Fragment {
 
     private static void hideKeyPad(Activity activity){
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+    @Subscribe
+    public void createsalevoucher(CreateSaleVoucherResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+           /* mDate.setText("");
+            mVchNumber.setText("");
+            mSaleType.setText("");
+            mStore.setText("");
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            credit.setBackgroundColor(0);
+            cash.setTextColor(Color.parseColor("#ffffff"));//white
+            credit.setTextColor(Color.parseColor("#000000"));//black
+            appUser.mListMapForBillSale.clear();
+            appUser.mListMapForItemSale.clear();
+            appUser.billsundrytotal.clear();
+            LocalRepositories.saveAppUser(getActivity(),appUser);*/
+
+            Snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
+        }
     }
 }
