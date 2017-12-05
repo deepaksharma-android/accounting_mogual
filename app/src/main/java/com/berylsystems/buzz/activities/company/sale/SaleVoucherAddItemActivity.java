@@ -77,6 +77,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String price_selected_unit;
     String alternate_unit_con_factor;
     String packaging_unit_con_factor;
+    String mrp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         String packaging_unit = intent.getStringExtra("packaging_unit");
         String default_unit = intent.getStringExtra("default_unit");
         String packaging_unit_sales_price = intent.getStringExtra("packaging_unit_sales_price");
+        mrp = intent.getStringExtra("mrp");
         packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
         sales_price_applied_on = intent.getStringExtra("applied");
         alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
@@ -312,6 +314,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 mMap.put("price_selected_unit", price_selected_unit);
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                mMap.put("mrp", mrp);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemSale.add(mMap);
                 // appUser.mListMap = mListMap;

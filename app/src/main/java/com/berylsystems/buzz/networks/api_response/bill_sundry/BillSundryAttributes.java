@@ -153,4 +153,14 @@ public class BillSundryAttributes {
     public Integer rounding_off_nearest;
     public Integer bill_sundry_id;
     public String bill_sundry_calculated_on;
+
+    public String getBill_sundry_percentage_value() {
+        return bill_sundry_percentage_value;
+    }
+
+    public void setBill_sundry_percentage_value(String bill_sundry_percentage_value) {
+        this.bill_sundry_percentage_value = bill_sundry_percentage_value;
+    }
+
+    public String bill_sundry_percentage_value;
 }
