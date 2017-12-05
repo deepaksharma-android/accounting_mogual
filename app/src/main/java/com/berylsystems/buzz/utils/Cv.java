@@ -145,6 +145,8 @@ String ACTION_CREATE_BANK_CASH_WITHDRAW="action_create_bank_cash_withdraw";
     String ACTION_DELETE_DEBIT_NOTE="action_delete_debit_note";
     String ACTION_GET_DEBIT_NOTE_DETAILS="action_get_debit_note_details";
     String ACTION_EDIT_DEBIT_NOTE="action_edit_debit_note";
+	 String ACTION_CREATE_SALE_RETURN="action_create_sale_return";
+    String ACTION_CREATE_PURCHASE_RETURN="action_create_purchase_return";
 
 
 

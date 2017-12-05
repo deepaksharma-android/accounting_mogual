@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.purchase_return.CreatePurchaseReturnActivity;
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.sale.GetSaleListActivity;
 import com.berylsystems.buzz.activities.company.sale_return.CreateSaleReturnActivity;
@@ -32,6 +33,7 @@ import com.berylsystems.buzz.activities.company.transection.payment.CreatePaymen
 import com.berylsystems.buzz.activities.company.transection.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
+import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,7 +83,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                             context.startActivity(new Intent(context,GetSaleListActivity.class));
                         }
                     });*/
-                    //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
+                //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
 
                 if (i == 0) {
                     context.startActivity(new Intent(context, CreateSaleActivity.class));
@@ -92,6 +94,9 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                 }
                 if (i == 2) {
                     context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+                }
+                if (i == 3) {
+                    context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
                 }
                 if (i == 4) {
                     context.startActivity(new Intent(context, CreatePaymentActivity.class));
@@ -144,23 +149,23 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
         }
     }
 
-    public void operationDialog(final Class<?> ActivityToadd, final Class<?> Activitytomodify){
+    public void operationDialog(final Class<?> ActivityToadd, final Class<?> Activitytomodify) {
         Dialog dialogbal = new Dialog(context);
         dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialogbal.setContentView(R.layout.dialog_operation);
         dialogbal.setCancelable(true);
-        LinearLayout add=(LinearLayout)dialogbal.findViewById(R.id.add_layout);
-        LinearLayout modify=(LinearLayout)dialogbal.findViewById(R.id.modify_layout);
+        LinearLayout add = (LinearLayout) dialogbal.findViewById(R.id.add_layout);
+        LinearLayout modify = (LinearLayout) dialogbal.findViewById(R.id.modify_layout);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context,ActivityToadd.getClass()));
+                context.startActivity(new Intent(context, ActivityToadd.getClass()));
             }
         });
         modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context,Activitytomodify.getClass()));
+                context.startActivity(new Intent(context, Activitytomodify.getClass()));
             }
         });
         dialogbal.show();

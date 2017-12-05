@@ -395,6 +395,25 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
+	
+	
+	 <activity
+            android:name=".activities.company.purchase_return.CreatePurchaseReturnActivity"
+            android:label="@string/title_activity_create_purchase_return"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.purchase_return.PurchaseReturnAddBillActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.purchase_return.PurchaseReturnAddItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+	    
+	    <activity android:name=".activities.company.sale_return.SaleReturnAddBillActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.sale_return.SaleReturnAddItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+
     </application>
 
 </manifest>

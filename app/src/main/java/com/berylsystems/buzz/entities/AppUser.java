@@ -14,6 +14,7 @@ public class AppUser {
     public String password;
     public String name;
     public String email;
+    public String zipcode;
     public String user_id;
     public String otp;
     public String fb_id;
@@ -274,6 +275,41 @@ public class AppUser {
 
     public List<Map<String, String>> mListMapForItemPurchase = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();
+
+
+
+    public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
+    public List<Map<String, String>> mListMapForBillSaleReturn = new ArrayList();
+
+
+    public String sale_return_series = "";
+    public String sale_return_date = "";
+    public String sale_return_vchNo = "";
+    public String sale_return_saleType = "";
+    public String sale_return_store = "";
+    public String sale_return_partyName = "";
+    public String sale_return_mobileNumber = "";
+    public String sale_return_cash_credit = "";
+    public String sale_return_narration = "";
+
+    public List<Map<String, String>> mListMapForItemPurchaseReturn = new ArrayList();
+    public List<Map<String, String>> mListMapForBillPurchaseReturn = new ArrayList();
+
+
+    public String purchase_return_date = "";
+    public String purchase_return_voucher_series="";
+    public String purchase_return_company_id="";
+    public String purchase_return_voucher_number="";
+    public String purchase_return_puchase_type_id="";
+    public String purchase_return_payment_type="";
+    public String purchase_return_mobile_number="";
+    public String purchase_return_account_master_id="";
+    public String purchase_return_material_center_id="";
+    public String purchase_return_itc_eligibility="";
+    public String purchase_return_narration = "";
+    public String purchase_return_created_at="";
+    public String purchase_return_update_at="";
+
     public Map map = new HashMap();
 	
 	 public String deposit_to_id="";
@@ -409,5 +445,6 @@ public String payment_paid_to_id;
     public String delete_payment_id;
     public String edit_payment_id;
 
-
+    public ArrayList<Map> companyLoginArray=new ArrayList();
+    public Boolean boolSetOrAddtoMap;
 }

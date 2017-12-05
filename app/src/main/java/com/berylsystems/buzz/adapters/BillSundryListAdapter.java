@@ -83,7 +83,7 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
                 //String id=groupPosition+","+childPosition;
                 if (ExpandableItemListActivity.comingFrom==0){
                     SaleVoucherAddBillActivity.data=data.get(i);
-                }else if(ExpandableItemListActivity.comingFrom==1){
+                }else if(ExpandableItemListActivity.comingFrom>0){
                     PurchaseAddBillActivity.data=data.get(i);
                     AppUser appUser= LocalRepositories.getAppUser(context);
                     appUser.billSundryData=data;

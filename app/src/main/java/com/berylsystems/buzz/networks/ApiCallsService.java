@@ -30,6 +30,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGro
 import com.berylsystems.buzz.networks.api_request.RequestCreatePayment;
 import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
 import com.berylsystems.buzz.networks.api_request.RequestCreateReceipt;
+import com.berylsystems.buzz.networks.api_request.RequestCreateSaleReturn;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -125,6 +126,7 @@ import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
+import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
@@ -132,6 +134,7 @@ import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVou
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
@@ -159,7 +162,7 @@ import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
-
+import com.berylsystems.buzz.networks.api_request.RequestCreatePurchaseReturn;
 import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
@@ -484,6 +487,11 @@ public class ApiCallsService extends IntentService {
         }
         else if(Cv.ACTION_EDIT_DEBIT_NOTE.equals(action)){
             handleEditDebitNote();
+        }
+		else if(Cv.ACTION_CREATE_SALE_RETURN.equals(action)) {
+            handleSaleReturn();
+        }else if(Cv.ACTION_CREATE_PURCHASE_RETURN.equals(action)) {
+            handlePurchaseReturn();
         }
     }
 
@@ -3459,6 +3467,55 @@ private void handleCreatePayment() {
         });
 
     }
+
+    private void handleSaleReturn() {
+        api.createSaleReturn(new RequestCreateSaleReturn(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateSaleReturnResponse>() {
+            @Override
+            public void onResponse(Call<CreateSaleReturnResponse> call, Response<CreateSaleReturnResponse> r) {
+                if (r.code() == 200) {
+                    CreateSaleReturnResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateSaleReturnResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
+    private void handlePurchaseReturn() {
+        api.createPurchaseReturn(new RequestCreatePurchaseReturn(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreatePurchaseReturnResponse>() {
+            @Override
+            public void onResponse(Call<CreatePurchaseReturnResponse> call, Response<CreatePurchaseReturnResponse> r) {
+                if (r.code() == 200) {
+                    CreatePurchaseReturnResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePurchaseReturnResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+
 
 
 }

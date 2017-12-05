@@ -24,7 +24,9 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentre;
 import com.berylsystems.buzz.networks.api_request.RequestCreateMaterialCentreGroup;
 import com.berylsystems.buzz.networks.api_request.RequestCreatePayment;
 import com.berylsystems.buzz.networks.api_request.RequestCreatePurchase;
+import com.berylsystems.buzz.networks.api_request.RequestCreatePurchaseReturn;
 import com.berylsystems.buzz.networks.api_request.RequestCreateReceipt;
+import com.berylsystems.buzz.networks.api_request.RequestCreateSaleReturn;
 import com.berylsystems.buzz.networks.api_request.RequestCreateSaleVoucher;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnit;
 import com.berylsystems.buzz.networks.api_request.RequestCreateUnitConversion;
@@ -37,6 +39,8 @@ import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+
+import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
@@ -124,6 +128,7 @@ import com.berylsystems.buzz.networks.api_response.otp.OtpResponse;
 import com.berylsystems.buzz.networks.api_response.packages.GetPackageResponse;
 import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
@@ -150,6 +155,7 @@ import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -538,6 +544,13 @@ public interface Api {
 
     @PATCH("debit_notes/{id}")
     Call<EditDebitNoteResponse> editdebitnote(@Body RequestCreateDebitNote payload,@Path("id") String id);
+
+    @POST("sale_return_voucher/{id}")
+    Call<CreateSaleReturnResponse> createSaleReturn(@Body RequestCreateSaleReturn createItem, @Path("id") String id);
+
+    @POST("purchase_return_voucher/{id}")
+    Call<CreatePurchaseReturnResponse> createPurchaseReturn(@Body RequestCreatePurchaseReturn createItem, @Path("id") String id);
+
 
 
 }
