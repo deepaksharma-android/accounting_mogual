@@ -326,6 +326,7 @@ public class AppUser {
     public ArrayList<BillSundryData> billSundryData = new ArrayList<>();
     public ArrayList<BillSundryData> SalebillSundryData = new ArrayList<>();
     public ArrayList<String> billsundrytotal=new ArrayList<>();
+    public ArrayList<String> itemtotal=new ArrayList<>();
 
     public String purchase_date = "";
     public String purchase_voucher_series="";

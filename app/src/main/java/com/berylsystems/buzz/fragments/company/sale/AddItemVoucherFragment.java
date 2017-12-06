@@ -74,6 +74,7 @@ public class AddItemVoucherFragment extends Fragment {
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.billsundrytotal.clear();
+        appUser.itemtotal.clear();
         LocalRepositories.saveAppUser(getActivity(),appUser);
 
         add_item_button.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +109,7 @@ public class AddItemVoucherFragment extends Fragment {
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMapForItemSale.remove(position);
                         appUser.billsundrytotal.clear();
+                        appUser.itemtotal.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
                         amountCalculation();
@@ -135,6 +137,7 @@ public class AddItemVoucherFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMapForBillSale.remove(position);
+                        appUser.itemtotal.clear();
                         appUser.billsundrytotal.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         amountCalculation();
@@ -168,9 +171,12 @@ public class AddItemVoucherFragment extends Fragment {
 
                 Map map = appUser.mListMapForItemSale.get(i);
                 String total = (String) map.get("total");
+
                 if (total.equals("")) {
                     total = "0.0";
                 } else {
+                    appUser.itemtotal.add(total);
+                    LocalRepositories.saveAppUser(getActivity(),appUser);
                     double tot = Double.parseDouble(total);
                     itemamount = itemamount + tot;
                 }
@@ -482,25 +488,27 @@ public class AddItemVoucherFragment extends Fragment {
                             int numberbill = Integer.parseInt(number_of_bill);
                             AppUser appUser = LocalRepositories.getAppUser(getActivity());
                             int size = appUser.billsundrytotal.size();
-                            for (int j = size; j > size - numberbill; j--) {
-                                if (consolidated.equals("true")) {
-                                    subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j-1));
-                                } else {
-                                    subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j - 1));
-                                    break;
+                            if (size >= numberbill) {
+                                for (int j = size; j > size - numberbill; j--) {
+                                    if (consolidated.equals("true")) {
+                                        subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j - 1));
+                                    } else {
+                                        subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j - 1));
+                                        break;
+                                    }
                                 }
+
+                                double per_val = Double.parseDouble(percentage_value);
+                                double percentagebillsundry = (subtot) * (((per_val / 100) * amt) / 100);
+
+                                if (type.equals("Additive")) {
+                                    billsundrymamount = billsundrymamount + percentagebillsundry;
+                                } else {
+                                    billsundrymamount = billsundrymamount - percentagebillsundry;
+                                }
+
+
                             }
-
-                            double per_val = Double.parseDouble(percentage_value);
-                            double percentagebillsundry = (subtot) * (((per_val / 100) * amt) / 100);
-
-                            if (type.equals("Additive")) {
-                                billsundrymamount = billsundrymamount + percentagebillsundry;
-                            } else {
-                                billsundrymamount = billsundrymamount - percentagebillsundry;
-                            }
-
-
                         }
 
                     }
@@ -550,12 +558,23 @@ public class AddItemVoucherFragment extends Fragment {
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
-
         listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale, /*appUser.mListMapForItemSale*/appUser.billsundrytotal));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-
-        mTotal.setText("Total Amount: " + String.valueOf(itemamount + billsundrymamounttotal));
+        double totalbillsundryamount=0.0;
+        double totalitemamount=0.0;
+        for(int i=0;i<appUser.billsundrytotal.size();i++){
+            String tot=appUser.billsundrytotal.get(i);
+            double total=Double.parseDouble(tot);
+            totalbillsundryamount=totalbillsundryamount+total;
+        }
+        for(int i=0;i<appUser.itemtotal.size();i++){
+            String tot=appUser.itemtotal.get(i);
+            double total=Double.parseDouble(tot);
+            totalitemamount=totalitemamount+total;
+        }
+        mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
+       // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }
 
 }
