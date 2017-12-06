@@ -97,42 +97,6 @@ public class AddItemVoucherFragment extends Fragment {
         });
         amountCalculation();
 
-
-        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-
-
-        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale, /*appUser.mListMapForItemSale*/appUser.billsundrytotal));
-        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-        ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Removing...");
-
-       /* listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);
-                intent.putExtra("bool", true);
-                ExpandableItemListActivity.comingFrom = 0;
-                intent.putExtra("position", position);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });*/
-       /* listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item_name=(TextView)view.findViewById(R.id.item_name);
-                TextView amount=(TextView)view.findViewById(R.id.discount);
-                Intent intent = new Intent(getContext(), SaleVoucherAddBillActivity.class);
-                intent.putExtra("unit",item_name.getText().toString());
-                intent.putExtra("amount",amount.getText().toString());
-                intent.putExtra("fromvoucherbilllist", true);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });*/
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -141,18 +105,12 @@ public class AddItemVoucherFragment extends Fragment {
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        progressDialog.show();
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMapForItemSale.remove(position);
+                        appUser.billsundrytotal.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
-
-                        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
-                        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-                        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-                        progressDialog.dismiss();
                         amountCalculation();
-                        Timber.i("SIZEE" + appUser.mListMapForItemSale.size());
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -175,18 +133,11 @@ public class AddItemVoucherFragment extends Fragment {
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        progressDialog.show();
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
                         appUser.mListMapForBillSale.remove(position);
-                        // appUser.billsundrytotal.remove(position);
+                        appUser.billsundrytotal.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        dialog.cancel();
                         amountCalculation();
-
-                        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale /*,appUser.mListMapForItemSale*/, appUser.billsundrytotal));
-                        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-                        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-                        progressDialog.dismiss();
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -210,7 +161,6 @@ public class AddItemVoucherFragment extends Fragment {
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
 
-        billsuncal = new ArrayList<>();
         appUser = LocalRepositories.getAppUser(getApplicationContext());
 
         if (appUser.mListMapForItemSale.size() > 0) {
@@ -232,6 +182,7 @@ public class AddItemVoucherFragment extends Fragment {
         }
 
         if (appUser.mListMapForBillSale.size() > 0) {
+            LocalRepositories.saveAppUser(getActivity(),appUser);
             for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
                 billsundrymamount = 0.0;
                 Map map = appUser.mListMapForBillSale.get(i);
@@ -499,10 +450,16 @@ public class AddItemVoucherFragment extends Fragment {
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSale.get(j);
-                                String total = (String) mapj.get("total");
-
-                                double itemtot = Double.parseDouble(total);
-                                subtot = subtot + itemtot;
+                                String rate= (String) mapj.get("rate");
+                                double itemraterate=Double.parseDouble(rate);
+                                String tax = (String) mapj.get("tax");
+                                String[] arr=tax.split(" ");
+                                String percent=arr[1];
+                                String[] percentstring=percent.split("%");
+                                String taxpercent=percentstring[0];
+                                int tax_percentage=Integer.parseInt(taxpercent);
+                                Timber.i("TAXXX"+tax);
+                                subtot = subtot +((itemraterate/(100+tax_percentage)))*100;
 
 
                             }
@@ -588,6 +545,15 @@ public class AddItemVoucherFragment extends Fragment {
         } else {
             billsundrymamounttotal = 0.0;
         }
+
+        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
+        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+
+
+        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale, /*appUser.mListMapForItemSale*/appUser.billsundrytotal));
+        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
+        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
 
         mTotal.setText("Total Amount: " + String.valueOf(itemamount + billsundrymamounttotal));
     }

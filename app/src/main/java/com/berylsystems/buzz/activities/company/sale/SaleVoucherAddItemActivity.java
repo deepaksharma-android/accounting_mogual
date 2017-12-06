@@ -78,6 +78,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String alternate_unit_con_factor;
     String packaging_unit_con_factor;
     String mrp;
+    String tax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
         sales_price_applied_on = intent.getStringExtra("applied");
         alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
-
+        tax = intent.getStringExtra("tax");
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,6 +316,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
+                mMap.put("tax", tax);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemSale.add(mMap);
                 // appUser.mListMap = mListMap;

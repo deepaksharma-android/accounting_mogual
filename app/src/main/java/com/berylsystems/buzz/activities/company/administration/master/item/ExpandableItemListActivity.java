@@ -83,6 +83,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     HashMap<Integer, List<String>> listDataChildPackagingSalesPrice;
     HashMap<Integer, List<String>> listDataChildPackagingUnit;
     HashMap<Integer, List<String>> listDataChildMrp;
+    HashMap<Integer, List<String>> listDataTax;
     public Map<String,String> mSaleVoucherItem;
 
 
@@ -105,6 +106,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     List<String> packaging_sales_price;
     List<String> packaging_unit;
     List<String> mrp;
+    List<String> tax;
 
 
 
@@ -194,6 +196,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             listDataChildMrp = new HashMap<Integer, List<String>>();
+            listDataTax = new HashMap<Integer, List<String>>();
             if (response.getOrdered_items().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
@@ -214,6 +217,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 packaging_sales_price = new ArrayList<>();
                 packaging_unit = new ArrayList<>();
                 mrp = new ArrayList<>();
+                tax = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
@@ -279,6 +283,11 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                     } else {
                         batchWise.add(false);
                     }
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getTax_category() != null) {
+                        tax.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTax_category());
+                    } else {
+                        tax.add("");
+                    }
                     if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail()) != null) {
                         serailWise.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().isSerial_number_wise_detail());
                     } else {
@@ -302,6 +311,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 listDataChildPackagingSalesPrice.put(i, packaging_sales_price);
                 listDataChildPackagingUnit.put(i, packaging_unit);
                 listDataChildMrp.put(i, mrp);
+                listDataTax.put(i, tax);
             }
             listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -421,6 +431,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             String packaging_unit_sales_price=listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String packaging_unit=listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String mrp=listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String tax=listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             intent.putExtra("fromitemlist", true);
             intent.putExtra("fromSaleVoucherItemList", true);
             intent.putExtra("id", childid);
@@ -438,6 +449,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             mSaleVoucherItem.put("packaging_unit_sales_price",packaging_unit_sales_price);
             mSaleVoucherItem.put("packaging_unit",packaging_unit);
             mSaleVoucherItem.put("mrp",mrp);
+            mSaleVoucherItem.put("tax",tax);
             appUser.mMapSaleVoucherItem=mSaleVoucherItem;
             LocalRepositories.saveAppUser(this,appUser);
 
@@ -456,6 +468,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             intent.putExtra("packaging_unit_sales_price",packaging_unit_sales_price);
             intent.putExtra("packaging_unit",packaging_unit);
             intent.putExtra("mrp",mrp);
+            intent.putExtra("tax",tax);
             startActivity(intent);
             finish();
         } else if (ExpandableItemListActivity.comingFrom == 1) {

@@ -166,4 +166,14 @@ public class Attributes {
     }
 
     public double mrp;
+
+    public String getTax_category() {
+        return tax_category;
+    }
+
+    public void setTax_category(String tax_category) {
+        this.tax_category = tax_category;
+    }
+
+    public String tax_category;
 }
