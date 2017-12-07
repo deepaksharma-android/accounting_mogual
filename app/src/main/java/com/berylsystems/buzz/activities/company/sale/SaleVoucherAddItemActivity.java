@@ -27,6 +27,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
@@ -91,6 +93,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String packaging_unit ;
     String default_unit;
     String packaging_unit_sales_price;
+    String sale_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             }
         });
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
+
         if(frombillitemvoucherlist){
              pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
@@ -364,7 +368,29 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     mMap.put("rate", mRate.getText().toString());
                     mMap.put("discount", mDiscount.getText().toString());
                     mMap.put("value", mValue.getText().toString());
-                    mMap.put("total", mTotal.getText().toString());
+                    String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
+                    if(taxstring.startsWith("I")) {
+                        String arrtaxstring[] = taxstring.split("-");
+                        String taxname = arrtaxstring[0].trim();
+                        String taxvalue = arrtaxstring[1].trim();
+                        if(taxvalue.equals("ItemWise")) {
+                            String total=mTotal.getText().toString();
+                            String arr[]=tax.split(" ");
+                            String itemtax=arr[1];
+                            String taxval[]=itemtax.split("%");
+                            String taxpercent=taxval[0];
+                            double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
+                            totalamt=Double.parseDouble(total)+totalamt;
+                            mMap.put("total", String.valueOf(totalamt));
+                        }
+                        else {
+
+                        }
+                    }
+                    else{
+                        mMap.put("total", mTotal.getText().toString());
+                    }
+
                     mMap.put("applied", sales_price_applied_on);
                     mMap.put("price_selected_unit", price_selected_unit);
                     mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);

@@ -33,6 +33,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,6 +96,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,6 +256,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.sale_saleType=String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
+                Preferences.getInstance(getContext()).setSale_type_name(result);
+                appUser.sale_type_name=result;
+                LocalRepositories.saveAppUser(getActivity(),appUser);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

@@ -125,6 +125,8 @@ public class Preferences {
     private static final String item_settings_alternate_unit="item_settings_alternate_unit";
     private static final String item_description="item_description";
 
+    private static final String sale_type_name="sale_type_name";
+
 
 
 
@@ -1050,6 +1052,15 @@ public class Preferences {
 
     public String getitem_description() {
         return pref.getString(item_description, "");
+    }
+
+    public void setSale_type_name(String Saletypename) {
+        editor.putString(sale_type_name, Saletypename);
+        editor.commit();
+    }
+
+    public String getSale_type_name() {
+        return pref.getString(sale_type_name, "");
     }
 
 

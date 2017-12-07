@@ -132,6 +132,8 @@ public class SaleTypeListActivity extends BaseActivityCompany {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("name",strAr[0]);
         returnIntent.putExtra("id",strAr[1]);
+        appUser.sale_type_name=strAr[0];
+        LocalRepositories.saveAppUser(this,appUser);
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
         setResult(Activity.RESULT_OK, returnIntent);

@@ -12,6 +12,7 @@ import com.berylsystems.buzz.adapters.AdministrationDashboardAdapter;
 import com.berylsystems.buzz.adapters.TransactionDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,6 +50,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser = LocalRepositories.getAppUser(this);
         setAddCompany(2);
         setAppBarTitleCompany(1,"TRANSACTION");
+        Preferences.getInstance(getApplicationContext()).setSale_type_name("");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);

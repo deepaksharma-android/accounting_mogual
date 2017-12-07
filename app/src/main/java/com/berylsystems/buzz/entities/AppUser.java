@@ -266,6 +266,7 @@ public class AppUser {
     public String sale_mobileNumber = "";
     public String sale_cash_credit = "";
     public String sale_narration = "";
+    public String sale_type_name="";
 
     public String childId = "";
     public List<Map<String, String>> mListMapForItemSale = new ArrayList();
