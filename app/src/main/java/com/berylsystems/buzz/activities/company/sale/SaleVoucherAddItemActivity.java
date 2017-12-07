@@ -79,118 +79,170 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String packaging_unit_con_factor;
     String mrp;
     String tax;
+    Boolean frombillitemvoucherlist;
+    String name;
+    String desc;
+    String main_unit;
+    String alternate_unit;
+    String sales_price_main;
+    String sales_price_alternate ;
+    Boolean serailwise;
+    Boolean batchwise ;
+    String packaging_unit ;
+    String default_unit;
+    String packaging_unit_sales_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale_voucher_add_item);
         appUser = LocalRepositories.getAppUser(this);
+        frombillitemvoucherlist=getIntent().getExtras().getBoolean("frombillitemvoucherlist");
         ButterKnife.bind(this);
         initActionbar();
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
+        int pos = -1;
         mItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
             }
         });
-
-
-
-
-       /* intent = getIntent();
-        boolean b = intent.getBooleanExtra("bool", false);
-        if (b) {
-            heading.setText("EDIT ITEM");
-        } else {
-            heading.setText("ADD ITEM");
-        }*/
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
+        if(frombillitemvoucherlist){
+             pos=getIntent().getExtras().getInt("pos");
+            Map map=new HashMap<>();
+            map=appUser.mListMapForItemSale.get(pos);
+            String itemName= (String) map.get("item_name");
+            String description= (String) map.get("description");
+            String quantity= (String) map.get("quantity");
+            String unit= (String) map.get("unit");
+            String srNo= (String) map.get("sr_no");
+            String rate= (String) map.get("rate");
+            String discount= (String) map.get("discount");
+            String value= (String) map.get("value");
+            String total= (String) map.get("total");
+            String mrpitem= (String) map.get("mrp");
+            String applieditem= (String) map.get("applied");
+            String priceselectedunititem= (String) map.get("price_selected_unit");
+            String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
+            String packagingunitconfactoritem= (String) map.get("packaging_unit_con_factor");
+            String taxitem= (String) map.get("tax");
 
-        CreateSaleActivity.hideKeyPad(this);
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-        String name = intent.getStringExtra("name");
-        String desc = intent.getStringExtra("desc");
-        String main_unit = intent.getStringExtra("main_unit");
-        String alternate_unit = intent.getStringExtra("alternate_unit");
-        String sales_price_main = intent.getStringExtra("sales_price_main");
-        String sales_price_alternate = intent.getStringExtra("sales_price_alternate");
-        Boolean serailwise = intent.getExtras().getBoolean("serial_wise");
-        Boolean batchwise = intent.getExtras().getBoolean("batch_wise");
-        String packaging_unit = intent.getStringExtra("packaging_unit");
-        String default_unit = intent.getStringExtra("default_unit");
-        String packaging_unit_sales_price = intent.getStringExtra("packaging_unit_sales_price");
-        mrp = intent.getStringExtra("mrp");
-        packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
-        sales_price_applied_on = intent.getStringExtra("applied");
-        alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
-        tax = intent.getStringExtra("tax");
 
-        mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (batchwise && !serailwise) {
-                    serial = "1";
-                } else if (!batchwise && serailwise) {
-                    if (mQuantity.getText().toString().equals("")) {
-                        serial = "0";
-                    } else {
-                        serial = mQuantity.getText().toString();
-                    }
-
-                } else {
-                    serial = "0";
-                }
-                if (!serial.equals("0")) {
-                    Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
-                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                    dialogbal.setContentView(R.layout.dialog_serail);
-                    dialogbal.setCancelable(true);
-                    LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
-                    LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                    submit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialogbal.dismiss();
-                        }
-                    });
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    EditText[] pairs = new EditText[Integer.parseInt(serial)];
-                    for (int l = 0; l < Integer.parseInt(serial); l++) {
-                        pairs[l] = new EditText(getApplicationContext());
-                        pairs[l].setHeight(50);
-                        pairs[l].setPadding(10, 10, 10, 0);
-                        pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
-                        pairs[l].setWidth(500);
-                        pairs[l].setTextSize(15);
-                        pairs[l].setLayoutParams(lp);
-                        pairs[l].setId(l);
-                        //pairs[l].setText((l + 1) + ": something");
-                        serialLayout.addView(pairs[l]);
-                    }
-                    dialogbal.show();
-
+            mItemName.setText(itemName);
+            mQuantity.setText(quantity);
+            mRate.setText(rate);
+            mValue.setText(value);
+            mTotal.setText(total);
+            mDescription.setText(description);
+            mrp=mrpitem;
+            sales_price_applied_on=applieditem;
+            price_selected_unit=priceselectedunititem;
+            packaging_unit_con_factor=packagingunitconfactoritem;
+            tax=taxitem;
+            if(price_selected_unit.equals("main")){
+                mSpinnerUnit.setSelection(0);
+            }
+            else if(price_selected_unit.equals("alternate")){
+                mSpinnerUnit.setSelection(1);
+            }
+            else {
+                if (!packaging_unit_con_factor.equals("")) {
+                    mSpinnerUnit.setSelection(2);
                 }
             }
-
-        });
-        mItemName.setText(name);
-        mDescription.setText(desc);
-        mUnitList.add("Main Unit : " + main_unit);
-        mUnitList.add("Alternate Unit :" + alternate_unit);
-        if (!packaging_unit.equals("")) {
-            mUnitList.add("Packaging Unit :" + packaging_unit);
         }
+
+        else {
+            CreateSaleActivity.hideKeyPad(this);
+            Intent intent = getIntent();
+            String id = intent.getStringExtra("id");
+            name = intent.getStringExtra("name");
+            desc = intent.getStringExtra("desc");
+            main_unit = intent.getStringExtra("main_unit");
+            alternate_unit = intent.getStringExtra("alternate_unit");
+            sales_price_main = intent.getStringExtra("sales_price_main");
+            sales_price_alternate = intent.getStringExtra("sales_price_alternate");
+            serailwise = intent.getExtras().getBoolean("serial_wise");
+            batchwise = intent.getExtras().getBoolean("batch_wise");
+            packaging_unit = intent.getStringExtra("packaging_unit");
+            default_unit = intent.getStringExtra("default_unit");
+            packaging_unit_sales_price = intent.getStringExtra("packaging_unit_sales_price");
+            mrp = intent.getStringExtra("mrp");
+            packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
+            sales_price_applied_on = intent.getStringExtra("applied");
+            alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
+            tax = intent.getStringExtra("tax");
+
+            mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (batchwise && !serailwise) {
+                        serial = "1";
+                    } else if (!batchwise && serailwise) {
+                        if (mQuantity.getText().toString().equals("")) {
+                            serial = "0";
+                        } else {
+                            serial = mQuantity.getText().toString();
+                        }
+
+                    } else {
+                        serial = "0";
+                    }
+                    if (!serial.equals("0")) {
+                        Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
+                        dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                        dialogbal.setContentView(R.layout.dialog_serail);
+                        dialogbal.setCancelable(true);
+                        LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
+                        LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialogbal.dismiss();
+                            }
+                        });
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        EditText[] pairs = new EditText[Integer.parseInt(serial)];
+                        for (int l = 0; l < Integer.parseInt(serial); l++) {
+                            pairs[l] = new EditText(getApplicationContext());
+                            pairs[l].setHeight(50);
+                            pairs[l].setPadding(10, 10, 10, 0);
+                            pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
+                            pairs[l].setWidth(500);
+                            pairs[l].setTextSize(15);
+                            pairs[l].setLayoutParams(lp);
+                            pairs[l].setId(l);
+                            //pairs[l].setText((l + 1) + ": something");
+                            serialLayout.addView(pairs[l]);
+                        }
+                        dialogbal.show();
+
+                    }
+                }
+
+            });
+            mItemName.setText(name);
+            mDescription.setText(desc);
+            appUser.unitlist.add("Main Unit : " + main_unit);
+            appUser.unitlist.add("Alternate Unit :" + alternate_unit);
+
+        }
+        if (!packaging_unit.equals("")) {
+            appUser.unitlist.add("Packaging Unit :" + packaging_unit);
+        }
+
+
 
 
         mItemName.setEnabled(false);
         mValue.setEnabled(false);
         mTotal.setEnabled(false);
         mUnitAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, mUnitList);
+                android.R.layout.simple_spinner_item,  appUser.unitlist);
         mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerUnit.setAdapter(mUnitAdapter);
         if (!packaging_unit.equals("")) {
@@ -298,148 +350,158 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 }
             });
         }
-        mSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSubmit.startAnimation(blinkOnClick);
-                mMap.put("item_name", mItemName.getText().toString());
-                mMap.put("description", mDescription.getText().toString());
-                mMap.put("quantity", mQuantity.getText().toString());
-                mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
-                mMap.put("sr_no", mSr_no.getText().toString());
-                mMap.put("rate", mRate.getText().toString());
-                mMap.put("discount", mDiscount.getText().toString());
-                mMap.put("value", mValue.getText().toString());
-                mMap.put("total", mTotal.getText().toString());
-                mMap.put("applied", sales_price_applied_on);
-                mMap.put("price_selected_unit", price_selected_unit);
-                mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
-                mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
-                mMap.put("mrp", mrp);
-                mMap.put("tax", tax);
-                // mListMap.add(mMap);
-                appUser.mListMapForItemSale.add(mMap);
-                // appUser.mListMap = mListMap;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            final int finalPos = pos;
+            final int finalPos1 = pos;
+            mSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSubmit.startAnimation(blinkOnClick);
+                    mMap.put("item_name", mItemName.getText().toString());
+                    mMap.put("description", mDescription.getText().toString());
+                    mMap.put("quantity", mQuantity.getText().toString());
+                    mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
+                    mMap.put("sr_no", mSr_no.getText().toString());
+                    mMap.put("rate", mRate.getText().toString());
+                    mMap.put("discount", mDiscount.getText().toString());
+                    mMap.put("value", mValue.getText().toString());
+                    mMap.put("total", mTotal.getText().toString());
+                    mMap.put("applied", sales_price_applied_on);
+                    mMap.put("price_selected_unit", price_selected_unit);
+                    mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                    mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                    mMap.put("mrp", mrp);
+                    mMap.put("tax", tax);
+                    // mListMap.add(mMap);
+                    if(!frombillitemvoucherlist) {
+                        appUser.mListMapForItemSale.add(mMap);
+                        // appUser.mListMap = mListMap;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                    else{
+                        appUser.mListMapForItemSale.remove(finalPos);
+                        appUser.mListMapForItemSale.add(finalPos,mMap);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
 
-                Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
-                in.putExtra("is", true);
-                startActivity(in);
-                finish();
-            }
-        });
+                    Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                    in.putExtra("is", true);
+                    startActivity(in);
+                    finish();
+                }
+            });
 
-        mRate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            mRate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+                }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mDiscount.getText().toString().isEmpty()) {
-                    if (!mRate.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mRate.getText().toString());
-                        if (!mDiscount.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mDiscount.getText().toString());
-                            mValue.setText("" + (first * second));
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!mDiscount.getText().toString().isEmpty()) {
+                        if (!mRate.getText().toString().isEmpty()) {
+                            second = Double.valueOf(mRate.getText().toString());
+                            if (!mDiscount.getText().toString().isEmpty()) {
+                                first = Double.valueOf(mDiscount.getText().toString());
+                                mValue.setText("" + (first * second));
+                            }
+                        } else {
+                            mValue.setText("");
+                        }
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            mDiscount.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!mDiscount.getText().toString().isEmpty()) {
+                        first = Double.valueOf(mDiscount.getText().toString());
+                        if (!mRate.getText().toString().isEmpty()) {
+                            second = Double.valueOf(mRate.getText().toString());
+                            mValue.setText("" + (first * second) / 100);
                         }
                     } else {
                         mValue.setText("");
                     }
+
                 }
 
-            }
+                @Override
+                public void afterTextChanged(Editable s) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                }
+            });
 
-            }
-        });
+            mQuantity.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        mDiscount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mDiscount.getText().toString().isEmpty()) {
-                    first = Double.valueOf(mDiscount.getText().toString());
-                    if (!mRate.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mRate.getText().toString());
-                        mValue.setText("" + (first * second) / 100);
-                    }
-                } else {
-                    mValue.setText("");
                 }
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mValue.getText().toString().isEmpty()) {
-                    if (!mQuantity.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mQuantity.getText().toString());
-                        if (!mValue.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mValue.getText().toString());
-                            third = Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third - first) * second);
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!mValue.getText().toString().isEmpty()) {
+                        if (!mQuantity.getText().toString().isEmpty()) {
+                            second = Double.valueOf(mQuantity.getText().toString());
+                            if (!mValue.getText().toString().isEmpty()) {
+                                first = Double.valueOf(mValue.getText().toString());
+                                third = Double.valueOf(mRate.getText().toString());
+                                mTotal.setText("" + (third - first) * second);
+                            }
+                        } else {
+                            mTotal.setText("");
                         }
-                    } else {
-                        mTotal.setText("");
                     }
+
                 }
 
-            }
+                @Override
+                public void afterTextChanged(Editable s) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                }
+            });
 
-            }
-        });
+            mValue.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        mValue.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mValue.getText().toString().isEmpty()) {
-                    if (!mQuantity.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mQuantity.getText().toString());
-                        if (!mValue.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mValue.getText().toString());
-                            third = Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third - first) * second);
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!mValue.getText().toString().isEmpty()) {
+                        if (!mQuantity.getText().toString().isEmpty()) {
+                            second = Double.valueOf(mQuantity.getText().toString());
+                            if (!mValue.getText().toString().isEmpty()) {
+                                first = Double.valueOf(mValue.getText().toString());
+                                third = Double.valueOf(mRate.getText().toString());
+                                mTotal.setText("" + (third - first) * second);
+                            }
+                        } else {
+                            mTotal.setText("");
                         }
-                    } else {
-                        mTotal.setText("");
                     }
+
                 }
 
-            }
+                @Override
+                public void afterTextChanged(Editable s) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                }
+            });
 
-            }
-        });
 
 
     }

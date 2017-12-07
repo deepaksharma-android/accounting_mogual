@@ -469,6 +469,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             intent.putExtra("packaging_unit",packaging_unit);
             intent.putExtra("mrp",mrp);
             intent.putExtra("tax",tax);
+            intent.putExtra("frombillitemvoucherlist",false);
             startActivity(intent);
             finish();
         } else if (ExpandableItemListActivity.comingFrom == 1) {
