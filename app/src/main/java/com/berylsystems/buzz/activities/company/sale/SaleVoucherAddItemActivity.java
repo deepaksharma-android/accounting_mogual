@@ -384,7 +384,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             mMap.put("total", String.valueOf(totalamt));
                         }
                         else {
-
+                            mMap.put("total", mTotal.getText().toString());
                         }
                     }
                     else{
