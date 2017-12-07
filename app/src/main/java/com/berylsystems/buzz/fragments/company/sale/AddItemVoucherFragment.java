@@ -478,23 +478,36 @@ public class AddItemVoucherFragment extends Fragment {
                                 double taxpercentagevalue = Double.parseDouble(taxpercentage);
                                 double multi=0.0;
                                 double itemprice = Double.parseDouble(itemtotalval);
-                                if (billsundryname.equals("IGST")) {
-                                    if (taxstring.startsWith("I")) {
+                                String taxname="";
+                                String taxvalue="";
+                                if (taxstring.startsWith("I")) {
                                         String arrtaxstring[] = taxstring.split("-");
-                                        String taxname = arrtaxstring[0].trim();
-                                        String taxvalue = arrtaxstring[1].trim();
-
-                                        if (taxvalue.equals("MultiRate")) {
-                                            if (taxpercentage.equals(amount)) {
-                                                multi = itemprice * (taxpercentagevalue / 100);
-                                            }
-
-
-                                        }
+                                         taxname = arrtaxstring[0].trim();
+                                         taxvalue = arrtaxstring[1].trim();
                                     }
+                                if (billsundryname.equals("IGST")) {
+                                    subtot=itemprice*(amt/100);
 
                                 }
-                                subtot=subtot+multi;
+                                else {
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        } else if (taxvalue.equals("TaxIncl.")) {
+                                            double per_val = Double.parseDouble(percentage_value);
+                                            subtot = subtot + (itemamount / (100 + taxpercentagevalue)) * ((amt * per_val) / 10000);
+
+                                        }
+
+
+                                    }
+                                }
+
+
+
+
+
 
 
                             }
