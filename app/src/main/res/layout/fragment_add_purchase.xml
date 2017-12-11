@@ -106,6 +106,7 @@
             android:layout_marginLeft="2dp"
             android:layout_gravity="center"
             android:textStyle="bold"
+            android:id="@+id/total"
             android:textSize="20sp"
             android:text="Total : 42354235"
             android:textColor="@color/white" />

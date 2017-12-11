@@ -61,17 +61,19 @@ public class AddItemsPurchaseAdapter extends BaseAdapter {
         Timber.i("MEEEEEEEEEE"+mListMap.get(position));
         String itemName= (String) map.get("item_name");
         String description= (String) map.get("description");
-        String quality= (String) map.get("quality");
+        String quantity= (String) map.get("quantity");
         String unit= (String) map.get("unit");
         String srNo= (String) map.get("sr_no");
         String rate= (String) map.get("rate");
         String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
+        String mrp= (String) map.get("mrp");
 
         holder.mItemName.setText(itemName);
-        holder.mDiscount.setText(discount);
-        holder.mUnit.setText(unit);
+        holder.mDiscount.setText("Discount :"+discount);
+        holder.mMrp.setText("MRP :"+mrp);
+        holder.mUnit.setText(quantity+"*"+rate);
         holder.mSrNo.setText("Sr.No. "+srNo);
         holder.mTotal.setText(total);
         return convertView;
@@ -88,6 +90,8 @@ public class AddItemsPurchaseAdapter extends BaseAdapter {
         TextView mSrNo;
         @Bind(R.id.total)
         TextView mTotal;
+        @Bind(R.id.mrp)
+        TextView mMrp;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

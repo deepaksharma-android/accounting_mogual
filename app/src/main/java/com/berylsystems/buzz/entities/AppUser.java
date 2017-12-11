@@ -268,11 +268,15 @@ public class AppUser {
     public String sale_narration = "";
     public String sale_type_name="";
 
+    public String purchase_type_name="";
+
     public String childId = "";
     public List<Map<String, String>> mListMapForItemSale = new ArrayList();
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
     public Map<String,String> mMapSaleVoucherBill=new HashMap<>();
     public Map<String,String> mMapSaleVoucherItem=new HashMap<>();
+    public Map<String,String> mMapPurchaseVoucherItem=new HashMap<>();
+    public Map<String,String> mMapPurchaseReturnItem=new HashMap<>();
 
     public List<Map<String, String>> mListMapForItemPurchase = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();
@@ -327,7 +331,9 @@ public class AppUser {
     public ArrayList<BillSundryData> billSundryData = new ArrayList<>();
     public ArrayList<BillSundryData> SalebillSundryData = new ArrayList<>();
     public ArrayList<String> billsundrytotal=new ArrayList<>();
+    public ArrayList<String> billsundrytotalPurchase=new ArrayList<>();
     public ArrayList<String> itemtotal=new ArrayList<>();
+    public ArrayList<String> itemtotalPurchase=new ArrayList<>();
     public ArrayList<String> unitlist=new ArrayList<>();
 
     public String purchase_date = "";

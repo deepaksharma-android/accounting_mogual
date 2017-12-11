@@ -94,6 +94,7 @@ public class BaseActivity extends AppCompatActivity{
                                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                                     Preferences.getInstance(getApplicationContext()).setLogin(false);
                                     appUser.fb_id="";
+                                    appUser.companyLoginArray.clear();
                                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                     startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
 

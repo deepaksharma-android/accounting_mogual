@@ -1,10 +1,69 @@
 package com.berylsystems.buzz.networks.api_response.item;
 
+import retrofit2.http.PUT;
+
 public class Attributes {
     public String name;
     public String company;
     public String item_group;
     public String item_unit;
+
+
+    public String purchase_price_applied_on;
+    public String default_unit_for_purchase;
+    public String specify_purchase_account;
+    public String purchase_price_main;
+    public double purchase_price_alternate;
+    public double purchase_price;
+
+
+    public String getPurchase_price_applied_on() {
+        return purchase_price_applied_on;
+    }
+
+    public void setPurchase_price_applied_on(String purchase_price_applied_on) {
+        this.purchase_price_applied_on = purchase_price_applied_on;
+    }
+
+    public String getDefault_unit_for_purchase() {
+        return default_unit_for_purchase;
+    }
+
+    public void setDefault_unit_for_purchase(String default_unit_for_purchase) {
+        this.default_unit_for_purchase = default_unit_for_purchase;
+    }
+
+    public String getSpecify_purchase_account() {
+        return specify_purchase_account;
+    }
+
+    public void setSpecify_purchase_account(String specify_purchase_account) {
+        this.specify_purchase_account = specify_purchase_account;
+    }
+
+    public String getPurchase_price_main() {
+        return purchase_price_main;
+    }
+
+    public void setPurchase_price_main(String purchase_price_main) {
+        this.purchase_price_main = purchase_price_main;
+    }
+
+    public double getPurchase_price_alternate() {
+        return purchase_price_alternate;
+    }
+
+    public void setPurchase_price_alternate(double purchase_price_alternate) {
+        this.purchase_price_alternate = purchase_price_alternate;
+    }
+
+    public double getPurchase_price() {
+        return purchase_price;
+    }
+
+    public void setPurchase_price(double purchase_price) {
+        this.purchase_price = purchase_price;
+    }
 
     public String getItem_group() {
         return item_group;
