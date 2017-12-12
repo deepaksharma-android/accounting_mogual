@@ -102,6 +102,11 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+
         fromCreditNote = getIntent().getExtras().getBoolean("fromCreditNote");
         if (fromCreditNote == true) {
             mSubmit.setVisibility(View.GONE);

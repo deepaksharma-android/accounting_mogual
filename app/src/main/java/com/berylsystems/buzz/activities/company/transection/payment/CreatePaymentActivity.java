@@ -117,6 +117,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+        set_date_pdc.setText(dateString);
+
         fromPayment = getIntent().getExtras().getBoolean("fromPayment");
         if (fromPayment == true) {
             mSubmit.setVisibility(View.GONE);
@@ -179,14 +185,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 @Override
                 public void onClick(View view) {
                     //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                    appUser.account_master_group = "";
+                    appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                     startActivityForResult(i, 2);
                 }
             });
-
-
             paid_from_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

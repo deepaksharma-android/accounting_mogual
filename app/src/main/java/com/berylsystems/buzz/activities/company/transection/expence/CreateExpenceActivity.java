@@ -101,6 +101,11 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+
         fromExpence=getIntent().getExtras().getBoolean("fromExpense");
         if(fromExpence==true){
             mSubmit.setVisibility(View.GONE);

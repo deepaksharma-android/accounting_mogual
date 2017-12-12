@@ -102,6 +102,11 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+
         fromJournalVoucher = getIntent().getExtras().getBoolean("fromJournalVoucher");
         if (fromJournalVoucher == true) {
             mSubmit.setVisibility(View.GONE);
