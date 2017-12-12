@@ -75,21 +75,31 @@ public class AddItemPurchaseReturnFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_item_button.startAnimation(blinkOnClick);
-                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
-                ExpandableItemListActivity.comingFrom = 3;
-                ExpandableItemListActivity.isDirectForItem=false;
-                startActivity(intent);
-                getActivity().finish();
+                if(!Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name().equals("")) {
+                    add_item_button.startAnimation(blinkOnClick);
+                    Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                    ExpandableItemListActivity.comingFrom = 3;
+                    ExpandableItemListActivity.isDirectForItem = false;
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else{
+                    alertdialog();
+                }
             }
         });
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom = 3;
-                startActivity(new Intent(getContext(), BillSundryListActivity.class));
-                getActivity().finish();
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name().equals("")) {
+                    add_bill_button.startAnimation(blinkOnClick);
+                    ExpandableItemListActivity.comingFrom = 3;
+                    startActivity(new Intent(getContext(), BillSundryListActivity.class));
+                    getActivity().finish();
+                }
+                else{
+                    alertdialog();
+                }
             }
         });
 
@@ -112,7 +122,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
 
 
         amountCalculation();
-
+/*
         listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,17 +132,17 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
-        });
-        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        });*/
+       /* listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               /* Intent intent = new Intent(getContext(), PurchaseReturnAddBillActivity.class);
+               *//* Intent intent = new Intent(getContext(), PurchaseReturnAddBillActivity.class);
                 ExpandableItemListActivity.comingFrom = 3;
                 intent.putExtra("bool", true);
                 intent.putExtra("position", position);
-                startActivity(intent);*/
+                startActivity(intent);*//*
             }
-        });
+        });*/
 
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -563,6 +573,11 @@ public class AddItemPurchaseReturnFragment extends Fragment {
 
                                 }
 
+                                if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
+                                    double per_val = Double.parseDouble(percentage_value);
+                                    subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
+                                }
+
                             }
 
                             if (type.equals("Additive")) {
@@ -664,5 +679,16 @@ public class AddItemPurchaseReturnFragment extends Fragment {
         }
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
+    }
+
+    public void alertdialog(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Purchase Return Voucher")
+                .setMessage("Please add purchase return type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
     }
 }

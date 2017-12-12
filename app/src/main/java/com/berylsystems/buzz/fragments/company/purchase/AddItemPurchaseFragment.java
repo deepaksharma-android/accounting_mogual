@@ -74,23 +74,33 @@ public class AddItemPurchaseFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_item_button.startAnimation(blinkOnClick);
-                Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
-                ExpandableItemListActivity.comingFrom=1;
-                ExpandableItemListActivity.isDirectForItem=false;
-                intent.putExtra("bool",true);
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
+                    add_item_button.startAnimation(blinkOnClick);
+                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                ExpandableItemListActivity.comingFrom = 1;
+                ExpandableItemListActivity.isDirectForItem = false;
+                intent.putExtra("bool", true);
                 startActivity(intent);
                 getActivity().finish();
+            }
+                else{
+                    alertdialog();
+                }
             }
         });
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=1;
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
+                    add_bill_button.startAnimation(blinkOnClick);
+                ExpandableItemListActivity.comingFrom = 1;
                 startActivity(new Intent(getContext(), BillSundryListActivity.class));
                 getActivity().finish();
             }
+                else{
+                    alertdialog();
+                }
+        }
         });
 
         amountCalculation();
@@ -553,6 +563,10 @@ public class AddItemPurchaseFragment extends Fragment {
 
 
                                 }
+                                if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
+                                    double per_val = Double.parseDouble(percentage_value);
+                                    subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
+                                }
 
                             }
 
@@ -658,6 +672,18 @@ public class AddItemPurchaseFragment extends Fragment {
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }
+
+    public void alertdialog(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add purchase type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+
 
 
 }

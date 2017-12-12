@@ -72,22 +72,32 @@ public class AddItemSaleReturnFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_item_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=2;
-                ExpandableItemListActivity.isDirectForItem=false;
-                Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
-                intent.putExtra("bool",true);
-                startActivity(intent);
-                getActivity().finish();
+                if (!Preferences.getInstance(getApplicationContext()).getSale_type_name().equals("")) {
+                    add_item_button.startAnimation(blinkOnClick);
+                    ExpandableItemListActivity.comingFrom = 2;
+                    ExpandableItemListActivity.isDirectForItem = false;
+                    Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                    intent.putExtra("bool", true);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else {
+                    alertdialog();
+                }
             }
         });
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=2;
-                startActivity(new Intent(getContext(), BillSundryListActivity.class));
-                getActivity().finish();
+                if(!Preferences.getInstance(getApplicationContext()).getSale_type_name().equals("")) {
+                    add_bill_button.startAnimation(blinkOnClick);
+                    ExpandableItemListActivity.comingFrom = 2;
+                    startActivity(new Intent(getContext(), BillSundryListActivity.class));
+                    getActivity().finish();
+                }
+                else{
+                    alertdialog();
+                }
             }
         });
 
@@ -479,26 +489,67 @@ public class AddItemSaleReturnFragment extends Fragment {
                                     String arrtaxstring[] = taxstring.split("-");
                                     taxname = arrtaxstring[0].trim();
                                     taxvalue = arrtaxstring[1].trim();
-                                }
-                                if (billsundryname.equals("IGST")) {
-                                    subtot=itemprice*(amt/100);
-
-                                }
-                                else {
                                     if (taxvalue.equals("MultiRate")) {
                                         if (taxpercentage.equals(amount)) {
                                             multi = itemprice * (taxpercentagevalue / 100);
                                             subtot = subtot + multi;
-                                        } else if (taxvalue.equals("TaxIncl.")) {
-                                            double per_val = Double.parseDouble(percentage_value);
-                                            subtot = subtot + (itemamount / (100 + taxpercentagevalue)) * ((amt * per_val) / 10000);
-
                                         }
 
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+
+
+                                }
+
+                                if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+
+
+                                if (taxstring.startsWith("L")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
+
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
 
                                     }
                                 }
+
+                                if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+                                if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
+                                    double per_val = Double.parseDouble(percentage_value);
+                                    subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
+                                }
+
                             }
+
 
                             if (type.equals("Additive")) {
                                 billsundrymamount = billsundrymamount + (subtot);
@@ -594,6 +645,17 @@ public class AddItemSaleReturnFragment extends Fragment {
         }
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
+    }
+    public void alertdialog(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Sale Return Voucher")
+                .setMessage("Please add sale return type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+
+                .show();
     }
 
 }
