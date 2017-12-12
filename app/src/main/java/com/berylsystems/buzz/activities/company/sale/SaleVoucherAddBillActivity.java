@@ -75,7 +75,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
         String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
         Timber.i("ID++++"+data.getAttributes().getBill_sundry_id());
-        Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
+       // Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if(data.getAttributes().getAmount_of_bill_sundry_fed_as().equals("Percentage")){
             mPercentageLayout.setVisibility(View.VISIBLE);
             percentage.setText(billSundaryPercentage);
@@ -101,6 +101,25 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
               taxval=0.0;
             }
             billSundryAmount=String.valueOf(data.getAttributes().getDefault_value()+taxval);
+
+        }
+        else if(billSundryCharges.equals("CGST")||billSundryCharges.equals("SGST")){
+            if(taxstring.startsWith("L")) {
+                String arrtaxstring[] = taxstring.split("-");
+                String taxname = arrtaxstring[0].trim();
+                String taxvalue = arrtaxstring[1].trim();
+                if(taxvalue.contains("%")) {
+                    String taxvalpercent[] = taxvalue.split("%");
+                    String taxvalpercentval = taxvalpercent[0];
+                    Timber.i("TAXNAME" + taxname);
+                    Timber.i("TAXVAL" + taxvalpercentval);
+                    taxval=Double.parseDouble(taxvalpercentval);
+                }
+            }
+            else{
+                taxval=0.0;
+            }
+            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value()+(taxval/2.0));
 
         }
         else{

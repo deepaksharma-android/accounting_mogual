@@ -94,6 +94,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String default_unit;
     String packaging_unit_sales_price;
     String sale_type;
+    String totalitemprice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +173,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             sales_price_alternate = intent.getStringExtra("sales_price_alternate");
             serailwise = intent.getExtras().getBoolean("serial_wise");
             batchwise = intent.getExtras().getBoolean("batch_wise");
+            totalitemprice=intent.getStringExtra("total");
             packaging_unit = intent.getStringExtra("packaging_unit");
             default_unit = intent.getStringExtra("default_unit");
             packaging_unit_sales_price = intent.getStringExtra("packaging_unit_sales_price");
@@ -369,7 +371,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     mMap.put("discount", mDiscount.getText().toString());
                     mMap.put("value", mValue.getText().toString());
                     String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
-                    if(taxstring.startsWith("I")) {
+                    if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
                         String arrtaxstring[] = taxstring.split("-");
                         String taxname = arrtaxstring[0].trim();
                         String taxvalue = arrtaxstring[1].trim();
@@ -382,6 +384,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
                             totalamt=Double.parseDouble(total)+totalamt;
                             mMap.put("total", String.valueOf(totalamt));
+                            mMap.put("itemwiseprice",totalitemprice);
                         }
                         else {
                             mMap.put("total", mTotal.getText().toString());

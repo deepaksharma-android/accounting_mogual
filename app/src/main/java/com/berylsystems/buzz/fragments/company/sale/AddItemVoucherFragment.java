@@ -481,34 +481,60 @@ public class AddItemVoucherFragment extends Fragment {
                                 String taxname="";
                                 String taxvalue="";
                                 if (taxstring.startsWith("I")) {
-                                        String arrtaxstring[] = taxstring.split("-");
-                                         taxname = arrtaxstring[0].trim();
-                                         taxvalue = arrtaxstring[1].trim();
-                                    }
-                                if (billsundryname.equals("IGST")) {
-                                    subtot=itemprice*(amt/100);
-
-                                }
-                                else {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
                                     if (taxvalue.equals("MultiRate")) {
                                         if (taxpercentage.equals(amount)) {
                                             multi = itemprice * (taxpercentagevalue / 100);
                                             subtot = subtot + multi;
-                                        } else if (taxvalue.equals("TaxIncl.")) {
-                                            double per_val = Double.parseDouble(percentage_value);
-                                            subtot = subtot + (itemamount / (100 + taxpercentagevalue)) * ((amt * per_val) / 10000);
-
                                         }
 
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
 
                                     }
                                 }
 
+                                if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
 
 
+                                }
+
+                                if (taxstring.startsWith("L")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
+
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+                                }
+
+                                if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
 
 
-
+                                }
 
                             }
 
