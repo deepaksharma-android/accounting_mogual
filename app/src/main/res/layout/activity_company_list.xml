@@ -92,49 +92,7 @@
             android:background="@drawable/curve_background_shadow"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="visible"
-                android:weightSum="1">
 
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/icn_open_company"/>
-
-
-
-
-
-
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Book"
-                    android:id="@+id/company_name"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="0.85"
-                    android:text="COMPANY"
-                    android:textColor="#050505"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="10dp"
-                    android:layout_weight="0.05"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/right_carat"/>
-
-            </LinearLayout>
         </LinearLayout>
 
 
@@ -147,4 +105,4 @@
             android:layout_below="@+id/mainLayout"
             android:scrollbars="none" />
     </RelativeLayout>
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

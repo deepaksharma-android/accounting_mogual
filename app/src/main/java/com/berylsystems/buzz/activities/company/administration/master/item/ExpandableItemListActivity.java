@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
@@ -91,6 +92,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
     public Map<String, String> mPurchaseVoucherItem;
 
     public Map<String, String> mPurchaseReturnItem;
+    public Map<String, String> mSaleReturnItem;
 
 
     ProgressDialog mProgressDialog;
@@ -133,7 +135,8 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         super.onResume();
         mSaleVoucherItem = new HashMap<>();
         mPurchaseVoucherItem = new HashMap<>();
-        mPurchaseReturnItem=new HashMap<>();
+        mPurchaseReturnItem = new HashMap<>();
+        mSaleReturnItem = new HashMap<>();
 
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -299,7 +302,13 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                         } else {
                             default_unit.add("");
                         }
-                    }else if (ExpandableItemListActivity.comingFrom == 3) {
+                    } else if (ExpandableItemListActivity.comingFrom == 2) {
+                        if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_sales() != null) {
+                            default_unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_sales());
+                        } else {
+                            default_unit.add("");
+                        }
+                    } else if (ExpandableItemListActivity.comingFrom == 3) {
                         if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_purchase() != null) {
                             default_unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_purchase());
                         } else {
@@ -464,8 +473,9 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         appUser.childId = arrid;
         LocalRepositories.saveAppUser(this, appUser);
-        if (!isDirectForItem) {
 
+        if (!isDirectForItem) {
+          
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
@@ -589,11 +599,68 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 2) {
+                //Toast.makeText(ExpandableItemListActivity.this, "2", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), SaleReturnAddItemActivity.class);
-                String itemName = name.get(Integer.valueOf(childid)).toString();
+                String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                String descr;
+                String alternate_unit;
+                String sales_price_main;
+                String sales_price_alternate;
+                Boolean batch, serial;
+                descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                sales_price_main = listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
+                intent.putExtra("fromSaleVoucherItemList", true);
                 intent.putExtra("id", childid);
+
+                mSaleReturnItem.put("name", itemName);
+                mSaleReturnItem.put("desc", descr);
+                mSaleReturnItem.put("main_unit", main_unit);
+                mSaleReturnItem.put("alternate_unit", alternate_unit);
+                mSaleReturnItem.put("serial_wise", String.valueOf(serial));
+                mSaleReturnItem.put("batch_wise", String.valueOf(batch));
+                mSaleReturnItem.put("sales_price_main", sales_price_main);
+                mSaleReturnItem.put("applied", applied);
+                mSaleReturnItem.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                mSaleReturnItem.put("default_unit", default_unit);
+                mSaleReturnItem.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                mSaleReturnItem.put("packaging_unit_sales_price", packaging_unit_sales_price);
+                mSaleReturnItem.put("packaging_unit", packaging_unit);
+                mSaleReturnItem.put("mrp", mrp);
+                mSaleReturnItem.put("tax", tax);
+                appUser.mMapSaleReturnItem = mSaleReturnItem;
+                LocalRepositories.saveAppUser(this, appUser);
+
                 intent.putExtra("name", itemName);
+                intent.putExtra("desc", descr);
+                intent.putExtra("main_unit", main_unit);
+                intent.putExtra("alternate_unit", alternate_unit);
+                intent.putExtra("serial_wise", serial);
+                intent.putExtra("batch_wise", batch);
+                intent.putExtra("sales_price_main", sales_price_main);
+                intent.putExtra("sales_price_alternate", sales_price_alternate);
+                intent.putExtra("applied", applied);
+                intent.putExtra("alternate_unit_con_factor", alternate_unit_con_factor);
+                intent.putExtra("default_unit", default_unit);
+                intent.putExtra("packaging_unit_con_factor", packaging_unit_con_factor);
+                intent.putExtra("packaging_unit_sales_price", packaging_unit_sales_price);
+                intent.putExtra("packaging_unit", packaging_unit);
+                intent.putExtra("mrp", mrp);
+                intent.putExtra("tax", tax);
+                intent.putExtra("frombillitemvoucherlist", false);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 3) {

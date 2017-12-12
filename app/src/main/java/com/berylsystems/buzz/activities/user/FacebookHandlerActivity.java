@@ -38,6 +38,8 @@ public class FacebookHandlerActivity extends RegisterAbstractActivity {
     EditText mMobileNumber;
     @Bind(R.id.zip_code)
     EditText mzip_code;
+    @Bind(R.id.salesman_mobile)
+    EditText mSalesman_mobile;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
@@ -81,6 +83,7 @@ public class FacebookHandlerActivity extends RegisterAbstractActivity {
         if (Validation.isPhoneFormatValid(mMobileNumber.getText().toString())) {
             appUser.mobile = mMobileNumber.getText().toString();
             appUser.zipcode = mzip_code.getText().toString();
+            appUser.salesmanmobile = mSalesman_mobile.getText().toString();
             LocalRepositories.saveAppUser(this, appUser);
 
             if(isConnected) {

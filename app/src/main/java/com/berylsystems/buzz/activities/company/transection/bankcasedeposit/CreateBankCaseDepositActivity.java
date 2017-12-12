@@ -106,7 +106,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
-        fromBankcashDeposit=getIntent().getExtras().getBoolean("frombankcashdeposit");
+        fromBankcashDeposit=getIntent().getExtras().getBoolean("fromBankCashDeposit");
         if(fromBankcashDeposit==true){
             title="EDIT BANK CASH DEPOSIT";
             mSubmit.setVisibility(View.GONE);

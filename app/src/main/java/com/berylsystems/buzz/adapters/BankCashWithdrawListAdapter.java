@@ -56,7 +56,7 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
             @Override
             public void onClick(View view) {
                 Intent i= new Intent(context, CreateBankCaseWithdrawActivity.class);
-                i.putExtra("frombankcashwithdraw",true);
+                i.putExtra("fromBankCashWithdraw",true);
                 String bank_cash_withdraw_id=data.get(position).getId();
                 i.putExtra("id",bank_cash_withdraw_id);
                 context.startActivity(i);

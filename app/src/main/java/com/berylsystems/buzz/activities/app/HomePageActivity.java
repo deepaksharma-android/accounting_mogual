@@ -3,6 +3,7 @@ package com.berylsystems.buzz.activities.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
@@ -19,6 +20,9 @@ import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.adapters.MyPagerAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,7 +42,11 @@ public class HomePageActivity extends Activity {
     RadioButton mRadioButton3;
    MyPagerAdapter adapter;
     AppUser appUser;
-
+    int currentPage = 0;
+    int NUM_PAGES=4;
+    Timer timer;
+    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
+    final long PERIOD_MS = 3000; // time in milliseconds between successive task executions.
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +92,26 @@ public class HomePageActivity extends Activity {
         });
 
         mPager.setAdapter(adapter);
-        mPager.setCurrentItem(0);
+       // mPager.setCurrentItem(0);
+
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == NUM_PAGES-1) {
+                    currentPage = 0;
+                }
+                mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer .schedule(new TimerTask() { // task to be scheduled
+
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
     }
 
     public void login(View v){

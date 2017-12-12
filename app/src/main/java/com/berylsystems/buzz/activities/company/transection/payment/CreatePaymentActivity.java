@@ -323,7 +323,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
         final Calendar newCalendar = Calendar.getInstance();
 
-        set_date.setText("22 Nov 2017");
+       // set_date.setText("22 Nov 2017");
        // set_date_pdc.setText("22 Nov 2017");
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {

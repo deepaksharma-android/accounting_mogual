@@ -55,6 +55,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
     @Override
     public void onBindViewHolder(CompanyListAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mCompanyName.setText(data.get(i).getAttributes().getName());
+        viewHolder.mCompany_address.setText(data.get(i).getAttributes().getAddress());
         appUser=LocalRepositories.getAppUser(context);
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +188,8 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.company_name)
         TextView mCompanyName;
+        @Bind(R.id.company_address)
+        TextView mCompany_address;
         @Bind(R.id.mainLayout)
         LinearLayout mMainLayout;
 

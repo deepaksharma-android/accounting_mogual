@@ -101,7 +101,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
-        fromExpence=getIntent().getExtras().getBoolean("fromExpence");
+        fromExpence=getIntent().getExtras().getBoolean("fromExpense");
         if(fromExpence==true){
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);

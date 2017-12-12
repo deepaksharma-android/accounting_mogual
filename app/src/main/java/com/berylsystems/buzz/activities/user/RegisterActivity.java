@@ -57,6 +57,8 @@ public class RegisterActivity extends RegisterAbstractActivity {
     LinearLayout fbLoginBtn;
     @Bind(R.id.zip_code)
     EditText mzip_code;
+    @Bind(R.id.salesman_mobile)
+    EditText mSalesman_mobile;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
@@ -181,6 +183,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
                                 appUser.mobile=mMobile.getText().toString();
                                 appUser.password=mPassword.getText().toString();
                                 appUser.zipcode=mzip_code.getText().toString();
+                                appUser.salesmanmobile=mSalesman_mobile.getText().toString();
                                 LocalRepositories.saveAppUser(this,appUser);
                                 logInRequest();
                             }
