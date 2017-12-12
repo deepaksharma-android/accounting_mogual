@@ -136,6 +136,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
         purchase_price_applied_on = intent.getStringExtra("applied");
         alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
+        tax = intent.getStringExtra("tax");
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
@@ -360,6 +361,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
+                mMap.put("tax", tax);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemPurchaseReturn.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

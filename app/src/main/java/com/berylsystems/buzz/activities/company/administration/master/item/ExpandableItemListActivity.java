@@ -561,6 +561,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 String packaging_unit_purchase_price = listDataChildPackagingPurchasePrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromPurchaseVoucherItemList", true);
                 intent.putExtra("id", childid);
@@ -596,6 +597,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 intent.putExtra("packaging_unit_purchase_price", packaging_unit_purchase_price);
                 intent.putExtra("packaging_unit", packaging_unit);
                 intent.putExtra("mrp", mrp);
+                intent.putExtra("tax",tax);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 2) {
@@ -687,6 +689,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 String packaging_unit_purchase_price = listDataChildPackagingPurchasePrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromPurchaseReturnItemList", true);
                 intent.putExtra("id", childid);
@@ -726,6 +729,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 intent.putExtra("packaging_unit_purchase_price", packaging_unit_purchase_price);
                 intent.putExtra("packaging_unit", packaging_unit);
                 intent.putExtra("mrp", mrp);
+                intent.putExtra("tax", tax);
                 startActivity(intent);
                 finish();
 
