@@ -106,8 +106,13 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+
         title = "CREATE BANK CASH WITHDRAW";
-        fromBankcashWithdraw = getIntent().getExtras().getBoolean("frombankcashwithdraw");
+        fromBankcashWithdraw = getIntent().getExtras().getBoolean("fromBankCashWithdraw");
         if (fromBankcashWithdraw == true) {
             title = "EDIT BANK CASH WITHDRAW";
             mSubmit.setVisibility(View.GONE);

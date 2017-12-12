@@ -60,7 +60,7 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
             @Override
             public void onClick(View view) {
                 Intent i= new Intent(context, CreateBankCaseDepositActivity.class);
-                i.putExtra("frombankcashdeposit",true);
+                i.putExtra("fromBankCashDeposit",true);
                 String bank_cash_deposit_id=data.get(position).getId();
                 i.putExtra("id",bank_cash_deposit_id);
                 context.startActivity(i);

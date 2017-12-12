@@ -21,6 +21,7 @@ import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.HashMap;
@@ -54,6 +55,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
     String billSundryAmount;
     String billSundryCharges;
     String billsundryothername;
+    double taxval=0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,8 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
         billSundryCharges = data.getAttributes().getName();
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
-        billAmount.setText(billSundryAmount);
+
+        String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
         Timber.i("ID++++" + data.getAttributes().getBill_sundry_id());
         //Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if (data.getAttributes().getAmount_of_bill_sundry_fed_as().equals("Percentage")) {
@@ -78,6 +81,49 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
             mPercentageLayout.setVisibility(View.GONE);
             percentage.setText("");
         }
+        if(billSundryCharges.equals("IGST")){
+            if(taxstring.startsWith("I")) {
+                String arrtaxstring[] = taxstring.split("-");
+                String taxname = arrtaxstring[0].trim();
+                String taxvalue = arrtaxstring[1].trim();
+                if(taxvalue.contains("%")) {
+                    String taxvalpercent[] = taxvalue.split("%");
+                    String taxvalpercentval = taxvalpercent[0];
+                    Timber.i("TAXNAME" + taxname);
+                    Timber.i("TAXVAL" + taxvalpercentval);
+                    taxval=Double.parseDouble(taxvalpercentval);
+                }
+            }
+            else{
+                taxval=0.0;
+            }
+            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value()+taxval);
+
+        }
+        else if(billSundryCharges.equals("CGST")||billSundryCharges.equals("SGST")){
+            if(taxstring.startsWith("L")) {
+                String arrtaxstring[] = taxstring.split("-");
+                String taxname = arrtaxstring[0].trim();
+                String taxvalue = arrtaxstring[1].trim();
+                if(taxvalue.contains("%")) {
+                    String taxvalpercent[] = taxvalue.split("%");
+                    String taxvalpercentval = taxvalpercent[0];
+                    Timber.i("TAXNAME" + taxname);
+                    Timber.i("TAXVAL" + taxvalpercentval);
+                    taxval=Double.parseDouble(taxvalpercentval);
+                }
+            }
+            else{
+                taxval=0.0;
+            }
+            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value()+(taxval/2.0));
+
+        }
+        else{
+            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value());
+        }
+
+        billAmount.setText(billSundryAmount);
 
        /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
         if(fromSaleVoucherBillList){

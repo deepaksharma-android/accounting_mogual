@@ -102,6 +102,11 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+
         fromDebitNote = getIntent().getExtras().getBoolean("fromDebitNote");
         if (fromDebitNote == true) {
             mSubmit.setVisibility(View.GONE);

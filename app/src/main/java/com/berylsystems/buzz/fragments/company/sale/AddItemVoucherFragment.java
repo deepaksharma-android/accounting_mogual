@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.CreateBillSundryActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
@@ -80,27 +81,37 @@ public class AddItemVoucherFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_item_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom = 0;
-                ExpandableItemListActivity.isDirectForItem=false;
-                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
-                intent.putExtra("bool", true);
-                startActivity(intent);
-                getActivity().finish();
+                if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
+                    add_item_button.startAnimation(blinkOnClick);
+                    ExpandableItemListActivity.comingFrom = 0;
+                    ExpandableItemListActivity.isDirectForItem = false;
+                    Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                    intent.putExtra("bool", true);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else{
+                    alertdialog();
+                }
             }
         });
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom = 0;
-                startActivity(new Intent(getContext(), BillSundryListActivity.class));
-                getActivity().finish();
+                if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
+                    add_bill_button.startAnimation(blinkOnClick);
+                    ExpandableItemListActivity.comingFrom = 0;
+                    startActivity(new Intent(getContext(), BillSundryListActivity.class));
+                    getActivity().finish();
+                }
+                else{
+                    alertdialog();
+                }
             }
         });
         amountCalculation();
 
-        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);
@@ -109,7 +120,7 @@ public class AddItemVoucherFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             }
-        });
+        });*/
 
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -483,34 +494,67 @@ public class AddItemVoucherFragment extends Fragment {
                                 String taxname="";
                                 String taxvalue="";
                                 if (taxstring.startsWith("I")) {
-                                        String arrtaxstring[] = taxstring.split("-");
-                                         taxname = arrtaxstring[0].trim();
-                                         taxvalue = arrtaxstring[1].trim();
-                                    }
-                                if (billsundryname.equals("IGST")) {
-                                    subtot=itemprice*(amt/100);
-
-                                }
-                                else {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
                                     if (taxvalue.equals("MultiRate")) {
                                         if (taxpercentage.equals(amount)) {
                                             multi = itemprice * (taxpercentagevalue / 100);
                                             subtot = subtot + multi;
-                                        } else if (taxvalue.equals("TaxIncl.")) {
-                                            double per_val = Double.parseDouble(percentage_value);
-                                            subtot = subtot + (itemamount / (100 + taxpercentagevalue)) * ((amt * per_val) / 10000);
-
                                         }
 
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+
+
+                                }
+
+                                if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+
+
+                                if (taxstring.startsWith("L")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
+
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
 
                                     }
                                 }
 
+                                if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
 
 
-
-
-
+                                }
+                                if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
+                                    double per_val = Double.parseDouble(percentage_value);
+                                    subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
+                                }
 
                             }
 
@@ -613,5 +657,17 @@ public class AddItemVoucherFragment extends Fragment {
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }
+
+    public void alertdialog(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Sale Voucher")
+                .setMessage("Please add sale type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+
 
 }

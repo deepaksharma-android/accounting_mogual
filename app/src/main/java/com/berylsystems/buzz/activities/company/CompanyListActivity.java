@@ -56,8 +56,10 @@ public class CompanyListActivity extends BaseActivity {
     FloatingActionButton mFloatingButton;
     @Bind(R.id.searchtext)
     EditText mSearchText;
-    @Bind(R.id.company_name)
+    /*@Bind(R.id.company_name)
     TextView mCompanyName;
+    @Bind(R.id.company_address)
+    TextView mCompany_address;*/
     @Bind(R.id.mainLayout)
     LinearLayout mMainLayout;
     @Bind(R.id.reset)
@@ -157,7 +159,8 @@ public class CompanyListActivity extends BaseActivity {
             mRecyclerView.setVisibility(View.GONE);
             appUser.company_id=response.getCompany().getData().getId();
             LocalRepositories.saveAppUser(this,appUser);
-            mCompanyName.setText(response.getCompany().getData().getAttributes().getName());
+          /*  mCompanyName.setText(response.getCompany().getData().getAttributes().getName());
+            mCompany_address.setText(response.getCompany().getData().getAttributes().getAddress());*/
             mMainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

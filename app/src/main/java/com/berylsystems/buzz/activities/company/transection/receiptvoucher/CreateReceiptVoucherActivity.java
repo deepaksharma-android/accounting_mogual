@@ -115,7 +115,14 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
-        fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceiptVoucher");
+
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
+        set_date_pdc.setText(dateString);
+
+        fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
         if (fromReceiptVoucher == true) {
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);

@@ -97,40 +97,70 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
 
                 }
                 if (i == 1) {
+                    appUser.mListMapForItemPurchase.clear();
+                    appUser.mListMapForBillPurchase.clear();
+                    LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                 }
                 if (i == 2) {
+                    appUser.mListMapForItemSale.clear();
+                    appUser.mListMapForBillSale.clear();
+                    LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
                 }
                 if (i == 3) {
+                    appUser.mListMapForItemPurchaseReturn.clear();
+                    appUser.mListMapForBillPurchaseReturn.clear();
+                    LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+
                 }
                 if (i == 4) {
-                    context.startActivity(new Intent(context, CreatePaymentActivity.class));
+                    Intent j=new Intent(context,CreatePaymentActivity.class);
+                    j.putExtra("fromPayment",false);
+                    context.startActivity(j);
                 }
                 if (i == 5) {
-                    context.startActivity(new Intent(context, CreateReceiptVoucherActivity.class));
+                    Intent j=new Intent(context,CreateReceiptVoucherActivity.class);
+                    j.putExtra("fromReceipt",false);
+                    context.startActivity(j);
                 }
                 if (i == 6) {
-                    context.startActivity(new Intent(context, CreateBankCaseDepositActivity.class));
+                    Intent j=new Intent(context,CreateBankCaseDepositActivity.class);
+                    j.putExtra("fromBankCashDeposit",false);
+                    context.startActivity(j);
                 }
                 if (i == 7) {
-                    context.startActivity(new Intent(context, CreateBankCaseWithdrawActivity.class));
+                    Intent j=new Intent(context,CreateBankCaseWithdrawActivity.class);
+                    j.putExtra("fromBankCashWithdraw",false);
+                    context.startActivity(j);
                 }
                 if (i == 8) {
-                    context.startActivity(new Intent(context, CreateIncomeActivity.class));
+                    Intent j=new Intent(context,CreateIncomeActivity.class);
+                    j.putExtra("fromIncome",false);
+                    context.startActivity(j);
+                   // context.startActivity(new Intent(context, CreateIncomeActivity.class));
+
                 }
                 if (i == 9) {
-                    context.startActivity(new Intent(context, CreateExpenceActivity.class));
+                    Intent j=new Intent(context,CreateExpenceActivity.class);
+                    j.putExtra("fromExpense",false);
+                    context.startActivity(j);
                 }
                 if (i == 10) {
-                    context.startActivity(new Intent(context, CreateJournalVoucherActivity.class));
+                    Intent j=new Intent(context,CreateJournalVoucherActivity.class);
+                    j.putExtra("fromJournalVoucher",false);
+                    context.startActivity(j);
                 }
                 if (i == 11) {
-                    context.startActivity(new Intent(context, CreateDebitNoteWoItemActivity.class));
+                    Intent j=new Intent(context,CreateDebitNoteWoItemActivity.class);
+                    j.putExtra("fromDebitNote",false);
+                    context.startActivity(j);
                 }
                 if (i == 12) {
-                    context.startActivity(new Intent(context, CreateCreditNoteWoItemActivity.class));
+                    Intent j=new Intent(context,CreateCreditNoteWoItemActivity.class);
+                    j.putExtra("fromCreditNote",false);
+                    context.startActivity(j);
                 }
             }
         });

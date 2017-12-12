@@ -102,6 +102,10 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        set_date.setText(dateString);
 
         fromIncome=getIntent().getExtras().getBoolean("fromIncome");
         if(fromIncome==true){

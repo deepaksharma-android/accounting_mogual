@@ -29,6 +29,7 @@ import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import java.util.Map;
 
@@ -73,23 +74,33 @@ public class AddItemPurchaseFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_item_button.startAnimation(blinkOnClick);
-                Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
-                ExpandableItemListActivity.comingFrom=1;
-                ExpandableItemListActivity.isDirectForItem=false;
-                intent.putExtra("bool",true);
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
+                    add_item_button.startAnimation(blinkOnClick);
+                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                ExpandableItemListActivity.comingFrom = 1;
+                ExpandableItemListActivity.isDirectForItem = false;
+                intent.putExtra("bool", true);
                 startActivity(intent);
                 getActivity().finish();
+            }
+                else{
+                    alertdialog();
+                }
             }
         });
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom=1;
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
+                    add_bill_button.startAnimation(blinkOnClick);
+                ExpandableItemListActivity.comingFrom = 1;
                 startActivity(new Intent(getContext(), BillSundryListActivity.class));
                 getActivity().finish();
             }
+                else{
+                    alertdialog();
+                }
+        }
         });
 
         amountCalculation();
@@ -186,10 +197,11 @@ public class AddItemPurchaseFragment extends Fragment {
 
 
    public void amountCalculation(){
-
+       String taxstring = Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
+
 
         appUser = LocalRepositories.getAppUser(getApplicationContext());
 
@@ -219,6 +231,7 @@ public class AddItemPurchaseFragment extends Fragment {
             for (int i = 0; i < appUser.mListMapForBillPurchase.size(); i++) {
                 billsundrymamount = 0.0;
                 Map map = appUser.mListMapForBillPurchase.get(i);
+                String billsundryname = (String) map.get("courier_charges");
                 String amount = (String) map.get("amount");
                 String type = (String) map.get("type");
                 String other = (String) map.get("other");
@@ -478,38 +491,94 @@ public class AddItemPurchaseFragment extends Fragment {
 
                         }
 
-                    } else if (fed_as_percentage.equals("Taxable Amount")) {/*
+                    } else if (fed_as_percentage.equals("Taxable Amount")) {
                         if (appUser.mListMapForItemPurchase.size() > 0) {
+                            double taxval = 0.0;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
                                 Map mapj = appUser.mListMapForItemPurchase.get(j);
-                                String rate= (String) mapj.get("rate");
-                                double itemraterate=Double.parseDouble(rate);
-                                String tax = (String) mapj.get("tax");
-                                String[] arr=tax.split(" ");
-                                String percent=arr[1];
-                                String[] percentstring=percent.split("%");
-                                String taxpercent=percentstring[0];
-                                int tax_percentage=Integer.parseInt(taxpercent);
-                                Timber.i("TAXXX"+tax);
-                                subtot = subtot +((itemraterate/(100+tax_percentage)))*100;
+                                String itemtotalval = (String) mapj.get("total");
+                                String itemtax = (String) mapj.get("tax");
+                                String arr[] = itemtax.split(" ");
+                                String itemtaxval = arr[1];
+                                String arrper[] = itemtaxval.split("%");
+                                String taxpercentage = arrper[0];
+                                double taxpercentagevalue = Double.parseDouble(taxpercentage);
+                                double multi=0.0;
+                                double itemprice = Double.parseDouble(itemtotalval);
+                                String taxname="";
+                                String taxvalue="";
+                                if (taxstring.startsWith("I")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
 
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+                                }
+
+                                if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+
+                                if (taxstring.startsWith("L")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
+
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+                                }
+
+                                if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+                                if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
+                                    double per_val = Double.parseDouble(percentage_value);
+                                    subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
+                                }
 
                             }
-
-                            double per_val = Double.parseDouble(percentage_value);
-                            double percentagebillsundry = (subtot) * (((per_val / 100) * amt) / 100);
 
                             if (type.equals("Additive")) {
-                                billsundrymamount = billsundrymamount + percentagebillsundry;
+                                billsundrymamount = billsundrymamount + (subtot);
                             } else {
-                                billsundrymamount = billsundrymamount - percentagebillsundry;
+                                billsundrymamount = billsundrymamount - subtot;
                             }
-
-
                         }
 
-                    */} else if (fed_as_percentage.equals("Previous Bill Sundry(s) Amount")) {
+
+                    } else if (fed_as_percentage.equals("Previous Bill Sundry(s) Amount")) {
                         if (appUser.mListMapForItemPurchase.size() > 0) {
                             double subtot = 0.0;
                             int numberbill = Integer.parseInt(number_of_bill);
@@ -603,6 +672,18 @@ public class AddItemPurchaseFragment extends Fragment {
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }
+
+    public void alertdialog(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add purchase type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+
 
 
 }
