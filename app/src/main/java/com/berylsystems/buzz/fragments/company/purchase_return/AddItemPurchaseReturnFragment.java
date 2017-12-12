@@ -30,6 +30,7 @@ import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import java.util.Map;
 
@@ -196,7 +197,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
     }
 
     private void amountCalculation(){
-
+        String taxstring = Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name();
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
@@ -229,6 +230,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
             for (int i = 0; i < appUser.mListMapForBillPurchaseReturn.size(); i++) {
                 billsundrymamount = 0.0;
                 Map map = appUser.mListMapForBillPurchaseReturn.get(i);
+                String billsundryname = (String) map.get("courier_charges");
                 String amount = (String) map.get("amount");
                 String type = (String) map.get("type");
                 String other = (String) map.get("other");
@@ -488,34 +490,87 @@ public class AddItemPurchaseReturnFragment extends Fragment {
 
                         }
 
-                    } else if (fed_as_percentage.equals("Taxable Amount")) {/*
+                    } else if (fed_as_percentage.equals("Taxable Amount")) {
                         if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
+                            double taxval = 0.0;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemPurchaseReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemPurchaseReturn.get(j);
-                                String rate= (String) mapj.get("rate");
-                                double itemraterate=Double.parseDouble(rate);
-                                String tax = (String) mapj.get("tax");
-                                String[] arr=tax.split(" ");
-                                String percent=arr[1];
-                                String[] percentstring=percent.split("%");
-                                String taxpercent=percentstring[0];
-                                int tax_percentage=Integer.parseInt(taxpercent);
-                                Timber.i("TAXXX"+tax);
-                                subtot = subtot +((itemraterate/(100+tax_percentage)))*100;
+                                String itemtotalval = (String) mapj.get("total");
+                                String itemtax = (String) mapj.get("tax");
+                                String arr[] = itemtax.split(" ");
+                                String itemtaxval = arr[1];
+                                String arrper[] = itemtaxval.split("%");
+                                String taxpercentage = arrper[0];
+                                double taxpercentagevalue = Double.parseDouble(taxpercentage);
+                                double multi=0.0;
+                                double itemprice = Double.parseDouble(itemtotalval);
+                                String taxname="";
+                                String taxvalue="";
+                                if (taxstring.startsWith("I")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
+
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+                                }
+
+                                if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+
+                                if (taxstring.startsWith("L")) {
+                                    String arrtaxstring[] = taxstring.split("-");
+                                    taxname = arrtaxstring[0].trim();
+                                    taxvalue = arrtaxstring[1].trim();
+                                    if (taxvalue.equals("MultiRate")) {
+                                        if (taxpercentage.equals(amount)) {
+                                            multi = itemprice * (taxpercentagevalue / 100);
+                                            subtot = subtot + multi;
+                                        }
+
+                                    } else if (taxvalue.equals("TaxIncl.")) {
+                                        double per_val = Double.parseDouble(percentage_value);
+                                        subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
+
+                                    }
+                                }
+
+                                if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
+                                    if(taxvalue.equals("ItemWise")){
+
+                                    }
+                                    else{
+                                        subtot=subtot+itemprice*(amt/100);
+                                    }
+
+
+                                }
+
                             }
-                            double per_val = Double.parseDouble(percentage_value);
-                            double percentagebillsundry = (subtot) * (((per_val / 100) * amt) / 100);
 
                             if (type.equals("Additive")) {
-                                billsundrymamount = billsundrymamount + percentagebillsundry;
+                                billsundrymamount = billsundrymamount + (subtot);
                             } else {
-                                billsundrymamount = billsundrymamount - percentagebillsundry;
+                                billsundrymamount = billsundrymamount - subtot;
                             }
-
-
                         }
-*/
                     } else if (fed_as_percentage.equals("Previous Bill Sundry(s) Amount")) {
                         if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
                             double subtot = 0.0;

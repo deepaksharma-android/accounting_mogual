@@ -28,6 +28,7 @@ import com.berylsystems.buzz.activities.company.administration.master.item.Expan
 import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     List<Map<String, String>> mListMapForItemPurchase;
-
+    String tax;
+    String totalitemprice;
 
     AppUser appUser;
     List<Map<String, String>> mListMap;
@@ -328,7 +330,30 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                 mMap.put("rate", mRate.getText().toString());
                 mMap.put("discount", mDiscount.getText().toString());
                 mMap.put("value", mValue.getText().toString());
-                mMap.put("total", mTotal.getText().toString());
+                String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
+                if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
+                    String arrtaxstring[] = taxstring.split("-");
+                    String taxname = arrtaxstring[0].trim();
+                    String taxvalue = arrtaxstring[1].trim();
+                    if(taxvalue.equals("ItemWise")) {
+                        String total=mTotal.getText().toString();
+                        String arr[]=tax.split(" ");
+                        String itemtax=arr[1];
+                        String taxval[]=itemtax.split("%");
+                        String taxpercent=taxval[0];
+                        double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
+                        totalamt=Double.parseDouble(total)+totalamt;
+                        mMap.put("total", String.valueOf(totalamt));
+                        mMap.put("itemwiseprice",totalitemprice);
+                    }
+                    else {
+                        mMap.put("total", mTotal.getText().toString());
+                    }
+                }
+                else{
+                    mMap.put("total", mTotal.getText().toString());
+                }
+
                 mMap.put("applied", purchase_price_applied_on);
                 mMap.put("price_selected_unit", price_selected_unit);
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
