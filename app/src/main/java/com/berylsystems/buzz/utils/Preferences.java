@@ -127,6 +127,7 @@ public class Preferences {
 
     private static final String sale_type_name="sale_type_name";
     private static final String purchase_type_name="purchase_type_name";
+    private static final String purchase_return_type_name="purchase_type_name";
 
 
 
@@ -1072,6 +1073,16 @@ public class Preferences {
 
     public String getPurchase_type_name() {
         return pref.getString(purchase_type_name, "");
+    }
+
+
+    public void setPurchase_return_type_name(String Purchasetypename) {
+        editor.putString(purchase_return_type_name, Purchasetypename);
+        editor.commit();
+    }
+
+    public String getPurchase_return_type_name() {
+        return pref.getString(purchase_return_type_name, "");
     }
 
 
