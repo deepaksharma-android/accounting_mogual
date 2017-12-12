@@ -31,7 +31,7 @@ public class CompanyDashboardAdapter extends RecyclerView.Adapter<CompanyDashboa
 
     @Override
     public CompanyDashboardAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_generic_grid_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_generic_list_item, viewGroup, false);
         return new ViewHolder(view);
     }
 

@@ -60,6 +60,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     }
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
+        //startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
+        finish();
     }
 }

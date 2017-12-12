@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
@@ -113,7 +114,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
             }
         });
         mRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new CompanyDashboardAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);

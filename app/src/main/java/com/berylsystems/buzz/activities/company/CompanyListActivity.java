@@ -403,7 +403,7 @@ public class CompanyListActivity extends BaseActivity {
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
+            startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
         }
         else{
 

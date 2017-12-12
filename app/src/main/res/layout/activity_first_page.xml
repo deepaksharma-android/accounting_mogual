@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e2e2e2"
+    tools:context="com.berylsystems.buzz.activities.company.FirstPageActivity">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        tools:context=".activities.dashboard.CompanyDashboardActivity">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:background="@drawable/stoke_grey_white"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <com.berylsystems.buzz.utils.BuzzTextView
+                style="@style/Gotham_Book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Accounts"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight=".4"
+                    android:src="@drawable/cash_in_hand" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="Cash In Hand"
+                    android:textColor="#050505"
+                    android:textSize="16sp" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 4000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight=".4"
+                    android:src="@drawable/bank" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="Bank"
+                    android:textColor="#050505"
+                    android:textSize="16sp" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 4000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight=".4"
+                    android:src="@drawable/customer" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="Customer"
+                    android:textColor="#050505"
+                    android:textSize="16sp" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 4000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight=".4"
+                    android:src="@drawable/supplier" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="Supplier"
+                    android:textColor="#050505"
+                    android:textSize="16sp" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 4000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight=".4"
+                    android:src="@drawable/stock_in_hand" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="Stock In Hand"
+                    android:textColor="#050505"
+                    android:textSize="16sp" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 4000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stoke_grey_white"
+            android:layout_marginTop="5dp"
+            android:id="@+id/transaction_button"
+            android:layout_marginBottom="5dp"
+            android:text="Start Transactions"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/stoke_grey_white"
+                android:orientation="vertical">
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 4000"
+                    android:textColor="@color/black" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".3"
+                    android:background="#ffc107" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Sale"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/stoke_grey_white"
+                android:orientation="vertical">
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="\u20B9 6000"
+                    android:textColor="@color/black" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".3"
+                    android:background="#db3740" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Expanse"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:layout_weight=".7"
+            android:background="@drawable/stoke_grey_white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/buying_on_smartphone"/>
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="Buy BAHI KHATA"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
