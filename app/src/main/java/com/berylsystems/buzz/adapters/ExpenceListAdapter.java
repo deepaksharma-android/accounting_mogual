@@ -57,7 +57,7 @@ public class ExpenceListAdapter extends RecyclerView.Adapter<ExpenceListAdapter.
             @Override
             public void onClick(View view) {
                 Intent i= new Intent(context, CreateExpenceActivity.class);
-                i.putExtra("fromExpence",true);
+                i.putExtra("fromExpense",true);
                 String expence_id=data.get(position).getId();
                 i.putExtra("id",expence_id);
                 context.startActivity(i);

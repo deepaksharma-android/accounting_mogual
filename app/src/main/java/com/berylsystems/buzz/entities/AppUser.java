@@ -15,6 +15,7 @@ public class AppUser {
     public String name;
     public String email;
     public String zipcode;
+    public String salesmanmobile;
     public String user_id;
     public String otp;
     public String fb_id;
@@ -275,16 +276,18 @@ public class AppUser {
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
     public Map<String,String> mMapSaleVoucherBill=new HashMap<>();
     public Map<String,String> mMapSaleVoucherItem=new HashMap<>();
+
+public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
+    public List<Map<String, String>> mListMapForBillSaleReturn = new ArrayList();
+    public Map<String,String> mMapSaleReturnBill=new HashMap<>();
+    public Map<String,String> mMapSaleReturnItem=new HashMap<>();
+
     public Map<String,String> mMapPurchaseVoucherItem=new HashMap<>();
     public Map<String,String> mMapPurchaseReturnItem=new HashMap<>();
 
     public List<Map<String, String>> mListMapForItemPurchase = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();
 
-
-
-    public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
-    public List<Map<String, String>> mListMapForBillSaleReturn = new ArrayList();
 
 
     public String sale_return_series = "";

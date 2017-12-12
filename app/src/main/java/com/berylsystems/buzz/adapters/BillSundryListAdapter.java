@@ -17,6 +17,8 @@ import com.berylsystems.buzz.activities.company.administration.master.unit.Creat
 import com.berylsystems.buzz.activities.company.purchase.PurchaseAddBillActivity;
 import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddBillActivity;
 import com.berylsystems.buzz.activities.company.sale.SaleVoucherAddBillActivity;
+import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddBillActivity;
+import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddItemActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.fragments.company.sale.AddItemVoucherFragment;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundry;
@@ -92,6 +94,8 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
                     AppUser appUser= LocalRepositories.getAppUser(context);
                     appUser.billSundryData=data;
                     LocalRepositories.saveAppUser(context,appUser);
+                }else if(ExpandableItemListActivity.comingFrom==2){
+                    SaleReturnAddBillActivity.data=data.get(i);
                 }
 
                 EventBus.getDefault().post(new EventSaleAddBill(String.valueOf(i)));

@@ -115,7 +115,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
-        fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceiptVoucher");
+        fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
         if (fromReceiptVoucher == true) {
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);

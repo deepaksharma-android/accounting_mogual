@@ -24,6 +24,7 @@ public class RequestRegister {
         user.put("password", appUser.password);
         user.put("fb_id",appUser.fb_id);
         user.put("postal_code",appUser.zipcode);
+        user.put("salesman_mobile",appUser.salesmanmobile);
     }
 
     }

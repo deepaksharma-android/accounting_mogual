@@ -107,7 +107,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
         title = "CREATE BANK CASH WITHDRAW";
-        fromBankcashWithdraw = getIntent().getExtras().getBoolean("frombankcashwithdraw");
+        fromBankcashWithdraw = getIntent().getExtras().getBoolean("fromBankCashWithdraw");
         if (fromBankcashWithdraw == true) {
             title = "EDIT BANK CASH WITHDRAW";
             mSubmit.setVisibility(View.GONE);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +23,17 @@ import timber.log.Timber;
 
 public class AddBillsSaleReturnAdapter extends BaseAdapter {
 
+
     Context context;
     List<Map<String, String>> mListMap;
+    // List<Map<String, String>> mListItemMap;
+    ArrayList<String> mListItemMap;
 
-    public AddBillsSaleReturnAdapter(Context context, List<Map<String, String>> mListMap) {
+
+    public AddBillsSaleReturnAdapter(Context context, List<Map<String, String>> mListMap, /*List<Map<String, String>> mListItemMap*/ArrayList<String> mListItemMap ) {
         this.context = context;
         this.mListMap = mListMap;
+        this.mListItemMap = mListItemMap;
 
     }
 
@@ -58,9 +64,9 @@ public class AddBillsSaleReturnAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Map map = mListMap.get(position);
-        Timber.i("MEEEEEEEEEE" + mListMap.get(position));
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
+        holder.mTotal.setText(mListItemMap.get(position));
         holder.mItemName.setText(itemName);
         holder.mDiscount.setText(amount);
         return convertView;
@@ -71,6 +77,9 @@ public class AddBillsSaleReturnAdapter extends BaseAdapter {
         TextView mItemName;
         @Bind(R.id.discount)
         TextView mDiscount;
+        @Bind(R.id.total)
+        TextView mTotal;
+
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
