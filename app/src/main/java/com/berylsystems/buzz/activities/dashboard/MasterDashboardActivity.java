@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.adapters.MasterDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -51,6 +52,7 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         appUser = LocalRepositories.getAppUser(this);
         setAddCompany(2);
         setAppBarTitleCompany(1,"MASTER");
+        ExpandableItemListActivity.isDirectForItem=true;
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,11 @@ public class AddBillsPurchaseReturnAdapter extends BaseAdapter {
 
     Context context;
     List<Map<String, String>> mListMap;
-
-    public AddBillsPurchaseReturnAdapter(Context context, List<Map<String, String>> mListMap) {
+    ArrayList<String> mListItemMap;
+    public AddBillsPurchaseReturnAdapter(Context context, List<Map<String, String>> mListMap, ArrayList<String> mListItemMap) {
         this.context = context;
         this.mListMap = mListMap;
+        this.mListItemMap=mListItemMap;
 
     }
 
@@ -62,6 +64,10 @@ public class AddBillsPurchaseReturnAdapter extends BaseAdapter {
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
         holder.mItemName.setText(itemName);
+        if (mListItemMap.size()>0){
+            holder.mTotal.setText(mListItemMap.get(position));
+        }
+
         holder.mDiscount.setText(amount);
         return convertView;
     }
@@ -71,6 +77,8 @@ public class AddBillsPurchaseReturnAdapter extends BaseAdapter {
         TextView mItemName;
         @Bind(R.id.discount)
         TextView mDiscount;
+        @Bind(R.id.total)
+        TextView mTotal;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

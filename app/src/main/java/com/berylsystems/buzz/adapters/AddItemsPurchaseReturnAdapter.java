@@ -57,22 +57,22 @@ public class AddItemsPurchaseReturnAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Map map=mListMap.get(position);
-        Timber.i("MEEEEEEEEEE"+mListMap.get(position));
-        String itemName= (String) map.get("item_name");
-        String description= (String) map.get("description");
-        String quality= (String) map.get("quality");
-        String unit= (String) map.get("unit");
-        String srNo= (String) map.get("sr_no");
-        String rate= (String) map.get("rate");
-        String discount= (String) map.get("discount");
-        String value= (String) map.get("value");
-        String total= (String) map.get("total");
+        Map map = mListMap.get(position);
+        Timber.i("MEEEEEEEEEE" + mListMap.get(position));
+        String itemName = (String) map.get("item_name");
+        String description = (String) map.get("description");
+        String quantity = (String) map.get("quantity");
+        String unit = (String) map.get("unit");
+        String srNo = (String) map.get("sr_no");
+        String rate = (String) map.get("rate");
+        String discount = (String) map.get("discount");
+        String value = (String) map.get("value");
+        String total = (String) map.get("total");
 
         holder.mItemName.setText(itemName);
-        holder.mDiscount.setText(discount);
-        holder.mUnit.setText(unit);
-        holder.mSrNo.setText("Sr.No. "+srNo);
+        holder.mDiscount.setText("Discount " + discount);
+        holder.mUnit.setText(quantity + "*" + rate);
+        holder.mSrNo.setText("Sr.No. " + srNo);
         holder.mTotal.setText(total);
         return convertView;
     }

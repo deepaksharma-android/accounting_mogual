@@ -29,6 +29,7 @@ import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseRespon
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -92,6 +93,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_return_type_name());
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,6 +238,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 appUser.purchase_puchase_type_id=String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPurchaseType.setText(result);
+                Preferences.getInstance(getContext()).setPurchase_return_type_name(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

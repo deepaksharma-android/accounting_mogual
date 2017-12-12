@@ -39,6 +39,7 @@ public class HomePageActivity extends Activity {
    MyPagerAdapter adapter;
     AppUser appUser;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

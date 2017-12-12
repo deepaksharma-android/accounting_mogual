@@ -64,6 +64,7 @@ public class AddItemSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 add_item_button.startAnimation(blinkOnClick);
                 ExpandableItemListActivity.comingFrom=2;
+                ExpandableItemListActivity.isDirectForItem=false;
                 Intent intent=new Intent(getContext(), ExpandableItemListActivity.class);
                 intent.putExtra("bool",true);
                 startActivity(intent);
@@ -75,6 +76,7 @@ public class AddItemSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 add_bill_button.startAnimation(blinkOnClick);
                 ExpandableItemListActivity.comingFrom=2;
+				ExpandableItemListActivity.isDirectForItem=false;
                 startActivity(new Intent(getContext(), BillSundryListActivity.class));
                 getActivity().finish();
             }

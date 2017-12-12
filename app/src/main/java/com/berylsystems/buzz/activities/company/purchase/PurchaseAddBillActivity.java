@@ -37,57 +37,107 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
     EditText courier_charges;
     @Bind(R.id.bill_percentage)
     EditText percentage;
+    @Bind(R.id.percentage_layout)
+    LinearLayout mPercentageLayout;
     @Bind(R.id.bill_amount)
     EditText billAmount;
     @Bind(R.id.submit)
     LinearLayout submit;
-    @Bind(R.id.heading)
-    TextView heading;
     public static BillSundryData data = null;
+
+    AppUser appUser;
     List<Map<String, String>> mListMap;
     Map<String, String> mMap;
+    Boolean fromSaleVoucherBillList;
     Animation blinkOnClick;
-    boolean b;
-    AppUser appUser;
+    String billSundaryPercentage;
+    String billSundryAmount;
+    String billSundryCharges;
+    String billsundryothername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_add_bill);
+        initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
-        initActionbar();
-        Intent i = getIntent();
-        //String billSundaryPercentage = data.getAttributes().getBill_sundry_of_percentage();
-        String billSundryAmount = data.getAttributes().getAmount_of_bill_sundry_fed_as();
-        String billSundryCharges = data.getAttributes().getName();
-
-        Timber.i("********" + data.getAttributes().getBill_sundry_of_percentage());
-        Timber.i("********" + data.getAttributes().getAmount_of_bill_sundry_fed_as());
-        Timber.i("********" + data.getAttributes().getName());
-
-        appUser = LocalRepositories.getAppUser(this);
-        //Toast.makeText(this, ""+data.getAttributes().getAmount_of_bill_sundry_fed_as(), Toast.LENGTH_SHORT).show();
+        billSundaryPercentage = data.getAttributes().getBill_sundry_percentage_value();
+        billSundryAmount = String.valueOf(data.getAttributes().getDefault_value());
+        billSundryCharges = data.getAttributes().getName();
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
         billAmount.setText(billSundryAmount);
+        Timber.i("ID++++" + data.getAttributes().getBill_sundry_id());
+        //Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
+        if (data.getAttributes().getAmount_of_bill_sundry_fed_as().equals("Percentage")) {
+            mPercentageLayout.setVisibility(View.VISIBLE);
+            percentage.setText(billSundaryPercentage);
+        } else {
+            mPercentageLayout.setVisibility(View.GONE);
+            percentage.setText("");
+        }
+
+       /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
+        if(fromSaleVoucherBillList){
+
+            billAmount.setText(getIntent().getStringExtra("amount"));
+            courier_charges.setText(getIntent().getStringExtra("unit"));
+        }
+        else{
+             billSundaryPercentage=data.getAttributes().getBill_sundry_of_percentage();
+             billSundryAmount= String.valueOf(data.getAttributes().getDefault_value());
+             billSundryCharges=data.getAttributes().getName();
+            courier_charges.setText(billSundryCharges);
+            percentage.setText(billSundaryPercentage);
+            billAmount.setText(billSundryAmount);
+        }*/
+
+
         mMap = new HashMap<>();
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 submit.startAnimation(blinkOnClick);
+                appUser.bill_sundry_fed_as = data.getAttributes().getAmount_of_bill_sundry_fed_as();
+                appUser.bill_sundry_sale_voucher_type = data.getAttributes().getBill_sundry_type();
                 mMap.put("courier_charges", billSundryCharges);
-                //mMap.put("percentage", billSundaryPercentage);
-                mMap.put("amount", billSundryAmount);
+                mMap.put("percentage", billSundaryPercentage);
+                mMap.put("fed_as", data.getAttributes().getAmount_of_bill_sundry_fed_as());
+                mMap.put("fed_as_percentage", data.getAttributes().getBill_sundry_of_percentage());
+                mMap.put("percentage_value", data.getAttributes().getBill_sundry_percentage_value());
+                mMap.put("type", data.getAttributes().getBill_sundry_type());
+                mMap.put("amount", billAmount.getText().toString());
+                if (String.valueOf(data.getAttributes().getNumber_of_bill_sundry()) != null) {
+                    mMap.put("number_of_bill", String.valueOf(data.getAttributes().getNumber_of_bill_sundry()));
+                }
+                if (String.valueOf(data.getAttributes().isConsolidate_bill_sundry()) != null) {
+                    mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
+                }
+
+                if (data.getAttributes().getBill_sundry_id() != null) {
+                    int size = appUser.arr_billSundryId.size();
+                    for (int i = 0; i < size; i++) {
+                        String id = appUser.arr_billSundryId.get(i);
+                        if (id.equals(String.valueOf(data.getAttributes().getBill_sundry_id()))) {
+                            billsundryothername = appUser.arr_billSundryName.get(i);
+                            break;
+                        }
+                    }
+                    mMap.put("other", billsundryothername);
+                }
                 appUser.mListMapForBillPurchase.add(mMap);
+                Timber.i("************************************" + appUser.mListMapForBillPurchase);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent intent = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
+
             }
         });
     }
@@ -106,7 +156,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("PURCHASE ADD BILL SUNDRY");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -115,10 +165,8 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (ExpandableItemListActivity.comingFrom == 1) {
-            Intent intent = new Intent(this, BillSundryListActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        Intent intent = new Intent(this, BillSundryListActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
