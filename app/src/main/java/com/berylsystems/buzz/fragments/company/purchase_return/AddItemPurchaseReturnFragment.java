@@ -678,6 +678,8 @@ public class AddItemPurchaseReturnFragment extends Fragment {
             totalitemamount=totalitemamount+total;
         }
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
+        appUser.totalamount=String.valueOf(totalitemamount + totalbillsundryamount);
+        LocalRepositories.saveAppUser(getActivity(),appUser);
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }
 

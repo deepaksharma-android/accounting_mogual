@@ -33,6 +33,7 @@ public class RequestCreatePurchase {
         voucher.put("update_at",appUser.purchase_update_at);
         voucher.put("items",appUser.mListMapForItemPurchase);
         voucher.put("bill_sundry",appUser.mListMapForBillPurchase);
+        voucher.put("total", appUser.totalamount);
 
 
     }

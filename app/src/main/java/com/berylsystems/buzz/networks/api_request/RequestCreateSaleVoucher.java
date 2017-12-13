@@ -30,5 +30,6 @@ public class RequestCreateSaleVoucher {
         voucher.put("narration", appUser.sale_narration);
         voucher.put("items", appUser.mListMapForItemSale);
         voucher.put("bill_sundry", appUser.mListMapForBillSale);
+        voucher.put("total", appUser.totalamount);
    }
 }

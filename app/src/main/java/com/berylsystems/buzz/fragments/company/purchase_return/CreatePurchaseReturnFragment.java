@@ -23,6 +23,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
@@ -265,16 +266,17 @@ public class CreatePurchaseReturnFragment extends Fragment {
     @Subscribe
     public void createpurchase(CreatePurchaseReturnResponse response) {
         if (response.getStatus() == 200) {
+            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 
-            mSeries.setText("");
+           /* mSeries.setText("");
             mDate.setText("");
             mVchNumber.setText("");
             mPurchaseType.setText("");
             mStore.setText("");
             mPartyName.setText("");
             mMobileNumber.setText("");
-            mNarration.setText("");
+            mNarration.setText("");*/
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

@@ -24,6 +24,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
@@ -269,6 +270,7 @@ public class CreatePurchaseFragment extends Fragment {
     @Subscribe
     public void createpurchase(CreatePurchaseResponce response) {
         if (response.getStatus() == 200) {
+            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            /* Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

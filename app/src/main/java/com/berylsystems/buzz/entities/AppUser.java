@@ -459,4 +459,6 @@ public String payment_paid_to_id;
 
     public ArrayList<Map> companyLoginArray=new ArrayList();
     public Boolean boolSetOrAddtoMap;
+
+    public String totalamount;
 }
