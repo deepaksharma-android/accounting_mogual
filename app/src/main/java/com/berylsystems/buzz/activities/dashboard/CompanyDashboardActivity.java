@@ -114,7 +114,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
             }
         });
         mRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager = new GridLayoutManager(getApplicationContext(),2);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new CompanyDashboardAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);

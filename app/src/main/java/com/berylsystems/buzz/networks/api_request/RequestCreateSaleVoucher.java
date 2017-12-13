@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 public class RequestCreateSaleVoucher {
     public HashMap voucher;
+    public HashMap items;
     public RequestCreateSaleVoucher(Context ctx){
        AppUser appUser = LocalRepositories.getAppUser(ctx);
        voucher = new HashMap<>();
@@ -28,5 +29,6 @@ public class RequestCreateSaleVoucher {
         voucher.put("material_center_id", appUser.sale_store);
         voucher.put("narration", appUser.sale_narration);
         voucher.put("items", appUser.mListMapForItemSale);
+        voucher.put("bill_sundry", appUser.mListMapForBillSale);
    }
 }

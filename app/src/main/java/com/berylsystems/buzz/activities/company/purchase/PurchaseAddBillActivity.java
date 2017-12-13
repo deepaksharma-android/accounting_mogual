@@ -151,6 +151,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                 submit.startAnimation(blinkOnClick);
                 appUser.bill_sundry_fed_as = data.getAttributes().getAmount_of_bill_sundry_fed_as();
                 appUser.bill_sundry_sale_voucher_type = data.getAttributes().getBill_sundry_type();
+                mMap.put("id", data.getId());
                 mMap.put("courier_charges", billSundryCharges);
                 mMap.put("percentage", billSundaryPercentage);
                 mMap.put("fed_as", data.getAttributes().getAmount_of_bill_sundry_fed_as());

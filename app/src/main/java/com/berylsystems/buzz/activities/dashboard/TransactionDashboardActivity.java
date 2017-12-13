@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.dashboard;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.support.design.widget.CoordinatorLayout;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,7 +27,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     RecyclerView.LayoutManager layoutManager;
     TransactionDashboardAdapter mAdapter;
 
-    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer,R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display,R.drawable.icon_administration, R.drawable.icon_transaction};
+    int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_purchase, R.drawable.transaction_sale_return, R.drawable.transaction_purchase_return, R.drawable.transaction_payment, R.drawable.transaction_reciept, R.drawable.transaction_bank_cash_deposit, R.drawable.transaction_bank_cash_withdrwal,R.drawable.transaction_income, R.drawable.transaction_expence, R.drawable.transaction_journal_voucher,R.drawable.transaction_debit_note, R.drawable.transaction_credit_note};
     private String[] title={
             "Sales",
             "Purchase",
@@ -42,19 +43,27 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             "Debit Note W/O Item",
             "Credit Note W/O Item",
     };
+
+    //int[] viewcolor = new int[]{getResources().getColor(R.color.red),getResources().getColor(R.color.blue),getResources().getColor(R.color.green),getResources().getColor(R.color.yellow),getResources().getColor(R.color.orange),getResources().getColor(R.color.red),getResources().getColor(R.color.purple),getResources().getColor(R.color.bright_pink),getResources().getColor(R.color.light_blue),getResources().getColor(R.color.grey),getResources().getColor(R.color.brown),getResources().getColor(R.color.premiumcolor),getResources().getColor(R.color.splashText1)};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic_grid);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
+        int[] colors = new int[ta.length()];
+        for (int i = 0; i < ta.length(); i++) {
+            colors[i] = ta.getColor(i, 0);
+        }
+        ta.recycle();
         setAddCompany(2);
         setAppBarTitleCompany(1,"TRANSACTION");
         Preferences.getInstance(getApplicationContext()).setSale_type_name("");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new TransactionDashboardAdapter(this, title, myImageList);
+        mAdapter = new TransactionDashboardAdapter(this, title, myImageList,colors);
         mRecyclerView.setAdapter(mAdapter);
 
     }

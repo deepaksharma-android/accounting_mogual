@@ -66,6 +66,7 @@ public class MaterialCentreGroupListActivity extends BaseActivityCompany {
     }
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateMaterialCentreGroupActivity.class);
+        intent.putExtra("frommaterialcentregrouplist",false);
         startActivity(intent);
     }
 

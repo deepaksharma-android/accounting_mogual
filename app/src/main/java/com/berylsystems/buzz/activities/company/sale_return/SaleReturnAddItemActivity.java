@@ -94,6 +94,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
     String default_unit;
     String packaging_unit_sales_price;
     String sale_type;
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +163,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
         else {
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
-            String id = intent.getStringExtra("id");
+             id = intent.getStringExtra("id");
             name = intent.getStringExtra("name");
             desc = intent.getStringExtra("desc");
             main_unit = intent.getStringExtra("main_unit");
@@ -312,6 +313,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
+                mMap.put("id",id);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
                 mMap.put("quantity", mQuantity.getText().toString());

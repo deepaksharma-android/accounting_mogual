@@ -28,6 +28,7 @@ public class RequestCreateSaleReturn {
         voucher.put("material_center_id", appUser.sale_return_store);
         voucher.put("narration", appUser.sale_return_narration);
         voucher.put("item_id", appUser.mListMapForItemSaleReturn);
+        voucher.put("bill_sundry",appUser.mListMapForBillSaleReturn);
 
 
    }

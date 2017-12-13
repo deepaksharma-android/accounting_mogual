@@ -478,6 +478,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
           
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                 String descr;
                 String alternate_unit;
@@ -501,7 +502,6 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromSaleVoucherItemList", true);
-                intent.putExtra("id", childid);
                 mSaleVoucherItem.put("name", itemName);
                 mSaleVoucherItem.put("desc", descr);
                 mSaleVoucherItem.put("main_unit", main_unit);
@@ -519,7 +519,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 mSaleVoucherItem.put("tax", tax);
                 appUser.mMapSaleVoucherItem = mSaleVoucherItem;
                 LocalRepositories.saveAppUser(this, appUser);
-
+                intent.putExtra("id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -541,6 +541,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 1) {
                 Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
+                String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                 String descr;
                 String alternate_unit;
@@ -564,7 +565,6 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromPurchaseVoucherItemList", true);
-                intent.putExtra("id", childid);
                 mPurchaseVoucherItem.put("name", itemName);
                 mPurchaseVoucherItem.put("desc", descr);
                 mPurchaseVoucherItem.put("main_unit", main_unit);
@@ -581,7 +581,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 mPurchaseVoucherItem.put("mrp", mrp);
                 appUser.mMapPurchaseVoucherItem = mPurchaseVoucherItem;
                 LocalRepositories.saveAppUser(this, appUser);
-
+                intent.putExtra("id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -603,6 +603,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             } else if (ExpandableItemListActivity.comingFrom == 2) {
                 //Toast.makeText(ExpandableItemListActivity.this, "2", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), SaleReturnAddItemActivity.class);
+                String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                 String descr;
                 String alternate_unit;
@@ -626,7 +627,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromSaleVoucherItemList", true);
-                intent.putExtra("id", childid);
+
 
                 mSaleReturnItem.put("name", itemName);
                 mSaleReturnItem.put("desc", descr);
@@ -645,7 +646,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 mSaleReturnItem.put("tax", tax);
                 appUser.mMapSaleReturnItem = mSaleReturnItem;
                 LocalRepositories.saveAppUser(this, appUser);
-
+                intent.putExtra("id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -668,7 +669,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
             } else if (ExpandableItemListActivity.comingFrom == 3) {
 
                 Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddItemActivity.class);
-
+                String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                 String descr;
                 String alternate_unit;
@@ -695,7 +696,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 intent.putExtra("id", childid);
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromPurchaseReturnItemList", true);
-                intent.putExtra("id", childid);
+
                 mPurchaseReturnItem.put("name", itemName);
                 mPurchaseReturnItem.put("desc", descr);
                 mPurchaseReturnItem.put("main_unit", main_unit);
@@ -713,7 +714,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 appUser.mMapPurchaseReturnItem = mPurchaseReturnItem;
                 LocalRepositories.saveAppUser(this, appUser);
 
-
+                intent.putExtra("id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);

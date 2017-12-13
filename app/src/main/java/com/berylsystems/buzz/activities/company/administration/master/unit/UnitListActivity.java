@@ -100,6 +100,7 @@ public class UnitListActivity  extends BaseActivityCompany {
 
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateUnitActivity.class);
+        intent.putExtra("fromunitlist",false);
         startActivity(intent);
     }
     @Subscribe

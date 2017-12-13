@@ -97,6 +97,7 @@ public class ItemGroupListActivity extends BaseActivityCompany {
 
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateItemGroupActivity.class);
+        intent.putExtra("fromitemgrouplist",false);
         startActivity(intent);
     }
 

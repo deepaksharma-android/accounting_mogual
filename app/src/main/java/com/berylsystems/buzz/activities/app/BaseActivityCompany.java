@@ -14,13 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
+import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -36,10 +40,14 @@ public class BaseActivityCompany extends AppCompatActivity {
     TextView mTitleText;
     Toolbar toolbar;
     NavigationView navigationViewcompany,navigationViewapp;
+    LinearLayout mMasterLayout;
+    ImageView mArrow;
+    int count;
 
 
     @Override
     public void setContentView(int layoutResID) {
+        count=0;
         appUser= LocalRepositories.getAppUser(this);
         DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.navigation_drawer_frame_company, null);
         FrameLayout activityContainer = (FrameLayout) fullView.findViewById(R.id.activity_content);
@@ -54,7 +62,8 @@ public class BaseActivityCompany extends AppCompatActivity {
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
         navigationViewcompany = (NavigationView) findViewById(R.id.navigationViewCompany);
-
+         mMasterLayout=(LinearLayout)navigationViewcompany.findViewById(R.id.administration_sub_layout);
+         mArrow=(ImageView)navigationViewcompany.findViewById(R.id.arrow);
 
        
         final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -86,27 +95,46 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void dashboard(View view){
-        startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
+        startActivity(new Intent(getApplicationContext(), FirstPageActivity.class));
     }
-    public void account(View v){
+    public void administration(View v){
+        count++;
+        if(count%2==0){
+            mMasterLayout.setVisibility(View.GONE);
+            mArrow.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+        }
+        else{
+            mMasterLayout.setVisibility(View.VISIBLE);
+            mArrow.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+        }
+
+
+    }
+    public void master(View v){
+       startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
+
 
     }
     public void transaction(View v){
-
-    }
-    public void inventory(View v){
-
+        startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
     }
     public void reports(View v){
 
     }
-    public void tools(View v){
-
-    }
     public void settings(View v){
+        startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
 
     }
-    public void buy(View v){
+    public void help(View v){
+
+    }
+    public void contactus(View v){
+
+    }
+    public void share(View v){
+
+    }
+    public void about(View v){
 
     }
     public void exit(View v){

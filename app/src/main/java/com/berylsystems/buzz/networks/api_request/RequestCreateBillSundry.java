@@ -55,6 +55,9 @@ public class RequestCreateBillSundry {
         if (!Preferences.getInstance(ctx).getcalculated_on_bill_sundry_id().equals("")) {
             bill_sundry.put("bill_sundry_id", Preferences.getInstance(ctx).getcalculated_on_bill_sundry_id());
         }
+        if (Preferences.getInstance(ctx).getbill_sundry_amount_of_bill_sundry_fed_as().equals("")) {
+            bill_sundry.put("amount_of_bill_sundry_fed_as","Absolute Amount");
+        }
 
 
         sale = new HashMap<>();

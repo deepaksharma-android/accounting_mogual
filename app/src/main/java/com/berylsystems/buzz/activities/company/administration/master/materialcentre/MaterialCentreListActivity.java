@@ -104,6 +104,7 @@ public class MaterialCentreListActivity extends BaseActivityCompany {
 
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateMaterialCentreActivity.class);
+        intent.putExtra("frommaterialcentrelist",false);
         startActivity(intent);
     }
 

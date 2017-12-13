@@ -30,8 +30,7 @@
                 android:text="COMPANY"
                 android:layout_marginTop="8dp"
                 android:textColor="#050505"
-                android:textStyle="bold"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +49,6 @@
                         android:src="@drawable/loction_address"/>
                 </LinearLayout>
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Book"
                         android:id="@+id/company_address"
                         android:layout_width="match_parent"
                         android:layout_gravity="center_vertical"
@@ -58,7 +56,7 @@
                         android:text="COMPANY ADDRESS"
                         android:layout_marginTop="2dp"
                         android:textColor="#050505"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -67,7 +65,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_weight=".2"
             android:layout_gravity="center"
             android:layout_height="wrap_content">
             <ImageView

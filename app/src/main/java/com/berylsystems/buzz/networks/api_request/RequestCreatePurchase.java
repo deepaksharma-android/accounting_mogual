@@ -32,6 +32,8 @@ public class RequestCreatePurchase {
         voucher.put("created_at",appUser.purchase_created_at);
         voucher.put("update_at",appUser.purchase_update_at);
         voucher.put("items",appUser.mListMapForItemPurchase);
+        voucher.put("bill_sundry",appUser.mListMapForBillPurchase);
+
 
     }
 }

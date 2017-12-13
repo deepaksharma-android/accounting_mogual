@@ -2,8 +2,8 @@ package com.berylsystems.buzz.utils;
 
 
 public interface Cv {
-    String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-   // String BASE_URL ="http://192.168.1.24:3000/api/v1/";
+   //String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+    String BASE_URL ="http://192.168.1.24:3000/api/v1/";
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
     String ACTION_LOGIN = "login_user";
@@ -98,7 +98,7 @@ public interface Cv {
     String ACTION_CREATE_PURCHASE = "action_create_purchase";
     String ACTION_ADD_ITEM_PURCHASE = "action_add_item_purchase";
 	
-String ACTION_CREATE_BANK_CASH_WITHDRAW="action_create_bank_cash_withdraw";
+    String ACTION_CREATE_BANK_CASH_WITHDRAW="action_create_bank_cash_withdraw";
     String ACTION_GET_BANK_CASH_WITHDRAW="action_get_bank_cash_withdraw";
     String ACTION_DELETE_BANK_CASH_WITHDRAW="action_delete_bank_cash_withdraw";
     String ACTION_GET_BANK_CASH_WITHDRAW_DETAILS="action_get_bank_cash_withdraw_details";

@@ -67,6 +67,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     List<Map<String, String>> mListMapForItemPurchaseReturn;
+    String id;
 
 
     AppUser appUser;
@@ -120,7 +121,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
         CreateSaleActivity.hideKeyPad(this);
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+         id = intent.getStringExtra("id");
         String name = intent.getStringExtra("name");
         String desc = intent.getStringExtra("desc");
         String main_unit = intent.getStringExtra("main_unit");
@@ -325,6 +326,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
+                mMap.put("id", id);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
                 mMap.put("quantity", mQuantity.getText().toString());

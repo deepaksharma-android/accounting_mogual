@@ -69,6 +69,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
     List<Map<String, String>> mListMapForItemPurchase;
     String tax;
     String totalitemprice;
+    String id;
 
     AppUser appUser;
     List<Map<String, String>> mListMap;
@@ -118,7 +119,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
 
         CreateSaleActivity.hideKeyPad(this);
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+         id = intent.getStringExtra("id");
         String name = intent.getStringExtra("name");
         String desc = intent.getStringExtra("desc");
         String main_unit = intent.getStringExtra("main_unit");
@@ -323,6 +324,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
+                mMap.put("id", id);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
                 mMap.put("quantity", mQuantity.getText().toString());

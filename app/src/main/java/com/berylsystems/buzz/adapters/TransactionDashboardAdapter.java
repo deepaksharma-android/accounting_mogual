@@ -45,12 +45,14 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
     private String[] data;
     private Context context;
     int[] images;
+    int[] color;
     AppUser appUser;
 
-    public TransactionDashboardAdapter(Context context, String[] data, int[] images) {
+    public TransactionDashboardAdapter(Context context, String[] data, int[] images,int[] color) {
         this.data = data;
         this.context = context;
         this.images = images;
+        this.color = color;
     }
 
     @Override
@@ -64,6 +66,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
         appUser= LocalRepositories.getAppUser(context);
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
+        viewHolder.mView.setBackgroundColor(color[i]);
         viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,6 +179,8 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
         TextView mTitleText;
         @Bind(R.id.imageicon)
         ImageView mImage;
+        @Bind(R.id.viewcolor)
+        View mView;
         @Bind(R.id.grid_layout)
         LinearLayout mGridLayout;
 
