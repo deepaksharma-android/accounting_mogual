@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.reports.account_group.AcountGroupActivity;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
@@ -119,6 +120,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
     }
     public void reports(View v){
+        startActivity(new Intent(getApplicationContext(), AcountGroupActivity.class));
 
     }
     public void settings(View v){

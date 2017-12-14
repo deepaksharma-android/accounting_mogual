@@ -435,6 +435,18 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.user.UpdateUserActivity"></activity>
+ <activity android:name=".activities.company.reports.account_group.LedgerActivity"
+            android:parentActivityName=".activities.company.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.reports.account_group.CashBankActivity"
+            android:parentActivityName=".activities.company.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"/>
+        <activity android:name=".activities.company.reports.account_group.PdcActivity"
+            android:parentActivityName=".activities.company.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.autstanding.AmountReceivableActivity"
+            android:parentActivityName=".activities.company.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.autstanding.AmountPaybleActivity"
+            android:parentActivityName=".activities.company.reports.account_group.AcountGroupActivity"></activity>
     </application>
 
 </manifest>
