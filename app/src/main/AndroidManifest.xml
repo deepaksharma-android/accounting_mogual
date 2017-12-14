@@ -144,7 +144,6 @@
             android:name=".activities.company.administration.master.account.ExpandableAccountListActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
@@ -175,7 +174,6 @@
             android:name=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.CompanyListActivity"

@@ -8,10 +8,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
+import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.berylsystems.buzz.activities.user.LoginActivity;
 import com.berylsystems.buzz.adapters.MasterDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -60,7 +63,28 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         mRecyclerView.setAdapter(mAdapter);
     }
     @Override
-    public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),AdministrationDashboardActivity.class));
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                Intent intent = new Intent(this, FirstPageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, FirstPageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+
 }
