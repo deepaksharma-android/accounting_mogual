@@ -14,6 +14,7 @@ public interface Cv {
     String ACTION_RESEND_OTP = "resend_otp";
     String ACTION_UPDATE_MOBILE_NUMBER = "update_mobile_number";
     String ACTION_REGISTER_USER = "register_user";
+    String ACTION_UPDATE_USER = "update_user";
     String ACTION_CREATE_COMPANY = "create_company";
     String ACTION_CREATE_BASIC = "create_basic";
     String ACTION_CREATE_DETAILS = "company_details";
@@ -147,6 +148,9 @@ public interface Cv {
     String ACTION_EDIT_DEBIT_NOTE="action_edit_debit_note";
 	 String ACTION_CREATE_SALE_RETURN="action_create_sale_return";
     String ACTION_CREATE_PURCHASE_RETURN="action_create_purchase_return";
+
+    String ACTION_GET_COMPANY_DASHBOARD_INFO="action_get_company_dashboard_details";
+
 
 
 

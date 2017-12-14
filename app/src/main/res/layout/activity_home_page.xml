@@ -36,6 +36,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="0.04"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <RadioGroup

@@ -42,6 +42,7 @@ import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
+import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
@@ -74,6 +75,7 @@ import com.berylsystems.buzz.networks.api_response.company.CompanyListResponse;
 import com.berylsystems.buzz.networks.api_response.company.CreateCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
 import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
+import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyLoginResponse;
 import com.berylsystems.buzz.networks.api_response.companylogin.CompanyUserResponse;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.CreateCreditNoteResponse;
@@ -192,7 +194,9 @@ public class ApiCallsService extends IntentService {
         api = ThisApp.getApi(this);
         if (Cv.ACTION_REGISTER_USER.equals(action)) {
             handleRegister();
-        } else if (Cv.ACTION_FORGOT_PASSWORD.equals(action)) {
+        } else if(Cv.ACTION_UPDATE_USER.equals(action)){
+            handleUpdateUser();
+        }else if (Cv.ACTION_FORGOT_PASSWORD.equals(action)) {
             handleForgotPassword();
         } else if (Cv.ACTION_VERIFICATION.equals(action)) {
             handleVerifyOtp();
@@ -492,6 +496,8 @@ public class ApiCallsService extends IntentService {
             handleSaleReturn();
         }else if(Cv.ACTION_CREATE_PURCHASE_RETURN.equals(action)) {
             handlePurchaseReturn();
+        } else if(Cv.ACTION_GET_COMPANY_DASHBOARD_INFO.equals(action)){
+            handleGetCompanyDashboardInfo();
         }
     }
 
@@ -1798,6 +1804,29 @@ private void handleCreatePayment() {
             public void onFailure(Call<UserApiResponse> call, Throwable t) {
                 try {
 
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleUpdateUser() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.updateuser(new RequestUpdateUser(this)).enqueue(new Callback<UserApiResponse>()  {
+            @Override
+            public void onResponse(Call<UserApiResponse> call, Response<UserApiResponse> r) {
+                if (r.code() == 200) {
+                    UserApiResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<UserApiResponse> call, Throwable t) {
+                try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -3516,6 +3545,27 @@ private void handleCreatePayment() {
 
     }
 
+    private void handleGetCompanyDashboardInfo() {
+        api.getcompanydashboardinfo(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetCompanyDashboardInfoResponse>() {
+            @Override
+            public void onResponse(Call<GetCompanyDashboardInfoResponse> call, Response<GetCompanyDashboardInfoResponse> r) {
+                if (r.code() == 200) {
+                    GetCompanyDashboardInfoResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetCompanyDashboardInfoResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
 
 
 }

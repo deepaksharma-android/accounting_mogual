@@ -248,8 +248,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         paid_to.setText("");
                         type_spinner.setSelection(0);
                         gst_nature_spinner.setSelection(0);
-                        //mSelectedImage.setImageResource(0);
-                        mSelectedImage.setImageDrawable(null);
+                        mSelectedImage.setImageResource(0);
+                        mSelectedImage.setVisibility(View.GONE);
+                        //mSelectedImage.setImageDrawable(null);
                     }
                 }
 

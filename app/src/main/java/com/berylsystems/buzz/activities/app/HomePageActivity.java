@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RadioButton;
@@ -47,6 +48,8 @@ public class HomePageActivity extends Activity {
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 3000; // time in milliseconds between successive task executions.
+    Handler handler;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class HomePageActivity extends Activity {
         mPager.setAdapter(adapter);
        // mPager.setCurrentItem(0);
 
-        final Handler handler = new Handler();
+        handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
                 if (currentPage == NUM_PAGES-1) {
@@ -112,6 +115,15 @@ public class HomePageActivity extends Activity {
                 handler.post(Update);
             }
         }, DELAY_MS, PERIOD_MS);
+
+        mPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                timer.cancel();
+                return false;
+            }
+        });
     }
 
     public void login(View v){

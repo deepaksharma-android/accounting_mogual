@@ -1,6 +1,5 @@
 package com.berylsystems.buzz.networks;
 
-
 import com.berylsystems.buzz.networks.api_request.RequestBasic;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAuthenticate;
@@ -38,8 +37,10 @@ import com.berylsystems.buzz.networks.api_request.RequestPlan;
 import com.berylsystems.buzz.networks.api_request.RequestRegister;
 import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
+import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 
+import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
@@ -153,7 +154,6 @@ import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupDetails
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.Body;
@@ -172,6 +172,9 @@ import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDe
 public interface Api {
     @POST("signup")
     Call<UserApiResponse> register(@Body RequestRegister payload);
+
+    @PATCH("update_user")
+    Call<UserApiResponse> updateuser(@Body RequestUpdateUser payload);
 
     @PATCH("forgot_password")
     Call<UserApiResponse> forgotpassword(@Body RequestForgotPassword payload);
@@ -551,7 +554,8 @@ public interface Api {
     @POST("purchase_return_voucher/{id}")
     Call<CreatePurchaseReturnResponse> createPurchaseReturn(@Body RequestCreatePurchaseReturn createItem, @Path("id") String id);
 
-
+    @GET("company/dashboard/{id}")
+    Call<GetCompanyDashboardInfoResponse> getcompanydashboardinfo(@Path("id") String id);
 
 }
 
