@@ -52,12 +52,15 @@ public class SplashActivity extends Activity {
                 public void run() {
                     if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
                         Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                         startActivity(intent);
+                        finish();
                     }
                     else {
                         Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                         startActivity(intent);
+                        finish();
                     }
 
                 }
@@ -106,10 +109,16 @@ public class SplashActivity extends Activity {
                         public void run() {
                             if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
                                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                                 startActivity(intent);
+                                finish();
+
                             }
                             else {
-                                startActivity(new Intent(getApplicationContext(),HomePageActivity.class));
+                                Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                                startActivity(intent);
+                                finish();
                             }
 
 

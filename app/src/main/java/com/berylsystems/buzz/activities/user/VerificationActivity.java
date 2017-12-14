@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +39,8 @@ public class VerificationActivity extends RegisterAbstractActivity {
     TextView mMobileNumber;
     @Bind(R.id.otp)
     EditText mOtp;
+    @Bind(R.id.resend)
+    TextView mResend;
     @Bind(R.id.changeMobile)
     TextView mChangeMobileNumber;
     AppUser appUser;
@@ -64,6 +67,46 @@ public class VerificationActivity extends RegisterAbstractActivity {
         }
         appUser = LocalRepositories.getAppUser(this);
         mMobileNumber.setText(mobile);
+
+        mResend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(VerificationActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_RESEND_OTP);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+            }
+        });
+
+        mChangeMobileNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ChangeMobileActivity.class);
+                intent.putExtra("mobile", mMobileNumber.getText().toString());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void initActionbar() {
@@ -91,35 +134,11 @@ public class VerificationActivity extends RegisterAbstractActivity {
     }
 
     public void resend(View v) {
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(VerificationActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(this, appUser);
-            ApiCallsService.action(this, Cv.ACTION_RESEND_OTP);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
     }
 
     public void changeMobileNumber(View v) {
-        Intent intent = new Intent(getApplicationContext(), ChangeMobileActivity.class);
-        intent.putExtra("mobile", mMobileNumber.getText().toString());
-        startActivity(intent);
+
     }
 
     public void submit(View v) {
@@ -185,7 +204,9 @@ public class VerificationActivity extends RegisterAbstractActivity {
               /*  if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
                /* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
                 }*/
@@ -194,21 +215,30 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             } else if (fromUpdateMobileNumber) {
               /*  if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
-                    Preferences.getInstance(getApplicationContext()).setLogin(true);
-                    Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                    startActivity(intent);
+                Preferences.getInstance(getApplicationContext()).setLogin(true);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                /* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
                 }*/
             } else if (fromProfilePage) {
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             } else if (fromForgotPasswordPage) {
-                startActivity(new Intent(getApplicationContext(), NewPasswordActivity.class));
+                Intent intent = new Intent(getApplicationContext(), NewPasswordActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
@@ -230,5 +260,88 @@ public class VerificationActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(fromLoginPage) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(fromRegisterPage){
+                    Intent intent = new Intent(this, RegisterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(fromUpdateMobileNumber){
+                    Intent intent = new Intent(this, ChangeMobileActivity.class);
+                    intent.putExtra("fromUpdateMobileNumber",true);
+                    intent.putExtra("mobile",mMobileNumber.getText().toString());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(fromProfilePage){
+                    Intent intent = new Intent(this, UpdateUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(fromForgotPasswordPage){
+                    Intent intent = new Intent(this, ForgotPasswordActivity.class);
+                    intent.putExtra("fromForgotPasswordPage",true);
+                    intent.putExtra("mobile", mMobileNumber.getText().toString());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(fromLoginPage) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        else if(fromRegisterPage){
+            Intent intent = new Intent(this, RegisterActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        else if(fromUpdateMobileNumber){
+            Intent intent = new Intent(this, ChangeMobileActivity.class);
+            intent.putExtra("fromUpdateMobileNumber",true);
+            intent.putExtra("mobile",mMobileNumber.getText().toString());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        else if(fromProfilePage){
+            Intent intent = new Intent(this, UpdateUserActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        else if(fromForgotPasswordPage){
+            Intent intent = new Intent(this, ForgotPasswordActivity.class);
+            intent.putExtra("fromForgotPasswordPage",true);
+            intent.putExtra("mobile", mMobileNumber.getText().toString());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
+
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -188,6 +189,17 @@ public class FirstPageActivity extends BaseActivityCompany {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        new AlertDialog.Builder(FirstPageActivity.this)
+                .setTitle("Exit Company")
+                .setMessage("Do you want to exit this company ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Intent intent=new Intent(getApplicationContext(),CompanyListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                    startActivity(intent);
+                    finish();
+
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
     }
 }

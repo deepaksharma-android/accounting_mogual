@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.activities.user.UpdateUserActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -25,7 +26,7 @@ import com.berylsystems.buzz.utils.Preferences;
 /**
  * Created by suraj on 11/25/2015.
  */
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
     private Menu menu;
     private MenuItem searchItem;
     private SearchView searchView;
@@ -35,29 +36,29 @@ public class BaseActivity extends AppCompatActivity{
     ImageView mAddIcon;
     TextView mTitleText;
     Toolbar toolbar;
-    NavigationView navigationViewcompany,navigationViewapp;
+    NavigationView navigationViewcompany, navigationViewapp;
 
 
     @Override
     public void setContentView(int layoutResID) {
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.navigation_drawer_frame, null);
         FrameLayout activityContainer = (FrameLayout) fullView.findViewById(R.id.activity_content);
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(fullView);
-         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mTitleText=(TextView)findViewById(R.id.titletextbase);
-        mAddIcon=(ImageView)findViewById(R.id.icn_add);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mTitleText = (TextView) findViewById(R.id.titletextbase);
+        mAddIcon = (ImageView) findViewById(R.id.icn_add);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
-         navigationViewapp = (NavigationView) findViewById(R.id.navigationView);
-        View headerapp=navigationViewapp.getHeaderView(0);
-      //  RelativeLayout header=(RelativeLayout) navigationView.findViewById(R.id.header);
-        TextView name=(TextView)headerapp.findViewById(R.id.username);
-        TextView email=(TextView)headerapp.findViewById(R.id.email);
+        navigationViewapp = (NavigationView) findViewById(R.id.navigationView);
+        View headerapp = navigationViewapp.getHeaderView(0);
+        //  RelativeLayout header=(RelativeLayout) navigationView.findViewById(R.id.header);
+        TextView name = (TextView) headerapp.findViewById(R.id.username);
+        TextView email = (TextView) headerapp.findViewById(R.id.email);
         name.setText(appUser.name);
         email.setText(appUser.email);
         navigationViewapp.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -77,12 +78,12 @@ public class BaseActivity extends AppCompatActivity{
                         startActivity(intent);*/
                         return true;
 
-                        case R.id.expense:
+                    case R.id.expense:
                         Intent intent1 = new Intent(getApplicationContext(), UpdateUserActivity.class);
-                            intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(intent1);
-
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent1);
+                        finish();
                         return true;
 
                     case R.id.claims:
@@ -95,10 +96,13 @@ public class BaseActivity extends AppCompatActivity{
                                 .setMessage(getString(R.string.dialog_msg_logout))
                                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                                     Preferences.getInstance(getApplicationContext()).setLogin(false);
-                                    appUser.fb_id="";
+                                    appUser.fb_id = "";
                                     appUser.companyLoginArray.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                    startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                                    startActivity(intent);
+                                    finish();
 
                                 })
                                 .setNegativeButton(R.string.btn_cancel, null)
@@ -138,39 +142,30 @@ public class BaseActivity extends AppCompatActivity{
         actionBarDrawerToggle.syncState();
 
 
-
-
-
     }
 
-    protected void setNavigation(int id){
-        if(id==2){
+    protected void setNavigation(int id) {
+        if (id == 2) {
             toolbar.setNavigationIcon(null);
         }
     }
 
-    protected void setAdd(int id){
-        if(id==1){
+    protected void setAdd(int id) {
+        if (id == 1) {
             mAddIcon.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             mAddIcon.setVisibility(View.GONE);
         }
     }
-    protected void setAppBarTitle(int id,String str){
-        if(id==1){
-           mTitleText.setVisibility(View.VISIBLE);
+
+    protected void setAppBarTitle(int id, String str) {
+        if (id == 1) {
+            mTitleText.setVisibility(View.VISIBLE);
             mTitleText.setText(str);
-        }
-        else {
+        } else {
             mTitleText.setVisibility(View.GONE);
         }
     }
-
-
-
-
-
 
 
 }
