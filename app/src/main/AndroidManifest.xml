@@ -330,9 +330,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.payment.CreatePaymentActivity"
+        <activity
+            android:name=".activities.company.transaction.payment.CreatePaymentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.receiptvoucher.ReceiptVoucherActivity"
             android:screenOrientation="portrait"
@@ -398,7 +399,7 @@
             android:name=".activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
             android:label="@string/title_activity_create_purchase_return"
@@ -406,47 +407,85 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddItemActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale_return.SaleReturnAddBillActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale_return.SaleReturnAddItemActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.FirstPageActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.company.transaction.TransactionCashInHandActivity"
+        <activity
+            android:name=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.TransactionBankActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.TransactionBankActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.TransactionCustomerActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.TransactionCustomerActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.TransactionSupplierActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.TransactionSupplierActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.TransactionStockInHandActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.TransactionStockInHandActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.user.UpdateUserActivity"></activity>
- <activity android:name=".activities.company.navigation.reports.account_group.LedgerActivity"
-            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
-        <activity android:name=".activities.company.navigation.reports.account_group.CashBankActivity"
-            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
-        <activity android:name=".activities.company.navigation.reports.account_group.AcountGroupActivity"
-            android:parentActivityName=".activities.company.FirstPageActivity"/>
-        <activity android:name=".activities.company.navigation.reports.account_group.PdcActivity"
-            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
-        <activity android:name=".activities.company.navigation.reports.outstanding.AmountReceivableActivity"
-            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
-        <activity android:name=".activities.company.navigation.reports.outstanding.AmountPaybleActivity"
-            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.user.UpdateUserActivity" />
+        <activity
+            android:name=".activities.company.navigation.reports.account_group.LedgerActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.navigation.reports.account_group.CashBankActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.navigation.reports.account_group.PdcActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.navigation.reports.outstanding.AmountReceivableActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.navigation.reports.outstanding.AmountPaybleActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.transaction.sale.EditSaleActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.transaction.sale_return.EditSaleReturnActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.transaction.purchase.EditPurchaseActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.company.transaction.purchase_return.EditPurchaseReturnActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

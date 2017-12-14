@@ -1,6 +1,8 @@
 package com.berylsystems.buzz.activities.company;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,6 +20,8 @@ import com.berylsystems.buzz.activities.company.transaction.TransactionCashInHan
 import com.berylsystems.buzz.activities.company.transaction.TransactionCustomerActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionSupplierActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -80,8 +84,8 @@ public class FirstPageActivity extends BaseActivityCompany {
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-           LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-           ApiCallsService.action(getApplicationContext(),Cv.ACTION_GET_COMPANY_DASHBOARD_INFO);
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_COMPANY_DASHBOARD_INFO);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -140,23 +144,23 @@ public class FirstPageActivity extends BaseActivityCompany {
         transactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), TransactionDashboardActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TransactionDashboardActivity.class);
                 startActivity(intent);
             }
         });
     }
+
     @Subscribe
-    public void getCompanyDashboardInfo(GetCompanyDashboardInfoResponse response){
+    public void getCompanyDashboardInfo(GetCompanyDashboardInfoResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
-            mtextview_cash_in_hand.setText("₹ "+response.getCompany_details().getData().getAttributes().getCash_in_hand());
-            mtextview_bank.setText("₹ "+response.getCompany_details().getData().getAttributes().getBank_account());
-            mtextview_customer.setText("₹ "+response.getCompany_details().getData().getAttributes().getCustomer());
-            mtextview_supplier.setText("₹ "+response.getCompany_details().getData().getAttributes().getSupplier());
-            mtextview_stock_in_hand.setText("₹ "+response.getCompany_details().getData().getAttributes().getStock_in_hand());
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        if (response.getStatus() == 200) {
+            mtextview_cash_in_hand.setText("₹ " + response.getCompany_details().getData().getAttributes().getCash_in_hand());
+            mtextview_bank.setText("₹ " + response.getCompany_details().getData().getAttributes().getBank_account());
+            mtextview_customer.setText("₹ " + response.getCompany_details().getData().getAttributes().getCustomer());
+            mtextview_supplier.setText("₹ " + response.getCompany_details().getData().getAttributes().getSupplier());
+            mtextview_stock_in_hand.setText("₹ " + response.getCompany_details().getData().getAttributes().getStock_in_hand());
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -165,12 +169,14 @@ public class FirstPageActivity extends BaseActivityCompany {
         super.onResume();
 
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
         mProgressDialog.dismiss();
         super.onPause();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -186,9 +192,23 @@ public class FirstPageActivity extends BaseActivityCompany {
         //mProgressDialog.dismiss();
 
     }
+
     @Override
     public void onBackPressed() {
-
-        super.onBackPressed();
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setMessage("Do you want to exit this company ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        FirstPageActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 }

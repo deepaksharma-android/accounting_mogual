@@ -21,8 +21,11 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.EditPurchaseActivity;
 import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.EditPurchaseReturnActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.EditSaleActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.GetSaleListActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
@@ -43,6 +46,7 @@ import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymen
 import com.berylsystems.buzz.activities.company.transaction.payment.PaymentActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.EditSaleReturnActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 
@@ -119,30 +123,96 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                 //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
 
                 if (i == 0) {
-                    appUser.mListMapForItemSale.clear();
-                    appUser.mListMapForBillSale.clear();
-                    LocalRepositories.saveAppUser(context, appUser);
-                    context.startActivity(new Intent(context, CreateSaleActivity.class));
+
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                appUser.mListMapForItemSale.clear();
+                                appUser.mListMapForBillSale.clear();
+                                LocalRepositories.saveAppUser(context, appUser);
+                                context.startActivity(new Intent(context, CreateSaleActivity.class));
+
+                            } else if (item == 1) {
+                                context.startActivity(new Intent(context, EditSaleActivity.class));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
 
                 }
                 if (i == 1) {
-                    appUser.mListMapForItemPurchase.clear();
-                    appUser.mListMapForBillPurchase.clear();
-                    LocalRepositories.saveAppUser(context, appUser);
-                    context.startActivity(new Intent(context, CreatePurchaseActivity.class));
+
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                appUser.mListMapForItemPurchase.clear();
+                                appUser.mListMapForBillPurchase.clear();
+                                LocalRepositories.saveAppUser(context, appUser);
+                                context.startActivity(new Intent(context, CreatePurchaseActivity.class));
+
+                            } else if (item == 1) {
+                                context.startActivity(new Intent(context, EditPurchaseActivity.class));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+
                 }
                 if (i == 2) {
-                    appUser.mListMapForItemSaleReturn.clear();
-                    appUser.mListMapForBillSaleReturn.clear();
-                    LocalRepositories.saveAppUser(context, appUser);
-                    context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                appUser.mListMapForItemSaleReturn.clear();
+                                appUser.mListMapForBillSaleReturn.clear();
+                                LocalRepositories.saveAppUser(context, appUser);
+                                context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+
+                            } else if (item == 1) {
+                                context.startActivity(new Intent(context, EditSaleReturnActivity.class));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
                 }
                 if (i == 3) {
-                    appUser.mListMapForItemPurchaseReturn.clear();
-                    appUser.mListMapForBillPurchaseReturn.clear();
-                    LocalRepositories.saveAppUser(context, appUser);
-                    context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
 
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                appUser.mListMapForItemPurchaseReturn.clear();
+                                appUser.mListMapForBillPurchaseReturn.clear();
+                                LocalRepositories.saveAppUser(context, appUser);
+                                context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+
+                            } else if (item == 1) {
+                                context.startActivity(new Intent(context, EditPurchaseReturnActivity.class));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
                 if (i == 4) {
 

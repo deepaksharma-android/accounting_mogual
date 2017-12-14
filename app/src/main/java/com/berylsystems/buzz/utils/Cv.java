@@ -2,8 +2,8 @@ package com.berylsystems.buzz.utils;
 
 
 public interface Cv {
-   String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-    //String BASE_URL ="http://192.168.1.24:3000/api/v1/";
+    String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+    //String BASE_URL = "http://192.168.1.24:3000/api/v1/";
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
@@ -61,12 +61,12 @@ public interface Cv {
     String ACTION_DELETE_UNIT_CONVERSION = "delete_unit_conversion";
     String ACTION_GET_UNIT_CONVERSION_DETAILS = "get_unit_conversion_details";
     String ACTION_GET_STOCK = "get_stock";
-    String ACTION_GET_UQC="get_uqc";
+    String ACTION_GET_UQC = "get_uqc";
     String ACTION_GET_ITEM = "action_get_item";
     String ACTION_CREATE_ITEM = "action_create_item";
     String ACTION_EDIT_ITEM = "action_edit_account";
     String ACTION_DELETE_ITEM = "action_delete_item";
-    String ACTION_GET_ITEM_DETAILS="action_get_item_details";
+    String ACTION_GET_ITEM_DETAILS = "action_get_item_details";
     String ACTION_GET_ITEM_GROUP = "action_get_item_group";
     String ACTION_CREATE_ITEM_GROUP = "action_create_item_group";
     String ACTION_DELETE_ITEM_GROUP = "action_delete_item_group";
@@ -86,73 +86,71 @@ public interface Cv {
     String TIMEOUT = "Something went wrong. Please try again";
     String KEY_FB_PARAMS = "fields";
     String FB_PARAMETERS = "id,email,first_name,last_name,birthday";
-    String ACTION_GET_PURCHASE_TYPE="action_get_purchase_type";
-    String ACTION_GET_SALE_TYPE="action_get_sale_type";
-    String ACTION_GET_TAX_CATEGORY="action_get_tax_category";
+    String ACTION_GET_PURCHASE_TYPE = "action_get_purchase_type";
+    String ACTION_GET_SALE_TYPE = "action_get_sale_type";
+    String ACTION_GET_TAX_CATEGORY = "action_get_tax_category";
     String ACTION_CREATE_SALE_VOUCHER = "action_create_sale_voucher";
     String ACTION_GET_SALE_VOUCHER_LIST = "action_get_sale_voucher_list";
-    String ACTION_CREATE_BANK_CASH_DEPOSIT="action_create_bank_cash_deposit";
-    String ACTION_GET_BANK_CASH_DEPOSIT="action_get_bank_cash_deposit";
+    String ACTION_CREATE_BANK_CASH_DEPOSIT = "action_create_bank_cash_deposit";
+    String ACTION_GET_BANK_CASH_DEPOSIT = "action_get_bank_cash_deposit";
     String ACTION_DELETE_BANK_CASH_DEPOSIT = "action_delete_bank_cash_deposit";
-    String ACTION_GET_BANK_CASH_DEPOSIT_DETAILS="action_get_bank_cash_deposit_details";
-    String ACTION_EDIT_BANK_CASH_DEPOSIT="action_edit_bank_cash_deposit";
+    String ACTION_GET_BANK_CASH_DEPOSIT_DETAILS = "action_get_bank_cash_deposit_details";
+    String ACTION_EDIT_BANK_CASH_DEPOSIT = "action_edit_bank_cash_deposit";
 
     String ACTION_CREATE_PURCHASE = "action_create_purchase";
     String ACTION_ADD_ITEM_PURCHASE = "action_add_item_purchase";
-	
-    String ACTION_CREATE_BANK_CASH_WITHDRAW="action_create_bank_cash_withdraw";
-    String ACTION_GET_BANK_CASH_WITHDRAW="action_get_bank_cash_withdraw";
-    String ACTION_DELETE_BANK_CASH_WITHDRAW="action_delete_bank_cash_withdraw";
-    String ACTION_GET_BANK_CASH_WITHDRAW_DETAILS="action_get_bank_cash_withdraw_details";
-    String ACTION_EDIT_BANK_CASH_WITHDRAW="action_edit_bank_cash_withdraw";
 
-    String ACTION_CREATE_INCOME="action_create_income";
-    String ACTION_GET_INCOME="action_get_income";
-    String ACTION_DELETE_INCOME="action_delete_income";
-    String ACTION_GET_INCOME_DETAILS="action_get_income_details";
-    String ACTION_EDIT_INCOME="action_edit_income";
+    String ACTION_CREATE_BANK_CASH_WITHDRAW = "action_create_bank_cash_withdraw";
+    String ACTION_GET_BANK_CASH_WITHDRAW = "action_get_bank_cash_withdraw";
+    String ACTION_DELETE_BANK_CASH_WITHDRAW = "action_delete_bank_cash_withdraw";
+    String ACTION_GET_BANK_CASH_WITHDRAW_DETAILS = "action_get_bank_cash_withdraw_details";
+    String ACTION_EDIT_BANK_CASH_WITHDRAW = "action_edit_bank_cash_withdraw";
 
-    String ACTION_CREATE_EXPENCE="action_create_expence";
-    String ACTION_GET_EXPENCE="action_get_expence";
-    String ACTION_DELETE_EXPENCE="action_delete_expence";
-    String ACTION_GET_EXPENCE_DETAILS="action_get_expence_details";
-    String ACTION_EDIT_EXPENCE="action_edit_expence";
+    String ACTION_CREATE_INCOME = "action_create_income";
+    String ACTION_GET_INCOME = "action_get_income";
+    String ACTION_DELETE_INCOME = "action_delete_income";
+    String ACTION_GET_INCOME_DETAILS = "action_get_income_details";
+    String ACTION_EDIT_INCOME = "action_edit_income";
 
-    String ACTION_CREATE_PAYMENT="action_create_payment";
-    String ACTION_GET_PAYMENT="action_get_payment";
-    String ACTION_DELETE_PAYMENT="action_delete_payment";
-    String ACTION_GET_PAYMENT_DETAILS="action_get_payment_details";
-    String ACTION_EDIT_PAYMENT="action_edit_payment";
+    String ACTION_CREATE_EXPENCE = "action_create_expence";
+    String ACTION_GET_EXPENCE = "action_get_expence";
+    String ACTION_DELETE_EXPENCE = "action_delete_expence";
+    String ACTION_GET_EXPENCE_DETAILS = "action_get_expence_details";
+    String ACTION_EDIT_EXPENCE = "action_edit_expence";
 
-    String ACTION_CREATE_JOURNAL_VOUCHER="action_create_journal_voucher";
-    String ACTION_GET_JOURNAL_VOUCHER="action_get_journal_voucher";
-    String ACTION_DELETE_JOURNAL_VOUCHER="action_delete_journal_voucher";
-    String ACTION_GET_JOURNAL_VOUCHER_DETAILS="action_get_journal_voucher_details";
-    String ACTION_EDIT_JOURNAL_VOUCHER="action_edit_journal_voucher";
+    String ACTION_CREATE_PAYMENT = "action_create_payment";
+    String ACTION_GET_PAYMENT = "action_get_payment";
+    String ACTION_DELETE_PAYMENT = "action_delete_payment";
+    String ACTION_GET_PAYMENT_DETAILS = "action_get_payment_details";
+    String ACTION_EDIT_PAYMENT = "action_edit_payment";
 
-    String ACTION_CREATE_RECEIPT_VOUCHER="action_create_receipt_voucher";
-    String ACTION_GET_RECEIPT_VOUCHER="action_get_receipt_voucher";
-    String ACTION_DELETE_RECEIPT_VOUCHER="action_delete_receipt_voucher";
-    String ACTION_GET_RECEIPT_VOUCHER_DETAILS="action_get_receipt_voucher_details";
-    String ACTION_EDIT_RECEIPT_VOUCHER="action_edit_receipt_voucher";
+    String ACTION_CREATE_JOURNAL_VOUCHER = "action_create_journal_voucher";
+    String ACTION_GET_JOURNAL_VOUCHER = "action_get_journal_voucher";
+    String ACTION_DELETE_JOURNAL_VOUCHER = "action_delete_journal_voucher";
+    String ACTION_GET_JOURNAL_VOUCHER_DETAILS = "action_get_journal_voucher_details";
+    String ACTION_EDIT_JOURNAL_VOUCHER = "action_edit_journal_voucher";
 
-    String ACTION_CREATE_CREDIT_NOTE="action_create_credit_note";
-    String ACTION_GET_CREDIT_NOTE="action_get_credit_note";
-    String ACTION_DELETE_CREDIT_NOTE="action_delete_credit_note";
-    String ACTION_GET_CREDIT_NOTE_DETAILS="action_get_credit_note_details";
-    String ACTION_EDIT_CREDIT_NOTE="action_edit_credit_note";
+    String ACTION_CREATE_RECEIPT_VOUCHER = "action_create_receipt_voucher";
+    String ACTION_GET_RECEIPT_VOUCHER = "action_get_receipt_voucher";
+    String ACTION_DELETE_RECEIPT_VOUCHER = "action_delete_receipt_voucher";
+    String ACTION_GET_RECEIPT_VOUCHER_DETAILS = "action_get_receipt_voucher_details";
+    String ACTION_EDIT_RECEIPT_VOUCHER = "action_edit_receipt_voucher";
 
-    String ACTION_CREATE_DEBIT_NOTE="action_create_debit_note";
-    String ACTION_GET_DEBIT_NOTE="action_get_debit_note";
-    String ACTION_DELETE_DEBIT_NOTE="action_delete_debit_note";
-    String ACTION_GET_DEBIT_NOTE_DETAILS="action_get_debit_note_details";
-    String ACTION_EDIT_DEBIT_NOTE="action_edit_debit_note";
-	 String ACTION_CREATE_SALE_RETURN="action_create_sale_return";
-    String ACTION_CREATE_PURCHASE_RETURN="action_create_purchase_return";
+    String ACTION_CREATE_CREDIT_NOTE = "action_create_credit_note";
+    String ACTION_GET_CREDIT_NOTE = "action_get_credit_note";
+    String ACTION_DELETE_CREDIT_NOTE = "action_delete_credit_note";
+    String ACTION_GET_CREDIT_NOTE_DETAILS = "action_get_credit_note_details";
+    String ACTION_EDIT_CREDIT_NOTE = "action_edit_credit_note";
 
-    String ACTION_GET_COMPANY_DASHBOARD_INFO="action_get_company_dashboard_details";
+    String ACTION_CREATE_DEBIT_NOTE = "action_create_debit_note";
+    String ACTION_GET_DEBIT_NOTE = "action_get_debit_note";
+    String ACTION_DELETE_DEBIT_NOTE = "action_delete_debit_note";
+    String ACTION_GET_DEBIT_NOTE_DETAILS = "action_get_debit_note_details";
+    String ACTION_EDIT_DEBIT_NOTE = "action_edit_debit_note";
+    String ACTION_CREATE_SALE_RETURN = "action_create_sale_return";
+    String ACTION_CREATE_PURCHASE_RETURN = "action_create_purchase_return";
 
-
+    String ACTION_GET_COMPANY_DASHBOARD_INFO = "action_get_company_dashboard_details";
 
 
 }
