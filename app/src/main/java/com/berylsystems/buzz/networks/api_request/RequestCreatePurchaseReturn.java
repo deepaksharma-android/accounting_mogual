@@ -17,17 +17,17 @@ public class RequestCreatePurchaseReturn {
     public RequestCreatePurchaseReturn(Context ctx){
        AppUser appUser = LocalRepositories.getAppUser(ctx);
        voucher = new HashMap<>();
-        voucher.put("date", appUser.sale_return_date);
-        voucher.put("voucher_series", appUser.sale_return_series);
-        voucher.put("voucher_number", appUser.sale_return_vchNo);
+        voucher.put("date", appUser.purchase_date);
+        voucher.put("voucher_series", appUser.purchase_voucher_series);
+        voucher.put("voucher_number", appUser.purchase_voucher_number);
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
-        voucher.put("sale_type_id", appUser.sale_return_saleType);
-        voucher.put("payment_type", appUser.sale_return_cash_credit);
-        voucher.put("account_master_id", appUser.sale_return_partyName);
-        voucher.put("mobile_number", appUser.sale_return_mobileNumber);
-        voucher.put("material_center_id", appUser.sale_return_store);
-        voucher.put("narration", appUser.sale_return_narration);
-        voucher.put("item_id", appUser.mListMapForItemSaleReturn);
+        voucher.put("purchase_type_id", appUser.purchase_puchase_type_id);
+        voucher.put("payment_type", appUser.purchase_payment_type);
+        voucher.put("account_master_id", appUser.purchase_account_master_id);
+        voucher.put("mobile_number", appUser.purchase_mobile_number);
+        voucher.put("material_center_id", appUser.purchase_material_center_id);
+        voucher.put("narration", appUser.purchase_narration);
+        voucher.put("items", appUser.mListMapForItemPurchaseReturn);
         voucher.put("bill_sundry",appUser.mListMapForBillPurchaseReturn);
         voucher.put("total", appUser.totalamount);
 

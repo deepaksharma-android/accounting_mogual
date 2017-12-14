@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transection.income.CreateIncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
 import com.berylsystems.buzz.networks.api_response.income.Data;
 import com.berylsystems.buzz.utils.EventDeleteIncome;
 

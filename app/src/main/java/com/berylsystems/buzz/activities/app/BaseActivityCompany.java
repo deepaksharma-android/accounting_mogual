@@ -2,13 +2,11 @@ package com.berylsystems.buzz.activities.app;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,17 +15,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.account_group.AcountGroupActivity;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
-import com.berylsystems.buzz.utils.Preferences;
 
 public class BaseActivityCompany extends AppCompatActivity {
     private Menu menu;
@@ -119,6 +116,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
     }
     public void reports(View v){
+        startActivity(new Intent(getApplicationContext(), AcountGroupActivity.class));
 
     }
     public void settings(View v){

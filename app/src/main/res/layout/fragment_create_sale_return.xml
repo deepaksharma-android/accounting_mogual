@@ -4,7 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.berylsystems.buzz.activities.company.sale_return.CreateSaleReturnActivity$PlaceholderFragment">
+    tools:context=".activities.company.transaction.sale_return.CreateSaleReturnActivity$PlaceholderFragment">
 
 
 </android.support.constraint.ConstraintLayout>

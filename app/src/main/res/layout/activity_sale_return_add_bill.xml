@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    tools:context="com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddBillActivity">
+    tools:context=".activities.company.transaction.sale_return.SaleReturnAddBillActivity">
 
 
     <LinearLayout
@@ -84,7 +84,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Amount"
+            android:text="Default Value"
             android:textColor="#000"
             android:textSize="15sp" />
 

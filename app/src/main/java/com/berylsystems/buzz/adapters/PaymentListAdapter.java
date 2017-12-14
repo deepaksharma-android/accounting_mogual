@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transection.payment.CreatePaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
 import com.berylsystems.buzz.networks.api_response.payment.Data;
 import com.berylsystems.buzz.utils.EventDeletePayment;
 

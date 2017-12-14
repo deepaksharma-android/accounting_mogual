@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transection.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.Data;
 import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 

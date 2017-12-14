@@ -227,16 +227,16 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.bankcasedeposit.BankCaseDepositListActivity"
+            android:name=".activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity"
+            android:name=".activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity" />
+        <activity android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity" />
         <activity
             android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"
             android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
@@ -312,129 +312,141 @@
             android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.sale.GetSaleListActivity" />
+        <activity android:name=".activities.company.transaction.sale.GetSaleListActivity" />
         <activity
-            android:name=".activities.company.sale.CreateSaleActivity"
+            android:name=".activities.company.transaction.sale.CreateSaleActivity"
             android:parentActivityName=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.sale.SaleVoucherAddItemActivity"
+            android:name=".activities.company.transaction.sale.SaleVoucherAddItemActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.sale.SaleVoucherAddBillActivity"
+            android:name=".activities.company.transaction.sale.SaleVoucherAddBillActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transection.bankcasedeposit.CreateBankCaseDepositActivity" />
+        <activity android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity" />
         <activity
-            android:name=".activities.company.transection.payment.PaymentActivity"
+            android:name=".activities.company.transaction.payment.PaymentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transection.payment.CreatePaymentActivity"
+        <activity android:name=".activities.company.transaction.payment.CreatePaymentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity
-            android:name=".activities.company.transection.receiptvoucher.ReceiptVoucherActivity"
+            android:name=".activities.company.transaction.receiptvoucher.ReceiptVoucherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transection.receiptvoucher.CreateReceiptVoucherActivity" />
+        <activity android:name=".activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity" />
         <activity
-            android:name=".activities.company.transection.income.IncomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.company.transection.income.CreateIncomeActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.company.transection.expence.ExpenceActivity"
+            android:name=".activities.company.transaction.income.IncomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.expence.CreateExpenceActivity"
-            android:screenOrientation="portrait"
+            android:name=".activities.company.transaction.income.CreateIncomeActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.journalvoucher.JournalVoucherActivity"
+            android:name=".activities.company.transaction.expence.ExpenceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.journalvoucher.CreateJournalVoucherActivity"
+            android:name=".activities.company.transaction.expence.CreateExpenceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.debitnotewoitem.CreateDebitNoteWoItemActivity"
+            android:name=".activities.company.transaction.journalvoucher.JournalVoucherActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.journalvoucher.CreateJournalVoucherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.creditnotewoitem.CreateCreditNoteWoItemActivity"
+            android:name=".activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.purchase.CreatePurchaseActivity"
+            android:name=".activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.purchase.CreatePurchaseActivity"
             android:label="@string/title_activity_create_purchase"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.purchase.PurchaseAddItemActivity"
+            android:name=".activities.company.transaction.purchase.PurchaseAddItemActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.purchase.PurchaseAddBillActivity"
+            android:name=".activities.company.transaction.purchase.PurchaseAddBillActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.sale_return.CreateSaleReturnActivity"
+            android:name=".activities.company.transaction.sale_return.CreateSaleReturnActivity"
             android:label="@string/title_activity_create_sale_type"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.creditnotewoitem.CreditNoteWoItemActivity"
+            android:name=".activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transection.debitnotewoitem.DebitNoteWoItemActivity"
+            android:name=".activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
-            android:name=".activities.company.purchase_return.CreatePurchaseReturnActivity"
+            android:name=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
             android:label="@string/title_activity_create_purchase_return"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.purchase_return.PurchaseReturnAddBillActivity"
+            android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.purchase_return.PurchaseReturnAddItemActivity"
+            android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddItemActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.sale_return.SaleReturnAddBillActivity"
+            android:name=".activities.company.transaction.sale_return.SaleReturnAddBillActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.sale_return.SaleReturnAddItemActivity"
+            android:name=".activities.company.transaction.sale_return.SaleReturnAddItemActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.FirstPageActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.company.transection.TransactionCashInHandActivity"
+        <activity android:name=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transection.TransactionBankActivity"
+        <activity android:name=".activities.company.transaction.TransactionBankActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transection.TransactionCustomerActivity"
+        <activity android:name=".activities.company.transaction.TransactionCustomerActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transection.TransactionSupplierActivity"
+        <activity android:name=".activities.company.transaction.TransactionSupplierActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transection.TransactionStockInHandActivity"
+        <activity android:name=".activities.company.transaction.TransactionStockInHandActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.user.UpdateUserActivity"></activity>
+ <activity android:name=".activities.company.navigation.reports.account_group.LedgerActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.navigation.reports.account_group.CashBankActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"/>
+        <activity android:name=".activities.company.navigation.reports.account_group.PdcActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.navigation.reports.outstanding.AmountReceivableActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"/>
+        <activity android:name=".activities.company.navigation.reports.outstanding.AmountPaybleActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"></activity>
     </application>
 
 </manifest>
