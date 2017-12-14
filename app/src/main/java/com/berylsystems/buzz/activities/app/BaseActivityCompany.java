@@ -92,7 +92,11 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void dashboard(View view){
-        startActivity(new Intent(getApplicationContext(), FirstPageActivity.class));
+        Intent intent=new Intent(getApplicationContext(),FirstPageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
+
     }
     public void administration(View v){
         count++;
@@ -108,18 +112,31 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void master(View v){
-       startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
+        Intent intent=new Intent(getApplicationContext(),MasterDashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
 
 
     }
     public void transaction(View v){
-        startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+        Intent intent=new Intent(getApplicationContext(),TransactionDashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
     public void reports(View v){
-        startActivity(new Intent(getApplicationContext(), AcountGroupActivity.class));
+        Intent intent=new Intent(getApplicationContext(),AcountGroupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
 
     }
     public void settings(View v){
+        Intent intent=new Intent(getApplicationContext(),AcountGroupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
         startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
 
     }

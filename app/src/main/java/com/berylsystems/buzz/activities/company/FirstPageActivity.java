@@ -195,20 +195,22 @@ public class FirstPageActivity extends BaseActivityCompany {
 
     @Override
     public void onBackPressed() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setMessage("Do you want to exit this company ?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        FirstPageActivity.super.onBackPressed();
-                    }
+        new android.support.v7.app.AlertDialog.Builder(FirstPageActivity.this)
+                .setTitle("Exit Company")
+                .setMessage("Do you want to exit this company ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Intent intent=new Intent(getApplicationContext(),CompanyListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                    startActivity(intent);
+                    finish();
+
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        android.support.v7.app.AlertDialog alert = builder.create();
-        alert.show();
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+
+
+        super.onBackPressed();
+
+
     }
 }

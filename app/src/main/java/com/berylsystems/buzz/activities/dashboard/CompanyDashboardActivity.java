@@ -211,7 +211,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
 
 
 
-    @Override
+   /* @Override
     public void onBackPressed() {
       /*  new AlertDialog.Builder(CompanyDashboardActivity.this)
                 .setTitle("Exit Company")
@@ -221,9 +221,9 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
 
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
+
                 .show();*/
-      super.onBackPressed();
-    }
+
 
 
 
