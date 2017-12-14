@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,29 +24,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.EditCompanyActivity;
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.fragments.company.CompanyBasicFragment;
-import com.berylsystems.buzz.fragments.company.CompanyDetailsFragment;
-import com.berylsystems.buzz.fragments.company.CompanyGstFragment;
-import com.berylsystems.buzz.fragments.company.CompanyLogoFragment;
-import com.berylsystems.buzz.fragments.company.CompanyPasswordFragment;
-import com.berylsystems.buzz.fragments.company.CompanySignatureFragment;
-import com.berylsystems.buzz.fragments.company.sale.AddItemVoucherFragment;
-import com.berylsystems.buzz.fragments.company.sale.CreateSaleVoucherFragment;
-import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
-import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.fragments.transaction.sale.AddItemVoucherFragment;
+import com.berylsystems.buzz.fragments.transaction.sale.CreateSaleVoucherFragment;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class CreateSaleActivity extends AppCompatActivity {
 

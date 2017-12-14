@@ -22,7 +22,7 @@ public class RequestCreatePurchase {
         voucher.put("voucher_series",appUser.purchase_voucher_series);
         voucher.put("voucher_number",appUser.purchase_voucher_number);
         voucher.put("company_id", Preferences.getInstance(context).getCid());
-        voucher.put("puchase_type_id",appUser.purchase_puchase_type_id);
+        voucher.put("purchase_type_id",appUser.purchase_puchase_type_id);
         voucher.put("payment_type",appUser.purchase_payment_type);
         voucher.put("mobile_number",appUser.purchase_mobile_number);
         voucher.put("account_master_id",appUser.purchase_account_master_id);

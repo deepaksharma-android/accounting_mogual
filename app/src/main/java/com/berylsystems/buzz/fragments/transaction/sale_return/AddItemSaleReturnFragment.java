@@ -1,6 +1,5 @@
-package com.berylsystems.buzz.fragments.company.sale_return;
+package com.berylsystems.buzz.fragments.transaction.sale_return;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +32,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 

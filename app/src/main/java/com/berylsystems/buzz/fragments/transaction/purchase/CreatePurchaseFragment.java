@@ -1,7 +1,8 @@
-package com.berylsystems.buzz.fragments.company.purchase;
+package com.berylsystems.buzz.fragments.transaction.purchase;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,13 +22,11 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
-import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -42,6 +41,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -74,7 +74,7 @@ public class CreatePurchaseFragment extends Fragment {
     EditText mNarration;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-
+    ProgressDialog mProgressDialog;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
@@ -92,16 +92,15 @@ public class CreatePurchaseFragment extends Fragment {
         ButterKnife.bind(this, view);
 
 
-
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-
+        final Calendar newCalendar = Calendar.getInstance();
+        String date1 = dateFormatter.format(newCalendar.getTime());
+        mDate.setText(date1);
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar newCalendar = Calendar.getInstance();
-                mDate.setText("01 Apr 2017");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -118,7 +117,7 @@ public class CreatePurchaseFragment extends Fragment {
         });
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
-        mStore .setOnClickListener(new View.OnClickListener() {
+        mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
@@ -136,7 +135,8 @@ public class CreatePurchaseFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
         });
-
+        appUser.purchase_payment_type = cash.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         cash.setTextColor(Color.parseColor("#ffffff"));
         credit.setBackgroundColor(0);
@@ -144,7 +144,7 @@ public class CreatePurchaseFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.purchase_payment_type =cash.getText().toString();
+                appUser.purchase_payment_type = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
                 cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 credit.setBackgroundColor(0);
@@ -155,7 +155,7 @@ public class CreatePurchaseFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.purchase_payment_type =credit.getText().toString();
+                appUser.purchase_payment_type = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
                 credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 cash.setBackgroundColor(0);
@@ -168,48 +168,52 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                appUser.purchase_voucher_series = mSeries.getText().toString();
-                appUser.purchase_voucher_number = mVchNumber.getText().toString();
-                if (appUser.purchase_payment_type.equals("")){
-                    appUser.purchase_payment_type=cash.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if(appUser.mListMapForItemPurchase.size()>0) {
+                    if (!mSeries.getText().toString().equals("")) {
+                        if (!mDate.getText().toString().equals("")) {
+                            if (!mVchNumber.getText().toString().equals("")) {
+                                if (!mPurchaseType.getText().toString().equals("")) {
+                                    if (!mStore.getText().toString().equals("")) {
+                                        if (!mPartyName.getText().toString().equals("")) {
+                                            if (!mMobileNumber.getText().toString().equals("")) {
+                                                appUser.purchase_voucher_series = mSeries.getText().toString();
+                                                appUser.purchase_voucher_number = mVchNumber.getText().toString();
+                                                appUser.purchase_mobile_number = mMobileNumber.getText().toString();
+                                                appUser.purchase_narration = mNarration.getText().toString();
+                                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
+                                            } else {
+                                                Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
+                                            }
+                                        } else {
+                                            Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
+                    }
                 }
-                appUser.purchase_mobile_number = mMobileNumber.getText().toString();
-                appUser.purchase_narration = mNarration.getText().toString();
-                LocalRepositories.saveAppUser(getActivity(), appUser);
-                if (appUser.purchase_voucher_series.equals("")){
-                    Snackbar.make(coordinatorLayout, "Series can't be empty", Snackbar.LENGTH_LONG).show();
-                    return;
+                else{
+                    Snackbar.make(coordinatorLayout, "Please select the item", Snackbar.LENGTH_LONG).show();
                 }
-                if (appUser.purchase_date.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_voucher_number.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_puchase_type_id.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select purchase type", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_material_center_id.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_account_master_id.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_mobile_number.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_narration.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter narration", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
+
             }
         });
         return view;
@@ -224,9 +228,9 @@ public class CreatePurchaseFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_material_center_id=String.valueOf(id);
+                appUser.purchase_material_center_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name=result.split(",");
+                String[] name = result.split(",");
                 mStore.setText(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -238,12 +242,13 @@ public class CreatePurchaseFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_puchase_type_id=String.valueOf(id);
+                Timber.i("ID" + id);
+                appUser.purchase_puchase_type_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPurchaseType.setText(result);
                 Preferences.getInstance(getContext()).setPurchase_type_name(result);
-                appUser.purchase_type_name=result;
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                appUser.purchase_type_name = result;
+                LocalRepositories.saveAppUser(getActivity(), appUser);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -255,9 +260,9 @@ public class CreatePurchaseFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_account_master_id=id;
+                appUser.purchase_account_master_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr=result.split(",");
+                String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -269,22 +274,10 @@ public class CreatePurchaseFragment extends Fragment {
 
     @Subscribe
     public void createpurchase(CreatePurchaseResponce response) {
+        mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-           /* Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);*/
-           /* mSeries.setText("");
-            mDate.setText("");
-            mVchNumber.setText("");
-            mPurchaseType.setText("");
-            mStore.setText("");
-            mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");*/
-
-
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.fragments.company.purchase_return;
+package com.berylsystems.buzz.fragments.transaction.purchase_return;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -15,18 +15,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.berylsystems.buzz.activities.company.purchase_return.PurchaseReturnAddItemActivity;
-import com.berylsystems.buzz.adapters.AddBillsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddBillsPurchaseReturnAdapter;
-import com.berylsystems.buzz.adapters.AddItemsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddItemsPurchaseReturnAdapter;
-import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;

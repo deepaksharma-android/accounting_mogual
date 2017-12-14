@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.fragments.company.sale;
+package com.berylsystems.buzz.fragments.transaction.sale;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,10 +75,10 @@ public class CreateSaleVoucherFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     ProgressDialog mProgressDialog;
-
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
+
     @Override
     public void onStart() {
         EventBus.getDefault().register(this);
@@ -97,11 +95,12 @@ public class CreateSaleVoucherFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
+        final Calendar newCalendar = Calendar.getInstance();
+        String date1 = dateFormatter.format(newCalendar.getTime());
+        mDate.setText(date1);
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar newCalendar = Calendar.getInstance();
-                mDate.setText("01 Apr 2017");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -118,7 +117,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         });
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
-        mStore .setOnClickListener(new View.OnClickListener() {
+        mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
@@ -136,7 +135,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });
-
+        appUser.sale_cash_credit = cash.getText().toString();
+        LocalRepositories.saveAppUser(getActivity(), appUser);
         cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         cash.setTextColor(Color.parseColor("#ffffff"));
         credit.setBackgroundColor(0);
@@ -144,7 +144,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.sale_cash_credit =cash.getText().toString();
+                appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
                 cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 credit.setBackgroundColor(0);
@@ -155,7 +155,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.sale_cash_credit =credit.getText().toString();
+                appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
                 credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 cash.setBackgroundColor(0);
@@ -168,58 +168,58 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                appUser.sale_series = mSeries.getText().toString();
-                appUser.sale_vchNo = mVchNumber.getText().toString();
-                if (appUser.sale_cash_credit.equals("")){
-                    appUser.sale_cash_credit=cash.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if(appUser.mListMapForItemSale.size()>0) {
+                    if (!mSeries.getText().toString().equals("")) {
+                        if (!mDate.getText().toString().equals("")) {
+                            if (!mVchNumber.getText().toString().equals("")) {
+                                if (!mSaleType.getText().toString().equals("")) {
+                                    if (!mStore.getText().toString().equals("")) {
+                                        if (!mPartyName.getText().toString().equals("")) {
+                                            if (!mMobileNumber.getText().toString().equals("")) {
+                                                appUser.sale_series = mSeries.getText().toString();
+                                                appUser.sale_vchNo = mVchNumber.getText().toString();
+                                                appUser.sale_mobileNumber = mMobileNumber.getText().toString();
+                                                appUser.sale_narration = mNarration.getText().toString();
+                                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                            } else {
+                                                Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
+                                            }
+                                        } else {
+                                            Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
+                    }
                 }
-                appUser.sale_mobileNumber = mMobileNumber.getText().toString();
-                appUser.sale_narration = mNarration.getText().toString();
-                LocalRepositories.saveAppUser(getActivity(), appUser);
+                else{
+                    Snackbar.make(coordinatorLayout, "Please select the item", Snackbar.LENGTH_LONG).show();
+                }
                 hideKeyPad(getActivity());
-                if (appUser.sale_series.equals("")){
-                    Snackbar.make(coordinatorLayout, "Series can't be empty", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_date.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_vchNo.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_saleType.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_store.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_partyName.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_mobileNumber.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.sale_narration.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter narration", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                mProgressDialog = new ProgressDialog(getActivity());
-                mProgressDialog.setMessage("Info...");
-                mProgressDialog.setIndeterminate(false);
-                mProgressDialog.setCancelable(true);
-                mProgressDialog.show();
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+
             }
         });
         return view;
     }
+
     @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
@@ -239,9 +239,9 @@ public class CreateSaleVoucherFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.sale_store=String.valueOf(id);
+                appUser.sale_store = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name=result.split(",");
+                String[] name = result.split(",");
                 mStore.setText(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -253,12 +253,12 @@ public class CreateSaleVoucherFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.sale_saleType=String.valueOf(id);
+                appUser.sale_saleType = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
                 Preferences.getInstance(getContext()).setSale_type_name(result);
-                appUser.sale_type_name=result;
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                appUser.sale_type_name = result;
+                LocalRepositories.saveAppUser(getActivity(), appUser);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -270,9 +270,9 @@ public class CreateSaleVoucherFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.sale_partyName=id;
+                appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr=result.split(",");
+                String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -283,34 +283,18 @@ public class CreateSaleVoucherFragment extends Fragment {
     }
 
 
-    private static void hideKeyPad(Activity activity){
+    private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
-    @Subscribe
-    public void createsalevoucher(CreateSaleVoucherResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-           /* mDate.setText("");
-            mVchNumber.setText("");
-            mSaleType.setText("");
-            mStore.setText("");
-            mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");
-            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            credit.setBackgroundColor(0);
-            cash.setTextColor(Color.parseColor("#ffffff"));//white
-            credit.setTextColor(Color.parseColor("#000000"));//black
-            appUser.mListMapForBillSale.clear();
-            appUser.mListMapForItemSale.clear();
-            appUser.billsundrytotal.clear();
-            LocalRepositories.saveAppUser(getActivity(),appUser);*/
 
-            Snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
+    @Subscribe
+    public void createsalevoucher(CreateSaleVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 }

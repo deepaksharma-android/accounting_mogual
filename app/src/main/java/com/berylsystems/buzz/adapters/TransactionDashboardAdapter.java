@@ -106,8 +106,8 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                 }
                 if (i == 2) {
-                    appUser.mListMapForItemSale.clear();
-                    appUser.mListMapForBillSale.clear();
+                    appUser.mListMapForItemSaleReturn.clear();
+                    appUser.mListMapForBillSaleReturn.clear();
                     LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
                 }

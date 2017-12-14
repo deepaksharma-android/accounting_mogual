@@ -1,6 +1,5 @@
-package com.berylsystems.buzz.fragments.company.purchase;
+package com.berylsystems.buzz.fragments.transaction.sale;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,22 +19,19 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.berylsystems.buzz.activities.company.purchase.PurchaseAddBillActivity;
-import com.berylsystems.buzz.activities.company.purchase.PurchaseAddItemActivity;
-import com.berylsystems.buzz.adapters.AddBillsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
-import com.berylsystems.buzz.adapters.AddItemsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -43,7 +39,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by BerylSystems on 11/22/2017.
  */
 
-public class AddItemPurchaseFragment extends Fragment {
+public class AddItemVoucherFragment extends Fragment {
     @Bind(R.id.add_item_button)
     LinearLayout add_item_button;
     @Bind(R.id.add_bill_button)
@@ -55,34 +51,36 @@ public class AddItemPurchaseFragment extends Fragment {
     @Bind(R.id.total)
     TextView mTotal;
     AppUser appUser;
-
+    List<Map<String, String>> mListMap;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
+    ArrayList<String> billsuncal;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_purchase, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_item_voucher, container, false);
         ButterKnife.bind(this, view);
+
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
-        appUser.billsundrytotalPurchase.clear();
-        appUser.itemtotalPurchase.clear();
-        LocalRepositories.saveAppUser(getActivity(),appUser);
-
+        appUser.billsundrytotal.clear();
+        appUser.itemtotal.clear();
+        LocalRepositories.saveAppUser(getActivity(), appUser);
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
+                if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
                     add_item_button.startAnimation(blinkOnClick);
-                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
-                ExpandableItemListActivity.comingFrom = 1;
-                ExpandableItemListActivity.isDirectForItem = false;
-                intent.putExtra("bool", true);
-                startActivity(intent);
-                getActivity().finish();
-            }
+                    ExpandableItemListActivity.comingFrom = 0;
+                    ExpandableItemListActivity.isDirectForItem = false;
+                    Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                    intent.putExtra("bool", true);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
                 else{
                     alertdialog();
                 }
@@ -91,55 +89,45 @@ public class AddItemPurchaseFragment extends Fragment {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
+                if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
-                ExpandableItemListActivity.comingFrom = 1;
-                startActivity(new Intent(getContext(), BillSundryListActivity.class));
-                getActivity().finish();
-            }
+                    ExpandableItemListActivity.comingFrom = 0;
+                    startActivity(new Intent(getContext(), BillSundryListActivity.class));
+                    getActivity().finish();
+                }
                 else{
                     alertdialog();
                 }
-        }
+            }
         });
-
         amountCalculation();
-        
-        Timber.i("mListMapForItemPurchase" + appUser.mListMapForItemPurchase);
-        Timber.i("mListMapForBillPurchase" + appUser.mListMapForBillPurchase);
 
-        /*listViewItems.setAdapter(new AddItemsPurchaseAdapter(getContext(), appUser.mListMapForItemPurchase));
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-
-        Timber.i("purchase bill list "+appUser.mListMapForBillPurchase.size());
-        listViewBills.setAdapter(new AddBillsPurchaseAdapter(getContext(), appUser.mListMapForBillPurchase,appUser.billsundrytotalPurchase));
-        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-        ListHeight.setListViewHeightBasedOnChildren(listViewBills);*/
-
-        ProgressDialog progressDialog=new ProgressDialog(getActivity());
-        progressDialog.setMessage("Removing...");
+      /*  listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);
+                intent.putExtra("frombillitemvoucherlist", true);
+                intent.putExtra("pos", i);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });*/
 
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder alertDialog = new  AlertDialog.Builder(getActivity());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForItemPurchase.remove(position);
-                        appUser.billsundrytotalPurchase.clear();
-                        appUser.itemtotalPurchase.clear();
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForItemSale.remove(position);
+                        appUser.billsundrytotal.clear();
+                        appUser.itemtotal.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
-                       /* listViewItems.setAdapter(new AddItemsPurchaseAdapter(getContext(), appUser.mListMapForItemPurchase));
-                        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-                        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-                        progressDialog.dismiss();*/
                         amountCalculation();
-
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -152,30 +140,22 @@ public class AddItemPurchaseFragment extends Fragment {
 
             }
         });
+
+
         listViewBills.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder alertDialog = new  AlertDialog.Builder(getActivity());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                       // progressDialog.show();
-                        AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForBillPurchase.remove(position);
-                        appUser.itemtotalPurchase.clear();
-                        appUser.billsundrytotalPurchase.clear();
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                        dialog.cancel();
-                        Timber.i("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"+appUser.mListMapForBillPurchase);
-                       /* listViewBills.setAdapter(new AddBillsPurchaseAdapter(getContext(), appUser.mListMapForBillPurchase,appUser.billsundrytotalPurchase));
-                        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-                        ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-                        progressDialog.dismiss();*/
-
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForBillSale.remove(position);
+                        appUser.itemtotal.clear();
+                        appUser.billsundrytotal.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         amountCalculation();
-
-
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -190,32 +170,28 @@ public class AddItemPurchaseFragment extends Fragment {
         });
 
 
-
-
         return view;
     }
 
-
-   public void amountCalculation(){
-       String taxstring = Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
+    public void amountCalculation() {
+        String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
 
-
         appUser = LocalRepositories.getAppUser(getApplicationContext());
 
-        if (appUser.mListMapForItemPurchase.size() > 0) {
-            for (int i = 0; i < appUser.mListMapForItemPurchase.size(); i++) {
+        if (appUser.mListMapForItemSale.size() > 0) {
+            for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
 
-                Map map = appUser.mListMapForItemPurchase.get(i);
+                Map map = appUser.mListMapForItemSale.get(i);
                 String total = (String) map.get("total");
 
                 if (total.equals("")) {
                     total = "0.0";
                 } else {
-                    appUser.itemtotalPurchase.add(total);
-                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                    appUser.itemtotal.add(total);
+                    LocalRepositories.saveAppUser(getActivity(), appUser);
                     double tot = Double.parseDouble(total);
                     itemamount = itemamount + tot;
                 }
@@ -226,11 +202,11 @@ public class AddItemPurchaseFragment extends Fragment {
             itemamount = 0.0;
         }
 
-        if (appUser.mListMapForBillPurchase.size() > 0) {
-            LocalRepositories.saveAppUser(getActivity(),appUser);
-            for (int i = 0; i < appUser.mListMapForBillPurchase.size(); i++) {
+        if (appUser.mListMapForBillSale.size() > 0) {
+            LocalRepositories.saveAppUser(getActivity(), appUser);
+            for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
                 billsundrymamount = 0.0;
-                Map map = appUser.mListMapForBillPurchase.get(i);
+                Map map = appUser.mListMapForBillSale.get(i);
                 String billsundryname = (String) map.get("courier_charges");
                 String amount = (String) map.get("amount");
                 String type = (String) map.get("type");
@@ -248,9 +224,9 @@ public class AddItemPurchaseFragment extends Fragment {
                         billsundrymamount = billsundrymamount - amt;
                     }
                 } else if (fedas.equals("Per Main Qty.")) {
-                    if (appUser.mListMapForItemPurchase.size() > 0) {
-                        for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                            Map mapj = appUser.mListMapForItemPurchase.get(j);
+                    if (appUser.mListMapForItemSale.size() > 0) {
+                        for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                            Map mapj = appUser.mListMapForItemSale.get(j);
                             double subtot = 0.0;
                             String price_selected_unit = (String) mapj.get("price_selected_unit");
                             if (price_selected_unit.equals("main")) {
@@ -301,9 +277,9 @@ public class AddItemPurchaseFragment extends Fragment {
                     }
 
                 } else if (fedas.equals("Per Alt. Qty.")) {
-                    if (appUser.mListMapForItemPurchase.size() > 0) {
-                        for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                            Map mapj = appUser.mListMapForItemPurchase.get(j);
+                    if (appUser.mListMapForItemSale.size() > 0) {
+                        for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                            Map mapj = appUser.mListMapForItemSale.get(j);
                             double subtot = 0.0;
                             String price_selected_unit = (String) mapj.get("price_selected_unit");
                             String alternate_unit_con_factor = (String) mapj.get("alternate_unit_con_factor");
@@ -354,9 +330,9 @@ public class AddItemPurchaseFragment extends Fragment {
 
                     }
                 } else if (fedas.equals("Per Packaging Qty.")) {
-                    if (appUser.mListMapForItemPurchase.size() > 0) {
-                        for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                            Map mapj = appUser.mListMapForItemPurchase.get(j);
+                    if (appUser.mListMapForItemSale.size() > 0) {
+                        for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                            Map mapj = appUser.mListMapForItemSale.get(j);
                             double subtot = 0.0;
                             String price_selected_unit = (String) mapj.get("price_selected_unit");
                             String alternate_unit_con_factor = (String) mapj.get("alternate_unit_con_factor");
@@ -418,10 +394,10 @@ public class AddItemPurchaseFragment extends Fragment {
                     }
                 } else if (fedas.equals("Percentage")) {
                     if (fed_as_percentage.equals("Nett Bill Amount")) {
-                        if (appUser.mListMapForItemPurchase.size() > 0) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
                             double subtot = 0.0;
-                            for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                                Map mapj = appUser.mListMapForItemPurchase.get(j);
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
                                 String total = (String) mapj.get("total");
                                 double itemtot = Double.parseDouble(total);
                                 subtot = subtot + itemtot;
@@ -442,10 +418,10 @@ public class AddItemPurchaseFragment extends Fragment {
                         }
 
                     } else if (fed_as_percentage.equals("Items Basic Amount")) {
-                        if (appUser.mListMapForItemPurchase.size() > 0) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
                             double subtot = 0.0;
-                            for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                                Map mapj = appUser.mListMapForItemPurchase.get(j);
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
                                 String total = (String) mapj.get("total");
                                 double itemtot = Double.parseDouble(total);
                                 subtot = subtot + itemtot;
@@ -466,10 +442,10 @@ public class AddItemPurchaseFragment extends Fragment {
                         }
 
                     } else if (fed_as_percentage.equals("Total MRP of Items")) {
-                        if (appUser.mListMapForItemPurchase.size() > 0) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
                             double subtot = 0.0;
-                            for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                                Map mapj = appUser.mListMapForItemPurchase.get(j);
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
                                 String total = (String) mapj.get("mrp");
                                 String quantity = (String) mapj.get("quantity");
                                 int qty = Integer.parseInt(quantity);
@@ -492,11 +468,11 @@ public class AddItemPurchaseFragment extends Fragment {
                         }
 
                     } else if (fed_as_percentage.equals("Taxable Amount")) {
-                        if (appUser.mListMapForItemPurchase.size() > 0) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
                             double taxval = 0.0;
                             double subtot = 0.0;
-                            for (int j = 0; j < appUser.mListMapForItemPurchase.size(); j++) {
-                                Map mapj = appUser.mListMapForItemPurchase.get(j);
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
                                 String itemtotalval = (String) mapj.get("total");
                                 String itemtax = (String) mapj.get("tax");
                                 String arr[] = itemtax.split(" ");
@@ -523,6 +499,8 @@ public class AddItemPurchaseFragment extends Fragment {
                                         subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
 
                                     }
+
+
                                 }
 
                                 if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
@@ -535,6 +513,7 @@ public class AddItemPurchaseFragment extends Fragment {
 
 
                                 }
+
 
                                 if (taxstring.startsWith("L")) {
                                     String arrtaxstring[] = taxstring.split("-");
@@ -577,19 +556,18 @@ public class AddItemPurchaseFragment extends Fragment {
                             }
                         }
 
-
                     } else if (fed_as_percentage.equals("Previous Bill Sundry(s) Amount")) {
-                        if (appUser.mListMapForItemPurchase.size() > 0) {
+                        if (appUser.mListMapForItemSale.size() > 0) {
                             double subtot = 0.0;
                             int numberbill = Integer.parseInt(number_of_bill);
                             AppUser appUser = LocalRepositories.getAppUser(getActivity());
-                            int size = appUser.billsundrytotalPurchase.size();
+                            int size = appUser.billsundrytotal.size();
                             if (size >= numberbill) {
                                 for (int j = size; j > size - numberbill; j--) {
                                     if (consolidated.equals("true")) {
-                                        subtot = subtot + Double.parseDouble(appUser.billsundrytotalPurchase.get(j - 1));
+                                        subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j - 1));
                                     } else {
-                                        subtot = subtot + Double.parseDouble(appUser.billsundrytotalPurchase.get(j - 1));
+                                        subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j - 1));
                                         break;
                                     }
                                 }
@@ -607,19 +585,17 @@ public class AddItemPurchaseFragment extends Fragment {
                             }
                         }
 
-                    }
-                    else if (fed_as_percentage.equals("Other Bill Sundry")) {
-                        if (appUser.mListMapForBillPurchase.size() > 0) {
+                    } else if (fed_as_percentage.equals("Other Bill Sundry")) {
+                        if (appUser.mListMapForBillSale.size() > 0) {
                             double subtot = 0.0;
                             AppUser appUser = LocalRepositories.getAppUser(getActivity());
-                            for (int j = 0; j <appUser.mListMapForBillPurchase.size(); j++) {
-                                Map mapj = appUser.mListMapForBillPurchase.get(j);
+                            for (int j = 0; j < appUser.mListMapForBillSale.size(); j++) {
+                                Map mapj = appUser.mListMapForBillSale.get(j);
                                 String itemname = (String) mapj.get("courier_charges");
-                                if(other.equals(itemname)){
-                                    subtot=subtot+Double.parseDouble(appUser.billsundrytotalPurchase.get(j));
-                                }
-                                else{
-                                    subtot=subtot+0.0;
+                                if (other.equals(itemname)) {
+                                    subtot = subtot + Double.parseDouble(appUser.billsundrytotal.get(j));
+                                } else {
+                                    subtot = subtot + 0.0;
                                 }
 
                             }
@@ -641,7 +617,7 @@ public class AddItemPurchaseFragment extends Fragment {
 
                 }
                 billsundrymamounttotal = billsundrymamounttotal + billsundrymamount;
-                appUser.billsundrytotalPurchase.add(i, String.valueOf(billsundrymamount));
+                appUser.billsundrytotal.add(i, String.valueOf(billsundrymamount));
                 LocalRepositories.saveAppUser(getActivity(), appUser);
             }
 
@@ -650,42 +626,41 @@ public class AddItemPurchaseFragment extends Fragment {
             billsundrymamounttotal = 0.0;
         }
 
-        listViewItems.setAdapter(new AddItemsPurchaseAdapter(getContext(), appUser.mListMapForItemPurchase));
+        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-       Timber.i("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"+appUser.mListMapForBillPurchase);
-        listViewBills.setAdapter(new AddBillsPurchaseAdapter(getContext(), appUser.mListMapForBillPurchase, /*appUser.mListMapForItemPurchase*/appUser.billsundrytotalPurchase));
+
+        listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale, /*appUser.mListMapForItemSale*/appUser.billsundrytotal));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);
-        double totalbillsundryamount=0.0;
-        double totalitemamount=0.0;
-        for(int i=0;i<appUser.billsundrytotalPurchase.size();i++){
-            String tot=appUser.billsundrytotalPurchase.get(i);
-            double total=Double.parseDouble(tot);
-            totalbillsundryamount=totalbillsundryamount+total;
+        double totalbillsundryamount = 0.0;
+        double totalitemamount = 0.0;
+        for (int i = 0; i < appUser.billsundrytotal.size(); i++) {
+            String tot = appUser.billsundrytotal.get(i);
+            double total = Double.parseDouble(tot);
+            totalbillsundryamount = totalbillsundryamount + total;
         }
-        for(int i=0;i<appUser.itemtotalPurchase.size();i++){
-            String tot=appUser.itemtotalPurchase.get(i);
-            double total=Double.parseDouble(tot);
-            totalitemamount=totalitemamount+total;
+        for (int i = 0; i < appUser.itemtotal.size(); i++) {
+            String tot = appUser.itemtotal.get(i);
+            double total = Double.parseDouble(tot);
+            totalitemamount = totalitemamount + total;
         }
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
-       appUser.totalamount=String.valueOf(totalitemamount + totalbillsundryamount);
-       LocalRepositories.saveAppUser(getActivity(),appUser);
+        appUser.totalamount=String.valueOf(totalitemamount + totalbillsundryamount);
+        LocalRepositories.saveAppUser(getActivity(),appUser);
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }
 
     public void alertdialog(){
         new AlertDialog.Builder(getContext())
-                .setTitle("Purchase Voucher")
-                .setMessage("Please add purchase type in create voucher")
+                .setTitle("Sale Voucher")
+                .setMessage("Please add sale type in create voucher")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     return;
 
                 })
                 .show();
     }
-
 
 
 }

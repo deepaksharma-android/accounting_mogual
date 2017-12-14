@@ -1,7 +1,8 @@
-package com.berylsystems.buzz.fragments.company.purchase_return;
+package com.berylsystems.buzz.fragments.transaction.sale_return;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -26,8 +28,7 @@ import com.berylsystems.buzz.activities.company.administration.master.saletype.S
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
-import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -48,15 +49,15 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by BerylSystems on 11/22/2017.
  */
 
-public class CreatePurchaseReturnFragment extends Fragment {
+public class CreateSaleReturnFragment extends Fragment {
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
     EditText mSeries;
     @Bind(R.id.vch_number)
     EditText mVchNumber;
-    @Bind(R.id.purchase_type)
-    TextView mPurchaseType;
+    @Bind(R.id.sale_type)
+    TextView mSaleType;
     @Bind(R.id.store)
     TextView mStore;
     @Bind(R.id.party_name)
@@ -73,33 +74,29 @@ public class CreatePurchaseReturnFragment extends Fragment {
     EditText mNarration;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-
+    ProgressDialog mProgressDialog;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
 
-    @Override
-    public void onStart() {
-        EventBus.getDefault().register(this);
-        super.onStart();
-    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_purchase_return_create, container, false);
+        View view = inflater.inflate(R.layout.fragment_sales_return_create_voucher, container, false);
+        hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
-
-
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_return_type_name());
+        final Calendar newCalendar = Calendar.getInstance();
+        String date1 = dateFormatter.format(newCalendar.getTime());
+        mDate.setText(date1);
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar newCalendar = Calendar.getInstance();
-                mDate.setText("01 Apr 2017");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -107,7 +104,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                         newDate.set(year, monthOfYear, dayOfMonth);
                         String date = dateFormatter.format(newDate.getTime());
                         mDate.setText(date);
-                        appUser.purchase_date = date;
+                        appUser.sale_return_date = date;
                         LocalRepositories.saveAppUser(getActivity(), appUser);
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -116,25 +113,26 @@ public class CreatePurchaseReturnFragment extends Fragment {
         });
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
-        mStore .setOnClickListener(new View.OnClickListener() {
+        mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
+                startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
         });
-        mPurchaseType.setOnClickListener(new View.OnClickListener() {
+        mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
+                startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
+                startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });
-
+        appUser.sale_return_cash_credit = cash.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         cash.setTextColor(Color.parseColor("#ffffff"));
         credit.setBackgroundColor(0);
@@ -142,7 +140,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.purchase_payment_type =cash.getText().toString();
+                appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
                 cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 credit.setBackgroundColor(0);
@@ -153,7 +151,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.purchase_payment_type =credit.getText().toString();
+                appUser.sale_return_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
                 credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 cash.setBackgroundColor(0);
@@ -166,65 +164,68 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                appUser.purchase_voucher_series = mSeries.getText().toString();
-                appUser.purchase_voucher_number = mVchNumber.getText().toString();
-                if (appUser.purchase_payment_type.equals("")){
-                    appUser.purchase_payment_type=cash.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if(appUser.mListMapForItemSaleReturn.size()>0) {
+                    if (!mSeries.getText().toString().equals("")) {
+                        if (!mDate.getText().toString().equals("")) {
+                            if (!mVchNumber.getText().toString().equals("")) {
+                                if (!mSaleType.getText().toString().equals("")) {
+                                    if (!mStore.getText().toString().equals("")) {
+                                        if (!mPartyName.getText().toString().equals("")) {
+                                            if (!mMobileNumber.getText().toString().equals("")) {
+                                                appUser.sale_return_series = mSeries.getText().toString();
+                                                appUser.sale_return_vchNo = mVchNumber.getText().toString();
+                                                appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
+                                                appUser.sale_return_narration = mNarration.getText().toString();
+                                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
+                                            } else {
+                                                Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
+                                            }
+                                        } else {
+                                            Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
+                    }
                 }
-                appUser.purchase_mobile_number = mMobileNumber.getText().toString();
-                appUser.purchase_narration = mNarration.getText().toString();
-                LocalRepositories.saveAppUser(getActivity(), appUser);
-                if (appUser.purchase_voucher_series.equals("")){
-                    Snackbar.make(coordinatorLayout, "Series can't be empty", Snackbar.LENGTH_LONG).show();
-                    return;
+                else{
+                    Snackbar.make(coordinatorLayout, "Please select item", Snackbar.LENGTH_LONG).show();
                 }
-                if (appUser.purchase_date.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_voucher_number.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_puchase_type_id.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select purchase type", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_material_center_id.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_account_master_id.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_mobile_number.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if (appUser.purchase_narration.equals("")){
-                    Snackbar.make(coordinatorLayout, "Please enter narration", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                hideKeyPad(getActivity());
+
             }
         });
         return view;
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
-        if (requestCode == 11) {
+        if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_material_center_id=String.valueOf(id);
+                appUser.sale_return_store = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name=result.split(",");
+                String[] name = result.split(",");
                 mStore.setText(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -232,14 +233,14 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 //mItemGroup.setText("");
             }
         }
-        if (requestCode == 22) {
+        if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_puchase_type_id=String.valueOf(id);
+                appUser.sale_return_saleType = String.valueOf(id);
+                Preferences.getInstance(getApplicationContext()).setSale_type_name(result);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                mPurchaseType.setText(result);
-                Preferences.getInstance(getContext()).setPurchase_return_type_name(result);
+                mSaleType.setText(result);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -247,45 +248,49 @@ public class CreatePurchaseReturnFragment extends Fragment {
             }
         }
 
-        if (requestCode == 33) {
+        if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_account_master_id=id;
+                appUser.sale_return_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr=result.split(",");
+                String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                //mPartyName.setText("");
+                //mItemGroup.setText("");
             }
         }
     }
 
     @Subscribe
-    public void createpurchase(CreatePurchaseReturnResponse response) {
+    public void createSaleReturn(CreateSaleReturnResponse response) {
+        mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-
-           /* mSeries.setText("");
-            mDate.setText("");
-            mVchNumber.setText("");
-            mPurchaseType.setText("");
-            mStore.setText("");
-            mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");*/
-
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
+    private static void hideKeyPad(Activity activity) {
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+
+
+    @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -293,5 +298,6 @@ public class CreatePurchaseReturnFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
 
 }
