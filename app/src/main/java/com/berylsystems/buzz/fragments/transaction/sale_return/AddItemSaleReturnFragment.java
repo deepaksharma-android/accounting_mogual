@@ -90,6 +90,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                 if(!Preferences.getInstance(getApplicationContext()).getSale_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 2;
+                    BillSundryListActivity.isDirectForBill = false;
                     startActivity(new Intent(getContext(), BillSundryListActivity.class));
                     getActivity().finish();
                 }

@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.activities.user.LoginActivity;
 import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.adapters.MyPagerAdapter;
@@ -127,20 +128,17 @@ public class HomePageActivity extends Activity {
     }
 
     public void login(View v){
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
 
     }
     public void signup(View v){
-        startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
-        System.exit(0);
     }
+
 }

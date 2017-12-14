@@ -133,6 +133,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser.account_master_group = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
         });

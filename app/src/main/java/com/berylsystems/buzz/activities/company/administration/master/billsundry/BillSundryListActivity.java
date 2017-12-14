@@ -2,15 +2,22 @@ package com.berylsystems.buzz.activities.company.administration.master.billsundr
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
@@ -24,6 +31,7 @@ import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActiv
 import com.berylsystems.buzz.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.SaleReturnAddBillActivity;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.BillSundryListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -33,6 +41,8 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteBillSundry;
 import com.berylsystems.buzz.utils.EventSaleAddBill;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
+import com.facebook.internal.BoltsMeasurementEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,7 +51,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class BillSundryListActivity extends BaseActivityCompany {
+public class BillSundryListActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.bill_sundry_list_recycler_view)
@@ -51,7 +61,9 @@ public class BillSundryListActivity extends BaseActivityCompany {
     RecyclerView.LayoutManager layoutManager;
     BillSundryListAdapter mAdapter;
     ProgressDialog mProgressDialog;
+    public static Boolean isDirectForBill=true;
     AppUser appUser;
+
     Snackbar  snackbar;
 
     @Override
@@ -59,15 +71,34 @@ public class BillSundryListActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_sundry_list);
         ButterKnife.bind(this);
-        setAddCompany(0);
+        initActionbar();
         mFloatingButton.bringToFront();
-        setAppBarTitleCompany(1, "BILL SUNDRY LIST");
         appUser = LocalRepositories.getAppUser(this);
     }
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateBillSundryActivity.class);
         intent.putExtra("fromlist",true);
         startActivity(intent);
+    }
+    private void initActionbar() {
+        ActionBar actionBar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(viewActionBar, params);
+        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+        actionbarTitle.setText("BILL SUNDRY LIST");
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTextSize(16);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -199,29 +230,30 @@ public class BillSundryListActivity extends BaseActivityCompany {
 
     @Subscribe
     public void ClickEventAddSaleVoucher(EventSaleAddBill pos) {
-        String id = pos.getPosition();
-        if (ExpandableItemListActivity.comingFrom==0){
-            Intent intent = new Intent(getApplicationContext(), SaleVoucherAddBillActivity.class);
-            intent.putExtra("id", id);
-            intent.putExtra("fromvoucherbilllist",false);
-            startActivity(intent);
-            finish();
-        }
-        else if (ExpandableItemListActivity.comingFrom==1){
-            Intent intent = new Intent(getApplicationContext(), PurchaseAddBillActivity.class);
-            intent.putExtra("id", id);
-            startActivity(intent);
-            finish();
-        } else if (ExpandableItemListActivity.comingFrom == 2) {
-            Intent intent = new Intent(getApplicationContext(), SaleReturnAddBillActivity.class);
-            intent.putExtra("id", id);
-            startActivity(intent);
-            finish();
-        } else if (ExpandableItemListActivity.comingFrom == 3) {
-            Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddBillActivity.class);
-            intent.putExtra("id", id);
-            startActivity(intent);
-            finish();
+        if(!BillSundryListActivity.isDirectForBill) {
+            String id = pos.getPosition();
+            if (ExpandableItemListActivity.comingFrom == 0) {
+                Intent intent = new Intent(getApplicationContext(), SaleVoucherAddBillActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("fromvoucherbilllist", false);
+                startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 1) {
+                Intent intent = new Intent(getApplicationContext(), PurchaseAddBillActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 2) {
+                Intent intent = new Intent(getApplicationContext(), SaleReturnAddBillActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 3) {
+                Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddBillActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            }
         }
 
     }
@@ -229,29 +261,84 @@ public class BillSundryListActivity extends BaseActivityCompany {
 
     @Override
     public void onBackPressed() {
-        if (ExpandableItemListActivity.comingFrom==0){
-            Intent intent=new Intent(this, CreateSaleActivity.class);
-            intent.putExtra("is",true);
-            intent.putExtra("fromvoucherbilllist",false);
-            startActivity(intent);
-            finish();
-        } else  if (ExpandableItemListActivity.comingFrom==1){
-            Intent intent=new Intent(this, CreatePurchaseActivity.class);
-            intent.putExtra("is",true);
-            startActivity(intent);
-            finish();
-        } else if (ExpandableItemListActivity.comingFrom == 2) {
-            Intent intent = new Intent(this, CreateSaleReturnActivity.class);
-            intent.putExtra("is", true);
-            startActivity(intent);
-            finish();
-        } else if (ExpandableItemListActivity.comingFrom == 3) {
-            Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
-            intent.putExtra("is", true);
-            startActivity(intent);
+        if(!BillSundryListActivity.isDirectForBill) {
+            if (ExpandableItemListActivity.comingFrom == 0) {
+                Intent intent = new Intent(this, CreateSaleActivity.class);
+                intent.putExtra("is", true);
+                intent.putExtra("fromvoucherbilllist", false);
+                startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 1) {
+                Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                intent.putExtra("is", true);
+                startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 2) {
+                Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                intent.putExtra("is", true);
+                startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 3) {
+                Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                intent.putExtra("is", true);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(this, MasterDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }
+        else{
             finish();
         }
 
     }
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                if(!BillSundryListActivity.isDirectForBill) {
+                    if (ExpandableItemListActivity.comingFrom == 0) {
+                        Intent intent = new Intent(this, CreateSaleActivity.class);
+                        intent.putExtra("is", true);
+                        intent.putExtra("fromvoucherbilllist", false);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 1) {
+                        Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 2) {
+                        Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 3) {
+                        Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(this, MasterDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else{
+                    finish();
+                }
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
 }

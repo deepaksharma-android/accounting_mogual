@@ -97,6 +97,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
+
         mDate.setText(date1);
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +133,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser.account_master_group = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });

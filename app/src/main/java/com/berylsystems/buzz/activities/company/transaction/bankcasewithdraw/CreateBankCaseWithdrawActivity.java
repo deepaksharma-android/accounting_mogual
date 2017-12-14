@@ -282,26 +282,6 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),BankCaseWithdrawActivity.class);
-                startActivity(i);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void setDateField() {
         set_date.setOnClickListener(this);
 

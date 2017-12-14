@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.HomePageActivity;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -129,6 +131,21 @@ public class LoginActivity extends RegisterAbstractActivity {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                Intent intent = new Intent(this, HomePageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Subscribe
     public void userexists(UserExistResponse response) {
@@ -142,9 +159,15 @@ public class LoginActivity extends RegisterAbstractActivity {
                 appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
                 LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                startActivity(intent);
+                finish();
             } else {
-                startActivity(new Intent(getApplicationContext(), FacebookHandlerActivity.class));
+                Intent intent = new Intent(getApplicationContext(), FacebookHandlerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                startActivity(intent);
+                finish();
             }
         } else {
             snackbar = Snackbar
@@ -217,11 +240,17 @@ public class LoginActivity extends RegisterAbstractActivity {
     }
 
     public void register(View v) {
-        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
 
     public void forgot(View v) {
-        startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
+        Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
 
     @Subscribe
@@ -236,17 +265,20 @@ public class LoginActivity extends RegisterAbstractActivity {
             appUser.zipcode = response.getUser().getData().getAttributes().getPostal_code();
             LocalRepositories.saveAppUser(this, appUser);
             if (!response.getUser().getData().getAttributes().getActive()) {
-
                 Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
                 intent.putExtra("fromLoginPage", true);
                 intent.putExtra("mobile", response.getUser().getData().getAttributes().getMobile());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
+                finish();
 
             } else {
                 /*if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                     Preferences.getInstance(getApplicationContext()).setLogin(true);
-                    startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                startActivity(intent);
+                finish();
                /* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
                 }*/
@@ -271,4 +303,11 @@ public class LoginActivity extends RegisterAbstractActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, HomePageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }

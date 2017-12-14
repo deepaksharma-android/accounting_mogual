@@ -323,7 +323,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
     }
 
-    @Override
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -340,7 +340,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
     private void setDateField() {

@@ -287,7 +287,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         });
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -304,7 +304,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private void setDateField() {
         set_date.setOnClickListener(this);
