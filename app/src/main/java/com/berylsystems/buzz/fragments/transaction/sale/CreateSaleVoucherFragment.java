@@ -286,7 +286,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
-
     @Subscribe
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();

@@ -84,6 +84,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     ProgressDialog mProgressDialog;
     Boolean fromIncome;
     String encodedString;
+    String title;
     AppUser appUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +103,14 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String dateString = sdf.format(date);
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
 
+        title="CREATE INCOME";
         fromIncome=getIntent().getExtras().getBoolean("fromIncome");
         if(fromIncome==true){
+            title="EDIT INCOME";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_income_id=getIntent().getExtras().getString("id");
@@ -136,6 +139,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 snackbar.show();
             }
         }
+        initActionbar();
 
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,47 +173,55 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!transaction_amount.getText().toString().equals("") &&
-                        !received_from.getText().toString().equals("") && !received_into.getText().toString().equals("")) {
-                    appUser.income_voucher_series = transaction_spinner.getSelectedItem().toString();
-                    appUser.income_date = set_date.getText().toString();
-                    appUser.income_voucher_no = voucher_no.getText().toString();
-                    if (!transaction_amount.getText().toString().equals("")) {
-                        appUser.income_amount = Double.parseDouble(transaction_amount.getText().toString());
-                    }
-                    appUser.income_narration = transaction_narration.getText().toString();
-                    appUser.income_attachment = encodedString;
-
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_INCOME);
-                    }
-                    else{
-                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                if(isConnected){
-                                    snackbar.dismiss();
+                if(!voucher_no.getText().toString().equals("")){
+                    if(!set_date.getText().toString().equals("")) {
+                        if (!received_into.getText().toString().equals("")) {
+                            if (!received_from.getText().toString().equals("")) {
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    appUser.income_voucher_series = transaction_spinner.getSelectedItem().toString();
+                                    appUser.income_date = set_date.getText().toString();
+                                    appUser.income_voucher_no = voucher_no.getText().toString();
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        appUser.income_amount = Double.parseDouble(transaction_amount.getText().toString());
+                                    }
+                                    appUser.income_narration = transaction_narration.getText().toString();
+                                    appUser.income_attachment = encodedString;
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if(isConnected) {
+                                        mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
+                                        mProgressDialog.setMessage("Info...");
+                                        mProgressDialog.setIndeterminate(false);
+                                        mProgressDialog.setCancelable(true);
+                                        mProgressDialog.show();
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_INCOME);
+                                    }
+                                    else{
+                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if(isConnected){
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please select withdraw by", Snackbar.LENGTH_LONG).show();
                             }
-                        });
-                        snackbar.show();
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select withdraw from", Snackbar.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                    voucher_no.setText("");
-                    transaction_amount.setText("");
-                    transaction_narration.setText("");
-                    received_into.setText("");
-                    received_from.setText("");
-                    mSelectedImage.setImageResource(0);
-                    mSelectedImage.setVisibility(View.GONE);
-                    //mSelectedImage.setImageDrawable(null);
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -217,43 +229,58 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!transaction_amount.getText().toString().equals("") &&
-                        !received_from.getText().toString().equals("") && !received_into.getText().toString().equals("")) {
-                    appUser.income_voucher_series = transaction_spinner.getSelectedItem().toString();
-                    appUser.income_date = set_date.getText().toString();
-                    appUser.income_voucher_no = voucher_no.getText().toString();
-                    if (!transaction_amount.getText().toString().equals("")) {
-                        appUser.income_amount = Double.parseDouble(transaction_amount.getText().toString());
-                    }
-                    appUser.income_narration = transaction_narration.getText().toString();
-                    appUser.income_attachment = encodedString;
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_INCOME);
-                    }
-                    else{
-                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                if(isConnected){
-                                    snackbar.dismiss();
+                if(!voucher_no.getText().toString().equals("")){
+                    if(!set_date.getText().toString().equals("")) {
+                        if (!received_into.getText().toString().equals("")) {
+                            if (!received_from.getText().toString().equals("")) {
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    appUser.income_voucher_series = transaction_spinner.getSelectedItem().toString();
+                                    appUser.income_date = set_date.getText().toString();
+                                    appUser.income_voucher_no = voucher_no.getText().toString();
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        appUser.income_amount = Double.parseDouble(transaction_amount.getText().toString());
+                                    }
+                                    appUser.income_narration = transaction_narration.getText().toString();
+                                    appUser.income_attachment = encodedString;
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if(isConnected) {
+                                        mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
+                                        mProgressDialog.setMessage("Info...");
+                                        mProgressDialog.setIndeterminate(false);
+                                        mProgressDialog.setCancelable(true);
+                                        mProgressDialog.show();
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_INCOME);
+                                    }
+                                    else{
+                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if(isConnected){
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please select received from", Snackbar.LENGTH_LONG).show();
                             }
-                        });
-                        snackbar.show();
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select received into", Snackbar.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
-
 
     }
     @Override
@@ -374,7 +401,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("INCOME");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -387,13 +414,19 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     public void createincomeresponse(CreateIncomeResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
+            voucher_no.setText("");
+            transaction_amount.setText("");
+            transaction_narration.setText("");
+            received_into.setText("");
+            received_from.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -407,10 +440,14 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             received_from.setText(response.getIncome().getData().getAttributes().getReceived_from());
             transaction_amount.setText(String.valueOf(response.getIncome().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getIncome().getData().getAttributes().getNarration());
-            Glide.with(this).load(response.getIncome().getData().getAttributes().getAttachment()).into(mSelectedImage);
-            mSelectedImage.setVisibility(View.VISIBLE);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            if(!response.getIncome().getData().getAttributes().getAttachment().equals("")){
+                Glide.with(this).load(response.getIncome().getData().getAttributes().getAttachment()).into(mSelectedImage);
+                mSelectedImage.setVisibility(View.VISIBLE);
+            }
+            else{
+                mSelectedImage.setVisibility(View.GONE);
+            }
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

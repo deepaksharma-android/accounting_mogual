@@ -84,6 +84,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     ProgressDialog mProgressDialog;
     Boolean fromExpence;
     String encodedString;
+    String title;
     AppUser appUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +102,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String dateString = sdf.format(date);
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
 
+        title="CREATE EXPENSE";
         fromExpence=getIntent().getExtras().getBoolean("fromExpense");
         if(fromExpence==true){
+            title="EDIT EXPENSE";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_expence_id=getIntent().getExtras().getString("id");
@@ -135,7 +138,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 snackbar.show();
             }
         }
-
+        initActionbar();
 
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,47 +172,55 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!transaction_amount.getText().toString().equals("") &&
-                        !paid_from.getText().toString().equals("") && !paid_to.getText().toString().equals("")) {
-                    appUser.expence_voucher_series = transaction_spinner.getSelectedItem().toString();
-                    appUser.expence_date = set_date.getText().toString();
-                    appUser.expence_voucher_no = voucher_no.getText().toString();
-                    if (!transaction_amount.getText().toString().equals("")) {
-                        appUser.expence_amount = Double.parseDouble(transaction_amount.getText().toString());
-                    }
-                    appUser.expence_narration = transaction_narration.getText().toString();
-                    appUser.expence_attachment = encodedString;
-
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_EXPENCE);
-                    }
-                    else{
-                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                if(isConnected){
-                                    snackbar.dismiss();
+                if(!voucher_no.getText().toString().equals("")){
+                    if(!set_date.getText().toString().equals("")) {
+                        if (!paid_to.getText().toString().equals("")) {
+                            if (!paid_from.getText().toString().equals("")) {
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    appUser.expence_voucher_series = transaction_spinner.getSelectedItem().toString();
+                                    appUser.expence_date = set_date.getText().toString();
+                                    appUser.expence_voucher_no = voucher_no.getText().toString();
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        appUser.expence_amount = Double.parseDouble(transaction_amount.getText().toString());
+                                    }
+                                    appUser.expence_narration = transaction_narration.getText().toString();
+                                    appUser.expence_attachment = encodedString;
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if(isConnected) {
+                                        mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
+                                        mProgressDialog.setMessage("Info...");
+                                        mProgressDialog.setIndeterminate(false);
+                                        mProgressDialog.setCancelable(true);
+                                        mProgressDialog.show();
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_EXPENCE);
+                                    }
+                                    else{
+                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if(isConnected){
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please select paid from", Snackbar.LENGTH_LONG).show();
                             }
-                        });
-                        snackbar.show();
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select paid to", Snackbar.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                    voucher_no.setText("");
-                    transaction_amount.setText("");
-                    transaction_narration.setText("");
-                    paid_from.setText("");
-                    paid_to.setText("");
-                    mSelectedImage.setImageResource(0);
-                    mSelectedImage.setVisibility(View.GONE);
-                    //mSelectedImage.setImageDrawable(null);
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -217,39 +228,55 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!transaction_amount.getText().toString().equals("") &&
-                        !paid_from.getText().toString().equals("") && !paid_to.getText().toString().equals("")) {
-                    appUser.expence_voucher_series = transaction_spinner.getSelectedItem().toString();
-                    appUser.expence_date = set_date.getText().toString();
-                    appUser.expence_voucher_no = voucher_no.getText().toString();
-                    if (!transaction_amount.getText().toString().equals("")) {
-                        appUser.expence_amount = Double.parseDouble(transaction_amount.getText().toString());
-                    }
-                    appUser.expence_narration = transaction_narration.getText().toString();
-                    appUser.expence_attachment = encodedString;
-
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_EXPENCE);
-                    }
-                    else{
-                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                if(isConnected){
-                                    snackbar.dismiss();
+                if(!voucher_no.getText().toString().equals("")){
+                    if(!set_date.getText().toString().equals("")) {
+                        if (!paid_to.getText().toString().equals("")) {
+                            if (!paid_from.getText().toString().equals("")) {
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    appUser.expence_voucher_series = transaction_spinner.getSelectedItem().toString();
+                                    appUser.expence_date = set_date.getText().toString();
+                                    appUser.expence_voucher_no = voucher_no.getText().toString();
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        appUser.expence_amount = Double.parseDouble(transaction_amount.getText().toString());
+                                    }
+                                    appUser.expence_narration = transaction_narration.getText().toString();
+                                    appUser.expence_attachment = encodedString;
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if(isConnected) {
+                                        mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
+                                        mProgressDialog.setMessage("Info...");
+                                        mProgressDialog.setIndeterminate(false);
+                                        mProgressDialog.setCancelable(true);
+                                        mProgressDialog.show();
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_EXPENCE);
+                                    }
+                                    else{
+                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if(isConnected){
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please select paid from", Snackbar.LENGTH_LONG).show();
                             }
-                        });
-                        snackbar.show();
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select paid to", Snackbar.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -373,7 +400,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("EXPENCE");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -386,6 +413,13 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     public void createexpenceresponse(CreateExpenceResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            voucher_no.setText("");
+            transaction_amount.setText("");
+            transaction_narration.setText("");
+            paid_from.setText("");
+            paid_to.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -404,10 +438,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             paid_to.setText(response.getExpense().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getExpense().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getExpense().getData().getAttributes().getNarration());
-            Glide.with(this).load(response.getExpense().getData().getAttributes().getAttachment()).into(mSelectedImage);
-            mSelectedImage.setVisibility(View.VISIBLE);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            if(!response.getExpense().getData().getAttributes().getAttachment().equals("")){
+                Glide.with(this).load(response.getExpense().getData().getAttributes().getAttachment()).into(mSelectedImage);
+                mSelectedImage.setVisibility(View.VISIBLE);
+            }
+            else{
+                mSelectedImage.setVisibility(View.GONE);
+            }
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
