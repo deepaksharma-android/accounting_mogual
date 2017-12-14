@@ -90,6 +90,7 @@ public class AddItemPurchaseFragment extends Fragment {
                 if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
                     add_bill_button.startAnimation(blinkOnClick);
                 ExpandableItemListActivity.comingFrom = 1;
+                    BillSundryListActivity.isDirectForBill = false;
                 startActivity(new Intent(getContext(), BillSundryListActivity.class));
                 getActivity().finish();
             }

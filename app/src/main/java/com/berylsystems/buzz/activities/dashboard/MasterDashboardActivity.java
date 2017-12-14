@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
+import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.user.LoginActivity;
 import com.berylsystems.buzz.adapters.MasterDashboardAdapter;
@@ -56,6 +57,7 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         setAddCompany(2);
         setAppBarTitleCompany(1,"MASTER");
         ExpandableItemListActivity.isDirectForItem=true;
+        BillSundryListActivity.isDirectForBill=true;
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);

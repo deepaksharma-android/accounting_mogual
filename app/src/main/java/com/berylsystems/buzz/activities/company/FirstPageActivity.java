@@ -209,8 +209,5 @@ public class FirstPageActivity extends BaseActivityCompany {
                 .show();
 
 
-        super.onBackPressed();
-
-
     }
 }

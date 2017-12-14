@@ -41,7 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class CompanyDashboardActivity extends BaseActivityCompany {
-   //public CompanyData data;
+    //public CompanyData data;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.recycler_view)
@@ -92,7 +92,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
         setAddCompany(2);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-        setAppBarTitleCompany(1,appUser.company_name);
+        setAppBarTitleCompany(1, appUser.company_name);
         mOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +102,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
         mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), EditCompanyActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
                 //EditCompanyActivity.data = data;
                 startActivity(intent);
             }
@@ -114,15 +114,12 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
             }
         });
         mRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getApplicationContext(),2);
+        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new CompanyDashboardAdapter(this, title, myImageList);
         mRecyclerView.setAdapter(mAdapter);
 
         //get a company details api
-
-
-
 
 
     }
@@ -169,10 +166,10 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
 
 
     @Subscribe
-    public void getcompanydetail(CompanyResponse response){
+    public void getcompanydetail(CompanyResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            LocalRepositories.saveAppUser(this,appUser);
+        if (response.getStatus() == 200) {
+            LocalRepositories.saveAppUser(this, appUser);
             Preferences.getInstance(getApplicationContext()).setCname(Helpers.mystring(response.getCompany().getData().getAttributes().getName()));
             Preferences.getInstance(getApplicationContext()).setCprintname(Helpers.mystring(response.getCompany().getData().getAttributes().getPrint_name()));
             Preferences.getInstance(getApplicationContext()).setCshortname(Helpers.mystring(response.getCompany().getData().getAttributes().getShort_name()));
@@ -201,9 +198,8 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
             Preferences.getInstance(getApplicationContext()).setClogo(Helpers.mystring(response.getCompany().getData().getAttributes().getLogo()));
             Preferences.getInstance(getApplicationContext()).setCsign(Helpers.mystring(response.getCompany().getData().getAttributes().getSignature()));
             Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(response.getCompany().getData().getAttributes().getUsername()));
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -223,6 +219,7 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
                 .setNegativeButton(R.string.btn_cancel, null)
 
                 .show();*/
+
 
 
 
