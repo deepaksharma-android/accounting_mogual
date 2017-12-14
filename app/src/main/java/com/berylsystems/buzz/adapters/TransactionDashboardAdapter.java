@@ -1,12 +1,14 @@
 package com.berylsystems.buzz.adapters;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
+
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,33 +20,47 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.purchase.CreatePurchaseActivity;
-import com.berylsystems.buzz.activities.company.purchase_return.CreatePurchaseReturnActivity;
-import com.berylsystems.buzz.activities.company.sale.CreateSaleActivity;
-import com.berylsystems.buzz.activities.company.sale.GetSaleListActivity;
-import com.berylsystems.buzz.activities.company.sale_return.CreateSaleReturnActivity;
-import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.BankCaseDepositListActivity;
-import com.berylsystems.buzz.activities.company.transection.bankcasedeposit.CreateBankCaseDepositActivity;
-import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.BankCaseWithdrawActivity;
-import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity;
-import com.berylsystems.buzz.activities.company.transection.creditnotewoitem.CreateCreditNoteWoItemActivity;
-import com.berylsystems.buzz.activities.company.transection.creditnotewoitem.CreditNoteWoItemActivity;
-import com.berylsystems.buzz.activities.company.transection.debitnotewoitem.CreateDebitNoteWoItemActivity;
-import com.berylsystems.buzz.activities.company.transection.debitnotewoitem.DebitNoteWoItemActivity;
-import com.berylsystems.buzz.activities.company.transection.expence.CreateExpenceActivity;
-import com.berylsystems.buzz.activities.company.transection.expence.ExpenceActivity;
-import com.berylsystems.buzz.activities.company.transection.income.CreateIncomeActivity;
-import com.berylsystems.buzz.activities.company.transection.income.IncomeActivity;
-import com.berylsystems.buzz.activities.company.transection.journalvoucher.CreateJournalVoucherActivity;
-import com.berylsystems.buzz.activities.company.transection.journalvoucher.JournalVoucherActivity;
-import com.berylsystems.buzz.activities.company.transection.payment.CreatePaymentActivity;
-import com.berylsystems.buzz.activities.company.transection.payment.PaymentActivity;
-import com.berylsystems.buzz.activities.company.transection.receiptvoucher.CreateReceiptVoucherActivity;
-import com.berylsystems.buzz.activities.company.transection.receiptvoucher.ReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.GetSaleListActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.ExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.IncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.JournalVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.PaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
+
+import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import butterknife.Bind;

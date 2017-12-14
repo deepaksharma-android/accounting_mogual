@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transection.bankcasewithdraw.CreateBankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.Data;
 import com.berylsystems.buzz.utils.EventDeleteBankCashWithdraw;
 

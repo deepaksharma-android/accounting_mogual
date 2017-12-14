@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transection.expence.CreateExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.networks.api_response.expence.Data;
 import com.berylsystems.buzz.utils.EventDeleteExpence;
 

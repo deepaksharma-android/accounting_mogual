@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.berylsystems.buzz.activities.company.sale_return.SaleReturnAddItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsSaleReturnAdapter;
 import com.berylsystems.buzz.adapters.AddItemsSaleReturnAdapter;
 import com.berylsystems.buzz.entities.AppUser;

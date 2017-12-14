@@ -155,24 +155,42 @@
         <item>PDC</item>
         <item>Regular</item>
     </string-array>
-    <string-array name="gst_nature">
+    <string-array name="gst_nature_payment">
         <item>Not Applicable non Gst</item>
-        <item>Rcm/Unreg. Expence</item>
-        <item>Registered Expences (B2B)</item>
-        <item>Tax Paid expence (B2C)</item>
-        <item>Exempt expence</item>
-        <item>Composition exmence</item>
+        <item>Rcm/Unreg. Expense</item>
+        <item>Registered Expenses (B2B)</item>
+        <item>Tax Paid Expense (B2C)</item>
+        <item>Exempt Expence</item>
+        <item>Composition expense</item>
         <item>Refund against advance receipt</item>
         <item>GST payment to Government</item>
+    </string-array>
+    <string-array name="gst_nature_journal_voucher">
+        <item>Not Applicable non Gst</item>
+        <item>Rcm/Unreg. Expense</item>
+        <item>Registered Expenses (B2B)</item>
+        <item>Tax Paid Expense (B2C)</item>
+        <item>Exempt Expense</item>
+        <item>Composition Expense</item>
+        <item>Cr. Note received against purchase</item>
+        <item>Dr. Note received against purchase</item>
+        <item>Consolidated RCM Payable</item>
+        <item>GST Tax Adjustments</item>
+        <item>GST Payment to Government</item>
     </string-array>
     <string-array name="gst_nature_receipt">
         <item>Not Applicable</item>
         <item>Advance receipt</item>
     </string-array>
-    <string-array name="gst_nature_credit_debit_note">
-        <item>Not applicable</item>
+    <string-array name="gst_nature_credit">
+        <item>Not Applicable</item>
         <item>Dr. Note Issued Against Sale</item>
         <item>Cr. Note received against purchase</item>
+    </string-array>
+    <string-array name="gst_nature_debit">
+        <item>Not Applicable</item>
+        <item>Cr. Note Issued Against Sale</item>
+        <item>Dr. Note received against purchase</item>
     </string-array>
     <string-array name="main">
         <item>Main</item>

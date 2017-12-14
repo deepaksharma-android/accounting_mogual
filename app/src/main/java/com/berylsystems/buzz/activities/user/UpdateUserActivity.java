@@ -140,7 +140,6 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
             Intent intent = new Intent(this, CompanyListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
