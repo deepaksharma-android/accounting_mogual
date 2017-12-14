@@ -402,8 +402,8 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
 
             String group_type = response.getCredit_note().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature).length; i++) {
-                if (getResources().getStringArray(R.array.gst_nature_credit_debit_note)[i].equals(group_type)) {
+            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_credit).length; i++) {
+                if (getResources().getStringArray(R.array.gst_nature_credit)[i].equals(group_type)) {
                     groupindex = i;
                     break;
                 }

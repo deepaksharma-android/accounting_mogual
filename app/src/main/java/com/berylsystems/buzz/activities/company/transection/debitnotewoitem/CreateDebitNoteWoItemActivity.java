@@ -277,7 +277,6 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
         final Calendar newCalendar = Calendar.getInstance();
 
-        set_date.setText("22 Nov 2017");
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -398,8 +397,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
             String group_type = response.getDebit_note().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_credit_debit_note).length; i++) {
-                if (getResources().getStringArray(R.array.gst_nature_credit_debit_note)[i].equals(group_type)) {
+            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_debit).length; i++) {
+                if (getResources().getStringArray(R.array.gst_nature_debit)[i].equals(group_type)) {
                     groupindex = i;
                     break;
                 }

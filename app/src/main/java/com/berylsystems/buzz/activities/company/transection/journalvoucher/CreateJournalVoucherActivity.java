@@ -419,8 +419,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             String group_type = response.getJournal_voucher().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature).length; i++) {
-                if (getResources().getStringArray(R.array.gst_nature)[i].equals(group_type)) {
+            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_journal_voucher).length; i++) {
+                if (getResources().getStringArray(R.array.gst_nature_journal_voucher)[i].equals(group_type)) {
                     groupindex = i;
                     break;
                 }

@@ -207,13 +207,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                         });
                         snackbar.show();
                     }
-                    voucher_no.setText("");
-                    transaction_amount.setText("");
-                    transaction_narration.setText("");
-                    withdraw_from.setText("");
-                    withdraw_by.setText("");
-                    mSelectedImage.setImageResource(0);
-                    mSelectedImage.setVisibility(View.GONE);
+
                     //mSelectedImage.setImageDrawable(null);
                 }
             }
@@ -390,8 +384,14 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public void createbankcashwithdrawresponse(CreateBankCashWithdrawResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            voucher_no.setText("");
+            transaction_amount.setText("");
+            transaction_narration.setText("");
+            withdraw_from.setText("");
+            withdraw_by.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
