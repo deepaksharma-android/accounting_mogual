@@ -302,7 +302,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         }
 
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -319,7 +319,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private void setDateField() {
         set_date.setOnClickListener(this);
@@ -482,8 +482,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
             String group_type = response.getPayment().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature).length; i++) {
-                if (getResources().getStringArray(R.array.gst_nature)[i].equals(group_type)) {
+            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_payment).length; i++) {
+                if (getResources().getStringArray(R.array.gst_nature_payment)[i].equals(group_type)) {
                     groupindex = i;
                     break;
                 }

@@ -204,13 +204,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                         });
                         snackbar.show();
                     }
-                    voucher_no.setText("");
-                    transaction_amount.setText("");
-                    transaction_narration.setText("");
-                    withdraw_from.setText("");
-                    withdraw_by.setText("");
-                    mSelectedImage.setImageResource(0);
-                    mSelectedImage.setVisibility(View.GONE);
+
                     //mSelectedImage.setImageDrawable(null);
                 }
             }
@@ -254,7 +248,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             }
         });
     }
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -272,7 +266,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private void setDateField() {
         set_date.setOnClickListener(this);
@@ -387,8 +381,14 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public void createbankcashwithdrawresponse(CreateBankCashWithdrawResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            voucher_no.setText("");
+            transaction_amount.setText("");
+            transaction_narration.setText("");
+            withdraw_from.setText("");
+            withdraw_by.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

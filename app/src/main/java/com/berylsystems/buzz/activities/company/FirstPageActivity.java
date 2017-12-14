@@ -189,6 +189,7 @@ public class FirstPageActivity extends BaseActivityCompany {
     }
     @Override
     public void onBackPressed() {
+
         new AlertDialog.Builder(FirstPageActivity.this)
                 .setTitle("Exit Company")
                 .setMessage("Do you want to exit this company ?")
@@ -201,5 +202,9 @@ public class FirstPageActivity extends BaseActivityCompany {
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
+
+
+        super.onBackPressed();
+
     }
 }

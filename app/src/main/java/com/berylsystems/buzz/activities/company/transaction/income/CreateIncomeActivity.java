@@ -256,7 +256,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
 
 
     }
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -273,7 +273,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
     private void setDateField() {

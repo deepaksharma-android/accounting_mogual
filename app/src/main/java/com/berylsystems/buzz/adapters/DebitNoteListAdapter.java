@@ -42,7 +42,7 @@ public class DebitNoteListAdapter extends RecyclerView.Adapter<DebitNoteListAdap
 
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_name_debit);
        // viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().account_name_credit);
-        viewHolder.bank_edit_text2.setText("Creadit Note");
+        viewHolder.bank_edit_text2.setText("Credit Note");
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
 
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));

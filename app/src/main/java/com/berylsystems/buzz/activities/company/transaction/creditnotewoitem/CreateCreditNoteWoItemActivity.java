@@ -256,7 +256,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
 
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -274,7 +274,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
     private void setDateField() {
         set_date.setOnClickListener(this);
@@ -402,8 +402,8 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
 
             String group_type = response.getCredit_note().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature).length; i++) {
-                if (getResources().getStringArray(R.array.gst_nature_credit_debit_note)[i].equals(group_type)) {
+            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_credit).length; i++) {
+                if (getResources().getStringArray(R.array.gst_nature_credit)[i].equals(group_type)) {
                     groupindex = i;
                     break;
                 }

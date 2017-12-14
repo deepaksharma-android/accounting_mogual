@@ -230,6 +230,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     }
                     appUser.bank_cash_deposit_narration = transaction_narration.getText().toString();
                     appUser.bank_cash_deposit_attachment = encodedString;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {
@@ -259,7 +260,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         });
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -276,7 +277,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private void setDateField() {
         set_date.setOnClickListener(this);
@@ -419,22 +420,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         }
     }
 
-    /*@Subscribe
-    public void getBankCashDeposit(GetBankCashDepositResponse response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-                Intent intent = new Intent(this, BankCaseDepositListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-    }
-*/
     @Subscribe
     public void editBankCashDeposit(EditBankCashDepositResponse response){
         mProgressDialog.dismiss();
