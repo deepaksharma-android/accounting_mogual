@@ -208,8 +208,9 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                     transaction_narration.setText("");
                     received_into.setText("");
                     received_from.setText("");
-                    //mSelectedImage.setImageResource(0);
-                    mSelectedImage.setImageDrawable(null);
+                    mSelectedImage.setImageResource(0);
+                    mSelectedImage.setVisibility(View.GONE);
+                    //mSelectedImage.setImageDrawable(null);
                 }
             }
         });

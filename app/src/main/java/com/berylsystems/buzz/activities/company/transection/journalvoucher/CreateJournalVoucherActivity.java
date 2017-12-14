@@ -212,8 +212,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     account_name_credit.setText("");
                     account_name_debit.setText("");
                     gst_nature_spinner.setSelection(0);
-                    //mSelectedImage.setImageResource(0);
-                    mSelectedImage.setImageDrawable(null);
+                    mSelectedImage.setImageResource(0);
+                    mSelectedImage.setVisibility(View.GONE);
+                    //mSelectedImage.setImageDrawable(null);
                 }
             }
 

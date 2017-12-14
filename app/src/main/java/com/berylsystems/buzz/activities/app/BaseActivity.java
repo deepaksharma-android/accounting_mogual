@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.user.UpdateUserActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -77,10 +78,11 @@ public class BaseActivity extends AppCompatActivity{
                         return true;
 
                         case R.id.expense:
-                       /* Intent intent1 = new Intent(getApplicationContext(), ExpenseActivity.class);
+                        Intent intent1 = new Intent(getApplicationContext(), UpdateUserActivity.class);
                             intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent1);*/
+                            startActivity(intent1);
+
                         return true;
 
                     case R.id.claims:

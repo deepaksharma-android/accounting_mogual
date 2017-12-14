@@ -64,6 +64,24 @@ public class Attributes {
     public String auth_token;
     public String password;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPostal_code() {
+        return postal_code;
+    }
+
+    public void setPostal_code(String postal_code) {
+        this.postal_code = postal_code;
+    }
+
+    public String postal_code;
+
     public String getQr_code() {
         return qr_code;
     }

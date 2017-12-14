@@ -200,8 +200,9 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     account_name_debit.setText("");
                     // account_name_credit.setText("");
                     gst_nature_spinner.setSelection(0);
-                    //mSelectedImage.setImageResource(0);
-                    mSelectedImage.setImageDrawable(null);
+                    mSelectedImage.setImageResource(0);
+                    mSelectedImage.setVisibility(View.GONE);
+                    //mSelectedImage.setImageDrawable(null);
                 }
             }
 

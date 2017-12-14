@@ -185,8 +185,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         received_from_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                appUser.account_master_group = "Bank Accounts";
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
@@ -251,8 +250,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                     received_from.setText("");
                     type_spinner.setSelection(0);
                     gst_nature_spinner.setSelection(0);
-                    //mSelectedImage.setImageResource(0);
-                    mSelectedImage.setImageDrawable(null);
+                    mSelectedImage.setImageResource(0);
+                    mSelectedImage.setVisibility(View.GONE);
+                    //mSelectedImage.setImageDrawable(null);
                 }
             }
 

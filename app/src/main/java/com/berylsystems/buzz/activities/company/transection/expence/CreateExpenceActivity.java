@@ -208,8 +208,9 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                     transaction_narration.setText("");
                     paid_from.setText("");
                     paid_to.setText("");
-                    //mSelectedImage.setImageResource(0);
-                    mSelectedImage.setImageDrawable(null);
+                    mSelectedImage.setImageResource(0);
+                    mSelectedImage.setVisibility(View.GONE);
+                    //mSelectedImage.setImageDrawable(null);
                 }
             }
         });

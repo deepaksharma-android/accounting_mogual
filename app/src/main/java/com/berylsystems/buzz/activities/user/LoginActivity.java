@@ -233,6 +233,7 @@ public class LoginActivity extends RegisterAbstractActivity {
             appUser.mobile = response.getUser().getData().getAttributes().getMobile();
             appUser.email = response.getUser().getData().getAttributes().getEmail();
             appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
+            appUser.zipcode = response.getUser().getData().getAttributes().getPostal_code();
             LocalRepositories.saveAppUser(this, appUser);
             if (!response.getUser().getData().getAttributes().getActive()) {
 

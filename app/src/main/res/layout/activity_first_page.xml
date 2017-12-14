@@ -43,6 +43,7 @@
                 android:background="@color/black" />
 
             <LinearLayout
+                android:id="@+id/layout_cash_in_hand"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:background="#fff"
@@ -69,6 +70,7 @@
                     android:textSize="16sp" />
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/textview_cash_in_hand"
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -86,6 +88,7 @@
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
+                android:id="@+id/layout_bank"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:background="#fff"
@@ -112,6 +115,7 @@
                     android:textSize="16sp" />
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/textview_bank"
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -129,6 +133,7 @@
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
+                android:id="@+id/layout_customer"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:background="#fff"
@@ -155,6 +160,7 @@
                     android:textSize="16sp" />
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/textview_customer"
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -172,6 +178,7 @@
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
+                android:id="@+id/layout_supplier"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:background="#fff"
@@ -198,6 +205,7 @@
                     android:textSize="16sp" />
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/textview_supplier"
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -215,6 +223,7 @@
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
+                android:id="@+id/layout_stock_in_hand"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:background="#fff"
@@ -241,6 +250,7 @@
                     android:textSize="16sp" />
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/textview_stock_in_hand"
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

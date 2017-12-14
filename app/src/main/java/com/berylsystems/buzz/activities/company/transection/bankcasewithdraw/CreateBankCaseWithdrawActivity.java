@@ -212,8 +212,9 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     transaction_narration.setText("");
                     withdraw_from.setText("");
                     withdraw_by.setText("");
-                    //mSelectedImage.setImageResource(0);
-                    mSelectedImage.setImageDrawable(null);
+                    mSelectedImage.setImageResource(0);
+                    mSelectedImage.setVisibility(View.GONE);
+                    //mSelectedImage.setImageDrawable(null);
                 }
             }
         });
