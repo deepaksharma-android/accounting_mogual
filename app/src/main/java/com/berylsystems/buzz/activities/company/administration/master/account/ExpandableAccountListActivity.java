@@ -16,15 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -32,26 +27,20 @@ import com.berylsystems.buzz.events.EventSelectBankCaseDeposit;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
-import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventAccountChildClicked;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
-import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class ExpandableAccountListActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
@@ -210,11 +199,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-
-
     }
 
     @Subscribe

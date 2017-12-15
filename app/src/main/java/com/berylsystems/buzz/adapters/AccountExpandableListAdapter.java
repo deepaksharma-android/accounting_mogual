@@ -1,32 +1,20 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.utils.EventAccountChildClicked;
-import com.berylsystems.buzz.events.EventSelectBankCaseDeposit;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
-import com.berylsystems.buzz.utils.EventEditGroup;
-import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
-
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

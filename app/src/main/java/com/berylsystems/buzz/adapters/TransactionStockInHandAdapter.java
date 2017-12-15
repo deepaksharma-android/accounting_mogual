@@ -2,21 +2,13 @@ package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.utils.EventAccountChildClicked;
-import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
-
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -112,15 +104,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         }
         //TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
 
-        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
-       /* mMainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = groupPosition + "," + childPosititon;
-                EventBus.getDefault().post(new EventAccountChildClicked(id));
-                EventBus.getDefault().post(new EventSelectAccountPurchase(id));
-            }
-        });*/
+
         return convertView;
     }
 
