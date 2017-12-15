@@ -38,6 +38,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
 import java.io.ByteArrayOutputStream;
@@ -507,7 +508,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             transaction_amount.setText(String.valueOf(response.getPayment().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getPayment().getData().getAttributes().getNarration());
             if(!response.getPayment().getData().getAttributes().getAttachment().equals("")){
-                Glide.with(this).load(response.getPayment().getData().getAttributes().getAttachment()).into(mSelectedImage);
+                Glide.with(this).load(Uri.parse(response.getPayment().getData().getAttributes().getAttachment()))
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             }
             else{

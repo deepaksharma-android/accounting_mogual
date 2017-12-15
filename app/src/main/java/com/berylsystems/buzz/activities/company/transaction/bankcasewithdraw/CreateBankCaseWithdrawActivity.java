@@ -37,6 +37,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
 import java.io.ByteArrayOutputStream;
@@ -401,6 +402,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             transaction_narration.setText("");
             withdraw_from.setText("");
             withdraw_by.setText("");
+            //set_date.setText( appUser.bank_cash_withdraw_date);
             mSelectedImage.setImageResource(0);
             mSelectedImage.setVisibility(View.GONE);
         }
@@ -420,7 +422,12 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             transaction_amount.setText(String.valueOf(response.getBank_cash_withdraw().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getBank_cash_withdraw().getData().getAttributes().getNarration());
             if(!response.getBank_cash_withdraw().getData().getAttributes().getAttachment().equals("")){
-                Glide.with(this).load(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()).into(mSelectedImage);
+                //Glide.with(this).load(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()).into(mSelectedImage);
+
+                Glide.with(this).load(Uri.parse(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()))
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             }
             else{

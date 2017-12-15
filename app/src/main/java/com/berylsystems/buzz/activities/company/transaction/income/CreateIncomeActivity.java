@@ -37,6 +37,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
 import java.io.ByteArrayOutputStream;
@@ -441,7 +442,10 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             transaction_amount.setText(String.valueOf(response.getIncome().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getIncome().getData().getAttributes().getNarration());
             if(!response.getIncome().getData().getAttributes().getAttachment().equals("")){
-                Glide.with(this).load(response.getIncome().getData().getAttributes().getAttachment()).into(mSelectedImage);
+                Glide.with(this).load(Uri.parse(response.getIncome().getData().getAttributes().getAttachment()))
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             }
             else{
