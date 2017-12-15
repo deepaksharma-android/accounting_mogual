@@ -100,30 +100,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
         viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-               /* if(i==0){
-                    Dialog dialogbal = new Dialog(context);
-                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                    dialogbal.setContentView(R.layout.dialog_operation);
-                    dialogbal.setCancelable(true);
-                    LinearLayout add=(LinearLayout)dialogbal.findViewById(R.id.add_layout);
-                    LinearLayout modify=(LinearLayout)dialogbal.findViewById(R.id.modify_layout);
-                    add.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            context.startActivity(new Intent(context,CreateSaleActivity.class));
-                        }
-                    });
-                    modify.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            context.startActivity(new Intent(context,GetSaleListActivity.class));
-                        }
-                    });*/
-                //operationDialog(CreateSaleActivity.class,CreateSaleActivity.class);
-
                 if (i == 0) {
-
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -142,12 +119,29 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
-
-
                 }
                 if (i == 1) {
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
 
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                Intent j = new Intent(context, CreateReceiptVoucherActivity.class);
+                                j.putExtra("fromReceipt", false);
+                                context.startActivity(j);
+
+                            } else if (item == 1) {
+                                Intent j = new Intent(context, ReceiptVoucherActivity.class);
+                                j.putExtra("fromPayment", false);
+                                context.startActivity(j);
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                if (i == 2) {
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -166,56 +160,8 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
-
-
-                }
-                if (i == 2) {
-
-                    final CharSequence[] items = {"Add", "Modify"};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (item == 0) {
-                                appUser.mListMapForItemSaleReturn.clear();
-                                appUser.mListMapForBillSaleReturn.clear();
-                                LocalRepositories.saveAppUser(context, appUser);
-                                context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
-
-                            } else if (item == 1) {
-                                context.startActivity(new Intent(context, EditSaleReturnActivity.class));
-                            }
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-
                 }
                 if (i == 3) {
-
-                    final CharSequence[] items = {"Add", "Modify"};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (item == 0) {
-                                appUser.mListMapForItemPurchaseReturn.clear();
-                                appUser.mListMapForBillPurchaseReturn.clear();
-                                LocalRepositories.saveAppUser(context, appUser);
-                                context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
-
-                            } else if (item == 1) {
-                                context.startActivity(new Intent(context, EditPurchaseReturnActivity.class));
-                            }
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-                if (i == 4) {
-
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -236,31 +182,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-                if (i == 5) {
-                    final CharSequence[] items = {"Add", "Modify"};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (item == 0) {
-                                Intent j = new Intent(context, CreateReceiptVoucherActivity.class);
-                                j.putExtra("fromReceipt", false);
-                                context.startActivity(j);
-
-                            } else if (item == 1) {
-                                Intent j = new Intent(context, ReceiptVoucherActivity.class);
-                                j.putExtra("fromPayment", false);
-                                context.startActivity(j);
-                            }
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                }
-                if (i == 6) {
-
-
+                if (i == 4) {
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -281,8 +203,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-                if (i == 7) {
-
+                if (i == 5) {
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -303,8 +224,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-                if (i == 8) {
-
+                if (i == 6) {
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -323,11 +243,8 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                    // context.startActivity(new Intent(context, CreateIncomeActivity.class));
-
                 }
-                if (i == 9) {
-
+                if (i == 7) {
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -347,9 +264,46 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                }
+                if (i == 8) {
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
 
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                appUser.mListMapForItemSaleReturn.clear();
+                                appUser.mListMapForBillSaleReturn.clear();
+                                LocalRepositories.saveAppUser(context, appUser);
+                                context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
 
+                            } else if (item == 1) {
+                                context.startActivity(new Intent(context, EditSaleReturnActivity.class));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                if (i == 9) {
+                    final CharSequence[] items = {"Add", "Modify"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
 
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (item == 0) {
+                                appUser.mListMapForItemPurchaseReturn.clear();
+                                appUser.mListMapForBillPurchaseReturn.clear();
+                                LocalRepositories.saveAppUser(context, appUser);
+                                context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+
+                            } else if (item == 1) {
+                                context.startActivity(new Intent(context, EditPurchaseReturnActivity.class));
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
                 if (i == 10) {
 
@@ -372,12 +326,8 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
-
-
                 }
                 if (i == 11) {
-
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -397,12 +347,8 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
-
-
                 }
                 if (i == 12) {
-
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -422,9 +368,6 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
-
-
                 }
             }
         });

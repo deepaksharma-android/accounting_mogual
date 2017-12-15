@@ -461,4 +461,6 @@ public String payment_paid_to_id;
     public Boolean boolSetOrAddtoMap;
 
     public String totalamount;
+    public String items_amount;
+    public String bill_sundries_amount;
 }
