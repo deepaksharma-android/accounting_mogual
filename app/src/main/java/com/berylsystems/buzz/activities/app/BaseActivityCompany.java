@@ -130,7 +130,6 @@ public class BaseActivityCompany extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
-
     }
     public void settings(View v){
         Intent intent=new Intent(getApplicationContext(),AcountGroupActivity.class);
