@@ -63,11 +63,12 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         for (int i = 0; i < ta.length(); i++) {
             colors[i] = ta.getColor(i, 0);
         }
+        ExpandableItemListActivity.isDirectForItem=true;
+        BillSundryListActivity.isDirectForBill=true;
+
         ta.recycle();
         setAddCompany(2);
         setAppBarTitleCompany(1,"MASTER");
-        ExpandableItemListActivity.isDirectForItem=true;
-        BillSundryListActivity.isDirectForBill=true;
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);

@@ -7,13 +7,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountPaybleActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountReceivableActivity;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,7 +43,6 @@ public class AcountGroupActivity extends AppCompatActivity {
     TextView amount_receivable_txt;
     @Bind(R.id.amount_payble_txt)
     TextView amount_payble_txt;
-
 
 
     @Override
@@ -118,5 +120,28 @@ public class AcountGroupActivity extends AppCompatActivity {
         pcd_detail_txt.setTextColor(Color.BLACK);
         amount_receivable_txt.setTextColor(Color.BLACK);
         amount_payble_txt.setTextColor(Color.BLACK);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, FirstPageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, FirstPageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

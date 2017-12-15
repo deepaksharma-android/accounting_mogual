@@ -440,6 +440,7 @@
         <activity
             android:name=".activities.company.transaction.TransactionStockInHandActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale.EditSaleActivity"
