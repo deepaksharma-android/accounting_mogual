@@ -76,7 +76,7 @@
         <activity
             android:name=".activities.dashboard.CompanyDashboardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".activities.dashboard.AdministrationDashboardActivity"
             android:screenOrientation="portrait"

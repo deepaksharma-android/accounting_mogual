@@ -262,7 +262,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
         if (response.getStatus() == 200) {
 
             Preferences.getInstance(getApplicationContext()).setCid(String.valueOf(response.getId()));
-            startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
+            startActivity(new Intent(getApplicationContext(), FirstPageActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

@@ -3,13 +3,19 @@ package com.berylsystems.buzz.activities.dashboard;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -23,6 +29,7 @@ import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.activities.company.EditCompanyActivity;
+import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.adapters.CompanyDashboardAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -33,6 +40,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,26 +48,34 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CompanyDashboardActivity extends BaseActivityCompany {
+public class CompanyDashboardActivity extends AppCompatActivity {
     //public CompanyData data;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.recycler_view)
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    CompanyDashboardAdapter mAdapter;
+   /* @Bind(R.id.recycler_view)
+    RecyclerView mRecyclerView;*/
+   // RecyclerView.LayoutManager layoutManager;
+   // CompanyDashboardAdapter mAdapter;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
-    @Bind(R.id.layout_open)
-    LinearLayout mOpen;
-    @Bind(R.id.layout_edit)
+  /*  @Bind(R.id.layout_open)
+    LinearLayout mOpen;*/
+    @Bind(R.id.deleteCompanyLayout)
+    LinearLayout mDeleteCompanyLayout;
+    @Bind(R.id.editCompanyLayout)
+    LinearLayout mEditCompanyLayout;
+    @Bind(R.id.syncTallyCompanyLayout)
+    LinearLayout mSyncTallyCompanyLayout;
+    @Bind(R.id.syncBusyCompanyLayout)
+    LinearLayout mSyncBusyCompanyLayout;
+   /* @Bind(R.id.layout_edit)
     LinearLayout mEdit;
     @Bind(R.id.layout_delete)
     LinearLayout mDelete;
     @Bind(R.id.layout_backup)
-    LinearLayout mBackup;
-    @Bind(R.id.openImage)
+    LinearLayout mBackup;*/
+   /* @Bind(R.id.openImage)
     ImageView mOPenImage;
     @Bind(R.id.openText)
     TextView mOpenText;
@@ -70,11 +86,11 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
     @Bind(R.id.deleteImage)
     ImageView mDeleteImage;
     @Bind(R.id.deleteText)
-    TextView mDeleteText;
+    TextView mDeleteText;*/
     Dialog dialog;
 
 
-    int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites};
+   /* int[] myImageList = new int[]{R.drawable.icon_administration, R.drawable.icon_transaction, R.drawable.icon_display, R.drawable.icon_printer, R.drawable.icon_favorites};
     private String[] title = {
             "ADMINISTRATION",
             "TRANSACTION",
@@ -82,24 +98,23 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
             "PRINT/EMAIL/SMS",
             "FAVOURITES"
     };
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setNavigationCompany(1);
-        setAddCompany(2);
+
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-        setAppBarTitleCompany(1, appUser.company_name);
-        mOpen.setOnClickListener(new View.OnClickListener() {
+        initActionbar();
+/*        mOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
-        });
-        mEdit.setOnClickListener(new View.OnClickListener() {
+        });*/
+        mEditCompanyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
@@ -107,21 +122,42 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
                 startActivity(intent);
             }
         });
-        mDelete.setOnClickListener(new View.OnClickListener() {
+        mDeleteCompanyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showpopup();
             }
         });
-        mRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+      /*  mRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new CompanyDashboardAdapter(this, title, myImageList);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
 
         //get a company details api
 
 
+    }
+
+    private void initActionbar() {
+        ActionBar actionBar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(viewActionBar, params);
+        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+        actionbarTitle.setText(appUser.company_name);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTextSize(16);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -351,5 +387,29 @@ public class CompanyDashboardActivity extends BaseActivityCompany {
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                Intent intent = new Intent(this, FirstPageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, FirstPageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
