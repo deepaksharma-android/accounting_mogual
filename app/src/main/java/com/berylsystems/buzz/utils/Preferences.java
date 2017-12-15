@@ -128,6 +128,13 @@ public class Preferences {
     private static final String sale_type_name="sale_type_name";
     private static final String purchase_type_name="purchase_type_name";
     private static final String purchase_return_type_name="purchase_type_name";
+    private static final String voucher_date="voucher_date";
+    private static final String voucher_number="voucher_date";
+    private static final String store="store";
+    private static final String party_name="party_name";
+    private static final String mobile="mobile";
+    private static final String narration="narration";
+    private static final String cash_credit="cash_credit";
 
 
 
@@ -1084,6 +1091,8 @@ public class Preferences {
     public String getPurchase_return_type_name() {
         return pref.getString(purchase_return_type_name, "");
     }
+
+
 
 
 }

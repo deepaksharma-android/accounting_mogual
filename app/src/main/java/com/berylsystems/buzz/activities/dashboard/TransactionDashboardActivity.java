@@ -61,7 +61,6 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         ta.recycle();
         setAddCompany(2);
         setAppBarTitleCompany(1,"TRANSACTION");
-        Preferences.getInstance(getApplicationContext()).setSale_type_name("");
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);

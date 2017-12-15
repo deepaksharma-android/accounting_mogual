@@ -105,7 +105,7 @@ public class CreateSaleReturnFragment extends Fragment {
                         newDate.set(year, monthOfYear, dayOfMonth);
                         String date = dateFormatter.format(newDate.getTime());
                         mDate.setText(date);
-                        appUser.sale_return_date = date;
+                        appUser.sale_return_date = mDate.getText().toString();
                         LocalRepositories.saveAppUser(getActivity(), appUser);
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

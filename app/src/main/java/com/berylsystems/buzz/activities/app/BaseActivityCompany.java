@@ -147,6 +147,12 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void share(View v){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sent from Bahi Kata app");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Share the Bahi Khata App with your friends to spread goodness-Get the app-https://play.google.com/store/apps/details?id=com.berylsystems.buzz");
+        startActivity(Intent.createChooser(shareIntent, "Share via"));
 
     }
     public void about(View v){
