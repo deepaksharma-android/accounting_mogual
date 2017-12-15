@@ -196,17 +196,14 @@
         <activity
             android:name=".activities.company.administration.master.purchasetype.PurchaseTypeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.saletype.SaleTypeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.taxcategory.TaxCategoryeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.dashboard.TransactionDashboardActivity"
