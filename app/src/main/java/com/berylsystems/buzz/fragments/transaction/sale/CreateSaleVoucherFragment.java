@@ -105,6 +105,25 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        if(Preferences.getInstance(getContext()).getCash_credit().equals("")){
+            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cash.setTextColor(Color.parseColor("#ffffff"));
+            credit.setBackgroundColor(0);
+            credit.setTextColor(Color.parseColor("#000000"));//white
+        }
+        if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
+            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cash.setTextColor(Color.parseColor("#ffffff"));
+            credit.setBackgroundColor(0);
+            credit.setTextColor(Color.parseColor("#000000"));
+        }
+        else{
+            credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cash.setBackgroundColor(0);
+            credit.setTextColor(Color.parseColor("#ffffff"));//white
+            cash.setTextColor(Color.parseColor("#000000"));//black
+        }
+
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +164,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });
+        Preferences.getInstance(getContext()).setCash_credit("CASH");
         appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getActivity(), appUser);
         cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
