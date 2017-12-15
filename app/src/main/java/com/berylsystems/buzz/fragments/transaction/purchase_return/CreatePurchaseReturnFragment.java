@@ -127,12 +127,14 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mStore .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
         });
         mPurchaseType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SaleTypeListActivity.isDirectForSaleType=false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
             }
         });
@@ -140,6 +142,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser.account_master_group = "";
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }

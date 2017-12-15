@@ -288,6 +288,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
+        ItemGroupListActivity.isDirectForItemGroup=false;
         Intent intent = new Intent(this, ItemGroupListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromcreategroup",true);
@@ -307,6 +308,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                 appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());
                 LocalRepositories.saveAppUser(this, appUser);
+                ItemGroupListActivity.isDirectForItemGroup=false;
                 Intent intent = new Intent(this, ItemGroupListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("fromcreategroup",true);
@@ -350,6 +352,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     public void editItemGroupDetails(EditItemGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            ItemGroupListActivity.isDirectForItemGroup=false;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, ItemGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

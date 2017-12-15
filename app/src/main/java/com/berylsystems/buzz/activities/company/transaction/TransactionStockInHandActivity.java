@@ -66,6 +66,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }

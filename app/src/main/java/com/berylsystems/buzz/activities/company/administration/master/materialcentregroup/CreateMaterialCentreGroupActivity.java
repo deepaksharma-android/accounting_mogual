@@ -48,6 +48,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup;
+
 public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -300,7 +302,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                         });
                 snackbar.show();
             }
-
+            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
         }
         else{
@@ -314,6 +316,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);
@@ -337,6 +340,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
                 LocalRepositories.saveAppUser(this, appUser);
             }
+            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreatematerialcentregroup",true);

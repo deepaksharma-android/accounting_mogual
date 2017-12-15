@@ -159,6 +159,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -168,6 +169,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "Bank Accounts";
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);

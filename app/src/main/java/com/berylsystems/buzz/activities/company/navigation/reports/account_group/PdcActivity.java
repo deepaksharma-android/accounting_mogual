@@ -58,6 +58,7 @@ public class PdcActivity extends AppCompatActivity implements View.OnClickListen
                 AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
                 appUser.account_master_group="Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });

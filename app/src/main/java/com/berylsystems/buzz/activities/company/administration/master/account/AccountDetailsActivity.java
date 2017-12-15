@@ -119,6 +119,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard(view);
+                AccountGroupListActivity.isDirectForAccountGroup=false;
                 Intent intent = new Intent(getApplicationContext(), AccountGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -435,6 +436,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            ExpandableAccountListActivity.isDirectForAccount=false;
             Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -480,6 +482,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            ExpandableAccountListActivity.isDirectForAccount=false;
             Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

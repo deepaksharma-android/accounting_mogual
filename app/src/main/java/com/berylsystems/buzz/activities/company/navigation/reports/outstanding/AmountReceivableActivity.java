@@ -62,6 +62,7 @@ public class AmountReceivableActivity extends AppCompatActivity implements View.
                 AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
                 appUser.account_master_group="Sundry Debtors";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });

@@ -56,6 +56,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     Boolean fromGeneral, fromMaster, fromCreateGroup;
+    public static Boolean isDirectForAccountGroup = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
         }
 
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -106,21 +108,20 @@ public class AccountGroupListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("ACCOUNT GROUP LIST");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -131,10 +132,15 @@ public class AccountGroupListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (isDirectForAccountGroup){
+            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else {
+            finish();
+        }
+
     }
 
     @Override
@@ -206,18 +212,21 @@ public class AccountGroupListActivity extends AppCompatActivity {
 
     @Subscribe
     public void groupclickedevent(EventGroupClicked pos) {
-        if ((!fromMaster && fromCreateGroup) || !fromMaster && !fromCreateGroup) {
-            Timber.i("POSITION" + pos.getPosition());
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-            returnIntent.putExtra("name", appUser.arr_account_group_name.get(pos.getPosition()));
-            returnIntent.putExtra("id", String.valueOf(appUser.arr_account_group_id.get(pos.getPosition())));
-            Timber.i("PASSSS" + appUser.arr_account_group_id.get(pos.getPosition()));
+        if (!isDirectForAccountGroup) {
+            if ((!fromMaster && fromCreateGroup) || !fromMaster && !fromCreateGroup) {
+                Timber.i("POSITION" + pos.getPosition());
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+                returnIntent.putExtra("name", appUser.arr_account_group_name.get(pos.getPosition()));
+                returnIntent.putExtra("id", String.valueOf(appUser.arr_account_group_id.get(pos.getPosition())));
+                Timber.i("PASSSS" + appUser.arr_account_group_id.get(pos.getPosition()));
             /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
             LocalRepositories.saveAppUser(this, appUser);*/
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
         }
+
     }
 
     @Subscribe

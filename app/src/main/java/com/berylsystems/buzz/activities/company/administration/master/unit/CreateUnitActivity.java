@@ -241,6 +241,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            UnitListActivity.isDirectForUnitList=false;
             Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -255,6 +256,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            UnitListActivity.isDirectForUnitList=false;
             Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

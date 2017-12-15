@@ -64,13 +64,14 @@ public class MaterialCentreListActivity extends AppCompatActivity {
     Snackbar snackbar;
     List<String> name;
     List<String> id;
+    public static Boolean isDirectForMaterialCentre = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_centre_list);
         ButterKnife.bind(this);
-      initActionbar();
+        initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         mFloatingButton.bringToFront();
 
@@ -80,6 +81,7 @@ public class MaterialCentreListActivity extends AppCompatActivity {
         mAdapter = new MaterialCentreListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);*/
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -93,21 +95,20 @@ public class MaterialCentreListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("MATERIAL CENTRE LIST");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -118,10 +119,14 @@ public class MaterialCentreListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (isDirectForMaterialCentre) {
+            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -155,7 +160,7 @@ public class MaterialCentreListActivity extends AppCompatActivity {
 
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateMaterialCentreActivity.class);
-        intent.putExtra("frommaterialcentrelist",false);
+        intent.putExtra("frommaterialcentrelist", false);
         startActivity(intent);
     }
 
@@ -180,24 +185,24 @@ public class MaterialCentreListActivity extends AppCompatActivity {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
-            if(response.getOrdered_material_centers().size()==0){
-                Snackbar.make(coordinatorLayout,"No Material Centre Found!!",Snackbar.LENGTH_LONG).show();
+            if (response.getOrdered_material_centers().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Material Centre Found!!", Snackbar.LENGTH_LONG).show();
             }
-                for (int i = 0; i < response.getOrdered_material_centers().size(); i++) {
-                    listDataHeader.add(response.getOrdered_material_centers().get(i).getGroup_name());
-                    name = new ArrayList<>();
-                    id = new ArrayList<>();
-                    for (int j = 0; j < response.getOrdered_material_centers().get(i).getData().size(); j++) {
-                        name.add(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getUndefined()));
-                        id.add(response.getOrdered_material_centers().get(i).getData().get(j).getId());
-                    }
-                    listDataChild.put(listDataHeader.get(i), name);
-                    listDataChildId.put(i, id);
+            for (int i = 0; i < response.getOrdered_material_centers().size(); i++) {
+                listDataHeader.add(response.getOrdered_material_centers().get(i).getGroup_name());
+                name = new ArrayList<>();
+                id = new ArrayList<>();
+                for (int j = 0; j < response.getOrdered_material_centers().get(i).getData().size(); j++) {
+                    name.add(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_material_centers().get(i).getData().get(j).getAttributes().getUndefined()));
+                    id.add(response.getOrdered_material_centers().get(i).getData().get(j).getId());
                 }
-                listAdapter = new MaterialCentreListAdapter(this, listDataHeader, listDataChild);
+                listDataChild.put(listDataHeader.get(i), name);
+                listDataChildId.put(i, id);
+            }
+            listAdapter = new MaterialCentreListAdapter(this, listDataHeader, listDataChild);
 
-                // setting list adapter
-                expListView.setAdapter(listAdapter);
+            // setting list adapter
+            expListView.setAdapter(listAdapter);
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
@@ -290,33 +295,39 @@ public class MaterialCentreListActivity extends AppCompatActivity {
         intent.putExtra("frommaterialcentrelist", true);
         startActivity(intent);
     }
+
     @Subscribe
     public void clickEvent(EventSelectSaleVoucher pos) {
-        String id = pos.getPosition();
-        String[] arr = id.split(",");
-        String groupid = arr[0];
-        String childid = arr[1];
-        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("name", name);
-        returnIntent.putExtra("id",arrid);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+        if (!isDirectForMaterialCentre) {
+            String id = pos.getPosition();
+            String[] arr = id.split(",");
+            String groupid = arr[0];
+            String childid = arr[1];
+            String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("name", name);
+            returnIntent.putExtra("id", arrid);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
     }
+
 
     @Subscribe
     public void clickEventForPurchase(EventSelectPurchase pos) {
-        String id = pos.getPosition();
-        String[] arr = id.split(",");
-        String groupid = arr[0];
-        String childid = arr[1];
-        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("name", name);
-        returnIntent.putExtra("id",arrid);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+        if (!isDirectForMaterialCentre) {
+            String id = pos.getPosition();
+            String[] arr = id.split(",");
+            String groupid = arr[0];
+            String childid = arr[1];
+            String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("name", name);
+            returnIntent.putExtra("id", arrid);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
     }
 }

@@ -156,6 +156,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -166,6 +167,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             public void onClick(View view) {
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }

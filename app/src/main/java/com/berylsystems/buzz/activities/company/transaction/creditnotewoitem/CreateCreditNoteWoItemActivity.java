@@ -154,6 +154,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             public void onClick(View view) {
                 //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 appUser.account_master_group = "";
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);

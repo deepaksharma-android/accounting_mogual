@@ -51,6 +51,8 @@ public class UnitConversionListActivity extends AppCompatActivity {
     AppUser appUser;
     Snackbar  snackbar;
 
+    public static Boolean isDirectForUnitConversionList=true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

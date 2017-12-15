@@ -61,6 +61,7 @@ public class CashBankActivity extends AppCompatActivity implements View.OnClickL
                 AppUser appUser=LocalRepositories.getAppUser(getApplicationContext());
                 appUser.account_master_group="Bank Accounts,Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });

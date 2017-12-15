@@ -190,6 +190,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             public void onClick(View view) {
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -201,6 +202,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             public void onClick(View view) {
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
