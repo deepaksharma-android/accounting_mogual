@@ -283,11 +283,14 @@ public class CreateSaleReturnFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
+                String mobile = data.getStringExtra("mobile");
                 appUser.sale_return_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                mMobileNumber.setText(mobile);
+                Preferences.getInstance(getContext()).setMobile(mobile);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -316,7 +319,6 @@ public class CreateSaleReturnFragment extends Fragment {
     @Override
     public void onPause() {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
-        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();

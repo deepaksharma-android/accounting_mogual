@@ -64,6 +64,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     HashMap<Integer, List<String>> listDataChildId;
+    HashMap<Integer, List<String>> listDataChildMobile;
+    List<String> mobile;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
@@ -79,8 +81,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_expandabl_list);
         ButterKnife.bind(this);
         initActionbar();
-      /*  setAddCompany(0);
-        setAppBarTitleCompany(1, "ACCOUNT LIST");*/
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);
     }
@@ -187,6 +187,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
+            listDataChildMobile = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_accounts().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
@@ -194,13 +195,16 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
                 name = new ArrayList<>();
+                mobile = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()));
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
+                    mobile.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
                 }
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);
+                listDataChildMobile.put(i, mobile);
             }
             listAdapter = new AccountExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -297,9 +301,11 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String childid = arr[1];
             String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+            String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             Intent returnIntent = new Intent();
             returnIntent.putExtra("name", name);
             returnIntent.putExtra("id", arrid);
+            returnIntent.putExtra("mobile", mobile);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }

@@ -181,7 +181,7 @@
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sale Type"
+                    android:text="Purchase Type"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
