@@ -312,6 +312,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
                 LocalRepositories.saveAppUser(this, appUser);
+                AccountGroupListActivity.isDirectForAccountGroup=false;
                 Intent intent = new Intent(this, AccountGroupListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("fromcreategroup",true);
@@ -361,6 +362,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void editAccountGroupDetails(EditAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            AccountGroupListActivity.isDirectForAccountGroup=false;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, AccountGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

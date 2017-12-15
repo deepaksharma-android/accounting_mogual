@@ -57,6 +57,7 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
         account_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });
