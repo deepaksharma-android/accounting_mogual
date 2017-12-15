@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.transaction.sale_return;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -7,9 +8,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -65,7 +70,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
     AppUser appUser;
 
     List<Map<String, String>> mListMap;
-    Map<String, String> mMap;
+    Map mMap;
     Double first, second, third;
     Intent intent;
     Animation blinkOnClick;
@@ -182,6 +187,67 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             mDescription.setText(desc);
             mUnitList.add("Main Unit : " + main_unit);
             mUnitList.add("Alternate Unit :" + alternate_unit);
+            mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (batchwise && !serailwise) {
+                        serial = "1";
+                    } else if (!batchwise && serailwise) {
+                        if (mQuantity.getText().toString().equals("")) {
+                            serial = "0";
+                        } else {
+                            serial = mQuantity.getText().toString();
+                        }
+
+                    } else {
+                        serial = "0";
+                    }
+                    if (!serial.equals("0")) {
+                        Dialog dialogbal = new Dialog(SaleReturnAddItemActivity.this);
+                        dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                        dialogbal.setContentView(R.layout.dialog_serail);
+                        dialogbal.setCancelable(true);
+                        LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
+                        LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                        int width=getWidth();
+                        int height=getHeight();
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+                        lp.setMargins(20,10,20,0);
+                        EditText[] pairs = new EditText[Integer.parseInt(serial)];
+                        for (int l = 0; l < Integer.parseInt(serial); l++) {
+                            pairs[l] = new EditText(getApplicationContext());
+                            pairs[l].setPadding(20, 10, 10, 0);
+                            pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
+                            pairs[l].setWidth(width);
+                            pairs[l].setHeight(height);
+                            pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
+                            pairs[l].setTextSize(18);
+                            if(appUser.serial_arr.size()>0) {
+                                pairs[l].setText(appUser.serial_arr.get(l));
+                            }
+                            pairs[l].setHint("Enter Serial Number"+" "+(l+1));
+                            pairs[l].setHintTextColor(Color.GRAY);
+                            pairs[l].setTextColor(Color.BLACK);
+                            pairs[l].setLayoutParams(lp);
+                            pairs[l].setId(l);
+                            //pairs[l].setText((l + 1) + ": something");
+                            serialLayout.addView(pairs[l]);
+                        }
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                for (int l = 0; l < Integer.parseInt(serial); l++) {
+                                    appUser.serial_arr.add(pairs[l].getText().toString());
+                                }
+                                dialogbal.dismiss();
+                            }
+                        });
+                        dialogbal.show();
+
+                    }
+                }
+
+            });
 
         }
 
@@ -347,6 +413,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
+                mMap.put("serial_number",appUser.serial_arr);
 
                 if(!frombillitemvoucherlist) {
                     appUser.mListMapForItemSaleReturn.add(mMap);
@@ -520,4 +587,59 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private int getWidth(){
+        int density= getResources().getDisplayMetrics().densityDpi;
+        int size =0;
+        switch(density)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                size = 500;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                size = 900;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                size = 1200;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                size = 1000;
+                break;
+            case DisplayMetrics.DENSITY_XXHIGH:
+                size = 1200;
+                break;
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                size = 1000;
+                break;
+
+        }
+
+        return size;
+    }
+    private int getHeight(){
+        int density= getResources().getDisplayMetrics().densityDpi;
+        int height =50;
+        switch(density)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                height = 150;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                height = 150;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                height = 250;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                height = 100;
+                break;
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                height = 150;
+                break;
+
+        }
+
+        return height;
+    }
+
 }

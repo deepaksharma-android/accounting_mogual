@@ -102,6 +102,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
             @Override
             public void onClick(View view) {
                 if (i == 0) {
+                    appUser.serial_arr.clear();
                     Preferences.getInstance(context).setVoucher_date("");
                     Preferences.getInstance(context).setVoucher_number("");
                     Preferences.getInstance(context).setStore("");
@@ -151,6 +152,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     dialog.show();
                 }
                 if (i == 2) {
+                    appUser.serial_arr.clear();
                     Preferences.getInstance(context).setVoucher_date("");
                     Preferences.getInstance(context).setVoucher_number("");
                     Preferences.getInstance(context).setStore("");
@@ -283,6 +285,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     dialog.show();
                 }
                 if (i == 8) {
+                    appUser.serial_arr.clear();
                     Preferences.getInstance(context).setVoucher_date("");
                     Preferences.getInstance(context).setVoucher_number("");
                     Preferences.getInstance(context).setStore("");
@@ -311,6 +314,7 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     dialog.show();
                 }
                 if (i == 9) {
+                    appUser.serial_arr.clear();
                     Preferences.getInstance(context).setVoucher_date("");
                     Preferences.getInstance(context).setVoucher_number("");
                     Preferences.getInstance(context).setStore("");

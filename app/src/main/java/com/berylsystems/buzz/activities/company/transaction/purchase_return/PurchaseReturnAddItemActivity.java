@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -70,7 +72,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
     AppUser appUser;
     List<Map<String, String>> mListMap;
-    Map<String, String> mMap;
+    Map mMap;
     Double first, second, third;
     Intent intent;
     Animation blinkOnClick;
@@ -160,26 +162,39 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                    submit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialogbal.dismiss();
-                        }
-                    });
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    int width=getWidth();
+                    int height=getHeight();
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+                    lp.setMargins(20,10,20,0);
                     EditText[] pairs = new EditText[Integer.parseInt(serial)];
                     for (int l = 0; l < Integer.parseInt(serial); l++) {
                         pairs[l] = new EditText(getApplicationContext());
-                        pairs[l].setHeight(50);
-                        pairs[l].setPadding(10, 10, 10, 0);
+                        pairs[l].setPadding(20, 10, 10, 0);
                         pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
-                        pairs[l].setWidth(500);
-                        pairs[l].setTextSize(15);
+                        pairs[l].setWidth(width);
+                        pairs[l].setHeight(height);
+                        pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
+                        pairs[l].setTextSize(18);
+                        if(appUser.serial_arr.size()>0) {
+                            pairs[l].setText(appUser.serial_arr.get(l));
+                        }
+                        pairs[l].setHint("Enter Serial Number"+" "+(l+1));
+                        pairs[l].setHintTextColor(Color.GRAY);
+                        pairs[l].setTextColor(Color.BLACK);
                         pairs[l].setLayoutParams(lp);
                         pairs[l].setId(l);
                         //pairs[l].setText((l + 1) + ": something");
                         serialLayout.addView(pairs[l]);
                     }
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            for (int l = 0; l < Integer.parseInt(serial); l++) {
+                                appUser.serial_arr.add(pairs[l].getText().toString());
+                            }
+                            dialogbal.dismiss();
+                        }
+                    });
                     dialogbal.show();
 
                 }
@@ -362,6 +377,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
+                mMap.put("serial_number",appUser.serial_arr);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemPurchaseReturn.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -512,4 +528,58 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         startActivity(new Intent(this, ExpandableItemListActivity.class));
         finish();
     }
+    private int getWidth(){
+        int density= getResources().getDisplayMetrics().densityDpi;
+        int size =0;
+        switch(density)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                size = 500;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                size = 900;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                size = 1200;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                size = 1000;
+                break;
+            case DisplayMetrics.DENSITY_XXHIGH:
+                size = 1200;
+                break;
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                size = 1000;
+                break;
+
+        }
+
+        return size;
+    }
+    private int getHeight(){
+        int density= getResources().getDisplayMetrics().densityDpi;
+        int height =50;
+        switch(density)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                height = 150;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                height = 150;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                height = 250;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                height = 100;
+                break;
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                height = 150;
+                break;
+
+        }
+
+        return height;
+    }
+
 }

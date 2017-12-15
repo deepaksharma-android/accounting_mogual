@@ -272,12 +272,12 @@ public class AppUser {
     public String purchase_type_name="";
 
     public String childId = "";
-    public List<Map<String, String>> mListMapForItemSale = new ArrayList();
+    public List<Map> mListMapForItemSale = new ArrayList();
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
     public Map<String,String> mMapSaleVoucherBill=new HashMap<>();
     public Map<String,String> mMapSaleVoucherItem=new HashMap<>();
 
-public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
+public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public List<Map<String, String>> mListMapForBillSaleReturn = new ArrayList();
     public Map<String,String> mMapSaleReturnBill=new HashMap<>();
     public Map<String,String> mMapSaleReturnItem=new HashMap<>();
@@ -285,7 +285,7 @@ public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
     public Map<String,String> mMapPurchaseVoucherItem=new HashMap<>();
     public Map<String,String> mMapPurchaseReturnItem=new HashMap<>();
 
-    public List<Map<String, String>> mListMapForItemPurchase = new ArrayList();
+    public List<Map> mListMapForItemPurchase = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();
 
 
@@ -300,7 +300,7 @@ public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
     public String sale_return_cash_credit = "";
     public String sale_return_narration = "";
 
-    public List<Map<String, String>> mListMapForItemPurchaseReturn = new ArrayList();
+    public List<Map> mListMapForItemPurchaseReturn = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchaseReturn = new ArrayList();
 
 
@@ -330,7 +330,7 @@ public List<Map<String, String>> mListMapForItemSaleReturn = new ArrayList();
     public String bank_cash_deposit_attachment="";
     public String delete_bank_cash_deposit_id;
     public String edit_bank_cash_deposit_id;
-
+    public ArrayList<String> serial_arr=new ArrayList<>();
     public ArrayList<BillSundryData> billSundryData = new ArrayList<>();
     public ArrayList<BillSundryData> SalebillSundryData = new ArrayList<>();
     public ArrayList<String> billsundrytotal=new ArrayList<>();
