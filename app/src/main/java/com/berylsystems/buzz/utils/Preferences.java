@@ -129,6 +129,13 @@ public class Preferences {
     private static final String sale_return_type_name="sale_return_type_name";
     private static final String purchase_type_name="purchase_type_name";
     private static final String purchase_return_type_name="purchase_type_name";
+    private static final String voucher_date="voucher_date";
+    private static final String voucher_number="voucher_number";
+    private static final String voucherstore="store";
+    private static final String party_name="party_name";
+    private static final String vouchermobile="mobile";
+    private static final String vouchernarration="narration";
+    private static final String cash_credit="cash_credit";
 
 
 
@@ -1094,6 +1101,66 @@ public class Preferences {
     public String getPurchase_return_type_name() {
         return pref.getString(purchase_return_type_name, "");
     }
+
+
+    public void setVoucher_date(String voucherdate) {
+        editor.putString(voucher_date, voucherdate);
+        editor.commit();
+    }
+
+    public String getVoucher_date() {
+        return pref.getString(voucher_date, "");
+    }
+    public void setVoucher_number(String vouchernumber) {
+        editor.putString(voucher_number, vouchernumber);
+        editor.commit();
+    }
+
+    public String getVoucher_number() {
+        return pref.getString(voucher_number, "");
+    }
+    public void setStore(String store) {
+        editor.putString(voucherstore, store);
+        editor.commit();
+    }
+
+    public String getStore() {
+        return pref.getString(voucherstore, "");
+    }
+    public void setParty_name(String partyname) {
+        editor.putString(party_name, partyname);
+        editor.commit();
+    }
+
+    public String getParty_name() {
+        return pref.getString(party_name, "");
+    }
+    public void setMobile(String mobile) {
+        editor.putString(vouchermobile, mobile);
+        editor.commit();
+    }
+
+    public String getMobile() {
+        return pref.getString(vouchermobile, "");
+    }
+    public void setNarration(String narration) {
+        editor.putString(vouchernarration, narration);
+        editor.commit();
+    }
+
+    public String getNarration() {
+        return pref.getString(vouchernarration, "");
+    }
+
+    public void setCash_credit(String cashcredit) {
+        editor.putString(cash_credit, cashcredit);
+        editor.commit();
+    }
+
+    public String getCash_credit() {
+        return pref.getString(cash_credit, "");
+    }
+
 
 
 }

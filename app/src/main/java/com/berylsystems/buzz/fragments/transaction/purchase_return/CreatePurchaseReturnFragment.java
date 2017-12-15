@@ -95,8 +95,14 @@ public class CreatePurchaseReturnFragment extends Fragment {
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
-        mDate.setText(date1);
+        Preferences.getInstance(getContext()).setVoucher_date(date1);
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_return_type_name());
+        mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        mStore.setText(Preferences.getInstance(getContext()).getStore());
+        mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
+        mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
+        mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
+        mNarration.setText(Preferences.getInstance(getContext()).getNarration());
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +114,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                         newDate.set(year, monthOfYear, dayOfMonth);
                         String date = dateFormatter.format(newDate.getTime());
                         mDate.setText(date);
+                        Preferences.getInstance(getContext()).setVoucher_date(date);
                         appUser.purchase_date = date;
                         LocalRepositories.saveAppUser(getActivity(), appUser);
                     }
@@ -238,6 +245,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name=result.split(",");
                 mStore.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -267,6 +275,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr=result.split(",");
                 mPartyName.setText(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -288,6 +297,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
     }
 
     public void onPause() {
+        Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
+        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
+        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
+        Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
