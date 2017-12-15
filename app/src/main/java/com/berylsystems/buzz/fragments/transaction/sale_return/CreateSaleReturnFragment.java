@@ -92,6 +92,7 @@ public class CreateSaleReturnFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
+        mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         String date1 = dateFormatter.format(newCalendar.getTime());
         mDate.setText(date1);
         mDate.setOnClickListener(new View.OnClickListener() {

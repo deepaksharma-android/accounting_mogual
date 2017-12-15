@@ -33,11 +33,13 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
     private String[] data;
     private Context context;
     int[] images;
+    int[] color;
 
-    public MasterDashboardAdapter(Context context, String[] data, int[] images) {
+    public MasterDashboardAdapter(Context context, String[] data, int[] images, int[] color) {
         this.data = data;
         this.context = context;
         this.images=images;
+        this.color=color;
     }
 
     @Override
@@ -50,6 +52,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
     public void onBindViewHolder(MasterDashboardAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mImage.setImageResource(images[i]);
         viewHolder.mTitleText.setText(data[i]);
+        viewHolder.mView.setBackgroundColor(color[i]);
         viewHolder.mGridLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +112,8 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
         TextView mTitleText;
         @Bind(R.id.imageicon)
         ImageView mImage;
+        @Bind(R.id.viewcolor)
+        View mView;
         @Bind(R.id.grid_layout)
         LinearLayout mGridLayout;
         public ViewHolder(View view) {
