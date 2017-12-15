@@ -82,8 +82,6 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
         @Bind(R.id.edit1)
         LinearLayout mEdit;
 
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
