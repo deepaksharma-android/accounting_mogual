@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -53,7 +54,7 @@ public class CreateSaleReturnFragment extends Fragment {
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
-    EditText mSeries;
+    Spinner mSeries;
     @Bind(R.id.vch_number)
     EditText mVchNumber;
     @Bind(R.id.sale_type)
@@ -91,6 +92,7 @@ public class CreateSaleReturnFragment extends Fragment {
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
         mDate.setText(date1);
@@ -167,14 +169,14 @@ public class CreateSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
                 if(appUser.mListMapForItemSaleReturn.size()>0) {
-                    if (!mSeries.getText().toString().equals("")) {
+                    if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mSaleType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                             if (!mMobileNumber.getText().toString().equals("")) {
-                                                appUser.sale_return_series = mSeries.getText().toString();
+                                                appUser.sale_return_series = mSeries.getSelectedItem().toString();
                                                 appUser.sale_return_vchNo = mVchNumber.getText().toString();
                                                 appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
                                                 appUser.sale_return_narration = mNarration.getText().toString();

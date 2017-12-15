@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -52,7 +53,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
-    EditText mSeries;
+    Spinner mSeries;
     @Bind(R.id.vch_number)
     EditText mVchNumber;
     @Bind(R.id.purchase_type)
@@ -89,8 +90,6 @@ public class CreatePurchaseReturnFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_purchase_return_create, container, false);
         ButterKnife.bind(this, view);
-
-
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -172,14 +171,14 @@ public class CreatePurchaseReturnFragment extends Fragment {
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
                 if(appUser.mListMapForItemPurchaseReturn.size()>0) {
-                    if (!mSeries.getText().toString().equals("")) {
+                    if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mPurchaseType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                             if (!mMobileNumber.getText().toString().equals("")) {
-                                                appUser.purchase_voucher_series = mSeries.getText().toString();
+                                                appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                                 appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                                 appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                                 appUser.purchase_narration = mNarration.getText().toString();
