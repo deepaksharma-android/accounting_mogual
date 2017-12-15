@@ -29,7 +29,7 @@
         <com.berylsystems.buzz.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_weight="0.4"
             android:textSize="15sp"
@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="15sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="Received From"
             android:textStyle="bold"
@@ -84,7 +84,7 @@
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="15sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:textColor="#000"
             style="@style/Gotham_Book"
@@ -103,12 +103,13 @@
             android:id="@+id/edit1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_marginBottom="4dp"
             android:layout_weight="0.15"
             android:gravity="center">
 
             <ImageView
                 android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_edit"
                 android:visibility="visible" />
@@ -119,12 +120,13 @@
             android:id="@+id/delete"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_marginBottom="4dp"
             android:layout_weight="0.15"
             android:gravity="center">
 
             <ImageView
                 android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_delete"
                 android:visibility="visible" />

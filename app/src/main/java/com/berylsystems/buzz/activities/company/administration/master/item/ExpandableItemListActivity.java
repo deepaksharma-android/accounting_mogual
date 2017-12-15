@@ -2,16 +2,23 @@ package com.berylsystems.buzz.activities.company.administration.master.item;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
@@ -24,6 +31,7 @@ import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActiv
 import com.berylsystems.buzz.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
+import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.ItemExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -34,6 +42,7 @@ import com.berylsystems.buzz.utils.EventDeleteItem;
 import com.berylsystems.buzz.utils.EventEditItem;
 import com.berylsystems.buzz.utils.EventSaleAddItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +55,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExpandableItemListActivity extends BaseActivityCompany {
+public class ExpandableItemListActivity extends AppCompatActivity {
 
     public static Boolean isDirectForItem = true;
     public static Integer comingFrom = 0;
@@ -115,10 +124,30 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
-        setAddCompany(0);
-        setAppBarTitleCompany(1, "ITEM LIST");
+        initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         floatingActionButton.bringToFront();
+    }
+
+    private void initActionbar() {
+        ActionBar actionBar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(viewActionBar, params);
+        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+        actionbarTitle.setText("ITEM LIST");
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
+        actionbarTitle.setTextSize(16);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -466,7 +495,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
         LocalRepositories.saveAppUser(this, appUser);
 
         if (!isDirectForItem) {
-          
+
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
@@ -588,7 +617,7 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 intent.putExtra("packaging_unit_purchase_price", packaging_unit_purchase_price);
                 intent.putExtra("packaging_unit", packaging_unit);
                 intent.putExtra("mrp", mrp);
-                intent.putExtra("tax",tax);
+                intent.putExtra("tax", tax);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 2) {
@@ -753,11 +782,55 @@ public class ExpandableItemListActivity extends BaseActivityCompany {
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
+            } else {
+                Intent intent = new Intent(this, MasterDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         } else {
             finish();
         }
 
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (!ExpandableItemListActivity.isDirectForItem) {
+                    if (ExpandableItemListActivity.comingFrom == 0) {
+                        Intent intent = new Intent(this, CreateSaleActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 1) {
+                        Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 2) {
+                        Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 3) {
+                        Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(this, MasterDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                } else {
+                    finish();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

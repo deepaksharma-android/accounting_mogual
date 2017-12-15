@@ -92,6 +92,7 @@ public class AddItemVoucherFragment extends Fragment {
                 if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 0;
+                    BillSundryListActivity.isDirectForBill = false;
                     startActivity(new Intent(getContext(), BillSundryListActivity.class));
                     getActivity().finish();
                 }
@@ -645,7 +646,10 @@ public class AddItemVoucherFragment extends Fragment {
             double total = Double.parseDouble(tot);
             totalitemamount = totalitemamount + total;
         }
+
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
+        appUser.items_amount=String.valueOf(totalitemamount);
+        appUser.bill_sundries_amount=String.valueOf(totalbillsundryamount);
         appUser.totalamount=String.valueOf(totalitemamount + totalbillsundryamount);
         LocalRepositories.saveAppUser(getActivity(),appUser);
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));

@@ -97,95 +97,78 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
             public void onClick(View view) {
                 if (!mComapnyName.getText().toString().equals("")) {
                     if (Validation.isPhoneFormatValid(mPhoneNumber.getText().toString())) {
-                        if (!mCin.getText().toString().equals("")) {
-                            if (!mPan.getText().toString().equals("")) {
-                                if (!mGst.getText().toString().equals("")) {
-                                    if (!mAddress.getText().toString().equals("")) {
-                                        if (!mCity.getText().toString().equals("")) {
-                                            if (!mUserName.getText().toString().equals("")) {
-                                                if (!mPassword.getText().toString().equals("")) {
-                                                    if (!mConfirmPassword.getText().toString().equals("")) {
-                                                        if (mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                appUser.company_name = mComapnyName.getText().toString();
-                                                                appUser.comapny_phone_number = mPhoneNumber.getText().toString();
-                                                                appUser.financial_year_from = mFinancialYear.getText().toString();
-                                                                appUser.books_commencing_from = mBookYear.getText().toString();
-                                                                appUser.cin = mCin.getText().toString();
-                                                                appUser.it_pin = mPan.getText().toString();
-                                                                appUser.gst = mGst.getText().toString();
-                                                                appUser.address = mAddress.getText().toString();
-                                                                appUser.city=mCity.getText().toString();
-                                                                appUser.state = mStateSpinner.getSelectedItem().toString();
-                                                                appUser.companyUserName = mUserName.getText().toString();
-                                                                appUser.companyUserPassword = mPassword.getText().toString();
-                                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                                                mProgressDialog = new ProgressDialog(CreateCompanyActivity.this);
-                                                                mProgressDialog.setMessage("Info...");
-                                                                mProgressDialog.setIndeterminate(false);
-                                                                mProgressDialog.setCancelable(true);
-                                                                mProgressDialog.show();
-                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_COMPANY);
-                                                            } else {
-                                                                snackbar = Snackbar
-                                                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                                                        .setAction("RETRY", new View.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(View view) {
-                                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                                if (isConnected) {
-                                                                                    snackbar.dismiss();
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                snackbar.show();
-                                                            }
-                                                        } else {
-                                                            snackbar = Snackbar
-                                                                    .make(coordinatorLayout, "Password does not match", Snackbar.LENGTH_LONG);
-                                                            snackbar.show();
-                                                        }
-                                                    } else {
-                                                        snackbar = Snackbar
-                                                                .make(coordinatorLayout, "Please confirm the password", Snackbar.LENGTH_LONG);
-                                                        snackbar.show();
-                                                    }
+                        if (!mAddress.getText().toString().equals("")) {
+                            if (!mCity.getText().toString().equals("")) {
+                                if (!mUserName.getText().toString().equals("")) {
+                                    if (!mPassword.getText().toString().equals("")) {
+                                        if (!mConfirmPassword.getText().toString().equals("")) {
+                                            if (mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if (isConnected) {
+                                                    appUser.company_name = mComapnyName.getText().toString();
+                                                    appUser.comapny_phone_number = mPhoneNumber.getText().toString();
+                                                    appUser.financial_year_from = mFinancialYear.getText().toString();
+                                                    appUser.books_commencing_from = mBookYear.getText().toString();
+                                                    appUser.cin = mCin.getText().toString();
+                                                    appUser.it_pin = mPan.getText().toString();
+                                                    appUser.gst = mGst.getText().toString();
+                                                    appUser.address = mAddress.getText().toString();
+                                                    appUser.city = mCity.getText().toString();
+                                                    appUser.state = mStateSpinner.getSelectedItem().toString();
+                                                    appUser.companyUserName = mUserName.getText().toString();
+                                                    appUser.companyUserPassword = mPassword.getText().toString();
+                                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                    mProgressDialog = new ProgressDialog(CreateCompanyActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_COMPANY);
                                                 } else {
                                                     snackbar = Snackbar
-                                                            .make(coordinatorLayout, "Enter Company password", Snackbar.LENGTH_LONG);
+                                                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                                            .setAction("RETRY", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View view) {
+                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                    if (isConnected) {
+                                                                        snackbar.dismiss();
+                                                                    }
+                                                                }
+                                                            });
                                                     snackbar.show();
                                                 }
                                             } else {
                                                 snackbar = Snackbar
-                                                        .make(coordinatorLayout, "Enter Company Username", Snackbar.LENGTH_LONG);
+                                                        .make(coordinatorLayout, "Password does not match", Snackbar.LENGTH_LONG);
                                                 snackbar.show();
                                             }
                                         } else {
                                             snackbar = Snackbar
-                                                    .make(coordinatorLayout, "Enter City name", Snackbar.LENGTH_LONG);
+                                                    .make(coordinatorLayout, "Please confirm the password", Snackbar.LENGTH_LONG);
                                             snackbar.show();
                                         }
                                     } else {
                                         snackbar = Snackbar
-                                                .make(coordinatorLayout, "Enter address", Snackbar.LENGTH_LONG);
+                                                .make(coordinatorLayout, "Enter Company password", Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     }
                                 } else {
                                     snackbar = Snackbar
-                                            .make(coordinatorLayout, "Enter GST number", Snackbar.LENGTH_LONG);
+                                            .make(coordinatorLayout, "Enter Company Username", Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 }
                             } else {
                                 snackbar = Snackbar
-                                        .make(coordinatorLayout, "Enter PAN number", Snackbar.LENGTH_LONG);
+                                        .make(coordinatorLayout, "Enter City name", Snackbar.LENGTH_LONG);
                                 snackbar.show();
                             }
                         } else {
                             snackbar = Snackbar
-                                    .make(coordinatorLayout, "Enter CIN number", Snackbar.LENGTH_LONG);
+                                    .make(coordinatorLayout, "Enter address", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
+
                     } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "Enter phone number", Snackbar.LENGTH_LONG);
@@ -221,7 +204,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CREATE COMPANY");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -279,7 +262,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
         if (response.getStatus() == 200) {
 
             Preferences.getInstance(getApplicationContext()).setCid(String.valueOf(response.getId()));
-            startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
+            startActivity(new Intent(getApplicationContext(), FirstPageActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

@@ -89,6 +89,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                 if (!Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 3;
+                    BillSundryListActivity.isDirectForBill = false;
                     startActivity(new Intent(getContext(), BillSundryListActivity.class));
                     getActivity().finish();
                 }
@@ -674,6 +675,8 @@ public class AddItemPurchaseReturnFragment extends Fragment {
         }
         mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
         appUser.totalamount=String.valueOf(totalitemamount + totalbillsundryamount);
+        appUser.items_amount=String.valueOf(totalitemamount);
+        appUser.bill_sundries_amount=String.valueOf(totalbillsundryamount);
         LocalRepositories.saveAppUser(getActivity(),appUser);
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }

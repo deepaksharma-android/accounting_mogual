@@ -71,11 +71,12 @@ public class FirstPageActivity extends BaseActivityCompany {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_page);
+        appUser = LocalRepositories.getAppUser(this);
         setAddCompany(0);
-        setAppBarTitleCompany(1, "BAHI KHATA");
+        setAppBarTitleCompany(1, appUser.company_name.toUpperCase());
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        appUser = LocalRepositories.getAppUser(this);
+
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -207,9 +208,6 @@ public class FirstPageActivity extends BaseActivityCompany {
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
-
-
-        super.onBackPressed();
 
 
     }

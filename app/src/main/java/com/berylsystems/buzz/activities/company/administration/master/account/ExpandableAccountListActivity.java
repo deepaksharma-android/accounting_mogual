@@ -94,7 +94,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Account List");
+        actionbarTitle.setText("ACCOUNT LIST");
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);

@@ -76,7 +76,7 @@
         <activity
             android:name=".activities.dashboard.CompanyDashboardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".activities.dashboard.AdministrationDashboardActivity"
             android:screenOrientation="portrait"
@@ -148,27 +148,22 @@
         <activity
             android:name=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.unit.UnitListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.unitconversion.UnitConversionListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.billsundry.BillSundryListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
@@ -187,13 +182,11 @@
         <activity
             android:name=".activities.company.administration.master.item.ExpandableItemListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.item_group.ItemGroupListActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.item_group.CreateItemGroupActivity"
@@ -203,17 +196,14 @@
         <activity
             android:name=".activities.company.administration.master.purchasetype.PurchaseTypeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.saletype.SaleTypeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.taxcategory.TaxCategoryeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.dashboard.TransactionDashboardActivity"
@@ -314,11 +304,15 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale.SaleVoucherAddItemActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale.SaleVoucherAddBillActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity" />
+        <activity android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activities.company.transaction.payment.PaymentActivity"
             android:screenOrientation="portrait"
@@ -341,7 +335,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.income.CreateIncomeActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.company.transaction.expence.ExpenceActivity"
             android:screenOrientation="portrait"
@@ -375,7 +370,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase.PurchaseAddItemActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.company.transaction.purchase.PurchaseAddBillActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -461,8 +457,6 @@
             android:name=".activities.company.transaction.purchase_return.EditPurchaseReturnActivity"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait"/>
-
-
         <activity
             android:name=".activities.user.UpdateUserActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
