@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -53,7 +54,7 @@ public class CreateSaleReturnFragment extends Fragment {
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
-    EditText mSeries;
+    Spinner mSeries;
     @Bind(R.id.vch_number)
     EditText mVchNumber;
     @Bind(R.id.sale_type)
@@ -92,9 +93,15 @@ public class CreateSaleReturnFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
-        mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         String date1 = dateFormatter.format(newCalendar.getTime());
-        mDate.setText(date1);
+        Preferences.getInstance(getContext()).setVoucher_date(date1);
+        mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
+        mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        mStore.setText(Preferences.getInstance(getContext()).getStore());
+        mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
+        mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
+        mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
+        mNarration.setText(Preferences.getInstance(getContext()).getNarration());
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +112,8 @@ public class CreateSaleReturnFragment extends Fragment {
                         newDate.set(year, monthOfYear, dayOfMonth);
                         String date = dateFormatter.format(newDate.getTime());
                         mDate.setText(date);
-                        appUser.sale_return_date = date;
+                        Preferences.getInstance(getContext()).setVoucher_date(date);
+                        appUser.sale_return_date = mDate.getText().toString();
                         LocalRepositories.saveAppUser(getActivity(), appUser);
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -117,12 +125,14 @@ public class CreateSaleReturnFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
         });
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SaleTypeListActivity.isDirectForSaleType=false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
         });
@@ -130,6 +140,7 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser.account_master_group = "";
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
@@ -168,14 +179,14 @@ public class CreateSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
                 if(appUser.mListMapForItemSaleReturn.size()>0) {
-                    if (!mSeries.getText().toString().equals("")) {
+                    if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mSaleType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                             if (!mMobileNumber.getText().toString().equals("")) {
-                                                appUser.sale_return_series = mSeries.getText().toString();
+                                                appUser.sale_return_series = mSeries.getSelectedItem().toString();
                                                 appUser.sale_return_vchNo = mVchNumber.getText().toString();
                                                 appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
                                                 appUser.sale_return_narration = mNarration.getText().toString();
@@ -230,6 +241,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -259,6 +271,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -286,6 +299,10 @@ public class CreateSaleReturnFragment extends Fragment {
 
     @Override
     public void onPause() {
+        Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
+        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
+        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
+        Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }

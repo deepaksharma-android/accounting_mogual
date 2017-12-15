@@ -66,6 +66,7 @@ import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.Creat
 
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -101,6 +102,14 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
             @Override
             public void onClick(View view) {
                 if (i == 0) {
+                    Preferences.getInstance(context).setVoucher_date("");
+                    Preferences.getInstance(context).setVoucher_number("");
+                    Preferences.getInstance(context).setStore("");
+                    Preferences.getInstance(context).setParty_name("");
+                    Preferences.getInstance(context).setMobile("");
+                    Preferences.getInstance(context).setNarration("");
+                    Preferences.getInstance(context).setSale_type_name("");
+                    Preferences.getInstance(context).setCash_credit("");
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -142,6 +151,14 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     dialog.show();
                 }
                 if (i == 2) {
+                    Preferences.getInstance(context).setVoucher_date("");
+                    Preferences.getInstance(context).setVoucher_number("");
+                    Preferences.getInstance(context).setStore("");
+                    Preferences.getInstance(context).setParty_name("");
+                    Preferences.getInstance(context).setMobile("");
+                    Preferences.getInstance(context).setNarration("");
+                    Preferences.getInstance(context).setCash_credit("");
+                    Preferences.getInstance(context).setPurchase_type_name("");
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -266,6 +283,14 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     dialog.show();
                 }
                 if (i == 8) {
+                    Preferences.getInstance(context).setVoucher_date("");
+                    Preferences.getInstance(context).setVoucher_number("");
+                    Preferences.getInstance(context).setStore("");
+                    Preferences.getInstance(context).setParty_name("");
+                    Preferences.getInstance(context).setMobile("");
+                    Preferences.getInstance(context).setNarration("");
+                    Preferences.getInstance(context).setCash_credit("");
+                    Preferences.getInstance(context).setSale_type_name("");
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -286,6 +311,14 @@ public class TransactionDashboardAdapter extends RecyclerView.Adapter<Transactio
                     dialog.show();
                 }
                 if (i == 9) {
+                    Preferences.getInstance(context).setVoucher_date("");
+                    Preferences.getInstance(context).setVoucher_number("");
+                    Preferences.getInstance(context).setStore("");
+                    Preferences.getInstance(context).setParty_name("");
+                    Preferences.getInstance(context).setMobile("");
+                    Preferences.getInstance(context).setNarration("");
+                    Preferences.getInstance(context).setCash_credit("");
+                    Preferences.getInstance(context).setPurchase_return_type_name("");
                     final CharSequence[] items = {"Add", "Modify"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(items, new DialogInterface.OnClickListener() {

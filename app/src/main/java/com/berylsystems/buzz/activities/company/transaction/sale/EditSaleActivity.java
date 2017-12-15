@@ -57,6 +57,7 @@ public class EditSaleActivity extends AppCompatActivity implements View.OnClickL
         account_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });

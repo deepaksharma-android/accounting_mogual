@@ -191,6 +191,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                     //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ExpandableAccountListActivity.isDirectForAccount=false;
                     Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                     startActivityForResult(i, 2);
                 }
@@ -200,6 +201,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 public void onClick(View view) {
                     appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ExpandableAccountListActivity.isDirectForAccount=false;
                     Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                     startActivityForResult(i, 3);
                 }

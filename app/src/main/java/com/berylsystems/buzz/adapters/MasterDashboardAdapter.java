@@ -29,6 +29,9 @@ import com.berylsystems.buzz.utils.LocalRepositories;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup;
+import static com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity.isDirectForUnitList;
+
 public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboardAdapter.ViewHolder> {
     private String[] data;
     private Context context;
@@ -59,39 +62,48 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 if(i==0){
                     AppUser appUser= LocalRepositories.getAppUser(context);
                     appUser.account_master_group="";
+                    ExpandableAccountListActivity.isDirectForAccount=true;
                     LocalRepositories.saveAppUser(context,appUser);
                     context.startActivity(new Intent(context, ExpandableAccountListActivity.class));
                 }
                 if(i==1){
+                    AccountGroupListActivity.isDirectForAccountGroup=true;
                     Intent intent=new Intent(context,AccountGroupListActivity.class);
                     intent.putExtra("frommaster",true);
                     context.startActivity(intent);
                 }
                 if(i==2){
+                    ExpandableItemListActivity.isDirectForItem=true;
                     context.startActivity(new Intent(context, ExpandableItemListActivity.class));
                 }
                 if(i==3){
+                    ItemGroupListActivity.isDirectForItemGroup=true;
                     context.startActivity(new Intent(context, ItemGroupListActivity.class));
                 }
                 if(i==4){
+                    MaterialCentreListActivity.isDirectForMaterialCentre=true;
                     context.startActivity(new Intent(context, MaterialCentreListActivity.class));
                 }
                 if(i==5){
+                    MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=true;
                     context.startActivity(new Intent(context, MaterialCentreGroupListActivity.class));
                 }
                 if(i==6){
+                    UnitListActivity.isDirectForUnitList=true;
                     context.startActivity(new Intent(context, UnitListActivity.class));
                 }
                 if(i==7){
                     context.startActivity(new Intent(context, UnitConversionListActivity.class));
                 }
                 if(i==8){
+                    BillSundryListActivity.isDirectForBill=true;
                     context.startActivity(new Intent(context, BillSundryListActivity.class));
                 }
                 if(i==9){
                     context.startActivity(new Intent(context, PurchaseTypeListActivity.class));
                 }
                 if(i==10){
+                    SaleTypeListActivity.isDirectForSaleType=true;
                     context.startActivity(new Intent(context, SaleTypeListActivity.class));
                 }
                 if(i==11){

@@ -399,6 +399,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ItemGroupListActivity.isDirectForItemGroup=false;
                 Intent intent = new Intent(getApplicationContext(), ItemGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -408,6 +409,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UnitListActivity.isDirectForUnitList=false;
                 Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 2);

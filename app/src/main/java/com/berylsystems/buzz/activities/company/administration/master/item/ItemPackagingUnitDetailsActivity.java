@@ -70,6 +70,7 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
         mPackagingUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UnitListActivity.isDirectForUnitList=false;
                 Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 4);

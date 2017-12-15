@@ -36,12 +36,23 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionStockInHandActivity extends AppCompatActivity{
+public class TransactionStockInHandActivity extends AppCompatActivity implements View.OnClickListener{
 
+    @Bind(R.id.account_group_layout)
+    LinearLayout mAccount_group_layout;
+    @Bind(R.id.account_group_textview)
+    TextView mAccount_group_textview;
+    
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
+    @Bind(R.id.start_date)
+    TextView mStart_date;
+    @Bind(R.id.end_date)
+    TextView mEnd_date;
+    private SimpleDateFormat dateFormatter;
+    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     AppUser appUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,85 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        setDateField();
+
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = sdf.format(date);
+        mStart_date.setText(dateString);
+        mEnd_date.setText(dateString);
+
+        mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUser.account_master_group = "";
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
+                Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
+                startActivityForResult(i, 2);
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == 2) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                //appUser.payment_paid_to_id = id;
+                // LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mAccount_group_textview.setText(name[0]);
+            }
+        }
+    }
+
+    private void setDateField() {
+        mStart_date.setOnClickListener(this);
+        mEnd_date.setOnClickListener(this);
+
+        final Calendar newCalendar = Calendar.getInstance();
+
+        // set_date.setText("22 Nov 2017");
+        // set_date_pdc.setText("22 Nov 2017");
+
+        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date1 = dateFormatter.format(newDate.getTime());
+                mStart_date.setText(date1);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date1 = dateFormatter.format(newDate.getTime());
+                mEnd_date.setText(date1);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mStart_date) {
+            DatePickerDialog1.show();
+        }
+        else if(view == mEnd_date){
+            DatePickerDialog2.show();
+        }
     }
 
     private void initActionbar() {

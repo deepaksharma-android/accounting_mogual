@@ -42,7 +42,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class UnitListActivity  extends AppCompatActivity {
+public class UnitListActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -54,18 +54,20 @@ public class UnitListActivity  extends AppCompatActivity {
     UnitListAdapter mAdapter;
     ProgressDialog mProgressDialog;
     AppUser appUser;
-    Snackbar  snackbar;
+    Snackbar snackbar;
+    public static Boolean isDirectForUnitList = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit_list);
         ButterKnife.bind(this);
-       initActionbar();
-        appUser=LocalRepositories.getAppUser(this);
+        initActionbar();
+        appUser = LocalRepositories.getAppUser(this);
         mFloatingButton.bringToFront();
 
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -79,21 +81,20 @@ public class UnitListActivity  extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("UNIT LIST");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -104,11 +105,16 @@ public class UnitListActivity  extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (isDirectForUnitList) {
+            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -137,6 +143,7 @@ public class UnitListActivity  extends AppCompatActivity {
             snackbar.show();
         }
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
@@ -150,27 +157,28 @@ public class UnitListActivity  extends AppCompatActivity {
     }
 
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateUnitActivity.class);
-        intent.putExtra("fromunitlist",false);
+        Intent intent = new Intent(getApplicationContext(), CreateUnitActivity.class);
+        intent.putExtra("fromunitlist", false);
         startActivity(intent);
     }
+
     @Subscribe
-    public void getUnitList(GetUnitListResponse response){
+    public void getUnitList(GetUnitListResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             appUser.arr_unitId.clear();
             appUser.arr_unitName.clear();
             appUser.unitId.clear();
             appUser.unitName.clear();
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
-            if(response.getItem_units().getData().size()==0){
-                Snackbar.make(coordinatorLayout,"No Unit Found!!",Snackbar.LENGTH_LONG).show();
+            if (response.getItem_units().getData().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Unit Found!!", Snackbar.LENGTH_LONG).show();
             }
-            for(int i=0;i<response.getItem_units().getData().size();i++) {
+            for (int i = 0; i < response.getItem_units().getData().size(); i++) {
                 appUser.arr_unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
                 appUser.arr_unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));
-                if(response.getItem_units().getData().get(i).getAttributes().getUndefined()==false){
+                if (response.getItem_units().getData().get(i).getAttributes().getUndefined() == false) {
                     appUser.unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
                     appUser.unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));
                 }
@@ -186,15 +194,15 @@ public class UnitListActivity  extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deletematerialcentregroup(EventDeleteUnit pos){
-        appUser.delete_unit_id= String.valueOf(appUser.arr_unitId.get(pos.getPosition()));
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletematerialcentregroup(EventDeleteUnit pos) {
+        appUser.delete_unit_id = String.valueOf(appUser.arr_unitId.get(pos.getPosition()));
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(UnitListActivity.this)
                 .setTitle("Delete Unit")
                 .setMessage("Are you sure you want to delete this unit ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(UnitListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -202,15 +210,14 @@ public class UnitListActivity  extends AppCompatActivity {
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_UNIT);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -226,14 +233,13 @@ public class UnitListActivity  extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deleteunitresponse(DeleteUnitResponse response){
+    public void deleteunitresponse(DeleteUnitResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UNIT_LIST);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -241,18 +247,20 @@ public class UnitListActivity  extends AppCompatActivity {
 
 
     @Subscribe
-    public void itemclickedevent(EventGroupClicked pos){
+    public void itemclickedevent(EventGroupClicked pos) {
 
-        Timber.i("POSITION" + pos.getPosition());
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-        returnIntent.putExtra("name", appUser.arr_unitName.get(pos.getPosition()));
-        returnIntent.putExtra("id",String.valueOf(appUser.arr_unitId.get(pos.getPosition())));
-        Timber.i("PASSSS"+appUser.arr_unitId.get(pos.getPosition()));
+        if (!isDirectForUnitList) {
+            Timber.i("POSITION" + pos.getPosition());
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+            returnIntent.putExtra("name", appUser.arr_unitName.get(pos.getPosition()));
+            returnIntent.putExtra("id", String.valueOf(appUser.arr_unitId.get(pos.getPosition())));
+            Timber.i("PASSSS" + appUser.arr_unitId.get(pos.getPosition()));
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
 
     }
 }

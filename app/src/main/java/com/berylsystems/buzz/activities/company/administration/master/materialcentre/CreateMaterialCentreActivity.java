@@ -33,6 +33,7 @@ import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResp
 import com.berylsystems.buzz.networks.api_response.materialcentre.CreateMaterialCentreResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.EditMaterialCentreReponse;
 import com.berylsystems.buzz.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.MaterialCentre;
 import com.berylsystems.buzz.networks.api_response.materialcentre.StockResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
@@ -46,6 +47,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
+import static com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity.isDirectForMaterialCentre;
+import static com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup;
 
 public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
@@ -137,6 +141,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
                 Intent intent = new Intent(getApplicationContext(), MaterialCentreGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -265,6 +270,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            MaterialCentreListActivity.isDirectForMaterialCentre=false;
             Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -308,6 +314,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            MaterialCentreListActivity.isDirectForMaterialCentre=false;
             Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
            startActivity(intent);

@@ -153,6 +153,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }

@@ -66,6 +66,7 @@ public class TransactionBankActivity extends AppCompatActivity implements View.O
             public void onClick(View view) {
                 appUser.account_master_group = "Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }

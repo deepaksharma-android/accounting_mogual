@@ -61,7 +61,8 @@ public class ItemGroupListActivity extends AppCompatActivity {
     ItemGroupListAdapter mAdapter;
     @Bind(R.id.item_group_list_recycler_view)
     RecyclerView mRecyclerView;
-    Boolean fromGeneral,fromMaster,fromCreateGroup;
+    Boolean fromGeneral, fromMaster, fromCreateGroup;
+    public static Boolean isDirectForItemGroup = true;
 
 
     @Override
@@ -70,13 +71,13 @@ public class ItemGroupListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_group_list);
 
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         mFloatingButton.bringToFront();
         EventBus.getDefault().register(this);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(ItemGroupListActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -84,15 +85,14 @@ public class ItemGroupListActivity extends AppCompatActivity {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_GROUP);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -101,6 +101,7 @@ public class ItemGroupListActivity extends AppCompatActivity {
         }
 
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -114,21 +115,20 @@ public class ItemGroupListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("ITEM GROUP LIST");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -139,15 +139,19 @@ public class ItemGroupListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (isDirectForItemGroup) {
+            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
     }
 
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateItemGroupActivity.class);
-        intent.putExtra("fromitemgrouplist",false);
+        Intent intent = new Intent(getApplicationContext(), CreateItemGroupActivity.class);
+        intent.putExtra("fromitemgrouplist", false);
         startActivity(intent);
     }
 
@@ -173,39 +177,39 @@ public class ItemGroupListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getItemGroup(GetItemGroupResponse response){
+    public void getItemGroup(GetItemGroupResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             appUser.group_name1.clear();
             appUser.group_id1.clear();
             appUser.arr_item_group_name.clear();
             appUser.arr_item_group_id.clear();
             LocalRepositories.saveAppUser(this, appUser);
-            if(response.getItem_groups().getData().size()==0){
-                Snackbar.make(coordinatorLayout,"No Item Group Found!!",Snackbar.LENGTH_LONG).show();
+            if (response.getItem_groups().getData().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Item Group Found!!", Snackbar.LENGTH_LONG).show();
             }
-                for (int i = 0; i < response.getItem_groups().getData().size(); i++) {
-                    appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
-                    appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());
+            for (int i = 0; i < response.getItem_groups().getData().size(); i++) {
+                appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
+                appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(this, appUser);
+
+                if (response.getItem_groups().getData().get(i).getAttributes().getUndefined() == false) {
+                    appUser.group_name1.add(response.getItem_groups().getData().get(i).getAttributes().getName());
+                    appUser.group_id1.add(response.getItem_groups().getData().get(i).getAttributes().getId());
                     LocalRepositories.saveAppUser(this, appUser);
-
-                    if (response.getItem_groups().getData().get(i).getAttributes().getUndefined() == false) {
-                        appUser.group_name1.add(response.getItem_groups().getData().get(i).getAttributes().getName());
-                        appUser.group_id1.add(response.getItem_groups().getData().get(i).getAttributes().getId());
-                        LocalRepositories.saveAppUser(this, appUser);
-                    }
                 }
-                mRecyclerView.setHasFixedSize(true);
-                layoutManager = new LinearLayoutManager(getApplicationContext());
-                mRecyclerView.setLayoutManager(layoutManager);
-                mAdapter = new ItemGroupListAdapter(this, response.getItem_groups().data);
-                mRecyclerView.setAdapter(mAdapter);
+            }
+            mRecyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mAdapter = new ItemGroupListAdapter(this, response.getItem_groups().data);
+            mRecyclerView.setAdapter(mAdapter);
 
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
@@ -216,15 +220,15 @@ public class ItemGroupListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deletegroup(EventDeleteItemGroup pos){
-        appUser.delete_group_id= String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletegroup(EventDeleteItemGroup pos) {
+        appUser.delete_group_id = String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ItemGroupListActivity.this)
                 .setTitle("Delete Item Group")
                 .setMessage("Are you sure you want to delete this item group ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(ItemGroupListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -232,15 +236,14 @@ public class ItemGroupListActivity extends AppCompatActivity {
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ITEM_GROUP);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -254,32 +257,33 @@ public class ItemGroupListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deletegroupresponse(DeleteItemGroupReponse response){
+    public void deletegroupresponse(DeleteItemGroupReponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_GROUP);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void itemclickedevent(EventGroupClicked pos){
+    public void itemclickedevent(EventGroupClicked pos) {
 
+        if (!isDirectForItemGroup) {
             Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
             returnIntent.putExtra("name", appUser.arr_item_group_name.get(pos.getPosition()));
-            returnIntent.putExtra("id",String.valueOf(appUser.arr_item_group_id.get(pos.getPosition())));
-            Timber.i("PASSSS"+appUser.arr_item_group_id.get(pos.getPosition()));
+            returnIntent.putExtra("id", String.valueOf(appUser.arr_item_group_id.get(pos.getPosition())));
+            Timber.i("PASSSS" + appUser.arr_item_group_id.get(pos.getPosition()));
             /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
             LocalRepositories.saveAppUser(this, appUser);*/
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
+        }
 
     }
 }

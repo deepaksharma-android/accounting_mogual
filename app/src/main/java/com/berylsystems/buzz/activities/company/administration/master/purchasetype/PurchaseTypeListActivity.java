@@ -49,6 +49,7 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     @Bind(R.id.purchase_type_list_recycler_view)
     RecyclerView mRecyclerView;
     Boolean fromGeneral,fromMaster,fromCreateGroup;
+    public static Boolean isDirectForPurchaseTypeList=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

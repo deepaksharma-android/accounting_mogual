@@ -54,8 +54,8 @@ public class SaleTypeListActivity extends AppCompatActivity {
     SaleTypeListAdapter mAdapter;
     @Bind(R.id.sale_type_list_recycler_view)
     RecyclerView mRecyclerView;
-    Boolean fromGeneral,fromMaster,fromCreateGroup;
-
+    Boolean fromGeneral, fromMaster, fromCreateGroup;
+    public static Boolean isDirectForSaleType = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class SaleTypeListActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-      initActionbar();
+        initActionbar();
         EventBus.getDefault().register(this);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -106,21 +106,20 @@ public class SaleTypeListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("SALE TYPE");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -131,10 +130,14 @@ public class SaleTypeListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (isDirectForSaleType) {
+            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -159,54 +162,57 @@ public class SaleTypeListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getItemGroup(GetSaleTypeResponse response){
+    public void getItemGroup(GetSaleTypeResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
 
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new SaleTypeListAdapter(this,response.getSale_type().data);
+            mAdapter = new SaleTypeListAdapter(this, response.getSale_type().data);
             mRecyclerView.setAdapter(mAdapter);
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void itemclickedevent(EventSaleClicked pos){
+    public void itemclickedevent(EventSaleClicked pos) {
 
-        Timber.i("POSITION" + pos.getPosition());
-        String str=pos.getPosition();
-        String[] strAr=str.split(",");
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("name",strAr[0]);
-        returnIntent.putExtra("id",strAr[1]);
-        appUser.sale_type_name=strAr[0];
-        LocalRepositories.saveAppUser(this,appUser);
+        if (!isDirectForSaleType) {
+
+            Timber.i("POSITION" + pos.getPosition());
+            String str = pos.getPosition();
+            String[] strAr = str.split(",");
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("name", strAr[0]);
+            returnIntent.putExtra("id", strAr[1]);
+            appUser.sale_type_name = strAr[0];
+            LocalRepositories.saveAppUser(this, appUser);
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
 
     }
 
 
     @Subscribe
-    public void itemclickedevent(EventPurchaseClicked pos){
+    public void itemclickedevent(EventPurchaseClicked pos) {
 
-        Timber.i("POSITION" + pos.getPosition());
-        String str=pos.getPosition();
-        String[] strAr=str.split(",");
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("name",strAr[0]);
-        returnIntent.putExtra("id",strAr[1]);
+        if (!isDirectForSaleType) {
+            Timber.i("POSITION" + pos.getPosition());
+            String str = pos.getPosition();
+            String[] strAr = str.split(",");
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("name", strAr[0]);
+            returnIntent.putExtra("id", strAr[1]);
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
     }
 
 }

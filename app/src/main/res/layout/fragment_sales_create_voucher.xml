@@ -52,15 +52,18 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <Spinner
                                 android:id="@+id/series"
                                 android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_marginLeft="5dp"
-                                android:background="@android:color/transparent"
-                                android:text="Main"
+                                android:layout_marginRight="5dp"
+                                android:entries="@array/main"
+                                android:spinnerMode="dialog"
                                 android:textColor="#000"
                                 android:textSize="16sp" />
+
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -107,6 +110,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
+                            android:layout_marginRight="3dp"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
@@ -142,6 +146,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
+                            android:layout_marginLeft="3dp"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
@@ -153,6 +158,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
+                                android:hint="Enter Vch No"
                                 android:textColor="#000"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -174,7 +180,6 @@
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="Sale Type"
                     android:textColor="#000"
                     android:textSize="15sp" />
@@ -195,7 +200,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.9"
                         android:background="@android:color/transparent"
-                        android:hint=""
+                        android:hint="Select Sale Type"
                         android:textColor="#000"
                         android:textSize="16sp" />
 
@@ -231,7 +236,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.9"
                         android:background="@android:color/transparent"
-                        android:hint=""
+                        android:hint="Select Store"
                         android:textColor="#000"
                         android:textSize="16sp" />
 
@@ -267,7 +272,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.9"
                         android:background="@android:color/transparent"
-                        android:hint=""
+                        android:hint="Select Party Name"
                         android:textColor="#000"
                         android:textSize="16sp" />
 
@@ -293,10 +298,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -305,7 +310,6 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:text="Mobile Number"
                             android:textColor="#000"
                             android:textSize="15sp" />
@@ -313,6 +317,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
+                            android:layout_marginRight="3dp"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
@@ -324,6 +329,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
+                                android:hint="Enter Mob. No"
                                 android:inputType="number"
                                 android:maxLength="10"
                                 android:textColor="#000"
@@ -332,7 +338,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -349,6 +355,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
+                            android:layout_marginLeft="3dp"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
@@ -360,6 +367,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
+                                android:hint="Enter Narration"
                                 android:textColor="#000"
                                 android:textSize="16sp" />
                         </LinearLayout>

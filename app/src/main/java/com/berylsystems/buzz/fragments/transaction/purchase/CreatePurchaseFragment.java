@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -53,7 +54,7 @@ public class CreatePurchaseFragment extends Fragment {
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
-    EditText mSeries;
+    Spinner mSeries;
     @Bind(R.id.vch_number)
     EditText mVchNumber;
     @Bind(R.id.purchase_type)
@@ -96,8 +97,14 @@ public class CreatePurchaseFragment extends Fragment {
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
-        mDate.setText(date1);
+        Preferences.getInstance(getContext()).setVoucher_date(date1);
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
+        mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        mStore.setText(Preferences.getInstance(getContext()).getStore());
+        mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
+        mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
+        mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
+        mNarration.setText(Preferences.getInstance(getContext()).getNarration());
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +115,7 @@ public class CreatePurchaseFragment extends Fragment {
                         newDate.set(year, monthOfYear, dayOfMonth);
                         String date = dateFormatter.format(newDate.getTime());
                         mDate.setText(date);
+                        Preferences.getInstance(getContext()).setVoucher_date(date);
                         appUser.purchase_date = date;
                         LocalRepositories.saveAppUser(getActivity(), appUser);
                     }
@@ -120,12 +128,14 @@ public class CreatePurchaseFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
         });
         mPurchaseType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SaleTypeListActivity.isDirectForSaleType=false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
             }
         });
@@ -133,6 +143,7 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser.account_master_group = "";
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
@@ -171,14 +182,14 @@ public class CreatePurchaseFragment extends Fragment {
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
                 if(appUser.mListMapForItemPurchase.size()>0) {
-                    if (!mSeries.getText().toString().equals("")) {
+                    if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mPurchaseType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                             if (!mMobileNumber.getText().toString().equals("")) {
-                                                appUser.purchase_voucher_series = mSeries.getText().toString();
+                                                appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                                 appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                                 appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                                 appUser.purchase_narration = mNarration.getText().toString();
@@ -234,6 +245,7 @@ public class CreatePurchaseFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -266,6 +278,7 @@ public class CreatePurchaseFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -286,6 +299,10 @@ public class CreatePurchaseFragment extends Fragment {
     }
 
     public void onPause() {
+        Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
+        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
+        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
+        Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }

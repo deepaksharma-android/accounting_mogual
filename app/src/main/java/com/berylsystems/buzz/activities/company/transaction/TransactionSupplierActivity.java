@@ -66,6 +66,7 @@ public class TransactionSupplierActivity extends AppCompatActivity implements Vi
             public void onClick(View view) {
                 appUser.account_master_group = "Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }

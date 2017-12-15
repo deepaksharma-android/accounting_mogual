@@ -18,7 +18,7 @@ public class RequestCreateSaleVoucher {
     public RequestCreateSaleVoucher(Context ctx){
        AppUser appUser = LocalRepositories.getAppUser(ctx);
        voucher = new HashMap<>();
-        voucher.put("sale_date", appUser.sale_date);
+        voucher.put("date", appUser.sale_date);
         voucher.put("voucher_series", appUser.sale_series);
         voucher.put("voucher_number", appUser.sale_vchNo);
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
