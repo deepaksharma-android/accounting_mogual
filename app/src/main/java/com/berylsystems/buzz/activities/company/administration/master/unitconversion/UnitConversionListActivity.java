@@ -49,27 +49,29 @@ public class UnitConversionListActivity extends AppCompatActivity {
     UnitConversionListAdapter mAdapter;
     ProgressDialog mProgressDialog;
     AppUser appUser;
-    Snackbar  snackbar;
+    Snackbar snackbar;
 
-    public static Boolean isDirectForUnitConversionList=true;
+    public static Boolean isDirectForUnitConversionList = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit_conversion_list);
         ButterKnife.bind(this);
-       initActionbar();
-        appUser=LocalRepositories.getAppUser(this);
+        initActionbar();
+        appUser = LocalRepositories.getAppUser(this);
 /*        mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new UnitConversionListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);*/
     }
+
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
         startActivity(intent);
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -83,23 +85,26 @@ public class UnitConversionListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("UNIT CONVERSION LIST");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (isDirectForUnitConversionList) {
+                    Intent intent = new Intent(this, MasterDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -109,10 +114,11 @@ public class UnitConversionListActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -141,6 +147,7 @@ public class UnitConversionListActivity extends AppCompatActivity {
             snackbar.show();
         }
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
@@ -154,13 +161,13 @@ public class UnitConversionListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getUnitConversionList(GetUnitConversionListResponse response){
+    public void getUnitConversionList(GetUnitConversionListResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             appUser.arr_unitlistConversionId.clear();
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
-            for(int i=0;i<response.getUnit_conversions().getData().size();i++) {
+            for (int i = 0; i < response.getUnit_conversions().getData().size(); i++) {
                 appUser.arr_unitlistConversionId.add(String.valueOf(response.getUnit_conversions().getData().get(i).getAttributes().getId()));
                 LocalRepositories.saveAppUser(this, appUser);
             }
@@ -173,15 +180,15 @@ public class UnitConversionListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deleteconversionunit(EventDeleteConversionUnit pos){
-        appUser.delete_unit_conversion_id= String.valueOf(appUser.arr_unitlistConversionId.get(pos.getPosition()));
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deleteconversionunit(EventDeleteConversionUnit pos) {
+        appUser.delete_unit_conversion_id = String.valueOf(appUser.arr_unitlistConversionId.get(pos.getPosition()));
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(UnitConversionListActivity.this)
                 .setTitle("Delete Unit Conversion")
                 .setMessage("Are you sure you want to delete this unit conversion ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(UnitConversionListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -189,15 +196,14 @@ public class UnitConversionListActivity extends AppCompatActivity {
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_UNIT_CONVERSION);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -213,14 +219,13 @@ public class UnitConversionListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deleteunitconversionresponse(DeleteUnitConversionResponse response){
+    public void deleteunitconversionresponse(DeleteUnitConversionResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UNIT_CONVERSION_LIST);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

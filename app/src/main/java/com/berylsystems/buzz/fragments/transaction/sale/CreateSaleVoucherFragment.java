@@ -43,6 +43,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -105,23 +106,23 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if(Preferences.getInstance(getContext()).getCash_credit().equals("")){
-            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            cash.setTextColor(Color.parseColor("#ffffff"));
-            credit.setBackgroundColor(0);
-            credit.setTextColor(Color.parseColor("#000000"));//white
-        }
         if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
             cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
-        else{
+        else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
             credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
             cash.setTextColor(Color.parseColor("#000000"));//black
+        }
+        else{
+            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cash.setTextColor(Color.parseColor("#ffffff"));
+            credit.setBackgroundColor(0);
+            credit.setTextColor(Color.parseColor("#000000"));
         }
 
         mDate.setOnClickListener(new View.OnClickListener() {
@@ -167,16 +168,13 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });
-        Preferences.getInstance(getContext()).setCash_credit("CASH");
         appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getActivity(), appUser);
-        cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        cash.setTextColor(Color.parseColor("#ffffff"));
-        credit.setBackgroundColor(0);
 
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -258,8 +256,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     @Override
     public void onPause() {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
-        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
-        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
@@ -310,11 +306,14 @@ public class CreateSaleVoucherFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
+                String mobile = data.getStringExtra("mobile");
 
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
+                mMobileNumber.setText(mobile);
+                Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
