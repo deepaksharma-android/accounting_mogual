@@ -24,9 +24,9 @@ import timber.log.Timber;
 public class AddItemsSaleReturnAdapter extends BaseAdapter {
 
     Context context;
-    List<Map<String, String>> mListMap;
+    List<Map> mListMap;
 
-    public AddItemsSaleReturnAdapter(Context context, List<Map<String, String>> mListMap) {
+    public AddItemsSaleReturnAdapter(Context context, List<Map> mListMap) {
         this.context = context;
         this.mListMap = mListMap;
 

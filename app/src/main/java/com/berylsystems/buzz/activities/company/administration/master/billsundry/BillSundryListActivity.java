@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -154,21 +155,29 @@ public class BillSundryListActivity extends AppCompatActivity {
             if(response.getBill_sundries().getData().size()==0){
                 Snackbar.make(coordinatorLayout,"No Bill Sundry Found!!",Snackbar.LENGTH_LONG).show();
             }
-                for (int i = 0; i < response.getBill_sundries().getData().size(); i++) {
-                    appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
-                    appUser.arr_billSundryId.add(response.getBill_sundries().getData().get(i).getId());
-                    if (response.getBill_sundries().getData().get(i).getAttributes().getUndefined() == false) {
-                        appUser.billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
-                        appUser.billSundryId.add(response.getBill_sundries().getData().get(i).getId());
-                    }
 
-                    LocalRepositories.saveAppUser(this, appUser);
-                }
                 mRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 mRecyclerView.setLayoutManager(layoutManager);
                 mAdapter = new BillSundryListAdapter(this, response.getBill_sundries().getData());
                 mRecyclerView.setAdapter(mAdapter);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    for (int i = 0; i < response.getBill_sundries().getData().size(); i++) {
+                        appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
+                        appUser.arr_billSundryId.add(response.getBill_sundries().getData().get(i).getId());
+                        if (response.getBill_sundries().getData().get(i).getAttributes().getUndefined() == false) {
+                            appUser.billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
+                            appUser.billSundryId.add(response.getBill_sundries().getData().get(i).getId());
+                        }
+
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+            }, 1);
         }
     }
 

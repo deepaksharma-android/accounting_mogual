@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -155,6 +156,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
 
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateAccountGroupActivity.class);
+        intent.putExtra("fromaccountgrouplist", false);
         startActivity(intent);
     }
 
@@ -181,24 +183,32 @@ public class AccountGroupListActivity extends AppCompatActivity {
             appUser.arr_account_group_id.clear();
             appUser.arr_account_group_name.clear();
             LocalRepositories.saveAppUser(this, appUser);
+
             if (response.getAccount_groups().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Account Group Found!!", Snackbar.LENGTH_LONG).show();
-            }
-            for (int i = 0; i < response.getAccount_groups().getData().size(); i++) {
-                appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
-                appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
-                LocalRepositories.saveAppUser(this, appUser);
-                if (response.getAccount_groups().getData().get(i).getAttributes().getUndefined() == false) {
-                    appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
-                    appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
-                    LocalRepositories.saveAppUser(this, appUser);
-                }
             }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new AccountGroupListAdapter(this, response.getAccount_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    for (int i = 0; i < response.getAccount_groups().getData().size(); i++) {
+                        appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
+                        appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        if (response.getAccount_groups().getData().get(i).getAttributes().getUndefined() == false) {
+                            appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
+                            appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        }
+                    }
+                }
+            }, 1);
+
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
