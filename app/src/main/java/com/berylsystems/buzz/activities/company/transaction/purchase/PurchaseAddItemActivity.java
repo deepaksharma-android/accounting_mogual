@@ -449,6 +449,10 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count==0){
+                    appUser.serial_arr.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
                         second = Double.valueOf(mQuantity.getText().toString());
@@ -560,7 +564,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
     }
     private int getHeight(){
         int density= getResources().getDisplayMetrics().densityDpi;
-        int height =50;
+        int height =150;
         switch(density)
         {
             case DisplayMetrics.DENSITY_LOW:

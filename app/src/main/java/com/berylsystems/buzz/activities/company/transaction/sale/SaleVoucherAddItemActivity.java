@@ -184,6 +184,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
             tax = intent.getStringExtra("tax");
 
+
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -213,7 +214,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         EditText[] pairs = new EditText[Integer.parseInt(serial)];
                         for (int l = 0; l < Integer.parseInt(serial); l++) {
                             pairs[l] = new EditText(getApplicationContext());
-                            pairs[l].setPadding(20, 10, 10, 0);
+                            pairs[l].setPadding(10, 10, 10, 0);
                             pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
                             pairs[l].setWidth(width);
                             pairs[l].setHeight(height);
@@ -235,6 +236,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             public void onClick(View view) {
                                 for (int l = 0; l < Integer.parseInt(serial); l++) {
                                     appUser.serial_arr.add(pairs[l].getText().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                 }
                                 dialogbal.dismiss();
                             }
@@ -497,6 +499,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(count==0){
+                        appUser.serial_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    }
                     if (!mValue.getText().toString().isEmpty()) {
                         if (!mQuantity.getText().toString().isEmpty()) {
                             second = Double.valueOf(mQuantity.getText().toString());
@@ -592,14 +598,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
     private int getWidth(){
         int density= getResources().getDisplayMetrics().densityDpi;
-        int size =0;
+        int size =800;
         switch(density)
         {
             case DisplayMetrics.DENSITY_LOW:
-                size = 500;
+                size = 1200;
                 break;
             case DisplayMetrics.DENSITY_MEDIUM:
-                size = 900;
+                size = 1200;
                 break;
             case DisplayMetrics.DENSITY_HIGH:
                 size = 1200;
@@ -620,23 +626,29 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     }
     private int getHeight(){
         int density= getResources().getDisplayMetrics().densityDpi;
-        int height =50;
+        int height =100;
         switch(density)
         {
             case DisplayMetrics.DENSITY_LOW:
-                height = 150;
+                height = 50;
+                break;
+            case DisplayMetrics.DENSITY_260:
+                height = 50;
                 break;
             case DisplayMetrics.DENSITY_MEDIUM:
-                height = 150;
+                height = 50;
                 break;
             case DisplayMetrics.DENSITY_HIGH:
-                height = 250;
+                height = 50;
                 break;
             case DisplayMetrics.DENSITY_XHIGH:
                 height = 100;
                 break;
+            case DisplayMetrics.DENSITY_XXHIGH:
+                height = 250;
+                break;
             case DisplayMetrics.DENSITY_XXXHIGH:
-                height = 150;
+                height = 200;
                 break;
 
         }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -186,21 +187,28 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
             if (response.getMaterial_center_groups().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Material Centre Group Found!!", Snackbar.LENGTH_LONG).show();
             }
-            for (int i = 0; i < response.getMaterial_center_groups().getData().size(); i++) {
-                appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
-                appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
-                if (response.getMaterial_center_groups().getData().get(i).getAttributes().getUndefined() == false) {
-                    appUser.materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
-                    appUser.materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
-                }
 
-                LocalRepositories.saveAppUser(this, appUser);
-            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new MaterialCentreGroupListAdapter(this, response.getMaterial_center_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    for (int i = 0; i < response.getMaterial_center_groups().getData().size(); i++) {
+                        appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
+                        appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
+                        if (response.getMaterial_center_groups().getData().get(i).getAttributes().getUndefined() == false) {
+                            appUser.materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
+                            appUser.materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
+                        }
+
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+            }, 1);
         } else {
             Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).show();
