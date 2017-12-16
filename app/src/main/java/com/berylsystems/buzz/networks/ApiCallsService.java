@@ -140,6 +140,7 @@ import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnR
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
+import com.berylsystems.buzz.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
@@ -498,7 +499,10 @@ public class ApiCallsService extends IntentService {
             handlePurchaseReturn();
         } else if(Cv.ACTION_GET_COMPANY_DASHBOARD_INFO.equals(action)){
             handleGetCompanyDashboardInfo();
+        }else if (Cv.ACTION_GET_TRANSACTION_PDF.equals(action)) {
+            handleGetTransactionPdf();
         }
+
     }
 
     private void handleGetItemGroupDetails() {
@@ -3558,6 +3562,30 @@ private void handleCreatePayment() {
             }
             @Override
             public void onFailure(Call<GetCompanyDashboardInfoResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetTransactionPdf() {
+        AppUser appUser= LocalRepositories.getAppUser(this);
+        api.gettransactionpdf(Preferences.getInstance(getApplicationContext()).getCid(),appUser.pdf_account_id,appUser.pdf_start_date,appUser.pdf_end_date).enqueue(new Callback<GetTransactionPdfResponse>() {
+            @Override
+            public void onResponse(Call<GetTransactionPdfResponse> call, Response<GetTransactionPdfResponse> r) {
+                if (r.code() == 200) {
+                    GetTransactionPdfResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetTransactionPdfResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

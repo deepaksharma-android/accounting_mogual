@@ -136,24 +136,23 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                             appUser.account_name = mAccountName.getText().toString();
                             appUser.account_mobile_number = mMobileNumber.getText().toString();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(AccountDetailsActivity.this);
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT);
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
-                                                }
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        mProgressDialog = new ProgressDialog(AccountDetailsActivity.this);
+                                                        mProgressDialog.setMessage("Info...");
+                                                        mProgressDialog.setIndeterminate(false);
+                                                        mProgressDialog.setCancelable(true);
+                                                        mProgressDialog.show();
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT);
+                                                    } else {
+                                                        snackbar = Snackbar
+                                                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                                                .setAction("RETRY", new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View view) {
+                                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                        if (isConnected) {
+                                                                        }
                                             }
                                         });
                                 snackbar.show();

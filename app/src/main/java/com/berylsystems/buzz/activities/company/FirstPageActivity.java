@@ -105,6 +105,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_cash_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.account_master_group = "Cash-in-hand";
                 Intent i = new Intent(getApplicationContext(), TransactionCashInHandActivity.class);
                 startActivity(i);
             }

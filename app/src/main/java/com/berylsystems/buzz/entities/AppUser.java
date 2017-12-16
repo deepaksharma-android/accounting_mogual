@@ -463,4 +463,8 @@ public String payment_paid_to_id;
     public String totalamount;
     public String items_amount;
     public String bill_sundries_amount;
+
+    public String pdf_account_id;
+    public String pdf_start_date;
+    public String pdf_end_date;
 }
