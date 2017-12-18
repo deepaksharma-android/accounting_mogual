@@ -30,6 +30,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.unit.DeleteUnitResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
+import com.berylsystems.buzz.networks.api_response.unit.ItemUnitList;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
 import com.berylsystems.buzz.utils.EventGroupClicked;
@@ -58,6 +59,8 @@ public class UnitListActivity extends AppCompatActivity {
     AppUser appUser;
     Snackbar snackbar;
     public static Boolean isDirectForUnitList = true;
+
+    public static ItemUnitList data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -171,8 +174,8 @@ public class UnitListActivity extends AppCompatActivity {
     public void getUnitList(GetUnitListResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            appUser.arr_unitId.clear();
-            appUser.arr_unitName.clear();
+            //appUser.arr_unitId.clear();
+           // appUser.arr_unitName.clear();
             appUser.unitId.clear();
             appUser.unitName.clear();
             LocalRepositories.saveAppUser(this, appUser);
@@ -187,7 +190,7 @@ public class UnitListActivity extends AppCompatActivity {
             mAdapter = new UnitListAdapter(this, response.getItem_units().getData());
             mRecyclerView.setAdapter(mAdapter);
 
-            Handler handler = new Handler();
+           /* Handler handler = new Handler();
             handler.postDelayed(new Runnable(){
                 @Override
                 public void run(){
@@ -202,13 +205,14 @@ public class UnitListActivity extends AppCompatActivity {
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
-            }, 1);
+            }, 1);*/
+           data=response.getItem_units();
         }
     }
 
     @Subscribe
     public void deletematerialcentregroup(EventDeleteUnit pos) {
-        appUser.delete_unit_id = String.valueOf(appUser.arr_unitId.get(pos.getPosition()));
+        appUser.delete_unit_id = String.valueOf(data.getData().get(pos.getPosition()).getId());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(UnitListActivity.this)
                 .setTitle("Delete Unit")
@@ -266,8 +270,8 @@ public class UnitListActivity extends AppCompatActivity {
             Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-            returnIntent.putExtra("name", appUser.arr_unitName.get(pos.getPosition()));
-            returnIntent.putExtra("id", String.valueOf(appUser.arr_unitId.get(pos.getPosition())));
+            returnIntent.putExtra("name", data.getData().get(pos.getPosition()).getAttributes().getName());
+            returnIntent.putExtra("id", String.valueOf(data.getData().get(pos.getPosition()).getId()));
             Timber.i("PASSSS" + appUser.arr_unitId.get(pos.getPosition()));
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/

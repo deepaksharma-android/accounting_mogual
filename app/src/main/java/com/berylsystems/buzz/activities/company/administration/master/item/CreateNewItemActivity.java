@@ -32,6 +32,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item_group.CreateItemGroupActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -339,19 +340,19 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                             appUser.item_name = mItemName.getText().toString();
                             appUser.item_hsn_number = mHsnNumber.getText().toString();
 
-                            for (int i = 0; i < appUser.arr_item_group_name.size(); i++) {
-                                if (appUser.arr_item_group_name.get(i).equals(mItemGroup.getText().toString())) {
-                                    appUser.item_group_id = String.valueOf(appUser.arr_item_group_id.get(i));
+                            for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
+                                if (CreateItemGroupActivity.data.getData().get(i).getAttributes().getName().equals(mItemGroup.getText().toString())) {
+                                    appUser.item_group_id = String.valueOf(CreateItemGroupActivity.data.getData().get(i).getAttributes().getId());
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }
                             }
-                            for (int i = 0; i < appUser.arr_unitName.size(); i++) {
-                                if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
+                            for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
+                               /* if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
                                     appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
-                                }
+                                }*/
                             }
                             for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                                 if (appUser.arr_tax_category_name.get(i).equals(mTaxCategory.getSelectedItem().toString())) {

@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.unitconversion;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
@@ -32,6 +34,7 @@ import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,31 +47,50 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     LinearLayout mSubmit;
     @Bind(R.id.update)
     LinearLayout mUpdate;
-    @Bind(R.id.main_unit_spinner)
-    Spinner mMainUnitSpinner;
-    @Bind(R.id.sub_unit_spinner)
-    Spinner mSubUnitSpinner;
     @Bind(R.id.confactor)
     EditText mConfactor;
-    ArrayAdapter<String> mMainUnitAdapter;
-    ArrayAdapter<String> mSubUnitAdapter;
+    @Bind(R.id.mainUnitLayout)
+    LinearLayout mainUnitLayout;
+    @Bind(R.id.subUnitLayout)
+    LinearLayout subUnitLayout;
+    @Bind(R.id.mainUnitText)
+    TextView mainUnitText;
+    @Bind(R.id.subUnitText)
+    TextView subUnitText;
+
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Boolean frommunitconversionlist;
     String title;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
-        title="CREATE ITEM UNIT CONVERSION";
+        appUser = LocalRepositories.getAppUser(this);
+        title = "CREATE ITEM UNIT CONVERSION";
 
+        mainUnitLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UnitListActivity.isDirectForUnitList=false;
+                startActivityForResult(new Intent(getApplicationContext(), UnitListActivity.class),1);
+            }
+        });
+
+        subUnitLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UnitListActivity.isDirectForUnitList=false;
+                startActivityForResult(new Intent(getApplicationContext(), UnitListActivity.class),2);
+            }
+        });
 
         frommunitconversionlist = getIntent().getExtras().getBoolean("fromunitconversionlist");
         if (frommunitconversionlist) {
-            title="EDIT ITEM UNIT CONVERSION";
-            mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
+            title = "EDIT ITEM UNIT CONVERSION";
+            /*mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
             mMainUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
             mMainUnitSpinner.setAdapter(mMainUnitAdapter);
@@ -76,12 +98,12 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             mSubUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
             mSubUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-            mSubUnitSpinner.setAdapter(mSubUnitAdapter);
+            mSubUnitSpinner.setAdapter(mSubUnitAdapter);*/
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_unit_conversion_id = String.valueOf(getIntent().getExtras().getInt("id"));
             LocalRepositories.saveAppUser(this, appUser);
-            Timber.i("I am here"+String.valueOf(getIntent().getExtras().getInt("id")));
+            Timber.i("I am here" + String.valueOf(getIntent().getExtras().getInt("id")));
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateUnitConversionActivity.this);
@@ -104,8 +126,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-        }
-        else {
+        } else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateUnitConversionActivity.this);
@@ -131,7 +152,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             }
         }
         initActionbar();
-        mMainUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*mMainUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 appUser.main_unit_id=appUser.arr_unitConversionId.get(i);
@@ -142,9 +163,9 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
 
-        mSubUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*mSubUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 appUser.sub_unit_id=appUser.arr_unitConversionId.get(i);
@@ -155,14 +176,14 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mConfactor.getText().toString().equals("")){
-                    appUser.confactor=mConfactor.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!mConfactor.getText().toString().equals("")) {
+                    appUser.confactor = mConfactor.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateUnitConversionActivity.this);
@@ -194,9 +215,9 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mConfactor.getText().toString().equals("")){
-                    appUser.confactor=mConfactor.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!mConfactor.getText().toString().equals("")) {
+                    appUser.confactor = mConfactor.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateUnitConversionActivity.this);
@@ -248,7 +269,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
         actionbarTitle.setTextSize(14);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -256,14 +277,14 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void getUnitList(GetUnitListResponse response){
+    public void getUnitList(GetUnitListResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             appUser.arr_unitConversionUnitName.clear();
             appUser.arr_unitConversionId.clear();
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
-            for(int i=0;i<response.getItem_units().getData().size();i++) {
+            for (int i = 0; i < response.getItem_units().getData().size(); i++) {
                 appUser.arr_unitConversionUnitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
                 appUser.arr_unitConversionId.add(response.getItem_units().getData().get(i).getId());
              /*   if(response.getItem_units().getData().get(i).getAttributes().getUndefined()==false){
@@ -273,7 +294,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
 
                 LocalRepositories.saveAppUser(this, appUser);
 
-                mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
+              /*  mMainUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
                         R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
                 mMainUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
                 mMainUnitSpinner.setAdapter(mMainUnitAdapter);
@@ -281,37 +302,35 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                 mSubUnitAdapter = new ArrayAdapter<String>(getApplicationContext(),
                         R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_unitConversionUnitName);
                 mSubUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-                mSubUnitSpinner.setAdapter(mSubUnitAdapter);
+                mSubUnitSpinner.setAdapter(mSubUnitAdapter);*/
             }
 
         }
     }
 
     @Subscribe
-    public void createunit(CreateUnitConversionResponse response){
+    public void createunit(CreateUnitConversionResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent=new Intent(getApplicationContext(),UnitConversionListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = new Intent(getApplicationContext(), UnitConversionListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void editunit(EditUnitConversionResponse response){
+    public void editunit(EditUnitConversionResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent=new Intent(getApplicationContext(),UnitConversionListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intent = new Intent(getApplicationContext(), UnitConversionListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -325,29 +344,57 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             String group_type = response.getUnit_conversion_detail().getData().getAttributes().getMain_unit().trim();
             // insert code here
             int groupindex = -1;
-            for (int i = 0; i<appUser.arr_unitConversionUnitName.size(); i++) {
+            for (int i = 0; i < appUser.arr_unitConversionUnitName.size(); i++) {
                 if (appUser.arr_unitConversionUnitName.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
             }
-            Timber.i("GROUPINDEX"+groupindex);
-            mMainUnitSpinner.setSelection(groupindex);
+            Timber.i("GROUPINDEX" + groupindex);
+            //mMainUnitSpinner.setSelection(groupindex);
             String sub_unit = response.getUnit_conversion_detail().getData().getAttributes().getSub_unit().trim();
             // insert code here
             int sub_unit_index = -1;
-            for (int i = 0; i<appUser.arr_unitConversionUnitName.size(); i++) {
+            for (int i = 0; i < appUser.arr_unitConversionUnitName.size(); i++) {
                 if (appUser.arr_unitConversionUnitName.get(i).equals(sub_unit)) {
                     sub_unit_index = i;
                     break;
                 }
             }
 
-            mSubUnitSpinner.setSelection(sub_unit_index);
+            //mSubUnitSpinner.setSelection(sub_unit_index);
 
         } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mainUnitText.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+
+            }
+        }
+
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                subUnitText.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+
+            }
+        }
+
     }
 }
