@@ -332,7 +332,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromcreategroup",true);
         startActivity(intent);*/
-        finish();
+       /* finish();
     }
 
     @Subscribe
