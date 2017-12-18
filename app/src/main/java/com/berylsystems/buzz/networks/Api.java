@@ -133,6 +133,7 @@ import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnR
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
+import com.berylsystems.buzz.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.user.UserApiResponse;
 import com.berylsystems.buzz.networks.api_response.userexist.UserExistResponse;
@@ -556,6 +557,9 @@ public interface Api {
 
     @GET("company/dashboard/{id}")
     Call<GetCompanyDashboardInfoResponse> getcompanydashboardinfo(@Path("id") String id);
+
+    @GET("company/company_data_report/{id}")
+    Call<GetTransactionPdfResponse> gettransactionpdf(@Path("id") String id, @Query("account_id") String account_id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
 }
 

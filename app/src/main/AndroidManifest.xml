@@ -75,8 +75,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.dashboard.CompanyDashboardActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.dashboard.AdministrationDashboardActivity"
             android:screenOrientation="portrait"
@@ -310,9 +309,10 @@
             android:name=".activities.company.transaction.sale.SaleVoucherAddBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
+        <activity
+            android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.payment.PaymentActivity"
             android:screenOrientation="portrait"
@@ -325,17 +325,18 @@
             android:name=".activities.company.transaction.receiptvoucher.ReceiptVoucherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity"
+        <activity
+            android:name=".activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.income.IncomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.income.CreateIncomeActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.expence.ExpenceActivity"
             android:screenOrientation="portrait"
@@ -367,8 +368,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase.PurchaseAddItemActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase.PurchaseAddBillActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -385,7 +386,6 @@
             android:name=".activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
             android:screenOrientation="portrait"
@@ -410,8 +410,7 @@
             android:name=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.TransactionCashInHandActivity"
             android:parentActivityName=".activities.company.FirstPageActivity"
@@ -434,8 +433,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.TransactionStockInHandActivity"
-            android:screenOrientation="portrait"
             android:parentActivityName=".activities.company.FirstPageActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale.EditSaleActivity"
@@ -452,12 +451,12 @@
         <activity
             android:name=".activities.company.transaction.purchase_return.EditPurchaseReturnActivity"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.user.UpdateUserActivity"
             android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigation.reports.account_group.LedgerActivity"
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
@@ -487,11 +486,15 @@
             android:name=".activities.company.navigation.reports.outstanding.AmountPaybleActivity"
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
 
-        <!--************************************ADD YOUR FILE ABOVE THIS********************************************************-->
+        <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
+        <activity android:name=".activities.company.navigation.reports.TransactionPdfActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
