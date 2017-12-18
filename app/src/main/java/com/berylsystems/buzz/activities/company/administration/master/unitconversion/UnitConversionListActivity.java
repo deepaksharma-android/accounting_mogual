@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +28,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.unitconversion.DeleteUnitConversionResponse;
 import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionListResponse;
+import com.berylsystems.buzz.networks.api_response.unitconversion.UnitConversion;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteConversionUnit;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -45,6 +47,8 @@ public class UnitConversionListActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.unit_conversion_list_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.floating_button)
+    FloatingActionButton actionButton;
     RecyclerView.LayoutManager layoutManager;
     UnitConversionListAdapter mAdapter;
     ProgressDialog mProgressDialog;
@@ -52,6 +56,7 @@ public class UnitConversionListActivity extends AppCompatActivity {
     Snackbar snackbar;
 
     public static Boolean isDirectForUnitConversionList = true;
+    public static UnitConversion data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,10 +70,13 @@ public class UnitConversionListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new UnitConversionListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);*/
+
+        actionButton.bringToFront();
     }
 
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
+        intent.putExtra("fromunitconversionlist", false);
         startActivity(intent);
     }
 
@@ -164,7 +172,7 @@ public class UnitConversionListActivity extends AppCompatActivity {
     public void getUnitConversionList(GetUnitConversionListResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            appUser.arr_unitlistConversionId.clear();
+            //appUser.arr_unitlistConversionId.clear();
             LocalRepositories.saveAppUser(this, appUser);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -172,17 +180,18 @@ public class UnitConversionListActivity extends AppCompatActivity {
             mAdapter = new UnitConversionListAdapter(this, response.getUnit_conversions().getData());
             mRecyclerView.setAdapter(mAdapter);
             Timber.i("I AM HERE");
-            for (int i = 0; i < response.getUnit_conversions().getData().size(); i++) {
+           /* for (int i = 0; i < response.getUnit_conversions().getData().size(); i++) {
                 appUser.arr_unitlistConversionId.add(String.valueOf(response.getUnit_conversions().getData().get(i).getAttributes().getId()));
                 LocalRepositories.saveAppUser(this, appUser);
-            }
+            }*/
+            data = response.getUnit_conversions();
 
         }
     }
 
     @Subscribe
     public void deleteconversionunit(EventDeleteConversionUnit pos) {
-        appUser.delete_unit_conversion_id = String.valueOf(appUser.arr_unitlistConversionId.get(pos.getPosition()));
+        appUser.delete_unit_conversion_id = String.valueOf(data.getData().get(pos.getPosition()).getAttributes().getId());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(UnitConversionListActivity.this)
                 .setTitle("Delete Unit Conversion")

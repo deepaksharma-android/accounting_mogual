@@ -185,15 +185,15 @@ public class ItemGroupListActivity extends AppCompatActivity {
     public void getItemGroup(GetItemGroupResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            appUser.group_name1.clear();
+           /* appUser.group_name1.clear();
             appUser.group_id1.clear();
             appUser.arr_item_group_name.clear();
-            appUser.arr_item_group_id.clear();
+            appUser.arr_item_group_id.clear();*/
             LocalRepositories.saveAppUser(this, appUser);
             if (response.getItem_groups().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Item Group Found!!", Snackbar.LENGTH_LONG).show();
             }
-            for (int i = 0; i < response.getItem_groups().getData().size(); i++) {
+           /* for (int i = 0; i < response.getItem_groups().getData().size(); i++) {
                 appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());
                 LocalRepositories.saveAppUser(this, appUser);
@@ -203,12 +203,13 @@ public class ItemGroupListActivity extends AppCompatActivity {
                     appUser.group_id1.add(response.getItem_groups().getData().get(i).getAttributes().getId());
                     LocalRepositories.saveAppUser(this, appUser);
                 }
-            }
+            }*/
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new ItemGroupListAdapter(this, response.getItem_groups().data);
             mRecyclerView.setAdapter(mAdapter);
+            CreateItemGroupActivity.data=response.getItem_groups();
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -226,7 +227,7 @@ public class ItemGroupListActivity extends AppCompatActivity {
 
     @Subscribe
     public void deletegroup(EventDeleteItemGroup pos) {
-        appUser.delete_group_id = String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
+        appUser.delete_group_id = String.valueOf(CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ItemGroupListActivity.this)
                 .setTitle("Delete Item Group")
@@ -278,12 +279,11 @@ public class ItemGroupListActivity extends AppCompatActivity {
     public void itemclickedevent(EventItemClicked pos) {
 
         if (!isDirectForItemGroup) {
-            Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-            returnIntent.putExtra("name", appUser.arr_item_group_name.get(pos.getPosition()));
-            returnIntent.putExtra("id", String.valueOf(appUser.arr_item_group_id.get(pos.getPosition())));
-            Timber.i("PASSSS" + appUser.arr_item_group_id.get(pos.getPosition()));
+            returnIntent.putExtra("name", CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getName());
+            returnIntent.putExtra("id", String.valueOf(CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId()));
+            Timber.i("PASSSS" + CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId());
             /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
             LocalRepositories.saveAppUser(this, appUser);*/
             setResult(Activity.RESULT_OK, returnIntent);

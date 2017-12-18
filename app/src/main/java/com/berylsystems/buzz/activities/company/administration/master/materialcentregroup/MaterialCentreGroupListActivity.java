@@ -34,6 +34,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.DeleteMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupListResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.MaterialCentreGroupsList;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventDeleteMaterailCentreGroup;
@@ -129,6 +130,7 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CreateMaterialCentreGroupActivity.class);
         intent.putExtra("frommaterialcentregrouplist", false);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -178,10 +180,10 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
     public void getmaterialcentregrouplist(GetMaterialCentreGroupListResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            appUser.arr_materialCentreGroupId.clear();
+            /*appUser.arr_materialCentreGroupId.clear();
             appUser.arr_materialCentreGroupName.clear();
             appUser.materialCentreGroupId.clear();
-            appUser.materialCentreGroupName.clear();
+            appUser.materialCentreGroupName.clear();*/
             LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
             if (response.getMaterial_center_groups().getData().size() == 0) {
@@ -193,7 +195,10 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new MaterialCentreGroupListAdapter(this, response.getMaterial_center_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
-            Handler handler = new Handler();
+
+            CreateMaterialCentreGroupActivity.data=response.getMaterial_center_groups();
+
+          /*  Handler handler = new Handler();
             handler.postDelayed(new Runnable(){
                 @Override
                 public void run(){
@@ -208,7 +213,7 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
-            }, 1);
+            }, 1);*/
         } else {
             Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).show();
@@ -217,7 +222,7 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
 
     @Subscribe
     public void deletematerialcentregroup(EventDeleteMaterailCentreGroup pos) {
-        appUser.delete_material_centre_group_id = String.valueOf(appUser.arr_materialCentreGroupId.get(pos.getPosition()));
+        appUser.delete_material_centre_group_id = String.valueOf(CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(MaterialCentreGroupListActivity.this)
                 .setTitle("Delete Material Group")
@@ -273,8 +278,8 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
             Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-            returnIntent.putExtra("name", appUser.arr_materialCentreGroupName.get(pos.getPosition()));
-            returnIntent.putExtra("id", String.valueOf(appUser.arr_materialCentreGroupId.get(pos.getPosition())));
+            returnIntent.putExtra("name", CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getName());
+            returnIntent.putExtra("id", String.valueOf( CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId()));
             /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
             LocalRepositories.saveAppUser(this, appUser);*/
             setResult(Activity.RESULT_OK, returnIntent);

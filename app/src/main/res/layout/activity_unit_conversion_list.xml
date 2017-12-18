@@ -19,6 +19,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:onClick="add"
+            android:id="@+id/floating_button"
             android:layout_marginBottom="40dp"
             android:src="@drawable/icon_add" />
 

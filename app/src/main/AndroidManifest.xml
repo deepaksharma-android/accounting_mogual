@@ -100,7 +100,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.accountgroup.CreateAccountGroupActivity"
-            android:parentActivityName=".activities.company.CompanyListActivity"
+            android:parentActivityName=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -176,6 +176,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:parentActivityName=".activities.company.administration.master.item.ExpandableItemListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -189,7 +190,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.administration.master.item_group.CreateItemGroupActivity"
-            android:parentActivityName=".activities.company.CompanyListActivity"
+            android:parentActivityName=".activities.company.administration.master.item_group.ItemGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

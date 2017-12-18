@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,11 +35,13 @@ import com.berylsystems.buzz.networks.api_response.itemgroup.CreateItemGroupResp
 import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
+import com.berylsystems.buzz.networks.api_response.itemgroup.ItemGroups;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 import butterknife.Bind;
@@ -68,6 +71,9 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     Boolean fromItemGroupList;
     Snackbar snackbar;
     String title;
+    public static ItemGroups data;
+    ArrayList<String> grouplistname;
+    ArrayList<String> grouplistid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +116,30 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
             }
         }
         initActionbar();
+
+
+        grouplistname=new ArrayList<>();
+        grouplistid=new ArrayList<>();
+        for(int i=0;i<data.getData().size();i++){
+            if (data.getData().get(i).getAttributes().getUndefined() == false) {
+                grouplistname.add(data.getData().get(i).getAttributes().getName());
+                grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
+            }
+           /* if (data.getData().get(i).getAttributes().getUndefined() == false) {
+                appUser.group_name.add(data.getData().get(i).getAttributes().getName());
+                appUser.group_id.add(data.getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+            appUser.arr_account_group_name.add(data.getData().get(i).getAttributes().getName());
+            appUser.arr_account_group_id.add(data.getData().get(i).getAttributes().getId());
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+        }
         mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerPrimary.setAdapter(mPrimaryGroupAdapter);
         mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.group_name1);
+                R.layout.layout_trademark_type_spinner_dropdown_item, grouplistname);
         mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
         mSpinnerPrimary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -126,7 +150,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                     mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            appUser.item_group_id = String.valueOf(appUser.group_id1.get(i));
+                            appUser.item_group_id = String.valueOf(grouplistid.get(i));
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         }
 
@@ -222,6 +246,16 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     protected int layoutId() {
         return R.layout.activity_create_item_group;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
@@ -247,7 +281,12 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Boolean isConnected = ConnectivityReceiver.isConnected();
-            if(isConnected) {
+
+            Intent intent = new Intent(this, ItemGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreateitem",true);
+            startActivity(intent);
+           /* if(isConnected) {
                 mProgressDialog = new ProgressDialog(CreateItemGroupActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
@@ -269,7 +308,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                             }
                         });
                 snackbar.show();
-            }
+            }*/
 
         }
         else{
@@ -286,13 +325,14 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
 
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         ItemGroupListActivity.isDirectForItemGroup=false;
-        Intent intent = new Intent(this, ItemGroupListActivity.class);
+    /*    Intent intent = new Intent(this, ItemGroupListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromcreategroup",true);
-        startActivity(intent);
+        startActivity(intent);*/
+        finish();
     }
 
     @Subscribe
@@ -315,7 +355,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                 startActivity(intent);
             }
         }
-    }
+    }*/
 
     @Subscribe
     public void getItemGroupDetails(GetItemGroupDetailsResponse response){
@@ -337,10 +377,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                         }
                     Timber.i("GROUPINDEX"+groupindex);
                     mSpinnerUnderGroup.setSelection(groupindex);
-
                 }
-
-
             }
         }
         else{

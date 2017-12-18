@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -32,7 +33,9 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item_group.CreateItemGroupActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.taxcategory.TaxCategoryeListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -49,6 +52,7 @@ import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -59,52 +63,39 @@ import timber.log.Timber;
 public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     ProgressDialog mProgressDialog;
-
     @Bind(R.id.opening_stc_btn)
     Button opening_stc_btn;
-
     @Bind(R.id.item_price_info)
     Button itemPriceInfoBtn;
-
     @Bind(R.id.alternate_unit_detail)
     Button alternateUnitDetailBtn;
-
     @Bind(R.id.pck_unit_detail)
     Button pkgUnitDetailBtn;
     @Bind(R.id.hsn_layout)
     LinearLayout mHsnLayout;
     @Bind(R.id.hsn_number)
     EditText mHsnNumber;
-
-
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
-
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-
     @Bind(R.id.group_layout)
     LinearLayout mGroupLayout;
-
     @Bind(R.id.unit_layout)
     LinearLayout mUnitLayout;
-
+    @Bind(R.id.tax_category_layout)
+    LinearLayout mTaxCategoryLayout;
     @Bind(R.id.item_group)
     TextView mItemGroup;
-
     @Bind(R.id.item_name)
     TextView mItemName;
-
     @Bind(R.id.item_unit)
     TextView mItemUnit;
-
     @Bind(R.id.update)
     LinearLayout mUpdateButton;
     @Bind(R.id.tax_category)
-    Spinner mTaxCategory;
-
+    TextView mTaxCategory;
     Snackbar snackbar;
-
     Animation blinkOnClick;
     AppUser appUser;
     Double first, second;
@@ -208,10 +199,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_description("");
             mSubmitButton.setVisibility(View.GONE);
             mUpdateButton.setVisibility(View.VISIBLE);
-            mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+           /* mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
             mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-            mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);
+            mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);*/
+
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
@@ -234,7 +226,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-        } else {
+        } /*else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
@@ -258,9 +250,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         }
+*/
 
-
-        mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+      /*  mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
                 R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
         mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);
@@ -281,7 +273,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -290,16 +282,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 mSubmitButton.startAnimation(blinkOnClick);
                 appUser.item_name = mItemName.getText().toString();
                 appUser.item_hsn_number = mHsnNumber.getText().toString();
-                for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
+              /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                     if (mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))) {
                         appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
                         break;
                     }
-                }
+                }*/
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 if (mItemName.getText().toString().equals("") || mItemUnit.getText().toString().equals("") || mItemGroup.getText().toString().equals("")) {
-                    Toast.makeText(CreateNewItemActivity.this, "Name, Group And Unit is mendetory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateNewItemActivity.this, "Name, Group And Unit is mendatory", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -339,27 +331,27 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                             appUser.item_name = mItemName.getText().toString();
                             appUser.item_hsn_number = mHsnNumber.getText().toString();
 
-                            for (int i = 0; i < appUser.arr_item_group_name.size(); i++) {
-                                if (appUser.arr_item_group_name.get(i).equals(mItemGroup.getText().toString())) {
-                                    appUser.item_group_id = String.valueOf(appUser.arr_item_group_id.get(i));
+                            for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
+                                if (CreateItemGroupActivity.data.getData().get(i).getAttributes().getName().equals(mItemGroup.getText().toString())) {
+                                    appUser.item_group_id = String.valueOf(CreateItemGroupActivity.data.getData().get(i).getAttributes().getId());
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }
                             }
-                            for (int i = 0; i < appUser.arr_unitName.size(); i++) {
-                                if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
+                            for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
+                               /* if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
                                     appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
-                                }
+                                }*/
                             }
-                            for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
+                            /*for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                                 if (appUser.arr_tax_category_name.get(i).equals(mTaxCategory.getSelectedItem().toString())) {
                                     appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }
-                            }
+                            }*/
 
                             Boolean isConnected = ConnectivityReceiver.isConnected();
                             if (isConnected) {
@@ -415,6 +407,15 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 startActivityForResult(intent, 2);
             }
         });
+        mTaxCategoryLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TaxCategoryeListActivity.isDirectForTaxCategoryList=false;
+                Intent intent = new Intent(getApplicationContext(), TaxCategoryeListActivity.class);
+                intent.putExtra("frommaster", false);
+                startActivityForResult(intent,3);
+            }
+        });
 
 
     }
@@ -422,6 +423,17 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     @Override
     protected int layoutId() {
         return R.layout.activity_create_new_item;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initActionbar() {
@@ -543,6 +555,27 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 mItemUnit.setText("");
             }
         }
+        if (requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                if(result.equals("None")){
+                        mHsnLayout.setVisibility(View.GONE);
+                        appUser.item_hsn_number = "";
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                else{
+                    mHsnLayout.setVisibility(View.VISIBLE);
+                }
+                appUser.item_tax_category = Integer.parseInt(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mTaxCategory.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                mItemUnit.setText("");
+            }
+        }
 
     }
 
@@ -575,15 +608,18 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             mItemName.setText(response.getItem().getData().getAttributes().getName());
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
-            String taxcat = response.getItem().getData().getAttributes().getTax_category().trim();// insert code here
-            int taxcatindex = -1;
-            for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
+            mTaxCategory.setText(response.getItem().getData().getAttributes().getTax_category());
+            appUser.item_tax_category=response.getItem().getData().getAttributes().getTax_category_id();
+            LocalRepositories.saveAppUser(this,appUser);
+           /* String taxcat = response.getItem().getData().getAttributes().getTax_category().trim();// insert code here
+            int taxcatindex = -1;*/
+          /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                 if (appUser.arr_tax_category_name.get(i).equals(taxcat)) {
                     taxcatindex = i;
                     break;
                 }
             }
-            mTaxCategory.setSelection(taxcatindex);
+            mTaxCategory.setSelection(taxcatindex);*/
             if (!response.getItem().getData().getAttributes().getTax_category().equals("None")) {
                 mHsnLayout.setVisibility(View.VISIBLE);
                 mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());
@@ -739,7 +775,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         }
     }
 
-    @Subscribe
+  /*  @Subscribe
     public void gettaxcategory(GetTaxCategoryResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -752,7 +788,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 LocalRepositories.saveAppUser(this, appUser);
             }
 
-            mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+            *//*mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_tax_category_name);
             mTaxCategoryArrayAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
             mTaxCategory.setAdapter(mTaxCategoryArrayAdapter);
@@ -773,8 +809,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            });
+            });*//*
         }
-    }
+    }*/
+
 
 }

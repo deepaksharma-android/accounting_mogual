@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,10 +33,13 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentre.MaterialCentre;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.CreateMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.EditMaterialCentreGroupResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupDetailResponse;
 import com.berylsystems.buzz.networks.api_response.materialcentregroup.GetMaterialCentreGroupListResponse;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.MaterialCentreGroupDetails;
+import com.berylsystems.buzz.networks.api_response.materialcentregroup.MaterialCentreGroupsList;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.EventMaterialCentreGroupClicked;
@@ -43,6 +47,8 @@ import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,16 +78,24 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     AppUser appUser;
     Boolean fromMaterailCentreGroupList;
     public String title;
+
+    public static MaterialCentreGroupsList data;
+
+    ArrayList<String> grouplistname;
+    ArrayList<String> grouplistid;
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-        title="CREATE MATERIAL CENTRE GROUP";
+        title = "CREATE MATERIAL CENTRE GROUP";
 
         fromMaterailCentreGroupList = getIntent().getExtras().getBoolean("frommaterialcentregrouplist");
         if (fromMaterailCentreGroupList == true) {
-            title="EDIT MATERIAL CENTRE GROUP";
+            title = "EDIT MATERIAL CENTRE GROUP";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_material_centre_group_id = getIntent().getExtras().getString("id");
@@ -111,12 +125,20 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
             }
         }
         initActionbar();
+
+        grouplistname = new ArrayList<>();
+        grouplistid = new ArrayList<>();
+        for (int i = 0; i < data.getData().size(); i++) {
+            if (data.getData().get(i).getAttributes().getUndefined() == false) {
+                grouplistname.add(data.getData().get(i).getAttributes().getName());
+                grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
+            }
             mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                     R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
             mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
             mSpinnerPrimary.setAdapter(mPrimaryGroupAdapter);
             mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                    R.layout.layout_trademark_type_spinner_dropdown_item, appUser.materialCentreGroupName);
+                    R.layout.layout_trademark_type_spinner_dropdown_item, grouplistname);
             mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
             mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
             mSpinnerPrimary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -127,7 +149,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                         mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                appUser.material_centre_group_id = String.valueOf(appUser.materialCentreGroupId.get(i));
+                                appUser.material_centre_group_id = String.valueOf(CreateMaterialCentreGroupActivity.data.getData().get(i).getAttributes().getId());
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             }
 
@@ -213,10 +235,21 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 }
             });
         }
-
+    }
     @Override
     protected int layoutId() {
         return R.layout.activity_create_material_centre_group;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initActionbar() {
@@ -252,8 +285,8 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 String group_type = response.getMaterial_center_group().getData().getAttributes().getMaterial_center_group().trim();
                 // insert code here
                 int groupindex = -1;
-                for (int i = 0; i<appUser.materialCentreGroupName.size(); i++) {
-                    if (appUser.materialCentreGroupName.get(i).equals(group_type)) {
+                for (int i = 0; i<CreateMaterialCentreGroupActivity.data.getData().size(); i++) {
+                    if (CreateMaterialCentreGroupActivity.data.getData().get(i).getAttributes().getName().equals(group_type)) {
                         groupindex = i;
                         break;
                     }
@@ -304,6 +337,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
             }
             MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
+            finish();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -331,15 +365,16 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void getmaterialcentregrouplist(GetMaterialCentreGroupListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            appUser.arr_materialCentreGroupId.clear();
-            appUser.arr_materialCentreGroupName.clear();
+            //appUser.arr_materialCentreGroupId.clear();
+           // appUser.arr_materialCentreGroupName.clear();
             LocalRepositories.saveAppUser(this,appUser);
             Timber.i("I AM HERE");
-            for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
+           /* for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
                 appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
                 LocalRepositories.saveAppUser(this, appUser);
-            }
+            }*/
+           CreateMaterialCentreGroupActivity.data=response.getMaterial_center_groups();
             MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -353,4 +388,10 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+        startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
+        finish();
+    }
 }

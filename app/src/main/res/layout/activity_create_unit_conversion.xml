@@ -44,17 +44,28 @@
                         android:layout_width="fill_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
+                        android:id="@+id/mainUnitLayout"
                         android:background="@drawable/bg_grey_stroke"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <Spinner
-                            android:id="@+id/main_unit_spinner"
-                            android:layout_width="fill_parent"
-                            android:spinnerMode="dialog"
-                            android:layout_height="40dp">
-                        </Spinner>
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Book"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.9"
+                            android:id="@+id/mainUnitText"
+                            android:background="@android:color/transparent"
+                            android:hint="Alternate unit"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
 
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="10dp"
+                            android:layout_weight="0.1"
+                            android:src="@drawable/right_carat" />
                     </LinearLayout>
                     <com.berylsystems.buzz.utils.BuzzTextView
                         style="@style/Gotham_Medium"
@@ -71,14 +82,26 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/bg_grey_stroke"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:id="@+id/subUnitLayout"
+                        android:orientation="horizontal">
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:id="@+id/subUnitText"
+                            style="@style/Gotham_Book"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.9"
+                            android:background="@android:color/transparent"
+                            android:hint="Alternate unit"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
 
-                        <Spinner
-                            android:id="@+id/sub_unit_spinner"
-                            android:layout_width="fill_parent"
-                            android:spinnerMode="dialog"
-                            android:layout_height="40dp">
-                        </Spinner>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="10dp"
+                            android:layout_weight="0.1"
+                            android:src="@drawable/right_carat" />
+
 
                     </LinearLayout>
 
