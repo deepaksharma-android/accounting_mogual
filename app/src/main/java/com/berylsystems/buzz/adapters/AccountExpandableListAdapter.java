@@ -56,12 +56,12 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-
         txtListChild.setText(acc_name);
+
         LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
         LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
-        LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.mainLayout);
+        //LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.mainLayout);
 
         if (undefined.equals("true")) {
             delete.setVisibility(View.VISIBLE);

@@ -60,12 +60,11 @@ public class FirstPageActivity extends BaseActivityCompany {
     TextView mtextview_supplier;
     @Bind(R.id.textview_stock_in_hand)
     TextView mtextview_stock_in_hand;
-
     ProgressDialog mProgressDialog;
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
     AppUser appUser;
-
+    public static Boolean isDirectForFirstPage = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +105,9 @@ public class FirstPageActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "Cash-in-hand";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionCashInHandActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(i);
             }
         });
@@ -114,7 +115,10 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_bank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.account_master_group = "Bank Accounts";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionBankActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(i);
             }
         });
@@ -122,7 +126,10 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_customer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.account_master_group = "Sundry Debtord";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionCustomerActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(i);
             }
         });
@@ -130,7 +137,10 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_supplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.account_master_group = "Sundry Creditors";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionSupplierActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(i);
             }
         });
@@ -139,6 +149,7 @@ public class FirstPageActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), TransactionStockInHandActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(i);
             }
         });

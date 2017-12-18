@@ -2,6 +2,30 @@ package com.berylsystems.buzz.networks.api_response.account;
 
 public class AccountAttributes {
     public String id;
+    public String account_group;
+    public String name;
+    public String mobile_number;
+    public String address;
+    public String city;
+    public String state;
+    public Boolean undefined;
+    public String adhar_number;
+    public String gstin_number;
+    public String pan_number;
+    public String credit_limit;
+    public String credit_days_for_sale;
+    public String credit_days_for_purchase;
+    public String amount_receivable;
+    public String amount_payable;
+    public Double amount=5.0;
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
 
     public String getAccount_group() {
         return account_group;
@@ -27,13 +51,6 @@ public class AccountAttributes {
         this.name = name;
     }
 
-    public String account_group;
-    public String name;
-    public String mobile_number;
-    public String address;
-    public String city;
-    public String state;
-
     public Boolean getUndefined() {
         return undefined;
     }
@@ -41,8 +58,6 @@ public class AccountAttributes {
     public void setUndefined(Boolean undefined) {
         this.undefined = undefined;
     }
-
-    public Boolean undefined;
 
     public String getMobile_number() {
         return mobile_number;
@@ -140,14 +155,7 @@ public class AccountAttributes {
         this.address = address;
     }
 
-    public String adhar_number;
-    public String gstin_number;
-    public String pan_number;
-    public String credit_limit;
-    public String credit_days_for_sale;
-    public String credit_days_for_purchase;
-    public String amount_receivable;
-    public String amount_payable;
+
 
 
 }
