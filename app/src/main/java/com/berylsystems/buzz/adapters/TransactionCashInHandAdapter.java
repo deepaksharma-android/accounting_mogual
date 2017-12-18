@@ -8,17 +8,19 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
+public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
 
-    public TransactionStockInHandAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild){
+    public TransactionCashInHandAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
@@ -119,4 +121,5 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         return true;
 
     }
+
 }

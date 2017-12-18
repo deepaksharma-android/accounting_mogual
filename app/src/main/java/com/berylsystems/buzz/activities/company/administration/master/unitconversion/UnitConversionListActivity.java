@@ -166,16 +166,17 @@ public class UnitConversionListActivity extends AppCompatActivity {
         if (response.getStatus() == 200) {
             appUser.arr_unitlistConversionId.clear();
             LocalRepositories.saveAppUser(this, appUser);
-            Timber.i("I AM HERE");
-            for (int i = 0; i < response.getUnit_conversions().getData().size(); i++) {
-                appUser.arr_unitlistConversionId.add(String.valueOf(response.getUnit_conversions().getData().get(i).getAttributes().getId()));
-                LocalRepositories.saveAppUser(this, appUser);
-            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new UnitConversionListAdapter(this, response.getUnit_conversions().getData());
             mRecyclerView.setAdapter(mAdapter);
+            Timber.i("I AM HERE");
+            for (int i = 0; i < response.getUnit_conversions().getData().size(); i++) {
+                appUser.arr_unitlistConversionId.add(String.valueOf(response.getUnit_conversions().getData().get(i).getAttributes().getId()));
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+
         }
     }
 

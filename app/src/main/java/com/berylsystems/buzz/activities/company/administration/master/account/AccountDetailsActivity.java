@@ -136,24 +136,23 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                             appUser.account_name = mAccountName.getText().toString();
                             appUser.account_mobile_number = mMobileNumber.getText().toString();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(AccountDetailsActivity.this);
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT);
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
-                                                }
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        mProgressDialog = new ProgressDialog(AccountDetailsActivity.this);
+                                                        mProgressDialog.setMessage("Info...");
+                                                        mProgressDialog.setIndeterminate(false);
+                                                        mProgressDialog.setCancelable(true);
+                                                        mProgressDialog.show();
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ACCOUNT);
+                                                    } else {
+                                                        snackbar = Snackbar
+                                                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                                                .setAction("RETRY", new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View view) {
+                                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                        if (isConnected) {
+                                                                        }
                                             }
                                         });
                                 snackbar.show();
@@ -456,6 +455,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             mAccountName.setText(response.getAccount().getData().getAttributes().getName());
             mGroupName.setText(response.getAccount().getData().getAttributes().getAccount_group());
             mMobileNumber.setText(response.getAccount().getData().getAttributes().getMobile_number());
+            appUser.create_account_group_id=response.getAccount().getData().getAttributes().getId();
             appUser.account_amount_receivable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_receivable());
             appUser.account_amount_payable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_payable());
             appUser.account_address= Helpers.mystring(response.getAccount().getData().getAttributes().getAddress());

@@ -29,7 +29,13 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     RecyclerView.LayoutManager layoutManager;
     TransactionDashboardAdapter mAdapter;
 
-    int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept, R.drawable.transaction_purchase, R.drawable.transaction_payment, R.drawable.transaction_payment, R.drawable.transaction_bank_cash_deposit, R.drawable.transaction_bank_cash_withdrwal,R.drawable.transaction_income, R.drawable.transaction_expence, R.drawable.transaction_sale_return,R.drawable.transaction_purchase_return, R.drawable.transaction_journal_voucher,R.drawable.transaction_debit_note, R.drawable.transaction_credit_note};
+    int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept,
+            R.drawable.transaction_purchase, R.drawable.transaction_payment,
+            R.drawable.transaction_payment, R.drawable.transaction_bank_cash_deposit,
+            R.drawable.transaction_bank_cash_withdrwal,R.drawable.transaction_income,
+            R.drawable.transaction_expence, R.drawable.transaction_sale_return,
+            R.drawable.transaction_purchase_return, R.drawable.transaction_journal_voucher,
+            R.drawable.transaction_debit_note, R.drawable.transaction_credit_note};
     private String[] title={
             "Sales",
             "Receipt",
@@ -43,7 +49,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             "Purchase Return",
             "Journal Voucher",
             "Debit Note W/O Item",
-            "Credit Note W/O Item",
+            "Credit Note W/O Item"
     };
 
     //int[] viewcolor = new int[]{getResources().getColor(R.color.red),getResources().getColor(R.color.blue),getResources().getColor(R.color.green),getResources().getColor(R.color.yellow),getResources().getColor(R.color.orange),getResources().getColor(R.color.red),getResources().getColor(R.color.purple),getResources().getColor(R.color.bright_pink),getResources().getColor(R.color.light_blue),getResources().getColor(R.color.grey),getResources().getColor(R.color.brown),getResources().getColor(R.color.premiumcolor),getResources().getColor(R.color.splashText1)};
@@ -61,6 +67,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         ta.recycle();
         setAddCompany(2);
         setAppBarTitleCompany(1,"TRANSACTION");
+
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);

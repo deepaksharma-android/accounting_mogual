@@ -22,6 +22,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.adapters.TransactionStockInHandAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.utils.Cv;
@@ -42,6 +43,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
+    TransactionStockInHandAdapter listAdapter;
     AppUser appUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,6 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-
-
     }
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();

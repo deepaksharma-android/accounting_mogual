@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +33,7 @@ import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventUnitClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -178,21 +180,29 @@ public class UnitListActivity extends AppCompatActivity {
             if (response.getItem_units().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Unit Found!!", Snackbar.LENGTH_LONG).show();
             }
-            for (int i = 0; i < response.getItem_units().getData().size(); i++) {
-                appUser.arr_unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
-                appUser.arr_unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));
-                if (response.getItem_units().getData().get(i).getAttributes().getUndefined() == false) {
-                    appUser.unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
-                    appUser.unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));
-                }
 
-                LocalRepositories.saveAppUser(this, appUser);
-            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new UnitListAdapter(this, response.getItem_units().getData());
             mRecyclerView.setAdapter(mAdapter);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    for (int i = 0; i < response.getItem_units().getData().size(); i++) {
+                        appUser.arr_unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
+                        appUser.arr_unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));
+                        if (response.getItem_units().getData().get(i).getAttributes().getUndefined() == false) {
+                            appUser.unitName.add(response.getItem_units().getData().get(i).getAttributes().getName());
+                            appUser.unitId.add(String.valueOf(response.getItem_units().getData().get(i).getId()));
+                        }
+
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+            }, 1);
         }
     }
 
@@ -250,7 +260,7 @@ public class UnitListActivity extends AppCompatActivity {
 
 
     @Subscribe
-    public void itemclickedevent(EventGroupClicked pos) {
+    public void itemclickedevent(EventUnitClicked pos) {
 
         if (!isDirectForUnitList) {
             Timber.i("POSITION" + pos.getPosition());

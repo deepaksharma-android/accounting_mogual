@@ -1,13 +1,13 @@
 package com.berylsystems.buzz.utils;
 
 public class EventGroupClicked {
-    private final int position;
+    private final String position;
 
-    public EventGroupClicked(int position) {
+    public EventGroupClicked(String position) {
         this.position = position;
     }
 
-    public int getPosition() {
+    public String getPosition() {
         return position;
     }
 }
