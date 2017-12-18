@@ -14,6 +14,7 @@ import com.berylsystems.buzz.activities.company.administration.master.item_group
 import com.berylsystems.buzz.networks.api_response.itemgroup.Data;
 import com.berylsystems.buzz.utils.EventDeleteItemGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventItemClicked;
 
 import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class ItemGroupListAdapter extends RecyclerView.Adapter<ItemGroupListAdap
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new EventGroupClicked(position));
+                EventBus.getDefault().post(new EventItemClicked(position));
             }
         });
     }

@@ -38,6 +38,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventDeleteItemGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventItemClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -274,7 +275,7 @@ public class ItemGroupListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void itemclickedevent(EventGroupClicked pos) {
+    public void itemclickedevent(EventItemClicked pos) {
 
         if (!isDirectForItemGroup) {
             Timber.i("POSITION" + pos.getPosition());
