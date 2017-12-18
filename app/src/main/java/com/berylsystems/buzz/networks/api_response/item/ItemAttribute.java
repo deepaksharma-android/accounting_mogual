@@ -410,4 +410,14 @@ public class ItemAttribute {
 
     public String item_description;
 
+    public int getTax_category_id() {
+        return tax_category_id;
+    }
+
+    public void setTax_category_id(int tax_category_id) {
+        this.tax_category_id = tax_category_id;
+    }
+
+    public int tax_category_id;
+
 }

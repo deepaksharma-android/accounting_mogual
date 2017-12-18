@@ -208,7 +208,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                 if (!mSaleType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
-                                            if (!mMobileNumber.getText().toString().equals("")) {
+                                           /* if (!mMobileNumber.getText().toString().equals("")) {*/
                                                 appUser.sale_series = mSeries.getSelectedItem().toString();
                                                 appUser.sale_vchNo = mVchNumber.getText().toString();
                                                 appUser.sale_mobileNumber = mMobileNumber.getText().toString();
@@ -220,9 +220,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                            } else {
+                                           /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
-                                            }
+                                            }*/
                                         } else {
                                             Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                         }

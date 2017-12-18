@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.purchasetype.PurchaseTypeData;
 import com.berylsystems.buzz.networks.api_response.taxcategory.TaxCategoryData;
+import com.berylsystems.buzz.utils.EventTaxCategoryClicked;
+import com.berylsystems.buzz.utils.EventUnitClicked;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,12 @@ public class TaxCategoryListAdapter extends RecyclerView.Adapter<TaxCategoryList
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.mGroupName.setText(data.get(position).getAttributes().getName());
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventTaxCategoryClicked(data.get(position).getId()+"," +data.get(position).getAttributes().getName()));
+            }
+        });
 
     }
 

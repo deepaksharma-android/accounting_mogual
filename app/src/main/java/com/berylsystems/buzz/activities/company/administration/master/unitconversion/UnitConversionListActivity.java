@@ -69,6 +69,7 @@ public class UnitConversionListActivity extends AppCompatActivity {
 
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
+        intent.putExtra("fromunitconversionlist", false);
         startActivity(intent);
     }
 
