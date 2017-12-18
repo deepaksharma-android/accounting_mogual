@@ -2,6 +2,7 @@ package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.CreateAccountGroupActivity;
+import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -53,7 +56,7 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new EventDeleteGroup(i));
+                EventBus.getDefault().post(new EventDeleteGroup(data.get(i).getAttributes().getId()));
             }
         });
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +71,7 @@ public class AccountGroupListAdapter extends RecyclerView.Adapter<AccountGroupLi
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new EventGroupClicked(i));
+                EventBus.getDefault().post(new EventGroupClicked(data.get(i).getId()+","+data.get(i).getAttributes().getName()));
             }
         });
 

@@ -33,6 +33,7 @@ import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventUnitClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -259,7 +260,7 @@ public class UnitListActivity extends AppCompatActivity {
 
 
     @Subscribe
-    public void itemclickedevent(EventGroupClicked pos) {
+    public void itemclickedevent(EventUnitClicked pos) {
 
         if (!isDirectForUnitList) {
             Timber.i("POSITION" + pos.getPosition());

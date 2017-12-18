@@ -339,6 +339,7 @@ public class CompanyListActivity extends BaseActivity {
     public void add(View v) {
         Intent intent=new Intent(getApplicationContext(), CreateCompanyActivity.class);
         //EditCompanyActivity.data = null;
+
         Preferences.getInstance(getApplicationContext()).setCid("");
         appUser.logo="";
         appUser.signature="";

@@ -14,6 +14,7 @@ import com.berylsystems.buzz.activities.company.administration.master.unit.Creat
 import com.berylsystems.buzz.networks.api_response.unit.ItemUnitData;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
 import com.berylsystems.buzz.utils.EventGroupClicked;
+import com.berylsystems.buzz.utils.EventUnitClicked;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -67,7 +68,7 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.ViewHo
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new EventGroupClicked(i));
+                EventBus.getDefault().post(new EventUnitClicked(i));
             }
         });
     }

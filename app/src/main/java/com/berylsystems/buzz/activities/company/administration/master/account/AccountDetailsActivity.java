@@ -456,6 +456,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             mAccountName.setText(response.getAccount().getData().getAttributes().getName());
             mGroupName.setText(response.getAccount().getData().getAttributes().getAccount_group());
             mMobileNumber.setText(response.getAccount().getData().getAttributes().getMobile_number());
+            appUser.create_account_group_id=response.getAccount().getData().getAttributes().getId();
             appUser.account_amount_receivable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_receivable());
             appUser.account_amount_payable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_payable());
             appUser.account_address= Helpers.mystring(response.getAccount().getData().getAttributes().getAddress());

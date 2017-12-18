@@ -26,16 +26,21 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.accountgroup.AccountGroups;
 import com.berylsystems.buzz.networks.api_response.accountgroup.CreateAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.accountgroup.Data;
 import com.berylsystems.buzz.networks.api_response.accountgroup.EditAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
+import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -63,6 +68,9 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Boolean fromAccountGroupList;
     String title;
+    ArrayList<String> grouplistname;
+    ArrayList<String> grouplistid;
+    public static AccountGroups data=null;
 
 
     @Override
@@ -106,12 +114,28 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         }
 
         initActionbar();
+        grouplistname=new ArrayList<>();
+        grouplistid=new ArrayList<>();
+        for(int i=0;i<data.getData().size();i++){
+            if (data.getData().get(i).getAttributes().getUndefined() == false) {
+                grouplistname.add(data.getData().get(i).getAttributes().getName());
+                grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
+            }
+           /* if (data.getData().get(i).getAttributes().getUndefined() == false) {
+                appUser.group_name.add(data.getData().get(i).getAttributes().getName());
+                appUser.group_id.add(data.getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+            appUser.arr_account_group_name.add(data.getData().get(i).getAttributes().getName());
+            appUser.arr_account_group_id.add(data.getData().get(i).getAttributes().getId());
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+        }
         mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.primary_group));
         mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerPrimary.setAdapter(mPrimaryGroupAdapter);
         mUnderGroupAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item,appUser.group_name);
+                R.layout.layout_trademark_type_spinner_dropdown_item,grouplistname);
         mUnderGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerUnderGroup.setAdapter(mUnderGroupAdapter);
         mSpinnerPrimary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -122,7 +146,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                     mSpinnerUnderGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            appUser.account_group_id= String.valueOf(appUser.group_id.get(i));
+                            appUser.account_group_id= String.valueOf(grouplistid.get(i));
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         }
 
@@ -252,7 +276,12 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void createAccountGroup(CreateAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Boolean isConnected = ConnectivityReceiver.isConnected();
+            AccountGroupListActivity.isDirectForAccountGroup=false;
+            Intent intent = new Intent(this, AccountGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreategroup",true);
+            startActivity(intent);
+           /* Boolean isConnected = ConnectivityReceiver.isConnected();
             if(isConnected) {
                 mProgressDialog = new ProgressDialog(CreateAccountGroupActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -275,7 +304,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                             }
                         });
                 snackbar.show();
-            }
+            }*/
 
         }
         else{
@@ -299,7 +328,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         startActivity(intent);
     }*/
 
-    @Subscribe
+  /*  @Subscribe
     public void getAccountGroup(GetAccountGroupResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -321,7 +350,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
 
             }
         }
-    }
+    }*/
 
     @Subscribe
     public void getAccountGroupDetails(GetAccountGroupDetailsResponse response){
@@ -332,17 +361,14 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 mSpinnerPrimary.setSelection(1);
                 mSpinnerUnderGroup.setVisibility(View.VISIBLE);
                 String group_type = response.getAccount_group_details().getData().getAttributes().getAccount_group().trim();
-                Timber.i("GROUPINDEX"+group_type);
                 // insert code here
                 int groupindex = -1;
-                for (int i = 0; i<appUser.group_name.size(); i++) {
-                    Timber.i("GROUPINDEX"+appUser.group_name);
-                    if (appUser.group_name.get(i).equals(group_type)) {
+                for (int i = 0; i<grouplistname.size(); i++) {
+                    if (grouplistname.get(i).equals(group_type)) {
                         groupindex = i;
                         break;
                     }
                 }
-                Timber.i("GROUPINDEX"+groupindex);
                 mSpinnerUnderGroup.setSelection(groupindex);
 
             }

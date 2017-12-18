@@ -58,6 +58,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     Boolean fromGeneral, fromMaster, fromCreateGroup;
     public static Boolean isDirectForAccountGroup = true;
+    Handler handler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +69,6 @@ public class AccountGroupListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        EventBus.getDefault().register(this);
         mFloatingButton.bringToFront();
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -95,6 +95,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
         }
 
     }
+
 
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
@@ -150,7 +151,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
+        EventBus.getDefault().register(this);
         super.onResume();
     }
 
@@ -187,27 +188,30 @@ public class AccountGroupListActivity extends AppCompatActivity {
             if (response.getAccount_groups().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Account Group Found!!", Snackbar.LENGTH_LONG).show();
             }
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new AccountGroupListAdapter(this, response.getAccount_groups().getData());
-            mRecyclerView.setAdapter(mAdapter);
-            Handler handler = new Handler();
+
+           /* handler = new Handler();
             handler.postDelayed(new Runnable(){
                 @Override
                 public void run(){
                     for (int i = 0; i < response.getAccount_groups().getData().size(); i++) {
-                        appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
-                        appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         if (response.getAccount_groups().getData().get(i).getAttributes().getUndefined() == false) {
                             appUser.group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
                             appUser.group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         }
+                        appUser.arr_account_group_name.add(response.getAccount_groups().getData().get(i).getAttributes().getName());
+                        appUser.arr_account_group_id.add(response.getAccount_groups().getData().get(i).getAttributes().getId());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
             }, 1);
+*/
+            mRecyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mAdapter = new AccountGroupListAdapter(this, response.getAccount_groups().getData());
+            mRecyclerView.setAdapter(mAdapter);
+            CreateAccountGroupActivity.data=response.getAccount_groups();
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -227,25 +231,24 @@ public class AccountGroupListActivity extends AppCompatActivity {
     @Subscribe
     public void groupclickedevent(EventGroupClicked pos) {
         if (!isDirectForAccountGroup) {
-            if ((!fromMaster && fromCreateGroup) || !fromMaster && !fromCreateGroup) {
-                Timber.i("POSITION" + pos.getPosition());
+
+                String data=pos.getPosition();
+                String arr[]=data.split(",");
+                String id=arr[0];
+                String name=arr[1];
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-                returnIntent.putExtra("name", appUser.arr_account_group_name.get(pos.getPosition()));
-                returnIntent.putExtra("id", String.valueOf(appUser.arr_account_group_id.get(pos.getPosition())));
-                Timber.i("PASSSS" + appUser.arr_account_group_id.get(pos.getPosition()));
-            /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
-            LocalRepositories.saveAppUser(this, appUser);*/
+                returnIntent.putExtra("name", name);
+                returnIntent.putExtra("id", id);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
-            }
         }
 
     }
 
     @Subscribe
     public void deletegroup(EventDeleteGroup pos) {
-        appUser.delete_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+        appUser.delete_group_id =String.valueOf(pos.getPosition());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(AccountGroupListActivity.this)
                 .setTitle("Delete Account Group")
