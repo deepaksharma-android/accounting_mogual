@@ -9,22 +9,25 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+
 import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
+public class TransactionBankAdapter extends BaseExpandableListAdapter{
 
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
     private ArrayList addAmount;
 
-    public TransactionCashInHandAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild, ArrayList addAmount){
+    public TransactionBankAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild, ArrayList addAmount){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
@@ -153,9 +156,6 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-
         return true;
-
     }
-
 }

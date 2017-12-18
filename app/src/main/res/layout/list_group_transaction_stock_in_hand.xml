@@ -15,23 +15,12 @@
         android:orientation="horizontal">
 
         <com.berylsystems.buzz.utils.BuzzTextView
-            android:id="@+id/lblListHeader1"
+            android:id="@+id/lblListHeader"
             android:layout_width="0dp"
             style="@style/Gotham_Medium"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
-            android:textColor="#000" />
-
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:id="@+id/lblListHeader2"
-            android:layout_width="0dp"
-            style="@style/Gotham_Medium"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_weight="0.9"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="#000" />
