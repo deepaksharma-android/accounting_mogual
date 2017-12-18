@@ -76,7 +76,7 @@ public class UnitConversionListActivity extends AppCompatActivity {
 
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
-        intent.putExtra("fromunitconversionlist",false);
+        intent.putExtra("fromunitconversionlist", false);
         startActivity(intent);
     }
 
@@ -184,7 +184,7 @@ public class UnitConversionListActivity extends AppCompatActivity {
                 appUser.arr_unitlistConversionId.add(String.valueOf(response.getUnit_conversions().getData().get(i).getAttributes().getId()));
                 LocalRepositories.saveAppUser(this, appUser);
             }*/
-           data=response.getUnit_conversions();
+            data = response.getUnit_conversions();
 
         }
     }

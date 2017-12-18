@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.taxcategory;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,6 +28,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventTaxCategoryClicked;
+import com.berylsystems.buzz.utils.EventUnitClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -35,6 +38,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class TaxCategoryeListActivity extends AppCompatActivity {
     AppUser appUser;
@@ -46,6 +50,7 @@ public class TaxCategoryeListActivity extends AppCompatActivity {
     TaxCategoryListAdapter mAdapter;
     @Bind(R.id.tax_type_list_recycler_view)
     RecyclerView mRecyclerView;
+    public static Boolean isDirectForTaxCategoryList = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +165,24 @@ public class TaxCategoryeListActivity extends AppCompatActivity {
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void itemclickedevent(EventTaxCategoryClicked pos) {
+
+        if (!isDirectForTaxCategoryList) {
+            String data=pos.getPosition();
+            String arr[]=data.split(",");
+            String id=arr[0];
+            String name=arr[1];
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+            returnIntent.putExtra("name", name);
+            returnIntent.putExtra("id", id);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
+
     }
 }
 

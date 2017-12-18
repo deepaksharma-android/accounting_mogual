@@ -107,6 +107,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                     context.startActivity(new Intent(context, SaleTypeListActivity.class));
                 }
                 if(i==11){
+                    TaxCategoryeListActivity.isDirectForTaxCategoryList=true;
                     context.startActivity(new Intent(context, TaxCategoryeListActivity.class));
                 }
             }

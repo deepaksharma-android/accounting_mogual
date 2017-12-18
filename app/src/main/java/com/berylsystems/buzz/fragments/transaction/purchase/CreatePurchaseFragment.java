@@ -204,7 +204,7 @@ public class CreatePurchaseFragment extends Fragment {
                                 if (!mPurchaseType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
-                                            if (!mMobileNumber.getText().toString().equals("")) {
+                                           /* if (!mMobileNumber.getText().toString().equals("")) {*/
                                                 appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                                 appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                                 appUser.purchase_mobile_number = mMobileNumber.getText().toString();
@@ -216,9 +216,9 @@ public class CreatePurchaseFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
-                                            } else {
+                                          /*  } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
-                                            }
+                                            }*/
                                         } else {
                                             Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                         }

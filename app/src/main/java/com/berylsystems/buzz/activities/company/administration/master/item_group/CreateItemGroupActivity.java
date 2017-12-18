@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -245,6 +246,16 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     protected int layoutId() {
         return R.layout.activity_create_item_group;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
@@ -317,10 +328,11 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
    /* @Override
     public void onBackPressed() {
         ItemGroupListActivity.isDirectForItemGroup=false;
-        Intent intent = new Intent(this, ItemGroupListActivity.class);
+    /*    Intent intent = new Intent(this, ItemGroupListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromcreategroup",true);
-        startActivity(intent);
+        startActivity(intent);*/
+        finish();
     }
 
     @Subscribe
