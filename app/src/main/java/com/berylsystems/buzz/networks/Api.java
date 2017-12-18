@@ -423,11 +423,11 @@ public interface Api {
     @PATCH("bank_cash_deposits/{id}")
     Call<EditBankCashDepositResponse> editbankcashdeposit(@Body RequestCreateBankCashDeposit payload, @Path("id") String id);
 
-    @POST("bank_cash_deposits")
-    Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload);
+    @POST("bank_cash_deposits/{id}")
+    Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload,@Path("id") String id);
 
-    @POST("bank_cash_withdraw")
-    Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload);
+    @POST("bank_cash_withdraw/{id}")
+    Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload,@Path("id") String id);
 
     @GET("company_bank_cash_withdraw/{id}")
     Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id);

@@ -31,6 +31,8 @@ import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,8 +56,9 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
     Snackbar snackbar;
     List<String> name;
     List<String> id;
-    ArrayList amountList=new ArrayList();
+    ArrayList<Double> amountList=new ArrayList();
     public static Boolean isDirectForFirstPage = true;
+    //private static DecimalFormat df2 = new DecimalFormat(".##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,10 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         setContentView(R.layout.activity_transaction_cash_in_hand);
 
         ButterKnife.bind(this);
+        mFloatingButton.bringToFront();
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+
     }
 
 
@@ -162,7 +167,6 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
             for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
                 name = new ArrayList<>();
-                //amount = new ArrayList<>();
                 id = new ArrayList<>();
                 Double addAmount=0.0;
                 for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
@@ -170,7 +174,9 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                     Double addprize = response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount();
                     addAmount = addAmount+addprize;
+
                 }
+                //amountList.add(Double.valueOf(String.format("%.2f",addAmount)));
                 amountList.add(addAmount);
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);
@@ -254,10 +260,7 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
         intent.putExtra("fromaccountlist", true);
         startActivity(intent);
-
     }
-
-
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);

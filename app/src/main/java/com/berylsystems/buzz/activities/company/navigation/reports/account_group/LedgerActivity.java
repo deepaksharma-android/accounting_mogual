@@ -95,31 +95,36 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                 String start_date = mStart_date.getText().toString();
                 String end_date = mEnd_date.getText().toString();
 
-                appUser.pdf_start_date = mStart_date.getText().toString();
-                appUser.pdf_end_date = mEnd_date.getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if(!mAccount_group_textview.getText().toString().equals("")){
+                    appUser.pdf_start_date = mStart_date.getText().toString();
+                    appUser.pdf_end_date = mEnd_date.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(LedgerActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
-                } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(LedgerActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();
                 }
+
             }
         });
     }
@@ -144,10 +149,10 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
         int current_month = Integer.valueOf(datesplit[1]);
         int current_day = Integer.valueOf(datesplit[2]);
 
+
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
@@ -168,11 +173,11 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
         DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+                view.setMaxDate(System.currentTimeMillis());
                 String start_date = mStart_date.getText().toString();
-                String[] datesplit = dateString.split("-");
+                String[] datesplit = start_date.split("-");
                 int start_year = Integer.valueOf(datesplit[0]);
-                int start_month = Integer.valueOf(datesplit[1]);
+                String start_month = datesplit[1];
                 int start_day = Integer.valueOf(datesplit[2]);
 
                 Calendar newDate = Calendar.getInstance();
@@ -203,8 +208,6 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
             }
         }
     }
-
-
 
     @Override
     public void onClick(View view) {
@@ -247,5 +250,14 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 }

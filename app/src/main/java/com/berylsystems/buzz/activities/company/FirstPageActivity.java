@@ -126,7 +126,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_customer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.account_master_group = "Sundry Debtord";
+                appUser.account_master_group = "Sundry Debtors";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionCustomerActivity.class);
                 FirstPageActivity.isDirectForFirstPage=false;
@@ -144,13 +144,14 @@ public class FirstPageActivity extends BaseActivityCompany {
                 startActivity(i);
             }
         });
-
         mlayout_stock_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*appUser.account_master_group = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionStockInHandActivity.class);
                 FirstPageActivity.isDirectForFirstPage=false;
-                startActivity(i);
+                startActivity(i);*/
             }
         });
 

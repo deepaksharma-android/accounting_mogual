@@ -762,13 +762,11 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
-
-
         });
     }
 
     private void handleCreateBankCashDeposit() {
-        api.createbankcashdeposit(new RequestCreateBankCashDeposit(this)).enqueue(new Callback<CreateBankCashDepositResponse>() {
+        api.createbankcashdeposit(new RequestCreateBankCashDeposit(this),Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBankCashDepositResponse>() {
             @Override
             public void onResponse(Call<CreateBankCashDepositResponse> call, Response<CreateBankCashDepositResponse> r) {
                 if (r.code() == 200) {
@@ -789,7 +787,7 @@ public class ApiCallsService extends IntentService {
         });
     }
     private void handleCreateBankCashWithdraw() {
-        api.createbankcashwithdraw(new RequestCreateBankCashWithdraw(this)).enqueue(new Callback<CreateBankCashWithdrawResponse>() {
+        api.createbankcashwithdraw(new RequestCreateBankCashWithdraw(this),Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBankCashWithdrawResponse>() {
             @Override
             public void onResponse(Call<CreateBankCashWithdrawResponse> call, Response<CreateBankCashWithdrawResponse> r) {
                 if (r.code() == 200) {

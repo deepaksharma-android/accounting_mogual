@@ -8,6 +8,8 @@ public class Attributes {
     public String deposit_to;
     public String deposit_by;
     public Double amount;
+    public String narration;
+    public String attachment;
 
     public String getCompany_id() {
         return company_id;
@@ -81,6 +83,5 @@ public class Attributes {
         this.attachment = attachment;
     }
 
-    public String narration;
-    public String attachment;
+
 }

@@ -17,7 +17,7 @@ public class AccountAttributes {
     public String credit_days_for_purchase;
     public String amount_receivable;
     public String amount_payable;
-    public Double amount=5.0;
+    public Double amount;
 
     public Double getAmount() {
         return amount;
