@@ -362,7 +362,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             mGroupName.setText(response.getItem_group().getData().getAttributes().getName());
-                if(!response.getItem_group().getData().getAttributes().getName().equals("")){
+                if(response.getItem_group().getData().getAttributes().getItem_groups()!=null){
                     mSpinnerPrimary.setSelection(1);
                     mSpinnerUnderGroup.setVisibility(View.VISIBLE);
                     String group_type = response.getItem_group().getData().getAttributes().getItem_groups().trim();
@@ -379,6 +379,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
                     mSpinnerUnderGroup.setSelection(groupindex);
                 }
             }
+
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

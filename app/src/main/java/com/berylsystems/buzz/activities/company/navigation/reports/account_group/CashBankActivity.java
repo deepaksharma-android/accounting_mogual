@@ -30,6 +30,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -58,6 +59,7 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    public HashMap<Integer,String> dateMap = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,14 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
         String dateString = sdf.format(date);
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
+
+        dateMap.put(01, "Jan");
+        dateMap.put(02, "Fab");
+        dateMap.put(03, "Mar");
+        dateMap.put(04, "Apr");
+        dateMap.put(05, "May");
+        dateMap.put(06, "Jun");
+        dateMap.put(07, "Jun");
 
         mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +129,6 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
                 }else {
                     Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();
                 }
-
             }
         });
     }

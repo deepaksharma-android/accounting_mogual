@@ -155,7 +155,13 @@ public class AccountAttributes {
         this.address = address;
     }
 
+    public int account_master_group_id;
 
+    public int getAccount_master_group_id() {
+        return account_master_group_id;
+    }
 
-
+    public void setAccount_master_group_id(int account_master_group_id) {
+        this.account_master_group_id = account_master_group_id;
+    }
 }
