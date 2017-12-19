@@ -21,6 +21,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
+import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.BankCashDepositListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -121,7 +122,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
