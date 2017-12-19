@@ -22,11 +22,22 @@
             android:layout_marginBottom="40dp"
             android:src="@drawable/icon_add" />
 
-        <ExpandableListView
-            android:id="@+id/lvExp"
-            android:groupIndicator="@null"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/autoCompleteTextView"/>
+            <ExpandableListView
+                android:id="@+id/lvExp"
+                android:groupIndicator="@null"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+        </LinearLayout>
+
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

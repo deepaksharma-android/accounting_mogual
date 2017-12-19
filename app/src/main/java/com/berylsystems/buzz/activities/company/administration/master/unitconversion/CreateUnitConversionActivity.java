@@ -390,6 +390,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                 String id = data.getStringExtra("id");
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mainUnitText.setText(result);
+                appUser.main_unit_id=id;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
 
@@ -402,6 +404,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                 String id = data.getStringExtra("id");
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 subUnitText.setText(result);
+                appUser.sub_unit_id=id;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
 

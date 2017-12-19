@@ -11,6 +11,33 @@ public class ItemAttribute {
     public String name;
     public String company;
     public String item_group;
+    public String alternate_unit_id;
+    public String item_group_id;
+    public String item_unit_id;
+
+    public String getAlternate_unit_id() {
+        return alternate_unit_id;
+    }
+
+    public void setAlternate_unit_id(String alternate_unit_id) {
+        this.alternate_unit_id = alternate_unit_id;
+    }
+
+    public String getItem_group_id() {
+        return item_group_id;
+    }
+
+    public void setItem_group_id(String item_group_id) {
+        this.item_group_id = item_group_id;
+    }
+
+    public String getItem_unit_id() {
+        return item_unit_id;
+    }
+
+    public void setItem_unit_id(String item_unit_id) {
+        this.item_unit_id = item_unit_id;
+    }
 
     public int getId() {
 

@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.item;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,12 +18,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.berylsystems.buzz.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
@@ -66,6 +72,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton floatingActionButton;
+    @Bind(R.id.autoCompleteTextView)
+    AutoCompleteTextView autoCompleteTextView;
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -118,6 +126,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     List<String> purchasePriceMain;
     List<String> purchasePriceAlternate;
     List<String> packaging_purchase_price;
+
+    List<String> nameList;
+    List<String> idList;
+    private ArrayAdapter<String> adapter;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -211,6 +225,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public void getItem(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            nameList = new ArrayList();
+            idList = new ArrayList();
+
             listDataHeader = new ArrayList<>();
             listDataChildDesc = new HashMap<Integer, List<String>>();
             listDataChildUnit = new HashMap<Integer, List<String>>();
@@ -263,6 +281,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 default_unit.clear();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
+
+                    nameList.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
+                    idList.add(response.getOrdered_items().get(i).getData().get(j).getId());
+
                     if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description() != null) {
                         description.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description());
                     } else {
@@ -402,6 +424,13 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             // setting list adapter
             expListView.setAdapter(listAdapter);
 
+            expListView.setAdapter(listAdapter);
+            for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+                expListView.expandGroup(i);
+            }
+
+            autoCompleteTextView();
+
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
@@ -497,6 +526,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         if (!isDirectForItem) {
 
             if (ExpandableItemListActivity.comingFrom == 0) {
+
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
@@ -557,6 +587,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
                 intent.putExtra("frombillitemvoucherlist", false);
+
+                autoCompleteTextView();
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 1) {
@@ -832,5 +864,37 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void autoCompleteTextView() {
+        autoCompleteTextView.setThreshold(1);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (!isDirectForItem) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("name", adapter.getItem(i));
+                    String id = idList.get(getPositionOfItem(adapter.getItem(i)));
+                    returnIntent.putExtra("id", id);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        });
+        if (isDirectForItem){
+            autoCompleteTextView.setVisibility(View.GONE);
+        }
+    }
+
+    private int getPositionOfItem(String category) {
+        for (int i = 0; i < this.nameList.size(); i++) {
+            if (this.nameList.get(i) == category)
+                return i;
+        }
+
+        return -1;
     }
 }
