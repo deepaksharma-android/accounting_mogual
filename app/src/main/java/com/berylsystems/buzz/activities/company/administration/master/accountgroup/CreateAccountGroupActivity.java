@@ -198,6 +198,8 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                                 });
                         snackbar.show();
                     }
+                }else {
+                    Snackbar.make(coordinatorLayout,"Please enter group name",Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -231,6 +233,8 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                                 });
                         snackbar.show();
                     }
+                }else {
+                    Snackbar.make(coordinatorLayout,"Enter group name",Snackbar.LENGTH_LONG).show();
                 }
             }
         });
