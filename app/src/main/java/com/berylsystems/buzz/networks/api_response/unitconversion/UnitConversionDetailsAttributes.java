@@ -46,4 +46,22 @@ public class UnitConversionDetailsAttributes {
     public String sub_unit;
     public Double conversion_factor;
     public Boolean undefined;
+    public String main_unit_id;
+    public String sub_unit_id;
+
+    public String getMain_unit_id() {
+        return main_unit_id;
+    }
+
+    public void setMain_unit_id(String main_unit_id) {
+        this.main_unit_id = main_unit_id;
+    }
+
+    public String getSub_unit_id() {
+        return sub_unit_id;
+    }
+
+    public void setSub_unit_id(String sub_unit_id) {
+        this.sub_unit_id = sub_unit_id;
+    }
 }

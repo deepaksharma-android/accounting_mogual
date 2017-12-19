@@ -57,9 +57,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class ExpandableItemListActivity extends AppCompatActivity {
 
@@ -228,6 +230,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
             nameList = new ArrayList();
             idList = new ArrayList();
+            nameList = new ArrayList();
 
             listDataHeader = new ArrayList<>();
             listDataChildDesc = new HashMap<Integer, List<String>>();
@@ -283,7 +286,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
 
                     nameList.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
-                    idList.add(response.getOrdered_items().get(i).getData().get(j).getId());
+                    idList.add(String.valueOf(i)+","+String.valueOf(j));
 
                     if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description() != null) {
                         description.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description());
@@ -515,6 +518,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     @Subscribe
     public void ClickEventAddSaleVoucher(EventSaleAddItem pos) {
+
+
+        autoCompleteTextView();
+
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];
@@ -526,6 +533,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         if (!isDirectForItem) {
 
             if (ExpandableItemListActivity.comingFrom == 0) {
+
+
 
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
@@ -587,8 +596,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
                 intent.putExtra("frombillitemvoucherlist", false);
-
-                autoCompleteTextView();
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 1) {
@@ -873,15 +880,284 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                String id = idList.get(getPositionOfItem(adapter.getItem(i)));
+                Timber.i("IDD----"+id);
+                String[] arr = id.split(",");
+                String groupid = arr[0];
+                String childid = arr[1];
+                String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+               /* appUser.childId = arrid;
+                LocalRepositories.saveAppUser(this, appUser);
+*/
                 if (!isDirectForItem) {
-                    Intent returnIntent = new Intent();
+
+                    if (ExpandableItemListActivity.comingFrom == 0) {
+                        Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                        String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String descr;
+                        String alternate_unit;
+                        String sales_price_main;
+                        String sales_price_alternate;
+                        Boolean batch, serial;
+                        descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        sales_price_main = listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        intent.putExtra("fromitemlist", true);
+                        intent.putExtra("fromSaleVoucherItemList", true);
+                        mSaleVoucherItem.put("name", itemName);
+                        mSaleVoucherItem.put("desc", descr);
+                        mSaleVoucherItem.put("main_unit", main_unit);
+                        mSaleVoucherItem.put("alternate_unit", alternate_unit);
+                        mSaleVoucherItem.put("serial_wise", String.valueOf(serial));
+                        mSaleVoucherItem.put("batch_wise", String.valueOf(batch));
+                        mSaleVoucherItem.put("sales_price_main", sales_price_main);
+                        mSaleVoucherItem.put("applied", applied);
+                        mSaleVoucherItem.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                        mSaleVoucherItem.put("default_unit", default_unit);
+                        mSaleVoucherItem.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                        mSaleVoucherItem.put("packaging_unit_sales_price", packaging_unit_sales_price);
+                        mSaleVoucherItem.put("packaging_unit", packaging_unit);
+                        mSaleVoucherItem.put("mrp", mrp);
+                        mSaleVoucherItem.put("tax", tax);
+                        appUser.mMapSaleVoucherItem = mSaleVoucherItem;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        intent.putExtra("id", itemid);
+                        intent.putExtra("name", itemName);
+                        intent.putExtra("desc", descr);
+                        intent.putExtra("main_unit", main_unit);
+                        intent.putExtra("alternate_unit", alternate_unit);
+                        intent.putExtra("serial_wise", serial);
+                        intent.putExtra("batch_wise", batch);
+                        intent.putExtra("sales_price_main", sales_price_main);
+                        intent.putExtra("sales_price_alternate", sales_price_alternate);
+                        intent.putExtra("applied", applied);
+                        intent.putExtra("alternate_unit_con_factor", alternate_unit_con_factor);
+                        intent.putExtra("default_unit", default_unit);
+                        intent.putExtra("packaging_unit_con_factor", packaging_unit_con_factor);
+                        intent.putExtra("packaging_unit_sales_price", packaging_unit_sales_price);
+                        intent.putExtra("packaging_unit", packaging_unit);
+                        intent.putExtra("mrp", mrp);
+                        intent.putExtra("tax", tax);
+                        intent.putExtra("frombillitemvoucherlist", false);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 1) {
+                        Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
+                        String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String descr;
+                        String alternate_unit;
+                        String purchase_price_main;
+                        String purchase_price_alternate;
+                        Boolean batch, serial;
+                        descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        purchase_price_main = listDataChildPurchasePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        purchase_price_alternate = listDataChildPurchasePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_purchase_price = listDataChildPackagingPurchasePrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        intent.putExtra("fromitemlist", true);
+                        intent.putExtra("fromPurchaseVoucherItemList", true);
+                        mPurchaseVoucherItem.put("name", itemName);
+                        mPurchaseVoucherItem.put("desc", descr);
+                        mPurchaseVoucherItem.put("main_unit", main_unit);
+                        mPurchaseVoucherItem.put("alternate_unit", alternate_unit);
+                        mPurchaseVoucherItem.put("serial_wise", String.valueOf(serial));
+                        mPurchaseVoucherItem.put("batch_wise", String.valueOf(batch));
+                        mPurchaseVoucherItem.put("purchase_price_main", purchase_price_main);
+                        mPurchaseVoucherItem.put("applied", applied);
+                        mPurchaseVoucherItem.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                        mPurchaseVoucherItem.put("default_unit", default_unit);
+                        mPurchaseVoucherItem.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                        mPurchaseVoucherItem.put("packaging_unit_purchase_price", packaging_unit_purchase_price);
+                        mPurchaseVoucherItem.put("packaging_unit", packaging_unit);
+                        mPurchaseVoucherItem.put("mrp", mrp);
+                        appUser.mMapPurchaseVoucherItem = mPurchaseVoucherItem;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        intent.putExtra("id", itemid);
+                        intent.putExtra("name", itemName);
+                        intent.putExtra("desc", descr);
+                        intent.putExtra("main_unit", main_unit);
+                        intent.putExtra("alternate_unit", alternate_unit);
+                        intent.putExtra("serial_wise", serial);
+                        intent.putExtra("batch_wise", batch);
+                        intent.putExtra("purchase_price_main", purchase_price_main);
+                        intent.putExtra("purchase_price_alternate", purchase_price_alternate);
+                        intent.putExtra("applied", applied);
+                        intent.putExtra("alternate_unit_con_factor", alternate_unit_con_factor);
+                        intent.putExtra("default_unit", default_unit);
+                        intent.putExtra("packaging_unit_con_factor", packaging_unit_con_factor);
+                        intent.putExtra("packaging_unit_purchase_price", packaging_unit_purchase_price);
+                        intent.putExtra("packaging_unit", packaging_unit);
+                        intent.putExtra("mrp", mrp);
+                        intent.putExtra("tax", tax);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 2) {
+                        //Toast.makeText(ExpandableItemListActivity.this, "2", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), SaleReturnAddItemActivity.class);
+                        String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String descr;
+                        String alternate_unit;
+                        String sales_price_main;
+                        String sales_price_alternate;
+                        Boolean batch, serial;
+                        descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        sales_price_main = listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        intent.putExtra("fromitemlist", true);
+                        intent.putExtra("fromSaleVoucherItemList", true);
+
+
+                        mSaleReturnItem.put("name", itemName);
+                        mSaleReturnItem.put("desc", descr);
+                        mSaleReturnItem.put("main_unit", main_unit);
+                        mSaleReturnItem.put("alternate_unit", alternate_unit);
+                        mSaleReturnItem.put("serial_wise", String.valueOf(serial));
+                        mSaleReturnItem.put("batch_wise", String.valueOf(batch));
+                        mSaleReturnItem.put("sales_price_main", sales_price_main);
+                        mSaleReturnItem.put("applied", applied);
+                        mSaleReturnItem.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                        mSaleReturnItem.put("default_unit", default_unit);
+                        mSaleReturnItem.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                        mSaleReturnItem.put("packaging_unit_sales_price", packaging_unit_sales_price);
+                        mSaleReturnItem.put("packaging_unit", packaging_unit);
+                        mSaleReturnItem.put("mrp", mrp);
+                        mSaleReturnItem.put("tax", tax);
+                        appUser.mMapSaleReturnItem = mSaleReturnItem;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        intent.putExtra("id", itemid);
+                        intent.putExtra("name", itemName);
+                        intent.putExtra("desc", descr);
+                        intent.putExtra("main_unit", main_unit);
+                        intent.putExtra("alternate_unit", alternate_unit);
+                        intent.putExtra("serial_wise", serial);
+                        intent.putExtra("batch_wise", batch);
+                        intent.putExtra("sales_price_main", sales_price_main);
+                        intent.putExtra("sales_price_alternate", sales_price_alternate);
+                        intent.putExtra("applied", applied);
+                        intent.putExtra("alternate_unit_con_factor", alternate_unit_con_factor);
+                        intent.putExtra("default_unit", default_unit);
+                        intent.putExtra("packaging_unit_con_factor", packaging_unit_con_factor);
+                        intent.putExtra("packaging_unit_sales_price", packaging_unit_sales_price);
+                        intent.putExtra("packaging_unit", packaging_unit);
+                        intent.putExtra("mrp", mrp);
+                        intent.putExtra("tax", tax);
+                        intent.putExtra("frombillitemvoucherlist", false);
+                        startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 3) {
+
+                        Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddItemActivity.class);
+                        String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String descr;
+                        String alternate_unit;
+                        String purchase_price_main;
+                        String purchase_price_alternate;
+                        Boolean batch, serial;
+                        descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        purchase_price_main = listDataChildPurchasePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        purchase_price_alternate = listDataChildPurchasePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit_purchase_price = listDataChildPackagingPurchasePrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        intent.putExtra("fromitemlist", true);
+                        intent.putExtra("fromPurchaseReturnItemList", true);
+                        intent.putExtra("id", childid);
+                        intent.putExtra("fromitemlist", true);
+                        intent.putExtra("fromPurchaseReturnItemList", true);
+
+                        mPurchaseReturnItem.put("name", itemName);
+                        mPurchaseReturnItem.put("desc", descr);
+                        mPurchaseReturnItem.put("main_unit", main_unit);
+                        mPurchaseReturnItem.put("alternate_unit", alternate_unit);
+                        mPurchaseReturnItem.put("serial_wise", String.valueOf(serial));
+                        mPurchaseReturnItem.put("batch_wise", String.valueOf(batch));
+                        mPurchaseReturnItem.put("purchase_price_main", purchase_price_main);
+                        mPurchaseReturnItem.put("applied", applied);
+                        mPurchaseReturnItem.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                        mPurchaseReturnItem.put("default_unit", default_unit);
+                        mPurchaseReturnItem.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                        mPurchaseReturnItem.put("packaging_unit_purchase_price", packaging_unit_purchase_price);
+                        mPurchaseReturnItem.put("packaging_unit", packaging_unit);
+                        mPurchaseReturnItem.put("mrp", mrp);
+                        appUser.mMapPurchaseReturnItem = mPurchaseReturnItem;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                        intent.putExtra("id", itemid);
+                        intent.putExtra("name", itemName);
+                        intent.putExtra("desc", descr);
+                        intent.putExtra("main_unit", main_unit);
+                        intent.putExtra("alternate_unit", alternate_unit);
+                        intent.putExtra("serial_wise", serial);
+                        intent.putExtra("batch_wise", batch);
+                        intent.putExtra("purchase_price_main", purchase_price_main);
+                        intent.putExtra("purchase_price_alternate", purchase_price_alternate);
+                        intent.putExtra("applied", applied);
+                        intent.putExtra("alternate_unit_con_factor", alternate_unit_con_factor);
+                        intent.putExtra("default_unit", default_unit);
+                        intent.putExtra("packaging_unit_con_factor", packaging_unit_con_factor);
+                        intent.putExtra("packaging_unit_purchase_price", packaging_unit_purchase_price);
+                        intent.putExtra("packaging_unit", packaging_unit);
+                        intent.putExtra("mrp", mrp);
+                        intent.putExtra("tax", tax);
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                }
+                  /*  Intent returnIntent = new Intent();
                     returnIntent.putExtra("name", adapter.getItem(i));
                     String id = idList.get(getPositionOfItem(adapter.getItem(i)));
                     returnIntent.putExtra("id", id);
                     setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-                }
+                    finish();*/
             }
         });
         if (isDirectForItem){
@@ -898,3 +1174,5 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         return -1;
     }
 }
+
+

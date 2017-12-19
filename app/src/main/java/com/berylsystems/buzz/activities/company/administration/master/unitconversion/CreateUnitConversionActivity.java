@@ -353,7 +353,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             mConfactor.setText(String.valueOf(response.getUnit_conversion_detail().getData().getAttributes().getConversion_factor()));
-            String group_type = response.getUnit_conversion_detail().getData().getAttributes().getMain_unit().trim();
+            /*String group_type = response.getUnit_conversion_detail().getData().getAttributes().getMain_unit().trim();
             // insert code here
             int groupindex = -1;
             for (int i = 0; i < appUser.arr_unitConversionUnitName.size(); i++) {
@@ -362,9 +362,10 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                     break;
                 }
             }
-            Timber.i("GROUPINDEX" + groupindex);
-            //mMainUnitSpinner.setSelection(groupindex);
-            String sub_unit = response.getUnit_conversion_detail().getData().getAttributes().getSub_unit().trim();
+            Timber.i("GROUPINDEX" + groupindex);*/
+
+            mainUnitText.setText(response.getUnit_conversion_detail().getData().getAttributes().getMain_unit());
+           /* String sub_unit = response.getUnit_conversion_detail().getData().getAttributes().getSub_unit().trim();
             // insert code here
             int sub_unit_index = -1;
             for (int i = 0; i < appUser.arr_unitConversionUnitName.size(); i++) {
@@ -372,9 +373,13 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                     sub_unit_index = i;
                     break;
                 }
-            }
+            }*/
 
-            //mSubUnitSpinner.setSelection(sub_unit_index);
+            subUnitText.setText(response.getUnit_conversion_detail().getData().getAttributes().getSub_unit());
+
+            appUser.main_unit_id=response.getUnit_conversion_detail().getData().getAttributes().getMain_unit_id();
+            appUser.sub_unit_id=response.getUnit_conversion_detail().getData().getAttributes().getSub_unit_id();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
         } else {
             Snackbar
