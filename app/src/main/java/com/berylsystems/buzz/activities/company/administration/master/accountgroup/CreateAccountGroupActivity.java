@@ -381,8 +381,6 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
                 mSpinnerPrimary.setSelection(1);
                 mUnderGroupLayout.setVisibility(View.GONE);
             }
-
-
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
