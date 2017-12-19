@@ -71,7 +71,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     Snackbar snackbar;
     List<String> name;
     List<String> id;
-
     public static Boolean isDirectForAccount = true;
 
     List<String> nameList;
@@ -228,6 +227,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 listDataChildId.put(i, id);
                 listDataChildMobile.put(i, mobile);
             }
+
             listAdapter = new AccountExpandableListAdapter(this, listDataHeader, listDataChild);
 
             // setting list adapter
@@ -236,6 +236,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 expListView.expandGroup(i);
             }
 
+
             autoCompleteTextView();
 
         } else {
@@ -243,6 +244,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
 
     @Subscribe
     public void deletegroup(EventDeleteAccount pos) {
@@ -373,6 +375,14 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
+    }
+
+
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
     }
 
     private void autoCompleteTextView() {

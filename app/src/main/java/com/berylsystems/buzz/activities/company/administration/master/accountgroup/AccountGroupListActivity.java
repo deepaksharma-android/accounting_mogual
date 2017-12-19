@@ -20,9 +20,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
@@ -35,13 +33,10 @@ import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class AccountGroupListActivity extends AppCompatActivity {
 

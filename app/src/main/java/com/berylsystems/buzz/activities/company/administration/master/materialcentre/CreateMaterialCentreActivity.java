@@ -153,31 +153,35 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 if (!mCentreName.getText().toString().equals("")) {
-                    appUser.material_centre_name = mCentreName.getText().toString();
-                    appUser.material_centre_address = mCentreAddress.getText().toString();
-                    appUser.material_centre_city = mCentreCity.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_MATERIAL_CENTRE);
-                    } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            snackbar.dismiss();
+                    if (!mGroupName.getText().toString().equals("")) {
+                        appUser.material_centre_name = mCentreName.getText().toString();
+                        appUser.material_centre_address = mCentreAddress.getText().toString();
+                        appUser.material_centre_city = mCentreCity.getText().toString();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_MATERIAL_CENTRE);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
                                         }
-                                    }
-                                });
-                        snackbar.show();
+                                    });
+                            snackbar.show();
+                        }
+                    } else {
+                        Snackbar.make(coordinatorLayout, "Select group name", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
@@ -189,6 +193,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 if (!mCentreName.getText().toString().equals("")) {
+                    if (!mGroupName.getText().toString().equals("")) {
                     appUser.material_centre_name = mCentreName.getText().toString();
                     appUser.material_centre_address = mCentreAddress.getText().toString();
                     appUser.material_centre_city = mCentreCity.getText().toString();
@@ -215,9 +220,12 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                                 });
                         snackbar.show();
                     }
-                } else {
-                    Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(coordinatorLayout, "Select group name", Snackbar.LENGTH_LONG).show();
                 }
+            } else {
+                Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
+            }
             }
         });
 

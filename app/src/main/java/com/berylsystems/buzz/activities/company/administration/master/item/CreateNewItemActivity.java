@@ -607,6 +607,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             appUser.edit_item_id = String.valueOf(response.getItem().getData().getAttributes().getId());
             LocalRepositories.saveAppUser(this, appUser);
+
             mItemName.setText(response.getItem().getData().getAttributes().getName());
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
@@ -779,6 +780,15 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 
   /*  @Subscribe
