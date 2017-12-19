@@ -16,8 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
@@ -34,11 +40,14 @@ import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -49,6 +58,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
+    @Bind(R.id.search_view)
+    AutoCompleteTextView autoCompleteTextView;
     AccountExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -62,6 +73,9 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     List<String> id;
     public static Boolean isDirectForAccount = true;
 
+    List<String> nameList;
+    List<String> idList;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +85,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         initActionbar();
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);
+
+
     }
 
     private void initActionbar() {
@@ -139,6 +155,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
+
+
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -153,6 +171,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     });
             snackbar.show();
         }
+
+
     }
 
     @Override
@@ -178,6 +198,10 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     public void getAccount(GetAccountResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            nameList = new ArrayList();
+            idList = new ArrayList();
+
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
             listDataChildMobile = new HashMap<Integer, List<String>>();
@@ -194,6 +218,10 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()));
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                     mobile.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
+
+                    nameList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    idList.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
+
                 }
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);
@@ -204,6 +232,12 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
+            for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+                expListView.expandGroup(i);
+            }
+
+
+            autoCompleteTextView();
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
@@ -286,6 +320,9 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     @Subscribe
     public void clickEvent(EventAccountChildClicked pos) {
         if (!isDirectForAccount) {
+
+            autoCompleteTextView();
+
             String id = pos.getPosition();
             String[] arr = id.split(",");
             String groupid = arr[0];
@@ -323,6 +360,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     @Subscribe
     public void clickEventPurchase(EventSelectAccountPurchase pos) {
         if (!isDirectForAccount) {
+
+            autoCompleteTextView();
             String id = pos.getPosition();
             String[] arr = id.split(",");
             String groupid = arr[0];
@@ -335,5 +374,36 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
+    }
+
+    private void autoCompleteTextView() {
+        autoCompleteTextView.setThreshold(1);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (!isDirectForAccount) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("name", adapter.getItem(i));
+                    int position = getPositionOfItem(adapter.getItem(i));
+                    String id = idList.get(position);
+                    returnIntent.putExtra("id", id);
+                    Toast.makeText(ExpandableAccountListActivity.this, ""+id, Toast.LENGTH_SHORT).show();
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        });
+    }
+
+    private int getPositionOfItem(String category) {
+        for (int i = 0; i < this.nameList.size(); i++) {
+            if (this.nameList.get(i) == category)
+                return i;
+        }
+
+        return -1;
     }
 }
