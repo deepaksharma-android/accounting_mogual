@@ -363,7 +363,8 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
             mGroupName.setText(response.getAccount_group_details().getData().getAttributes().getName());
             if(!response.getAccount_group_details().getData().getAttributes().getAccount_group().equals("")){
                 mSpinnerPrimary.setSelection(1);
-                mSpinnerUnderGroup.setVisibility(View.VISIBLE);
+                mUnderGroupLayout.setVisibility(View.VISIBLE);
+
                 String group_type = response.getAccount_group_details().getData().getAttributes().getAccount_group().trim();
                 // insert code here
                 int groupindex = -1;
@@ -378,7 +379,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
             }
             else{
                 mSpinnerPrimary.setSelection(1);
-                mSpinnerUnderGroup.setVisibility(View.VISIBLE);
+                mUnderGroupLayout.setVisibility(View.GONE);
             }
 
 

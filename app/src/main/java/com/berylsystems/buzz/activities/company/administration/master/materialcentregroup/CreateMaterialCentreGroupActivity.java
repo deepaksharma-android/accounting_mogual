@@ -133,7 +133,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 grouplistname.add(data.getData().get(i).getAttributes().getName());
                 grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
             }
-        }
+
             mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                     R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
             mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -238,6 +238,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 }
             });
         }
+    }
     @Override
     protected int layoutId() {
         return R.layout.activity_create_material_centre_group;
@@ -279,17 +280,20 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void getMaterialCentreGroupDetails(GetMaterialCentreGroupDetailResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+
             mGroupName.setText(response.getMaterial_center_group().getData().getAttributes().getName());
             if(response.getMaterial_center_group().getData().getAttributes().getMaterial_center_group()!=null){
 
                 mSpinnerPrimary.setSelection(1);
                 mSpinnerUnderGroup.setVisibility(View.VISIBLE);
+
                 String group_type = response.getMaterial_center_group().getData().getAttributes().getMaterial_center_group().trim();
                 // insert code here
                 int groupindex = -1;
                 for (int i = 0; i<CreateMaterialCentreGroupActivity.data.getData().size(); i++) {
                     if (CreateMaterialCentreGroupActivity.data.getData().get(i).getAttributes().getName().equals(group_type)) {
                         groupindex = i;
+
                         break;
                     }
                 }
@@ -299,7 +303,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
             }
             else{
                 mSpinnerPrimary.setSelection(0);
-                mSpinnerUnderGroup.setVisibility(View.GONE);
+                //mSpinnerUnderGroup.setVisibility(View.GONE);
             }
 
 
