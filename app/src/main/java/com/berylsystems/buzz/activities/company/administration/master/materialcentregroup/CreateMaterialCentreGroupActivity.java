@@ -133,6 +133,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 grouplistname.add(data.getData().get(i).getAttributes().getName());
                 grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
             }
+        }
             mPrimaryGroupAdapter = new ArrayAdapter<String>(this,
                     R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.primary_group));
             mPrimaryGroupAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
@@ -237,7 +238,6 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                 }
             });
         }
-    }
     @Override
     protected int layoutId() {
         return R.layout.activity_create_material_centre_group;
