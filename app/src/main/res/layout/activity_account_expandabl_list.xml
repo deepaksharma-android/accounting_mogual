@@ -11,6 +11,11 @@
     android:orientation="vertical"
     android:background="#fff" >
 
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:id="@+id/search_view"
+        android:layout_height="wrap_content"></AutoCompleteTextView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_button"
         android:layout_width="wrap_content"
@@ -25,6 +30,7 @@
     <ExpandableListView
         android:id="@+id/lvExp"
         android:groupIndicator="@null"
+        android:layout_below="@+id/search_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         />
