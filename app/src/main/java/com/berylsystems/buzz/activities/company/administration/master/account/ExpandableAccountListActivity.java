@@ -376,6 +376,14 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         }
     }
 
+
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+    }
+
     private void autoCompleteTextView() {
         autoCompleteTextView.setThreshold(1);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);

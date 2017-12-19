@@ -453,7 +453,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             mAccountName.setText(response.getAccount().getData().getAttributes().getName());
             mGroupName.setText(response.getAccount().getData().getAttributes().getAccount_group());
             mMobileNumber.setText(response.getAccount().getData().getAttributes().getMobile_number());
-            appUser.create_account_group_id=response.getAccount().getData().getAttributes().getId();
+            appUser.create_account_group_id=String.valueOf(response.getAccount().getData().getAttributes().getAccount_master_group_id());
             appUser.account_amount_receivable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_receivable());
             appUser.account_amount_payable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_payable());
             appUser.account_address= Helpers.mystring(response.getAccount().getData().getAttributes().getAddress());
@@ -478,8 +478,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void editaccount(EditAccountResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             ExpandableAccountListActivity.isDirectForAccount=false;
             Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -498,7 +497,12 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     }
 
 
-
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+    }
 
 
 }
