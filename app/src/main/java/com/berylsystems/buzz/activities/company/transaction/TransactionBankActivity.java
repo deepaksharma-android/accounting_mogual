@@ -74,6 +74,7 @@ public class TransactionBankActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_bank);
 
         ButterKnife.bind(this);
+        mFloatingButton.bringToFront();
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
     }

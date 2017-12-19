@@ -7,8 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.utils.EventDeleteAccount;
+import com.berylsystems.buzz.utils.EventEditAccount;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,12 +25,14 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
+    private ArrayList addAmount;
 
-    public TransactionStockInHandAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild){
+    public TransactionStockInHandAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild, ArrayList addAmount){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
         this._listDataChild=_listDataChild;
+        this.addAmount=addAmount;
     }
 
     @Override
@@ -45,22 +55,21 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        String headerAmount = (String) getGroup(groupPosition);
-        String[] strArr=headerAmount.split(",");
-        String header=strArr[0];
-        String amount=strArr[1];
+        String headerTitle = (String) getGroup(groupPosition);
 
-        if(convertView == null){
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_group_transaction_stock_in_hand,null);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_group_transaction_cash_in_hand, null);
         }
-        TextView lblListHeader1 = (TextView) convertView.findViewById(R.id.lblListHeader1);
-        TextView lblListHeader2 = (TextView) convertView.findViewById(R.id.lblListHeader1);
-        lblListHeader1.setTypeface(null, Typeface.BOLD);
-        lblListHeader2.setTypeface(null, Typeface.BOLD);
 
-        lblListHeader1.setText(header);
-        lblListHeader2.setText(amount);
+        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader1);
+
+        lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.setText(headerTitle);
+
+        TextView lblListAmount = (TextView) convertView.findViewById(R.id.lblListHeader2);
+
+        lblListAmount.setText("₹ " + ""+addAmount.get(groupPosition));
 
         ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
         if(isExpanded){
@@ -69,6 +78,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         else{
             imageview.setImageResource(R.drawable.down_arrow);
         }
+
         return convertView;
     }
 
@@ -92,18 +102,49 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosititon, boolean isLastChild, View convertView, ViewGroup parent) {
 
-      /*  final String childText = (String) getChild(groupPosition, childPosititon);
-        String arr[] = childText.split(",");
-        String acc_name = arr[0];
-        String undefined = arr[1];*/
+        final String nameAmount = (String) getChild(groupPosition, childPosititon);
+        String[] strArr=nameAmount.split(",");
+        String name = strArr[0];
+        String undefined=strArr[1];
+        String amount = strArr[2];
 
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item_transaction_stock_in_hand, null);
+        if(convertView == null){
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.list_item_transaction_cash_in_hand,null);
         }
-        //TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+        TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
+        TextView lblListItem2 = (TextView) convertView.findViewById(R.id.lblListItem2);
+        lblListItem1.setTypeface(null, Typeface.BOLD);
+        //lblListHeader2.setTypeface(null, Typeface.BOLD);
+        lblListItem1.setText(name);
+        lblListItem2.setText("₹ " + amount);
 
+        LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+        LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+
+        if (undefined.equals("true")) {
+            delete.setVisibility(View.VISIBLE);
+            edit.setVisibility(View.VISIBLE);
+        } else {
+            delete.setVisibility(View.GONE);
+            edit.setVisibility(View.GONE);
+        }
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = groupPosition + "," +childPosititon;
+                EventBus.getDefault().post(new EventDeleteAccount(id));
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = groupPosition + "," + childPosititon;
+                EventBus.getDefault().post(new EventEditAccount(id));
+            }
+        });
 
         return convertView;
     }
@@ -119,4 +160,5 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         return true;
 
     }
+
 }

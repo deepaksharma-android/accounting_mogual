@@ -331,8 +331,9 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     /*    Intent intent = new Intent(this, ItemGroupListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromcreategroup",true);
-        startActivity(intent);
-        finish();
+
+        startActivity(intent);*/
+       /* finish();
     }
 
     @Subscribe

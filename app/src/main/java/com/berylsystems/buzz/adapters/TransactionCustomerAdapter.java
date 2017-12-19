@@ -9,25 +9,25 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
+public class TransactionCustomerAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
-    private ArrayList<Double> addAmount;
-    private static DecimalFormat df2 = new DecimalFormat(".##");
+    private ArrayList addAmount;
 
-    public TransactionCashInHandAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild, ArrayList<Double> addAmount){
+    public TransactionCustomerAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild, ArrayList addAmount){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
@@ -69,8 +69,8 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
 
         TextView lblListAmount = (TextView) convertView.findViewById(R.id.lblListHeader2);
 
+        //lblListAmount.setText("₹ " + ""+addAmount.get(groupPosition));
 
-        //lblListAmount.setText("₹ " + ""+df2.format(addAmount.get(groupPosition)));
         lblListAmount.setText("₹ " + ""+String.format("%.2f", addAmount.get(groupPosition)));
 
         ImageView imageview=(ImageView)convertView.findViewById(R.id.image);

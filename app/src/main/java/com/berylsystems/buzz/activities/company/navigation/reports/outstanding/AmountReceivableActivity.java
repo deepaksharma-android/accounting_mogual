@@ -91,32 +91,36 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
 
                 String start_date = mStart_date.getText().toString();
                 String end_date = mEnd_date.getText().toString();
+                if(!mAccount_group_textview.getText().toString().equals("")){
+                    appUser.pdf_start_date = mStart_date.getText().toString();
+                    appUser.pdf_end_date = mEnd_date.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                appUser.pdf_start_date = mStart_date.getText().toString();
-                appUser.pdf_end_date = mEnd_date.getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(AmountReceivableActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
-                } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(AmountReceivableActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();
                 }
+
             }
         });
     }
@@ -167,9 +171,9 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 String start_date = mStart_date.getText().toString();
-                String[] datesplit = dateString.split("-");
+                String[] datesplit = start_date.split("-");
                 int start_year = Integer.valueOf(datesplit[0]);
-                int start_month = Integer.valueOf(datesplit[1]);
+                String start_month = datesplit[1];
                 int start_day = Integer.valueOf(datesplit[2]);
 
                 Calendar newDate = Calendar.getInstance();
@@ -244,6 +248,15 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 }
 
