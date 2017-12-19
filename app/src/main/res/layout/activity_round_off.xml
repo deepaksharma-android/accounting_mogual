@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
-                            android:hint="eg. only 1 digit amount enter "
+                            android:hint="Rounding of Nearest to eg.-Rs."
                             android:inputType="number"
                             android:maxLength="3"
                             android:textColor="#000"

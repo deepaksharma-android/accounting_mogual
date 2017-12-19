@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -30,6 +32,8 @@ import butterknife.ButterKnife;
 
 public class RoundOffActivity extends AppCompatActivity {
 
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     @Bind(R.id.round_off_amount_spinner)
@@ -41,6 +45,7 @@ public class RoundOffActivity extends AppCompatActivity {
     @Bind(R.id.round_off_value)
     EditText mRoundOffValue;
     AppUser appUser;
+    boolean roundOffAmount =false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,9 +59,11 @@ public class RoundOffActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==1){
                     mRoundOffLayout.setVisibility(View.VISIBLE);
+                    roundOffAmount=true;
                 }
                 else{
                     mRoundOffLayout.setVisibility(View.GONE);
+                    roundOffAmount=false;
                 }
             }
 
@@ -87,11 +94,22 @@ public class RoundOffActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(mRoundOffValue.getText().toString());
-                Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off(mSpinnerRounfOffAmount.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(mSpinnerRounfOff.getSelectedItem().toString());
-                finish();
-
+                if (roundOffAmount){
+                    if(!mRoundOffValue.getText().toString().equals("")) {
+                        Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(mRoundOffValue.getText().toString());
+                        Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off(mSpinnerRounfOffAmount.getSelectedItem().toString());
+                        Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(mSpinnerRounfOff.getSelectedItem().toString());
+                        finish();
+                    }else {
+                        Snackbar.make(coordinatorLayout,"Enter Nearest Round of Amount",Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(mRoundOffValue.getText().toString());
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_amount_round_off(mSpinnerRounfOffAmount.getSelectedItem().toString());
+                    Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(mSpinnerRounfOff.getSelectedItem().toString());
+                    finish();
+                }
             }
         });
     }
