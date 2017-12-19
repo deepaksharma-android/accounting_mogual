@@ -337,6 +337,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
+
     }
 
     @Subscribe
@@ -395,8 +396,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 if (!isDirectForAccount) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("name", adapter.getItem(i));
-                    int position = getPositionOfItem(adapter.getItem(i));
-                    String id = idList.get(position);
+                    String id = idList.get(getPositionOfItem(adapter.getItem(i)));
                     returnIntent.putExtra("id", id);
                     Toast.makeText(ExpandableAccountListActivity.this, ""+id, Toast.LENGTH_SHORT).show();
                     setResult(Activity.RESULT_OK, returnIntent);
@@ -404,6 +404,9 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 }
             }
         });
+        if (isDirectForAccount){
+            autoCompleteTextView.setVisibility(View.GONE);
+        }
     }
 
     private int getPositionOfItem(String category) {

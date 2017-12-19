@@ -330,21 +330,22 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         if (!mItemGroup.getText().toString().equals("")) {
                             appUser.item_name = mItemName.getText().toString();
                             appUser.item_hsn_number = mHsnNumber.getText().toString();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                            for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
+                           /* for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
                                 if (CreateItemGroupActivity.data.getData().get(i).getAttributes().getName().equals(mItemGroup.getText().toString())) {
                                     appUser.item_group_id = String.valueOf(CreateItemGroupActivity.data.getData().get(i).getAttributes().getId());
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }
-                            }
-                            for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
+                            }*/
+                         //   for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
                                /* if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
                                     appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     break;
                                 }*/
-                            }
+
                             /*for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                                 if (appUser.arr_tax_category_name.get(i).equals(mTaxCategory.getSelectedItem().toString())) {
                                     appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
@@ -589,6 +590,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public void editItem(EditItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, ExpandableItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -621,6 +623,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 }
             }
             mTaxCategory.setSelection(taxcatindex);*/
+
+             appUser.item_group_id = String.valueOf(response.getItem().getData().getAttributes().getItem_group_id());
+            appUser.item_unit_id=String.valueOf(response.getItem().getData().getAttributes().getItem_unit_id());
+            appUser.item_alternate_unit_id=String.valueOf(response.getItem().getData().getAttributes().getAlternate_unit_id());
             if (!response.getItem().getData().getAttributes().getTax_category().equals("None")) {
                 mHsnLayout.setVisibility(View.VISIBLE);
                 mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());
