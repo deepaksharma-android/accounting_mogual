@@ -313,7 +313,12 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void createMaterialCenterialGroup(CreateMaterialCentreGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Boolean isConnected = ConnectivityReceiver.isConnected();
+            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
+            Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreatematerialcentregroup",true);
+            startActivity(intent);
+           /* Boolean isConnected = ConnectivityReceiver.isConnected();
             if(isConnected) {
                 mProgressDialog = new ProgressDialog(CreateMaterialCentreGroupActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -336,10 +341,10 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
                             }
                         });
                 snackbar.show();
-            }
-            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
+            }*/
+           /* MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
-            finish();
+            finish();*/
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -363,7 +368,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         }
     }
 
-    @Subscribe
+   /* @Subscribe
     public void getmaterialcentregrouplist(GetMaterialCentreGroupListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
@@ -371,12 +376,12 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
            // appUser.arr_materialCentreGroupName.clear();
             LocalRepositories.saveAppUser(this,appUser);
             Timber.i("I AM HERE");
-           /* for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
+           *//* for(int i=0;i<response.getMaterial_center_groups().getData().size();i++) {
                 appUser.arr_materialCentreGroupName.add(response.getMaterial_center_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_materialCentreGroupId.add(String.valueOf(response.getMaterial_center_groups().getData().get(i).getAttributes().getId()));
                 LocalRepositories.saveAppUser(this, appUser);
-            }*/
-           CreateMaterialCentreGroupActivity.data=response.getMaterial_center_groups();
+            }*//*
+            CreateMaterialCentreGroupActivity.data=response.getMaterial_center_groups();
             MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -388,7 +393,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
             Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).show();
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
