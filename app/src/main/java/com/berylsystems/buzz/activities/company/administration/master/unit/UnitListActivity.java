@@ -272,7 +272,6 @@ public class UnitListActivity extends AppCompatActivity {
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
             returnIntent.putExtra("name", data.getData().get(pos.getPosition()).getAttributes().getName());
             returnIntent.putExtra("id", String.valueOf(data.getData().get(pos.getPosition()).getId()));
-            Timber.i("PASSSS" + appUser.arr_unitId.get(pos.getPosition()));
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
             setResult(Activity.RESULT_OK, returnIntent);
