@@ -29,8 +29,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     AppUser appUser;
     RecyclerView.LayoutManager layoutManager;
     TransactionDashboardAdapter mAdapter;
-
-    int[] colors;
+    
     int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept,
             R.drawable.transaction_purchase, R.drawable.transaction_payment,
             R.drawable.transaction_payment, R.drawable.transaction_bank_cash_deposit,
@@ -62,7 +61,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
-         colors= new int[ta.length()];
+        int[] colors= new int[ta.length()];
         for (int i = 0; i < ta.length(); i++) {
             colors[i] = ta.getColor(i, 0);
         }
