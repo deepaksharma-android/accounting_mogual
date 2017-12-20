@@ -1160,9 +1160,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     finish();*/
             }
         });
-        if (isDirectForItem){
+        /*if (isDirectForItem){
             autoCompleteTextView.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     private int getPositionOfItem(String category) {
