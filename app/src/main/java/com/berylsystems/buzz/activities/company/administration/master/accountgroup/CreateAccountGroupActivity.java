@@ -280,7 +280,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void createAccountGroup(CreateAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            AccountGroupListActivity.isDirectForAccountGroup=false;
+            AccountGroupListActivity.isDirectForAccountGroup=true;
             Intent intent = new Intent(this, AccountGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);
