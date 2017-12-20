@@ -165,7 +165,8 @@ public class LoginActivity extends RegisterAbstractActivity {
                 finish();
             } else {
                 Intent intent = new Intent(getApplicationContext(), FacebookHandlerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromloginpage",true);
                 startActivity(intent);
                 finish();
             }
