@@ -125,7 +125,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Mobile"
-                            android:textColor="#009DE0"
+                            android:textColor="#067bc9"
                             android:textSize="15sp"
                             style="@style/Gotham_Medium"/>
 
