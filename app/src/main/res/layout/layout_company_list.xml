@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,47 +16,51 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <com.berylsystems.buzz.utils.BuzzTextView
-                style="@style/Gotham_Book"
                 android:id="@+id/company_name"
+                style="@style/Gotham_Book"
                 android:layout_width="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:text="COMPANY"
                 android:layout_marginTop="8dp"
+                android:text="COMPANY"
                 android:textColor="#050505"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight=".2"
-                    android:layout_marginTop="2dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content">
+                    android:layout_marginTop="2dp"
+                    android:layout_weight=".2">
+
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp"
-                        android:src="@drawable/loction_address"/>
+                        android:layout_width="15dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/loction_address" />
                 </LinearLayout>
-                    <com.berylsystems.buzz.utils.BuzzTextView
-                        android:id="@+id/company_address"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content"
-                        android:text="COMPANY ADDRESS"
-                        android:layout_marginTop="2dp"
-                        android:textColor="#050505"
-                        android:textSize="14sp" />
+
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/company_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:text="COMPANY ADDRESS"
+                    android:textColor="#050505"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -65,15 +69,16 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight=".2"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="wrap_content">
+            android:layout_weight=".2">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
                 android:layout_gravity="end"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/right_carat"/>
+                android:src="@drawable/right_carat" />
 
         </LinearLayout>
     </LinearLayout>
