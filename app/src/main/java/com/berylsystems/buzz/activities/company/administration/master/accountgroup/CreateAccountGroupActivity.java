@@ -117,10 +117,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         grouplistname=new ArrayList<>();
         grouplistid=new ArrayList<>();
         for(int i=0;i<data.getData().size();i++){
-            if (data.getData().get(i).getAttributes().getUndefined() == false) {
+            /*if (data.getData().get(i).getAttributes().getUndefined() == false) {*/
                 grouplistname.add(data.getData().get(i).getAttributes().getName());
                 grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
-            }
+           // }
            /* if (data.getData().get(i).getAttributes().getUndefined() == false) {
                 appUser.group_name.add(data.getData().get(i).getAttributes().getName());
                 appUser.group_id.add(data.getData().get(i).getAttributes().getId());

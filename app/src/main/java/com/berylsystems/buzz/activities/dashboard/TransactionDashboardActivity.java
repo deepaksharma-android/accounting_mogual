@@ -58,21 +58,30 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generic_grid);
         ButterKnife.bind(this);
-        appUser = LocalRepositories.getAppUser(this);
-        TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
-        int[] colors = new int[ta.length()];
-        for (int i = 0; i < ta.length(); i++) {
-            colors[i] = ta.getColor(i, 0);
-        }
-        ta.recycle();
-        setAddCompany(2);
-        setAppBarTitleCompany(1,"TRANSACTION");
 
-        mRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new TransactionDashboardAdapter(this, title, myImageList,colors);
-        mRecyclerView.setAdapter(mAdapter);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                appUser = LocalRepositories.getAppUser(getApplicationContext());
+                TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
+                int[] colors = new int[ta.length()];
+                for (int i = 0; i < ta.length(); i++) {
+                    colors[i] = ta.getColor(i, 0);
+                }
+                ta.recycle();
+                setAddCompany(2);
+                setAppBarTitleCompany(1,"TRANSACTION");
+
+                mRecyclerView.setHasFixedSize(true);
+                layoutManager = new GridLayoutManager(getApplicationContext(), 3);
+                mRecyclerView.setLayoutManager(layoutManager);
+                mAdapter = new TransactionDashboardAdapter(getApplicationContext(), title, myImageList,colors);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        });
+
+
+
 
     }
     @Override
@@ -98,4 +107,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         startActivity(intent);
         finish();
     }
+
+
+
+
 }
