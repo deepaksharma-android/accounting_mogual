@@ -32,11 +32,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept,
             R.drawable.transaction_purchase, R.drawable.transaction_payment,
             R.drawable.transaction_payment, R.drawable.transaction_bank_cash_deposit,
-            R.drawable.transaction_bank_cash_withdrwal,R.drawable.transaction_income,
+            R.drawable.transaction_bank_cash_withdrwal, R.drawable.transaction_income,
             R.drawable.transaction_expence, R.drawable.transaction_sale_return,
             R.drawable.transaction_purchase_return, R.drawable.transaction_journal_voucher,
             R.drawable.transaction_debit_note, R.drawable.transaction_credit_note};
-    private String[] title={
+    private String[] title = {
             "Sales",
             "Receipt",
             "Purchase",
@@ -59,39 +59,31 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_generic_grid);
         ButterKnife.bind(this);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                appUser = LocalRepositories.getAppUser(getApplicationContext());
-                TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
-                int[] colors = new int[ta.length()];
-                for (int i = 0; i < ta.length(); i++) {
-                    colors[i] = ta.getColor(i, 0);
-                }
-                ta.recycle();
-                setAddCompany(2);
-                setAppBarTitleCompany(1,"TRANSACTION");
+        appUser = LocalRepositories.getAppUser(getApplicationContext());
+        TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
+        int[] colors = new int[ta.length()];
+        for (int i = 0; i < ta.length(); i++) {
+            colors[i] = ta.getColor(i, 0);
+        }
+        ta.recycle();
+        setAddCompany(2);
+        setAppBarTitleCompany(1, "TRANSACTION");
 
-                mRecyclerView.setHasFixedSize(true);
-                layoutManager = new GridLayoutManager(getApplicationContext(), 3);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mAdapter = new TransactionDashboardAdapter(getApplicationContext(), title, myImageList,colors);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-        });
-
-
+        mRecyclerView.setHasFixedSize(true);
+        layoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mAdapter = new TransactionDashboardAdapter(getApplicationContext(), title, myImageList, colors);
+        mRecyclerView.setAdapter(mAdapter);
 
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, FirstPageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -103,12 +95,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, FirstPageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
-
-
 
 
 }
