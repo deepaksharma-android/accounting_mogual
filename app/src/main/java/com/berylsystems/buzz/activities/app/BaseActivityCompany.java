@@ -121,7 +121,7 @@ public class BaseActivityCompany extends AppCompatActivity {
     }
     public void transaction(View v){
         Intent intent=new Intent(getApplicationContext(),TransactionDashboardActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
     }
