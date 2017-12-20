@@ -2,7 +2,6 @@ package com.berylsystems.buzz.activities.dashboard;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,7 +28,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     AppUser appUser;
     RecyclerView.LayoutManager layoutManager;
     TransactionDashboardAdapter mAdapter;
-    
+
     int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept,
             R.drawable.transaction_purchase, R.drawable.transaction_payment,
             R.drawable.transaction_payment, R.drawable.transaction_bank_cash_deposit,
@@ -61,7 +60,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
-        int[] colors= new int[ta.length()];
+        int[] colors = new int[ta.length()];
         for (int i = 0; i < ta.length(); i++) {
             colors[i] = ta.getColor(i, 0);
         }
@@ -69,18 +68,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         setAddCompany(2);
         setAppBarTitleCompany(1,"TRANSACTION");
 
-        Runnable runnable=new Runnable() {
-            @Override
-            public void run() {
-                mRecyclerView.setHasFixedSize(true);
-                layoutManager = new GridLayoutManager(getApplicationContext(), 3);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mAdapter = new TransactionDashboardAdapter(getApplicationContext(), title, myImageList,colors);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-        };
-        new Handler().postDelayed(runnable,5);
-
+        mRecyclerView.setHasFixedSize(true);
+        layoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mAdapter = new TransactionDashboardAdapter(this, title, myImageList,colors);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
     @Override
@@ -106,6 +98,4 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         startActivity(intent);
         finish();
     }
-
-
 }
