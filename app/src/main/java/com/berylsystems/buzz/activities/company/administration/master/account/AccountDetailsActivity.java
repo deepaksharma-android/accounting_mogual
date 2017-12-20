@@ -432,7 +432,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            ExpandableAccountListActivity.isDirectForAccount=false;
+            ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -478,7 +478,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            ExpandableAccountListActivity.isDirectForAccount=false;
+            ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

@@ -117,10 +117,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         grouplistname=new ArrayList<>();
         grouplistid=new ArrayList<>();
         for(int i=0;i<data.getData().size();i++){
-            if (data.getData().get(i).getAttributes().getUndefined() == false) {
+            /*if (data.getData().get(i).getAttributes().getUndefined() == false) {*/
                 grouplistname.add(data.getData().get(i).getAttributes().getName());
                 grouplistid.add(String.valueOf(data.getData().get(i).getAttributes().getId()));
-            }
+           // }
            /* if (data.getData().get(i).getAttributes().getUndefined() == false) {
                 appUser.group_name.add(data.getData().get(i).getAttributes().getName());
                 appUser.group_id.add(data.getData().get(i).getAttributes().getId());
@@ -280,7 +280,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void createAccountGroup(CreateAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            AccountGroupListActivity.isDirectForAccountGroup=false;
+            AccountGroupListActivity.isDirectForAccountGroup=true;
             Intent intent = new Intent(this, AccountGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);

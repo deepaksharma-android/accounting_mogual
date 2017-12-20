@@ -404,9 +404,9 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 }
             }
         });
-        if (isDirectForAccount){
+       /* if (isDirectForAccount){
             autoCompleteTextView.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     private int getPositionOfItem(String category) {

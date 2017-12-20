@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.AccountGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.accountgroup.CreateAccountGroupActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -285,7 +286,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Boolean isConnected = ConnectivityReceiver.isConnected();
-
+            ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent = new Intent(this, ItemGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreateitem",true);
@@ -395,7 +396,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     public void editItemGroupDetails(EditItemGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            ItemGroupListActivity.isDirectForItemGroup=false;
+            ItemGroupListActivity.isDirectForItemGroup=true;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, ItemGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

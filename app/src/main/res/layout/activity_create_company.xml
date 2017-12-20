@@ -418,7 +418,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
                                 android:hint="******"
-                                android:inputType="text"
+                                android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:textColor="#000"
                                 android:textSize="16sp" />

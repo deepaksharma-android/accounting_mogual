@@ -22,7 +22,9 @@ import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.adapters.MyPagerAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ViewPagerScroller;
 
+import java.lang.reflect.Field;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -96,6 +98,7 @@ public class HomePageActivity extends Activity {
         });
 
         mPager.setAdapter(adapter);
+        changePagerScroller();
        // mPager.setCurrentItem(0);
 
         handler = new Handler();
@@ -103,8 +106,10 @@ public class HomePageActivity extends Activity {
             public void run() {
                 if (currentPage == NUM_PAGES-1) {
                     currentPage = 0;
+                    changePagerScroller();
                 }
                 mPager.setCurrentItem(currentPage++, true);
+
             }
         };
 
@@ -140,5 +145,14 @@ public class HomePageActivity extends Activity {
         startActivity(intent);
         finish();
     }
-
+    private void changePagerScroller() {
+        try {
+            Field mScroller = null;
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            ViewPagerScroller scroller = new ViewPagerScroller(mPager.getContext());
+            mScroller.set(mPager, scroller);
+        } catch (Exception e) {
+        }
+    }
 }
