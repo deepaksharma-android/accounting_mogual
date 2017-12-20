@@ -45,12 +45,15 @@ public class FacebookHandlerActivity extends RegisterAbstractActivity {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    Boolean fromLogin,fromRegister;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
+        fromLogin=getIntent().getExtras().getBoolean("fromloginpage");
+        fromRegister=getIntent().getExtras().getBoolean("fromregisterpage");
 
     }
     private void initActionbar() {
@@ -157,10 +160,18 @@ public class FacebookHandlerActivity extends RegisterAbstractActivity {
         switch (item.getItemId())
         {
             case android.R.id.home:
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if(fromLogin) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                if(fromRegister){
+                    Intent intent = new Intent(this, RegisterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -169,9 +180,17 @@ public class FacebookHandlerActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if(fromLogin) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        if(fromRegister){
+            Intent intent = new Intent(this, RegisterActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 }

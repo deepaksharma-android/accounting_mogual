@@ -156,10 +156,17 @@ public class RegisterActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             if(response.is_present.equals("true")){
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                startActivity(intent);
+                finish();
             }
             else {
-                startActivity(new Intent(getApplicationContext(),FacebookHandlerActivity.class));
+                Intent intent = new Intent(getApplicationContext(), FacebookHandlerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromregisterpage",true);
+                startActivity(intent);
+                finish();
             }
         }
         else {
