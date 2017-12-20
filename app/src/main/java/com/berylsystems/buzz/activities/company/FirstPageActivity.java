@@ -104,7 +104,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_cash_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.account_master_group = "Cash-in-hand";
+                appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionCashInHandActivity.class);
                 FirstPageActivity.isDirectForFirstPage=false;
@@ -147,11 +147,11 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_stock_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*appUser.account_master_group = "";
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+               /* appUser.account_master_group ="";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
                 Intent i = new Intent(getApplicationContext(), TransactionStockInHandActivity.class);
                 FirstPageActivity.isDirectForFirstPage=false;
-                startActivity(i);*/
+                startActivity(i);
             }
         });
 

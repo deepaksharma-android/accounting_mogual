@@ -14,6 +14,15 @@ public class ItemAttribute {
     public String alternate_unit_id;
     public String item_group_id;
     public String item_unit_id;
+    public Double amount=5.0;
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
 
     public String getAlternate_unit_id() {
         return alternate_unit_id;

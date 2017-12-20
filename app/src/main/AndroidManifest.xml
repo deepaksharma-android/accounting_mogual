@@ -218,7 +218,8 @@
             android:name=".activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity"
+        <activity
+            android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -492,10 +493,13 @@
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-        <activity android:name=".activities.company.navigation.reports.TransactionPdfActivity"
+        <activity
+            android:name=".activities.company.navigation.reports.TransactionPdfActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.company.transaction.TransactionCashInHandSpinnerActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

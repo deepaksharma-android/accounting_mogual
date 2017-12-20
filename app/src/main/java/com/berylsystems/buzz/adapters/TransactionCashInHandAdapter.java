@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventSaleAddItem;
+import com.berylsystems.buzz.utils.EventTransaction;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
@@ -145,6 +148,14 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
                 String id = groupPosition + "," + childPosititon;
                 EventBus.getDefault().post(new EventEditAccount(id));
+            }
+        });
+
+        mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=groupPosition+","+childPosititon;
+                EventBus.getDefault().post(new EventTransaction(id));
             }
         });
 

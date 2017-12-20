@@ -152,8 +152,8 @@
         <item>Specify Acc. in Voucher</item>
     </string-array>
     <string-array name="pdc_regular">
-        <item>PDC</item>
         <item>Regular</item>
+        <item>PDC</item>
     </string-array>
     <string-array name="gst_nature_payment">
         <item>Not Applicable non Gst</item>
@@ -194,6 +194,9 @@
     </string-array>
     <string-array name="main">
         <item>Main</item>
+    </string-array>
+    <string-array name="dashboard_spinner">
+        <item>7 Days</item>
     </string-array>
     <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
     <string name="err_invalid_mobile">Invalid Mobile Number</string>

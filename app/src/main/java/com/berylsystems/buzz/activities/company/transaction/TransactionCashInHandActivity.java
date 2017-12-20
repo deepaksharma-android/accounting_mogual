@@ -28,11 +28,11 @@ import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventTransaction;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,8 +71,6 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         appUser = LocalRepositories.getAppUser(this);
 
     }
-
-
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -261,6 +259,14 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         intent.putExtra("fromaccountlist", true);
         startActivity(intent);
     }
+
+    @Subscribe
+    public void ClickEventTransaction(EventTransaction pos) {
+
+        Intent intent = new Intent(getApplicationContext(), TransactionCashInHandSpinnerActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);

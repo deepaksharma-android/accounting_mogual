@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -116,11 +117,21 @@ public class AccountGroupListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
-                Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (isDirectForAccountGroup) {
+                    Intent intent = new Intent(this, MasterDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if (!isDirectForAccountGroup){
+                    Intent intent = new Intent(this, AccountDetailsActivity.class);
+                    intent.putExtra("fromaccountlist",false);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,8 +145,13 @@ public class AccountGroupListActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        }else if (!isDirectForAccountGroup){
+            Intent intent = new Intent(this, AccountDetailsActivity.class);
+            intent.putExtra("fromaccountlist",false);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
-
     }
 
     @Override
