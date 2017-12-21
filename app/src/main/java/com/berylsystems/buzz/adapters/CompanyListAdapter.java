@@ -172,7 +172,6 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
                 } else {
                     Toast.makeText(context, "Enter username", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 

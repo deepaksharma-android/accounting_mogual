@@ -327,7 +327,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
     }
 
- /*   @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -335,7 +335,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+  /*  @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
@@ -344,8 +344,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }*/
-
+    }
+*/
 
     private void setDateField() {
         set_date.setOnClickListener(this);
@@ -557,9 +557,15 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),ReceiptVoucherActivity.class);
+                startActivity(i);
+                finish();
+                return true;
             case android.R.id.home:
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
