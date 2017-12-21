@@ -1,18 +1,44 @@
 package com.berylsystems.buzz.activities.dashboard;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.support.design.widget.CoordinatorLayout;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
-import com.berylsystems.buzz.adapters.AdministrationDashboardAdapter;
-import com.berylsystems.buzz.adapters.TransactionDashboardAdapter;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.ExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.IncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.JournalVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.PaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.EditPurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.EditPurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.EditSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.EditSaleReturnActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -21,18 +47,55 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class TransactionDashboardActivity extends BaseActivityCompany {
-    @Bind(R.id.coordinatorLayout)
+
+    @Bind(R.id.layout_sale)
+    LinearLayout sale;
+    @Bind(R.id.layout_receipt)
+    LinearLayout receipt;
+    @Bind(R.id.layout_purchase)
+    LinearLayout purchase;
+    @Bind(R.id.layout_payment)
+    LinearLayout payment;
+    @Bind(R.id.layout_bank_cash_deposit)
+    LinearLayout bankCashDeposit;
+    @Bind(R.id.layout_bank_cash_withdraw)
+    LinearLayout bankCashWithdraw;
+    @Bind(R.id.layout_income)
+    LinearLayout income;
+    @Bind(R.id.layout_expense)
+    LinearLayout expense;
+    @Bind(R.id.layout_sale_return)
+    LinearLayout saleReturn;
+    @Bind(R.id.layout_purchase_return)
+    LinearLayout purchaseReturn;
+    @Bind(R.id.layout_journal_voucher)
+    LinearLayout journalVoucher;
+    @Bind(R.id.layout_debit_note)
+    LinearLayout debitNote;
+    @Bind(R.id.layout_credit_note)
+    LinearLayout creditNote;
+
+
+    Context context;
+    AppUser appUser;
+
+
+
+
+
+
+   /* @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     AppUser appUser;
     RecyclerView.LayoutManager layoutManager;
-    TransactionDashboardAdapter mAdapter;
+    TransactionDashboardAdapter mAdapter;*/
 
-    int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept,
+    /*int[] myImageList = new int[]{R.drawable.transaction_sale, R.drawable.transaction_reciept,
             R.drawable.transaction_purchase, R.drawable.transaction_payment,
             R.drawable.transaction_payment, R.drawable.transaction_bank_cash_deposit,
-            R.drawable.transaction_bank_cash_withdrwal,R.drawable.transaction_income,
+            R.drawable.transaction_bank_cash_withdrwal,R.drawable.transaction_withdrawl,
             R.drawable.transaction_expence, R.drawable.transaction_sale_return,
             R.drawable.transaction_purchase_return, R.drawable.transaction_journal_voucher,
             R.drawable.transaction_debit_note, R.drawable.transaction_credit_note};
@@ -50,15 +113,19 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             "Journal Voucher",
             "Debit Note W/O Item",
             "Credit Note W/O Item"
-    };
+    };*/
 
     //int[] viewcolor = new int[]{getResources().getColor(R.color.red),getResources().getColor(R.color.blue),getResources().getColor(R.color.green),getResources().getColor(R.color.yellow),getResources().getColor(R.color.orange),getResources().getColor(R.color.red),getResources().getColor(R.color.purple),getResources().getColor(R.color.bright_pink),getResources().getColor(R.color.light_blue),getResources().getColor(R.color.grey),getResources().getColor(R.color.brown),getResources().getColor(R.color.premiumcolor),getResources().getColor(R.color.splashText1)};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_generic_grid);
+        setContentView(R.layout.layout_transaction);
         ButterKnife.bind(this);
-        appUser = LocalRepositories.getAppUser(this);
+
+        context=TransactionDashboardActivity.this;
+
+        appUser = LocalRepositories.getAppUser(context);
+      /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
         int[] colors = new int[ta.length()];
         for (int i = 0; i < ta.length(); i++) {
@@ -66,15 +133,450 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         }
         ta.recycle();
         setAddCompany(2);
-        setAppBarTitleCompany(1,"TRANSACTION");
+        setAppBarTitleCompany(1,"TRANSACTION");*/
 
-        mRecyclerView.setHasFixedSize(true);
+       /* mRecyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new TransactionDashboardAdapter(this, title, myImageList,colors);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
+
+       sale();
+       receipt();
+
+       purchase();
+       payment();
+
+       bankCashDeposit();
+       bankCashWithdraw();
+       income();
+       expense();
+       saleReturn();
+       purchaseReturn();
+       journalVourcher();
+       debitNote();
+       creditNote();
 
     }
+
+
+    private void sale(){
+
+
+        sale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                appUser.serial_arr.clear();
+                Preferences.getInstance(context).setVoucher_date("");
+                Preferences.getInstance(context).setVoucher_number("");
+                Preferences.getInstance(context).setStore("");
+                Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setMobile("");
+                Preferences.getInstance(context).setNarration("");
+                Preferences.getInstance(context).setSale_type_name("");
+                Preferences.getInstance(context).setCash_credit("");
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            appUser.mListMapForItemSale.clear();
+                            appUser.mListMapForBillSale.clear();
+                            LocalRepositories.saveAppUser(context, appUser);
+                            context.startActivity(new Intent(context, CreateSaleActivity.class));
+
+                        } else if (item == 1) {
+                            context.startActivity(new Intent(context, EditSaleActivity.class));
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void receipt(){
+        receipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                            j.putExtra("fromReceipt", false);
+                            startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(getApplicationContext(), ReceiptVoucherActivity.class);
+                            j.putExtra("fromPayment", false);
+                            startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void purchase(){
+
+
+        final CharSequence[] items = {"Add", "Modify"};
+        purchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                appUser.serial_arr.clear();
+                Preferences.getInstance(context).setVoucher_date("");
+                Preferences.getInstance(context).setVoucher_number("");
+                Preferences.getInstance(context).setStore("");
+                Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setMobile("");
+                Preferences.getInstance(context).setNarration("");
+                Preferences.getInstance(context).setCash_credit("");
+                Preferences.getInstance(context).setPurchase_type_name("");
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            appUser.mListMapForItemPurchase.clear();
+                            appUser.mListMapForBillPurchase.clear();
+                            LocalRepositories.saveAppUser(context, appUser);
+                            context.startActivity(new Intent(context, CreatePurchaseActivity.class));
+
+                        } else if (item == 1) {
+                            context.startActivity(new Intent(context, EditPurchaseActivity.class));
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void payment(){
+        payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreatePaymentActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, PaymentActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+
+    private void bankCashDeposit(){
+        bankCashDeposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateBankCaseDepositActivity.class);
+                            j.putExtra("fromBankCashDeposit", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, BankCaseDepositListActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void bankCashWithdraw(){
+        bankCashWithdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateBankCaseWithdrawActivity.class);
+                            j.putExtra("fromBankCashWithdraw", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, BankCaseWithdrawActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void income(){
+        income.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateIncomeActivity.class);
+                            j.putExtra("fromIncome", false);
+                            context.startActivity(j);
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, IncomeActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void expense(){
+        expense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateExpenceActivity.class);
+                            j.putExtra("fromExpense", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, ExpenceActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+
+    private void saleReturn(){
+        saleReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Preferences.getInstance(context).setVoucher_date("");
+                Preferences.getInstance(context).setVoucher_number("");
+                Preferences.getInstance(context).setStore("");
+                Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setMobile("");
+                Preferences.getInstance(context).setNarration("");
+                Preferences.getInstance(context).setCash_credit("");
+                Preferences.getInstance(context).setSale_type_name("");
+
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            appUser.mListMapForItemSaleReturn.clear();
+                            appUser.mListMapForBillSaleReturn.clear();
+                            LocalRepositories.saveAppUser(context, appUser);
+                            context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+
+                        } else if (item == 1) {
+                            context.startActivity(new Intent(context, EditSaleReturnActivity.class));
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void purchaseReturn(){
+        purchaseReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Preferences.getInstance(context).setVoucher_date("");
+                Preferences.getInstance(context).setVoucher_number("");
+                Preferences.getInstance(context).setStore("");
+                Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setMobile("");
+                Preferences.getInstance(context).setNarration("");
+                Preferences.getInstance(context).setCash_credit("");
+                Preferences.getInstance(context).setPurchase_return_type_name("");
+
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            appUser.mListMapForItemPurchaseReturn.clear();
+                            appUser.mListMapForBillPurchaseReturn.clear();
+                            LocalRepositories.saveAppUser(context, appUser);
+                            context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+
+                        } else if (item == 1) {
+                            context.startActivity(new Intent(context, EditPurchaseReturnActivity.class));
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+
+    private void journalVourcher(){
+        journalVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateJournalVoucherActivity.class);
+                            j.putExtra("fromJournalVoucher", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, JournalVoucherActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void debitNote(){
+        debitNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateDebitNoteWoItemActivity.class);
+                            j.putExtra("fromDebitNote", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, DebitNoteWoItemActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void creditNote(){
+        creditNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence[] items = {"Add", "Modify"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (item == 0) {
+                            Intent j = new Intent(context, CreateCreditNoteWoItemActivity.class);
+                            j.putExtra("fromCreditNote", false);
+                            context.startActivity(j);
+
+                        } else if (item == 1) {
+                            Intent j = new Intent(context, CreditNoteWoItemActivity.class);
+                            j.putExtra("fromPayment", false);
+                            context.startActivity(j);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
