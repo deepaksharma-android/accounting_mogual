@@ -286,7 +286,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Boolean isConnected = ConnectivityReceiver.isConnected();
-            ExpandableAccountListActivity.isDirectForAccount=true;
+            //ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent = new Intent(this, ItemGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreateitem",true);
@@ -396,7 +396,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     public void editItemGroupDetails(EditItemGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            ItemGroupListActivity.isDirectForItemGroup=true;
+           // ItemGroupListActivity.isDirectForItemGroup=true;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, ItemGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

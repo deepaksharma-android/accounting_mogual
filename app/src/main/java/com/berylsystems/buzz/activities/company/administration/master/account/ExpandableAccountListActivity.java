@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -319,10 +320,31 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
     @Subscribe
     public void clickEvent(EventAccountChildClicked pos) {
-        if (!isDirectForAccount) {
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+
+        //Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
+        if (!isDirectForAccount && bool) {
 
             autoCompleteTextView();
+            String id = pos.getPosition();
+            String[] arr = id.split(",");
+            String groupid = arr[0];
+            String childid = arr[1];
+            String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+            String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            Intent returnIntent = new Intent(getApplicationContext(), CreateSaleActivity.class);
+            returnIntent.putExtra("bool", true);
+            returnIntent.putExtra("name", name);
+            returnIntent.putExtra("id", arrid);
+            returnIntent.putExtra("mobile", mobile);
+            startActivity(returnIntent);
+            //setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        } else if (!isDirectForAccount) {
 
+            autoCompleteTextView();
             String id = pos.getPosition();
             String[] arr = id.split(",");
             String groupid = arr[0];
@@ -331,6 +353,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             Intent returnIntent = new Intent();
+            returnIntent.putExtra("bool",false);
             returnIntent.putExtra("name", name);
             returnIntent.putExtra("id", arrid);
             returnIntent.putExtra("mobile", mobile);
@@ -398,7 +421,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     returnIntent.putExtra("name", adapter.getItem(i));
                     String id = idList.get(getPositionOfItem(adapter.getItem(i)));
                     returnIntent.putExtra("id", id);
-                    Toast.makeText(ExpandableAccountListActivity.this, ""+id, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ExpandableAccountListActivity.this, "" + id, Toast.LENGTH_SHORT).show();
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
