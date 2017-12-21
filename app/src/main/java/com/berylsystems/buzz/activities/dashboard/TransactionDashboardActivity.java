@@ -179,8 +179,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setSale_type_name("");
                 Preferences.getInstance(context).setCash_credit("");
-                final CharSequence[] items = {"Add", "Modify"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
+                //final CharSequence[] items = {"Add", "Modify"};
+                appUser.mListMapForItemSale.clear();
+                appUser.mListMapForBillSale.clear();
+                LocalRepositories.saveAppUser(context, appUser);
+                context.startActivity(new Intent(context, CreateSaleActivity.class));
+               /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int item) {
@@ -196,7 +200,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -206,7 +210,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         receipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                j.putExtra("fromReceipt", false);
+                startActivity(j);
+                /*final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -224,16 +231,14 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
 
 
     private void purchase(){
-
-
-        final CharSequence[] items = {"Add", "Modify"};
+        //final CharSequence[] items = {"Add", "Modify"};
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -247,7 +252,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
                 Preferences.getInstance(context).setPurchase_type_name("");
-                final CharSequence[] items = {"Add", "Modify"};
+                appUser.mListMapForItemPurchase.clear();
+                appUser.mListMapForBillPurchase.clear();
+                LocalRepositories.saveAppUser(context, appUser);
+                context.startActivity(new Intent(context, CreatePurchaseActivity.class));
+               /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -264,7 +273,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -274,7 +283,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+
+                Intent j = new Intent(context, CreatePaymentActivity.class);
+                j.putExtra("fromPayment", false);
+                context.startActivity(j);
+               /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -292,7 +305,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -303,7 +316,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         bankCashDeposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+
+                Intent j = new Intent(context, CreateBankCaseDepositActivity.class);
+                j.putExtra("fromBankCashDeposit", false);
+                context.startActivity(j);
+              /*  final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -321,7 +338,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -331,7 +348,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         bankCashWithdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(context, CreateBankCaseWithdrawActivity.class);
+                j.putExtra("fromBankCashWithdraw", false);
+                context.startActivity(j);
+               /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -349,7 +369,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -359,7 +379,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(context, CreateIncomeActivity.class);
+                j.putExtra("fromIncome", false);
+                context.startActivity(j);
+                /*final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -376,7 +399,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -386,7 +409,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(context, CreateExpenceActivity.class);
+                j.putExtra("fromExpense", false);
+                context.startActivity(j);
+                /*final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -404,7 +430,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -425,7 +451,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setCash_credit("");
                 Preferences.getInstance(context).setSale_type_name("");
 
-                final CharSequence[] items = {"Add", "Modify"};
+                appUser.mListMapForItemSaleReturn.clear();
+                appUser.mListMapForBillSaleReturn.clear();
+                LocalRepositories.saveAppUser(context, appUser);
+                context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+
+              /*  final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -442,7 +473,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -462,7 +493,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setCash_credit("");
                 Preferences.getInstance(context).setPurchase_return_type_name("");
 
-                final CharSequence[] items = {"Add", "Modify"};
+                appUser.mListMapForItemPurchaseReturn.clear();
+                appUser.mListMapForBillPurchaseReturn.clear();
+                LocalRepositories.saveAppUser(context, appUser);
+                context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+               /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -479,7 +514,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -490,7 +525,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         journalVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(context, CreateJournalVoucherActivity.class);
+                j.putExtra("fromJournalVoucher", false);
+                context.startActivity(j);
+                /*final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -508,7 +546,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -518,7 +556,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         debitNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(context, CreateDebitNoteWoItemActivity.class);
+                j.putExtra("fromDebitNote", false);
+                context.startActivity(j);
+               /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -536,7 +577,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
@@ -546,7 +587,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         creditNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = {"Add", "Modify"};
+                Intent j = new Intent(context, CreateCreditNoteWoItemActivity.class);
+                j.putExtra("fromCreditNote", false);
+                context.startActivity(j);
+                /*final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -564,21 +608,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                     }
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

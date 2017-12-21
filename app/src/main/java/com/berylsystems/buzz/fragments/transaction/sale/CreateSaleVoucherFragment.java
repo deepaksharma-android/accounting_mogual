@@ -108,19 +108,23 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
-            cash.setBackgroundColor(Color.parseColor("#e2e2e2"));
-            cash.setTextColor(Color.parseColor("#000000"));
+
+        if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
+            cash.setBackgroundColor(Color.parseColor("#ababab"));
+            cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
-        } else if (Preferences.getInstance(getContext()).getCash_credit().equals("Credit")) {
-            credit.setBackgroundColor(Color.parseColor("#e2e2e2"));
+        }
+        else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
+            credit.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
-            cash.setTextColor(Color.parseColor("#0366aa"));//black
-        } else {
-            cash.setBackgroundColor(Color.parseColor("#e2e2e2"));
-            cash.setTextColor(Color.parseColor("#000000"));
+            cash.setTextColor(Color.parseColor("#000000"));//black
+        }
+        else{
+            cash.setBackgroundColor(Color.parseColor("#ababab"));
+            cash.setTextColor(Color.parseColor("#ffffff"));
+
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
@@ -180,9 +184,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                cash.setBackgroundColor(Color.parseColor("#e2e2e2"));
+                cash.setBackgroundColor(Color.parseColor("#ababab"));
                 credit.setBackgroundColor(0);
-                cash.setTextColor(Color.parseColor("#000000"));//white
+                cash.setTextColor(Color.parseColor("#ffffff"));//white
                 credit.setTextColor(Color.parseColor("#000000"));//black
             }
         });
@@ -192,9 +196,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                 Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
                 appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                credit.setBackgroundColor(Color.parseColor("#e2e2e2"));
+                credit.setBackgroundColor(Color.parseColor("#ababab"));
                 cash.setBackgroundColor(0);
-                credit.setTextColor(Color.parseColor("#000000"));//white
+                credit.setTextColor(Color.parseColor("#ffffff"));//white
                 cash.setTextColor(Color.parseColor("#000000"));//black
             }
         });

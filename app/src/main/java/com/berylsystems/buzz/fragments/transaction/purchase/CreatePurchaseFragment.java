@@ -106,19 +106,19 @@ public class CreatePurchaseFragment extends Fragment {
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
         if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
-            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
         else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
-            credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            credit.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
             cash.setTextColor(Color.parseColor("#000000"));//black
         }
         else{
-            cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));

@@ -7,7 +7,7 @@
     <item android:id="@+id/icon_id"
         android:title="click"
         android:icon="@drawable/list_button"
-        app:showAsAction="never">
+        app:showAsAction="always">
     </item>
 
 </menu>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class TransactionCashInHandSpinnerActivity extends AppCompatActivity {
 
     ArrayList<String> cashInHand = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,32 +45,29 @@ public class TransactionCashInHandSpinnerActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
 
-        long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-        String currentDate = sdf.format(date);
-
-        String fixDate ="04-Apr-2017";
-
-        /* String[] datesplit = start_date.split("-");
-                int start_year = Integer.valueOf(datesplit[0]);
-                String start_month = datesplit[1];
-                int start_day = Integer.valueOf(datesplit[2]);*/
-
-        for(int i=0;i<10;i++){
-            if(i==0){
-                cashInHand.add(i,"7 Days");
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_spinner_item, cashInHand);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                dashboardSpinner.setAdapter(dataAdapter);
-            }else {
-                cashInHand.add(i, currentDate);
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_spinner_item, cashInHand);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                dashboardSpinner.setAdapter(dataAdapter);
+        String fixMonth = "Apr";
+        int inputMonthPosition = inputMonthPosition(fixMonth);
+        int currentMonthPosition = currentMonth();
+        int currentYear = currentYear();
+        cashInHand.add("7 Days");
+        if(currentMonthPosition<inputMonthPosition)
+        {
+            for(int i = currentMonthPosition; i>=0; i--){
+                cashInHand.add(monthName[i] + " " + currentYear);
             }
+            for(int j=11;j>=inputMonthPosition;j--){
+                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            }
+        }else {
+            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+
+                cashInHand.add(monthName[i] + " " + currentYear);
+             }
         }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, cashInHand);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dashboardSpinner.setAdapter(dataAdapter);
     }
 
     private void initActionbar() {
@@ -84,9 +83,45 @@ public class TransactionCashInHandSpinnerActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("Cash In Hand");
+        actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+    }
+
+    String[] monthName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+            "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    private int currentMonth() {
+        int monthPosition = -1;
+        Calendar cal = Calendar.getInstance();
+        String currentMonth = monthName[cal.get(Calendar.MONTH)];
+        //String currentYear = monthName[cal.get(Calendar.YEAR)];
+
+        for (int i = 0; i < 12; i++) {
+            if (currentMonth == (monthName[i])) {
+                monthPosition = i;
+            }
+        }
+        return monthPosition;
+    }
+
+    private int currentYear() {
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        return currentYear;
+    }
+
+    private int inputMonthPosition(String month) {
+        int inputMonth = -1;
+        for (int i = 0; i < 12; i++) {
+            if (month.equals(monthName[i])) {
+                inputMonth = i;
+            }
+        }
+        return inputMonth;
     }
 }
