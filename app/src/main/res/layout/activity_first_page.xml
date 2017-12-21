@@ -65,7 +65,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="2"
                     android:gravity="start"
-                    android:text="Cash In Hand"
+                    android:text="Cash-in-hand"
                     android:textColor="#050505"
                     android:textSize="16sp" />
 
@@ -110,7 +110,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="2"
                     android:gravity="start"
-                    android:text="Bank"
+                    android:text="Banks"
                     android:textColor="#050505"
                     android:textSize="16sp" />
 
@@ -155,7 +155,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="2"
                     android:gravity="start"
-                    android:text="Customer"
+                    android:text="Customers"
                     android:textColor="#050505"
                     android:textSize="16sp" />
 
@@ -200,7 +200,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="2"
                     android:gravity="start"
-                    android:text="Supplier"
+                    android:text="Suppliers"
                     android:textColor="#050505"
                     android:textSize="16sp" />
 
@@ -245,7 +245,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="2"
                     android:gravity="start"
-                    android:text="Stock In Hand"
+                    android:text="Stock-in-hand"
                     android:textColor="#050505"
                     android:textSize="16sp" />
 
@@ -283,6 +283,7 @@
             android:layout_weight="2">
 
             <LinearLayout
+                android:id="@+id/sales_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
@@ -316,6 +317,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/expenses_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"

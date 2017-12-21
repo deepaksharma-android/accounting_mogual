@@ -18,6 +18,7 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.transaction.TransactionBankActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionCashInHandActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionCustomerActivity;
+import com.berylsystems.buzz.activities.company.transaction.TransactionSalesActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionSupplierActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
@@ -49,6 +50,10 @@ public class FirstPageActivity extends BaseActivityCompany {
     LinearLayout mlayout_supplier;
     @Bind(R.id.layout_stock_in_hand)
     LinearLayout mlayout_stock_in_hand;
+    @Bind(R.id.sales_layout)
+    LinearLayout mSales_layout;
+    @Bind(R.id.expenses_layout)
+    LinearLayout mExpenses_layout;
 
     @Bind(R.id.textview_cash_in_hand)
     TextView mtextview_cash_in_hand;
@@ -104,7 +109,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         mlayout_cash_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent i = new Intent(getApplicationContext(), TransactionCashInHandActivity.class);
                 FirstPageActivity.isDirectForFirstPage=false;
@@ -162,6 +167,22 @@ public class FirstPageActivity extends BaseActivityCompany {
                 startActivity(intent);
             }
         });
+
+        mSales_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
+                startActivity(intent);
+            }
+        });
+        mExpenses_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Subscribe
@@ -221,7 +242,5 @@ public class FirstPageActivity extends BaseActivityCompany {
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
-
-
     }
 }

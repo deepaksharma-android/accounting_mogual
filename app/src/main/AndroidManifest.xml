@@ -497,7 +497,7 @@
             android:name=".activities.company.navigation.reports.TransactionPdfActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activities.company.transaction.TransactionCashInHandSpinnerActivity"
+        <activity android:name=".activities.company.transaction.TransactionSalesActivity"
             android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"></activity>
     </application>

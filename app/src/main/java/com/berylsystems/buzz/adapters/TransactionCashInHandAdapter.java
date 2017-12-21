@@ -151,13 +151,13 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
             }
         });
 
-        mMainLayout.setOnClickListener(new View.OnClickListener() {
+       /* mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String id=groupPosition+","+childPosititon;
                 EventBus.getDefault().post(new EventTransaction(id));
             }
-        });
+        });*/
 
         return convertView;
     }
