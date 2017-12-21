@@ -36,7 +36,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="Series"
-                        android:textColor="#000"
+                        android:textColor="@color/textColorPrimaryDark"
                         android:textSize="15sp" />
 
                     <LinearLayout
@@ -104,7 +104,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="Date"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="Vch. No."
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -181,7 +181,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Sale Type"
-                    android:textColor="#000"
+                    android:textColor="@color/textColorPrimaryDark"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Store"
-                    android:textColor="#000"
+                    android:textColor="@color/textColorPrimaryDark"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Party Name"
-                    android:textColor="#000"
+                    android:textColor="@color/textColorPrimaryDark"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -311,7 +311,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Mobile Number"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -349,7 +349,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="Narration"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout

@@ -54,7 +54,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
                                 android:text="Voucher Series"
-                                android:textColor="#000"
+                                android:textColor="@color/textColorPrimaryDark"
                                 android:textSize="15sp" />
 
                             <LinearLayout
@@ -98,7 +98,7 @@
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="5dp"
                                     android:text="Voucher  No."
-                                    android:textColor="#000"
+                                    android:textColor="@color/textColorPrimaryDark"
                                     android:textSize="15sp" />
 
                                 <LinearLayout
@@ -137,7 +137,7 @@
                                     android:layout_marginRight="5dp"
                                     android:layout_marginLeft="5dp"
                                     android:text="Date"
-                                    android:textColor="#000"
+                                    android:textColor="@color/textColorPrimaryDark"
                                     android:textSize="15sp" />
 
                                 <LinearLayout
@@ -203,7 +203,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginTop="5dp"
                                     android:text="Type"
-                                    android:textColor="#000"
+                                    android:textColor="@color/textColorPrimaryDark"
                                     android:textSize="15sp" />
 
                                 <LinearLayout
@@ -244,7 +244,7 @@
                                     android:layout_marginTop="5dp"
                                     android:layout_height="wrap_content"
                                     android:text="PDC Date"
-                                    android:textColor="#000"
+                                    android:textColor="@color/textColorPrimaryDark"
                                     android:textSize="15sp" />
 
                                 <LinearLayout
@@ -297,7 +297,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
                                 android:text="GST Nature"
-                                android:textColor="#000"
+                                android:textColor="@color/textColorPrimaryDark"
                                 android:textSize="15sp" />
 
                             <LinearLayout
@@ -339,7 +339,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:text="Received From"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -381,7 +381,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:text="Received By"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -433,7 +433,7 @@
                             android:layout_marginRight="5dp"
                             android:layout_marginTop="5dp"
                             android:text="Amount"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -476,7 +476,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:text="Narration"
-                            android:textColor="#000"
+                            android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
                         <LinearLayout
@@ -517,7 +517,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
                                 android:text="Attachment"
-                                android:textColor="#000"
+                                android:textColor="@color/textColorPrimaryDark"
                                 android:textSize="15sp" />
 
                             <ImageView
