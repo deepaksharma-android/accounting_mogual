@@ -45,7 +45,7 @@
                             android:src="@drawable/transaction_sale" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -54,7 +54,7 @@
                             android:gravity="center"
                             android:text="Sales"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
@@ -85,7 +85,7 @@
                             android:src="@drawable/transaction_reciept" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -94,7 +94,7 @@
                             android:gravity="center"
                             android:text="Receipt"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -123,7 +123,7 @@
                             android:src="@drawable/transaction_purchase" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -132,7 +132,7 @@
                             android:gravity="center"
                             android:text="Purchase"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -170,7 +170,7 @@
                             android:src="@drawable/transaction_payment" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -179,7 +179,7 @@
                             android:gravity="center"
                             android:text="Payment"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -207,7 +207,7 @@
                             android:src="@drawable/transaction_bank_cash_deposit" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -216,7 +216,7 @@
                             android:gravity="center"
                             android:text="Bank Cash Deposit"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -244,7 +244,7 @@
                             android:src="@drawable/transaction_withdrawl" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -253,7 +253,7 @@
                             android:gravity="center"
                             android:text="Bank Cash Withdraw"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -290,7 +290,7 @@
                             android:src="@drawable/transaction_income" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -299,7 +299,7 @@
                             android:gravity="center"
                             android:text="Income"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -327,7 +327,7 @@
                             android:src="@drawable/transaction_expence" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -336,7 +336,7 @@
                             android:gravity="center"
                             android:text="Expense"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -364,7 +364,7 @@
                             android:src="@drawable/transaction_sale_return" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -373,7 +373,7 @@
                             android:gravity="center"
                             android:text="Sale Return"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -410,7 +410,7 @@
                             android:src="@drawable/transaction_purchase_return" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -419,7 +419,7 @@
                             android:gravity="center"
                             android:text="Purchase Return"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -448,7 +448,7 @@
                             android:src="@drawable/transaction_journal_voucher" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -457,7 +457,7 @@
                             android:gravity="center"
                             android:text="Journal Voucher"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -485,7 +485,7 @@
                             android:src="@drawable/transaction_debit_note" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -494,7 +494,7 @@
                             android:gravity="center"
                             android:text="Debit Note W/O Item"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -531,7 +531,7 @@
                             android:src="@drawable/transaction_credit_note" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -540,7 +540,7 @@
                             android:gravity="center"
                             android:text="Credit Note W/O Item"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -566,7 +566,7 @@
                             android:src="@drawable/drawer_company_about" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -575,7 +575,7 @@
                             android:gravity="center"
                             android:text="Journal Voucher"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -601,7 +601,7 @@
                             android:src="@drawable/drawer_company_about" />
 
                         <com.berylsystems.buzz.utils.BuzzTextView
-                            style="@style/Gotham_Book"
+                            style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -610,7 +610,7 @@
                             android:gravity="center"
                             android:text="Debit Note W?O Item"
                             android:textColor="#0366aa"
-                            android:textSize="14sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

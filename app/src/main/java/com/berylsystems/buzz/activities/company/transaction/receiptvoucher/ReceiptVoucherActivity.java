@@ -170,7 +170,6 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -197,6 +196,7 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -213,8 +213,9 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+        Intent intent = new Intent(this, CreateReceiptVoucherActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("fromReceipt",false);
         startActivity(intent);
         finish();
     }

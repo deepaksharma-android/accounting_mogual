@@ -207,8 +207,9 @@ public class IncomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                Intent intent = new Intent(this, CreateIncomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromIncome",false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -220,8 +221,9 @@ public class IncomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+        Intent intent = new Intent(this, CreateIncomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("fromIncome",false);
         startActivity(intent);
         finish();
     }

@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
@@ -80,6 +81,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
+    public Boolean aBoolean = false;
 
     @Override
     public void onStart() {
@@ -106,21 +108,23 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+
         if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
-            cash.setBackgroundColor(Color.parseColor("#e2e2e2"));
-            cash.setTextColor(Color.parseColor("#000000"));
+            cash.setBackgroundColor(Color.parseColor("#ababab"));
+            cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
         else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
-            credit.setBackgroundColor(Color.parseColor("#e2e2e2"));
+            credit.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
-            cash.setTextColor(Color.parseColor("#0366aa"));//black
+            cash.setTextColor(Color.parseColor("#000000"));//black
         }
         else{
-            cash.setBackgroundColor(Color.parseColor("#e2e2e2"));
-            cash.setTextColor(Color.parseColor("#000000"));
+            cash.setBackgroundColor(Color.parseColor("#ababab"));
+            cash.setTextColor(Color.parseColor("#ffffff"));
+
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
@@ -148,14 +152,14 @@ public class CreateSaleVoucherFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialCentreListActivity.isDirectForMaterialCentre=false;
+                MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
         });
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaleTypeListActivity.isDirectForSaleType=false;
+                SaleTypeListActivity.isDirectForSaleType = false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
         });
@@ -163,9 +167,11 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser.account_master_group = "";
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent intent = new Intent(getContext(), ExpandableAccountListActivity.class);
+                //intent.putExtra("bool",true);
+                startActivityForResult(intent, 3);
             }
         });
         appUser.sale_cash_credit = cash.getText().toString();
@@ -178,9 +184,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                cash.setBackgroundColor(Color.parseColor("#e2e2e2"));
+                cash.setBackgroundColor(Color.parseColor("#ababab"));
                 credit.setBackgroundColor(0);
-                cash.setTextColor(Color.parseColor("#000000"));//white
+                cash.setTextColor(Color.parseColor("#ffffff"));//white
                 credit.setTextColor(Color.parseColor("#000000"));//black
             }
         });
@@ -190,9 +196,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                 Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
                 appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                credit.setBackgroundColor(Color.parseColor("#e2e2e2"));
+                credit.setBackgroundColor(Color.parseColor("#ababab"));
                 cash.setBackgroundColor(0);
-                credit.setTextColor(Color.parseColor("#000000"));//white
+                credit.setTextColor(Color.parseColor("#ffffff"));//white
                 cash.setTextColor(Color.parseColor("#000000"));//black
             }
         });
@@ -201,7 +207,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                if(appUser.mListMapForItemSale.size()>0) {
+                if (appUser.mListMapForItemSale.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
@@ -209,17 +215,17 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
-                                                appUser.sale_series = mSeries.getSelectedItem().toString();
-                                                appUser.sale_vchNo = mVchNumber.getText().toString();
-                                                appUser.sale_mobileNumber = mMobileNumber.getText().toString();
-                                                appUser.sale_narration = mNarration.getText().toString();
-                                                LocalRepositories.saveAppUser(getActivity(), appUser);
-                                                mProgressDialog = new ProgressDialog(getActivity());
-                                                mProgressDialog.setMessage("Info...");
-                                                mProgressDialog.setIndeterminate(false);
-                                                mProgressDialog.setCancelable(true);
-                                                mProgressDialog.show();
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                            appUser.sale_series = mSeries.getSelectedItem().toString();
+                                            appUser.sale_vchNo = mVchNumber.getText().toString();
+                                            appUser.sale_mobileNumber = mMobileNumber.getText().toString();
+                                            appUser.sale_narration = mNarration.getText().toString();
+                                            LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            mProgressDialog = new ProgressDialog(getActivity());
+                                            mProgressDialog.setMessage("Info...");
+                                            mProgressDialog.setIndeterminate(false);
+                                            mProgressDialog.setCancelable(true);
+                                            mProgressDialog.show();
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
                                             }*/
@@ -238,12 +244,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                         }
-                    }
-                    else{
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
                     }
-                }
-                else{
+                } else {
                     Snackbar.make(coordinatorLayout, "Please select the item", Snackbar.LENGTH_LONG).show();
                 }
                 hideKeyPad(getActivity());
@@ -304,10 +308,11 @@ public class CreateSaleVoucherFragment extends Fragment {
 
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
+                aBoolean = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
-
+                //Toast.makeText(getContext(), "startActivityForResult", Toast.LENGTH_SHORT).show();
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
@@ -315,6 +320,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 mMobileNumber.setText(mobile);
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                return;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -327,6 +333,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
+
     @Subscribe
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
@@ -336,5 +343,30 @@ public class CreateSaleVoucherFragment extends Fragment {
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getActivity().getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+            if (!aBoolean) {
+                //Toast.makeText(getContext(), "CreateSaleVoucher ", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                String mobile = intent.getStringExtra("mobile");
+                appUser.sale_partyName = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] strArr = result.split(",");
+                mPartyName.setText(strArr[0]);
+                mMobileNumber.setText(mobile);
+                Preferences.getInstance(getContext()).setMobile(mobile);
+                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+
+            }
+        }
+
     }
 }

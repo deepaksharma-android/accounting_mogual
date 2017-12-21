@@ -29,6 +29,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.fragments.transaction.purchase.AddItemPurchaseFragment;
 import com.berylsystems.buzz.fragments.transaction.purchase.CreatePurchaseFragment;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,8 @@ public class CreatePurchaseActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CREATE PURCHASE ");
+        actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

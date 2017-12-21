@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.company.transection.purchase.CreatePurchaseActivity">
+    tools:context=".activities.company.transaction.purchase.CreatePurchaseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
+            android:background="@color/hintColor"
             app:tabIndicatorColor="@color/white"
             app:tabMode="fixed"  />
     </android.support.design.widget.AppBarLayout>

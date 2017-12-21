@@ -572,6 +572,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
             case R.id.icon_id:
                 Intent i = new Intent(getApplicationContext(),PaymentActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 finish();
                 return true;
