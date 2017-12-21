@@ -21,15 +21,19 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity;
 import com.berylsystems.buzz.adapters.TransactionStockInHandAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
+import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
+import com.berylsystems.buzz.utils.EventDeleteItem;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventEditItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -149,13 +153,13 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     }
 
     public void add(View v) {
-        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
-        intent.putExtra("fromaccountlist", false);
+        Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+        intent.putExtra("fromlist", false);
         startActivity(intent);
     }
 
     @Subscribe
-    public void getTransactionCashInHand(GetItemResponse response) {
+    public void getTransactionStockInHand(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
@@ -163,7 +167,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
             // listDataChildAmount = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_items().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
             for (int i = 0; i < response.getOrdered_items().size(); i++) {
                 listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
@@ -175,11 +179,11 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
                             /*+ "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getUndefined())*/
-                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getAmount())
-                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getStock_quantity()));
+                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price())
+                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()));
                     id.add(response.getOrdered_items().get(i).getData().get(j).getId());
-                    Double addprize = response.getOrdered_items().get(i).getData().get(j).getAttributes().getAmount();
-                    int addquantity = response.getOrdered_items().get(i).getData().get(j).getAttributes().getStock_quantity();
+                    Double addprize = response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price();
+                    int addquantity = response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity();
                     addAmount = addAmount+addprize;
                     addQuantity = addQuantity+addquantity;
                 }
@@ -200,17 +204,17 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     }
 
     @Subscribe
-    public void deletegroup(EventDeleteAccount pos) {
+    public void delete_item(EventDeleteItem pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];
         String childid = arr[1];
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.delete_account_id = arrid;
+        appUser.delete_item_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(TransactionStockInHandActivity.this)
-                .setTitle("Delete Account")
-                .setMessage("Are you sure you want to delete this account ?")
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete this item ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -219,7 +223,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ITEM);
                     } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -238,13 +242,15 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
+
+
     }
 
     @Subscribe
-    public void deletegroupresponse(DeleteAccountResponse response) {
+    public void deleteitemresponse(DeleteItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
@@ -254,18 +260,20 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     }
 
     @Subscribe
-    public void editgroup(EventEditAccount pos) {
+    public void editgroup(EventEditItem pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
         String groupid = arr[0];
         String childid = arr[1];
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.edit_account_id = arrid;
+        appUser.edit_item_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
-        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
-        intent.putExtra("fromaccountlist", true);
+        Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+        intent.putExtra("fromitemlist", true);
+        intent.putExtra("fromstockinhand", true);
         startActivity(intent);
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);

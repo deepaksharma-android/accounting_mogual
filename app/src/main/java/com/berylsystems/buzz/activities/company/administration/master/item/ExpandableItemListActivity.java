@@ -512,7 +512,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(this, appUser);
         Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
         intent.putExtra("fromitemlist", true);
-
         startActivity(intent);
     }
 
