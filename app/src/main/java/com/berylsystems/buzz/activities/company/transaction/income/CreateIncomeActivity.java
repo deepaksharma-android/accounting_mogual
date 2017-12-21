@@ -287,24 +287,6 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         });
 
     }
-  /*  @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),IncomeActivity.class);
-                startActivity(i);
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 
 
     private void setDateField() {
@@ -482,9 +464,34 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+   /* @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),IncomeActivity.class);
+                startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),IncomeActivity.class);
+                startActivity(i);
+                finish();
+                return true;
             case android.R.id.home:
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

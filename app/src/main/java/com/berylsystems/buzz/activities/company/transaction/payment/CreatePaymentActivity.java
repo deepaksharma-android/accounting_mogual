@@ -335,7 +335,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         }
 
 
-/*    @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
@@ -343,7 +343,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+  /*  @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
@@ -569,6 +569,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),PaymentActivity.class);
+                startActivity(i);
+                finish();
+                return true;
             case android.R.id.home:
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
