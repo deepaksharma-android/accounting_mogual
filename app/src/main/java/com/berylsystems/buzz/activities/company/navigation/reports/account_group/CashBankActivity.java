@@ -59,7 +59,6 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
-    public HashMap<Integer,String> dateMap = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +71,12 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
         setDateField();
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
         String dateString = sdf.format(date);
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
 
-        dateMap.put(01, "Jan");
-        dateMap.put(02, "Fab");
-        dateMap.put(03, "Mar");
-        dateMap.put(04, "Apr");
-        dateMap.put(05, "May");
-        dateMap.put(06, "Jun");
-        dateMap.put(07, "Jun");
+
 
         mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,31 +151,37 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
         final Calendar newCalendar = Calendar.getInstance();
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
         String dateString = sdf.format(date);
-        String[] datesplit = dateString.split("-");
-        int current_year = Integer.valueOf(datesplit[0]);
-        int current_month = Integer.valueOf(datesplit[1]);
-        int current_day = Integer.valueOf(datesplit[2]);
+        //String[] datesplit = dateString.split("-");
 
+        String start_date1="2017-Apr-04";
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year,  int monthOfYear, int dayOfMonth) {
 
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
 
-                if(monthOfYear>=03 && year==current_year){
+
+                if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
+                    mStart_date.setText(date1);
+                } else{
+                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                }
+
+
+               /* if(monthOfYear>=03 && year==2017){
                     mStart_date.setText(date1);
                 }
-                else if((current_month == 01 || current_month == 02 || current_month == 03) && current_year>2017){
+                else if((current_month == "Jan" || current_month == "Feb" || current_month == "Mar") && current_year>2017){
                     mStart_date.setText(date1);
                 }
                 else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -192,20 +191,35 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 view.setMaxDate(System.currentTimeMillis());
                 String start_date = mStart_date.getText().toString();
-                String[] datesplit = start_date.split("-");
+               /* String[] datesplit = start_date.split("-");
                 int start_year = Integer.valueOf(datesplit[0]);
                 String start_month = datesplit[1];
-                int start_day = Integer.valueOf(datesplit[2]);
+                int start_day = Integer.valueOf(datesplit[2]);*/
 
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
-                mEnd_date.setText(date1);
 
-                if(year<=current_year && year>=start_year){
-                    mEnd_date.setText(date1);
+               /* int j=-1,k=-1;
+                for(int i=0;i<monthArr.length;i++){
+                   if((monthArr[i]==String.valueOf(monthOfYear))){
+                         j=i+1;
+                    }
+                    if(startMonthArr[i]==String.valueOf(start_month)){
+                        k=i;
+                    }
                 }
-                else{
+                        if((year<=current_year && year>=start_year) && (j<=k) && (dayOfMonth<=current_day *//*&& dayOfMonth>=start_day)*//*)){
+                            mEnd_date.setText(date1);
+                        }
+                        else{
+                            Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                        }*/
+
+                if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
+                    //System.out.println("Date1 is after Date2");
+                    mEnd_date.setText(date1);
+                }else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
                 }
             }

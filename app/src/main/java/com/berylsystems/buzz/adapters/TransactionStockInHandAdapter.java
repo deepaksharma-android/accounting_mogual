@@ -26,13 +26,15 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
     private ArrayList addAmount;
+    private ArrayList addQuantity;
 
-    public TransactionStockInHandAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild, ArrayList addAmount){
+    public TransactionStockInHandAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild, ArrayList addAmount,ArrayList addQuantity){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
         this._listDataChild=_listDataChild;
         this.addAmount=addAmount;
+        this.addQuantity=addQuantity;
     }
 
     @Override
@@ -68,8 +70,9 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
 
         TextView lblListAmount = (TextView) convertView.findViewById(R.id.lblListHeader2);
-
+        TextView lblListQuantity = (TextView) convertView.findViewById(R.id.lblListHeader3);
         lblListAmount.setText("₹ " + ""+addAmount.get(groupPosition));
+        lblListQuantity.setText("₹ " + ""+addQuantity.get(groupPosition));
 
         ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
         if(isExpanded){
@@ -105,8 +108,9 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         final String nameAmount = (String) getChild(groupPosition, childPosititon);
         String[] strArr=nameAmount.split(",");
         String name = strArr[0];
-        String undefined=strArr[1];
-        String amount = strArr[2];
+       // String undefined=strArr[1];
+        String amount = strArr[1];
+        String quantity =strArr[2];
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -114,24 +118,26 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         }
         TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
         TextView lblListItem2 = (TextView) convertView.findViewById(R.id.lblListItem2);
+        TextView lblListItem3 = (TextView) convertView.findViewById(R.id.lblListItem3);
         lblListItem1.setTypeface(null, Typeface.BOLD);
         //lblListHeader2.setTypeface(null, Typeface.BOLD);
         lblListItem1.setText(name);
         lblListItem2.setText("₹ " + amount);
-
+        lblListItem3.setText("qty: " + quantity);
+/*
         LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);*/
 
-        if (undefined.equals("true")) {
+       /* if (undefined.equals("true")) {
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
         } else {
             delete.setVisibility(View.GONE);
             edit.setVisibility(View.GONE);
-        }
+        }*/
 
-        delete.setOnClickListener(new View.OnClickListener() {
+       /* delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = groupPosition + "," +childPosititon;
@@ -144,7 +150,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
                 String id = groupPosition + "," + childPosititon;
                 EventBus.getDefault().post(new EventEditAccount(id));
             }
-        });
+        });*/
 
         return convertView;
     }
