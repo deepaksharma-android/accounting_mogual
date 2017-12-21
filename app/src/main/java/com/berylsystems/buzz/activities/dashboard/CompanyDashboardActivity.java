@@ -2,6 +2,7 @@ package com.berylsystems.buzz.activities.dashboard;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +19,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -146,7 +148,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
@@ -281,6 +283,16 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         EditText username = (EditText) dialog.findViewById(R.id.cusername);
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                dialog.dismiss();
+            }
+        });
 
         // if button is clicked, close the custom dialog
         submit.setOnClickListener(new View.OnClickListener() {

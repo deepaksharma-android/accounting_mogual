@@ -53,12 +53,12 @@ public class ForgotPasswordActivity extends RegisterAbstractActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CHANGE MOBILE");
+        actionbarTitle.setText("MOBILE NUMBER");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
