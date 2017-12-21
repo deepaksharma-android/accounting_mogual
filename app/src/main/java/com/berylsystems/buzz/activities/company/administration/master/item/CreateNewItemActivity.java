@@ -37,6 +37,7 @@ import com.berylsystems.buzz.activities.company.administration.master.item_group
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.taxcategory.TaxCategoryeListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
+import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
@@ -110,14 +111,18 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     ArrayAdapter<String> mTaxCategoryArrayAdapter;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+
+        title="CREATE ITEM";
         fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
+            title="EDIT ITEM";
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
@@ -226,6 +231,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
+            initActionbar();
         } /*else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
@@ -449,7 +455,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE ITEM");
+        actionbarTitle.setText(title);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -591,11 +597,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
 
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Intent intent = new Intent(this, ExpandableItemListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("fromcreategroup", true);
-            startActivity(intent);
+                Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(this, ExpandableItemListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("fromcreategroup", true);
+                startActivity(intent);
+                finish();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -750,7 +757,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 } else {
                     Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("Yes");
                 }
-
             }
             if (String.valueOf(response.getItem().getData().getAttributes().getMinimum_level_quantity()) != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_setting_critical_min_level_qty(String.valueOf(response.getItem().getData().getAttributes().getMinimum_level_quantity()));
