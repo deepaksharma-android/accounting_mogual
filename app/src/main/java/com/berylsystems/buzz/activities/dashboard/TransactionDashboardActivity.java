@@ -138,6 +138,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         setAppBarTitleCompany(1,"TRANSACTION");*/
 
        /* mRecyclerView.setHasFixedSize(true);
+
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new TransactionDashboardAdapter(this, title, myImageList,colors);
