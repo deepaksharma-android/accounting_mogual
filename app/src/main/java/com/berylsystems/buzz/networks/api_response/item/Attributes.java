@@ -7,8 +7,27 @@ public class Attributes {
     public String company;
     public String item_group;
     public String item_unit;
-    public int stock_quantity=2;
-    public Double amount=5.0;
+    public int stock_quantity;
+    public int total_stock_quantity;
+
+    public int getTotal_stock_quantity() {
+        return total_stock_quantity;
+    }
+
+    public void setTotal_stock_quantity(int total_stock_quantity) {
+        this.total_stock_quantity = total_stock_quantity;
+    }
+
+    public Double total_stock_price;
+    public Double getTotal_stock_price() {
+        return total_stock_price;
+    }
+
+    public void setTotal_stock_price(Double total_stock_price) {
+        this.total_stock_price = total_stock_price;
+    }
+
+    public Double amount=1000.0;
 
     public int getStock_quantity() {
         return stock_quantity;
