@@ -50,6 +50,7 @@
     <color name="blueSubmitActive">#0ca385</color>
     <color name="homescreenbg">#ededed</color>
     <color name="grey">#5e5d5d</color>
+    <color name="tab_grey">#20000000</color>
     <color name="dividerLineColor">#bfbfbf</color>
     <color name="dividerLineColorOther">#0e7f69</color>
     <color name="light_Green">#e1eec3</color>

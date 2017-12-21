@@ -38,7 +38,7 @@
 
             <com.berylsystems.buzz.utils.BuzzTextView
                 android:id="@+id/title"
-                style="@style/Gotham_Book"
+                style="@style/Gotham_Medium"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:text="COMPANY"
                 android:textColor="#0366aa"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

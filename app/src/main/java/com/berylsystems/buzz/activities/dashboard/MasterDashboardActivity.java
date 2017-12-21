@@ -70,7 +70,7 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         setAddCompany(2);
         setAppBarTitleCompany(1,"MASTER");
         mRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        layoutManager = new GridLayoutManager(getApplicationContext(),3);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MasterDashboardAdapter(this, title, myImageList,colors);
         mRecyclerView.setAdapter(mAdapter);

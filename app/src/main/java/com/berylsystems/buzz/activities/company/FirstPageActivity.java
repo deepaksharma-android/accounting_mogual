@@ -32,13 +32,17 @@ import com.berylsystems.buzz.utils.LocalRepositories;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class FirstPageActivity extends BaseActivityCompany {
 
     @Bind(R.id.transaction_button)
-    Button transactionButton;
+    LinearLayout transactionButton;
     @Bind(R.id.layout_cash_in_hand)
     LinearLayout mlayout_cash_in_hand;
     @Bind(R.id.layout_bank)
@@ -60,10 +64,13 @@ public class FirstPageActivity extends BaseActivityCompany {
     TextView mtextview_supplier;
     @Bind(R.id.textview_stock_in_hand)
     TextView mtextview_stock_in_hand;
+    @Bind(R.id.date)
+    TextView mDate;
     ProgressDialog mProgressDialog;
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
     AppUser appUser;
+    private SimpleDateFormat dateFormatter;
     public static Boolean isDirectForFirstPage = true;
 
     @Override
@@ -75,6 +82,12 @@ public class FirstPageActivity extends BaseActivityCompany {
         setAppBarTitleCompany(1, appUser.company_name.toUpperCase());
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+
+        final Calendar newCalendar = Calendar.getInstance();
+        String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));
+        dateFormatter = new SimpleDateFormat(" dd'" + dayNumberSuffix + "' MMM yy", Locale.US);
+        String date1 = dateFormatter.format(newCalendar.getTime());
+        mDate.setText("As On "+date1);
 
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -223,5 +236,21 @@ public class FirstPageActivity extends BaseActivityCompany {
                 .show();
 
 
+    }
+
+    private String getDayNumberSuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
     }
 }
