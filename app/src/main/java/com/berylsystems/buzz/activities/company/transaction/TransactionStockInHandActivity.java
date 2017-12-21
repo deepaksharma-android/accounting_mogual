@@ -65,8 +65,9 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     List<String> id;
     ArrayList amountList=new ArrayList();
     ArrayList quantityList=new ArrayList();
-
+    String title;
     public static Boolean isDirectForFirstPage = true;
+    boolean fromStockReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,15 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
 
         ButterKnife.bind(this);
         mFloatingButton.bringToFront();
-        initActionbar();
+
         appUser = LocalRepositories.getAppUser(this);
+
+        title="Stock In Hand";
+        fromStockReport=getIntent().getExtras().getBoolean("fromStockReport");
+        if(fromStockReport==true){
+            title="Stock Reports";
+        }
+        initActionbar();
     }
 
     private void initActionbar() {
@@ -91,7 +99,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Stock In Hand");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);

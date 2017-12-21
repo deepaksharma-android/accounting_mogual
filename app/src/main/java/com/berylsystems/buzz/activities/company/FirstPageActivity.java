@@ -54,9 +54,9 @@ public class FirstPageActivity extends BaseActivityCompany {
     LinearLayout mlayout_supplier;
     @Bind(R.id.layout_stock_in_hand)
     LinearLayout mlayout_stock_in_hand;
-    @Bind(R.id.sales_layout)
+    @Bind(R.id.layout_sale)
     LinearLayout mSales_layout;
-    @Bind(R.id.expenses_layout)
+    @Bind(R.id.layout_expense)
     LinearLayout mExpenses_layout;
 
     @Bind(R.id.textview_cash_in_hand)
