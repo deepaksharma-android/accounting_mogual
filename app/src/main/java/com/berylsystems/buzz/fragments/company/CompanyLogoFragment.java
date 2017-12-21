@@ -28,6 +28,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,6 +82,8 @@ public class CompanyLogoFragment extends Fragment {
             mSelectedImage.setVisibility(View.VISIBLE);
             Glide.with(getActivity())
                     .load(Preferences.getInstance(getActivity()).getClogo())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(mSelectedImage);
         }
         mBrowseImage.setOnClickListener(new View.OnClickListener() {

@@ -132,11 +132,11 @@ public class BaseActivityCompany extends AppCompatActivity {
         finish();
     }
     public void settings(View v){
-        Intent intent=new Intent(getApplicationContext(),AcountGroupActivity.class);
+        Intent intent=new Intent(getApplicationContext(),CompanyDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
-        startActivity(new Intent(getApplicationContext(), CompanyDashboardActivity.class));
+
 
     }
     public void help(View v){

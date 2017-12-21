@@ -116,7 +116,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
@@ -149,37 +149,38 @@ public class VerificationActivity extends RegisterAbstractActivity {
 
         if (!mOtp.getText().toString().equals("")) {
             appUser.otp = mOtp.getText().toString();
+            appUser.mobile = mMobileNumber.getText().toString();
             LocalRepositories.saveAppUser(this, appUser);
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(VerificationActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(this, appUser);
+                ApiCallsService.action(this, Cv.ACTION_VERIFICATION);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
         } else {
             mOtp.setError(getString(R.string.err_otp));
             cancel = true;
             focusView = mOtp;
         }
-        appUser.mobile = mMobileNumber.getText().toString();
-        LocalRepositories.saveAppUser(this, appUser);
 
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(VerificationActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(this, appUser);
-            ApiCallsService.action(this, Cv.ACTION_VERIFICATION);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
+
     }
 
     @Subscribe

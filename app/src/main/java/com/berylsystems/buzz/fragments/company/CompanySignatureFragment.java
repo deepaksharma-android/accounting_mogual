@@ -29,6 +29,7 @@ import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,6 +77,8 @@ public class CompanySignatureFragment extends Fragment {
         if(!Preferences.getInstance(getActivity()).getCsign().equals("")){
             Glide.with(getActivity())
                     .load(Preferences.getInstance(getActivity()).getCsign())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(mSignatureImage);
         }
         mAddSign.setOnClickListener(new View.OnClickListener() {

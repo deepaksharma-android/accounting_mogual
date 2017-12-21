@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorPrimary">
 
 <RelativeLayout
     android:layout_width="fill_parent"
@@ -61,7 +61,7 @@
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         app:headerLayout="@layout/header"
         app:itemTextColor="@color/white"
         app:menu="@menu/menu_nav_drawer" />

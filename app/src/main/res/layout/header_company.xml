@@ -3,9 +3,19 @@
     android:layout_width="match_parent"
     android:id="@+id/header"
     android:layout_height="60dp"
-    android:background="@color/button_color"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     >
+
+    <com.berylsystems.buzz.utils.BuzzTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="BAHI KHATA"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        style="@style/Gotham_Bold"/>
 
 
 </RelativeLayout>
