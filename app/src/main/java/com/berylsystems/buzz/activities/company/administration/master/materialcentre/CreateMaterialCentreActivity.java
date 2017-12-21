@@ -290,7 +290,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            MaterialCentreListActivity.isDirectForMaterialCentre=true;
+          //  MaterialCentreListActivity.isDirectForMaterialCentre=true;
             Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -334,7 +334,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            MaterialCentreListActivity.isDirectForMaterialCentre=true;
+           // MaterialCentreListActivity.isDirectForMaterialCentre=true;
             Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
            startActivity(intent);

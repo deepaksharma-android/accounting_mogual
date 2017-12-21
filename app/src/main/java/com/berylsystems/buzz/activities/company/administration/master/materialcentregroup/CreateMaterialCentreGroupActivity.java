@@ -317,7 +317,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void createMaterialCenterialGroup(CreateMaterialCentreGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=true;
+           // MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=true;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreatematerialcentregroup",true);
@@ -361,7 +361,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=true;
+            //MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=true;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);

@@ -57,6 +57,7 @@ public class SaleTypeListActivity extends AppCompatActivity {
     Boolean fromGeneral, fromMaster, fromCreateGroup;
     public static Boolean isDirectForSaleType = true;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
