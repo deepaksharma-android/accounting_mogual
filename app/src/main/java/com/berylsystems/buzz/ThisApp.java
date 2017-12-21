@@ -49,7 +49,6 @@ public class ThisApp extends Application
             });
         }
         api = createApi();
-
     }
 
     public static synchronized ThisApp getInstance() {

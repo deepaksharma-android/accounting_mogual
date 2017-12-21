@@ -26,6 +26,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
@@ -58,6 +59,8 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     List<String> name;
     List<String> id;
     ArrayList amountList=new ArrayList();
+    ArrayList quantityList=new ArrayList();
+
     public static Boolean isDirectForFirstPage = true;
 
     @Override
@@ -128,7 +131,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -152,33 +155,40 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     }
 
     @Subscribe
-    public void getTransactionCashInHand(GetAccountResponse response) {
+    public void getTransactionCashInHand(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
             // listDataChildAmount = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
-            if (response.getOrdered_accounts().size() == 0) {
+            if (response.getOrdered_items().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
             }
-            for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
-                listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
+            for (int i = 0; i < response.getOrdered_items().size(); i++) {
+                listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
                 name = new ArrayList<>();
                 //amount = new ArrayList<>();
                 id = new ArrayList<>();
                 Double addAmount=0.0;
-                for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()) + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount()));
-                    id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
-                    Double addprize = response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount();
+                int addQuantity=0;
+                for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
+                    name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
+                            /*+ "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getUndefined())*/
+                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getAmount())
+                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getStock_quantity()));
+                    id.add(response.getOrdered_items().get(i).getData().get(j).getId());
+                    Double addprize = response.getOrdered_items().get(i).getData().get(j).getAttributes().getAmount();
+                    int addquantity = response.getOrdered_items().get(i).getData().get(j).getAttributes().getStock_quantity();
                     addAmount = addAmount+addprize;
+                    addQuantity = addQuantity+addquantity;
                 }
                 amountList.add(Double.valueOf(String.format("%.2f",addAmount)));
+                quantityList.add(addQuantity);
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);
             }
-            listAdapter = new TransactionStockInHandAdapter(this, listDataHeader, listDataChild,amountList);
+            listAdapter = new TransactionStockInHandAdapter(this, listDataHeader, listDataChild,amountList,quantityList);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -228,8 +238,6 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
-
-
     }
 
     @Subscribe

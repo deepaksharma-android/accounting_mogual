@@ -63,16 +63,19 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
+        setDateField();
 
         long date = System.currentTimeMillis();
-        String dateString = dateFormatter.format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
+        String dateString = sdf.format(date);
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
+
+
 
         mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +87,11 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
                 startActivityForResult(i, 2);
             }
         });
-        setDateField();
+
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String start_date = mStart_date.getText().toString();
-                String end_date = mEnd_date.getText().toString();
                 if(!mAccount_group_textview.getText().toString().equals("")){
                     appUser.pdf_start_date = mStart_date.getText().toString();
                     appUser.pdf_end_date = mEnd_date.getText().toString();
@@ -120,76 +121,14 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
                 }else {
                     Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();
                 }
-
             }
         });
+
     }
 
     @Override
     protected int layoutId() {
         return R.layout.activity_amount_receivable;
-    }
-
-    private void setDateField() {
-        mStart_date.setOnClickListener(this);
-        mEnd_date.setOnClickListener(this);
-
-        final Calendar newCalendar = Calendar.getInstance();
-
-
-        long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = sdf.format(date);
-        String[] datesplit = dateString.split("-");
-        int current_year = Integer.valueOf(datesplit[0]);
-        int current_month = Integer.valueOf(datesplit[1]);
-        int current_day = Integer.valueOf(datesplit[2]);
-
-        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                String date1 = dateFormatter.format(newDate.getTime());
-
-                if(monthOfYear>=03 && year==current_year){
-                    mStart_date.setText(date1);
-                }
-                else if((current_month == 01 || current_month == 02 || current_month == 03) && current_year>2017){
-                    mStart_date.setText(date1);
-                }
-                else{
-                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                String start_date = mStart_date.getText().toString();
-                String[] datesplit = start_date.split("-");
-                int start_year = Integer.valueOf(datesplit[0]);
-                String start_month = datesplit[1];
-                int start_day = Integer.valueOf(datesplit[2]);
-
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                String date1 = dateFormatter.format(newDate.getTime());
-
-                if(year<=current_year && year>=start_year){
-                    mEnd_date.setText(date1);
-                }
-                else{
-                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -205,7 +144,89 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
         }
     }
 
+    private void setDateField() {
+        mStart_date.setOnClickListener(this);
+        mEnd_date.setOnClickListener(this);
 
+        final Calendar newCalendar = Calendar.getInstance();
+
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
+        String dateString = sdf.format(date);
+        //String[] datesplit = dateString.split("-");
+
+        String start_date1="2017-Apr-04";
+
+        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year,  int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date1 = dateFormatter.format(newDate.getTime());
+
+
+                if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
+                    mStart_date.setText(date1);
+                } else{
+                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                }
+
+
+               /* if(monthOfYear>=03 && year==2017){
+                    mStart_date.setText(date1);
+                }
+                else if((current_month == "Jan" || current_month == "Feb" || current_month == "Mar") && current_year>2017){
+                    mStart_date.setText(date1);
+                }
+                else{
+                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                }*/
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                view.setMaxDate(System.currentTimeMillis());
+                String start_date = mStart_date.getText().toString();
+               /* String[] datesplit = start_date.split("-");
+                int start_year = Integer.valueOf(datesplit[0]);
+                String start_month = datesplit[1];
+                int start_day = Integer.valueOf(datesplit[2]);*/
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date1 = dateFormatter.format(newDate.getTime());
+
+               /* int j=-1,k=-1;
+                for(int i=0;i<monthArr.length;i++){
+                   if((monthArr[i]==String.valueOf(monthOfYear))){
+                         j=i+1;
+                    }
+                    if(startMonthArr[i]==String.valueOf(start_month)){
+                        k=i;
+                    }
+                }
+                        if((year<=current_year && year>=start_year) && (j<=k) && (dayOfMonth<=current_day *//*&& dayOfMonth>=start_day)*//*)){
+                            mEnd_date.setText(date1);
+                        }
+                        else{
+                            Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                        }*/
+
+                if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
+                    //System.out.println("Date1 is after Date2");
+                    mEnd_date.setText(date1);
+                }else{
+                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -229,7 +250,7 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Ledger");
+        actionbarTitle.setText("Bank Cash");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -252,11 +273,9 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
 
     @Subscribe
     public void timout(String msg) {
-        snackbar = Snackbar
-                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
-
     }
 }
 

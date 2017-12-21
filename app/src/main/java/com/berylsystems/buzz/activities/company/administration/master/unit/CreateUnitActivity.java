@@ -288,13 +288,13 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             // insert code here
             int groupindex = -1;
             for (int i = 0; i < appUser.arr_uqcname.size(); i++) {
-                Timber.i("GROUPINDEX" + appUser.arr_stock_name);
+              //  Timber.i("GROUPINDEX" + appUser.arr_stock_name);
                 if (appUser.arr_uqcname.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
             }
-            Timber.i("GROUPINDEX" + groupindex);
+            //Timber.i("GROUPINDEX" + groupindex);
             mSpinnerUqc.setSelection(groupindex);
 
         } else {

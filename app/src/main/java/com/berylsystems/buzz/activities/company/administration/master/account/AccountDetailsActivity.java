@@ -67,7 +67,6 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     Boolean fromaccountlist;
     String title;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
