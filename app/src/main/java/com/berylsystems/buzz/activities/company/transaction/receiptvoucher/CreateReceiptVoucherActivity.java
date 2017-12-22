@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -38,11 +40,14 @@ import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVou
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,8 +56,12 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.date_pdc_textview)
@@ -95,8 +104,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
-    private static final int SELECT_PICTURE=1;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
+    private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
     InputStream inputStream = null;
     ProgressDialog mProgressDialog;
@@ -104,6 +113,12 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     String encodedString;
     String title;
     AppUser appUser;
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+
+    public static int intStartActivityForResult=0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,10 +164,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                     });
             snackbar.show();
         }
-        title="CREATE RECEIPT VOUCHER";
+
+        title = "CREATE RECEIPT VOUCHER";
         fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
         if (fromReceiptVoucher == true) {
-            title="EDIT RECEIPT VOUCHER";
+            title = "EDIT RECEIPT VOUCHER";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_receipt_id = getIntent().getExtras().getString("id");
@@ -194,15 +210,15 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(i==1){
+                if (i == 1) {
                     date_pdc_layout.setVisibility(View.GONE);
                     date_pdc_textview.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     date_pdc_layout.setVisibility(View.VISIBLE);
                     date_pdc_textview.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -212,9 +228,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         received_from_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult = 1;
+                ParameterConstant.checkForStartActivityResult = 1;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
+                ExpandableAccountListActivity.isDirectForAccount = false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -224,9 +242,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         received_by_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult = 2;
+                ParameterConstant.checkForStartActivityResult = 1;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
+                ExpandableAccountListActivity.isDirectForAccount = false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -235,8 +255,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!received_by.getText().toString().equals("")) {
                             if (!received_from.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -282,10 +302,10 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select received by", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -294,8 +314,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!received_by.getText().toString().equals("")) {
                             if (!received_from.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -340,10 +360,10 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select received by", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -354,7 +374,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -378,7 +398,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         final Calendar newCalendar = Calendar.getInstance();
 
         //set_date.setText("22 Nov 2017");
-       // set_date_pdc.setText("22 Nov 2017");
+        // set_date_pdc.setText("22 Nov 2017");
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -407,8 +427,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public void onClick(View view) {
         if (view == set_date) {
             DatePickerDialog1.show();
-        }
-        else if(view == set_date_pdc){
+        } else if (view == set_date_pdc) {
             DatePickerDialog2.show();
         }
     }
@@ -441,6 +460,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             }
 
             if (requestCode == 2) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.receipt_received_from_id = id;
@@ -449,14 +469,54 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 received_from.setText(name[0]);
             }
             if (requestCode == 3) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.receipt_received_by_id =id;
+                appUser.receipt_received_by_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 received_by.setText(name[0]);
             }
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                String mobile = intent.getStringExtra("mobile");
+                boolForReceivedFrom = true;
+                appUser.receipt_received_from_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                received_from.setText(name[0]);
+            }
+            if (!boolForReceivedBy) {
+                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.receipt_received_by_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                received_by.setText(name[0]);
+
+            }
+        }
+
     }
 
     public String getPath(Uri uri) {
@@ -486,7 +546,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -494,7 +554,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     }
 
     @Subscribe
-    public void createreceiptresponse(CreateReceiptVoucherResponse response){
+    public void createreceiptresponse(CreateReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
            // voucher_no.setText("");
@@ -508,16 +568,15 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             mSelectedImage.setVisibility(View.GONE);
             //mSelectedImage.setImageDrawable(null);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void getReceiptVoucherDetails(GetReceiptVoucherDetailsResponse response){
+    public void getReceiptVoucherDetails(GetReceiptVoucherDetailsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             set_date.setText(response.getReceipt_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getReceipt_voucher().getData().getAttributes().getVoucher_number());
             set_date_pdc.setText(response.getReceipt_voucher().getData().getAttributes().getPdc_date());
@@ -525,27 +584,25 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             received_by.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_by());
             transaction_amount.setText(String.valueOf(response.getReceipt_voucher().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getReceipt_voucher().getData().getAttributes().getNarration());
-            if(!response.getReceipt_voucher().getData().getAttributes().getAttachment().equals("")){
+            if (!response.getReceipt_voucher().getData().getAttributes().getAttachment().equals("")) {
                 Glide.with(this).load(Uri.parse(response.getReceipt_voucher().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
             String type_pdc_regular = response.getReceipt_voucher().getData().getAttributes().getPayment_type().trim();
-            if (type_pdc_regular.equals("PDC")){
+            if (type_pdc_regular.equals("PDC")) {
                 type_spinner.setSelection(0);
-            }
-            else {
+            } else {
                 type_spinner.setSelection(1);
             }
 
             String group_type = response.getReceipt_voucher().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_receipt).length; i++) {
+            for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_receipt).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_receipt)[i].equals(group_type)) {
                     groupindex = i;
                     break;
@@ -554,24 +611,22 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             }
             gst_nature_spinner.setSelection(groupindex);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void editExpence(EditReceiptVoucherResponse response){
+    public void editExpence(EditReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Intent intent = new Intent(this, ReceiptVoucherActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(intent);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
@@ -599,7 +654,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),ReceiptVoucherActivity.class);
+                Intent i = new Intent(getApplicationContext(), ReceiptVoucherActivity.class);
                 startActivity(i);
                 finish();
                 return true;

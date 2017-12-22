@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -36,6 +38,7 @@ import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.EditBankCash
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -90,6 +93,11 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     Boolean fromBankcashWithdraw;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+    public static int intStartActivityForResult=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +184,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         withdraw_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=1;
+                ParameterConstant.checkForStartActivityResult=4;
                 appUser.account_master_group = "Bank Accounts";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -187,6 +197,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         withdraw_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=2;
+                ParameterConstant.checkForStartActivityResult=4;
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -364,6 +376,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             }
 
             if (requestCode == 4) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("MY IDIDID"+id);
@@ -373,6 +386,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 withdraw_from.setText(name[0]);
             }
             if (requestCode == 5) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("MY IDIDID"+id);
@@ -382,6 +396,44 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 withdraw_by.setText(name[0]);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                Timber.i("MY IDIDID"+id);
+                appUser.withdraw_from_id =id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                withdraw_from.setText(name[0]);
+            }
+            if (!boolForReceivedBy) {
+                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                Timber.i("MY IDIDID"+id);
+                appUser.withdraw_by_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                withdraw_by.setText(name[0]);
+
+            }
+        }
+
     }
 
     public String getPath(Uri uri) {

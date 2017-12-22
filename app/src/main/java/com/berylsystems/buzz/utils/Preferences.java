@@ -136,7 +136,8 @@ public class Preferences {
     private static final String vouchermobile="mobile";
     private static final String vouchernarration="narration";
     private static final String cash_credit="cash_credit";
-
+    private static final String paid_to="paid_to";
+    private static final String paid_from="paid_from";
 
 
 
@@ -1127,6 +1128,7 @@ public class Preferences {
     public String getStore() {
         return pref.getString(voucherstore, "");
     }
+
     public void setParty_name(String partyname) {
         editor.putString(party_name, partyname);
         editor.commit();
@@ -1135,6 +1137,27 @@ public class Preferences {
     public String getParty_name() {
         return pref.getString(party_name, "");
     }
+
+    public void setPaid_to(String partyname) {
+        editor.putString(paid_to, partyname);
+        editor.commit();
+    }
+
+    public String getPaid_to() {
+        return pref.getString(paid_to, "");
+    }
+
+
+    public void setPaid_from(String partyname) {
+        editor.putString(paid_from, partyname);
+        editor.commit();
+    }
+
+    public String getPaid_from() {
+        return pref.getString(paid_from, "");
+    }
+
+
     public void setMobile(String mobile) {
         editor.putString(vouchermobile, mobile);
         editor.commit();

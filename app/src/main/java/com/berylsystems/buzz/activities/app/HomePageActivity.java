@@ -47,7 +47,7 @@ public class HomePageActivity extends Activity {
     MyPagerAdapter adapter;
     AppUser appUser;
     int currentPage = 0;
-    int NUM_PAGES=4;
+    int NUM_PAGES = 4;
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 3000; // time in milliseconds between successive task executions.
@@ -62,12 +62,12 @@ public class HomePageActivity extends Activity {
         setContentView(R.layout.activity_home_page);
         ButterKnife.bind(this);
 
-        appUser=LocalRepositories.getAppUser(this);
-        appUser.fb_id="";
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser = LocalRepositories.getAppUser(this);
+        appUser.fb_id = "";
+        LocalRepositories.saveAppUser(this, appUser);
         mTerms.setClickable(true);
         mTerms.setMovementMethod(LinkMovementMethod.getInstance());
-        String text ="By continuing, you are indicating that you have read and agree to the <a href='https://www.google.com'> Terms of Use</a> and <a href='https://google.com'> Privacy Policy</a> ";
+        String text = "By continuing, you are indicating that you have read and agree to the <a href='https://www.google.com'> Terms of Use</a> and <a href='https://google.com'> Privacy Policy</a> ";
         mTerms.setText(Html.fromHtml(text));
         adapter = new MyPagerAdapter();
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -78,7 +78,7 @@ public class HomePageActivity extends Activity {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         mRadioGroup.check(R.id.radioButton);
                         break;
@@ -99,12 +99,12 @@ public class HomePageActivity extends Activity {
 
         mPager.setAdapter(adapter);
         changePagerScroller();
-       // mPager.setCurrentItem(0);
+        // mPager.setCurrentItem(0);
 
         handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == NUM_PAGES-1) {
+                if (currentPage == NUM_PAGES - 1) {
                     currentPage = 0;
                     changePagerScroller();
                 }
@@ -114,7 +114,7 @@ public class HomePageActivity extends Activity {
         };
 
         timer = new Timer(); // This will create a new Thread
-        timer .schedule(new TimerTask() { // task to be scheduled
+        timer.schedule(new TimerTask() { // task to be scheduled
 
             @Override
             public void run() {
@@ -132,19 +132,21 @@ public class HomePageActivity extends Activity {
         });
     }
 
-    public void login(View v){
+    public void login(View v) {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
 
     }
-    public void signup(View v){
+
+    public void signup(View v) {
         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
     }
+
     private void changePagerScroller() {
         try {
             Field mScroller = null;

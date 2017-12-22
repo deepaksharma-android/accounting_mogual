@@ -26,7 +26,20 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountExpandableListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -40,6 +53,7 @@ import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventSelectAccountPurchase;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -323,7 +337,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
 
-        //Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "" + bool, Toast.LENGTH_SHORT).show();
         if (!isDirectForAccount && bool) {
 
             autoCompleteTextView();
@@ -334,12 +348,40 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-            Intent returnIntent = new Intent(getApplicationContext(), CreateSaleActivity.class);
-            returnIntent.putExtra("bool", true);
-            returnIntent.putExtra("name", name);
-            returnIntent.putExtra("id", arrid);
-            returnIntent.putExtra("mobile", mobile);
-            startActivity(returnIntent);
+            Intent intentForward = null;
+            if (ParameterConstant.checkForStartActivityResult == 0) {
+                intentForward = new Intent(getApplicationContext(), CreateSaleActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 1) {
+                intentForward = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 2) {
+                intentForward = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 3) {
+                intentForward = new Intent(getApplicationContext(), CreatePaymentActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 4) {
+                intentForward = new Intent(getApplicationContext(), CreateBankCaseDepositActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 5) {
+                intentForward = new Intent(getApplicationContext(), CreateBankCaseWithdrawActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 6) {
+                intentForward = new Intent(getApplicationContext(), CreateIncomeActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 7) {
+                intentForward = new Intent(getApplicationContext(), CreateExpenceActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 8) {
+                intentForward = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 9) {
+                intentForward = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 10) {
+                intentForward = new Intent(getApplicationContext(), CreateJournalVoucherActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 11) {
+                intentForward = new Intent(getApplicationContext(), CreateDebitNoteWoItemActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 12) {
+                intentForward = new Intent(getApplicationContext(), CreateCreditNoteWoItemActivity.class);
+            }
+
+            intentForward.putExtra("bool", true);
+            intentForward.putExtra("name", name);
+            intentForward.putExtra("id", arrid);
+            intentForward.putExtra("mobile", mobile);
+            startActivity(intentForward);
             //setResult(Activity.RESULT_OK, returnIntent);
             finish();
         } else if (!isDirectForAccount) {
@@ -353,7 +395,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("bool",false);
+            returnIntent.putExtra("bool", false);
             returnIntent.putExtra("name", name);
             returnIntent.putExtra("id", arrid);
             returnIntent.putExtra("mobile", mobile);
@@ -421,7 +463,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     returnIntent.putExtra("name", adapter.getItem(i));
                     String id = idList.get(getPositionOfItem(adapter.getItem(i)));
                     returnIntent.putExtra("id", id);
-                    Toast.makeText(ExpandableAccountListActivity.this, "" + id, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ExpandableAccountListActivity.this, "" + id, Toast.LENGTH_SHORT).show();
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
