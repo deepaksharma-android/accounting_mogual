@@ -31,6 +31,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.expence.CreateExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.EditExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.GetExpenceDetailsResponse;
@@ -108,6 +109,29 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
 
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
         title="CREATE EXPENSE";
         fromExpence=getIntent().getExtras().getBoolean("fromExpense");
         if(fromExpence==true){
@@ -116,7 +140,6 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_expence_id=getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this,appUser);
-            Boolean isConnected=ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -198,6 +221,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                         mProgressDialog.setCancelable(true);
                                         mProgressDialog.show();
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_EXPENCE);
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                     }
                                     else{
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -400,7 +424,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     public void createexpenceresponse(CreateExpenceResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            voucher_no.setText("");
+           // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             paid_from.setText("");
@@ -456,6 +480,18 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
+        }
+    }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar

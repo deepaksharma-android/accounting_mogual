@@ -12,7 +12,7 @@
       <TextView
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:text="@string/app_name"
+          android:text="@string/m_billing"
           android:layout_marginTop="50dp"
           android:textColor="@color/black"
           android:textSize="22sp"
@@ -36,6 +36,7 @@
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
            android:text="Special Features:"
+           android:visibility="gone"
            android:layout_marginTop="80dp"
            android:layout_marginLeft="20dp"
            android:textColor="@color/black"
@@ -48,6 +49,7 @@
            android:layout_height="wrap_content"
            android:layout_marginTop="10dp"
            android:layout_marginLeft="30dp"
+           android:visibility="gone"
            android:layout_marginRight="30dp"
            android:orientation="vertical">
 
@@ -136,6 +138,11 @@
            </LinearLayout>
        </LinearLayout>
 
+       <ImageView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:src="@drawable/special_feature"
+           android:layout_margin="10dp" />
       <!-- <ImageView
            android:layout_width="150dp"
            android:layout_height="150dp"

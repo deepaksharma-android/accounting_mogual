@@ -31,6 +31,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.income.CreateIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.income.EditIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.income.GetIncomeDetailsResponse;
@@ -109,6 +110,29 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
 
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
         title="CREATE INCOME";
         fromIncome=getIntent().getExtras().getBoolean("fromIncome");
         if(fromIncome==true){
@@ -117,7 +141,6 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_income_id=getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this,appUser);
-            Boolean isConnected=ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -199,6 +222,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                                         mProgressDialog.setCancelable(true);
                                         mProgressDialog.show();
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_INCOME);
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                     }
                                     else{
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -400,7 +424,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     public void createincomeresponse(CreateIncomeResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            voucher_no.setText("");
+           // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             received_into.setText("");
@@ -415,6 +439,18 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
 
         }
     }
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
+        }
+    }
+
 
     @Subscribe
     public void getIncomeDetails(GetIncomeDetailsResponse response){

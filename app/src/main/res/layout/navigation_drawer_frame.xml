@@ -97,7 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="0.1"
-                android:src="@drawable/drawer_company_dashboard" />
+                android:src="@drawable/home" />
 
 
             <com.berylsystems.buzz.utils.BuzzTextView
@@ -136,8 +136,7 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.1"
-                    android:src="@drawable/drawer_company_dashboard" />
-
+                    android:src="@drawable/profile" />
 
                 <com.berylsystems.buzz.utils.BuzzTextView
                     style="@style/Gotham_Book"
@@ -175,7 +174,7 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.1"
-                    android:src="@drawable/drawer_company_dashboard" />
+                    android:src="@drawable/about" />
 
 
                 <com.berylsystems.buzz.utils.BuzzTextView
@@ -214,7 +213,7 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="0.1"
-                    android:src="@drawable/drawer_company_dashboard" />
+                    android:src="@drawable/logout" />
 
 
                 <com.berylsystems.buzz.utils.BuzzTextView

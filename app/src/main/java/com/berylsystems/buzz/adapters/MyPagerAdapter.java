@@ -35,7 +35,6 @@ public class MyPagerAdapter extends PagerAdapter {
            case 2:
                resId = R.layout.layout_fragment_page2;
                break;
-
        }
 
        View view = inflater.inflate(resId, null);

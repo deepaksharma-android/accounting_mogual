@@ -76,7 +76,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     @Bind(R.id.transaction_spinner)
     Spinner transaction_spinner;
     @Bind(R.id.vouchar_no)
-    EditText voucher_no;
+    TextView voucher_no;
     @Bind(R.id.transaction_amount)
     EditText transaction_amount;
     @Bind(R.id.transaction_narration)
@@ -227,6 +227,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                                         mProgressDialog.setCancelable(true);
                                         mProgressDialog.show();
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_BANK_CASH_DEPOSIT);
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                     } else {
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                             @Override
@@ -256,7 +257,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                 }
             }
-
         });
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -425,10 +425,9 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     public void createbankcashdepositresponse(CreateBankCashDepositResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
-            voucher_no.setText("");
+           // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             deposit_by.setText("");

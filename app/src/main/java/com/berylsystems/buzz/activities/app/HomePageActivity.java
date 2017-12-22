@@ -44,7 +44,7 @@ public class HomePageActivity extends Activity {
     RadioButton mRadioButton2;
     @Bind(R.id.radioButton3)
     RadioButton mRadioButton3;
-   MyPagerAdapter adapter;
+    MyPagerAdapter adapter;
     AppUser appUser;
     int currentPage = 0;
     int NUM_PAGES=4;

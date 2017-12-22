@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.user.LoginActivity;
 import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.activities.user.UpdateUserActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -141,7 +143,36 @@ public class BaseActivity extends AppCompatActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
+    }
+    public void home(View v){
+        /*Intent intent = new Intent(getApplicationContext(),CompanyListActivity.class);
+        startActivity(intent);*/
+    }
+    public void profile(View v){
+        Intent intent = new Intent(getApplicationContext(),UpdateUserActivity.class);
+        startActivity(intent);
+    }
 
+    public void about(View v){
+
+    }
+    public void logout(View v){
+        new AlertDialog.Builder(BaseActivity.this)
+                .setTitle(getString(R.string.dialog_titel_logout))
+                .setMessage(getString(R.string.dialog_msg_logout))
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Preferences.getInstance(getApplicationContext()).setLogin(false);
+                    appUser.fb_id = "";
+                    appUser.companyLoginArray.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
     }
 
     protected void setNavigation(int id) {

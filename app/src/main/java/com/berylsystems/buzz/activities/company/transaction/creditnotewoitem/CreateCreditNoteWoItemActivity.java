@@ -31,6 +31,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.CreateCreditNoteResponse;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.EditCreditNoteResponse;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteDetailsResponse;
@@ -72,7 +73,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     @Bind(R.id.transaction_spinner2)
     Spinner gst_nature_spinner;
     @Bind(R.id.vouchar_no)
-    EditText voucher_no;
+    TextView voucher_no;
     @Bind(R.id.transaction_amount)
     EditText transaction_amount;
     @Bind(R.id.transaction_narration)
@@ -108,6 +109,31 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
         title="CREATE CREDIT NOTE";
         fromCreditNote = getIntent().getExtras().getBoolean("fromCreditNote");
         if (fromCreditNote == true) {
@@ -116,7 +142,6 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_credit_note_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
-            Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -189,6 +214,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                                 mProgressDialog.setCancelable(true);
                                 mProgressDialog.show();
                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
+                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                             } else {
                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                     @Override
@@ -380,7 +406,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     public void createcreditnoteresponse(CreateCreditNoteResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            voucher_no.setText("");
+           // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             account_name_credit.setText("");
@@ -446,6 +472,17 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
         }
     }
     @Subscribe
