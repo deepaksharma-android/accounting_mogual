@@ -13,6 +13,16 @@
         android:background="#e2e2e2"
         android:orientation="vertical">
 
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-30dp"
+            android:layout_above="@+id/floating_button"
+            android:src="@drawable/watermark"/>
+
+
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floating_button"
             android:layout_width="wrap_content"
@@ -101,7 +111,7 @@
             android:id="@+id/company_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/mainLayout"
             android:scrollbars="none" />
     </RelativeLayout>

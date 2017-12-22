@@ -231,7 +231,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-            initActionbar();
+
         } /*else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
@@ -280,6 +280,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
         });*/
+        initActionbar();
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
