@@ -264,12 +264,12 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-    @Subscribe
+    /*@Subscribe
     public void ClickEventTransaction(EventTransaction pos) {
 
-        Intent intent = new Intent(getApplicationContext(), TransactionCashInHandSpinnerActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     protected void onPause() {
