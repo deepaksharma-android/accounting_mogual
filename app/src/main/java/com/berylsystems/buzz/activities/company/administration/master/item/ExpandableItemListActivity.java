@@ -67,7 +67,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     public static Boolean isDirectForItem = true;
     public static Integer comingFrom = 0;
-
+    public static Integer checkForStartActivityResult = 0;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)

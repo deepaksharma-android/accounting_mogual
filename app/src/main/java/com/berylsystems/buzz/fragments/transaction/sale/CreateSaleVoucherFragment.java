@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -33,6 +34,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,7 +46,6 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -81,7 +82,9 @@ public class CreateSaleVoucherFragment extends Fragment {
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
-    public Boolean aBoolean = false;
+    public Boolean boolForPartyName = false;
+    public Boolean boolForStore = false;
+    public static int intStartActivityForResult=0;
 
     @Override
     public void onStart() {
@@ -152,6 +155,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intStartActivityForResult=1;
+                ParameterConstant.checkForStartActivityResult=0;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
@@ -159,6 +164,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.checkForStartActivityResult=0;
                 SaleTypeListActivity.isDirectForSaleType = false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
@@ -166,6 +172,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intStartActivityForResult=2;
+                ParameterConstant.checkForStartActivityResult=0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -276,13 +284,16 @@ public class CreateSaleVoucherFragment extends Fragment {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForStore=true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.sale_store = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+               // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
+                return;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -308,11 +319,11 @@ public class CreateSaleVoucherFragment extends Fragment {
 
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
-                aBoolean = true;
+                boolForPartyName = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
-                //Toast.makeText(getContext(), "startActivityForResult", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
@@ -329,6 +340,46 @@ public class CreateSaleVoucherFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getActivity().getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForPartyName=true;
+            }else if (intStartActivityForResult==2){
+                boolForStore=true;
+            }
+            if (!boolForPartyName) {
+               // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                String mobile = intent.getStringExtra("mobile");
+                appUser.sale_partyName = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] strArr = result.split(",");
+                mPartyName.setText(strArr[0]);
+                mMobileNumber.setText(mobile);
+                Preferences.getInstance(getContext()).setMobile(mobile);
+                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                boolForPartyName=false;
+            }
+            if (!boolForStore) {
+                //Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.sale_store = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mStore.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore(name[0]);
+
+            }
+        }
+
+    }
 
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -346,27 +397,5 @@ public class CreateSaleVoucherFragment extends Fragment {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Intent intent = getActivity().getIntent();
-        Boolean bool = intent.getBooleanExtra("bool", false);
-        if (bool) {
-            if (!aBoolean) {
-                //Toast.makeText(getContext(), "CreateSaleVoucher ", Toast.LENGTH_SHORT).show();
-                String result = intent.getStringExtra("name");
-                String id = intent.getStringExtra("id");
-                String mobile = intent.getStringExtra("mobile");
-                appUser.sale_partyName = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr = result.split(",");
-                mPartyName.setText(strArr[0]);
-                mMobileNumber.setText(mobile);
-                Preferences.getInstance(getContext()).setMobile(mobile);
-                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
 
-            }
-        }
-
-    }
 }

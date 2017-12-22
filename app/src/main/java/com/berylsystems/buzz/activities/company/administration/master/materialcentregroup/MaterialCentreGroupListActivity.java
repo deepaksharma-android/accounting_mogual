@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
@@ -101,11 +102,12 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isDirectForMaterialCentreGroup){
-                Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();}else {
+                if (isDirectForMaterialCentreGroup) {
+                    Intent intent = new Intent(this, MasterDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
                     finish();
                 }
                 return true;
@@ -196,7 +198,7 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
             mAdapter = new MaterialCentreGroupListAdapter(this, response.getMaterial_center_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
 
-            CreateMaterialCentreGroupActivity.data=response.getMaterial_center_groups();
+            CreateMaterialCentreGroupActivity.data = response.getMaterial_center_groups();
 
           /*  Handler handler = new Handler();
             handler.postDelayed(new Runnable(){
@@ -274,12 +276,27 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
 
     @Subscribe
     public void materialcentregroupclickedevent(EventMaterialCentreGroupClicked pos) {
-        if (!isDirectForMaterialCentreGroup) {
+
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        //Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
+        if (!isDirectForMaterialCentreGroup && bool) {
+            //Toast.makeText(this, "entered", Toast.LENGTH_SHORT).show();
+            Intent intentForward = new Intent(getApplicationContext(),CreateMaterialCentreActivity.class);
+            intentForward.putExtra("bool",true);
+            intentForward.putExtra("result", String.valueOf(pos.getPosition()));
+            intentForward.putExtra("name", CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getName());
+            intentForward.putExtra("id", String.valueOf(CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId()));
+            /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+            LocalRepositories.saveAppUser(this, appUser);*/
+            startActivity(intentForward);
+            finish();
+        } else if (!isDirectForMaterialCentreGroup) {
             Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
             returnIntent.putExtra("name", CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getName());
-            returnIntent.putExtra("id", String.valueOf( CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId()));
+            returnIntent.putExtra("id", String.valueOf(CreateMaterialCentreGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId()));
             /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
             LocalRepositories.saveAppUser(this, appUser);*/
             setResult(Activity.RESULT_OK, returnIntent);

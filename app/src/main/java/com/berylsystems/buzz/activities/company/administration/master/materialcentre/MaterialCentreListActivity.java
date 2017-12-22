@@ -19,10 +19,12 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.MaterialCentreListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -302,7 +304,28 @@ public class MaterialCentreListActivity extends AppCompatActivity {
 
     @Subscribe
     public void clickEvent(EventSelectSaleVoucher pos) {
-        if (!isDirectForMaterialCentre) {
+
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+       // Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
+        if (!isDirectForMaterialCentre && bool) {
+            //Toast.makeText(this, "if", Toast.LENGTH_SHORT).show();
+            String id = pos.getPosition();
+            String[] arr = id.split(",");
+            String groupid = arr[0];
+            String childid = arr[1];
+            String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+            String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+            Intent intentForward = new Intent(getApplicationContext(), CreateSaleActivity.class);
+            intentForward.putExtra("bool", true);
+            intentForward.putExtra("name", name);
+            intentForward.putExtra("id", arrid);
+            startActivity(intentForward);
+            //setResult(Activity.RESULT_OK, intentForward);
+            finish();
+        }
+        else if (!isDirectForMaterialCentre) {
+          //  Toast.makeText(this, "else", Toast.LENGTH_SHORT).show();
             String id = pos.getPosition();
             String[] arr = id.split(",");
             String groupid = arr[0];

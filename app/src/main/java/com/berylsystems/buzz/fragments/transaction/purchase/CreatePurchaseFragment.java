@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -31,6 +32,7 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,6 +81,10 @@ public class CreatePurchaseFragment extends Fragment {
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
+
+    public static int intStartActivityForResult=0;
+    public Boolean boolForPartyName=false;
+    public Boolean boolForStore=false;
 
     @Override
     public void onStart() {
@@ -147,20 +153,27 @@ public class CreatePurchaseFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intStartActivityForResult=1;
+                ParameterConstant.checkForStartActivityResult=2;
                 MaterialCentreListActivity.isDirectForMaterialCentre=false;
+
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
         });
         mPurchaseType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SaleTypeListActivity.isDirectForSaleType=false;
+                ParameterConstant.checkForStartActivityResult=2;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intStartActivityForResult=2;
+                ParameterConstant.checkForStartActivityResult=2;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -261,6 +274,7 @@ public class CreatePurchaseFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
+                boolForStore=true;
                 Preferences.getInstance(getContext()).setStore(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -296,6 +310,7 @@ public class CreatePurchaseFragment extends Fragment {
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
                 mMobileNumber.setText(mobile);
+                boolForPartyName=true;
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
             }
@@ -304,6 +319,49 @@ public class CreatePurchaseFragment extends Fragment {
                 //mItemGroup.setText("");
             }
         }
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getActivity().getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForPartyName=true;
+            }else if (intStartActivityForResult==2){
+                boolForStore=true;
+            }
+            if (!boolForPartyName) {
+                // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                String mobile = intent.getStringExtra("mobile");
+                appUser.sale_partyName = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] strArr = result.split(",");
+                mPartyName.setText(strArr[0]);
+                mMobileNumber.setText(mobile);
+                Preferences.getInstance(getContext()).setMobile(mobile);
+                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+
+            }
+            if (!boolForStore) {
+                //Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.sale_store = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mStore.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore(name[0]);
+
+            }
+        }
+
     }
 
     @Subscribe

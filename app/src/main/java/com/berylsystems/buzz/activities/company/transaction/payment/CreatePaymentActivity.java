@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -37,6 +39,8 @@ import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -104,6 +108,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     String encodedString;
     String title;
     AppUser appUser;
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+    public static int intStartActivityForResult=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +132,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
+
+
 
         title="CREATE PAYMENT";
         fromPayment = getIntent().getExtras().getBoolean("fromPayment");
@@ -189,6 +199,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             paid_to_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    intStartActivityForResult=1;
+                    ParameterConstant.checkForStartActivityResult=3;
                     //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -200,6 +212,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             paid_from_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    intStartActivityForResult=2;
+                    ParameterConstant.checkForStartActivityResult=3;
                     appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     ExpandableAccountListActivity.isDirectForAccount=false;
@@ -427,6 +441,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
 
             if (requestCode == 2) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.payment_paid_to_id = id;
@@ -435,14 +450,52 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 paid_to.setText(name[0]);
             }
             if (requestCode == 3) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.payment_paid_from_id =id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 paid_from.setText(name[0]);
+
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.payment_paid_to_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                paid_to.setText(name[0]);
+            }
+            if (!boolForReceivedBy) {
+                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.payment_paid_from_id =id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                paid_from.setText(name[0]);
+
+            }
+        }
+
     }
 
     public String getPath(Uri uri) {

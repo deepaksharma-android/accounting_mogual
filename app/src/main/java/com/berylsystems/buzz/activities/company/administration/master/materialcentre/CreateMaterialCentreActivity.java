@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -39,6 +40,7 @@ import com.berylsystems.buzz.networks.api_response.materialcentre.StockResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +53,7 @@ import timber.log.Timber;
 
 import static com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity.isDirectForMaterialCentre;
 import static com.berylsystems.buzz.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
@@ -292,6 +295,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
           //  MaterialCentreListActivity.isDirectForMaterialCentre=true;
             Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
@@ -336,6 +340,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            // MaterialCentreListActivity.isDirectForMaterialCentre=true;
             Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
            startActivity(intent);
         }
@@ -350,19 +355,44 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForGroupName=true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.material_centre_group_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mGroupName.setText(result);
+                //Toast.makeText(this, "startActivityForResult", Toast.LENGTH_SHORT).show();
+                return;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                mGroupName.setText("");
+                //mGroupName.setText("");
             }
         }
     }
 
+    public Boolean boolForGroupName=false;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        //Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
+        if (bool) {
+
+            if (!boolForGroupName) {
+                //Toast.makeText(getApplicationContext(), "Resume", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.material_centre_group_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mGroupName.setText(result);
+            }
+
+        }
+
+    }
     @Subscribe
     public void getstock(StockResponse response){
         mProgressDialog.dismiss();

@@ -36,6 +36,7 @@ import com.berylsystems.buzz.networks.api_response.expence.EditExpenceResponse;
 import com.berylsystems.buzz.networks.api_response.expence.GetExpenceDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -88,6 +89,11 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     String encodedString;
     String title;
     AppUser appUser;
+
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+    public static int intStartActivityForResult=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +159,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         paid_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=1;
+                ParameterConstant.checkForStartActivityResult=7;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
