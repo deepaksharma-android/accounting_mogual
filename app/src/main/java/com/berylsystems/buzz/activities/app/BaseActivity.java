@@ -55,13 +55,13 @@ public class BaseActivity extends AppCompatActivity {
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
         navigationViewapp = (NavigationView) findViewById(R.id.navigationView);
-        View headerapp = navigationViewapp.getHeaderView(0);
+       // View headerapp = navigationViewapp.getHeaderView(0);
         //  RelativeLayout header=(RelativeLayout) navigationView.findViewById(R.id.header);
-        TextView name = (TextView) headerapp.findViewById(R.id.username);
-        TextView email = (TextView) headerapp.findViewById(R.id.email);
-        name.setText(appUser.name);
-        email.setText(appUser.email);
-        navigationViewapp.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+      //  TextView name = (TextView) headerapp.findViewById(R.id.username);
+       // TextView email = (TextView) headerapp.findViewById(R.id.email);
+       /* name.setText(appUser.name);
+        email.setText(appUser.email);*/
+       /* navigationViewapp.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if (menuItem.isChecked()) menuItem.setChecked(false);
@@ -71,11 +71,11 @@ public class BaseActivity extends AppCompatActivity {
                 drawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
 
-                    case R.id.catalog:
-                       /* Intent intent = new Intent(getApplicationContext(), CatalogActivity.class);
+                   *//* case R.id.catalog:
+                       *//**//* Intent intent = new Intent(getApplicationContext(), CatalogActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);*/
+                        startActivity(intent);*//**//*
                         return true;
 
                     case R.id.expense:
@@ -100,26 +100,26 @@ public class BaseActivity extends AppCompatActivity {
                                     appUser.companyLoginArray.clear();
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);*//*//**//***Change Here***
                                     startActivity(intent);
                                     finish();
 
                                 })
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
-                        /*Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
+                        *//**//*Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent2);*/
+                        startActivity(intent2);*//**//*
                         return true;
-
+*//*
                     default:
                         return true;
                 }
 
             }
         });
-
+*/
         final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.open_drawer, R.string.close_drawer) {
             @Override
