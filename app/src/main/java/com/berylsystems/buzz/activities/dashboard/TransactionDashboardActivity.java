@@ -317,6 +317,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
 
+                appUser.voucher_type="Bank Cash Deposit";
                 Intent j = new Intent(context, CreateBankCaseDepositActivity.class);
                 j.putExtra("fromBankCashDeposit", false);
                 context.startActivity(j);

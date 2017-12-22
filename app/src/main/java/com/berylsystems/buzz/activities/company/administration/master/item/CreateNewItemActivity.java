@@ -231,7 +231,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-            initActionbar();
+
         } /*else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
@@ -280,8 +280,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             }
         });*/
-        blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.blink_on_click);
+
+        blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_on_click);
+        initActionbar();
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -576,14 +578,18 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 }
                 appUser.item_tax_category = Integer.parseInt(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                mTaxCategory.setText(result);
+                if(!mTaxCategory.getText().toString().equals("")){
+                    mTaxCategory.setText(result);
+                }
+                else {
+                    Snackbar.make(coordinatorLayout,"Add Tax Catagory",Snackbar.LENGTH_LONG).show();
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 mItemUnit.setText("");
             }
         }
-
     }
 
     private void hideKeyBoard(View view) {

@@ -467,4 +467,6 @@ public String payment_paid_to_id;
     public String pdf_account_id;
     public String pdf_start_date;
     public String pdf_end_date;
+
+    public String voucher_type;
 }

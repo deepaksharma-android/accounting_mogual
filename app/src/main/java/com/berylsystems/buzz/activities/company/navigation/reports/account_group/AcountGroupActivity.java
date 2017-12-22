@@ -16,6 +16,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountPaybleActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountReceivableActivity;
+import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 
 import butterknife.Bind;
@@ -27,6 +28,8 @@ public class AcountGroupActivity extends AppCompatActivity {
     LinearLayout ledger;
     @Bind(R.id.cash_bank)
     LinearLayout casgBank;
+    @Bind(R.id.opening_stock_group)
+    LinearLayout openingStockGroup;
     @Bind(R.id.pdc_detail)
     LinearLayout pdcDetails;
     @Bind(R.id.amount_receivable)
@@ -58,6 +61,15 @@ public class AcountGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ledger_txt.setTextColor(Color.WHITE);
                 startActivity(new Intent(getApplicationContext(), LedgerActivity.class));
+            }
+        });
+
+        openingStockGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ledger_txt.setTextColor(Color.WHITE);
+                Intent intent=new Intent(getApplicationContext(), StocksReportsActivity.class);
+                startActivity(intent);
             }
         });
 

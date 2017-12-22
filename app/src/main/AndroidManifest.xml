@@ -496,10 +496,12 @@
         <activity
             android:name=".activities.company.navigation.reports.TransactionPdfActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activities.company.transaction.TransactionCashInHandSpinnerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.company.transaction.TransactionSalesActivity"
             android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.company.navigation.reports.account_group.StocksReportsActivity"></activity>
     </application>
 
 </manifest>

@@ -40,6 +40,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
@@ -561,5 +562,6 @@ public interface Api {
     @GET("company/company_data_report/{id}")
     Call<GetTransactionPdfResponse> gettransactionpdf(@Path("id") String id, @Query("account_id") String account_id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("voucher_series/{id}")
+    Call<GetVoucherNumbersResponse> getvouchernumbers(@Path("id") String id, @Query("voucher_type") String voucher_type);
 }
-

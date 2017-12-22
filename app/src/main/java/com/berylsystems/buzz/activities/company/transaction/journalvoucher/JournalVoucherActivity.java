@@ -199,8 +199,9 @@ public class JournalVoucherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                Intent intent = new Intent(this, CreateJournalVoucherActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromJournalVoucher",false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -212,8 +213,9 @@ public class JournalVoucherActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+        Intent intent = new Intent(this, CreateJournalVoucherActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("fromJournalVoucher",false);
         startActivity(intent);
         finish();
     }

@@ -52,13 +52,13 @@
                         android:layout_height="wrap_content"
                         android:text="Dashboard"
                         android:textColor="#cc000000"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Book"
+                        style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Always Know where your business stands."
+                        android:text="Daily tracking of your business"
                         android:textColor="#cc000000"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -92,15 +92,15 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Invoicing"
+                        android:text="Fastest Billing"
                         android:textColor="#cc000000"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Book"
+                        style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Create &amp; send estimates/invoices via email/WhatsApp"
+                        android:text="Create fastest sale voucher &amp; send estimates/invoices via email/WhatsApp"
                         android:textColor="#cc000000"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -134,15 +134,15 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Inventory"
+                        android:text="Stock"
                         android:textColor="#cc000000"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Book"
+                        style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Create inventory/services, track inwards/outwards of item."
+                        android:text="Maintain your stock, track inwards/outwards history of item."
                         android:textColor="#cc000000"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -176,15 +176,15 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="30+ Comprehensive Reports"
+                        android:text="Reports"
                         android:textColor="#cc000000"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Book"
+                        style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Analyse your business with detailed reports &amp; metrics"
+                        android:text="Manage your business with real time reports"
                         android:textColor="#cc000000"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -218,15 +218,15 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sync Across Devices"
+                        android:text="GST Ready"
                         android:textColor="#cc000000"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        style="@style/Gotham_Book"
+                        style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sync via your Dropbox account across your mobile &amp; PC"
+                        android:text="Get GST filling reports easily"
                         android:textColor="#cc000000"
                         android:textSize="12sp" />
                 </LinearLayout>

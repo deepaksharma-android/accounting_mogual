@@ -44,6 +44,7 @@ import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.EditAccountResponse;
@@ -502,7 +503,9 @@ public class ApiCallsService extends IntentService {
         }else if (Cv.ACTION_GET_TRANSACTION_PDF.equals(action)) {
             handleGetTransactionPdf();
         }
-
+        else if(Cv.ACTION_GET_VOUCHER_NUMBERS.equals(action)) {
+            handleGetVoucherNumbers();
+        }
     }
 
     private void handleGetItemGroupDetails() {
@@ -3593,8 +3596,28 @@ private void handleCreatePayment() {
         });
     }
 
+    private void handleGetVoucherNumbers() {
+        AppUser appUser= LocalRepositories.getAppUser(this);
+        api.getvouchernumbers(Preferences.getInstance(getApplicationContext()).getCid(),appUser.voucher_type).enqueue(new Callback<GetVoucherNumbersResponse>() {
+            @Override
+            public void onResponse(Call<GetVoucherNumbersResponse> call, Response<GetVoucherNumbersResponse> r) {
+                if (r.code() == 200) {
+                    GetVoucherNumbersResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetVoucherNumbersResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
 
 }
-
-
-

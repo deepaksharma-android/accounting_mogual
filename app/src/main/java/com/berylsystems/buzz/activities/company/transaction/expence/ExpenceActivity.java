@@ -208,8 +208,9 @@ public class ExpenceActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                Intent intent = new Intent(this, CreateExpenceActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromExpence",false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -221,8 +222,9 @@ public class ExpenceActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+        Intent intent = new Intent(this, CreateExpenceActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("fromExpence",false);
         startActivity(intent);
         finish();
     }
