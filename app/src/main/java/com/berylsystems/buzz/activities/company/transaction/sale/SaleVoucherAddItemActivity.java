@@ -187,6 +187,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
+
                 public void onClick(View view) {
                     if (batchwise && !serailwise) {
                         serial = "1";

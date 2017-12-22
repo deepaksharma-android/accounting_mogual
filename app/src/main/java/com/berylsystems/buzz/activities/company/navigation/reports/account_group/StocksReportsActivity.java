@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.transaction;
+package com.berylsystems.buzz.activities.company.navigation.reports.account_group;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,20 +19,14 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.FirstPageActivity;
-import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity;
 import com.berylsystems.buzz.adapters.TransactionStockInHandAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
-import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.networks.api_response.item.DeleteItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventDeleteItem;
-import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.EventEditItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -47,7 +41,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionStockInHandActivity extends AppCompatActivity{
+public class StocksReportsActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
@@ -72,18 +66,13 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction_stock_in_hand);
+        setContentView(R.layout.activity_stocks_reports);
 
         ButterKnife.bind(this);
         mFloatingButton.bringToFront();
 
         appUser = LocalRepositories.getAppUser(this);
 
-        title="Stock In Hand";
-       /* //fromStockReport=getIntent().getExtras().getBoolean("fromStockReport");
-        if(fromStockReport==true){
-            title="Stock Reports";
-        }*/
         initActionbar();
     }
 
@@ -99,7 +88,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Stock In Hand");
+        actionbarTitle.setText("Stock Reports");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -112,14 +101,10 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isDirectForFirstPage) {
-                    Intent intent = new Intent(this, FirstPageActivity.class);
+                    Intent intent = new Intent(this, AcountGroupActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
-                } else {
-                    finish();
-                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -128,7 +113,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, FirstPageActivity.class);
+        Intent intent = new Intent(this, AcountGroupActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -140,7 +125,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
-            mProgressDialog = new ProgressDialog(TransactionStockInHandActivity.this);
+            mProgressDialog = new ProgressDialog(StocksReportsActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
@@ -170,7 +155,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     }
 
     @Subscribe
-    public void getTransactionStockInHand(GetItemResponse response) {
+    public void getstocksreports(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
@@ -223,13 +208,13 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
         appUser.delete_item_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
-        new AlertDialog.Builder(TransactionStockInHandActivity.this)
+        new AlertDialog.Builder(StocksReportsActivity.this)
                 .setTitle("Delete Item")
                 .setMessage("Are you sure you want to delete this item ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
-                        mProgressDialog = new ProgressDialog(TransactionStockInHandActivity.this);
+                        mProgressDialog = new ProgressDialog(StocksReportsActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);

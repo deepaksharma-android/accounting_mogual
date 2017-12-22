@@ -31,7 +31,6 @@ public class AcountGroupActivity extends AppCompatActivity {
     @Bind(R.id.opening_stock_group)
     LinearLayout openingStockGroup;
     @Bind(R.id.pdc_detail)
-
     LinearLayout pdcDetails;
     @Bind(R.id.amount_receivable)
     LinearLayout amountReceivable;
@@ -69,8 +68,7 @@ public class AcountGroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ledger_txt.setTextColor(Color.WHITE);
-                Intent intent=new Intent(getApplicationContext(), TransactionStockInHandActivity.class);
-                intent.putExtra("fromStockReport",true);
+                Intent intent=new Intent(getApplicationContext(), StocksReportsActivity.class);
                 startActivity(intent);
             }
         });
