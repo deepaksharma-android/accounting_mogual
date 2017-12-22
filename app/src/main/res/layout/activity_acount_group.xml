@@ -46,6 +46,7 @@
                 <com.berylsystems.buzz.utils.BuzzTextView
                     android:layout_width="match_parent"
                     android:id="@+id/ledger_txt"
+                    style="@style/Gotham_Book"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="@color/black"
-
+                    style="@style/Gotham_Book"
                     android:id="@+id/cash_bank_txt"
                     android:layout_margin="10dp"
                     android:text="Cash/Bank" />
@@ -93,14 +94,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:id="@+id/pdc_detail_txt"
+                    style="@style/Gotham_Book"
                     android:textColor="@color/black"
                     android:layout_margin="10dp"
                     android:text="Pdc Detail" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height=".1dp"
-                    android:background="?android:attr/listDivider" />
+
             </LinearLayout>
 
 
@@ -142,6 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
+                        style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:id="@+id/amount_receivable_txt"
                         android:text="Amount Receivable" />
@@ -165,14 +165,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
+                        style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:id="@+id/amount_payble_txt"
                         android:text="Amount Payble" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height=".1dp"
-                        android:background="?android:attr/listDivider" />
+
                 </LinearLayout>
 
 
@@ -212,12 +210,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
+                        style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:text="Stock Report" />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height=".1dp"
-                        android:background="?android:attr/listDivider" />
+                   
                 </LinearLayout>
             </LinearLayout>
 
@@ -254,6 +250,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"
                         android:text="GSTR-1" />
@@ -273,6 +270,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"
                         android:text="GSTR-2" />
@@ -292,6 +290,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"
                         android:text="GSTR-B3" />
@@ -313,6 +312,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="@color/black"
+                    style="@style/Gotham_Book"
                     android:layout_margin="10dp"
                     android:text="GSTR-E1 Return" />
                 <View
@@ -331,6 +331,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    style="@style/Gotham_Book"
                     android:textColor="@color/black"
                     android:layout_margin="10dp"
                     android:text="GSTR-E2 Return" />
@@ -351,12 +352,10 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:layout_gravity="center"
+                    style="@style/Gotham_Book"
                     android:layout_margin="10dp"
                     android:text="GSTR-B3 Excel" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height=".1dp"
-                    android:background="?android:attr/listDivider" />
+
             </LinearLayout>
 
 
@@ -370,6 +369,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="5"
+
                     android:gravity="center"
                     android:text="Sale Analysis "
                     android:textAlignment="textStart"
@@ -387,13 +387,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    style="@style/Gotham_Book"
                     android:textColor="@color/black"
                     android:layout_margin="10dp"
+                    android:textSize="16dp"
                     android:text="sale report" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height=".1dp"
-                    android:background="?android:attr/listDivider" />
             </LinearLayout>
 
             <LinearLayout
@@ -423,6 +421,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    style="@style/Gotham_Book"
                     android:textColor="@color/black"
                     android:layout_margin="10dp"
                     android:text="purchase report" />

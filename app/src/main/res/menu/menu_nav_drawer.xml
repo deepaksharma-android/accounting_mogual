@@ -6,25 +6,21 @@
         <item
             android:id="@+id/catalog"
             android:checked="false"
-            android:icon="@drawable/home"
             android:title="Home" />
 
         <item
             android:id="@+id/expense"
             android:checked="false"
-            android:icon="@drawable/profile"
             android:title="Profile" />
 
         <item
             android:id="@+id/claims"
             android:checked="false"
-            android:icon="@drawable/about"
             android:title="About" />
 
         <item
             android:id="@+id/logout"
             android:checked="false"
-            android:icon="@drawable/logout"
             android:title="Logout" />
 
 
