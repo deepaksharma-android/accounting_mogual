@@ -96,6 +96,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String sale_type;
     String totalitemprice;
     String id;
+    ArrayAdapter<String> spinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +213,23 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         int height=getHeight();
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
                         lp.setMargins(20,10,20,0);
-                        EditText[] pairs = new EditText[Integer.parseInt(serial)];
+                        Spinner[] pairs=new Spinner[5];
+
+                        String[] countries=getResources().getStringArray(R.array.bill_sundry_nature);
+                        for (int l = 0; l < pairs.length; l++) {
+                            pairs[l] = new Spinner(getApplicationContext(),Spinner.MODE_DROPDOWN/*,null,android.R.style.Widget_Spinner,Spinner.MODE_DROPDOWN*/);
+                            pairs[l].setLayoutParams(new LinearLayout.LayoutParams(500, 100));
+                            spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.layout_trademark_type_spinner_dropdown_item, countries);
+                            spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+                            pairs[l].setAdapter(spinnerAdapter);
+                            pairs[l].setLayoutParams(lp);
+                            pairs[l].setId(l);
+                            //pairs[l].setText((l + 1) + ": something");
+                            serialLayout.addView(pairs[l]);
+                        }
+
+                       /* EditText[] pairs = new EditText[Integer.parseInt(serial)];
                         for (int l = 0; l < Integer.parseInt(serial); l++) {
                             pairs[l] = new EditText(getApplicationContext());
                             pairs[l].setPadding(10, 10, 10, 0);
@@ -231,8 +248,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             pairs[l].setId(l);
                             //pairs[l].setText((l + 1) + ": something");
                             serialLayout.addView(pairs[l]);
-                        }
-                        submit.setOnClickListener(new View.OnClickListener() {
+                        }*/
+                       /* submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 for (int l = 0; l < Integer.parseInt(serial); l++) {
@@ -241,7 +258,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 }
                                 dialogbal.dismiss();
                             }
-                        });
+                        });*/
                         dialogbal.show();
 
                     }
