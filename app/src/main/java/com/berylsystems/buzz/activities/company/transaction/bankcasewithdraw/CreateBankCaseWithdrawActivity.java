@@ -33,6 +33,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.EditBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
@@ -547,6 +548,18 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
         }
     }
 

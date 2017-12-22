@@ -74,7 +74,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     @Bind(R.id.transaction_spinner)
     Spinner transaction_spinner;
     @Bind(R.id.vouchar_no)
-    EditText voucher_no;
+    TextView voucher_no;
     @Bind(R.id.transaction_amount)
     EditText transaction_amount;
     @Bind(R.id.transaction_narration)

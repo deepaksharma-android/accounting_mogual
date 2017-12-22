@@ -58,7 +58,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    TextView mVchNumber;
+    EditText mVchNumber;
     @Bind(R.id.purchase_type)
     TextView mPurchaseType;
     @Bind(R.id.store)
@@ -98,8 +98,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_purchase_return_create, container, false);
         ButterKnife.bind(this, view);
 
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+       /* LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);*/
 
 
         appUser = LocalRepositories.getAppUser(getActivity());
@@ -229,7 +229,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
                                             }*/
@@ -330,7 +331,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
-    @Subscribe
+   /* @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -340,7 +341,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
         }
-    }
+    }*/
 
 
     public void onPause() {

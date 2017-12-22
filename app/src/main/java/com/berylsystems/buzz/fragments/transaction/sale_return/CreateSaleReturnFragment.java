@@ -59,7 +59,7 @@ public class CreateSaleReturnFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    TextView mVchNumber;
+    EditText mVchNumber;
     @Bind(R.id.sale_type)
     TextView mSaleType;
     @Bind(R.id.store)
@@ -98,8 +98,8 @@ public class CreateSaleReturnFragment extends Fragment {
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
 
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        /*LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);*/
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -230,7 +230,8 @@ public class CreateSaleReturnFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                            //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
                                             }*/
@@ -373,7 +374,7 @@ public class CreateSaleReturnFragment extends Fragment {
         }
     }
 
-    @Subscribe
+   /* @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -383,7 +384,7 @@ public class CreateSaleReturnFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
         }
-    }
+    }*/
 
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
