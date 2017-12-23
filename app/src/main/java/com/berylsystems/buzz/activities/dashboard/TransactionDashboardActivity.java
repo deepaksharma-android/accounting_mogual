@@ -146,10 +146,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
        sale();
        receipt();
-
        purchase();
        payment();
-
        bankCashDeposit();
        bankCashWithdraw();
        income();
@@ -164,8 +162,6 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
 
     private void sale(){
-
-
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +178,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 //final CharSequence[] items = {"Add", "Modify"};
                 appUser.mListMapForItemSale.clear();
                 appUser.mListMapForBillSale.clear();
+                //appUser.voucher_type="Sales";
                 LocalRepositories.saveAppUser(context, appUser);
                 context.startActivity(new Intent(context, CreateSaleActivity.class));
                /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
@@ -211,6 +208,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                appUser.voucher_type="Receipt";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromReceipt", false);
                 startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -285,6 +284,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             public void onClick(View view) {
 
                 Intent j = new Intent(context, CreatePaymentActivity.class);
+                appUser.voucher_type="Payment";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromPayment", false);
                 context.startActivity(j);
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -318,6 +319,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             public void onClick(View view) {
 
                 appUser.voucher_type="Bank Cash Deposit";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent j = new Intent(context, CreateBankCaseDepositActivity.class);
                 j.putExtra("fromBankCashDeposit", false);
                 context.startActivity(j);
@@ -350,6 +352,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateBankCaseWithdrawActivity.class);
+                appUser.voucher_type="Bank Cash Withdraw";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromBankCashWithdraw", false);
                 context.startActivity(j);
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -381,6 +385,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateIncomeActivity.class);
+                appUser.voucher_type="Income";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromIncome", false);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -411,6 +417,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateExpenceActivity.class);
+                appUser.voucher_type="Expense";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromExpense", false);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -454,6 +462,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 appUser.mListMapForItemSaleReturn.clear();
                 appUser.mListMapForBillSaleReturn.clear();
+                appUser.voucher_type="Sale Return";
                 LocalRepositories.saveAppUser(context, appUser);
                 context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
 
@@ -496,6 +505,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();
+                appUser.voucher_type="Purchase Return";
                 LocalRepositories.saveAppUser(context, appUser);
                 context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -527,6 +537,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateJournalVoucherActivity.class);
+                appUser.voucher_type="Journal Voucher";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromJournalVoucher", false);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -558,6 +570,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateDebitNoteWoItemActivity.class);
+                appUser.voucher_type="Debit Note";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromDebitNote", false);
                 context.startActivity(j);
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -589,6 +603,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateCreditNoteWoItemActivity.class);
+                appUser.voucher_type="Credit Note";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 j.putExtra("fromCreditNote", false);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};

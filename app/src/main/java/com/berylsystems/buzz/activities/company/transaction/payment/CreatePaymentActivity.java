@@ -34,6 +34,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.payment.CreatePaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
@@ -90,7 +91,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     @Bind(R.id.transaction_spinner2)
     Spinner gst_nature_spinner;
     @Bind(R.id.vouchar_no)
-    EditText voucher_no;
+    TextView voucher_no;
     @Bind(R.id.transaction_amount)
     EditText transaction_amount;
     @Bind(R.id.transaction_narration)
@@ -132,9 +133,29 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
-
-
-
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
         title="CREATE PAYMENT";
         fromPayment = getIntent().getExtras().getBoolean("fromPayment");
         if (fromPayment == true) {
@@ -143,7 +164,6 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_payment_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
-            Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -252,6 +272,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                             mProgressDialog.show();
 
                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                         } else {
                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                 @Override
@@ -536,7 +557,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public void createpaymentresponse(CreatePaymentResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            voucher_no.setText("");
+            //voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             paid_from.setText("");
@@ -551,6 +572,18 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
+        }
+    }
+
 
     @Subscribe
     public void getPaymentDetails(GetPaymentDetailsResponse response){

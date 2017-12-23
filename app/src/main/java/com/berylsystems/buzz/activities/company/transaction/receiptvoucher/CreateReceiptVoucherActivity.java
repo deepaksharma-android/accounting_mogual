@@ -34,6 +34,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
@@ -94,7 +95,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     @Bind(R.id.transaction_spinner2)
     Spinner gst_nature_spinner;
     @Bind(R.id.vouchar_no)
-    EditText voucher_no;
+    TextView voucher_no;
     @Bind(R.id.transaction_amount)
     EditText transaction_amount;
     @Bind(R.id.transaction_narration)
@@ -140,6 +141,30 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
 
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
         title = "CREATE RECEIPT VOUCHER";
         fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
         if (fromReceiptVoucher == true) {
@@ -148,7 +173,6 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_receipt_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
-            Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -256,6 +280,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                                         mProgressDialog.setCancelable(true);
                                         mProgressDialog.show();
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_RECEIPT_VOUCHER);
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                     } else {
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                             @Override
@@ -531,8 +556,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     @Subscribe
     public void createreceiptresponse(CreateReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-            voucher_no.setText("");
+        if(response.getStatus()==200){
+           // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             received_by.setText("");
@@ -603,6 +628,18 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
         }
     }
 

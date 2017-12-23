@@ -31,6 +31,7 @@ import com.berylsystems.buzz.activities.company.administration.master.account.Ex
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.CreateDebitNoteResponse;
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.EditDebitNoteResponse;
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteDetailsResponse;
@@ -73,7 +74,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     @Bind(R.id.transaction_spinner2)
     Spinner gst_nature_spinner;
     @Bind(R.id.vouchar_no)
-    EditText voucher_no;
+    TextView voucher_no;
     @Bind(R.id.transaction_amount)
     EditText transaction_amount;
     @Bind(R.id.transaction_narration)
@@ -111,6 +112,29 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
 
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
         fromDebitNote = getIntent().getExtras().getBoolean("fromDebitNote");
         if (fromDebitNote == true) {
             title="EDIT DEBIT NOTE";
@@ -118,7 +142,6 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_debit_note_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
-            Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -191,6 +214,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                                     mProgressDialog.show();
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_DEBIT_NOTE);
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                 } else {
                                     snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                         @Override
@@ -397,7 +421,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     public void createdebitnoteresponse(CreateDebitNoteResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            voucher_no.setText("");
+           // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             account_name_debit.setText("");
@@ -446,6 +470,18 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            voucher_no.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
         }
     }
 

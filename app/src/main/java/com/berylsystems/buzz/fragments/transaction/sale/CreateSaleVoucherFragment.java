@@ -31,6 +31,7 @@ import com.berylsystems.buzz.activities.company.administration.master.saletype.S
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -98,6 +99,9 @@ public class CreateSaleVoucherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sales_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
+
+       /* LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);*/
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -183,6 +187,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             }
         });
         appUser.sale_cash_credit = cash.getText().toString();
+        appUser.sale_cash_credit="Cash";
         LocalRepositories.saveAppUser(getActivity(), appUser);
 
         cash.setOnClickListener(new View.OnClickListener() {
@@ -234,6 +239,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                             mProgressDialog.setCancelable(true);
                                             mProgressDialog.show();
                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
                                             }*/
@@ -340,7 +346,36 @@ public class CreateSaleVoucherFragment extends Fragment {
         }
     }
 
-    @Override
+
+    private static void hideKeyPad(Activity activity) {
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    @Subscribe
+    public void createsalevoucher(CreateSaleVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+   /* @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            mVchNumber.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
+        }
+    }*/
+
+
+
     public void onResume() {
         super.onResume();
         Intent intent = getActivity().getIntent();
@@ -381,7 +416,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
     }
 
-    private static void hideKeyPad(Activity activity) {
+  /*  private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
@@ -395,7 +430,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
-
+*/
 
 
 }
