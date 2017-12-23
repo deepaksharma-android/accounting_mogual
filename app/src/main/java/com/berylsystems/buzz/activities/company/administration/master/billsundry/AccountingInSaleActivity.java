@@ -78,7 +78,7 @@ public class AccountingInSaleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=13;
+                ParameterConstant.checkStartActivityResultForAccount =13;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });
@@ -87,7 +87,7 @@ public class AccountingInSaleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=13;
+                ParameterConstant.checkStartActivityResultForAccount =13;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 2);
             }
         });

@@ -41,7 +41,6 @@ import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVouc
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
-import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -59,8 +58,6 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
@@ -229,7 +226,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             @Override
             public void onClick(View view) {
                 intStartActivityForResult = 1;
-                ParameterConstant.checkForStartActivityResult = 1;
+                ParameterConstant.checkStartActivityResultForAccount = 1;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
@@ -243,7 +240,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             @Override
             public void onClick(View view) {
                 intStartActivityForResult = 2;
-                ParameterConstant.checkForStartActivityResult = 1;
+                ParameterConstant.checkStartActivityResultForAccount = 1;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;

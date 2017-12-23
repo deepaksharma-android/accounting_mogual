@@ -255,6 +255,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //UnitListActivity.isDirectForUnitList=true;
             Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
@@ -270,6 +271,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            // UnitListActivity.isDirectForUnitList=true;
             Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {

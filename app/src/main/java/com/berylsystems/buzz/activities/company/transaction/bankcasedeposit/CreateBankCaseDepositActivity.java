@@ -1,6 +1,5 @@
 package com.berylsystems.buzz.activities.company.transaction.bankcasedeposit;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -186,7 +184,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=4;
+                ParameterConstant.checkStartActivityResultForAccount =4;
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -199,7 +197,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=4;
+                ParameterConstant.checkStartActivityResultForAccount =4;
                 appUser.account_master_group = "Bank Accounts";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

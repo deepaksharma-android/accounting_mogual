@@ -183,7 +183,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=7;
+                ParameterConstant.checkStartActivityResultForAccount =7;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -197,7 +197,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=7;
+                ParameterConstant.checkStartActivityResultForAccount =7;
                 appUser.account_master_group = "Expenses (Direct/Mfg.),Expenses (Indirect/Admn.)";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;

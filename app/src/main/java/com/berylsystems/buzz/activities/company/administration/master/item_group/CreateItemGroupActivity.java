@@ -288,6 +288,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             //ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent = new Intent(this, ItemGroupListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreateitem",true);
             startActivity(intent);
@@ -399,6 +400,7 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
            // ItemGroupListActivity.isDirectForItemGroup=true;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, ItemGroupListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);
             startActivity(intent);

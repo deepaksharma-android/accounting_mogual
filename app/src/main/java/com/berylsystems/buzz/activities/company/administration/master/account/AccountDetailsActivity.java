@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -37,6 +37,7 @@ import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResp
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -66,6 +67,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     Snackbar snackbar;
     Boolean fromaccountlist;
     String title;
+
+    public Boolean boolForGroupName=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,6 +122,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
                 hideSoftKeyboard(view);
                 AccountGroupListActivity.isDirectForAccountGroup=false;
+                ParameterConstant.checkStartActivityResultForAccountGroup =0;
                 Intent intent = new Intent(getApplicationContext(), AccountGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -414,6 +418,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForGroupName=true;
+
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.create_account_group_id = id;
@@ -426,6 +432,27 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+
+        if (bool) {
+            if (!boolForGroupName) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.create_account_group_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mGroupName.setText(result);
+            }
+
+        }
+
+    }
+
 
     @Subscribe
     public void createaccount(CreateAccountResponse response) {

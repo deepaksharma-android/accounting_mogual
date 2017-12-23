@@ -24,13 +24,11 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
-import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -156,7 +154,7 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=8;
+                ParameterConstant.checkStartActivityResultForAccount =8;
                 MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
@@ -164,7 +162,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.checkForStartActivityResult=8;
+                ParameterConstant.checkStartActivityResultForAccount =8;
                 SaleTypeListActivity.isDirectForSaleType=false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
@@ -172,7 +170,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.checkForStartActivityResult=8;
+                ParameterConstant.checkStartActivityResultForAccount =8;
                 intStartActivityForResult=2;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount=false;

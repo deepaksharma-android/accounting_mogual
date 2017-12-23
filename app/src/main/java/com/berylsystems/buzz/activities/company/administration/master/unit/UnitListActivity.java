@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,10 +19,12 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity;
+import com.berylsystems.buzz.activities.company.administration.master.unitconversion.CreateUnitConversionActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.UnitListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -33,9 +34,9 @@ import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
 import com.berylsystems.buzz.networks.api_response.unit.ItemUnitList;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
-import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.EventUnitClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -98,11 +99,12 @@ public class UnitListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isDirectForUnitList){
-                Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();}else {
+                if (isDirectForUnitList) {
+                    Intent intent = new Intent(this, MasterDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
                     finish();
                 }
                 return true;
@@ -175,7 +177,7 @@ public class UnitListActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             //appUser.arr_unitId.clear();
-           // appUser.arr_unitName.clear();
+            // appUser.arr_unitName.clear();
             appUser.unitId.clear();
             appUser.unitName.clear();
             LocalRepositories.saveAppUser(this, appUser);
@@ -206,7 +208,7 @@ public class UnitListActivity extends AppCompatActivity {
                     }
                 }
             }, 1);*/
-           data=response.getItem_units();
+            data = response.getItem_units();
         }
     }
 
@@ -265,7 +267,27 @@ public class UnitListActivity extends AppCompatActivity {
 
     @Subscribe
     public void itemclickedevent(EventUnitClicked pos) {
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        Toast.makeText(this, "" + bool, Toast.LENGTH_SHORT).show();
 
+        if (!isDirectForUnitList && bool) {
+            Intent intentForward = null;
+            if (ParameterConstant.checkStartActivityResultForUnitList == 1) {
+                intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+            }else if (ParameterConstant.checkStartActivityResultForUnitList == 2) {
+                intentForward = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
+            }
+            intentForward.putExtra("result", String.valueOf(pos.getPosition()));
+            intentForward.putExtra("name", data.getData().get(pos.getPosition()).getAttributes().getName());
+            intentForward.putExtra("id", String.valueOf(data.getData().get(pos.getPosition()).getId()));
+            intentForward.putExtra("bool",true);
+        /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+          LocalRepositories.saveAppUser(this, appUser);*/
+            //setResult(Activity.RESULT_OK, returnIntent);
+            startActivity(intentForward);
+            finish();
+        }
         if (!isDirectForUnitList) {
             Timber.i("POSITION" + pos.getPosition());
             Intent returnIntent = new Intent();

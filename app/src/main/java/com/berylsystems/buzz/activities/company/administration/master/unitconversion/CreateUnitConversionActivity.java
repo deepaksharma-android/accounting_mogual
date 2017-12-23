@@ -13,12 +13,10 @@ import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -32,10 +30,10 @@ import com.berylsystems.buzz.networks.api_response.unitconversion.EditUnitConver
 import com.berylsystems.buzz.networks.api_response.unitconversion.GetUnitConversionDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +63,11 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     Boolean frommunitconversionlist;
     String title;
 
+    public Boolean boolForMainUnit = false;
+    public Boolean boolForAltUnit = false;
+    public static int intStartActivityForResult = 0;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         mainUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult = 1;
+                ParameterConstant.checkStartActivityResultForUnitList = 2;
                 UnitListActivity.isDirectForUnitList=false;
                 startActivityForResult(new Intent(getApplicationContext(), UnitListActivity.class),1);
             }
@@ -83,6 +88,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         subUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult = 2;
+                ParameterConstant.checkStartActivityResultForUnitList = 2;
                 UnitListActivity.isDirectForUnitList=false;
                 startActivityForResult(new Intent(getApplicationContext(), UnitListActivity.class),2);
             }
@@ -391,6 +398,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForMainUnit=true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -405,6 +413,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
 
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForAltUnit=true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -413,6 +422,38 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
 
+            }
+        }
+
+    }
+
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        Toast.makeText(this, "resume "+bool, Toast.LENGTH_SHORT).show();
+        if (bool) {
+
+            if (intStartActivityForResult == 1) {
+                boolForAltUnit = true;
+            } else if (intStartActivityForResult == 2) {
+                boolForMainUnit=true;
+
+            }
+            if (!boolForMainUnit) {
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mainUnitText.setText(result);
+                appUser.main_unit_id=id;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+            else if (!boolForAltUnit) {
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                subUnitText.setText(result);
+                appUser.sub_unit_id=id;
             }
         }
 

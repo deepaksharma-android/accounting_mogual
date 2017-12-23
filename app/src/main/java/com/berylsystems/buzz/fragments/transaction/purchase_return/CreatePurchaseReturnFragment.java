@@ -22,14 +22,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -157,7 +155,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=9;
+                ParameterConstant.checkStartActivityResultForAccount =9;
                 MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
@@ -173,7 +171,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=9;
+                ParameterConstant.checkStartActivityResultForAccount =9;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);

@@ -21,25 +21,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivity;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.administration.master.accountgroup.CreateAccountGroupActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
-import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
 import com.berylsystems.buzz.adapters.ItemGroupListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.accountgroup.DeleteAccountGroupResponse;
-import com.berylsystems.buzz.networks.api_response.accountgroup.GetAccountGroupResponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.DeleteItemGroupReponse;
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventDeleteItemGroup;
-import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.EventItemClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -277,6 +271,27 @@ public class ItemGroupListActivity extends AppCompatActivity {
 
     @Subscribe
     public void itemclickedevent(EventItemClicked pos) {
+
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
+        if (!isDirectForItemGroup && bool) {
+            Intent intentForward=null;
+            if (ParameterConstant.checkStartActivityResultForItemGroupOfItem ==1){
+                intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+            }
+
+            intentForward.putExtra("result", String.valueOf(pos.getPosition()));
+            intentForward.putExtra("bool",true);
+            intentForward.putExtra("name", CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getName());
+            intentForward.putExtra("id", String.valueOf(CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId()));
+            Timber.i("PASSSS" + CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId());
+            /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+            LocalRepositories.saveAppUser(this, appUser);*/
+            //setResult(Activity.RESULT_OK, returnIntent);
+            startActivity(intentForward);
+            finish();
+        }
 
         if (!isDirectForItemGroup) {
             Intent returnIntent = new Intent();

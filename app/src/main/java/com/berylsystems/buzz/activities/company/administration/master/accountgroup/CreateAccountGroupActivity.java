@@ -282,9 +282,11 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         if(response.getStatus()==200){
             //AccountGroupListActivity.isDirectForAccountGroup=true;
             Intent intent = new Intent(this, AccountGroupListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);
             startActivity(intent);
+            finish();
            /* Boolean isConnected = ConnectivityReceiver.isConnected();
             if(isConnected) {
                 mProgressDialog = new ProgressDialog(CreateAccountGroupActivity.this);
@@ -395,9 +397,11 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
 
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, AccountGroupListActivity.class);
+            intent.putExtra("bool",true);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fromcreategroup",true);
             startActivity(intent);
+            finish();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

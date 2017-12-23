@@ -78,7 +78,7 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=14;
+                ParameterConstant.checkStartActivityResultForAccount =14;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
@@ -87,7 +87,7 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=14;
+                ParameterConstant.checkStartActivityResultForAccount =14;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 2);
             }

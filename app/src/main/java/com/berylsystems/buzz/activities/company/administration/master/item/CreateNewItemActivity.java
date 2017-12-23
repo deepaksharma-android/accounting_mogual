@@ -1,7 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.item;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,16 +10,12 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,34 +27,25 @@ import android.widget.Toast;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
-import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
-import com.berylsystems.buzz.activities.company.administration.master.item_group.CreateItemGroupActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item_group.ItemGroupListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.taxcategory.TaxCategoryeListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
-import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.account.GetAccountDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.EditItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemDetailsResponse;
-import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
-import com.berylsystems.buzz.networks.api_response.itemgroup.EditItemGroupResponse;
-import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class CreateNewItemActivity extends RegisterAbstractActivity {
 
@@ -110,7 +96,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     Spinner spinner;
     ArrayAdapter<String> mTaxCategoryArrayAdapter;
 
-
+    public Boolean boolForItemGroup = false;
+    public Boolean boolForUnit = false;
+    public static int intStartActivityForResult = 0;
 
 
     @Override
@@ -119,10 +107,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
 
-        title="CREATE ITEM";
+        title = "CREATE ITEM";
         fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
-            title="EDIT ITEM";
+            title = "EDIT ITEM";
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
@@ -338,7 +326,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         if (!mItemGroup.getText().toString().equals("")) {
                             appUser.item_name = mItemName.getText().toString();
                             appUser.item_hsn_number = mHsnNumber.getText().toString();
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                            /* for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
                                 if (CreateItemGroupActivity.data.getData().get(i).getAttributes().getName().equals(mItemGroup.getText().toString())) {
@@ -347,7 +335,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                     break;
                                 }
                             }*/
-                         //   for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
+                            //   for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
                                /* if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
                                     appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -400,7 +388,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemGroupListActivity.isDirectForItemGroup=false;
+                intStartActivityForResult = 1;
+                ParameterConstant.checkStartActivityResultForItemGroupOfItem = 1;
+                ItemGroupListActivity.isDirectForItemGroup = false;
                 Intent intent = new Intent(getApplicationContext(), ItemGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -410,7 +400,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UnitListActivity.isDirectForUnitList=false;
+                intStartActivityForResult = 2;
+                ParameterConstant.checkStartActivityResultForUnitList = 1;
+                UnitListActivity.isDirectForUnitList = false;
                 Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 2);
@@ -419,10 +411,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mTaxCategoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TaxCategoryeListActivity.isDirectForTaxCategoryList=false;
+
+
+                TaxCategoryeListActivity.isDirectForTaxCategoryList = false;
                 Intent intent = new Intent(getApplicationContext(), TaxCategoryeListActivity.class);
                 intent.putExtra("frommaster", false);
-                startActivityForResult(intent,3);
+                startActivityForResult(intent, 3);
             }
         });
 
@@ -539,6 +533,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForItemGroup = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.item_group_id = id;
@@ -553,6 +548,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
+                boolForUnit = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.item_unit_id = id;
@@ -568,28 +564,60 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                if(result.equals("None")){
-                        mHsnLayout.setVisibility(View.GONE);
-                        appUser.item_hsn_number = "";
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                }
-                else{
+                if (result.equals("None")) {
+                    mHsnLayout.setVisibility(View.GONE);
+                    appUser.item_hsn_number = "";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                } else {
                     mHsnLayout.setVisibility(View.VISIBLE);
                 }
                 appUser.item_tax_category = Integer.parseInt(id);
+                mTaxCategory.setText(result);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                if(!mTaxCategory.getText().toString().equals("")){
+                /*if(!mTaxCategory.getText().toString().equals("")){
                     mTaxCategory.setText(result);
                 }
                 else {
                     Snackbar.make(coordinatorLayout,"Add Tax Catagory",Snackbar.LENGTH_LONG).show();
-                }
+                }*/
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 mItemUnit.setText("");
             }
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        Toast.makeText(this, "resume "+bool, Toast.LENGTH_SHORT).show();
+        if (bool) {
+
+            if (intStartActivityForResult == 1) {
+                boolForUnit = true;
+            } else if (intStartActivityForResult == 2) {
+                boolForItemGroup=true;
+
+            }
+            if (!boolForItemGroup) {
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.item_group_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mItemGroup.setText(result);
+
+            }
+            else if (!boolForUnit) {
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.item_unit_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mItemUnit.setText(result);
+            }
+        }
+
     }
 
     private void hideKeyBoard(View view) {
@@ -603,12 +631,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
 
-                Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-                Intent intent = new Intent(this, ExpandableItemListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("fromcreategroup", true);
-                startActivity(intent);
-                finish();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Intent intent = new Intent(this, ExpandableItemListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fromcreategroup", true);
+            startActivity(intent);
+            finish();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -625,8 +653,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
             mTaxCategory.setText(response.getItem().getData().getAttributes().getTax_category());
-            appUser.item_tax_category=response.getItem().getData().getAttributes().getTax_category_id();
-            LocalRepositories.saveAppUser(this,appUser);
+            appUser.item_tax_category = response.getItem().getData().getAttributes().getTax_category_id();
+            LocalRepositories.saveAppUser(this, appUser);
            /* String taxcat = response.getItem().getData().getAttributes().getTax_category().trim();// insert code here
             int taxcatindex = -1;*/
           /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
@@ -637,9 +665,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             mTaxCategory.setSelection(taxcatindex);*/
 
-             appUser.item_group_id = String.valueOf(response.getItem().getData().getAttributes().getItem_group_id());
-            appUser.item_unit_id=String.valueOf(response.getItem().getData().getAttributes().getItem_unit_id());
-            appUser.item_alternate_unit_id=String.valueOf(response.getItem().getData().getAttributes().getAlternate_unit_id());
+            appUser.item_group_id = String.valueOf(response.getItem().getData().getAttributes().getItem_group_id());
+            appUser.item_unit_id = String.valueOf(response.getItem().getData().getAttributes().getItem_unit_id());
+            appUser.item_alternate_unit_id = String.valueOf(response.getItem().getData().getAttributes().getAlternate_unit_id());
             if (!response.getItem().getData().getAttributes().getTax_category().equals("None")) {
                 mHsnLayout.setVisibility(View.VISIBLE);
                 mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());

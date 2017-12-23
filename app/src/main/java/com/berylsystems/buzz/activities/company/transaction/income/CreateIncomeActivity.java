@@ -185,7 +185,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=6;
+                ParameterConstant.checkStartActivityResultForAccount =6;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -199,7 +199,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=6;
+                ParameterConstant.checkStartActivityResultForAccount =6;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;

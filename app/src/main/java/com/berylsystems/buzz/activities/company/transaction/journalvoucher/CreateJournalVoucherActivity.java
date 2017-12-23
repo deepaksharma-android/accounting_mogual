@@ -180,7 +180,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=10;
+                ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -194,7 +194,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=10;
+                ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
