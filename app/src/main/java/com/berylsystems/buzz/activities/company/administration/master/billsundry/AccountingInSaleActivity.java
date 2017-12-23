@@ -15,10 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -61,7 +63,9 @@ public class AccountingInSaleActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     AppUser appUser;
-
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+    public static int intStartActivityForResult=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,8 @@ public class AccountingInSaleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                intStartActivityForResult=1;
+                ParameterConstant.checkForStartActivityResult=13;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
         });
@@ -80,6 +86,8 @@ public class AccountingInSaleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                intStartActivityForResult=2;
+                ParameterConstant.checkForStartActivityResult=13;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 2);
             }
         });
@@ -256,6 +264,7 @@ public class AccountingInSaleActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String arr[] = result.split(",");
@@ -271,6 +280,7 @@ public class AccountingInSaleActivity extends AppCompatActivity {
         }
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String arr[] = result.split(",");
                 String partyheadtopost = arr[0];
@@ -284,6 +294,43 @@ public class AccountingInSaleActivity extends AppCompatActivity {
                 //mItemGroup.setText("");
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                String arr[] = result.split(",");
+                String headtopost = arr[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mAccountHeadToPost.setText(headtopost);
+
+            }
+            if (!boolForReceivedBy) {
+
+                String result = intent.getStringExtra("name");
+                String arr[] = result.split(",");
+                String partyheadtopost = arr[0];
+                String id = intent.getStringExtra("id");
+                Preferences.getInstance(getApplicationContext()).setsale_account_head_to_post_party_amount_id(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mPartyHeadToPost.setText(partyheadtopost);
+            }
+        }
+
     }
 
     @Override

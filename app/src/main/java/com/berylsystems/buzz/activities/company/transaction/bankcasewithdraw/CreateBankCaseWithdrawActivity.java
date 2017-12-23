@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -389,7 +388,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 boolForReceivedFrom=true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 Timber.i("MY IDIDID"+id);
@@ -399,7 +398,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 withdraw_from.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 Timber.i("MY IDIDID"+id);

@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -62,6 +62,11 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
     LinearLayout mSubmitButton;
     AppUser appUser;
 
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+    public static int intStartActivityForResult=0;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,8 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
         mHeadToPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=1;
+                ParameterConstant.checkForStartActivityResult=14;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 1);
             }
@@ -79,6 +86,8 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
         mPartyHeadToPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=2;
+                ParameterConstant.checkForStartActivityResult=14;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 startActivityForResult(new Intent(getApplicationContext(), ExpandableAccountListActivity.class), 2);
             }
@@ -266,6 +275,7 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String arr[]=result.split(",");
@@ -280,6 +290,7 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
         }
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String arr[]=result.split(",");
                 String partyheadtopost=arr[0];
@@ -292,5 +303,41 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
                 //mItemGroup.setText("");
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                String arr[]=result.split(",");
+                String headtopost=arr[0];
+                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_purchase_amount_id(id);
+                mAccountHeadToPost.setText(headtopost);
+
+            }
+            if (!boolForReceivedBy) {
+
+                String result = intent.getStringExtra("name");
+                String arr[]=result.split(",");
+                String partyheadtopost=arr[0];
+                String id = intent.getStringExtra("id");
+                Preferences.getInstance(getApplicationContext()).setpurchase_account_head_to_post_party_amount_id(id);
+                mPartyHeadToPost.setText(partyheadtopost);
+            }
+        }
+
     }
 }

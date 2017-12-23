@@ -408,13 +408,13 @@ public class CompanyListActivity extends BaseActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
+            finish();
         }
         else{
 
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-
         }
     }
 

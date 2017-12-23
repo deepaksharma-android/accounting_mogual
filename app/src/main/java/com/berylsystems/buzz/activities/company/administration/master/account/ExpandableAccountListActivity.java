@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.billsundry.AccountingInPurchaseActivity;
+import com.berylsystems.buzz.activities.company.administration.master.billsundry.AccountingInSaleActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
@@ -375,6 +377,10 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 intentForward = new Intent(getApplicationContext(), CreateDebitNoteWoItemActivity.class);
             } else if (ParameterConstant.checkForStartActivityResult == 12) {
                 intentForward = new Intent(getApplicationContext(), CreateCreditNoteWoItemActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 13) {
+                intentForward = new Intent(getApplicationContext(), AccountingInSaleActivity.class);
+            } else if (ParameterConstant.checkForStartActivityResult == 14) {
+                intentForward = new Intent(getApplicationContext(), AccountingInPurchaseActivity.class);
             }
 
             intentForward.putExtra("bool", true);

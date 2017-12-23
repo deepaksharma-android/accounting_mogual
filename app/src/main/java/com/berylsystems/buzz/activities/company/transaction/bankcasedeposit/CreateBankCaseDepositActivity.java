@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -413,7 +411,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 boolForReceivedFrom=true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.deposit_to_id = String.valueOf(id);
@@ -422,7 +420,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 deposit_to.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.deposit_by_id = String.valueOf(id);

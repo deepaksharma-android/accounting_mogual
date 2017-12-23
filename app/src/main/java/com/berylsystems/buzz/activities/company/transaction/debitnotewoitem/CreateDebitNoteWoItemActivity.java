@@ -36,6 +36,7 @@ import com.berylsystems.buzz.networks.api_response.debitnotewoitem.EditDebitNote
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -90,6 +91,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     String encodedString;
     String title;
     AppUser appUser;
+    public Boolean boolForGroupName=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +155,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "";
+                ParameterConstant.checkForStartActivityResult=11;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -326,6 +329,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             }
 
             if (requestCode == 2) {
+                boolForGroupName=true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.account_name_debit_note_id =id;
@@ -334,6 +338,25 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 account_name_debit.setText(name[0]);
             }
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (!boolForGroupName) {
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.account_name_credit_note_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                account_name_credit.setText(name[0]);
+            }
+
+        }
+
     }
 
     public String getPath(Uri uri) {

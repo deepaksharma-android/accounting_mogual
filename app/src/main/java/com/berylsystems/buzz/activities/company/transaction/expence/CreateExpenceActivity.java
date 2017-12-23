@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -89,7 +90,6 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     String encodedString;
     String title;
     AppUser appUser;
-
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
     public static int intStartActivityForResult=0;
@@ -173,7 +173,9 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         paid_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.account_master_group = "Expenses (Direct/Mfg.),Expenses (InDirect/Admin)";
+                intStartActivityForResult=2;
+                ParameterConstant.checkForStartActivityResult=7;
+                appUser.account_master_group = "Expenses (Direct/Mfg.),Expenses (Indirect/Admn.)";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -352,6 +354,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             }
 
             if (requestCode == 2) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.paid_from_id = id;
@@ -360,6 +363,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 paid_from.setText(name[0]);
             }
             if (requestCode == 3) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.paid_to_id =id;
@@ -368,6 +372,43 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 paid_to.setText(name[0]);
             }
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.paid_from_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                paid_from.setText(name[0]);
+            }
+            if (!boolForReceivedBy) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.paid_to_id =id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                paid_to.setText(name[0]);
+
+            }
+        }
+
     }
 
     public String getPath(Uri uri) {
