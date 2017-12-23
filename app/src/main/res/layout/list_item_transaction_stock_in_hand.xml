@@ -18,7 +18,17 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             style="@style/Gotham_Book"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
+            />
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:id="@+id/lblListItem3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            style="@style/Gotham_Book"
+            android:layout_weight="0.2"
             />
         <com.berylsystems.buzz.utils.BuzzTextView
             android:id="@+id/lblListItem2"
@@ -27,10 +37,11 @@
             android:textSize="14sp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             style="@style/Gotham_Book"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             />
-        <LinearLayout
+       <!-- <LinearLayout
             android:id="@+id/edit_icon"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -56,7 +67,7 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/icon_delete"/>
         </LinearLayout>
-
+-->
     </LinearLayout>
 
 

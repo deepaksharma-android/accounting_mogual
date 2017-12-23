@@ -7,32 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.utils.EventDeleteAccount;
-import com.berylsystems.buzz.utils.EventEditAccount;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
+public class TransactionStockReportsAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
     private ArrayList addAmount;
+    private ArrayList addQuantity;
 
-    public TransactionSupplierAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild, ArrayList addAmount){
+    public TransactionStockReportsAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild, ArrayList addAmount, ArrayList addQuantity){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
         this._listDataChild=_listDataChild;
         this.addAmount=addAmount;
+        this.addQuantity=addQuantity;
     }
 
     @Override
@@ -59,7 +56,7 @@ public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_group_transaction_cash_in_hand, null);
+            convertView = infalInflater.inflate(R.layout.list_group_stock_reports, null);
         }
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader1);
@@ -68,9 +65,9 @@ public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
 
         TextView lblListAmount = (TextView) convertView.findViewById(R.id.lblListHeader2);
-
-        //lblListAmount.setText("₹ " + ""+addAmount.get(groupPosition));
-        lblListAmount.setText("₹ " + ""+String.format("%.2f", addAmount.get(groupPosition)));
+        TextView lblListQuantity = (TextView) convertView.findViewById(R.id.lblListHeader3);
+        lblListAmount.setText("₹ " + ""+addAmount.get(groupPosition));
+        lblListQuantity.setText("qty: " + ""+addQuantity.get(groupPosition));
 
         ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
         if(isExpanded){
@@ -106,21 +103,24 @@ public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
         final String nameAmount = (String) getChild(groupPosition, childPosititon);
         String[] strArr=nameAmount.split(",");
         String name = strArr[0];
-        String undefined=strArr[1];
-        String amount = strArr[2];
+       // String undefined=strArr[1];
+        String amount = strArr[1];
+        String quantity =strArr[2];
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item_transaction_cash_in_hand,null);
+            convertView = layoutInflater.inflate(R.layout.list_item_stock_report,null);
         }
         TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
         TextView lblListItem2 = (TextView) convertView.findViewById(R.id.lblListItem2);
+        TextView lblListItem3 = (TextView) convertView.findViewById(R.id.lblListItem3);
         lblListItem1.setTypeface(null, Typeface.BOLD);
         //lblListHeader2.setTypeface(null, Typeface.BOLD);
         lblListItem1.setText(name);
-        lblListItem2.setText("₹ " + String.format("%.2f",Double.valueOf(amount)));
+        lblListItem2.setText("₹ " + amount);
+        lblListItem3.setText("qty: " + quantity);
 
-       /* LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+      /*  LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
         LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);*/
 
@@ -132,18 +132,18 @@ public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
             edit.setVisibility(View.GONE);
         }*/
 
-       /* delete.setOnClickListener(new View.OnClickListener() {
+      /*  delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = groupPosition + "," +childPosititon;
-                EventBus.getDefault().post(new EventDeleteAccount(id));
+                EventBus.getDefault().post(new EventDeleteItem(id));
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = groupPosition + "," + childPosititon;
-                EventBus.getDefault().post(new EventEditAccount(id));
+                EventBus.getDefault().post(new EventEditItem(id));
             }
         });*/
 
@@ -159,7 +159,5 @@ public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
 
         return true;
-
     }
-
 }

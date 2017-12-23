@@ -142,28 +142,6 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         set_date_pdc.setText(dateString);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
 
         title = "CREATE RECEIPT VOUCHER";
         fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
@@ -181,6 +159,29 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 mProgressDialog.show();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_RECEIPT_VOUCHER_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }else{
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -610,7 +611,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
             }
             gst_nature_spinner.setSelection(groupindex);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

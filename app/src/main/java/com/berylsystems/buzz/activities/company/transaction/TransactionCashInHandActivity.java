@@ -194,7 +194,7 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         }
     }
 
-    @Subscribe
+   /* @Subscribe
     public void deletegroup(EventDeleteAccount pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
@@ -262,7 +262,7 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
         intent.putExtra("fromaccountlist", true);
         startActivity(intent);
-    }
+    }*/
 
     /*@Subscribe
     public void ClickEventTransaction(EventTransaction pos) {

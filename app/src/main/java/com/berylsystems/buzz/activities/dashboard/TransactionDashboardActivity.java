@@ -178,7 +178,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 //final CharSequence[] items = {"Add", "Modify"};
                 appUser.mListMapForItemSale.clear();
                 appUser.mListMapForBillSale.clear();
-                //appUser.voucher_type="Sales";
+                appUser.voucher_type="Sales";
                 LocalRepositories.saveAppUser(context, appUser);
                 context.startActivity(new Intent(context, CreateSaleActivity.class));
                /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);

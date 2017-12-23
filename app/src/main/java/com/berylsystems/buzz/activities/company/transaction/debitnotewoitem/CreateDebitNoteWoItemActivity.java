@@ -111,28 +111,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         set_date.setText(dateString);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
         fromDebitNote = getIntent().getExtras().getBoolean("fromDebitNote");
         if (fromDebitNote == true) {
             title="EDIT DEBIT NOTE";
@@ -148,6 +127,29 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 mProgressDialog.show();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_DEBIT_NOTE_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }else{
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -443,7 +445,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 }
             }
             gst_nature_spinner.setSelection(groupindex);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

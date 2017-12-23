@@ -40,6 +40,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 
+import com.berylsystems.buzz.networks.api_response.salereport.GetSaleReportResponse;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
@@ -84,7 +85,6 @@ import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptV
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
-import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.income.CreateIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
@@ -157,7 +157,6 @@ import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupRespons
 import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -564,4 +563,8 @@ public interface Api {
 
     @GET("voucher_series/{id}")
     Call<GetVoucherNumbersResponse> getvouchernumbers(@Path("id") String id, @Query("voucher_type") String voucher_type);
+
+    @GET("sales_report/{id}")
+    Call<GetSaleReportResponse> getsalereport(@Path("id") String id, @Query("duration") String duration);
+
 }

@@ -163,7 +163,7 @@ public class TransactionCustomerActivity extends AppCompatActivity{
     }
 
     @Subscribe
-    public void getTransactionCashInHand(GetAccountResponse response) {
+    public void getTransactionCustomer(GetAccountResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
@@ -200,7 +200,7 @@ public class TransactionCustomerActivity extends AppCompatActivity{
         }
     }
 
-    @Subscribe
+  /*  @Subscribe
     public void deletegroup(EventDeleteAccount pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
@@ -270,7 +270,7 @@ public class TransactionCustomerActivity extends AppCompatActivity{
         startActivity(intent);
 
     }
-
+*/
 
     @Override
     protected void onPause() {

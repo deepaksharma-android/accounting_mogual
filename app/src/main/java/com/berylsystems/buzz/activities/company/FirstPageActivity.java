@@ -184,6 +184,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         mSales_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //appUser.duration_spinner ="Today";
                 Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
                 startActivity(intent);
             }

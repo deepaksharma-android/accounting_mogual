@@ -44,6 +44,7 @@ import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
+import com.berylsystems.buzz.networks.api_response.salereport.GetSaleReportResponse;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
@@ -505,6 +506,9 @@ public class ApiCallsService extends IntentService {
         }
         else if(Cv.ACTION_GET_VOUCHER_NUMBERS.equals(action)) {
             handleGetVoucherNumbers();
+        }
+        else if(Cv.ACTION_GET_SALE_REPORT.equals(action)) {
+            handleGetSaleReport2();
         }
     }
 
@@ -3610,6 +3614,53 @@ private void handleCreatePayment() {
             }
             @Override
             public void onFailure(Call<GetVoucherNumbersResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+   /* private void handleGetSaleReport() {
+        AppUser appUser= LocalRepositories.getAppUser(this);
+        api.getsalereport(Preferences.getInstance(getApplicationContext()).getCid(),appUser.duration_spinner).enqueue(new Callback<GetSaleReportResponse>() {
+            @Override
+            public void onResponse(Call<GetSaleReportResponse> call, Response<GetSaleReportResponse> r) {
+                if (r.code() == 200) {
+                    GetSaleReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<GetSaleReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }*/
+
+    private void handleGetSaleReport2() {
+        AppUser appUser= LocalRepositories.getAppUser(this);
+        api.getsalereport(Preferences.getInstance(getApplicationContext()).getCid(),appUser.duration_spinner).enqueue(new Callback<GetSaleReportResponse>() {
+            @Override
+            public void onResponse(Call<GetSaleReportResponse> call, Response<GetSaleReportResponse> r) {
+                if (r.code() == 200) {
+                    GetSaleReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleReportResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

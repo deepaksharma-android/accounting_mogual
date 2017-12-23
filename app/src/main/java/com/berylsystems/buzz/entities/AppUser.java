@@ -469,4 +469,5 @@ public String payment_paid_to_id;
     public String pdf_end_date;
 
     public String voucher_type;
+     public String duration_spinner;
 }

@@ -124,19 +124,19 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
         lblListItem1.setText(name);
         lblListItem2.setText("₹ " + String.format("%.2f",Double.valueOf(amount)));
 
-        LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+      /*  LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);*/
 
-        if (undefined.equals("true")) {
+      /*  if (undefined.equals("true")) {
             delete.setVisibility(View.VISIBLE);
             edit.setVisibility(View.VISIBLE);
         } else {
             delete.setVisibility(View.GONE);
             edit.setVisibility(View.GONE);
         }
-
-        delete.setOnClickListener(new View.OnClickListener() {
+*/
+       /* delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = groupPosition + "," +childPosititon;
@@ -149,7 +149,7 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
                 String id = groupPosition + "," + childPosititon;
                 EventBus.getDefault().post(new EventEditAccount(id));
             }
-        });
+        });*/
 
        /* mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override

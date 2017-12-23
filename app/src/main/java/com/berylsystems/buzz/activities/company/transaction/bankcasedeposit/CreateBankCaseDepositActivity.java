@@ -121,29 +121,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         set_date.setText(dateString);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
-
         title="CREATE BANK CASH DEPOSIT";
         fromBankcashDeposit=getIntent().getExtras().getBoolean("fromBankCashDeposit");
         if(fromBankcashDeposit==true){
@@ -174,6 +151,29 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         });
                 snackbar.show();
             }
+        }else{
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
         }
         initActionbar();
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +189,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                 intStartActivityForResult=1;
                 ParameterConstant.checkForStartActivityResult=4;
-                appUser.account_master_group = "Cash-in-hand";
+                appUser.account_master_group = "Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -202,7 +202,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                 intStartActivityForResult=2;
                 ParameterConstant.checkForStartActivityResult=4;
-                appUser.account_master_group = "Bank Accounts";
+                appUser.account_master_group = "Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -511,7 +511,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             else{
                 mSelectedImage.setVisibility(View.GONE);
             }
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

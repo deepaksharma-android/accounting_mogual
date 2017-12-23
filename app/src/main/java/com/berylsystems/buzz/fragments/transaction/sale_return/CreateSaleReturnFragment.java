@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
@@ -59,7 +60,7 @@ public class CreateSaleReturnFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    EditText mVchNumber;
+    TextView mVchNumber;
     @Bind(R.id.sale_type)
     TextView mSaleType;
     @Bind(R.id.store)
@@ -82,7 +83,7 @@ public class CreateSaleReturnFragment extends Fragment {
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
-
+    Snackbar snackbar;
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
 
@@ -98,8 +99,28 @@ public class CreateSaleReturnFragment extends Fragment {
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
 
-        /*LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);*/
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -230,6 +251,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                             //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
 
                                            /* } else {
@@ -367,14 +389,17 @@ public class CreateSaleReturnFragment extends Fragment {
     public void createSaleReturn(CreateSaleReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            //startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
-   /* @Subscribe
+    @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -384,7 +409,7 @@ public class CreateSaleReturnFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
         }
-    }*/
+    }
 
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);

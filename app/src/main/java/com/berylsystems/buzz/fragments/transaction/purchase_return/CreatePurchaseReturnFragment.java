@@ -58,7 +58,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    EditText mVchNumber;
+    TextView mVchNumber;
     @Bind(R.id.purchase_type)
     TextView mPurchaseType;
     @Bind(R.id.store)
@@ -81,7 +81,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
-
+    Snackbar snackbar;
     public static int intStartActivityForResult=0;
     public Boolean boolForPartyName=false;
     public Boolean boolForStore=false;
@@ -98,8 +98,28 @@ public class CreatePurchaseReturnFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_purchase_return_create, container, false);
         ButterKnife.bind(this, view);
 
-       /* LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);*/
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
 
 
         appUser = LocalRepositories.getAppUser(getActivity());
@@ -229,7 +249,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
-                                           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
 
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
@@ -325,13 +345,17 @@ public class CreatePurchaseReturnFragment extends Fragment {
     public void createpurchase(CreatePurchaseReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            //startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
-   /* @Subscribe
+    
+    @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -341,7 +365,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
         }
-    }*/
+    }
+
 
 
     public void onPause() {

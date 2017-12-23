@@ -64,7 +64,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_group_transaction_cash_in_hand, null);
+            convertView = infalInflater.inflate(R.layout.list_group_transaction_stock_in_hand, null);
         }
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader1);
@@ -117,7 +117,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item_transaction_cash_in_hand,null);
+            convertView = layoutInflater.inflate(R.layout.list_item_transaction_stock_in_hand,null);
         }
         TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
         TextView lblListItem2 = (TextView) convertView.findViewById(R.id.lblListItem2);
@@ -128,9 +128,9 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         lblListItem2.setText("₹ " + amount);
         lblListItem3.setText("qty: " + quantity);
 
-        LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+      /*  LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);*/
 
        /* if (undefined.equals("true")) {
             delete.setVisibility(View.VISIBLE);
@@ -140,7 +140,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
             edit.setVisibility(View.GONE);
         }*/
 
-        delete.setOnClickListener(new View.OnClickListener() {
+      /*  delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = groupPosition + "," +childPosititon;
@@ -153,7 +153,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
                 String id = groupPosition + "," + childPosititon;
                 EventBus.getDefault().post(new EventEditItem(id));
             }
-        });
+        });*/
 
         return convertView;
     }

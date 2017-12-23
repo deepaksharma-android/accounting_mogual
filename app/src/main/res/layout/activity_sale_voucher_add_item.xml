@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:id="@+id/coordinatorLayout"
     tools:context=".activities.company.transaction.sale.SaleVoucherAddItemActivity">
 
     <ScrollView
@@ -17,9 +17,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
-
-
-
 
             <com.berylsystems.buzz.utils.BuzzTextView
                 style="@style/Gotham_Medium"
@@ -99,6 +96,7 @@
                     android:layout_marginLeft="5dp"
                     android:id="@+id/quantity"
                     android:inputType="number"
+                    android:hint="eg. minimum 1 quantity"
                     android:background="@android:color/transparent"
                     android:textColor="#000"
                     android:textSize="16sp" />

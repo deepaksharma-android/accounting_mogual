@@ -24,5 +24,14 @@
         android:layout_centerInParent="true"
         android:textAllCaps="true" />
 
+        <Spinner
+            android:id="@+id/dashboard_spinner1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:spinnerMode="dialog">
+        </Spinner>
+
 
 </RelativeLayout>

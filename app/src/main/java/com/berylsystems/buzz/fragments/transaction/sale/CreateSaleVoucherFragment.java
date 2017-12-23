@@ -21,13 +21,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
-import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -37,14 +36,11 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -60,7 +56,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    EditText mVchNumber;
+    TextView mVchNumber;
     @Bind(R.id.sale_type)
     TextView mSaleType;
     @Bind(R.id.store)
@@ -86,6 +82,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
     public static int intStartActivityForResult=0;
+    Snackbar snackbar;
 
     @Override
     public void onStart() {
@@ -94,14 +91,35 @@ public class CreateSaleVoucherFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
 
-       /* LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);*/
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
 
         appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -187,7 +205,6 @@ public class CreateSaleVoucherFragment extends Fragment {
             }
         });
         appUser.sale_cash_credit = cash.getText().toString();
-        appUser.sale_cash_credit="Cash";
         LocalRepositories.saveAppUser(getActivity(), appUser);
 
         cash.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +256,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                                             mProgressDialog.setCancelable(true);
                                             mProgressDialog.show();
                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
                                             }*/
@@ -345,8 +363,6 @@ public class CreateSaleVoucherFragment extends Fragment {
             }
         }
     }
-
-
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
@@ -355,14 +371,19 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+           // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            /*appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();*/
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
-   /* @Subscribe
+    @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -372,7 +393,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
         }
-    }*/
+    }
 
 
 

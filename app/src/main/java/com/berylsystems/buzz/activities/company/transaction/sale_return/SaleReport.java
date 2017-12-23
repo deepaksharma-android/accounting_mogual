@@ -1,6 +1,5 @@
-package com.berylsystems.buzz.activities.company.transaction;
+package com.berylsystems.buzz.activities.company.transaction.sale_return;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,47 +8,38 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
-import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
-import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
-import com.berylsystems.buzz.adapters.TransactionBankAdapter;
+import com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity;
+import com.berylsystems.buzz.adapters.TransactionStockInHandAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
-import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
+import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
+import com.berylsystems.buzz.networks.api_response.salereport.GetSaleReportResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.EventDeleteAccount;
-import com.berylsystems.buzz.utils.EventEditAccount;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionBankActivity extends AppCompatActivity {
+public class SaleReport extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -57,7 +47,7 @@ public class TransactionBankActivity extends AppCompatActivity {
     ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
-    TransactionBankAdapter listAdapter;
+    TransactionStockInHandAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     HashMap<Integer, List<String>> listDataChildId;
@@ -66,18 +56,24 @@ public class TransactionBankActivity extends AppCompatActivity {
     Snackbar snackbar;
     List<String> name;
     List<String> id;
-    ArrayList amountList=new ArrayList();
+    ArrayList amountList = new ArrayList();
+    ArrayList quantityList = new ArrayList();
+    String title;
     public static Boolean isDirectForFirstPage = true;
+    Boolean fromStockReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction_bank);
+        setContentView(R.layout.activity_sale_report);
 
         ButterKnife.bind(this);
         mFloatingButton.bringToFront();
-        initActionbar();
+
         appUser = LocalRepositories.getAppUser(this);
+
+        title = "Stock In Hand";
+        initActionbar();
     }
 
     private void initActionbar() {
@@ -92,7 +88,7 @@ public class TransactionBankActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Bank Accounts");
+        actionbarTitle.setText("Stock In Hand");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -100,7 +96,6 @@ public class TransactionBankActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,7 +118,7 @@ public class TransactionBankActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, FirstPageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
@@ -134,13 +129,13 @@ public class TransactionBankActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
-            mProgressDialog = new ProgressDialog(TransactionBankActivity.this);
+            mProgressDialog = new ProgressDialog(SaleReport.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_REPORT);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -158,37 +153,46 @@ public class TransactionBankActivity extends AppCompatActivity {
     }
 
     public void add(View v) {
-        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
-        intent.putExtra("fromaccountlist", false);
+        Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+        intent.putExtra("fromlist", false);
         startActivity(intent);
     }
 
     @Subscribe
-    public void getTransactionBank(GetAccountResponse response) {
+    public void getTransactionStockInHand(GetSaleReportResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
+            // listDataChildAmount = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
-            if (response.getOrdered_accounts().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
+            if (response.getSale_voucher_items().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
-            for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
-                listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
+            for (int i = 0; i < response.getSale_voucher_items().size(); i++) {
+                listDataHeader.add(response.getSale_voucher_items().get(i).getGroup_name());
                 name = new ArrayList<>();
+                //amount = new ArrayList<>();
                 id = new ArrayList<>();
-                Double addAmount=0.0;
-                for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()) + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount()));
-                    id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
-                    Double addprize = response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount();
-                    addAmount = addAmount+addprize;
+                Double addAmount = 0.0;
+                int addQuantity = 0;
+                for (int j = 0; j < response.getSale_voucher_items().get(i).getData().size(); j++) {
+                    name.add(response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getName()
+                            /*+ "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getUndefined())*/
+                            + "," + String.valueOf(response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getPrice())
+                            + "," + String.valueOf(response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getQuantity()));
+                    id.add(response.getSale_voucher_items().get(i).getData().get(j).getId());
+                    Double addprize = response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getPrice();
+                    int addquantity = response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getQuantity();
+                    addAmount = addAmount + addprize;
+                    addQuantity = addQuantity + addquantity;
                 }
-                amountList.add(addAmount);
+                amountList.add(Double.valueOf(String.format("%.2f", addAmount)));
+                quantityList.add(addQuantity);
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);
             }
-            listAdapter = new TransactionBankAdapter(this, listDataHeader, listDataChild,amountList);
+            listAdapter = new TransactionStockInHandAdapter(this, listDataHeader, listDataChild, amountList, quantityList);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -198,77 +202,6 @@ public class TransactionBankActivity extends AppCompatActivity {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
-
- /*   @Subscribe
-    public void deletegroup(EventDeleteAccount pos) {
-        String id = pos.getPosition();
-        String[] arr = id.split(",");
-        String groupid = arr[0];
-        String childid = arr[1];
-        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.delete_account_id = arrid;
-        LocalRepositories.saveAppUser(this, appUser);
-        new AlertDialog.Builder(TransactionBankActivity.this)
-                .setTitle("Delete Account")
-                .setMessage("Are you sure you want to delete this account ?")
-                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(TransactionBankActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_ACCOUNT);
-                    } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            snackbar.dismiss();
-                                        }
-                                    }
-                                });
-                        snackbar.show();
-                    }
-
-                })
-                .setNegativeButton(R.string.btn_cancel, null)
-                .show();
-
-
-    }
-
-    @Subscribe
-    public void deletegroupresponse(DeleteAccountResponse response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ACCOUNT);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Subscribe
-    public void editgroup(EventEditAccount pos) {
-        String id = pos.getPosition();
-        String[] arr = id.split(",");
-        String groupid = arr[0];
-        String childid = arr[1];
-        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-        appUser.edit_account_id = arrid;
-        LocalRepositories.saveAppUser(this, appUser);
-        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
-        intent.putExtra("fromaccountlist", true);
-        startActivity(intent);
-
-    }*/
 
 
     @Override
@@ -282,5 +215,4 @@ public class TransactionBankActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
-
 }

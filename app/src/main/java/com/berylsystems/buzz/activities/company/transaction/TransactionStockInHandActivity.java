@@ -214,7 +214,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         }
     }
 
-    @Subscribe
+  /*  @Subscribe
     public void delete_item(EventDeleteItem pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
@@ -269,8 +269,8 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
-
-    @Subscribe
+*/
+  /*  @Subscribe
     public void editgroup(EventEditItem pos) {
         String id = pos.getPosition();
         String[] arr = id.split(",");
@@ -283,7 +283,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         intent.putExtra("fromitemlist", true);
         intent.putExtra("fromstockinhand", true);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     protected void onPause() {

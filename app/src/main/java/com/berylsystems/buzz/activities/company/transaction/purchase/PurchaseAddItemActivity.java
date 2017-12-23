@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,7 +44,8 @@ import butterknife.ButterKnife;
 
 public class PurchaseAddItemActivity extends AppCompatActivity {
 
-
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Bind(R.id.item_name)
     TextView mItemName;
     @Bind(R.id.item_layout)
@@ -338,6 +341,10 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
+                if (mQuantity.getText().toString().equals("0")|mQuantity.getText().toString().equals("")){
+                    Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 mMap.put("id", id);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
