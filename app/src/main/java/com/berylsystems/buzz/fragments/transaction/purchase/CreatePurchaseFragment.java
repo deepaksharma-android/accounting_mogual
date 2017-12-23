@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
-import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -154,7 +153,7 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=2;
+                ParameterConstant.checkStartActivityResultForAccount =2;
                 MaterialCentreListActivity.isDirectForMaterialCentre=false;
 
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
@@ -165,7 +164,7 @@ public class CreatePurchaseFragment extends Fragment {
             public void onClick(View v) {
 
                 SaleTypeListActivity.isDirectForSaleType=false;
-                ParameterConstant.checkForStartActivityResult=2;
+                ParameterConstant.checkStartActivityResultForAccount =2;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
             }
         });
@@ -173,7 +172,7 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=2;
+                ParameterConstant.checkStartActivityResultForAccount =2;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);

@@ -178,7 +178,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=0;
+                ParameterConstant.checkStartActivityResultForAccount =0;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
@@ -186,7 +186,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.checkForStartActivityResult=0;
+                ParameterConstant.checkStartActivityResultForAccount =0;
                 SaleTypeListActivity.isDirectForSaleType = false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
@@ -195,7 +195,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=0;
+                ParameterConstant.checkStartActivityResultForAccount =0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

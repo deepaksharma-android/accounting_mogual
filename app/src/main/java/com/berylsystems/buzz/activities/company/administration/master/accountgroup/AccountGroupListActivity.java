@@ -20,9 +20,11 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.AccountDetailsActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.AccountGroupListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -33,9 +35,12 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteGroup;
 import com.berylsystems.buzz.utils.EventGroupClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -124,10 +129,9 @@ public class AccountGroupListActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
-                }
-                else if (!isDirectForAccountGroup){
+                } else if (!isDirectForAccountGroup) {
                     Intent intent = new Intent(this, AccountDetailsActivity.class);
-                    intent.putExtra("fromaccountlist",false);
+                    intent.putExtra("fromaccountlist", false);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -140,14 +144,14 @@ public class AccountGroupListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (isDirectForAccountGroup){
+        if (isDirectForAccountGroup) {
             Intent intent = new Intent(this, MasterDashboardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-        }else if (!isDirectForAccountGroup){
+        } else if (!isDirectForAccountGroup) {
             Intent intent = new Intent(this, AccountDetailsActivity.class);
-            intent.putExtra("fromaccountlist",false);
+            intent.putExtra("fromaccountlist", false);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -216,7 +220,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new AccountGroupListAdapter(this, response.getAccount_groups().getData());
             mRecyclerView.setAdapter(mAdapter);
-            CreateAccountGroupActivity.data=response.getAccount_groups();
+            CreateAccountGroupActivity.data = response.getAccount_groups();
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -235,25 +239,44 @@ public class AccountGroupListActivity extends AppCompatActivity {
 
     @Subscribe
     public void groupclickedevent(EventGroupClicked pos) {
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+
+        if (!isDirectForAccountGroup && bool) {
+            String data = pos.getPosition();
+            String arr[] = data.split(",");
+            String id = arr[0];
+            String name = arr[1];
+            Intent intentForward = null;
+            if (ParameterConstant.checkStartActivityResultForAccountGroup == 0) {
+                intentForward = new Intent(getApplicationContext(), AccountDetailsActivity.class);
+            }
+            intentForward.putExtra("result", String.valueOf(pos.getPosition()));
+            intentForward.putExtra("name", name);
+            intentForward.putExtra("id", id);
+            intentForward.putExtra("bool",true);
+            startActivity(intentForward);
+            finish();
+        }
         if (!isDirectForAccountGroup) {
 
-                String data=pos.getPosition();
-                String arr[]=data.split(",");
-                String id=arr[0];
-                String name=arr[1];
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
-                returnIntent.putExtra("name", name);
-                returnIntent.putExtra("id", id);
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
+            String data = pos.getPosition();
+            String arr[] = data.split(",");
+            String id = arr[0];
+            String name = arr[1];
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", String.valueOf(pos.getPosition()));
+            returnIntent.putExtra("name", name);
+            returnIntent.putExtra("id", id);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
 
     }
 
     @Subscribe
     public void deletegroup(EventDeleteGroup pos) {
-        appUser.delete_group_id =String.valueOf(pos.getPosition());
+        appUser.delete_group_id = String.valueOf(pos.getPosition());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(AccountGroupListActivity.this)
                 .setTitle("Delete Account Group")

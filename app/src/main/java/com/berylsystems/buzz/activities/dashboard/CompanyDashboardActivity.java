@@ -394,6 +394,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         if(response.getStatus()==200){
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+            finish();
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

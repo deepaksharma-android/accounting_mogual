@@ -41,7 +41,6 @@ import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResp
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
-import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -222,7 +221,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 @Override
                 public void onClick(View view) {
                     intStartActivityForResult=1;
-                    ParameterConstant.checkForStartActivityResult=3;
+                    ParameterConstant.checkStartActivityResultForAccount =3;
                     //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -235,7 +234,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 @Override
                 public void onClick(View view) {
                     intStartActivityForResult=2;
-                    ParameterConstant.checkForStartActivityResult=3;
+                    ParameterConstant.checkStartActivityResultForAccount =3;
                     appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     ExpandableAccountListActivity.isDirectForAccount=false;

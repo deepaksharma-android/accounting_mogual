@@ -39,7 +39,7 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Company Name"
+                            android:text="Company Name *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -69,7 +69,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Phone Number"
+                            android:text="Phone Number *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -189,7 +189,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="PAN Number"
+                            android:text="PAN Number "
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -251,7 +251,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:text="Address"
+                            android:text="Address *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -282,7 +282,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="City"
+                            android:text="City *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -338,7 +338,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Username"
+                            android:text="Username *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -368,7 +368,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Password"
+                            android:text="Password *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -399,7 +399,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Confirm Password"
+                            android:text="Confirm Password *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 

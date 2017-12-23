@@ -6,5 +6,11 @@ package com.berylsystems.buzz.utils;
 
 public class ParameterConstant {
 
-    public static int checkForStartActivityResult;
+    public static int checkStartActivityResultForAccount;
+    public static int checkStartActivityResultForAccountGroup;
+    public static int checkStartActivityResultForItemGroupOfItem;
+    public static int checkStartActivityResultForUnitOfItem;
+    public static int checkStartActivityResultForUnitList;
+    public static  int checkForStartActivityResult;
+
 }

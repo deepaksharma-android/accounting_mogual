@@ -37,6 +37,7 @@ import com.berylsystems.buzz.networks.api_response.journalvoucher.EditJournalVou
 import com.berylsystems.buzz.networks.api_response.journalvoucher.GetJournalVoucherDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -91,6 +92,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     String encodedString;
     String title;
     AppUser appUser;
+    public Boolean boolForReceivedFrom = false;
+    public Boolean boolForReceivedBy = false;
+    public static int intStartActivityForResult=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +183,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_debit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=1;
+                ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -191,6 +197,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intStartActivityForResult=2;
+                ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -371,6 +379,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 }
             }
             if (requestCode == 2) {
+                boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.account_name_debit_id = id;
@@ -379,6 +388,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 account_name_debit.setText(name[0]);
             }
             if (requestCode == 3) {
+                boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.account_name_credit_id =id;
@@ -388,6 +398,43 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
         }
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+        if (bool) {
+
+            if (intStartActivityForResult==1){
+                boolForReceivedBy=true;
+
+            }else if (intStartActivityForResult==2){
+                boolForReceivedFrom=true;
+            }
+            if (!boolForReceivedFrom) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.account_name_debit_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                account_name_debit.setText(name[0]);
+            }
+            if (!boolForReceivedBy) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.account_name_credit_id =id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                account_name_credit.setText(name[0]);
+            }
+        }
+
+    }
+
 
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};

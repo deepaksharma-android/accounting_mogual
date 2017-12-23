@@ -1,6 +1,5 @@
 package com.berylsystems.buzz.activities.company.transaction.bankcasedeposit;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,15 +18,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -188,8 +184,11 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
+
                 ParameterConstant.checkForStartActivityResult=4;
                 appUser.account_master_group = "Bank Accounts";
+                ParameterConstant.checkStartActivityResultForAccount =4;
+                appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -201,8 +200,12 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
+
                 ParameterConstant.checkForStartActivityResult=4;
                 appUser.account_master_group = "Cash-in-hand";
+                ParameterConstant.checkStartActivityResultForAccount =4;
+                appUser.account_master_group = "Bank Accounts";
+
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -413,7 +416,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 boolForReceivedFrom=true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.deposit_to_id = String.valueOf(id);
@@ -422,7 +425,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 deposit_to.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.deposit_by_id = String.valueOf(id);

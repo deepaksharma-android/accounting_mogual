@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -188,7 +187,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=4;
+                ParameterConstant.checkStartActivityResultForAccount =4;
                 appUser.account_master_group = "Bank Accounts";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -201,7 +200,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=4;
+                ParameterConstant.checkStartActivityResultForAccount =4;
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -415,7 +414,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 boolForReceivedFrom=true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 Timber.i("MY IDIDID"+id);
@@ -425,7 +424,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 withdraw_from.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 Timber.i("MY IDIDID"+id);

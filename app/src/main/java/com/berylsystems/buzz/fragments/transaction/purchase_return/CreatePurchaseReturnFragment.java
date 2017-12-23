@@ -177,7 +177,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=9;
+                ParameterConstant.checkStartActivityResultForAccount =9;
                 MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
@@ -193,7 +193,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=9;
+                ParameterConstant.checkStartActivityResultForAccount =9;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);

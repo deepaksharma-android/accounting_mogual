@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -37,6 +38,7 @@ import com.berylsystems.buzz.networks.api_response.creditnotewoitem.EditCreditNo
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -91,6 +93,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     String encodedString;
     String title;
     AppUser appUser;
+    public Boolean boolForGroupName=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,6 +185,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             public void onClick(View view) {
                 //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 appUser.account_master_group = "";
+                ParameterConstant.checkStartActivityResultForAccount =12;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
@@ -359,6 +363,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             }
 
             if (requestCode == 2) {
+                boolForGroupName=true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.account_name_credit_note_id = id;
@@ -368,6 +373,29 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Boolean bool = intent.getBooleanExtra("bool", false);
+
+        if (bool) {
+
+            if (!boolForGroupName) {
+
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.account_name_credit_note_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                account_name_credit.setText(name[0]);
+            }
+
+        }
+
+    }
+
 
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};

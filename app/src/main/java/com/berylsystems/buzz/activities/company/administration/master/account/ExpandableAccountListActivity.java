@@ -20,13 +20,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.billsundry.AccountingInPurchaseActivity;
+import com.berylsystems.buzz.activities.company.administration.master.billsundry.AccountingInSaleActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
 import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
@@ -336,8 +336,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     public void clickEvent(EventAccountChildClicked pos) {
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
-
-        Toast.makeText(this, "" + bool, Toast.LENGTH_SHORT).show();
         if (!isDirectForAccount && bool) {
 
             autoCompleteTextView();
@@ -349,32 +347,36 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             Intent intentForward = null;
-            if (ParameterConstant.checkForStartActivityResult == 0) {
+            if (ParameterConstant.checkStartActivityResultForAccount == 0) {
                 intentForward = new Intent(getApplicationContext(), CreateSaleActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 1) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 1) {
                 intentForward = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 2) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 2) {
                 intentForward = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 3) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 3) {
                 intentForward = new Intent(getApplicationContext(), CreatePaymentActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 4) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 4) {
                 intentForward = new Intent(getApplicationContext(), CreateBankCaseDepositActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 5) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 5) {
                 intentForward = new Intent(getApplicationContext(), CreateBankCaseWithdrawActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 6) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 6) {
                 intentForward = new Intent(getApplicationContext(), CreateIncomeActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 7) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 7) {
                 intentForward = new Intent(getApplicationContext(), CreateExpenceActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 8) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 8) {
                 intentForward = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 9) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 9) {
                 intentForward = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 10) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 10) {
                 intentForward = new Intent(getApplicationContext(), CreateJournalVoucherActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 11) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 11) {
                 intentForward = new Intent(getApplicationContext(), CreateDebitNoteWoItemActivity.class);
-            } else if (ParameterConstant.checkForStartActivityResult == 12) {
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 12) {
                 intentForward = new Intent(getApplicationContext(), CreateCreditNoteWoItemActivity.class);
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 13) {
+                intentForward = new Intent(getApplicationContext(), AccountingInSaleActivity.class);
+            } else if (ParameterConstant.checkStartActivityResultForAccount == 14) {
+                intentForward = new Intent(getApplicationContext(), AccountingInPurchaseActivity.class);
             }
 
             intentForward.putExtra("bool", true);

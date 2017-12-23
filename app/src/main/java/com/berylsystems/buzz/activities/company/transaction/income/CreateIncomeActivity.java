@@ -24,8 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -189,7 +187,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-                ParameterConstant.checkForStartActivityResult=6;
+                ParameterConstant.checkStartActivityResultForAccount =6;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -203,7 +201,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-                ParameterConstant.checkForStartActivityResult=6;
+                ParameterConstant.checkStartActivityResultForAccount =6;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -417,7 +415,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 boolForReceivedFrom=true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.received_into_id = id;
@@ -426,7 +424,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 received_into.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
+
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.received_from_id =id;

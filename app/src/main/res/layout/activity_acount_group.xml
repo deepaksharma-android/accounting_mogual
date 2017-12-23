@@ -213,7 +213,7 @@
                         style="@style/Gotham_Book"
                         android:textColor="@color/black"
                         android:text="Stock Report" />
-                   
+
                 </LinearLayout>
             </LinearLayout>
 
