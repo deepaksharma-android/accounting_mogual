@@ -70,6 +70,10 @@ public class FirstPageActivity extends BaseActivityCompany {
     TextView mtextview_supplier;
     @Bind(R.id.textview_stock_in_hand)
     TextView mtextview_stock_in_hand;
+    @Bind(R.id.textview_sale)
+    TextView mtextview_sales;
+    @Bind(R.id.textview_expenses)
+    TextView mtextview_expenses;
     @Bind(R.id.date)
     TextView mDate;
     ProgressDialog mProgressDialog;
@@ -209,6 +213,8 @@ public class FirstPageActivity extends BaseActivityCompany {
             mtextview_customer.setText("₹ " + response.getCompany_details().getData().getAttributes().getCustomer());
             mtextview_supplier.setText("₹ " + response.getCompany_details().getData().getAttributes().getSupplier());
             mtextview_stock_in_hand.setText("₹ " + response.getCompany_details().getData().getAttributes().getStock_in_hand());
+            mtextview_sales.setText("₹ " +response.getCompany_details().getData().getAttributes().getSales());
+            mtextview_expenses.setText("₹ " +response.getCompany_details().getData().getAttributes().getExpenses());
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

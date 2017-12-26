@@ -425,7 +425,7 @@
                         android:textSize="16sp" />
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        android:id="@+id/textview_purchase"
+                        android:id="@+id/textview_expenses"
                         style="@style/Gotham_Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
