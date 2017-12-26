@@ -59,10 +59,10 @@ public class BaseActivity extends AppCompatActivity {
         navigationViewapp = (NavigationView) findViewById(R.id.navigationView);
        // View headerapp = navigationViewapp.getHeaderView(0);
         //  RelativeLayout header=(RelativeLayout) navigationView.findViewById(R.id.header);
-      //  TextView name = (TextView) headerapp.findViewById(R.id.username);
-       // TextView email = (TextView) headerapp.findViewById(R.id.email);
-       /* name.setText(appUser.name);
-        email.setText(appUser.email);*/
+        TextView name = (TextView) navigationViewapp.findViewById(R.id.username);
+        TextView email = (TextView) navigationViewapp.findViewById(R.id.email);
+        name.setText(appUser.name);
+        email.setText(appUser.email);
        /* navigationViewapp.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

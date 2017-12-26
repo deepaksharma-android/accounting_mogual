@@ -5,7 +5,7 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 public class ViewPagerScroller extends Scroller {
-    private int mScrollDuration = 1500;// 滑动速度
+    private int mScrollDuration = 1500;
     public ViewPagerScroller(Context context) {
         super(context);
     }

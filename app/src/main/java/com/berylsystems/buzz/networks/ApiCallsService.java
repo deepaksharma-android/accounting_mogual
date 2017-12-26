@@ -168,6 +168,7 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.networks.api_request.RequestCreatePurchaseReturn;
+
 import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
@@ -197,9 +198,9 @@ public class ApiCallsService extends IntentService {
         api = ThisApp.getApi(this);
         if (Cv.ACTION_REGISTER_USER.equals(action)) {
             handleRegister();
-        } else if(Cv.ACTION_UPDATE_USER.equals(action)){
+        } else if (Cv.ACTION_UPDATE_USER.equals(action)) {
             handleUpdateUser();
-        }else if (Cv.ACTION_FORGOT_PASSWORD.equals(action)) {
+        } else if (Cv.ACTION_FORGOT_PASSWORD.equals(action)) {
             handleForgotPassword();
         } else if (Cv.ACTION_VERIFICATION.equals(action)) {
             handleVerifyOtp();
@@ -317,7 +318,7 @@ public class ApiCallsService extends IntentService {
             handleGetItem();
         } else if (Cv.ACTION_CREATE_ITEM.equals(action)) {
             handleCreateItem();
-        }else if (Cv.ACTION_DELETE_ITEM.equals(action)) {
+        } else if (Cv.ACTION_DELETE_ITEM.equals(action)) {
             handleDeleteItem();
         } else if (Cv.ACTION_EDIT_ITEM.equals(action)) {
             handleEditItem();
@@ -340,174 +341,124 @@ public class ApiCallsService extends IntentService {
         } else if (Cv.ACTION_DELETE_BILL_SUNDRY.equals(action)) {
             handleDeleteBillSundry();
         } else if (Cv.ACTION_GET_BILL_SUNDRY_DETAILS.equals(action)) {
-            handleGetBillSundryDetails();;
+            handleGetBillSundryDetails();
         } else if (Cv.ACTION_EDIT_BILL_SUNDRY.equals(action)) {
             handleEditBillSundry();
         } else if (Cv.ACTION_GET_BILL_SUNDRY_NATURE.equals(action)) {
             handleGetBillSundryNature();
-        }   else if (Cv.ACTION_GET_PURCHASE_TYPE.equals(action)) {
+        } else if (Cv.ACTION_GET_PURCHASE_TYPE.equals(action)) {
             handleGetPurchaseType();
-        }
-        else if (Cv.ACTION_GET_SALE_TYPE.equals(action)) {
+        } else if (Cv.ACTION_GET_SALE_TYPE.equals(action)) {
             handleGetSaleType();
-        }else if(Cv.ACTION_GET_TAX_CATEGORY.equals(action)){
+        } else if (Cv.ACTION_GET_TAX_CATEGORY.equals(action)) {
             hadleGetTaxCategory();
         } else if (Cv.ACTION_CREATE_SALE_VOUCHER.equals(action)) {
             handleSaleVoucher();
-        }else if (Cv.ACTION_GET_SALE_VOUCHER_LIST.equals(action)) {
+        } else if (Cv.ACTION_GET_SALE_VOUCHER_LIST.equals(action)) {
             handleGetSaleVoucherList();
-        }
-        else if(Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)){
+        } else if (Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)) {
             handleGetBankCashDeposit();
-        }
-        else if (Cv.ACTION_DELETE_BANK_CASH_DEPOSIT.equals(action)) {
+        } else if (Cv.ACTION_DELETE_BANK_CASH_DEPOSIT.equals(action)) {
             handleDeleteBankCashDeposit();
-        }
-        else if(Cv.ACTION_GET_BANK_CASH_DEPOSIT_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_BANK_CASH_DEPOSIT_DETAILS.equals(action)) {
             handleGetBankCashDepositDetails();
-        }
-        else if(Cv.ACTION_EDIT_BANK_CASH_DEPOSIT.equals(action)){
+        } else if (Cv.ACTION_EDIT_BANK_CASH_DEPOSIT.equals(action)) {
             handleEditBankCashDeposit();
-        }
-		else if(Cv.ACTION_CREATE_BANK_CASH_DEPOSIT.equals(action)) {
+        } else if (Cv.ACTION_CREATE_BANK_CASH_DEPOSIT.equals(action)) {
             handleCreateBankCashDeposit();
-			}
-		else if(Cv.ACTION_CREATE_PURCHASE.equals(action)) { 
-			handlePurchase();
-		}
-		else if(Cv.ACTION_CREATE_BANK_CASH_WITHDRAW.equals(action)){
+        } else if (Cv.ACTION_CREATE_PURCHASE.equals(action)) {
+            handlePurchase();
+        } else if (Cv.ACTION_CREATE_BANK_CASH_WITHDRAW.equals(action)) {
             handleCreateBankCashWithdraw();
-        }
-        else if(Cv.ACTION_GET_BANK_CASH_WITHDRAW.equals(action)){
+        } else if (Cv.ACTION_GET_BANK_CASH_WITHDRAW.equals(action)) {
             handleGetBankCashWithdraw();
-        }
-        else if(Cv.ACTION_DELETE_BANK_CASH_WITHDRAW.equals(action)){
+        } else if (Cv.ACTION_DELETE_BANK_CASH_WITHDRAW.equals(action)) {
             handleDeleteBankCashWithdraw();
-        }
-        else if(Cv.ACTION_GET_BANK_CASH_WITHDRAW_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_BANK_CASH_WITHDRAW_DETAILS.equals(action)) {
             handleGetBankCashWithdrawDetails();
-        }
-        else if(Cv.ACTION_EDIT_BANK_CASH_WITHDRAW.equals(action)){
+        } else if (Cv.ACTION_EDIT_BANK_CASH_WITHDRAW.equals(action)) {
             handleEditBankCashWithdraw();
-        }
-        else if(Cv.ACTION_CREATE_INCOME.equals(action)){
+        } else if (Cv.ACTION_CREATE_INCOME.equals(action)) {
             handleCreateIncome();
-        }
-        else if(Cv.ACTION_GET_INCOME.equals(action)){
+        } else if (Cv.ACTION_GET_INCOME.equals(action)) {
             handleGetIncome();
-        }
-        else if(Cv.ACTION_DELETE_INCOME.equals(action)){
+        } else if (Cv.ACTION_DELETE_INCOME.equals(action)) {
             handleDeleteIncome();
-        }
-        else if(Cv.ACTION_GET_INCOME_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_INCOME_DETAILS.equals(action)) {
             handleGetIncomeDetails();
-        }
-        else if(Cv.ACTION_EDIT_INCOME.equals(action)){
+        } else if (Cv.ACTION_EDIT_INCOME.equals(action)) {
             handleEditIncome();
-        }
-        else if(Cv.ACTION_CREATE_EXPENCE.equals(action)){
+        } else if (Cv.ACTION_CREATE_EXPENCE.equals(action)) {
             handleCreateExpence();
-        }
-        else if(Cv.ACTION_GET_EXPENCE.equals(action)){
+        } else if (Cv.ACTION_GET_EXPENCE.equals(action)) {
             handleGetExpence();
-        }
-        else if(Cv.ACTION_DELETE_EXPENCE.equals(action)){
+        } else if (Cv.ACTION_DELETE_EXPENCE.equals(action)) {
             handleDeleteExpence();
-        }
-        else if(Cv.ACTION_GET_EXPENCE_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_EXPENCE_DETAILS.equals(action)) {
             handleGetExpenceDetails();
-        }
-        else if(Cv.ACTION_EDIT_EXPENCE.equals(action)){
+        } else if (Cv.ACTION_EDIT_EXPENCE.equals(action)) {
             handleEditExpence();
-        }
-        else if(Cv.ACTION_CREATE_PAYMENT.equals(action)){
+        } else if (Cv.ACTION_CREATE_PAYMENT.equals(action)) {
             handleCreatePayment();
-        }
-        else if(Cv.ACTION_GET_PAYMENT.equals(action)){
+        } else if (Cv.ACTION_GET_PAYMENT.equals(action)) {
             handleGetPayment();
-        }
-        else if(Cv.ACTION_DELETE_PAYMENT.equals(action)){
+        } else if (Cv.ACTION_DELETE_PAYMENT.equals(action)) {
             handleDeletePayment();
-        }
-        else if(Cv.ACTION_GET_PAYMENT_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_PAYMENT_DETAILS.equals(action)) {
             handleGetPaymentDetails();
-        }
-        else if(Cv.ACTION_EDIT_PAYMENT.equals(action)){
+        } else if (Cv.ACTION_EDIT_PAYMENT.equals(action)) {
             handleEditPayment();
-        }
-        else if(Cv.ACTION_CREATE_JOURNAL_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_CREATE_JOURNAL_VOUCHER.equals(action)) {
             handleCreateJournalVoucher();
-        }
-        else if(Cv.ACTION_GET_JOURNAL_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_GET_JOURNAL_VOUCHER.equals(action)) {
             handleGetJournalVoucher();
-        }
-        else if(Cv.ACTION_DELETE_JOURNAL_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_DELETE_JOURNAL_VOUCHER.equals(action)) {
             handleDeleteJournalVoucher();
-        }
-        else if(Cv.ACTION_GET_JOURNAL_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_JOURNAL_VOUCHER_DETAILS.equals(action)) {
             handleGetJournalVoucherDetails();
-        }
-        else if(Cv.ACTION_EDIT_JOURNAL_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_EDIT_JOURNAL_VOUCHER.equals(action)) {
             handleEditJournalVoucher();
-        }
-        else if(Cv.ACTION_CREATE_RECEIPT_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_CREATE_RECEIPT_VOUCHER.equals(action)) {
             handleCreateReceipt();
-        }
-        else if(Cv.ACTION_GET_RECEIPT_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_GET_RECEIPT_VOUCHER.equals(action)) {
             handleGetreceiptVoucher();
-        }
-        else if(Cv.ACTION_DELETE_RECEIPT_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_DELETE_RECEIPT_VOUCHER.equals(action)) {
             handleDeleteReceiptVoucher();
-        }
-        else if(Cv.ACTION_GET_RECEIPT_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_RECEIPT_VOUCHER_DETAILS.equals(action)) {
             handleGetReceiptVoucherDetails();
-        }
-        else if(Cv.ACTION_EDIT_RECEIPT_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_EDIT_RECEIPT_VOUCHER.equals(action)) {
             handleEditReceiptVoucher();
-        }
-        else if(Cv.ACTION_CREATE_CREDIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_CREATE_CREDIT_NOTE.equals(action)) {
             handleCreateCreditNote();
-        }
-        else if(Cv.ACTION_GET_CREDIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_GET_CREDIT_NOTE.equals(action)) {
             handleGetCreditNote();
-        }
-        else if(Cv.ACTION_DELETE_CREDIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_DELETE_CREDIT_NOTE.equals(action)) {
             handleDeleteCreditNote();
-        }
-        else if(Cv.ACTION_GET_CREDIT_NOTE_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_CREDIT_NOTE_DETAILS.equals(action)) {
             handleGetCreditNoteDetails();
-        }
-        else if(Cv.ACTION_EDIT_CREDIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_EDIT_CREDIT_NOTE.equals(action)) {
             handleEditCreditNote();
-        }
-        else if(Cv.ACTION_CREATE_DEBIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_CREATE_DEBIT_NOTE.equals(action)) {
             handleCreateDebitNote();
-        }
-        else if(Cv.ACTION_GET_DEBIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_GET_DEBIT_NOTE.equals(action)) {
             handleGetDebitNote();
-        }
-        else if(Cv.ACTION_DELETE_DEBIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_DELETE_DEBIT_NOTE.equals(action)) {
             handleDeleteDebitNote();
-        }
-        else if(Cv.ACTION_GET_DEBIT_NOTE_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_DEBIT_NOTE_DETAILS.equals(action)) {
             handleGetDebitNoteDetails();
-        }
-        else if(Cv.ACTION_EDIT_DEBIT_NOTE.equals(action)){
+        } else if (Cv.ACTION_EDIT_DEBIT_NOTE.equals(action)) {
             handleEditDebitNote();
-        }
-		else if(Cv.ACTION_CREATE_SALE_RETURN.equals(action)) {
+        } else if (Cv.ACTION_CREATE_SALE_RETURN.equals(action)) {
             handleSaleReturn();
-        }else if(Cv.ACTION_CREATE_PURCHASE_RETURN.equals(action)) {
+        } else if (Cv.ACTION_CREATE_PURCHASE_RETURN.equals(action)) {
             handlePurchaseReturn();
-        } else if(Cv.ACTION_GET_COMPANY_DASHBOARD_INFO.equals(action)){
+        } else if (Cv.ACTION_GET_COMPANY_DASHBOARD_INFO.equals(action)) {
             handleGetCompanyDashboardInfo();
-        }else if (Cv.ACTION_GET_TRANSACTION_PDF.equals(action)) {
+        } else if (Cv.ACTION_GET_TRANSACTION_PDF.equals(action)) {
             handleGetTransactionPdf();
-        }
-        else if(Cv.ACTION_GET_VOUCHER_NUMBERS.equals(action)) {
+        } else if (Cv.ACTION_GET_VOUCHER_NUMBERS.equals(action)) {
             handleGetVoucherNumbers();
-        }
-        else if(Cv.ACTION_GET_SALE_REPORT.equals(action)) {
+        } else if (Cv.ACTION_GET_SALE_REPORT.equals(action)) {
             handleGetSaleReport2();
         }
     }
@@ -573,6 +524,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetItemDetailsResponse> call, Throwable t) {
                 try {
@@ -609,7 +561,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleDeleteItem() {
-        AppUser appUser=LocalRepositories.getAppUser(this);
+        AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteitem(appUser.delete_item_id).enqueue(new Callback<DeleteItemResponse>() {
             @Override
             public void onResponse(Call<DeleteItemResponse> call, Response<DeleteItemResponse> r) {
@@ -631,6 +583,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleGetItemGroup() {
         api.getitemgroup(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetItemGroupResponse>() {
             @Override
@@ -679,6 +632,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetPurchaseType() {
         api.getpurchasetype().enqueue(new Callback<GetPurchaseTypeResponse>() {
             @Override
@@ -702,6 +656,7 @@ public class ApiCallsService extends IntentService {
         });
 
     }
+
     private void handleGetSaleType() {
         api.getsaletype().enqueue(new Callback<GetSaleTypeResponse>() {
             @Override
@@ -725,14 +680,14 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void hadleGetTaxCategory(){
+    private void hadleGetTaxCategory() {
         api.gettaxcategory().enqueue(new Callback<GetTaxCategoryResponse>() {
             @Override
             public void onResponse(Call<GetTaxCategoryResponse> call, Response<GetTaxCategoryResponse> r) {
-                if(r.code()==200){
+                if (r.code() == 200) {
                     GetTaxCategoryResponse body = r.body();
                     EventBus.getDefault().post(body);
-                }else {
+                } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
@@ -773,7 +728,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleCreateBankCashDeposit() {
-        api.createbankcashdeposit(new RequestCreateBankCashDeposit(this),Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBankCashDepositResponse>() {
+        api.createbankcashdeposit(new RequestCreateBankCashDeposit(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBankCashDepositResponse>() {
             @Override
             public void onResponse(Call<CreateBankCashDepositResponse> call, Response<CreateBankCashDepositResponse> r) {
                 if (r.code() == 200) {
@@ -783,6 +738,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<CreateBankCashDepositResponse> call, Throwable t) {
                 try {
@@ -793,8 +749,9 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleCreateBankCashWithdraw() {
-        api.createbankcashwithdraw(new RequestCreateBankCashWithdraw(this),Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBankCashWithdrawResponse>() {
+        api.createbankcashwithdraw(new RequestCreateBankCashWithdraw(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateBankCashWithdrawResponse>() {
             @Override
             public void onResponse(Call<CreateBankCashWithdrawResponse> call, Response<CreateBankCashWithdrawResponse> r) {
                 if (r.code() == 200) {
@@ -804,6 +761,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<CreateBankCashWithdrawResponse> call, Throwable t) {
                 try {
@@ -826,6 +784,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetBankCashWithdrawResponse> call, Throwable t) {
                 try {
@@ -849,6 +808,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteBankCashWithdrawResponse> call, Throwable t) {
                 try {
@@ -886,7 +846,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditBankCashWithdraw() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editbankcashwithdraw(new RequestCreateBankCashWithdraw(this), appUser.edit_bank_cash_withdraw_id).enqueue(new Callback<EditBankCashWithdrawResponse>()  {
+        api.editbankcashwithdraw(new RequestCreateBankCashWithdraw(this), appUser.edit_bank_cash_withdraw_id).enqueue(new Callback<EditBankCashWithdrawResponse>() {
             @Override
             public void onResponse(Call<EditBankCashWithdrawResponse> call, Response<EditBankCashWithdrawResponse> r) {
                 if (r.code() == 200) {
@@ -896,6 +856,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditBankCashWithdrawResponse> call, Throwable t) {
                 try {
@@ -929,6 +890,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleGetIncome() {
         api.getincome(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetIncomeResponse>() {
             @Override
@@ -940,6 +902,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetIncomeResponse> call, Throwable t) {
                 try {
@@ -950,6 +913,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleDeleteIncome() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.deleteincome(appUser.delete_income_id).enqueue(new Callback<DeleteIncomeResponse>() {
@@ -962,6 +926,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteIncomeResponse> call, Throwable t) {
                 try {
@@ -973,12 +938,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetIncomeDetails(){
+    private void handleGetIncomeDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getincomedetails(appUser.edit_income_id).enqueue(new Callback<GetIncomeDetailsResponse>() {
             @Override
             public void onResponse(Call<GetIncomeDetailsResponse> call, Response<GetIncomeDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetIncomeDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -996,9 +961,10 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleEditIncome() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editincome(new RequestCreateIncome(this), appUser.edit_income_id).enqueue(new Callback<EditIncomeResponse>()  {
+        api.editincome(new RequestCreateIncome(this), appUser.edit_income_id).enqueue(new Callback<EditIncomeResponse>() {
             @Override
             public void onResponse(Call<EditIncomeResponse> call, Response<EditIncomeResponse> r) {
                 if (r.code() == 200) {
@@ -1008,6 +974,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditIncomeResponse> call, Throwable t) {
                 try {
@@ -1053,6 +1020,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetExpenceResponse> call, Throwable t) {
                 try {
@@ -1076,6 +1044,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeletePaymentResponse> call, Throwable t) {
                 try {
@@ -1087,12 +1056,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetPaymentDetails(){
+    private void handleGetPaymentDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getpaymentdetails(appUser.edit_payment_id).enqueue(new Callback<GetPaymentDetailsResponse>() {
             @Override
             public void onResponse(Call<GetPaymentDetailsResponse> call, Response<GetPaymentDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetPaymentDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -1110,9 +1079,10 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleEditPayment() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editpayment(new RequestCreatePayment(this), appUser.edit_payment_id).enqueue(new Callback<EditPaymentResponse>()  {
+        api.editpayment(new RequestCreatePayment(this), appUser.edit_payment_id).enqueue(new Callback<EditPaymentResponse>() {
             @Override
             public void onResponse(Call<EditPaymentResponse> call, Response<EditPaymentResponse> r) {
                 if (r.code() == 200) {
@@ -1122,6 +1092,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditPaymentResponse> call, Throwable t) {
                 try {
@@ -1167,6 +1138,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetJournalVoucherResponse> call, Throwable t) {
                 try {
@@ -1190,6 +1162,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteJournalVoucherResponse> call, Throwable t) {
                 try {
@@ -1201,12 +1174,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetJournalVoucherDetails(){
+    private void handleGetJournalVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getjournalvoucherdetails(appUser.edit_journal_voucher_id).enqueue(new Callback<GetJournalVoucherDetailsResponse>() {
             @Override
             public void onResponse(Call<GetJournalVoucherDetailsResponse> call, Response<GetJournalVoucherDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetJournalVoucherDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -1227,7 +1200,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditJournalVoucher() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editjournalvoucher(new RequestCreateJournalVoucher(this), appUser.edit_journal_voucher_id).enqueue(new Callback<EditJournalVoucherResponse>()  {
+        api.editjournalvoucher(new RequestCreateJournalVoucher(this), appUser.edit_journal_voucher_id).enqueue(new Callback<EditJournalVoucherResponse>() {
             @Override
             public void onResponse(Call<EditJournalVoucherResponse> call, Response<EditJournalVoucherResponse> r) {
                 if (r.code() == 200) {
@@ -1237,6 +1210,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditJournalVoucherResponse> call, Throwable t) {
                 try {
@@ -1282,6 +1256,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetReceiptVoucherResponse> call, Throwable t) {
                 try {
@@ -1305,6 +1280,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteReceiptVoucherResponse> call, Throwable t) {
                 try {
@@ -1316,12 +1292,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetReceiptVoucherDetails(){
+    private void handleGetReceiptVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getreceiptvoucherdetails(appUser.edit_receipt_id).enqueue(new Callback<GetReceiptVoucherDetailsResponse>() {
             @Override
             public void onResponse(Call<GetReceiptVoucherDetailsResponse> call, Response<GetReceiptVoucherDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetReceiptVoucherDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -1342,7 +1318,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditReceiptVoucher() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editreceiptvoucher(new RequestCreateReceipt(this), appUser.edit_receipt_id).enqueue(new Callback<EditReceiptVoucherResponse>()  {
+        api.editreceiptvoucher(new RequestCreateReceipt(this), appUser.edit_receipt_id).enqueue(new Callback<EditReceiptVoucherResponse>() {
             @Override
             public void onResponse(Call<EditReceiptVoucherResponse> call, Response<EditReceiptVoucherResponse> r) {
                 if (r.code() == 200) {
@@ -1352,6 +1328,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditReceiptVoucherResponse> call, Throwable t) {
                 try {
@@ -1397,6 +1374,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetCreditNoteResponse> call, Throwable t) {
                 try {
@@ -1420,6 +1398,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteCreditNoteResponse> call, Throwable t) {
                 try {
@@ -1431,12 +1410,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetCreditNoteDetails(){
+    private void handleGetCreditNoteDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getcreditnotedetails(appUser.edit_credit_note_id).enqueue(new Callback<GetCreditNoteDetailsResponse>() {
             @Override
             public void onResponse(Call<GetCreditNoteDetailsResponse> call, Response<GetCreditNoteDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetCreditNoteDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -1457,7 +1436,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditCreditNote() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editcreditnote(new RequestCreateCreditNote(this), appUser.edit_credit_note_id).enqueue(new Callback<EditCreditNoteResponse>()  {
+        api.editcreditnote(new RequestCreateCreditNote(this), appUser.edit_credit_note_id).enqueue(new Callback<EditCreditNoteResponse>() {
             @Override
             public void onResponse(Call<EditCreditNoteResponse> call, Response<EditCreditNoteResponse> r) {
                 if (r.code() == 200) {
@@ -1467,6 +1446,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditCreditNoteResponse> call, Throwable t) {
                 try {
@@ -1512,6 +1492,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetDebitNoteResponse> call, Throwable t) {
                 try {
@@ -1535,6 +1516,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteDebitNoteResponse> call, Throwable t) {
                 try {
@@ -1546,12 +1528,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetDebitNoteDetails(){
+    private void handleGetDebitNoteDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getdebitnotedetails(appUser.edit_debit_note_id).enqueue(new Callback<GetDebitNoteDetailsResponse>() {
             @Override
             public void onResponse(Call<GetDebitNoteDetailsResponse> call, Response<GetDebitNoteDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetDebitNoteDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -1572,7 +1554,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditDebitNote() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editdebitnote(new RequestCreateDebitNote(this), appUser.edit_debit_note_id).enqueue(new Callback<EditDebitNoteResponse>()  {
+        api.editdebitnote(new RequestCreateDebitNote(this), appUser.edit_debit_note_id).enqueue(new Callback<EditDebitNoteResponse>() {
             @Override
             public void onResponse(Call<EditDebitNoteResponse> call, Response<EditDebitNoteResponse> r) {
                 if (r.code() == 200) {
@@ -1582,6 +1564,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditDebitNoteResponse> call, Throwable t) {
                 try {
@@ -1606,6 +1589,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteExpenceResponse> call, Throwable t) {
                 try {
@@ -1617,12 +1601,12 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetExpenceDetails(){
+    private void handleGetExpenceDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getexpencedetails(appUser.edit_expence_id).enqueue(new Callback<GetExpenceDetailsResponse>() {
             @Override
             public void onResponse(Call<GetExpenceDetailsResponse> call, Response<GetExpenceDetailsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     GetExpenceDetailsResponse body = response.body();
                     EventBus.getDefault().post(body);
                 } else {
@@ -1643,7 +1627,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleEditExpence() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editexpence(new RequestCreateEXpence(this), appUser.edit_expence_id).enqueue(new Callback<EditExpenceResponse>()  {
+        api.editexpence(new RequestCreateEXpence(this), appUser.edit_expence_id).enqueue(new Callback<EditExpenceResponse>() {
             @Override
             public void onResponse(Call<EditExpenceResponse> call, Response<EditExpenceResponse> r) {
                 if (r.code() == 200) {
@@ -1653,6 +1637,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditExpenceResponse> call, Throwable t) {
                 try {
@@ -1665,7 +1650,7 @@ public class ApiCallsService extends IntentService {
     }
 
 
-private void handleCreatePayment() {
+    private void handleCreatePayment() {
         api.createpayment(new RequestCreatePayment(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreatePaymentResponse>() {
             @Override
             public void onResponse(Call<CreatePaymentResponse> call, Response<CreatePaymentResponse> r) {
@@ -1687,7 +1672,8 @@ private void handleCreatePayment() {
             }
         });
     }
- private void handleGetPayment() {
+
+    private void handleGetPayment() {
         api.getpayment(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetPaymentResponse>() {
             @Override
             public void onResponse(Call<GetPaymentResponse> call, Response<GetPaymentResponse> r) {
@@ -1698,6 +1684,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetPaymentResponse> call, Throwable t) {
                 try {
@@ -1721,6 +1708,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetBankCashDepositResponse> call, Throwable t) {
                 try {
@@ -1744,6 +1732,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<DeleteBankCashDepositResponse> call, Throwable t) {
                 try {
@@ -1781,7 +1770,7 @@ private void handleCreatePayment() {
 
     private void handleEditBankCashDeposit() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editbankcashdeposit(new RequestCreateBankCashDeposit(this), appUser.edit_bank_cash_deposit_id).enqueue(new Callback<EditBankCashDepositResponse>()  {
+        api.editbankcashdeposit(new RequestCreateBankCashDeposit(this), appUser.edit_bank_cash_deposit_id).enqueue(new Callback<EditBankCashDepositResponse>() {
             @Override
             public void onResponse(Call<EditBankCashDepositResponse> call, Response<EditBankCashDepositResponse> r) {
                 if (r.code() == 200) {
@@ -1791,6 +1780,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<EditBankCashDepositResponse> call, Throwable t) {
                 try {
@@ -1823,7 +1813,7 @@ private void handleCreatePayment() {
 
     private void handleUpdateUser() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updateuser(new RequestUpdateUser(this)).enqueue(new Callback<UserApiResponse>()  {
+        api.updateuser(new RequestUpdateUser(this)).enqueue(new Callback<UserApiResponse>() {
             @Override
             public void onResponse(Call<UserApiResponse> call, Response<UserApiResponse> r) {
                 if (r.code() == 200) {
@@ -1833,6 +1823,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<UserApiResponse> call, Throwable t) {
                 try {
@@ -2540,8 +2531,8 @@ private void handleCreatePayment() {
     }
 
     private void handleGetAccount() {
-        AppUser appUser= LocalRepositories.getAppUser(this);
-        api.getaccount(Preferences.getInstance(getApplicationContext()).getCid(),appUser.account_master_group).enqueue(new Callback<GetAccountResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getaccount(Preferences.getInstance(getApplicationContext()).getCid(), appUser.account_master_group).enqueue(new Callback<GetAccountResponse>() {
             @Override
             public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> r) {
                 if (r.code() == 200) {
@@ -3345,6 +3336,7 @@ private void handleCreatePayment() {
         });
 
     }
+
     private void handleGetSaleVoucherList() {
         api.getsalevoucherlist(Preferences.getInstance(this).getCid()).enqueue(new Callback<GetSaleVoucherListResponse>() {
             @Override
@@ -3470,7 +3462,6 @@ private void handleCreatePayment() {
     }
 
 
-
     private void processUserApiResponse(Response<UserApiResponse> response) {
         if (response.code() == 200) {
             UserApiResponse body = response.body();
@@ -3565,6 +3556,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetCompanyDashboardInfoResponse> call, Throwable t) {
                 try {
@@ -3577,8 +3569,8 @@ private void handleCreatePayment() {
     }
 
     private void handleGetTransactionPdf() {
-        AppUser appUser= LocalRepositories.getAppUser(this);
-        api.gettransactionpdf(Preferences.getInstance(getApplicationContext()).getCid(),appUser.pdf_account_id,appUser.pdf_start_date,appUser.pdf_end_date).enqueue(new Callback<GetTransactionPdfResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.gettransactionpdf(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_account_id, appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<GetTransactionPdfResponse>() {
             @Override
             public void onResponse(Call<GetTransactionPdfResponse> call, Response<GetTransactionPdfResponse> r) {
                 if (r.code() == 200) {
@@ -3601,8 +3593,8 @@ private void handleCreatePayment() {
     }
 
     private void handleGetVoucherNumbers() {
-        AppUser appUser= LocalRepositories.getAppUser(this);
-        api.getvouchernumbers(Preferences.getInstance(getApplicationContext()).getCid(),appUser.voucher_type).enqueue(new Callback<GetVoucherNumbersResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getvouchernumbers(Preferences.getInstance(getApplicationContext()).getCid(), appUser.voucher_type).enqueue(new Callback<GetVoucherNumbersResponse>() {
             @Override
             public void onResponse(Call<GetVoucherNumbersResponse> call, Response<GetVoucherNumbersResponse> r) {
                 if (r.code() == 200) {
@@ -3612,6 +3604,7 @@ private void handleCreatePayment() {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetVoucherNumbersResponse> call, Throwable t) {
                 try {
@@ -3647,8 +3640,8 @@ private void handleCreatePayment() {
     }*/
 
     private void handleGetSaleReport2() {
-        AppUser appUser= LocalRepositories.getAppUser(this);
-        api.getsalereport(Preferences.getInstance(getApplicationContext()).getCid(),appUser.duration_spinner).enqueue(new Callback<GetSaleReportResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getsalereport(Preferences.getInstance(getApplicationContext()).getCid(), appUser.duration_spinner).enqueue(new Callback<GetSaleReportResponse>() {
             @Override
             public void onResponse(Call<GetSaleReportResponse> call, Response<GetSaleReportResponse> r) {
                 if (r.code() == 200) {
