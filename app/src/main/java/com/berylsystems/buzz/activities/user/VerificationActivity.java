@@ -219,7 +219,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 appUser.fb_id = "";
                 LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), FirstPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

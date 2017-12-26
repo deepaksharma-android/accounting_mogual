@@ -425,6 +425,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 appUser.create_account_group_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mGroupName.setText(result);
+                return;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -441,7 +442,6 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
         if (bool) {
             if (!boolForGroupName) {
-
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.create_account_group_id = id;
@@ -531,7 +531,5 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         snackbar.show();
         mProgressDialog.dismiss();
     }
-
-
-
+    
 }

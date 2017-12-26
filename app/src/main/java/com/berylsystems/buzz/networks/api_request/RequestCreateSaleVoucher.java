@@ -22,11 +22,11 @@ public class RequestCreateSaleVoucher {
         voucher.put("voucher_series", appUser.sale_series);
         voucher.put("voucher_number", appUser.sale_vchNo);
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
-        voucher.put("sale_type_id", appUser.sale_saleType);
+        voucher.put("sale_type_id", Preferences.getInstance(ctx).getSale_type_id());
         voucher.put("payment_type", appUser.sale_cash_credit);
-        voucher.put("account_master_id", appUser.sale_partyName);
+        voucher.put("account_master_id",Preferences.getInstance(ctx).getParty_id());
         voucher.put("mobile_number", appUser.sale_mobileNumber);
-        voucher.put("material_center_id", appUser.sale_store);
+        voucher.put("material_center_id",Preferences.getInstance(ctx).getStoreId());
         voucher.put("narration", appUser.sale_narration);
         voucher.put("items", appUser.mListMapForItemSale);
         voucher.put("bill_sundry", appUser.mListMapForBillSale);

@@ -21,11 +21,11 @@ public class RequestCreateSaleReturn {
         voucher.put("voucher_series", appUser.sale_return_series);
         voucher.put("voucher_number", appUser.sale_return_vchNo);
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
-        voucher.put("sale_type_id", appUser.sale_return_saleType);
+        voucher.put("sale_type_id", Preferences.getInstance(ctx).getSale_type_id());
         voucher.put("payment_type", appUser.sale_return_cash_credit);
-        voucher.put("account_master_id", appUser.sale_return_partyName);
+        voucher.put("account_master_id", Preferences.getInstance(ctx).getParty_id());
         voucher.put("mobile_number", appUser.sale_return_mobileNumber);
-        voucher.put("material_center_id", appUser.sale_return_store);
+        voucher.put("material_center_id", Preferences.getInstance(ctx).getStoreId());
         voucher.put("narration", appUser.sale_return_narration);
         voucher.put("items", appUser.mListMapForItemSaleReturn);
         voucher.put("bill_sundry",appUser.mListMapForBillSaleReturn);

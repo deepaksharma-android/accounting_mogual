@@ -126,13 +126,15 @@ public class Preferences {
     private static final String item_description="item_description";
 
     private static final String sale_type_name="sale_type_name";
-    private static final String sale_return_type_name="sale_return_type_name";
-    private static final String purchase_type_name="purchase_type_name";
-    private static final String purchase_return_type_name="purchase_type_name";
+    private static final String sale_type_id="sale_type_id";
+
     private static final String voucher_date="voucher_date";
     private static final String voucher_number="voucher_number";
     private static final String voucherstore="store";
+
+    private static final String store_id="store";
     private static final String party_name="party_name";
+    private static final String party_id="party_id";
     private static final String vouchermobile="mobile";
     private static final String vouchernarration="narration";
     private static final String cash_credit="cash_credit";
@@ -1070,38 +1072,21 @@ public class Preferences {
         editor.commit();
     }
 
+    public String getSale_type_id() {
+        return pref.getString(sale_type_id, "");
+    }
+    public void setSale_type_id(String Saletypeid) {
+        editor.putString(sale_type_id, Saletypeid);
+        editor.commit();
+    }
+
     public String getSale_type_name() {
         return pref.getString(sale_type_name, "");
     }
 
-    public void setSale_return_type_name(String Saletypename) {
-        editor.putString(sale_return_type_name, Saletypename);
-        editor.commit();
-    }
-
-    public String getSale_return_type_name() {
-        return pref.getString(sale_return_type_name, "");
-    }
 
 
-    public void setPurchase_type_name(String Purchasetypename) {
-        editor.putString(purchase_type_name, Purchasetypename);
-        editor.commit();
-    }
 
-    public String getPurchase_type_name() {
-        return pref.getString(purchase_type_name, "");
-    }
-
-
-    public void setPurchase_return_type_name(String Purchasetypename) {
-        editor.putString(purchase_return_type_name, Purchasetypename);
-        editor.commit();
-    }
-
-    public String getPurchase_return_type_name() {
-        return pref.getString(purchase_return_type_name, "");
-    }
 
 
     public void setVoucher_date(String voucherdate) {
@@ -1120,6 +1105,10 @@ public class Preferences {
     public String getVoucher_number() {
         return pref.getString(voucher_number, "");
     }
+
+//    store_id
+
+
     public void setStore(String store) {
         editor.putString(voucherstore, store);
         editor.commit();
@@ -1129,6 +1118,26 @@ public class Preferences {
         return pref.getString(voucherstore, "");
     }
 
+
+
+
+
+
+
+
+
+    public void setStoreId(String storeid) {
+        editor.putString(store_id, storeid);
+        editor.commit();
+    }
+
+    public String getStoreId() {
+        return pref.getString(store_id, "");
+    }
+
+
+
+
     public void setParty_name(String partyname) {
         editor.putString(party_name, partyname);
         editor.commit();
@@ -1137,6 +1146,18 @@ public class Preferences {
     public String getParty_name() {
         return pref.getString(party_name, "");
     }
+
+
+
+    public void setParty_id(String partyid) {
+        editor.putString(party_id, partyid);
+        editor.commit();
+    }
+
+    public String getParty_id() {
+        return pref.getString(party_id, "");
+    }
+
 
     public void setPaid_to(String partyname) {
         editor.putString(paid_to, partyname);

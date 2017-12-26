@@ -18,7 +18,9 @@ public class RequestUpdateUser {
         user = new HashMap<>();
         user.put("name", appUser.name);
         user.put("email", appUser.email);
-        user.put("password", appUser.password);
+        if(!appUser.password.equals("••••••••")) {
+            user.put("password", appUser.password);
+        }
         user.put("postal_code",appUser.zipcode);
         user.put("id",appUser.user_id);
     }

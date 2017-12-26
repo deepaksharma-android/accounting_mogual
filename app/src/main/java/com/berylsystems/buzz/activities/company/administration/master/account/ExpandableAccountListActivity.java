@@ -100,8 +100,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         initActionbar();
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);
-
-
     }
 
     private void initActionbar() {
@@ -337,7 +335,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (!isDirectForAccount && bool) {
-
             autoCompleteTextView();
             String id = pos.getPosition();
             String[] arr = id.split(",");
@@ -378,13 +375,11 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             } else if (ParameterConstant.checkStartActivityResultForAccount == 14) {
                 intentForward = new Intent(getApplicationContext(), AccountingInPurchaseActivity.class);
             }
-
             intentForward.putExtra("bool", true);
             intentForward.putExtra("name", name);
             intentForward.putExtra("id", arrid);
             intentForward.putExtra("mobile", mobile);
             startActivity(intentForward);
-            //setResult(Activity.RESULT_OK, returnIntent);
             finish();
         } else if (!isDirectForAccount) {
 

@@ -156,6 +156,7 @@ import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupDetails
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItem;
 import com.berylsystems.buzz.networks.api_request.RequestCreateItemGroup;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -240,8 +241,8 @@ public interface Api {
     @GET("company/{id}")
     Call<CompanyResponse> getcompany(@Path("id") String id);
 
-    @GET("company/{id}")
-    Call<CompanyResponse> searchcompany(@Path("id") String id);
+    @GET("company/{unique_id}")
+    Call<CompanyResponse> searchcompany(@Path("unique_id") String unique_id);
 
     @GET("companyusers/{id}")
     Call<CompanyUserResponse> getcompanyusers(@Path("id") String id);
@@ -424,10 +425,10 @@ public interface Api {
     Call<EditBankCashDepositResponse> editbankcashdeposit(@Body RequestCreateBankCashDeposit payload, @Path("id") String id);
 
     @POST("bank_cash_deposits/{id}")
-    Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload,@Path("id") String id);
+    Call<CreateBankCashDepositResponse> createbankcashdeposit(@Body RequestCreateBankCashDeposit payload, @Path("id") String id);
 
     @POST("bank_cash_withdraw/{id}")
-    Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload,@Path("id") String id);
+    Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload, @Path("id") String id);
 
     @GET("company_bank_cash_withdraw/{id}")
     Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id,@Query("duration") String duration);
@@ -475,7 +476,7 @@ public interface Api {
     Call<EditExpenceResponse> editexpence(@Body RequestCreateEXpence payload, @Path("id") String id);
 
     @POST("payments/{id}")
-    Call<CreatePaymentResponse> createpayment(@Body RequestCreatePayment payload, @Path("id") String id );
+    Call<CreatePaymentResponse> createpayment(@Body RequestCreatePayment payload, @Path("id") String id);
 
     @GET("company_payments/{id}")
     Call<GetPaymentResponse> getpayment(@Path("id") String id,@Query("duration") String duration);
@@ -487,10 +488,10 @@ public interface Api {
     Call<GetPaymentDetailsResponse> getpaymentdetails(@Path("id") String id);
 
     @PATCH("payments/{id}")
-    Call<EditPaymentResponse> editpayment(@Body RequestCreatePayment payload,@Path("id") String id);
+    Call<EditPaymentResponse> editpayment(@Body RequestCreatePayment payload, @Path("id") String id);
 
     @POST("journal_voucher/{id}")
-    Call<CreateJournalVoucherResponse> createjournalvoucher(@Body RequestCreateJournalVoucher payload,@Path("id") String id);
+    Call<CreateJournalVoucherResponse> createjournalvoucher(@Body RequestCreateJournalVoucher payload, @Path("id") String id);
 
     @GET("company_journal_voucher/{id}")
     Call<GetJournalVoucherResponse> getjournalvoucher(@Path("id") String id,@Query("duration") String duration);
@@ -502,7 +503,7 @@ public interface Api {
     Call<GetJournalVoucherDetailsResponse> getjournalvoucherdetails(@Path("id") String id);
 
     @PATCH("journal_voucher/{id}")
-    Call<EditJournalVoucherResponse> editjournalvoucher(@Body RequestCreateJournalVoucher payload,@Path("id") String id);
+    Call<EditJournalVoucherResponse> editjournalvoucher(@Body RequestCreateJournalVoucher payload, @Path("id") String id);
 
     @POST("receipt_vouchers/{id}")
     Call<CreateReceiptVoucherResponse> createreceipt(@Body RequestCreateReceipt payload, @Path("id") String id);
@@ -517,10 +518,10 @@ public interface Api {
     Call<GetReceiptVoucherDetailsResponse> getreceiptvoucherdetails(@Path("id") String id);
 
     @PATCH("receipt_vouchers/{id}")
-    Call<EditReceiptVoucherResponse> editreceiptvoucher(@Body RequestCreateReceipt payload,@Path("id") String id);
+    Call<EditReceiptVoucherResponse> editreceiptvoucher(@Body RequestCreateReceipt payload, @Path("id") String id);
 
     @POST("credit_notes/{id}")
-    Call<CreateCreditNoteResponse> createcreditnote(@Body RequestCreateCreditNote payload,@Path("id") String id);
+    Call<CreateCreditNoteResponse> createcreditnote(@Body RequestCreateCreditNote payload, @Path("id") String id);
 
     @GET("company_credit_notes/{id}")
     Call<GetCreditNoteResponse> getcreditnote(@Path("id") String id,@Query("duration") String duration);
@@ -532,10 +533,10 @@ public interface Api {
     Call<GetCreditNoteDetailsResponse> getcreditnotedetails(@Path("id") String id);
 
     @PATCH("credit_notes/{id}")
-    Call<EditCreditNoteResponse> editcreditnote(@Body RequestCreateCreditNote payload,@Path("id") String id);
+    Call<EditCreditNoteResponse> editcreditnote(@Body RequestCreateCreditNote payload, @Path("id") String id);
 
     @POST("debit_notes/{id}")
-    Call<CreateDebitNoteResponse> createdebitnote(@Body RequestCreateDebitNote payload,@Path("id") String id);
+    Call<CreateDebitNoteResponse> createdebitnote(@Body RequestCreateDebitNote payload, @Path("id") String id);
 
     @GET("company_debit_notes/{id}")
     Call<GetDebitNoteResponse> getdebitnote(@Path("id") String id,@Query("duration") String duration);
@@ -547,7 +548,7 @@ public interface Api {
     Call<GetDebitNoteDetailsResponse> getdebitnotedetails(@Path("id") String id);
 
     @PATCH("debit_notes/{id}")
-    Call<EditDebitNoteResponse> editdebitnote(@Body RequestCreateDebitNote payload,@Path("id") String id);
+    Call<EditDebitNoteResponse> editdebitnote(@Body RequestCreateDebitNote payload, @Path("id") String id);
 
     @POST("sale_return_voucher/{id}")
     Call<CreateSaleReturnResponse> createSaleReturn(@Body RequestCreateSaleReturn createItem, @Path("id") String id);

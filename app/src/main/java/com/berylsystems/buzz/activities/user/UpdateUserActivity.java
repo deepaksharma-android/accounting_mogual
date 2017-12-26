@@ -49,6 +49,7 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,54 +57,58 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
 
         ButterKnife.bind(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
 
         mName.setText(appUser.name);
         mEmail.setText(appUser.email);
-        mPassword.setText(appUser.password);
+        mPassword.setText("••••••••");
         mzip_code.setText(appUser.zipcode);
         //LocalRepositories.saveAppUser(this,appUser);
     }
 
-    public void update(View v){
+    public void update(View v) {
 
         boolean cancel = false;
         View focusView = null;
 
-        if(!mName.getText().toString().equals("")){
-                if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
-                    if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
-                            appUser.name=mName.getText().toString();
-                            appUser.email=mEmail.getText().toString();
-                            appUser.password=mPassword.getText().toString();
-                            appUser.zipcode=mzip_code.getText().toString();
-                            LocalRepositories.saveAppUser(this,appUser);
-                            logInRequest();
-                    }
-                    else {
+        if (!mName.getText().toString().equals("")) {
+            if (Validation.isEmailValid(mEmail.getText().toString())) {
+                if (!mPassword.getText().toString().equals("")) {
+                    if (!mzip_code.getText().toString().equals("")) {
+                        appUser.name = mName.getText().toString();
+                        appUser.email = mEmail.getText().toString();
+                        appUser.password = mPassword.getText().toString();
+                        appUser.zipcode = mzip_code.getText().toString();
+                        LocalRepositories.saveAppUser(this, appUser);
+                        logInRequest();
+                    } else {
                         snackbar = Snackbar
-                                .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
+                                .make(coordinatorLayout, getString(R.string.zipcode), Snackbar.LENGTH_LONG);
                         snackbar.show();
-
                     }
-            }
-            else {
-                snackbar = Snackbar
-                        .make(coordinatorLayout, getString(R.string.err_invalid_mobile), Snackbar.LENGTH_LONG);
-                snackbar.show();
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
+                    snackbar.show();
 
+                }
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.err_invalid_email), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
-        }
-        else {
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, getString(R.string.err_invalid_name), Snackbar.LENGTH_LONG);
             snackbar.show();
 
         }
+
     }
+
     private void logInRequest() {
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(UpdateUserActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -112,15 +117,14 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
             LocalRepositories.saveAppUser(this, appUser);
             ApiCallsService.action(this, Cv.ACTION_UPDATE_USER);
 
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -130,21 +134,20 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void updateuserinfo(UserApiResponse response){
+    public void updateuserinfo(UserApiResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             appUser.user_id = response.getUser().getData().getId();
             appUser.name = response.getUser().getData().getAttributes().getName();
             appUser.password = response.getUser().getData().getAttributes().getPassword();
             appUser.email = response.getUser().getData().getAttributes().getEmail();
-            appUser.zipcode=response.getUser().getData().getAttributes().getPostal_code();
-            LocalRepositories.saveAppUser(this,appUser);
+            appUser.zipcode = response.getUser().getData().getAttributes().getPostal_code();
+            LocalRepositories.saveAppUser(this, appUser);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, CompanyListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
@@ -176,21 +179,20 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, CompanyListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -202,7 +204,7 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, CompanyListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

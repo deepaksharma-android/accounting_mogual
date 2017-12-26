@@ -309,7 +309,6 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
-
     }
     @Override
     public void onBackPressed() {

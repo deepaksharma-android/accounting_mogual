@@ -355,7 +355,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("rate", mRate.getText().toString());
                 mMap.put("discount", mDiscount.getText().toString());
                 mMap.put("value", mValue.getText().toString());
-                String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name();
+                String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");
                     String taxname = arrtaxstring[0].trim();

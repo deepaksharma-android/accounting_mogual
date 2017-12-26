@@ -185,7 +185,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                 intStartActivityForResult=1;
 
-                ParameterConstant.checkForStartActivityResult=4;
+
                 appUser.account_master_group = "Bank Accounts";
                 ParameterConstant.checkStartActivityResultForAccount =4;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -200,7 +200,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                 intStartActivityForResult=2;
 
-                ParameterConstant.checkForStartActivityResult=4;
+
                 appUser.account_master_group = "Cash-in-hand";
                 ParameterConstant.checkStartActivityResultForAccount =4;
                 ExpandableAccountListActivity.isDirectForAccount=false;

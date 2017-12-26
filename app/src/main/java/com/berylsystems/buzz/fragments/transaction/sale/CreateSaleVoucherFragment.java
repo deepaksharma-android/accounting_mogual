@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
@@ -152,6 +154,11 @@ public class CreateSaleVoucherFragment extends Fragment {
 
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
+        }
+
+        if (!mDate.getText().toString().equals("")){
+            appUser.sale_date=mDate.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         }
 
         mDate.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +324,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
+                Preferences.getInstance(getContext()).setStoreId(id);
                 return;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -332,6 +340,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
                 Preferences.getInstance(getContext()).setSale_type_name(result);
+                Preferences.getInstance(getContext()).setSale_type_id(id);
                 appUser.sale_type_name = result;
                 LocalRepositories.saveAppUser(getActivity(), appUser);
             }
@@ -355,6 +364,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 mMobileNumber.setText(mobile);
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_id(id);
                 return;
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -420,6 +430,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 mMobileNumber.setText(mobile);
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_id(id);
                 boolForPartyName=false;
             }
             if (!boolForStore) {
@@ -431,6 +442,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
+                Preferences.getInstance(getContext()).setStoreId(id);
 
             }
         }
