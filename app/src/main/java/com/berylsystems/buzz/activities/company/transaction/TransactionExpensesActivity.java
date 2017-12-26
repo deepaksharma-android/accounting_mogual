@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.transaction.income;
+package com.berylsystems.buzz.activities.company.transaction;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,9 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -17,39 +16,40 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
-import com.berylsystems.buzz.adapters.IncomeListAdapter;
+import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
+import com.berylsystems.buzz.activities.company.FirstPageActivity;
+import com.berylsystems.buzz.adapters.ExpenceListAdapter;
+import com.berylsystems.buzz.adapters.TransactionExpenceAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.income.DeleteIncomeResponse;
-import com.berylsystems.buzz.networks.api_response.income.GetIncomeResponse;
+import com.berylsystems.buzz.networks.api_response.expence.GetExpenceResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.EventDeleteIncome;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class IncomeActivity extends AppCompatActivity {
+public class TransactionExpensesActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     RecyclerView.LayoutManager layoutManager;
-    IncomeListAdapter mAdapter;
+    TransactionExpenceAdapter mAdapter;
     @Bind(R.id.sale_type_list_recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.dashboard_spinner_layout)
@@ -57,24 +57,25 @@ public class IncomeActivity extends AppCompatActivity {
     @Bind(R.id.dashboard_spinner)
     Spinner dashboardSpinner;
     ArrayList<String> cashInHand = new ArrayList<>();
-    Snackbar snackbar;
+   // TransactionExpensesAdapter listAdapter;
     ProgressDialog mProgressDialog;
     AppUser appUser;
-
+    Snackbar snackbar;
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_income);
+       // setContentView(R.layout.activity_transaction_expenses);
 
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
         initActionbar();
-        EventBus.getDefault().register(this);
+        appUser= LocalRepositories.getAppUser(this);
 
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();
         int currentYear = currentYear();
+
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
@@ -102,18 +103,18 @@ public class IncomeActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.income_duration_spinner=selectedItemText;
+                appUser.expenses_duration_spinner=selectedItemText;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    mProgressDialog = new ProgressDialog(IncomeActivity.this);
+                    mProgressDialog = new ProgressDialog(TransactionExpensesActivity.this);
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_INCOME);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_EXPENCE);
                 } else {
                     snackbar = Snackbar
                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -135,6 +136,13 @@ public class IncomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_transaction_expenses;
+    }
+
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -147,9 +155,11 @@ public class IncomeActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("INCOME");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
+        //Spinner spinner = (Spinner) viewActionBar.findViewById(R.id.dashboard_spinner1);
+        // spinner.setVisibility(View.VISIBLE);
+        actionbarTitle.setText("Expenses");
         actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -190,111 +200,12 @@ public class IncomeActivity extends AppCompatActivity {
         return inputMonth;
     }
 
-    @Subscribe
-    public void getIncome(GetIncomeResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new IncomeListAdapter(this,response.getIncomes().data);
-            mRecyclerView.setAdapter(mAdapter);
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Subscribe
-    public void deleteincome(EventDeleteIncome pos){
-        //appUser.delete_bank_cash_deposit_id= String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
-        appUser.delete_income_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
-        new AlertDialog.Builder(IncomeActivity.this)
-                .setTitle("Delete Income Item")
-                .setMessage("Are you sure you want to delete this Record ?")
-                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
-                        mProgressDialog = new ProgressDialog(IncomeActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_INCOME);
-                    }
-                    else{
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
-                                            snackbar.dismiss();
-                                        }
-                                    }
-                                });
-                        snackbar.show();
-                    }
-                })
-                .setNegativeButton(R.string.btn_cancel, null)
-                .show();
-    }
-
-    @Subscribe
-    public void deleteincomeresponse(DeleteIncomeResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_INCOME);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-   /* public void add(View v) {
-        Intent i=new Intent(getApplicationContext(),CreateIncomeActivity.class);
-        startActivity(i);
-    }*/
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-    @Override
-    protected void onPause() {
-          EventBus.getDefault().unregister(this);
-          mProgressDialog.dismiss();
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-        mProgressDialog.dismiss();
-    }
-
-    @Subscribe
-    public void timout(String msg) {
-        snackbar = Snackbar
-                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
-        mProgressDialog.dismiss();
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, CreateIncomeActivity.class);
+                Intent intent = new Intent(this, FirstPageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromIncome",false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -305,11 +216,24 @@ public class IncomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, CreateIncomeActivity.class);
+        Intent intent = new Intent(this, FirstPageActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("fromIncome",false);
         startActivity(intent);
         finish();
     }
+    @Subscribe
+    public void getExpense(GetExpenceResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200) {
+            mRecyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mAdapter = new TransactionExpenceAdapter(this,response.getExpenses().data);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        else{
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 }

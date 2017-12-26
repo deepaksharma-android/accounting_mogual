@@ -1,7 +1,11 @@
 package com.berylsystems.buzz.networks.api_response.salevoucher;
 
 public class Data {
-    /*public String getId() {
+       public String id;
+    public String type;
+    public Attributes attributes;
+
+    public String getId() {
         return id;
     }
 
@@ -15,17 +19,13 @@ public class Data {
 
     public void setType(String type) {
         this.type = type;
-    }*/
+    }
 
-   /* public Attributes getAttributes() {
+    public Attributes getAttributes() {
         return attributes;
     }
 
     public void setAttributes(Attributes attributes) {
         this.attributes = attributes;
     }
-
-    public String id;
-    public String type;
-    public Attributes attributes;*/
 }

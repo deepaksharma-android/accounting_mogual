@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GetSaleReportResponse {
     public String message;
     public int status;
-    public ArrayList<SaleVoucherItems> sale_voucher_items;
+    public SaleVoucherItems sale_vouchers;
 
     public String getMessage() {
         return message;
@@ -23,11 +23,11 @@ public class GetSaleReportResponse {
         this.status = status;
     }
 
-    public ArrayList<SaleVoucherItems> getSale_voucher_items() {
-        return sale_voucher_items;
+    public SaleVoucherItems getSale_vouchers() {
+        return sale_vouchers;
     }
 
-    public void setSale_voucher_items(ArrayList<SaleVoucherItems> sale_voucher_items) {
-        this.sale_voucher_items = sale_voucher_items;
+    public void setSale_vouchers(SaleVoucherItems sale_vouchers) {
+        this.sale_vouchers = sale_vouchers;
     }
 }

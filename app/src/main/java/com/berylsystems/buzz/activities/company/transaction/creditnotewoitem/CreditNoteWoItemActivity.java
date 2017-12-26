@@ -15,6 +15,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -34,6 +38,9 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -45,6 +52,11 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     CreditNoteListAdapter mAdapter;
     @Bind(R.id.sale_type_list_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.dashboard_spinner_layout)
+    LinearLayout dashboardSpinnerLayout;
+    @Bind(R.id.dashboard_spinner)
+    Spinner dashboardSpinner;
+    ArrayList<String> cashInHand = new ArrayList<>();
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
@@ -58,30 +70,70 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
         initActionbar();
         EventBus.getDefault().register(this);
 
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
-            mProgressDialog = new ProgressDialog(CreditNoteWoItemActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CREDIT_NOTE);
+        String fixMonth = "Apr";
+        int inputMonthPosition = inputMonthPosition(fixMonth);
+        int currentMonthPosition = currentMonth();
+        int currentYear = currentYear();
+        cashInHand.add("Today");
+        cashInHand.add("Last 7 days");
+
+        if(currentMonthPosition<inputMonthPosition)
+        {
+            for(int i = currentMonthPosition; i>=0; i--){
+                cashInHand.add(monthName[i] + " " + currentYear);
+            }
+            for(int j=11;j>=inputMonthPosition;j--){
+                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            }
+        }else {
+            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+
+                cashInHand.add(monthName[i] + " " + currentYear);
+            }
         }
-        else{
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, cashInHand);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dashboardSpinner.setAdapter(dataAdapter);
+
+
+        dashboardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                appUser.credit_note_duration_spinner=selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(CreditNoteWoItemActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CREDIT_NOTE);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void initActionbar() {
@@ -104,7 +156,39 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+    String[] monthName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+            "Aug", "Sep", "Oct", "Nov", "Dec"};
 
+    private int currentMonth() {
+        int monthPosition = -1;
+        Calendar cal = Calendar.getInstance();
+        String currentMonth = monthName[cal.get(Calendar.MONTH)];
+        //String currentYear = monthName[cal.get(Calendar.YEAR)];
+
+        for (int i = 0; i < 12; i++) {
+            if (currentMonth == (monthName[i])) {
+                monthPosition = i;
+            }
+        }
+        return monthPosition;
+    }
+
+    private int currentYear() {
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        return currentYear;
+    }
+
+    private int inputMonthPosition(String month) {
+        int inputMonth = -1;
+        for (int i = 0; i < 12; i++) {
+            if (month.equals(monthName[i])) {
+                inputMonth = i;
+            }
+        }
+        return inputMonth;
+    }
     @Subscribe
     public void getcreditnote(GetCreditNoteResponse response){
         mProgressDialog.dismiss();

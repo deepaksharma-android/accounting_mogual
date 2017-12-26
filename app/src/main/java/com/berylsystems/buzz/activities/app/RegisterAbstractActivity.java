@@ -23,11 +23,6 @@ public abstract class RegisterAbstractActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
     }
 
-
-
-
-
-
     protected abstract int layoutId();
 
     @Override

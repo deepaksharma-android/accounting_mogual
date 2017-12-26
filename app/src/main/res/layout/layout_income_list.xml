@@ -79,6 +79,59 @@
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:weightSum="1"
+        android:layout_gravity="center">
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".4"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Amount"
+            android:textStyle="bold"
+            android:textColor="#000"
+            style="@style/Gotham_Book"
+            android:layout_height="wrap_content" />
+
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".6"
+            android:id="@+id/bank_edit_text4"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:weightSum="1"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center">
+
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".4"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#000"
+            style="@style/Gotham_Book"
+            android:text="Voucher no."
+            android:layout_height="wrap_content" />
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".6"
+            android:id="@+id/bank_edit_text5"
+            android:textSize="15sp"
+            android:textColor="#000"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:weightSum="1"
         android:layout_marginBottom="5dp"
         android:layout_gravity="center">
         <com.berylsystems.buzz.utils.BuzzTextView

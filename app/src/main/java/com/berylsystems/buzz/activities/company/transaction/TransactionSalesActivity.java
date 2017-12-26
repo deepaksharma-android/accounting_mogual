@@ -9,27 +9,26 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 
-import com.berylsystems.buzz.adapters.TransactionSalesAdapter;
-import com.berylsystems.buzz.adapters.TransactionStockInHandAdapter;
+import com.berylsystems.buzz.adapters.TransactionSalesVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
-import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
-import com.berylsystems.buzz.networks.api_response.salereport.GetSaleReportResponse;
+import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -38,44 +37,32 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
-public class TransactionSalesActivity extends AppCompatActivity {
+public class TransactionSalesActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    RecyclerView.LayoutManager layoutManager;
+    TransactionSalesVoucherAdapter mAdapter;
+    @Bind(R.id.sale_type_list_recycler_view)
+    RecyclerView mRecyclerView;
     @Bind(R.id.dashboard_spinner_layout)
     LinearLayout dashboardSpinnerLayout;
     @Bind(R.id.dashboard_spinner)
     Spinner dashboardSpinner;
     ArrayList<String> cashInHand = new ArrayList<>();
-    @Bind(R.id.lvExp)
-    ExpandableListView expListView;
-    TransactionSalesAdapter listAdapter;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
-    HashMap<Integer, List<String>> listDataChildId;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
-    List<String> name;
-    List<String> id;
-    ArrayList amountList=new ArrayList();
-    ArrayList quantityList=new ArrayList();
     String title;
-    public static Boolean isDirectForFirstPage = true;
-    Boolean fromStockReport;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction_month_year);
+        //setContentView(R.layout.activity_transaction_month_year);
 
         ButterKnife.bind(this);
         initActionbar();
@@ -87,7 +74,7 @@ public class TransactionSalesActivity extends AppCompatActivity {
         int currentYear = currentYear();
 
         cashInHand.add("Today");
-        cashInHand.add("7 Days");
+        cashInHand.add("Last 7 days");
 
         if(currentMonthPosition<inputMonthPosition)
         {
@@ -113,9 +100,8 @@ public class TransactionSalesActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.duration_spinner=selectedItemText;
+                appUser.sales_duration_spinner=selectedItemText;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                //Toast.makeText(getApplicationContext(),appUser.date_spinner, Toast.LENGTH_SHORT).show();
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -125,7 +111,7 @@ public class TransactionSalesActivity extends AppCompatActivity {
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_REPORT);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
                 } else {
                     snackbar = Snackbar
                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -148,6 +134,11 @@ public class TransactionSalesActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_transaction_month_year;
     }
 
     private void initActionbar() {
@@ -229,55 +220,18 @@ public class TransactionSalesActivity extends AppCompatActivity {
         finish();
     }
 
-
-
     @Subscribe
-    public void getSaleReport(GetSaleReportResponse response) {
+    public void getSaleVoucher(GetSaleVoucherListResponse response){
         mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-            listDataHeader = new ArrayList<>();
-            listDataChild = new HashMap<String, List<String>>();
-            // listDataChildAmount = new HashMap<Integer, List<String>>();
-            listDataChildId = new HashMap<Integer, List<String>>();
-            if (response.getSale_voucher_items().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
-            }
-            for (int i = 0; i < response.getSale_voucher_items().size(); i++) {
-                listDataHeader.add(response.getSale_voucher_items().get(i).getGroup_name());
-                name = new ArrayList<>();
-                //amount = new ArrayList<>();
-                id = new ArrayList<>();
-                Double addAmount=0.0;
-                int addQuantity=0;
-                for (int j = 0; j < response.getSale_voucher_items().get(i).getData().size(); j++) {
-                    name.add(response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getName()
-                            + "," + String.valueOf(response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getPrice())
-                            + "," + String.valueOf(response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getQuantity()));
-                    id.add(response.getSale_voucher_items().get(i).getData().get(j).getId());
-                    Double addprize = response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getPrice();
-                    int addquantity = response.getSale_voucher_items().get(i).getData().get(j).getAttributes().getQuantity();
-                    addAmount = addAmount+addprize;
-                    addQuantity = addQuantity+addquantity;
-                }
-                amountList.add(Double.valueOf(String.format("%.2f",addAmount)));
-                quantityList.add(addQuantity);
-                listDataChild.put(listDataHeader.get(i), name);
-                listDataChildId.put(i, id);
-                Timber.i("1111111111111111111"+addAmount);
-                Timber.i("1111111111111111111"+addQuantity);
-               // Timber.i("1111111111111111111"+listDataHeader);
-            }
-            Timber.i("1111111111111111111"+listDataHeader);
-
-            listAdapter = new TransactionSalesAdapter(this, listDataHeader, listDataChild,amountList,quantityList);
-
-            // setting list adapter
-            expListView.setAdapter(listAdapter);
-
-        } else {
-            //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        if(response.getStatus()==200) {
+            mRecyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mAdapter = new TransactionSalesVoucherAdapter(this,response.getSale_vouchers().data);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        else{
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
-
 }

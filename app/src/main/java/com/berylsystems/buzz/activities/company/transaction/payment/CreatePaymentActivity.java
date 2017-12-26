@@ -202,7 +202,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    if (i == 1) {
+                    if (i == 0) {
                         date_pdc_layout.setVisibility(View.GONE);
                         date_pdc_textview.setVisibility(View.GONE);
                     } else {

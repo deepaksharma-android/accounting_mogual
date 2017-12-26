@@ -3,7 +3,7 @@ package com.berylsystems.buzz.utils;
 
 public interface Cv {
     String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-    //String BASE_URL = "http://192.168.1.14:3000/api/v1/";
+    //String BASE_URL = "http://192.168.0.120:3000/api/v1/";
 
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
@@ -155,7 +155,7 @@ public interface Cv {
     String ACTION_GET_TRANSACTION_PDF = "action_get_transaction_pdf";
     String ACTION_GET_VOUCHER_NUMBERS= "action_get_voucher_numbers";
 
-   String  ACTION_GET_SALE_REPORT="action_get_sale_report";
+   String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";
 
 
 }

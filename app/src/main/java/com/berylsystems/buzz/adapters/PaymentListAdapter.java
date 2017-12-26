@@ -42,6 +42,8 @@ public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().paid_to);
         viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().paid_from);
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
+        viewHolder.bank_edit_text4.setText(""+data.get(position).getAttributes().amount);
+        viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
 
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
@@ -78,6 +80,10 @@ public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.
         TextView bank_edit_text2;
         @Bind(R.id.bank_edit_text3)
         TextView bank_edit_text3;
+        @Bind(R.id.bank_edit_text4)
+        TextView bank_edit_text4;
+        @Bind(R.id.bank_edit_text5)
+        TextView bank_edit_text5;
         @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

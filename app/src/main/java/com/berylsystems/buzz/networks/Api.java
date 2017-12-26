@@ -412,7 +412,7 @@ public interface Api {
     Call<GetSaleVoucherListResponse> getsalevoucherlist(@Path("id") String id);
 
     @GET("company_bank_cash_deposits/{id}")
-    Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id);
+    Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("bank_cash_deposits/{id}")
     Call<DeleteBankCashDepositResponse> deletebankcashdeposit(@Path("id") String id);
@@ -430,7 +430,7 @@ public interface Api {
     Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload,@Path("id") String id);
 
     @GET("company_bank_cash_withdraw/{id}")
-    Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id);
+    Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("bank_cash_withdraw/{id}")
     Call<DeleteBankCashWithdrawResponse> deletebankcashwithdraw(@Path("id") String id);
@@ -448,7 +448,7 @@ public interface Api {
     Call<CreateIncomeResponse> createincome(@Body RequestCreateIncome payload, @Path("id") String id);
 
     @GET("company_incomes/{id}")
-    Call<GetIncomeResponse> getincome(@Path("id") String id);
+    Call<GetIncomeResponse> getincome(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("incomes/{id}")
     Call<DeleteIncomeResponse> deleteincome(@Path("id") String id);
@@ -463,7 +463,7 @@ public interface Api {
     Call<CreateExpenceResponse> createexpence(@Body RequestCreateEXpence payload, @Path("id") String id);
 
     @GET("company_expenses/{id}")
-    Call<GetExpenceResponse> getexpence(@Path("id") String id);
+    Call<GetExpenceResponse> getexpence(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("expenses/{id}")
     Call<DeleteExpenceResponse> deleteexpence(@Path("id") String id);
@@ -478,7 +478,7 @@ public interface Api {
     Call<CreatePaymentResponse> createpayment(@Body RequestCreatePayment payload, @Path("id") String id );
 
     @GET("company_payments/{id}")
-    Call<GetPaymentResponse> getpayment(@Path("id") String id);
+    Call<GetPaymentResponse> getpayment(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("payments/{id}")
     Call<DeletePaymentResponse> deletepayment(@Path("id") String id);
@@ -493,7 +493,7 @@ public interface Api {
     Call<CreateJournalVoucherResponse> createjournalvoucher(@Body RequestCreateJournalVoucher payload,@Path("id") String id);
 
     @GET("company_journal_voucher/{id}")
-    Call<GetJournalVoucherResponse> getjournalvoucher(@Path("id") String id);
+    Call<GetJournalVoucherResponse> getjournalvoucher(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("journal_voucher/{id}")
     Call<DeleteJournalVoucherResponse> deletejournalvoucher(@Path("id") String id);
@@ -508,7 +508,7 @@ public interface Api {
     Call<CreateReceiptVoucherResponse> createreceipt(@Body RequestCreateReceipt payload, @Path("id") String id);
 
     @GET("company_receipt_vouchers/{id}")
-    Call<GetReceiptVoucherResponse> getreceiptvoucher(@Path("id") String id);
+    Call<GetReceiptVoucherResponse> getreceiptvoucher(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("receipt_vouchers/{id}")
     Call<DeleteReceiptVoucherResponse> deletereceiptvoucher(@Path("id") String id);
@@ -523,7 +523,7 @@ public interface Api {
     Call<CreateCreditNoteResponse> createcreditnote(@Body RequestCreateCreditNote payload,@Path("id") String id);
 
     @GET("company_credit_notes/{id}")
-    Call<GetCreditNoteResponse> getcreditnote(@Path("id") String id);
+    Call<GetCreditNoteResponse> getcreditnote(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("credit_notes/{id}")
     Call<DeleteCreditNoteResponse> deletecrdeitnote(@Path("id") String id);
@@ -538,7 +538,7 @@ public interface Api {
     Call<CreateDebitNoteResponse> createdebitnote(@Body RequestCreateDebitNote payload,@Path("id") String id);
 
     @GET("company_debit_notes/{id}")
-    Call<GetDebitNoteResponse> getdebitnote(@Path("id") String id);
+    Call<GetDebitNoteResponse> getdebitnote(@Path("id") String id,@Query("duration") String duration);
 
     @DELETE("debit_notes/{id}")
     Call<DeleteDebitNoteResponse> deletedebitnote(@Path("id") String id);
@@ -564,7 +564,7 @@ public interface Api {
     @GET("voucher_series/{id}")
     Call<GetVoucherNumbersResponse> getvouchernumbers(@Path("id") String id, @Query("voucher_type") String voucher_type);
 
-    @GET("sales_report/{id}")
-    Call<GetSaleReportResponse> getsalereport(@Path("id") String id, @Query("duration") String duration);
+    @GET("company_sale_vouchers/{id}")
+    Call<GetSaleVoucherListResponse> getsalevoucher(@Path("id") String id, @Query("duration") String duration);
 
 }

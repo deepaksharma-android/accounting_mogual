@@ -184,48 +184,7 @@
                         android:layout_marginTop="5dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
-                            android:id="@+id/payment_pay_to"
-                            style="@style/Gotham_Medium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:text="Received Into"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
 
-                        <LinearLayout
-                            android:id="@+id/received_from_layout"
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <com.berylsystems.buzz.utils.BuzzTextView
-                                android:id="@+id/received_into"
-                                style="@style/Gotham_Book"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_weight="0.9"
-                                android:background="@android:color/transparent"
-                                android:hint="Received Into"
-                                android:textColor="#000"
-                                android:textSize="16sp" />
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="15dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="0.1"
-                                android:src="@drawable/right_chevron"/>
-                        </LinearLayout>
 
                         <com.berylsystems.buzz.utils.BuzzTextView
                             style="@style/Gotham_Medium"
@@ -269,6 +228,48 @@
                                 android:src="@drawable/right_chevron" />
                         </LinearLayout>
 
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:id="@+id/payment_pay_to"
+                            style="@style/Gotham_Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="Received Into"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:id="@+id/received_from_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <com.berylsystems.buzz.utils.BuzzTextView
+                                android:id="@+id/received_into"
+                                style="@style/Gotham_Book"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.9"
+                                android:background="@android:color/transparent"
+                                android:hint="Received Into"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="15dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/right_chevron"/>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout

@@ -18,6 +18,7 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.transaction.TransactionBankActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionCashInHandActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionCustomerActivity;
+import com.berylsystems.buzz.activities.company.transaction.TransactionExpensesActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionSalesActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
 import com.berylsystems.buzz.activities.company.transaction.TransactionSupplierActivity;
@@ -192,7 +193,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         mExpenses_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TransactionExpensesActivity.class);
                 startActivity(intent);
             }
         });

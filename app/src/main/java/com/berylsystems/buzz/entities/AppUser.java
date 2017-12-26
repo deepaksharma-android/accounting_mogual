@@ -442,7 +442,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String delete_debit_note_id;
     public String edit_debit_note_id;
 
-public String payment_paid_to_id;
+    public String payment_paid_to_id;
     public String payment_paid_from_id;
     public String payment_voucher_series="";
     public String payment_date;
@@ -469,5 +469,15 @@ public String payment_paid_to_id;
     public String pdf_end_date;
 
     public String voucher_type;
-     public String duration_spinner;
+    public String sales_duration_spinner;
+    public String expenses_duration_spinner;
+    public String income_duration_spinner;
+    public String bank_cash_deposit_duration_spinner;
+    public String bank_cash_withdraw_duration_spinner;
+    public String payment_duration_spinner;
+    public String receipt_duration_spinner;
+    public String journal_voucher_duration_spinner;
+    public String debit_note_duration_spinner;
+    public String credit_note_duration_spinner;
+
 }
