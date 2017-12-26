@@ -106,16 +106,22 @@
                             android:textSize="16sp"/>
                     </LinearLayout>
 
-
-                    <LinearLayout
+                   <!-- <LinearLayout
                         android:id="@+id/home_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="home"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
                         android:gravity="center"
-                        android:onClick="home"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -147,15 +153,22 @@
                         android:layout_height="1dp"
                         android:background="#e2e2e2" />
 
+                    </LinearLayout>
+-->
+                <LinearLayout
+                    android:id="@+id/profile_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="profile"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:id="@+id/profile_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:onClick="profile"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -186,15 +199,22 @@
                         android:layout_height="1dp"
                         android:background="#e2e2e2" />
 
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/about_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="about"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:id="@+id/about_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:onClick="about"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -225,16 +245,22 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#e2e2e2" />
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/logout_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="logout"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/logout_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:onClick="home"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -265,6 +291,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#e2e2e2" />
+                    </LinearLayout>
 
 
                 </LinearLayout>

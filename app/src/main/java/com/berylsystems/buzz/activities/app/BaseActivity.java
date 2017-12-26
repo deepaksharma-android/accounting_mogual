@@ -144,10 +144,10 @@ public class BaseActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
     }
-    public void home(View v){
-        /*Intent intent = new Intent(getApplicationContext(),CompanyListActivity.class);
-        startActivity(intent);*/
-    }
+  /*  public void home(View v){
+        *//*Intent intent = new Intent(getApplicationContext(),CompanyListActivity.class);
+        startActivity(intent);*//*
+    }*/
     public void profile(View v){
         Intent intent = new Intent(getApplicationContext(),UpdateUserActivity.class);
         startActivity(intent);
