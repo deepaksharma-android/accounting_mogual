@@ -159,7 +159,7 @@ public class CompanyListActivity extends BaseActivity {
             mRecyclerView.setVisibility(View.GONE);
             appUser.company_id=response.getCompany().getData().getId();
             LocalRepositories.saveAppUser(this,appUser);
-            mCompanyName.setText(response.getCompany().getData().getAttributes().getName());
+            mCompanyName.setText(response.getCompany().getData().getAttributes().getName()+" "+"("+response.getCompany().getData().getAttributes().getUnique_id()+")");
             mCompany_address.setText(response.getCompany().getData().getAttributes().getAddress());
             mMainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
