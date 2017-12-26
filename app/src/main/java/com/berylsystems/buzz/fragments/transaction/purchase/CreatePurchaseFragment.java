@@ -190,9 +190,11 @@ public class CreatePurchaseFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.purchase_payment_type = cash.getText().toString();
+
+                Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
+                appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                cash.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                cash.setBackgroundColor(Color.parseColor("#ababab"));
                 credit.setBackgroundColor(0);
                 cash.setTextColor(Color.parseColor("#ffffff"));//white
                 credit.setTextColor(Color.parseColor("#000000"));//black
@@ -201,9 +203,10 @@ public class CreatePurchaseFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.purchase_payment_type = credit.getText().toString();
+                Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
+                appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                credit.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                credit.setBackgroundColor(Color.parseColor("#ababab"));
                 cash.setBackgroundColor(0);
                 credit.setTextColor(Color.parseColor("#ffffff"));//white
                 cash.setTextColor(Color.parseColor("#000000"));//black
