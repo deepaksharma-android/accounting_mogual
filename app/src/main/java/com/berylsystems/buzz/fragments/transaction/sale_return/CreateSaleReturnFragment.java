@@ -151,7 +151,10 @@ public class CreateSaleReturnFragment extends Fragment {
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
-
+        if (!mDate.getText().toString().equals("")){
+            appUser.sale_return_date=mDate.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        }
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,6 +302,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
+                Preferences.getInstance(getContext()).setStoreId(id);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -310,7 +314,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.sale_return_saleType = String.valueOf(id);
-                Preferences.getInstance(getApplicationContext()).setSale_type_name(result);
+                Preferences.getInstance(getContext()).setSale_type_name(result);
+                Preferences.getInstance(getContext()).setSale_type_id(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
             }
@@ -333,6 +338,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
                 mMobileNumber.setText(mobile);
                 Preferences.getInstance(getContext()).setMobile(mobile);
+                Preferences.getInstance(getContext()).setParty_id(id);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -366,6 +372,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 mMobileNumber.setText(mobile);
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_id(id);
                 boolForPartyName=false;
             }
             if (!boolForStore) {
@@ -377,6 +384,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
+                Preferences.getInstance(getContext()).setStoreId(id);
 
             }
         }

@@ -103,7 +103,7 @@ public class CreatePurchaseFragment extends Fragment {
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
         Preferences.getInstance(getContext()).setVoucher_date(date1);
-        mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
+        mPurchaseType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
         mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
@@ -127,6 +127,11 @@ public class CreatePurchaseFragment extends Fragment {
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
+        }
+
+        if (!mDate.getText().toString().equals("")){
+            appUser.purchase_date=mDate.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         }
 
         mDate.setOnClickListener(new View.OnClickListener() {
@@ -275,6 +280,8 @@ public class CreatePurchaseFragment extends Fragment {
                 mStore.setText(name[0]);
                 boolForStore=true;
                 Preferences.getInstance(getContext()).setStore(name[0]);
+                Preferences.getInstance(getContext()).setStoreId(id);
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -289,7 +296,9 @@ public class CreatePurchaseFragment extends Fragment {
                 appUser.purchase_puchase_type_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPurchaseType.setText(result);
-                Preferences.getInstance(getContext()).setPurchase_type_name(result);
+                Preferences.getInstance(getContext()).setSale_type_name(result);
+                Preferences.getInstance(getContext()).setSale_type_id(id);
+
                 appUser.purchase_type_name = result;
                 LocalRepositories.saveAppUser(getActivity(), appUser);
             }
@@ -312,6 +321,7 @@ public class CreatePurchaseFragment extends Fragment {
                 boolForPartyName=true;
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_id(id);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -346,6 +356,7 @@ public class CreatePurchaseFragment extends Fragment {
                 mMobileNumber.setText(mobile);
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                Preferences.getInstance(getContext()).setParty_id(id);
 
             }
             if (!boolForStore) {
@@ -357,7 +368,7 @@ public class CreatePurchaseFragment extends Fragment {
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
-
+                Preferences.getInstance(getContext()).setStoreId(id);
             }
         }
 

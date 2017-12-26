@@ -9,8 +9,6 @@ public class ParameterConstant {
     public static int checkStartActivityResultForAccount;
     public static int checkStartActivityResultForAccountGroup;
     public static int checkStartActivityResultForItemGroupOfItem;
-    public static int checkStartActivityResultForUnitOfItem;
     public static int checkStartActivityResultForUnitList;
-    public static  int checkForStartActivityResult;
 
 }

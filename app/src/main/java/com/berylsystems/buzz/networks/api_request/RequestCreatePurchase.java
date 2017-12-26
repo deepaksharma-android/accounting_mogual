@@ -22,11 +22,11 @@ public class RequestCreatePurchase {
         voucher.put("voucher_series",appUser.purchase_voucher_series);
         voucher.put("voucher_number",appUser.purchase_voucher_number);
         voucher.put("company_id", Preferences.getInstance(context).getCid());
-        voucher.put("purchase_type_id",appUser.purchase_puchase_type_id);
+        voucher.put("purchase_type_id",Preferences.getInstance(context).getSale_type_id());
         voucher.put("payment_type",appUser.purchase_payment_type);
         voucher.put("mobile_number",appUser.purchase_mobile_number);
-        voucher.put("account_master_id",appUser.purchase_account_master_id);
-        voucher.put("material_center_id",appUser.purchase_material_center_id);
+        voucher.put("account_master_id",Preferences.getInstance(context).getParty_id());
+        voucher.put("material_center_id",Preferences.getInstance(context).getStoreId());
         voucher.put("itc_eligibility",appUser.purchase_itc_eligibility);
         voucher.put("narration",appUser.purchase_narration);
         voucher.put("created_at",appUser.purchase_created_at);

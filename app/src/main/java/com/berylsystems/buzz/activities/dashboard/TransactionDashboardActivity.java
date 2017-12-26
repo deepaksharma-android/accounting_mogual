@@ -169,11 +169,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
-                Preferences.getInstance(context).setStore("");
-                Preferences.getInstance(context).setParty_name("");
+                //Preferences.getInstance(context).setStore("");
+                //Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
-                Preferences.getInstance(context).setSale_type_name("");
+                //Preferences.getInstance(context).setSale_type_name("");
                 Preferences.getInstance(context).setCash_credit("");
                 //final CharSequence[] items = {"Add", "Modify"};
                 appUser.mListMapForItemSale.clear();
@@ -245,12 +245,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
-                Preferences.getInstance(context).setStore("");
-                Preferences.getInstance(context).setParty_name("");
+//                Preferences.getInstance(context).setStore("");
+//                Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
-                Preferences.getInstance(context).setPurchase_type_name("");
+//                Preferences.getInstance(context).setPurchase_type_name("");
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
                 LocalRepositories.saveAppUser(context, appUser);
@@ -453,12 +453,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
-                Preferences.getInstance(context).setStore("");
-                Preferences.getInstance(context).setParty_name("");
+                //Preferences.getInstance(context).setStore("");
+                //Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
-                Preferences.getInstance(context).setSale_type_name("");
+                //Preferences.getInstance(context).setSale_type_name("");
 
                 appUser.mListMapForItemSaleReturn.clear();
                 appUser.mListMapForBillSaleReturn.clear();
@@ -496,12 +496,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
-                Preferences.getInstance(context).setStore("");
-                Preferences.getInstance(context).setParty_name("");
+//                Preferences.getInstance(context).setStore("");
+//                Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
-                Preferences.getInstance(context).setPurchase_return_type_name("");
+//                Preferences.getInstance(context).setPurchase_return_type_name("");
 
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();

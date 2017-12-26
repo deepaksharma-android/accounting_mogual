@@ -70,7 +70,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name().equals("")) {
+                if(!Preferences.getInstance(getApplicationContext()).getSale_type_name().equals("")) {
                     add_item_button.startAnimation(blinkOnClick);
                     Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
                     ExpandableItemListActivity.comingFrom = 3;
@@ -86,7 +86,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name().equals("")) {
+                if (!Preferences.getInstance(getApplicationContext()).getSale_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 3;
                     BillSundryListActivity.isDirectForBill = false;
@@ -203,7 +203,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
     }
 
     private void amountCalculation(){
-        String taxstring = Preferences.getInstance(getApplicationContext()).getPurchase_return_type_name();
+        String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
