@@ -381,7 +381,7 @@ public class CreatePurchaseFragment extends Fragment {
     public void createpurchase(CreatePurchaseResponce response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            //startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

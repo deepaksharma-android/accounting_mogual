@@ -132,7 +132,7 @@ public class Preferences {
     private static final String voucher_number="voucher_number";
     private static final String voucherstore="store";
 
-    private static final String store_id="store";
+    private static final String store_id="store_id";
     private static final String party_name="party_name";
     private static final String party_id="party_id";
     private static final String vouchermobile="mobile";

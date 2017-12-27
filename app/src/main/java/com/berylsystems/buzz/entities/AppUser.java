@@ -403,6 +403,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String receipt_received_from_id;
     public String receipt_received_by_id;
+    public String receipt_received_from_name;
+    public String receipt_received_by_name;
     public String receipt_voucher_series="";
     public String receipt_date;
     public String receipt_date_pdc;
