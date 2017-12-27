@@ -77,6 +77,8 @@ public class CreateSaleVoucherFragment extends Fragment {
     LinearLayout submit;
     @Bind(R.id.narration)
     EditText mNarration;
+    @Bind(R.id.sale_type_layout)
+    LinearLayout mSaleTypeLayout;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     ProgressDialog mProgressDialog;
@@ -131,6 +133,9 @@ public class CreateSaleVoucherFragment extends Fragment {
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
         Preferences.getInstance(getContext()).setVoucher_date(date1);
+        if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")){
+            mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
+        }
         mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
@@ -342,6 +347,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.sale_saleType = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
+                mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
                 Preferences.getInstance(getContext()).setSale_type_name(result);
                 Preferences.getInstance(getContext()).setSale_type_id(id);
                 appUser.sale_type_name = result;
