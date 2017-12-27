@@ -203,7 +203,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             public void onClick(View view) {
                 intStartActivityForResult=2;
                 ParameterConstant.checkStartActivityResultForAccount =6;
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Income (Direct/Opr.),Income (Indirect),Profit & Loss";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);

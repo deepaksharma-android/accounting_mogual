@@ -181,7 +181,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         account_name_debit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 ParameterConstant.checkStartActivityResultForAccount =11;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;

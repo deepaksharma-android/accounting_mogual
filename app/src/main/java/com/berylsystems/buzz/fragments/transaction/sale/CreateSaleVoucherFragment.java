@@ -211,7 +211,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             public void onClick(View v) {
                 intStartActivityForResult=2;
                 ParameterConstant.checkStartActivityResultForAccount =0;
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent intent = new Intent(getContext(), ExpandableAccountListActivity.class);

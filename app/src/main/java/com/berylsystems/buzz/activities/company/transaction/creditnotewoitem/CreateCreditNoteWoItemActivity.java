@@ -184,7 +184,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View view) {
                 //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 ParameterConstant.checkStartActivityResultForAccount =12;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
