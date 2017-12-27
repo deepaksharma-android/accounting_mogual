@@ -446,6 +446,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String payment_paid_to_id;
     public String payment_paid_from_id;
+    public String payment_paid_to_name;
+    public String payment_paid_from_name;
     public String payment_voucher_series="";
     public String payment_date;
     public String payment_date_pdc;

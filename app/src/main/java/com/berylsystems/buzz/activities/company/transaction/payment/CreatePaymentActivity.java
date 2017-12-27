@@ -122,6 +122,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        paid_to.setText(""+appUser.payment_paid_to_name);
+        paid_from.setText(""+appUser.payment_paid_from_name);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -466,20 +469,21 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.payment_paid_to_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.payment_paid_to_id = id;
+                appUser.payment_paid_to_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_to.setText(name[0]);
             }
             if (requestCode == 3) {
                 boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.payment_paid_from_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.payment_paid_from_id =id;
+                appUser.payment_paid_from_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_from.setText(name[0]);
-
             }
         }
     }
@@ -498,23 +502,22 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 boolForReceivedFrom=true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.payment_paid_to_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.payment_paid_to_id = id;
+                appUser.payment_paid_to_name = name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_to.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.payment_paid_from_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.payment_paid_from_id =id;
+                appUser.payment_paid_from_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_from.setText(name[0]);
-
             }
         }
 
