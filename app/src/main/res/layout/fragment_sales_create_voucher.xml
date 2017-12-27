@@ -185,6 +185,7 @@
                     android:textSize="15sp" />
 
                 <LinearLayout
+                    android:id="@+id/sale_type_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"

@@ -26,6 +26,8 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -85,6 +87,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
     public static int intStartActivityForResult=0;
     public Boolean boolForPartyName=false;
     public Boolean boolForStore=false;
+    String party_id;
 
     @Override
     public void onStart() {
@@ -204,7 +207,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
         });
-        appUser.purchase_payment_type=cash.getText().toString();
+        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
+        appUser.sale_cash_credit=cash.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
         cash.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +261,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+
 
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
@@ -335,6 +339,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                party_id=id;
                 appUser.purchase_account_master_id=id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr=result.split(",");
@@ -356,10 +361,21 @@ public class CreatePurchaseReturnFragment extends Fragment {
     public void createpurchase(CreatePurchaseReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                intent.putExtra("account",mPartyName.getText().toString());
+                intent.putExtra("account_id",appUser.sale_partyName);
+                intent.putExtra("from","purchase_return");
+                startActivity(intent);
+            }
+            else{
+                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            }
+           /* mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");*/
+
             //startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

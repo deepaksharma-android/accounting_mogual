@@ -27,6 +27,8 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -46,6 +48,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -85,7 +88,7 @@ public class CreateSaleReturnFragment extends Fragment {
     Snackbar snackbar;
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
-
+    String party_id;
     public static int intStartActivityForResult=0;
 
 
@@ -203,8 +206,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });
-
-        appUser.sale_return_cash_credit = cash.getText().toString();
+        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
+        appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         cash.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +260,6 @@ public class CreateSaleReturnFragment extends Fragment {
                                                 mProgressDialog.setCancelable(true);
                                                 mProgressDialog.show();
                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                             //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
 
                                            /* } else {
@@ -335,6 +337,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                party_id=id;
                 appUser.sale_return_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
@@ -400,11 +403,22 @@ public class CreateSaleReturnFragment extends Fragment {
     public void createSaleReturn(CreateSaleReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");
-            //startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+/*            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");*/
+           if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                intent.putExtra("account",mPartyName.getText().toString());
+                intent.putExtra("account_id",appUser.sale_partyName);
+               intent.putExtra("from","sale_return");
+               Timber.i("ACCOUNT_ID"+party_id);
+                startActivity(intent);
+            }
+            else{
+                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            }
+
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

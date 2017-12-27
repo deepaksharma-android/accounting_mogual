@@ -22,7 +22,7 @@ public class RequestCreateSaleReturn {
         voucher.put("voucher_number", appUser.sale_return_vchNo);
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
         voucher.put("sale_type_id", Preferences.getInstance(ctx).getSale_type_id());
-        voucher.put("payment_type", appUser.sale_return_cash_credit);
+        voucher.put("payment_type", Preferences.getInstance(ctx).getCash_credit());
         voucher.put("account_master_id", Preferences.getInstance(ctx).getParty_id());
         voucher.put("mobile_number", appUser.sale_return_mobileNumber);
         voucher.put("material_center_id", Preferences.getInstance(ctx).getStoreId());

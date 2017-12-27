@@ -28,6 +28,8 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -75,6 +77,8 @@ public class CreateSaleVoucherFragment extends Fragment {
     LinearLayout submit;
     @Bind(R.id.narration)
     EditText mNarration;
+    @Bind(R.id.sale_type_layout)
+    LinearLayout mSaleTypeLayout;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     ProgressDialog mProgressDialog;
@@ -85,6 +89,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     public Boolean boolForStore = false;
     public static int intStartActivityForResult=0;
     Snackbar snackbar;
+    public String party_id="";
 
     @Override
     public void onStart() {
@@ -128,6 +133,9 @@ public class CreateSaleVoucherFragment extends Fragment {
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
         Preferences.getInstance(getContext()).setVoucher_date(date1);
+       /* if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")){
+            mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
+        }*/
         mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
@@ -211,6 +219,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivityForResult(intent, 3);
             }
         });
+        Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
         appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getActivity(), appUser);
 
@@ -263,7 +272,6 @@ public class CreateSaleVoucherFragment extends Fragment {
                                             mProgressDialog.setCancelable(true);
                                             mProgressDialog.show();
                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
 
                                            /* } else {
                                                 Snackbar.make(coordinatorLayout, "Please enter mobile number", Snackbar.LENGTH_LONG).show();
@@ -339,6 +347,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.sale_saleType = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
+               // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
                 Preferences.getInstance(getContext()).setSale_type_name(result);
                 Preferences.getInstance(getContext()).setSale_type_id(id);
                 appUser.sale_type_name = result;
@@ -356,6 +365,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                party_id=id;
                // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -381,13 +391,24 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                intent.putExtra("account",mPartyName.getText().toString());
+                intent.putExtra("account_id",appUser.sale_partyName);
+                intent.putExtra("from","sale");
+                startActivity(intent);
+            }
+            else{
+                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            }
            // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            mPartyName.setText("");
+           /* mPartyName.setText("");
             mMobileNumber.setText("");
-            mNarration.setText("");
+            mNarration.setText("");*/
             /*appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();*/
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
