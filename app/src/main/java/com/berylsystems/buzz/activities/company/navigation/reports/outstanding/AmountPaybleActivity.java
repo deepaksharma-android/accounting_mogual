@@ -76,8 +76,16 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
 
+        Intent intent=getIntent();
+        String accountgroupname=intent.getStringExtra("name");
+        String nameArr[]=accountgroupname.split(",");
+        String accountname=nameArr[0];
+        mAccount_group_textview.setText(accountname);
+        String id=intent.getStringExtra("id");
+        appUser.pdf_account_id = id;
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-
+/*
         mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +95,7 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
-        });
+        });*/
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +139,7 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
         return R.layout.activity_amount_payble;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+   /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 2) {
                 String result = data.getStringExtra("name");
@@ -142,7 +150,7 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         }
-    }
+    }*/
 
     private void setDateField() {
         mStart_date.setOnClickListener(this);

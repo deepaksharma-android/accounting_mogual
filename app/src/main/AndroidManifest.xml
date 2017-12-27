@@ -502,7 +502,8 @@
             android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.company.navigation.reports.account_group.StocksReportsActivity" />
-        <activity android:name=".activities.company.transaction.TransactionExpensesActivity"></activity>
+        <activity android:name=".activities.company.transaction.TransactionExpensesActivity" />
+        <activity android:name=".activities.company.navigation.reports.outstanding.AmountReceivablesListActivity"></activity>
     </application>
 
 </manifest>

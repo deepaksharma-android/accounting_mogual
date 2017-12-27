@@ -15,9 +15,9 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountPaybleActivity;
-import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountReceivableActivity;
-import com.berylsystems.buzz.activities.company.transaction.TransactionStockInHandActivity;
-import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountReceivablesListActivity;
+import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.utils.LocalRepositories;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,6 +46,7 @@ public class AcountGroupActivity extends AppCompatActivity {
     TextView amount_receivable_txt;
     @Bind(R.id.amount_payble_txt)
     TextView amount_payble_txt;
+    AppUser appUser;
 
 
     @Override
@@ -53,7 +54,7 @@ public class AcountGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acount_group);
         ButterKnife.bind(this);
-
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
 
         ledger.setOnClickListener(new View.OnClickListener() {
@@ -91,14 +92,23 @@ public class AcountGroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 amount_receivable_txt.setTextColor(Color.WHITE);
-                startActivity(new Intent(getApplicationContext(), AmountReceivableActivity.class));
+                appUser.account_master_group = "Sundry Debtors";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                Intent intent=new Intent(getApplicationContext(),AmountReceivablesListActivity.class);
+                intent.putExtra("amountreceivable",true);
+                startActivity(intent);
+
             }
         });
         amountPayable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 amount_payble_txt.setTextColor(Color.WHITE);
-                startActivity(new Intent(getApplicationContext(), AmountPaybleActivity.class));
+                appUser.account_master_group = "Sundry Creditors";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                Intent intent=new Intent(getApplicationContext(),AmountReceivablesListActivity.class);
+                intent.putExtra("amountreceivable",false);
+                startActivity(intent);
             }
         });
 
