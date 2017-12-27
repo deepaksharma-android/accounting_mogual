@@ -398,6 +398,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String account_name_debit_id;
     public String account_name_credit_id;
+    public String account_name_debit_name;
+    public String account_name_credit_name;
     public String journal_voucher_voucher_series="";
     public String journal_voucher_date;
     public String journal_voucher_gst_nature="";
