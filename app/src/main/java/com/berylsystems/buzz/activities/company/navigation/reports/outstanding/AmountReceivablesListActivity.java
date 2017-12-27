@@ -58,7 +58,7 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
     List<String> name;
     List<String> id;
     ArrayList amountList=new ArrayList();
-    Boolean amountreceivable=true;
+    Boolean amountreceivable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +82,7 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("ACCOUNT GROUP");
+        actionbarTitle.setText("ACCOUNT GROUP LIST");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -197,14 +197,16 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
         String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
         appUser.childId = arrid;
         LocalRepositories.saveAppUser(this, appUser);
-
-        if(amountreceivable){
+        Intent getIntent=getIntent();
+        Boolean amounReceivabletForDirect=getIntent.getBooleanExtra("amounReceivabletForDirect",false);
+        Boolean amountPaybleForDirect=getIntent.getBooleanExtra("amountPaybleForDirect",false);
+        if(amounReceivabletForDirect){
             Intent intent = new Intent(getApplicationContext(), AmountReceivableActivity.class);
             intent.putExtra("name",name);
             intent.putExtra("id",arrid);
             ExpandableAccountListActivity.isDirectForAccount=false;
             startActivity(intent);
-        }else {
+        }if(amountPaybleForDirect) {
             Intent intent = new Intent(getApplicationContext(), AmountPaybleActivity.class);
             intent.putExtra("name",name);
             intent.putExtra("id",arrid);

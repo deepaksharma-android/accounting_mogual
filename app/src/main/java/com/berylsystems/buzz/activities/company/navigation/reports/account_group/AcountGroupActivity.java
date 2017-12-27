@@ -95,9 +95,8 @@ public class AcountGroupActivity extends AppCompatActivity {
                 appUser.account_master_group = "Sundry Debtors";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent intent=new Intent(getApplicationContext(),AmountReceivablesListActivity.class);
-                intent.putExtra("amountreceivable",true);
+                intent.putExtra("amounReceivabletForDirect",true);
                 startActivity(intent);
-
             }
         });
         amountPayable.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +106,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                 appUser.account_master_group = "Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent intent=new Intent(getApplicationContext(),AmountReceivablesListActivity.class);
-                intent.putExtra("amountreceivable",false);
+                intent.putExtra("amountPaybleForDirect",true);
                 startActivity(intent);
             }
         });
