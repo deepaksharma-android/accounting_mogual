@@ -319,9 +319,11 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String purchase_return_update_at="";
 
     public Map map = new HashMap();
-	
-	 public String deposit_to_id="";
+
+    public String deposit_to_id="";
     public String deposit_by_id="";
+    public String deposit_to_name="";
+    public String deposit_by_name="";
     public String bank_cash_deposit_voucher_series="";
     public String bank_cash_deposit_date;
     public String bank_cash_deposit_voucher_no="";
@@ -352,9 +354,11 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String purchase_narration = "";
     public String purchase_created_at="";
     public String purchase_update_at="";
-	
-	 public String withdraw_from_id;
+
+    public String withdraw_from_id;
     public String withdraw_by_id;
+    public String withdraw_from_name;
+    public String withdraw_by_name;
     public String bank_cash_withdraw_voucher_series="";
     public String bank_cash_withdraw_date;
     public String bank_cash_withdraw_voucher_no="";
@@ -366,6 +370,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String received_into_id;
     public String received_from_id;
+    public String received_into_name;
+    public String received_from_name;
     public String income_voucher_series="";
     public String income_date;
     public String income_voucher_no="";
@@ -377,6 +383,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String paid_from_id;
     public String paid_to_id;
+    public String paid_from_name;
+    public String paid_to_name;
     public String expence_voucher_series="";
     public String expence_date;
     public String expence_voucher_no="";
@@ -390,6 +398,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String account_name_debit_id;
     public String account_name_credit_id;
+    public String account_name_debit_name;
+    public String account_name_credit_name;
     public String journal_voucher_voucher_series="";
     public String journal_voucher_date;
     public String journal_voucher_gst_nature="";
@@ -446,6 +456,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String payment_paid_to_id;
     public String payment_paid_from_id;
+    public String payment_paid_to_name;
+    public String payment_paid_from_name;
     public String payment_voucher_series="";
     public String payment_date;
     public String payment_date_pdc;

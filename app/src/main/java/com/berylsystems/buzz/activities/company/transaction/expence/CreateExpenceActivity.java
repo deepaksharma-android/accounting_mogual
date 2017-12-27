@@ -115,6 +115,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
 
+        paid_from.setText(appUser.paid_from_name);
+        paid_to.setText(appUser.paid_to_name);
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE EXPENSE";
@@ -383,18 +385,21 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.paid_from_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.paid_from_id = id;
+                appUser.paid_from_name = name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_from.setText(name[0]);
             }
             if (requestCode == 3) {
                 boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.paid_to_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.paid_to_id =id;
+                appUser.paid_to_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
                 paid_to.setText(name[0]);
             }
         }
@@ -418,25 +423,26 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.paid_from_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.paid_from_id = id;
+                appUser.paid_from_name = name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_from.setText(name[0]);
             }
             if (!boolForReceivedBy) {
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.paid_to_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.paid_to_id =id;
+                appUser.paid_to_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 paid_to.setText(name[0]);
 
             }
         }
 
     }
-
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);

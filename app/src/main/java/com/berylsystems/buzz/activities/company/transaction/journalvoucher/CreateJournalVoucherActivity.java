@@ -114,7 +114,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
-
+        account_name_credit.setText(appUser.account_name_credit_name);
+        account_name_debit.setText(appUser.account_name_debit_name);
         Boolean isConnected = ConnectivityReceiver.isConnected();
        title="CREATE JOURNAL VOUCHER";
         fromJournalVoucher = getIntent().getExtras().getBoolean("fromJournalVoucher");
@@ -382,18 +383,20 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.account_name_debit_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.account_name_debit_id = id;
+                appUser.account_name_debit_name = name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 account_name_debit.setText(name[0]);
             }
             if (requestCode == 3) {
                 boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.account_name_credit_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.account_name_credit_id =id;
+                appUser.account_name_credit_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 account_name_credit.setText(name[0]);
             }
         }
@@ -417,18 +420,20 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.account_name_debit_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.account_name_debit_id = id;
+                appUser.account_name_debit_name = name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 account_name_debit.setText(name[0]);
             }
             if (!boolForReceivedBy) {
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.account_name_credit_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.account_name_credit_id =id;
+                appUser.account_name_credit_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 account_name_credit.setText(name[0]);
             }
         }

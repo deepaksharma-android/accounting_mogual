@@ -37,7 +37,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.8"
                         android:gravity="start"
-                        android:text="SELECT ITEMS"
+                        android:text="RECEIPT"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -45,7 +45,8 @@
                 <ListView
                     android:id="@+id/listViewItems"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></ListView>
+                    android:layout_height="fill_parent"
+                    android:divider="@null"/>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -61,7 +62,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.8"
                         android:gravity="start"
-                        android:text="SELECT BILLS SUNDRY"
+                        android:text="PAYMENT"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -70,7 +71,7 @@
                     android:id="@+id/listViewBills"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:divider="@null"></ListView>
+                    android:divider="@null"/>
             </LinearLayout>
         </ScrollView>
 
