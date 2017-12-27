@@ -11,35 +11,44 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
-import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
+import com.berylsystems.buzz.adapters.PdcPaymentAdapter;
+import com.berylsystems.buzz.adapters.PdcReceiptAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.pdc.Attribute;
+import com.berylsystems.buzz.networks.api_response.pdc.GetPdcResponse;
 import com.berylsystems.buzz.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Attr;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class PdcActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.account_group_layout)
+   /* @Bind(R.id.account_group_layout)
     LinearLayout mAccount_group_layout;
     @Bind(R.id.start_date_layout)
     LinearLayout mStart_date_layout;
@@ -52,18 +61,99 @@ public class PdcActivity extends RegisterAbstractActivity {
     @Bind(R.id.end_date)
     TextView mEnd_date;
     @Bind(R.id.submit)
-    LinearLayout mSubmit;
+    LinearLayout mSubmit;*/
+
+    @Bind(R.id.list_view_receipt)
+    ListView listViewReceipt;
+    @Bind(R.id.list_view_payment)
+    ListView listViewPayment;
+
+
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
-    private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    ArrayList<String> arrayList = new ArrayList<>();
+    @Bind(R.id.spinner)
+    Spinner spinner;
+    ArrayList<Attribute> receiptList;
+    ArrayList<Attribute> paymentList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initActionbar();
+        appUser=LocalRepositories.getAppUser(this);
+        String fixMonth = "Apr";
+        int inputMonthPosition = inputMonthPosition(fixMonth);
+        int currentMonthPosition = currentMonth();
+        int currentYear = currentYear();
+        arrayList.add("Today");
+        arrayList.add("Last 7 days");
+
+        if(currentMonthPosition<inputMonthPosition)
+        {
+            for(int i = currentMonthPosition; i>=0; i--){
+                arrayList.add(monthName[i] + " " + currentYear);
+            }
+            for(int j=11;j>=inputMonthPosition;j--){
+                arrayList.add(monthName[j] + " " + (currentYear-1));
+            }
+        }else {
+            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+
+                arrayList.add(monthName[i] + " " + currentYear);
+            }
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arrayList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+                appUser.receipt_duration_spinner=selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(PdcActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDC);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+
        /* appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
         setDateField();
@@ -116,6 +206,33 @@ public class PdcActivity extends RegisterAbstractActivity {
                 }
             }
         });*/
+    }
+
+
+    @Subscribe
+    public void getPdcResponse(GetPdcResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            receiptList=new ArrayList();
+            paymentList=new ArrayList();
+
+            for(int i=0;i<response.getPdc_details().getData().size();i++){
+                if (response.getPdc_details().getData().get(i).getType().equals("receipt-vouchers")){
+                    receiptList.add(response.getPdc_details().getData().get(i).getAttributes());
+                }else {
+                    paymentList.add(response.getPdc_details().getData().get(i).getAttributes());
+                }
+            }
+
+            listViewReceipt.setAdapter(new PdcReceiptAdapter(this,receiptList));
+            ListHeight.setListViewHeightBasedOnChildren(listViewReceipt);
+            ListHeight.setListViewHeightBasedOnChildren(listViewReceipt);
+            listViewPayment.setAdapter(new PdcPaymentAdapter(this,paymentList));
+            ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
+            ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -198,17 +315,57 @@ public class PdcActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void getTransactionPdf(GetTransactionPdfResponse response){
+    public void getTransactionPdf(GetTransactionPdfResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getCompany_report();
-            i.putExtra("company_report",company_report);
+            i.putExtra("company_report", company_report);
             startActivity(i);
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+    }
+
+
+
+
+
+
+
+
+    String[] monthName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+            "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    private int currentMonth() {
+        int monthPosition = -1;
+        Calendar cal = Calendar.getInstance();
+        String currentMonth = monthName[cal.get(Calendar.MONTH)];
+        //String currentYear = monthName[cal.get(Calendar.YEAR)];
+
+        for (int i = 0; i < 12; i++) {
+            if (currentMonth == (monthName[i])) {
+                monthPosition = i;
+            }
         }
+        return monthPosition;
+    }
+
+    private int currentYear() {
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        return currentYear;
+    }
+
+    private int inputMonthPosition(String month) {
+        int inputMonth = -1;
+        for (int i = 0; i < 12; i++) {
+            if (month.equals(monthName[i])) {
+                inputMonth = i;
+            }
+        }
+        return inputMonth;
     }
 
 }

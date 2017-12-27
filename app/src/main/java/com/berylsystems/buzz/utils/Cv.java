@@ -155,7 +155,8 @@ public interface Cv {
     String ACTION_GET_TRANSACTION_PDF = "action_get_transaction_pdf";
     String ACTION_GET_VOUCHER_NUMBERS= "action_get_voucher_numbers";
 
-   String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";
+    String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";
+    String  ACTION_GET_PDC="action_get_pdc";
 
 
 }
