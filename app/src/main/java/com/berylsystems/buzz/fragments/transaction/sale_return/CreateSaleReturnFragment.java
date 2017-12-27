@@ -270,7 +270,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                         Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(coordinatorLayout, "Please select sale return type", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
@@ -284,7 +284,7 @@ public class CreateSaleReturnFragment extends Fragment {
                     }
                 }
                 else{
-                    Snackbar.make(coordinatorLayout, "Please select item", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
                 hideKeyPad(getActivity());
 

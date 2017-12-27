@@ -199,7 +199,7 @@
     <string-array name="dashboard_spinner">
         <item>7 Days</item>
     </string-array>
-    <string name="err_invalid_pwd_format">Minimum 6 Alphanumeric Characters</string>
+    <string name="err_invalid_pwd_format">Password Minimum 6 Alphanumeric Characters</string>
     <string name="zipcode">Enter zip code</string>
     <string name="err_invalid_mobile">Invalid Mobile Number</string>
     <string name="err_invalid_email">Invalid Email</string>

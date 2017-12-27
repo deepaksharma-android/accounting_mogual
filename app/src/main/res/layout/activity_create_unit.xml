@@ -32,7 +32,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="Name *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -61,7 +61,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="UQC (for GST e-Return)"
+                        android:text="UQC (for GST e-Return) *"
                         android:textColor="#000"
                         android:layout_marginTop="10dp"
                         android:textSize="15sp" />

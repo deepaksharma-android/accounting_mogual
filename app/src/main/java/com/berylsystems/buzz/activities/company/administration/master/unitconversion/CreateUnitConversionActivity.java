@@ -189,33 +189,41 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mConfactor.getText().toString().equals("")) {
-                    appUser.confactor = mConfactor.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateUnitConversionActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_UNIT_CONVERSION);
-                    } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            snackbar.dismiss();
-                                        }
-                                    }
-                                });
-                        snackbar.show();
+                if(!mainUnitText.getText().toString().equals("")) {
+                    if (!subUnitText.getText().toString().equals("")) {
+                        if (!mConfactor.getText().toString().equals("")) {
+                            appUser.confactor = mConfactor.getText().toString();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                mProgressDialog = new ProgressDialog(CreateUnitConversionActivity.this);
+                                mProgressDialog.setMessage("Info...");
+                                mProgressDialog.setIndeterminate(false);
+                                mProgressDialog.setCancelable(true);
+                                mProgressDialog.show();
+                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_UNIT_CONVERSION);
+                            } else {
+                                snackbar = Snackbar
+                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                        .setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if (isConnected) {
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                snackbar.show();
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Enter the conversion factor", Snackbar.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Snackbar.make(coordinatorLayout, "Select Sub Unit", Snackbar.LENGTH_LONG).show();
                     }
-                } else {
-                    Snackbar.make(coordinatorLayout, "Enter the conversion factor", Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(coordinatorLayout, "Select Main Unit", Snackbar.LENGTH_LONG).show();
                 }
             }
 

@@ -53,7 +53,7 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:text="Voucher Series"
+                                android:text="Voucher Series *"
                                 android:textColor="@color/textColorPrimaryDark"
                                 android:textSize="15sp" />
 
@@ -97,7 +97,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="5dp"
-                                    android:text="Voucher  No."
+                                    android:text="Voucher  No. *"
                                     android:textColor="@color/textColorPrimaryDark"
                                     android:textSize="15sp" />
 
@@ -136,7 +136,7 @@
                                     android:layout_marginTop="5dp"
                                     android:layout_marginRight="5dp"
                                     android:layout_marginLeft="5dp"
-                                    android:text="Date"
+                                    android:text="Date *"
                                     android:textColor="@color/textColorPrimaryDark"
                                     android:textSize="15sp" />
 
@@ -338,7 +338,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:text="Received From"
+                            android:text="Received From *"
                             android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
@@ -380,7 +380,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:text="Received By"
+                            android:text="Received By *"
                             android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 
@@ -432,7 +432,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_marginTop="5dp"
-                            android:text="Amount"
+                            android:text="Amount *"
                             android:textColor="@color/textColorPrimaryDark"
                             android:textSize="15sp" />
 

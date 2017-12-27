@@ -287,7 +287,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                         Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Please select the item", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
                 hideKeyPad(getActivity());
 
