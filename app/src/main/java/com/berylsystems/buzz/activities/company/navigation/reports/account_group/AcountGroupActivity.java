@@ -16,6 +16,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountPaybleActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountReceivablesListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.saleanalysis.AnalysisSaleReportActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
@@ -36,6 +37,10 @@ public class AcountGroupActivity extends AppCompatActivity {
     LinearLayout amountReceivable;
     @Bind(R.id.amount_payble)
     LinearLayout amountPayable;
+    @Bind(R.id.sale_report_layout)
+    LinearLayout mSaleReportLayout;
+    @Bind(R.id.sale_report)
+    TextView mSaleReport;
     @Bind(R.id.ledger_txt)
     TextView ledger_txt;
     @Bind(R.id.cash_bank_txt)
@@ -108,6 +113,13 @@ public class AcountGroupActivity extends AppCompatActivity {
                 Intent intent=new Intent(getApplicationContext(),AmountReceivablesListActivity.class);
                 intent.putExtra("amountPaybleForDirect",true);
                 startActivity(intent);
+            }
+        });
+        mSaleReportLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSaleReport.setTextColor(Color.WHITE);
+                startActivity(new Intent(getApplicationContext(), AnalysisSaleReportActivity.class));
             }
         });
 

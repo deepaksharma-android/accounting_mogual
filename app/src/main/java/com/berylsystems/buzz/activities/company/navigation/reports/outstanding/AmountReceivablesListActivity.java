@@ -213,7 +213,6 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
             ExpandableAccountListActivity.isDirectForAccount=false;
             startActivity(intent);
         }
-
     }
 
   /*  @Subscribe
