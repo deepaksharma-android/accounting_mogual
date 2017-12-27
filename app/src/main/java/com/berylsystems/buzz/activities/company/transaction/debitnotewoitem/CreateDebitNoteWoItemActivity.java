@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -362,6 +364,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 account_name_debit.setText(name[0]);
+                Toast.makeText(this, ""+name[0], Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -371,18 +374,15 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
-
             if (!boolForGroupName) {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.account_name_credit_note_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
-                account_name_credit.setText(name[0]);
+                account_name_debit.setText(name[0]);
             }
-
         }
-
     }
 
     public String getPath(Uri uri) {
