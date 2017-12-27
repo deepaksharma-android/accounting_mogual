@@ -164,6 +164,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             title = "EDIT RECEIPT VOUCHER";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
+            getIntent().getExtras().getString("id");
             appUser.edit_receipt_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
             if (isConnected) {

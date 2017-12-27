@@ -14,6 +14,15 @@ public class Attribute {
     public String paid_from;
     public String amount;
     public String voucher_number;
+    public String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getVoucher_number() {
         return voucher_number;
