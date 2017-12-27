@@ -354,9 +354,11 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String purchase_narration = "";
     public String purchase_created_at="";
     public String purchase_update_at="";
-	
-	 public String withdraw_from_id;
+
+    public String withdraw_from_id;
     public String withdraw_by_id;
+    public String withdraw_from_name;
+    public String withdraw_by_name;
     public String bank_cash_withdraw_voucher_series="";
     public String bank_cash_withdraw_date;
     public String bank_cash_withdraw_voucher_no="";
