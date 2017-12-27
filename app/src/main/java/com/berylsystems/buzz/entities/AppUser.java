@@ -319,9 +319,11 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String purchase_return_update_at="";
 
     public Map map = new HashMap();
-	
-	 public String deposit_to_id="";
+
+    public String deposit_to_id="";
     public String deposit_by_id="";
+    public String deposit_to_name="";
+    public String deposit_by_name="";
     public String bank_cash_deposit_voucher_series="";
     public String bank_cash_deposit_date;
     public String bank_cash_deposit_voucher_no="";

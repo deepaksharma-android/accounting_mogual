@@ -115,6 +115,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
+        deposit_to.setText(""+appUser.deposit_to_name);
+        deposit_by.setText(""+appUser.deposit_by_name);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         title="CREATE BANK CASH DEPOSIT";
@@ -199,8 +201,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=2;
-
-
                 appUser.account_master_group = "Cash-in-hand";
                 ParameterConstant.checkStartActivityResultForAccount =4;
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -382,18 +382,22 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.deposit_to_id = String.valueOf(id);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.deposit_to_id = String.valueOf(id);
+                appUser.deposit_to_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
                 deposit_to.setText(name[0]);
             }
             if (requestCode == 3) {
                 boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.deposit_by_id = String.valueOf(id);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.deposit_by_id = String.valueOf(id);
+                appUser.deposit_by_name = name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
                 deposit_by.setText(name[0]);
             }
         }
@@ -416,18 +420,20 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.deposit_to_id = String.valueOf(id);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.deposit_to_id = String.valueOf(id);
+                appUser.deposit_to_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 deposit_to.setText(name[0]);
             }
             if (!boolForReceivedBy) {
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.deposit_by_id = String.valueOf(id);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.deposit_by_id = String.valueOf(id);
+                appUser.deposit_by_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 deposit_by.setText(name[0]);
 
             }
