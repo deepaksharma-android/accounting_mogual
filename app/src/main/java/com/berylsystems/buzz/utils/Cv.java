@@ -157,5 +157,8 @@ public interface Cv {
 
    String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";
 
+    int REQUEST_CAMERA = 0xABBA;
+    int REQUEST_GALLERY = 0xBABA;
+
 
 }
