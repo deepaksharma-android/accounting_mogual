@@ -35,7 +35,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PdcActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class PdcActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -62,10 +62,9 @@ public class PdcActivity extends RegisterAbstractActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ButterKnife.bind(this);
         initActionbar();
-        appUser = LocalRepositories.getAppUser(this);
+       /* appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
         setDateField();
 
@@ -116,14 +115,14 @@ public class PdcActivity extends RegisterAbstractActivity implements View.OnClic
                     snackbar.show();
                 }
             }
-        });
+        });*/
     }
 
     @Override
     protected int layoutId() {
         return R.layout.activity_pdc;
     }
-
+/*
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 2) {
@@ -135,9 +134,9 @@ public class PdcActivity extends RegisterAbstractActivity implements View.OnClic
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         }
-    }
+    }*/
 
-    private void setDateField() {
+   /* private void setDateField() {
         mStart_date.setOnClickListener(this);
         mEnd_date.setOnClickListener(this);
 
@@ -177,7 +176,7 @@ public class PdcActivity extends RegisterAbstractActivity implements View.OnClic
         else if(view == mEnd_date){
             DatePickerDialog2.show();
         }
-    }
+    }*/
 
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();

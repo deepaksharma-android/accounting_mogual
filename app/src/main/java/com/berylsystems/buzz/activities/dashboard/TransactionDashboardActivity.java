@@ -127,6 +127,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser = LocalRepositories.getAppUser(context);
         setAddCompany(2);
         setAppBarTitleCompany(1,"TRANSACTION");
+
+        appUser.receipt_received_by_name="";
+        appUser.receipt_received_from_name="";
+        LocalRepositories.saveAppUser(this,appUser);
       /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
         int[] colors = new int[ta.length()];
