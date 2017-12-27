@@ -143,8 +143,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
-        received_from.setText(appUser.receipt_received_from_name);
-        received_by.setText(appUser.receipt_received_by_name);
+       /* received_from.setText(appUser.receipt_received_from_name);
+        received_by.setText(appUser.receipt_received_by_name);*/
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
