@@ -31,6 +31,10 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -58,6 +62,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
@@ -112,8 +117,10 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     AppUser appUser;
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
-
+    String account_id,account,from;
     public static int intStartActivityForResult=0;
+    public Bundle bundle;
+
 
 
     @Override
@@ -123,6 +130,16 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+        bundle=getIntent().getExtras();
+        if(bundle!=null) {
+            account = bundle.getString("account");
+            account_id = bundle.getString("account_id");
+            appUser.receipt_received_from_id=account_id;
+            from=bundle.getString("from");
+            LocalRepositories.saveAppUser(this,appUser);
+            received_from.setText(account);
+
+        }
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
@@ -139,7 +156,6 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         set_date_pdc.setText(dateString);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-
         title = "CREATE RECEIPT VOUCHER";
         fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
         if (fromReceiptVoucher == true) {
@@ -555,16 +571,58 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public void createreceiptresponse(CreateReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-           // voucher_no.setText("");
-            transaction_amount.setText("");
-            transaction_narration.setText("");
-            received_by.setText("");
-            received_from.setText("");
-            type_spinner.setSelection(0);
-            gst_nature_spinner.setSelection(0);
-            mSelectedImage.setImageResource(0);
-            mSelectedImage.setVisibility(View.GONE);
-            //mSelectedImage.setImageDrawable(null);
+            if(bundle!=null){
+                if(from.equals("sale")) {
+                    appUser.mListMapForItemSale.clear();
+                    appUser.mListMapForBillSale.clear();
+                    LocalRepositories.saveAppUser(this,appUser);
+                    Intent intent = new Intent(this, CreateSaleActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(from.equals("sale_return")){
+                    appUser.mListMapForItemSaleReturn.clear();
+                    appUser.mListMapForBillSaleReturn.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+
+                }
+                else if(from.equals("purchase")){
+                    appUser.mListMapForItemPurchase.clear();
+                    appUser.mListMapForBillPurchase.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+
+                }
+                else if(from.equals("purchase_return")){
+                    appUser.mListMapForItemPurchaseReturn.clear();
+                    appUser.mListMapForBillPurchaseReturn.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else {
+                // voucher_no.setText("");
+                transaction_amount.setText("");
+                transaction_narration.setText("");
+                received_by.setText("");
+                received_from.setText("");
+                type_spinner.setSelection(0);
+                gst_nature_spinner.setSelection(0);
+                mSelectedImage.setImageResource(0);
+                mSelectedImage.setVisibility(View.GONE);
+                //mSelectedImage.setImageDrawable(null);
+            }
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -657,10 +715,46 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if(bundle!=null){
+                    if(from.equals("sale")) {
+                        appUser.mListMapForItemSale.clear();
+                        appUser.mListMapForBillSale.clear();
+                        LocalRepositories.saveAppUser(this,appUser);
+                        Intent intent = new Intent(this, CreateSaleActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else if(from.equals("sale_return")){
+                        appUser.mListMapForItemSaleReturn.clear();
+                        appUser.mListMapForBillSaleReturn.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                    else if(from.equals("purchase")){
+                        appUser.mListMapForItemPurchase.clear();
+                        appUser.mListMapForBillPurchase.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                    else if(from.equals("purchase_return")){
+                        appUser.mListMapForItemPurchaseReturn.clear();
+                        appUser.mListMapForBillPurchaseReturn.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -669,10 +763,51 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
     @Override
     public void onBackPressed() {
+            if(bundle!=null){
+                if(from.equals("sale")) {
+                    appUser.mListMapForItemSale.clear();
+                    appUser.mListMapForBillSale.clear();
+                    LocalRepositories.saveAppUser(this,appUser);
+                    Intent intent = new Intent(this, CreateSaleActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(from.equals("sale_return")){
+                    appUser.mListMapForItemSaleReturn.clear();
+                    appUser.mListMapForBillSaleReturn.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+                }
+                else if(from.equals("purchase")){
+                    appUser.mListMapForItemPurchase.clear();
+                    appUser.mListMapForBillPurchase.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+
+                }
+                else if(from.equals("purchase_return")){
+                    appUser.mListMapForItemPurchaseReturn.clear();
+                    appUser.mListMapForBillPurchaseReturn.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 }
