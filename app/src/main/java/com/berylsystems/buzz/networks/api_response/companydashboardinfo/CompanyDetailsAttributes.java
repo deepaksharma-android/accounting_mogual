@@ -7,6 +7,25 @@ public class CompanyDetailsAttributes {
     public Double customer;
     public Double supplier;
     public Double stock_in_hand;
+    public Double sales;
+
+    public Double getSales() {
+        return sales;
+    }
+
+    public void setSales(Double sales) {
+        this.sales = sales;
+    }
+
+    public Double getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Double expenses) {
+        this.expenses = expenses;
+    }
+
+    public Double expenses;
 
     public int getId() {
         return id;
