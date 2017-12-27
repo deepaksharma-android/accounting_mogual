@@ -579,7 +579,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public void createreceiptresponse(CreateReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            if(bundle!=null){
+            if(from!=null){
                 if(from.equals("sale")) {
                     appUser.mListMapForItemSale.clear();
                     appUser.mListMapForBillSale.clear();
@@ -723,7 +723,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 finish();
                 return true;
             case android.R.id.home:
-                if(bundle!=null){
+                if(from!=null){
                     if(from.equals("sale")) {
                         appUser.mListMapForItemSale.clear();
                         appUser.mListMapForBillSale.clear();
@@ -763,6 +763,12 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         finish();
                     }
                 }
+                else{
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -771,7 +777,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
     @Override
     public void onBackPressed() {
-            if(bundle!=null){
+            if(from!=null){
                 if(from.equals("sale")) {
                     appUser.mListMapForItemSale.clear();
                     appUser.mListMapForBillSale.clear();

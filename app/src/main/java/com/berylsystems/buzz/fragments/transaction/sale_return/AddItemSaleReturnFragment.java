@@ -642,10 +642,10 @@ public class AddItemSaleReturnFragment extends Fragment {
             double total = Double.parseDouble(tot);
             totalitemamount = totalitemamount + total;
         }
-        mTotal.setText("Total Amount: " + String.valueOf(totalitemamount + totalbillsundryamount));
-        appUser.items_amount=String.valueOf(totalitemamount);
-        appUser.bill_sundries_amount=String.valueOf(totalbillsundryamount);
-        appUser.totalamount=String.valueOf(totalitemamount + totalbillsundryamount);
+        mTotal.setText("Total Amount: " + String.format("%.2f",totalitemamount + totalbillsundryamount));
+        appUser.items_amount=String.format("%.2f",totalitemamount);
+        appUser.bill_sundries_amount=String.format("%.2f",totalbillsundryamount);
+        appUser.totalamount=String.format("%.2f",totalitemamount + totalbillsundryamount);
         LocalRepositories.saveAppUser(getActivity(),appUser);
         // mTotal.setText("Total Amount: " + String.valueOf(itemamount + totalbillsundryamount));
     }

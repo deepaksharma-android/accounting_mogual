@@ -158,5 +158,8 @@ public interface Cv {
     String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";
     String  ACTION_GET_PDC="action_get_pdc";
 
+    int REQUEST_CAMERA = 0xABBA;
+    int REQUEST_GALLERY = 0xBABA;
+
 
 }
