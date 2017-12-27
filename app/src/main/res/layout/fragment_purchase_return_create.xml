@@ -36,7 +36,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Series"
+                        android:text="Series *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -104,7 +104,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Date"
+                            android:text="Date *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -140,7 +140,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Vch. No."
+                            android:text="Vch. No. *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -181,7 +181,7 @@
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Purchase Return Type"
+                    android:text="Purchase Return Type *"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
@@ -217,7 +217,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Store"
+                    android:text="Store *"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
@@ -253,7 +253,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Party Name"
+                    android:text="Party Name *"
                     android:textColor="#000"
                     android:textSize="15sp" />
 

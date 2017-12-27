@@ -273,7 +273,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                         Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(coordinatorLayout, "Please select purchase return type", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
@@ -287,7 +287,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     }
                 }
                 else{
-                    Snackbar.make(coordinatorLayout, "Please select the item", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
 
 

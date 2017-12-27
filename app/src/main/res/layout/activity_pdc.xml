@@ -13,6 +13,27 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/dashboard_spinner_layout"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_grey_stroke"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:spinnerMode="dialog">
+            </Spinner>
+
+        </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -43,7 +64,7 @@
                 </LinearLayout>
 
                 <ListView
-                    android:id="@+id/listViewItems"
+                    android:id="@+id/list_view_receipt"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:divider="@null"/>
@@ -68,7 +89,7 @@
                 </LinearLayout>
 
                 <ListView
-                    android:id="@+id/listViewBills"
+                    android:id="@+id/list_view_payment"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:divider="@null"/>

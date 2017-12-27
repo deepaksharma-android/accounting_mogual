@@ -34,7 +34,7 @@ android:layout_height="match_parent">
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Group Name"
+                    android:text="Group Name *"
                     android:textColor="#000"
                     android:textSize="15sp" />
 

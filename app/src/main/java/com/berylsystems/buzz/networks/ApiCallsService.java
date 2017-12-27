@@ -44,7 +44,7 @@ import com.berylsystems.buzz.networks.api_request.RequestResendOtp;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
-import com.berylsystems.buzz.networks.api_response.salereport.GetSaleReportResponse;
+import com.berylsystems.buzz.networks.api_response.pdc.GetPdcResponse;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.account.CreateAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
@@ -458,8 +458,10 @@ public class ApiCallsService extends IntentService {
             handleGetTransactionPdf();
         } else if (Cv.ACTION_GET_VOUCHER_NUMBERS.equals(action)) {
             handleGetVoucherNumbers();
-        }else if(Cv.ACTION_GET_SALE_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_GET_SALE_VOUCHER.equals(action)) {
             handleGetSaleVoucher();
+        } else if (Cv.ACTION_GET_PDC.equals(action)) {
+            handleGetPdc();
         }
     }
 
@@ -775,7 +777,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetBankCashWithdraw() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getbankcashwithdraw(Preferences.getInstance(this).getCid(),appUser.bank_cash_withdraw_duration_spinner).enqueue(new Callback<GetBankCashWithdrawResponse>() {
+        api.getbankcashwithdraw(Preferences.getInstance(this).getCid(), appUser.bank_cash_withdraw_duration_spinner).enqueue(new Callback<GetBankCashWithdrawResponse>() {
             @Override
             public void onResponse(Call<GetBankCashWithdrawResponse> call, Response<GetBankCashWithdrawResponse> r) {
                 if (r.code() == 200) {
@@ -894,7 +896,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetIncome() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getincome(Preferences.getInstance(this).getCid(),appUser.income_duration_spinner).enqueue(new Callback<GetIncomeResponse>() {
+        api.getincome(Preferences.getInstance(this).getCid(), appUser.income_duration_spinner).enqueue(new Callback<GetIncomeResponse>() {
             @Override
             public void onResponse(Call<GetIncomeResponse> call, Response<GetIncomeResponse> r) {
                 if (r.code() == 200) {
@@ -1013,7 +1015,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetExpence() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getexpence(Preferences.getInstance(this).getCid(),appUser.expenses_duration_spinner).enqueue(new Callback<GetExpenceResponse>() {
+        api.getexpence(Preferences.getInstance(this).getCid(), appUser.expenses_duration_spinner).enqueue(new Callback<GetExpenceResponse>() {
             @Override
             public void onResponse(Call<GetExpenceResponse> call, Response<GetExpenceResponse> r) {
                 if (r.code() == 200) {
@@ -1132,7 +1134,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetJournalVoucher() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getjournalvoucher(Preferences.getInstance(this).getCid(),appUser.journal_voucher_duration_spinner).enqueue(new Callback<GetJournalVoucherResponse>() {
+        api.getjournalvoucher(Preferences.getInstance(this).getCid(), appUser.journal_voucher_duration_spinner).enqueue(new Callback<GetJournalVoucherResponse>() {
             @Override
             public void onResponse(Call<GetJournalVoucherResponse> call, Response<GetJournalVoucherResponse> r) {
                 if (r.code() == 200) {
@@ -1251,7 +1253,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetreceiptVoucher() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getreceiptvoucher(Preferences.getInstance(this).getCid(),appUser.receipt_duration_spinner).enqueue(new Callback<GetReceiptVoucherResponse>() {
+        api.getreceiptvoucher(Preferences.getInstance(this).getCid(), appUser.receipt_duration_spinner).enqueue(new Callback<GetReceiptVoucherResponse>() {
             @Override
             public void onResponse(Call<GetReceiptVoucherResponse> call, Response<GetReceiptVoucherResponse> r) {
                 if (r.code() == 200) {
@@ -1370,7 +1372,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetCreditNote() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getcreditnote(Preferences.getInstance(this).getCid(),appUser.credit_note_duration_spinner).enqueue(new Callback<GetCreditNoteResponse>() {
+        api.getcreditnote(Preferences.getInstance(this).getCid(), appUser.credit_note_duration_spinner).enqueue(new Callback<GetCreditNoteResponse>() {
             @Override
             public void onResponse(Call<GetCreditNoteResponse> call, Response<GetCreditNoteResponse> r) {
                 if (r.code() == 200) {
@@ -1489,7 +1491,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetDebitNote() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getdebitnote(Preferences.getInstance(this).getCid(),appUser.debit_note_duration_spinner).enqueue(new Callback<GetDebitNoteResponse>() {
+        api.getdebitnote(Preferences.getInstance(this).getCid(), appUser.debit_note_duration_spinner).enqueue(new Callback<GetDebitNoteResponse>() {
             @Override
             public void onResponse(Call<GetDebitNoteResponse> call, Response<GetDebitNoteResponse> r) {
                 if (r.code() == 200) {
@@ -1680,9 +1682,9 @@ public class ApiCallsService extends IntentService {
         });
     }
 
- private void handleGetPayment() {
-     AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getpayment(Preferences.getInstance(this).getCid(),appUser.payment_duration_spinner).enqueue(new Callback<GetPaymentResponse>() {
+    private void handleGetPayment() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getpayment(Preferences.getInstance(this).getCid(), appUser.payment_duration_spinner).enqueue(new Callback<GetPaymentResponse>() {
             @Override
             public void onResponse(Call<GetPaymentResponse> call, Response<GetPaymentResponse> r) {
                 if (r.code() == 200) {
@@ -1707,7 +1709,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetBankCashDeposit() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getbankcashdeposit(Preferences.getInstance(this).getCid(),appUser.bank_cash_deposit_duration_spinner).enqueue(new Callback<GetBankCashDepositResponse>() {
+        api.getbankcashdeposit(Preferences.getInstance(this).getCid(), appUser.bank_cash_deposit_duration_spinner).enqueue(new Callback<GetBankCashDepositResponse>() {
             @Override
             public void onResponse(Call<GetBankCashDepositResponse> call, Response<GetBankCashDepositResponse> r) {
                 if (r.code() == 200) {
@@ -3626,8 +3628,8 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetSaleVoucher() {
-        AppUser appUser= LocalRepositories.getAppUser(this);
-        api.getsalevoucher(Preferences.getInstance(getApplicationContext()).getCid(),appUser.sales_duration_spinner).enqueue(new Callback<GetSaleVoucherListResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getsalevoucher(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetSaleVoucherListResponse>() {
             @Override
             public void onResponse(Call<GetSaleVoucherListResponse> call, Response<GetSaleVoucherListResponse> r) {
                 if (r.code() == 200) {
@@ -3637,8 +3639,34 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetSaleVoucherListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+
+    private void handleGetPdc() {
+
+        api.getPdc(Preferences.getInstance(getApplicationContext()).getCid(),"Last 7 days").enqueue(new Callback<GetPdcResponse>() {
+            @Override
+            public void onResponse(Call<GetPdcResponse> call, Response<GetPdcResponse> r) {
+                if (r.code() == 200) {
+                    GetPdcResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPdcResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

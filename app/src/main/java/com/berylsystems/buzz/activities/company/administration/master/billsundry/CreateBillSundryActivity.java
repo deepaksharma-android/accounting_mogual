@@ -193,34 +193,38 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 if (!mSundryName.getText().toString().equals("")) {
-                    appUser.bill_sundry_name = mSundryName.getText().toString();
-                    appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
-                    if (!mDefaultText.getText().toString().equals("")) {
-                        appUser.bill_sundry_default_value = Double.valueOf(mDefaultText.getText().toString());
-                    }
+                    if(!mDefaultText.getText().toString().equals("")) {
+                        appUser.bill_sundry_name = mSundryName.getText().toString();
+                        appUser.bill_sundry_type = mBillSundryTypeSpinner.getSelectedItem().toString();
+                        if (!mDefaultText.getText().toString().equals("")) {
+                            appUser.bill_sundry_default_value = Double.valueOf(mDefaultText.getText().toString());
+                        }
 
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateBillSundryActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_BILL_SUNDRY);
-                    } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            snackbar.dismiss();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CreateBillSundryActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_BILL_SUNDRY);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
                                         }
-                                    }
-                                });
-                        snackbar.show();
+                                    });
+                            snackbar.show();
+                        }
+                    }else {
+                        Snackbar.make(coordinatorLayout, "Enter Default Value", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     Snackbar.make(coordinatorLayout, "Enter the bill sundry name", Snackbar.LENGTH_LONG).show();

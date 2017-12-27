@@ -36,7 +36,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Series *"
+                        android:text="Series"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -56,9 +56,9 @@
                             <Spinner
                                 android:id="@+id/series"
                                 android:layout_width="fill_parent"
+                                android:layout_marginRight="5dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
                                 android:entries="@array/main"
                                 android:spinnerMode="dialog"
                                 android:textColor="#000"
@@ -104,7 +104,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Date *"
+                            android:text="Date"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -140,7 +140,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Vch. No. *"
+                            android:text="Vch. No."
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -153,7 +153,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.berylsystems.buzz.utils.BuzzEditText
                                 android:id="@+id/vch_number"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sale Return Type *"
+                    android:text="Purchase Type"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
@@ -194,7 +194,7 @@
                     android:orientation="horizontal">
 
                     <com.berylsystems.buzz.utils.BuzzTextView
-                        android:id="@+id/sale_type"
+                        android:id="@+id/purchase_type"
                         style="@style/Gotham_Book"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -217,7 +217,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Store *"
+                    android:text="Store"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
@@ -253,7 +253,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Party Name *"
+                    android:text="Party Name"
                     android:textColor="#000"
                     android:textSize="15sp" />
 
@@ -430,6 +430,7 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

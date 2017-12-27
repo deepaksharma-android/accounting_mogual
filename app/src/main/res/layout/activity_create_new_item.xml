@@ -37,7 +37,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="Name *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -66,7 +66,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Group"
+                        android:text="Group *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -104,7 +104,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Unit"
+                        android:text="Unit *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 

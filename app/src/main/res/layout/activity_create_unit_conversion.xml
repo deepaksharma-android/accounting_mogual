@@ -35,7 +35,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Main Unit"
+                        android:text="Main Unit *"
                         android:textColor="#000"
                         android:layout_marginTop="10dp"
                         android:textSize="15sp" />
@@ -71,7 +71,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sub Unit"
+                        android:text="Sub Unit *"
                         android:textColor="#000"
                         android:layout_marginTop="10dp"
                         android:textSize="15sp" />
@@ -109,7 +109,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Con. Factor"
+                        android:text="Con. Factor *"
                         android:layout_marginTop="10dp"
                         android:textColor="#000"
                         android:textSize="15sp" />

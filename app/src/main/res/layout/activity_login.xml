@@ -124,7 +124,7 @@
                         <com.berylsystems.buzz.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Mobile"
+                            android:text="Mobile *"
                             android:textColor="#000"
                             android:textSize="15sp"
                             style="@style/Gotham_Medium"/>
@@ -154,7 +154,7 @@
                         <com.berylsystems.buzz.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Password"
+                            android:text="Password *"
                             android:textColor="#000"
                             android:layout_marginTop="10dp"
                             android:textSize="15sp"

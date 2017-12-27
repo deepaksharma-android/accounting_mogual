@@ -35,7 +35,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="Name *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -64,7 +64,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Bill Sundry Type"
+                        android:text="Bill Sundry Type *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -91,7 +91,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Bill Sundry Nature"
+                        android:text="Bill Sundry Nature *"
                         android:textColor="#000"
                         android:textSize="15sp" />
                     <LinearLayout
@@ -116,7 +116,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Default Value"
+                        android:text="Default Value *"
                         android:layout_marginTop="10dp"
                         android:textColor="#000"
                         android:textSize="15sp" />
@@ -145,7 +145,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sub Total Heading"
+                        android:text="Sub Total Heading *"
                         android:layout_marginTop="10dp"
                         android:textColor="#000"
                         android:textSize="15sp" />

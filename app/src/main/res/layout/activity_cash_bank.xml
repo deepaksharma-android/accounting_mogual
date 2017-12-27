@@ -49,7 +49,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:text="Account"
+                            android:text="Account *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -91,7 +91,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
-                            android:text="Start Date"
+                            android:text="Start Date *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -134,7 +134,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
-                            android:text="End Date"
+                            android:text="End Date *"
                             android:textColor="#000"
                             android:textSize="15sp" />
 

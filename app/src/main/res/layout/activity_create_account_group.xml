@@ -32,7 +32,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Group Name"
+                        android:text="Group Name *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 
@@ -97,7 +97,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Primary Group"
+                        android:text="Primary Group *"
                         android:textColor="#000"
                         android:layout_marginTop="10dp"
                         android:textSize="15sp" />

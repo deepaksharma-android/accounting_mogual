@@ -40,7 +40,7 @@ import com.berylsystems.buzz.networks.api_request.RequestUpdateMobileNumber;
 import com.berylsystems.buzz.networks.api_request.RequestUpdateUser;
 import com.berylsystems.buzz.networks.api_request.RequestVerification;
 
-import com.berylsystems.buzz.networks.api_response.salereport.GetSaleReportResponse;
+import com.berylsystems.buzz.networks.api_response.pdc.GetPdcResponse;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
@@ -567,5 +567,8 @@ public interface Api {
 
     @GET("company_sale_vouchers/{id}")
     Call<GetSaleVoucherListResponse> getsalevoucher(@Path("id") String id, @Query("duration") String duration);
+
+    @GET("pdc_details/{id}")
+    Call<GetPdcResponse> getPdc(@Path("id") String id, @Query("duration") String duration);
 
 }
