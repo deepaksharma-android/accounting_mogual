@@ -138,6 +138,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.withdraw_from_name ="";
         appUser.received_from_name ="";
         appUser.received_into_name="";
+        appUser.paid_from_name="";
+        appUser.paid_to_name="";
         LocalRepositories.saveAppUser(this,appUser);
       /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);

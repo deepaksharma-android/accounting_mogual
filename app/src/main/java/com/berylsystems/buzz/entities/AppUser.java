@@ -383,6 +383,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String paid_from_id;
     public String paid_to_id;
+    public String paid_from_name;
+    public String paid_to_name;
     public String expence_voucher_series="";
     public String expence_date;
     public String expence_voucher_no="";
