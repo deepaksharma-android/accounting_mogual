@@ -106,7 +106,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
-
+        received_from.setText(""+ appUser.received_from_name);
+        received_into.setText(""+ appUser.received_into_name);
         android.support.v7.app.ActionBar actionBar =getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -384,18 +385,20 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.received_into_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.received_into_id = id;
+                appUser.received_into_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 received_into.setText(name[0]);
             }
             if (requestCode == 3) {
                 boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.received_from_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.received_from_id =id;
+                appUser.received_from_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 received_from.setText(name[0]);
             }
         }
@@ -418,18 +421,20 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.received_into_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.received_into_id = id;
+                appUser.received_into_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 received_into.setText(name[0]);
             }
             if (!boolForReceivedBy) {
 
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.received_from_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.received_from_id =id;
+                appUser.received_from_name =name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 received_from.setText(name[0]);
 
             }

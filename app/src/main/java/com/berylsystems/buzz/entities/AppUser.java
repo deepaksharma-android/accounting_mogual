@@ -370,6 +370,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String received_into_id;
     public String received_from_id;
+    public String received_into_name;
+    public String received_from_name;
     public String income_voucher_series="";
     public String income_date;
     public String income_voucher_no="";
