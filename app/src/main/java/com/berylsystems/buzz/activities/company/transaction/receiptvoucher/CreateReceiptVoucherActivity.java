@@ -143,6 +143,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        received_from.setText(appUser.receipt_received_from_name);
+        received_by.setText(appUser.receipt_received_by_name);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -477,18 +479,21 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 boolForReceivedFrom = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.receipt_received_from_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.receipt_received_from_id = id;
+                appUser.receipt_received_from_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 received_from.setText(name[0]);
             }
             if (requestCode == 3) {
                 boolForReceivedBy = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.receipt_received_by_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.receipt_received_by_id = id;
+                appUser.receipt_received_by_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
                 received_by.setText(name[0]);
             }
         }
@@ -513,19 +518,21 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
+                String[] name = result.split(",");
                 boolForReceivedFrom = true;
                 appUser.receipt_received_from_id = id;
+                appUser.receipt_received_from_name=name[0];
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name = result.split(",");
                 received_from.setText(name[0]);
             }
             if (!boolForReceivedBy) {
                 Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
-                appUser.receipt_received_by_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
+                appUser.receipt_received_by_id = id;
+                appUser.receipt_received_by_name=name[0];
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 received_by.setText(name[0]);
 
             }

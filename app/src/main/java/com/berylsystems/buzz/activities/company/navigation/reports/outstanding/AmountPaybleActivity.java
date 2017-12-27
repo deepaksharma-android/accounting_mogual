@@ -67,17 +67,26 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-        dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
-        String dateString = sdf.format(date);
+       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
+        String dateString = dateFormatter.format(date);
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
 
+        Intent intent=getIntent();
+        String accountgroupname=intent.getStringExtra("name");
+        String nameArr[]=accountgroupname.split(",");
+        String accountname=nameArr[0];
+        mAccount_group_textview.setText(accountname);
 
+        String id=intent.getStringExtra("id");
+        appUser.pdf_account_id = id;
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
+/*
         mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +96,7 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
-        });
+        });*/
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +140,7 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
         return R.layout.activity_amount_payble;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+   /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 2) {
                 String result = data.getStringExtra("name");
@@ -142,7 +151,7 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         }
-    }
+    }*/
 
     private void setDateField() {
         mStart_date.setOnClickListener(this);
@@ -151,11 +160,11 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
         final Calendar newCalendar = Calendar.getInstance();
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         String dateString = sdf.format(date);
         //String[] datesplit = dateString.split("-");
 
-        String start_date1="2017-Apr-04";
+        //String start_date1="2017-Apr-04";
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -164,14 +173,15 @@ public class AmountPaybleActivity extends RegisterAbstractActivity implements Vi
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
+                mStart_date.setText(date1);
 
-
-                if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
+                /*if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
                     mStart_date.setText(date1);
                 } else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
 
+                //Or
 
                /* if(monthOfYear>=03 && year==2017){
                     mStart_date.setText(date1);

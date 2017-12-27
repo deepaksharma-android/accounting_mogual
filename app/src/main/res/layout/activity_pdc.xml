@@ -14,8 +14,73 @@
         android:orientation="vertical">
 
         <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/parent_list_item_color"
+                    android:weightSum="1">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.8"
+                        android:gravity="start"
+                        android:text="RECEIPT"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/listViewItems"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:divider="@null"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/parent_list_item_color"
+                    android:weightSum="1">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.8"
+                        android:gravity="start"
+                        android:text="PAYMENT"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/listViewBills"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:divider="@null"/>
+            </LinearLayout>
+        </ScrollView>
+
+        <!--old pdc layout is below-->
+
+        <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -27,28 +92,27 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
-
 
 
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#fff"
                         android:layout_marginTop="5dp"
+                        android:background="#fff"
                         android:orientation="vertical">
 
                         <com.berylsystems.buzz.utils.BuzzTextView
                             style="@style/Gotham_Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
                             android:text="Account Group"
                             android:textColor="#000"
                             android:textSize="15sp" />
@@ -57,9 +121,9 @@
                             android:id="@+id/account_group_layout"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
                             android:orientation="horizontal">
@@ -81,16 +145,16 @@
                                 android:layout_height="15dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_weight="0.1"
-                                android:src="@drawable/right_chevron"/>
+                                android:src="@drawable/right_chevron" />
                         </LinearLayout>
 
                         <com.berylsystems.buzz.utils.BuzzTextView
                             style="@style/Gotham_Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
                             android:text="Start Date"
                             android:textColor="#000"
                             android:textSize="15sp" />
@@ -99,9 +163,9 @@
                             android:id="@+id/start_date_layout"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
                             android:orientation="horizontal">
@@ -109,14 +173,14 @@
                             <com.berylsystems.buzz.utils.BuzzTextView
                                 android:id="@+id/start_date"
                                 android:layout_width="0dp"
-                                android:layout_weight="0.9"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
+                                android:layout_weight="0.9"
                                 android:background="@android:color/transparent"
                                 android:hint="eg.22 Nov 2017"
                                 android:textColor="#000"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
 
                             <ImageView
                                 android:layout_width="0dp"
@@ -131,9 +195,9 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
                             android:text="End Date"
                             android:textColor="#000"
                             android:textSize="15sp" />
@@ -142,10 +206,10 @@
                             android:id="@+id/end_date_layout"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
                             android:orientation="horizontal">
@@ -153,14 +217,14 @@
                             <com.berylsystems.buzz.utils.BuzzTextView
                                 android:id="@+id/end_date"
                                 android:layout_width="0dp"
-                                android:layout_weight="0.9"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
+                                android:layout_weight="0.9"
                                 android:background="@android:color/transparent"
                                 android:hint="eg.22 Nov 2017"
                                 android:textColor="#000"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
 
                             <ImageView
                                 android:layout_width="0dp"
@@ -178,19 +242,20 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="90dp"
-                    android:background="#fff"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#fff"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:id="@+id/submit"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/vendorText"
+                        android:layout_marginBottom="20dp"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
                         android:background="@drawable/solid_blue">
 
                         <com.berylsystems.buzz.utils.BuzzTextView

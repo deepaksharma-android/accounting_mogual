@@ -67,12 +67,12 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-        dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
-        String dateString = sdf.format(date);
+       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
+        String dateString = dateFormatter.format(date);
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
 
@@ -151,11 +151,11 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
         final Calendar newCalendar = Calendar.getInstance();
 
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd",Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         String dateString = sdf.format(date);
         //String[] datesplit = dateString.split("-");
 
-        String start_date1="2017-Apr-04";
+        //String start_date1="2017-Apr-04";
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -165,13 +165,15 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
 
+                mStart_date.setText(date1);
 
-                if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
+               /* if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
                     mStart_date.setText(date1);
                 } else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
 
+                //Or
 
                /* if(monthOfYear>=03 && year==2017){
                     mStart_date.setText(date1);
@@ -215,6 +217,7 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
                         else{
                             Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
                         }*/
+                // Or
 
                 if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
                     //System.out.println("Date1 is after Date2");
