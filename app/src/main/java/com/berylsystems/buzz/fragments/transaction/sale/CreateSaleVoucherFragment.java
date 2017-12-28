@@ -407,6 +407,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 mMobileNumber.setText("");
                 mNarration.setText("");
                 appUser.mListMapForItemSale.clear();
+                appUser.mListMapForBillSale.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
