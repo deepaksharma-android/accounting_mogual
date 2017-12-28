@@ -23,6 +23,7 @@ import com.berylsystems.buzz.activities.company.administration.master.item.Expan
 import com.berylsystems.buzz.adapters.AddBillsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddItemsPurchaseAdapter;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.fragments.transaction.sale.AddItemVoucherFragment;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -54,6 +55,7 @@ public class AddItemPurchaseFragment extends Fragment {
 
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
+    public static AddItemPurchaseFragment context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +67,7 @@ public class AddItemPurchaseFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.billsundrytotalPurchase.clear();
         appUser.itemtotalPurchase.clear();
+        context=AddItemPurchaseFragment.this;
         LocalRepositories.saveAppUser(getActivity(),appUser);
 
         add_item_button.setOnClickListener(new View.OnClickListener() {

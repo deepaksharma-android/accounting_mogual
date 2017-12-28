@@ -137,7 +137,7 @@ public class CreateSaleActivity extends AppCompatActivity {
         }
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -188,5 +188,7 @@ public class CreateSaleActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
     }
+
+
 
 }

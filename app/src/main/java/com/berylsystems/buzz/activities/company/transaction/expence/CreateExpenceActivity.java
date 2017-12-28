@@ -241,6 +241,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                         mProgressDialog.show();
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_EXPENCE);
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                        //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_COMPANY_DASHBOARD_INFO);
                                     }
                                     else{
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -395,8 +396,9 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 case Cv.REQUEST_CAMERA:
 
                     photo = (Bitmap) data.getExtras().get("data");
-
                     encodedString= Helpers.bitmapToBase64(photo);
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(photo);
                     break;
 
                 case Cv.REQUEST_GALLERY:
@@ -407,13 +409,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
                         encodedString= Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(photo);
                         break;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
             }
-            mSelectedImage.setVisibility(View.VISIBLE);
-            mSelectedImage.setImageBitmap(photo);
+
 
            /* if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();

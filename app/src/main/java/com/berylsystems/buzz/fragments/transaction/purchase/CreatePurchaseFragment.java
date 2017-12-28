@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.Creat
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.fragments.transaction.sale.AddItemVoucherFragment;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.utils.Cv;
@@ -390,13 +392,23 @@ public class CreatePurchaseFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                appUser.voucher_type = "Receipt";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 intent.putExtra("account",mPartyName.getText().toString());
                 intent.putExtra("account_id",appUser.sale_partyName);
                 intent.putExtra("from","purchase");
                 startActivity(intent);
             }
             else{
-                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+                mPartyName.setText("");
+                mMobileNumber.setText("");
+                mNarration.setText("");
+                appUser.mListMapForItemPurchase.clear();
+                appUser.mListMapForBillPurchase.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
+               // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             }
 
         } else {

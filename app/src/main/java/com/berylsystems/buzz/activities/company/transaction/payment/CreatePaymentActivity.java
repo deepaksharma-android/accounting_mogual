@@ -1,9 +1,13 @@
 package com.berylsystems.buzz.activities.company.transaction.payment;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -31,6 +35,8 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -39,6 +45,7 @@ import com.berylsystems.buzz.networks.api_response.payment.CreatePaymentResponse
 import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -111,7 +118,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
     public static int intStartActivityForResult=0;
-
+    Bitmap photo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +142,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
+
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE PAYMENT";
@@ -196,8 +204,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             mBrowseImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);
+                    startDialog();
                 }
             });
 
@@ -208,9 +215,13 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                     if (i == 0) {
                         date_pdc_layout.setVisibility(View.GONE);
                         date_pdc_textview.setVisibility(View.GONE);
+                        set_date_pdc.setText("");
                     } else {
                         date_pdc_layout.setVisibility(View.VISIBLE);
                         date_pdc_textview.setVisibility(View.VISIBLE);
+                        if(set_date_pdc.getText().toString().equals("")){
+                            set_date_pdc.setText(dateString);
+                        }
                     }
                 }
 
@@ -374,6 +385,36 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         }
 
 
+
+    private void startDialog() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(CreatePaymentActivity.this);
+        myAlertDialog.setTitle("Upload Pictures Option");
+        myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Intent intCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+
+                if (intCamera.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
+                }
+
+            }
+        });
+
+        myAlertDialog.setNegativeButton("Gallary",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent intGallery = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
+
+                    }
+                });
+        myAlertDialog.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -439,7 +480,39 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         if (resultCode == RESULT_OK) {
+            photo = null;
+            switch (requestCode) {
+
+                case Cv.REQUEST_CAMERA:
+
+                    photo = (Bitmap) data.getExtras().get("data");
+
+                    encodedString= Helpers.bitmapToBase64(photo);
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(photo);
+                    break;
+
+                case Cv.REQUEST_GALLERY:
+
+                    try {
+
+                        photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
+                                ContentUris.parseId(data.getData()),
+                                MediaStore.Images.Thumbnails.MINI_KIND, null);
+                        encodedString= Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(photo);
+                        break;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+
+
+        /*if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 selectedImagePath = getPath(selectedImageUri);
@@ -463,7 +536,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             if (requestCode == 2) {
                 boolForReceivedFrom = true;
@@ -595,7 +668,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         if(response.getStatus()==200){
             set_date.setText(response.getPayment().getData().getAttributes().getDate());
             voucher_no.setText(response.getPayment().getData().getAttributes().getVoucher_number());
-            set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
+            //set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
             paid_from.setText(response.getPayment().getData().getAttributes().getPaid_from());
             paid_to.setText(response.getPayment().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getPayment().getData().getAttributes().getAmount()));
@@ -610,12 +683,15 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             else{
                 mSelectedImage.setVisibility(View.GONE);
             }
+
             String type_pdc_regular = response.getPayment().getData().getAttributes().getPayment_type().trim();
                 if (type_pdc_regular.equals("PDC")){
-                    type_spinner.setSelection(0);
+                    type_spinner.setSelection(1);
+                    set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
                 }
                 else {
-                    type_spinner.setSelection(1);
+                    type_spinner.setSelection(0);
+                    set_date_pdc.setText("");
                 }
 
             String group_type = response.getPayment().getData().getAttributes().getGst_nature().trim();
