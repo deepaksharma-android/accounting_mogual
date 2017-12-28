@@ -608,7 +608,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         super.onResume();
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
-        Toast.makeText(this, "resume "+bool, Toast.LENGTH_SHORT).show();
         if (bool) {
 
             if (intStartActivityForResult == 1) {

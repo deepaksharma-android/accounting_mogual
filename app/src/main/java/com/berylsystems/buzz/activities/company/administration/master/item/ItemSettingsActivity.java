@@ -151,10 +151,10 @@ public class ItemSettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==1){
-                    mSpinnerSerialNumber.setVisibility(View.GONE);
+                    mSerialWiseLayout.setVisibility(View.GONE);
                 }
                 else{
-                    mSpinnerSerialNumber.setVisibility(View.VISIBLE);
+                    mSerialWiseLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -205,7 +205,7 @@ public class ItemSettingsActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#009DE0")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);

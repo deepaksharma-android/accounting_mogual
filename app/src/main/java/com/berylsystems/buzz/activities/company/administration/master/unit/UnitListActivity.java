@@ -269,7 +269,6 @@ public class UnitListActivity extends AppCompatActivity {
     public void itemclickedevent(EventUnitClicked pos) {
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
-        Toast.makeText(this, "" + bool, Toast.LENGTH_SHORT).show();
 
         if (!isDirectForUnitList && bool) {
             Intent intentForward = null;

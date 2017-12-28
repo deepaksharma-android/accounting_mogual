@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +44,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EditCompanyActivity extends RegisterAbstractActivity {
+public class EditCompanyActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
    // public static CompanyData data;
@@ -57,13 +58,14 @@ public class EditCompanyActivity extends RegisterAbstractActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_company);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
-        mHeaderViewPager.setOffscreenPageLimit(0);
-        Boolean isConnected = ConnectivityReceiver.isConnected();
+        mHeaderViewPager.setOffscreenPageLimit(1);
+       /* Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
             mProgressDialog.setMessage("Info...");
@@ -85,13 +87,10 @@ public class EditCompanyActivity extends RegisterAbstractActivity {
                     });
             snackbar.show();
         }
-
+*/
     }
 
-    @Override
-    protected int layoutId() {
-        return R.layout.activity_edit_company;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,7 +163,7 @@ public class EditCompanyActivity extends RegisterAbstractActivity {
         }
     }
 
-    @Subscribe
+   /* @Subscribe
     public void getIndustryType(IndustryTypeResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -181,5 +180,5 @@ public class EditCompanyActivity extends RegisterAbstractActivity {
         }
 
 
-    }
+    }*/
 }

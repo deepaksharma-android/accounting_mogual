@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -209,6 +210,7 @@ public class CompanyListActivity extends BaseActivity {
 
     public void showpopup(){
         dialog = new Dialog(CompanyListActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_login);
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button

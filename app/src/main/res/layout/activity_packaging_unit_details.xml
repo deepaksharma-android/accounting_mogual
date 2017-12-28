@@ -47,7 +47,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.9"
                         android:background="@android:color/transparent"
-                        android:hint=""
+                        android:hint="packaging unit"
                         android:textColor="#000"
                         android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
-                            android:hint="eg.Rs5000"
+                            android:text="0"
                             android:inputType="number"
                             android:textColor="#000"
                             android:textSize="16sp" />
@@ -119,6 +119,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:inputType="number"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -148,6 +149,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:inputType="number"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="16sp" />
                     </LinearLayout>

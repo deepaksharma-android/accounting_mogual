@@ -238,7 +238,7 @@ public interface Api {
     @POST("company_auth/{id}")
     Call<CompanyAuthenticateResponse> cauthenticate(@Body RequestCompanyAuthenticate payload, @Path("id") String id);
 
-    @GET("company/{id}")
+    @GET("company_details/{id}")
     Call<CompanyResponse> getcompany(@Path("id") String id);
 
     @GET("company/{unique_id}")
