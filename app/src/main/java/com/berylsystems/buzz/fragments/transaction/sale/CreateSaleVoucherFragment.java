@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -253,6 +254,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
+
                 if (appUser.mListMapForItemSale.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
@@ -391,6 +393,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
@@ -400,7 +403,14 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivity(intent);
             }
             else{
-                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+                mPartyName.setText("");
+                mMobileNumber.setText("");
+                mNarration.setText("");
+                appUser.mListMapForItemSale.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
+               /* startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));*/
             }
            // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
            /* mPartyName.setText("");

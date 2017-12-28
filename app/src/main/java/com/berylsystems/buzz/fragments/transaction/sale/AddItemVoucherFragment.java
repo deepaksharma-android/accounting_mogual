@@ -1,9 +1,11 @@
 package com.berylsystems.buzz.fragments.transaction.sale;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,7 +57,7 @@ public class AddItemVoucherFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
     ArrayList<String> billsuncal;
-
+    public static AddItemVoucherFragment context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +65,7 @@ public class AddItemVoucherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_item_voucher, container, false);
         ButterKnife.bind(this, view);
 
+        context=AddItemVoucherFragment.this;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
