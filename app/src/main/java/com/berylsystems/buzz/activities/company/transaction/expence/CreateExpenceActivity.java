@@ -395,8 +395,9 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 case Cv.REQUEST_CAMERA:
 
                     photo = (Bitmap) data.getExtras().get("data");
-
                     encodedString= Helpers.bitmapToBase64(photo);
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(photo);
                     break;
 
                 case Cv.REQUEST_GALLERY:
@@ -407,13 +408,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
                         encodedString= Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(photo);
                         break;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
             }
-            mSelectedImage.setVisibility(View.VISIBLE);
-            mSelectedImage.setImageBitmap(photo);
+
 
            /* if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
