@@ -151,10 +151,10 @@ public class ItemSettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==1){
-                    mSpinnerSerialNumber.setVisibility(View.GONE);
+                    mSerialWiseLayout.setVisibility(View.GONE);
                 }
                 else{
-                    mSpinnerSerialNumber.setVisibility(View.VISIBLE);
+                    mSerialWiseLayout.setVisibility(View.VISIBLE);
                 }
             }
 
