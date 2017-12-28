@@ -67,6 +67,7 @@ public class AddItemPurchaseFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.billsundrytotalPurchase.clear();
         appUser.itemtotalPurchase.clear();
+        context=AddItemPurchaseFragment.this;
         LocalRepositories.saveAppUser(getActivity(),appUser);
 
         add_item_button.setOnClickListener(new View.OnClickListener() {

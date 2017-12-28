@@ -23,6 +23,7 @@ import com.berylsystems.buzz.activities.company.administration.master.item.Expan
 import com.berylsystems.buzz.adapters.AddBillsPurchaseReturnAdapter;
 import com.berylsystems.buzz.adapters.AddItemsPurchaseReturnAdapter;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.fragments.transaction.purchase.AddItemPurchaseFragment;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -53,6 +54,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
     AppUser appUser;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
+    public static AddItemPurchaseReturnFragment context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +64,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
-
+        context= AddItemPurchaseReturnFragment.this;
         appUser.billsundrytotalPurchase.clear();
         appUser.itemtotalPurchase.clear();
         LocalRepositories.saveAppUser(getActivity(),appUser);

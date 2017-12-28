@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.Creat
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.fragments.transaction.purchase_return.AddItemPurchaseReturnFragment;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
@@ -418,7 +420,15 @@ public class CreateSaleReturnFragment extends Fragment {
                 startActivity(intent);
             }
             else{
-                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+               mPartyName.setText("");
+               mMobileNumber.setText("");
+               mNarration.setText("");
+               appUser.mListMapForItemSaleReturn.clear();
+               appUser.mListMapForBillSaleReturn.clear();
+               LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+               FragmentTransaction ft = getFragmentManager().beginTransaction();
+               ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
+//                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             }
 
         } else {

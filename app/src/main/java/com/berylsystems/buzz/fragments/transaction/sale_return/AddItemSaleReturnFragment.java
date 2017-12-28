@@ -56,12 +56,14 @@ public class AddItemSaleReturnFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
     ArrayList<String> billsuncal;
+    public static AddItemSaleReturnFragment context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_item_sale_return, container, false);
         ButterKnife.bind(this, view);
+        context=AddItemSaleReturnFragment.this;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.billsundrytotal.clear();
