@@ -1,9 +1,13 @@
 package com.berylsystems.buzz.activities.company.transaction.payment;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -31,6 +35,8 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -39,6 +45,7 @@ import com.berylsystems.buzz.networks.api_response.payment.CreatePaymentResponse
 import com.berylsystems.buzz.networks.api_response.payment.EditPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -111,7 +118,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
     public static int intStartActivityForResult=0;
-
+    Bitmap photo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,8 +204,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             mBrowseImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);
+                    startDialog();
                 }
             });
 
@@ -379,6 +385,36 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         }
 
 
+
+    private void startDialog() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(CreatePaymentActivity.this);
+        myAlertDialog.setTitle("Upload Pictures Option");
+        myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Intent intCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+
+                if (intCamera.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
+                }
+
+            }
+        });
+
+        myAlertDialog.setNegativeButton("Gallary",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent intGallery = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
+
+                    }
+                });
+        myAlertDialog.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -444,7 +480,39 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         if (resultCode == RESULT_OK) {
+            photo = null;
+            switch (requestCode) {
+
+                case Cv.REQUEST_CAMERA:
+
+                    photo = (Bitmap) data.getExtras().get("data");
+
+                    encodedString= Helpers.bitmapToBase64(photo);
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(photo);
+                    break;
+
+                case Cv.REQUEST_GALLERY:
+
+                    try {
+
+                        photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
+                                ContentUris.parseId(data.getData()),
+                                MediaStore.Images.Thumbnails.MINI_KIND, null);
+                        encodedString= Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(photo);
+                        break;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+
+
+        /*if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 selectedImagePath = getPath(selectedImageUri);
@@ -468,7 +536,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             if (requestCode == 2) {
                 boolForReceivedFrom = true;

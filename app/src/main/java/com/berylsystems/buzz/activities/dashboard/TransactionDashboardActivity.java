@@ -186,7 +186,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
                 //Preferences.getInstance(context).setStore("");
-                //Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 //Preferences.getInstance(context).setSale_type_name("");
@@ -262,7 +262,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
 //                Preferences.getInstance(context).setStore("");
-//                Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
@@ -468,7 +468,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
                 //Preferences.getInstance(context).setStore("");
-                //Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
@@ -511,7 +511,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
 //                Preferences.getInstance(context).setStore("");
-//                Preferences.getInstance(context).setParty_name("");
+                Preferences.getInstance(context).setParty_name("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");

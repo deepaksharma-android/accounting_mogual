@@ -212,9 +212,9 @@ public class PdcActivity extends RegisterAbstractActivity {
     @Subscribe
     public void getPdcResponse(GetPdcResponse response) {
         mProgressDialog.dismiss();
+        receiptList=new ArrayList();
+        paymentList=new ArrayList();
         if (response.getStatus() == 200) {
-            receiptList=new ArrayList();
-            paymentList=new ArrayList();
 
             for(int i=0;i<response.getPdc_details().getData().size();i++){
                 if (response.getPdc_details().getData().get(i).getType().equals("receipt-vouchers")){
@@ -223,7 +223,6 @@ public class PdcActivity extends RegisterAbstractActivity {
                     paymentList.add(response.getPdc_details().getData().get(i).getAttributes());
                 }
             }
-
             listViewReceipt.setAdapter(new PdcReceiptAdapter(this,receiptList));
             ListHeight.setListViewHeightBasedOnChildren(listViewReceipt);
             ListHeight.setListViewHeightBasedOnChildren(listViewReceipt);
@@ -232,6 +231,14 @@ public class PdcActivity extends RegisterAbstractActivity {
             ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            receiptList.clear();
+            paymentList.clear();
+            listViewReceipt.setAdapter(new PdcReceiptAdapter(this,receiptList));
+            ListHeight.setListViewHeightBasedOnChildren(listViewReceipt);
+            ListHeight.setListViewHeightBasedOnChildren(listViewReceipt);
+            listViewPayment.setAdapter(new PdcPaymentAdapter(this,paymentList));
+            ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
+            ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
         }
     }
 
