@@ -62,6 +62,7 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Snackbar snackbar;
     String title;
+    public static Boolean isDirectForFirstPage = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,10 +205,14 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, FirstPageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (isDirectForFirstPage) {
+                    Intent intent = new Intent(this, FirstPageActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

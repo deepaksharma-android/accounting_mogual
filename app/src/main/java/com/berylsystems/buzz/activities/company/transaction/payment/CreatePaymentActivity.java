@@ -135,6 +135,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
+
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE PAYMENT";
@@ -208,9 +209,13 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                     if (i == 0) {
                         date_pdc_layout.setVisibility(View.GONE);
                         date_pdc_textview.setVisibility(View.GONE);
+                        set_date_pdc.setText("");
                     } else {
                         date_pdc_layout.setVisibility(View.VISIBLE);
                         date_pdc_textview.setVisibility(View.VISIBLE);
+                        if(set_date_pdc.getText().toString().equals("")){
+                            set_date_pdc.setText(dateString);
+                        }
                     }
                 }
 
@@ -595,7 +600,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         if(response.getStatus()==200){
             set_date.setText(response.getPayment().getData().getAttributes().getDate());
             voucher_no.setText(response.getPayment().getData().getAttributes().getVoucher_number());
-            set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
+            //set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
             paid_from.setText(response.getPayment().getData().getAttributes().getPaid_from());
             paid_to.setText(response.getPayment().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getPayment().getData().getAttributes().getAmount()));
@@ -610,12 +615,15 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             else{
                 mSelectedImage.setVisibility(View.GONE);
             }
+
             String type_pdc_regular = response.getPayment().getData().getAttributes().getPayment_type().trim();
                 if (type_pdc_regular.equals("PDC")){
-                    type_spinner.setSelection(0);
+                    type_spinner.setSelection(1);
+                    set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
                 }
                 else {
-                    type_spinner.setSelection(1);
+                    type_spinner.setSelection(0);
+                    set_date_pdc.setText("");
                 }
 
             String group_type = response.getPayment().getData().getAttributes().getGst_nature().trim();

@@ -99,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:id="@+id/quantity"
+                    android:hint="eg. minimum 1 quantity"
                     android:inputType="number"
                     android:background="@android:color/transparent"
                     android:textColor="#000"
