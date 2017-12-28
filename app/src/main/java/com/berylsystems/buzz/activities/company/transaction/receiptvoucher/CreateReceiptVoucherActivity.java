@@ -45,6 +45,7 @@ import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVouc
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
+import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -580,6 +581,10 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             if(from!=null){
+                Preferences.getInstance(this).setParty_name("");
+                Preferences.getInstance(this).setParty_id("");
+                Preferences.getInstance(this).setMobile("");
+                Preferences.getInstance(this).setNarration("");
                 if(from.equals("sale")) {
                     appUser.mListMapForItemSale.clear();
                     appUser.mListMapForBillSale.clear();
