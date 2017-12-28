@@ -37,6 +37,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.company.CompanyAuthenticateResponse;
 import com.berylsystems.buzz.networks.api_response.company.DeleteCompanyResponse;
+import com.berylsystems.buzz.networks.api_response.company.IndustryTypeResponse;
 import com.berylsystems.buzz.networks.api_response.getcompany.CompanyResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.Helpers;
@@ -239,6 +240,48 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+
+     @Subscribe
+    public void getIndustryType(IndustryTypeResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            appUser.industry_type.clear();
+            appUser.industry_id.clear();
+            for(int i=0;i<response.getIndustry().getData().size();i++){
+                appUser.industry_type.add(response.getIndustry().getData().get(i).getAttributes().getName());
+                appUser.industry_id.add(response.getIndustry().getData().get(i).getAttributes().getId());
+                LocalRepositories.saveAppUser(this,appUser);
+            }
+
+        } else {
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+
+
     }
 
 
