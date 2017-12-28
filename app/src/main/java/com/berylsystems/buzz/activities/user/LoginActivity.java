@@ -131,8 +131,6 @@ public class LoginActivity extends RegisterAbstractActivity {
                     });
             snackbar.show();
         }
-
-
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

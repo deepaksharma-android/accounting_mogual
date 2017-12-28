@@ -98,14 +98,14 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         } else {
-            Boolean isConnected = ConnectivityReceiver.isConnected();
+            /*Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateUnitActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
                 mProgressDialog.show();
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UQC);
+               // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UQC);
             } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -119,19 +119,19 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
                             }
                         });
                 snackbar.show();
-            }
+            }*/
         }
         initActionbar();
         muqcAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.layout_trademark_type_spinner_dropdown_item, appUser.arr_uqcname);
+                R.layout.layout_trademark_type_spinner_dropdown_item,UnitListActivity.uqcName);
         muqcAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mSpinnerUqc.setAdapter(muqcAdapter);
 
         mSpinnerUqc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(appUser.arr_uqcid!=null) {
-                    appUser.uqc = String.valueOf(appUser.arr_uqcid.get(i));
+                if(UnitListActivity.uqcId!=null) {
+                    appUser.uqc = String.valueOf(UnitListActivity.uqcId.get(i));
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
             }
@@ -284,14 +284,16 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
     public void getunitdetails(GetUnitDetailsResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            appUser.uqc=String.valueOf(response.getItem_unit().getData().getAttributes().getUqc_id());
+            LocalRepositories.saveAppUser(this,appUser);
             mUnitName.setText(response.getItem_unit().getData().getAttributes().getName());
             String group_type = response.getItem_unit().getData().getAttributes().getUqc().trim();
             Timber.i("GROUPINDEX" + group_type);
             // insert code here
             int groupindex = -1;
-            for (int i = 0; i < appUser.arr_uqcname.size(); i++) {
+            for (int i = 0; i < UnitListActivity.uqcName.size(); i++) {
               //  Timber.i("GROUPINDEX" + appUser.arr_stock_name);
-                if (appUser.arr_uqcname.get(i).equals(group_type)) {
+                if (UnitListActivity.uqcName.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
@@ -304,7 +306,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         }
     }
 
-    @Subscribe
+  /*  @Subscribe
     public void getuqc(GetUqcResponse response) {
         mProgressDialog.dismiss();
         appUser.arr_uqcid.clear();
@@ -324,5 +326,5 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
 
         }
 
-    }
+    }*/
 }

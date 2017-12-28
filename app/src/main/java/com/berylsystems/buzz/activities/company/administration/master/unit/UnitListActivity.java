@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.unit.DeleteUnitResponse;
 import com.berylsystems.buzz.networks.api_response.unit.GetUnitListResponse;
+import com.berylsystems.buzz.networks.api_response.unit.GetUqcResponse;
 import com.berylsystems.buzz.networks.api_response.unit.ItemUnitList;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteUnit;
@@ -41,6 +43,8 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,6 +66,9 @@ public class UnitListActivity extends AppCompatActivity {
     public static Boolean isDirectForUnitList = true;
 
     public static ItemUnitList data;
+    public static ArrayList<String>uqcName;
+    public static ArrayList<Integer>uqcId;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +76,8 @@ public class UnitListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_unit_list);
         ButterKnife.bind(this);
         initActionbar();
+        uqcName=new ArrayList<>();
+        uqcId=new ArrayList<>();
         appUser = LocalRepositories.getAppUser(this);
         mFloatingButton.bringToFront();
 
@@ -176,6 +185,29 @@ public class UnitListActivity extends AppCompatActivity {
     public void getUnitList(GetUnitListResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(UnitListActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UQC);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+
+            }
             //appUser.arr_unitId.clear();
             // appUser.arr_unitName.clear();
             appUser.unitId.clear();
@@ -212,6 +244,21 @@ public class UnitListActivity extends AppCompatActivity {
         }
     }
 
+
+    @Subscribe
+    public void getuqc(GetUqcResponse response) {
+        mProgressDialog.dismiss();
+        appUser.arr_uqcid.clear();
+        appUser.arr_uqcname.clear();
+        if (response.getStatus() == 200) {
+            for (int i = 0; i < response.getUqc().getData().size(); i++) {
+                uqcId.add(response.getUqc().getData().get(i).getAttributes().getId());
+                uqcName.add(response.getUqc().getData().get(i).getAttributes().getName());
+            }
+
+        }
+
+    }
     @Subscribe
     public void deletematerialcentregroup(EventDeleteUnit pos) {
         appUser.delete_unit_id = String.valueOf(data.getData().get(pos.getPosition()).getId());
@@ -274,13 +321,13 @@ public class UnitListActivity extends AppCompatActivity {
             Intent intentForward = null;
             if (ParameterConstant.checkStartActivityResultForUnitList == 1) {
                 intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
-            }else if (ParameterConstant.checkStartActivityResultForUnitList == 2) {
+            } else if (ParameterConstant.checkStartActivityResultForUnitList == 2) {
                 intentForward = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
             }
             intentForward.putExtra("result", String.valueOf(pos.getPosition()));
             intentForward.putExtra("name", data.getData().get(pos.getPosition()).getAttributes().getName());
             intentForward.putExtra("id", String.valueOf(data.getData().get(pos.getPosition()).getId()));
-            intentForward.putExtra("bool",true);
+            intentForward.putExtra("bool", true);
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
             //setResult(Activity.RESULT_OK, returnIntent);
