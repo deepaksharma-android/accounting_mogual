@@ -184,7 +184,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             public void onClick(View view) {
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
-                photo
+                startDialog();
             }
         });
 
@@ -394,6 +394,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(photo);
                         break;
+                        
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
