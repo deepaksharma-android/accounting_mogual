@@ -40,11 +40,14 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -87,9 +90,9 @@ public class CreateSaleVoucherFragment extends Fragment {
     Animation blinkOnClick;
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
-    public static int intStartActivityForResult=0;
+    public static int intStartActivityForResult = 0;
     Snackbar snackbar;
-    public String party_id="";
+    public String party_id = "";
 
     @Override
     public void onStart() {
@@ -144,19 +147,17 @@ public class CreateSaleVoucherFragment extends Fragment {
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
 
-        if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
+        if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
-        }
-        else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
+        } else if (Preferences.getInstance(getContext()).getCash_credit().equals("Credit")) {
             credit.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
             cash.setTextColor(Color.parseColor("#000000"));//black
-        }
-        else{
+        } else {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
 
@@ -164,9 +165,9 @@ public class CreateSaleVoucherFragment extends Fragment {
             credit.setTextColor(Color.parseColor("#000000"));
         }
 
-        if (!mDate.getText().toString().equals("")){
-            appUser.sale_date=mDate.getText().toString();
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        if (!mDate.getText().toString().equals("")) {
+            appUser.sale_date = mDate.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         }
 
         mDate.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +193,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intStartActivityForResult=1;
-                ParameterConstant.checkStartActivityResultForAccount =0;
+                intStartActivityForResult = 1;
+                ParameterConstant.checkStartActivityResultForAccount = 0;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
@@ -201,7 +202,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.checkStartActivityResultForAccount =0;
+                ParameterConstant.checkStartActivityResultForAccount = 0;
                 SaleTypeListActivity.isDirectForSaleType = false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
             }
@@ -209,8 +210,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intStartActivityForResult=2;
-                ParameterConstant.checkStartActivityResultForAccount =0;
+                intStartActivityForResult = 2;
+                ParameterConstant.checkStartActivityResultForAccount = 0;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -323,13 +324,13 @@ public class CreateSaleVoucherFragment extends Fragment {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                boolForStore=true;
+                boolForStore = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.sale_store = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
-               // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
                 mStore.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
                 Preferences.getInstance(getContext()).setStoreId(id);
@@ -347,7 +348,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.sale_saleType = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
-               // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
+                // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
                 Preferences.getInstance(getContext()).setSale_type_name(result);
                 Preferences.getInstance(getContext()).setSale_type_id(id);
                 appUser.sale_type_name = result;
@@ -365,8 +366,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
-                party_id=id;
-               // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
+                party_id = id;
+                // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
@@ -383,6 +384,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             }
         }
     }
+
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
@@ -392,22 +394,23 @@ public class CreateSaleVoucherFragment extends Fragment {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+            if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-                intent.putExtra("account",mPartyName.getText().toString());
-                intent.putExtra("account_id",appUser.sale_partyName);
-                intent.putExtra("from","sale");
+                intent.putExtra("account", mPartyName.getText().toString());
+                intent.putExtra("account_id", appUser.sale_partyName);
+                intent.putExtra("from", "sale");
                 startActivity(intent);
+            } else {
+                mPartyName.setText("");
+                mMobileNumber.setText("");
+                mNarration.setText("");
+               /* appUser.mListMapForItemSale.clear();
+                appUser.mListMapForBillSale.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+                //startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             }
-            else{
-                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            }
-           // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-           /* mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");*/
-            /*appUser.mListMapForItemSale.clear();
-            appUser.mListMapForBillSale.clear();*/
+            // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -427,20 +430,19 @@ public class CreateSaleVoucherFragment extends Fragment {
     }
 
 
-
     public void onResume() {
         super.onResume();
         Intent intent = getActivity().getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
-            if (intStartActivityForResult==1){
-                boolForPartyName=true;
-            }else if (intStartActivityForResult==2){
-                boolForStore=true;
+            if (intStartActivityForResult == 1) {
+                boolForPartyName = true;
+            } else if (intStartActivityForResult == 2) {
+                boolForStore = true;
             }
             if (!boolForPartyName) {
-               // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
@@ -452,7 +454,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
                 Preferences.getInstance(getContext()).setParty_id(id);
-                boolForPartyName=false;
+                boolForPartyName = false;
             }
             if (!boolForStore) {
                 //Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
