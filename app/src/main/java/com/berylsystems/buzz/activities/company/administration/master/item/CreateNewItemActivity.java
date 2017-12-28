@@ -276,43 +276,59 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 mSubmitButton.startAnimation(blinkOnClick);
-                appUser.item_name = mItemName.getText().toString();
-                appUser.item_hsn_number = mHsnNumber.getText().toString();
+
+                if (!mItemName.getText().toString().equals("")) {
+                    if (!mItemGroup.getText().toString().equals("")) {
+                    if (!mItemUnit.getText().toString().equals("")) {
+                        if (!mTaxCategory.getText().toString().equals("")) {
+                             appUser.item_name = mItemName.getText().toString();
+                            appUser.item_hsn_number = mHsnNumber.getText().toString();
+                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
               /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                     if (mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))) {
                         appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
                         break;
                     }
                 }*/
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                if (mItemName.getText().toString().equals("") || mItemUnit.getText().toString().equals("") || mItemGroup.getText().toString().equals("")) {
+
+                /*if (mItemName.getText().toString().equals("") || mItemUnit.getText().toString().equals("") || mItemGroup.getText().toString().equals("")) {
                     Toast.makeText(CreateNewItemActivity.this, "Name, Group And Unit is mendatory", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
+                }*/
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_ITEM);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
+                                        }
+                                    });
+                            snackbar.show();
+                        }
+                    } else {
+                        Snackbar.make(coordinatorLayout,"Add Tax Catagory",Snackbar.LENGTH_LONG).show();
+                    }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Select Unit Marker", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Snackbar.make(coordinatorLayout, "Select Item Group", Snackbar.LENGTH_LONG).show();
+                    }
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
-                                    }
-                                }
-                            });
-                    snackbar.show();
+                    Snackbar.make(coordinatorLayout, "Enter Item name", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -324,9 +340,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 if (!mItemName.getText().toString().equals("")) {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
-                            appUser.item_name = mItemName.getText().toString();
-                            appUser.item_hsn_number = mHsnNumber.getText().toString();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            if (!mTaxCategory.getText().toString().equals("")) {
+                                appUser.item_name = mItemName.getText().toString();
+                                appUser.item_hsn_number = mHsnNumber.getText().toString();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                            /* for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
                                 if (CreateItemGroupActivity.data.getData().get(i).getAttributes().getName().equals(mItemGroup.getText().toString())) {
@@ -335,7 +352,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                     break;
                                 }
                             }*/
-                            //   for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
+                                //   for (int i = 0; i < UnitListActivity.data.getData().size(); i++) {
                                /* if (appUser.arr_unitName.get(i).equals(mItemUnit.getText().toString())) {
                                     appUser.item_unit_id = String.valueOf(appUser.arr_unitId.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -350,37 +367,40 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                 }
                             }*/
 
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_ITEM);
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    mProgressDialog = new ProgressDialog(CreateNewItemActivity.this);
+                                    mProgressDialog.setMessage("Info...");
+                                    mProgressDialog.setIndeterminate(false);
+                                    mProgressDialog.setCancelable(true);
+                                    mProgressDialog.show();
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_ITEM);
 
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
+                                } else {
+                                    snackbar = Snackbar
+                                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                            .setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
                                                 }
-                                            }
-                                        });
-                                snackbar.show();
+                                            });
+                                    snackbar.show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Add Tax Catagory", Snackbar.LENGTH_LONG).show();
                             }
-                        } else {
-                            Snackbar.make(coordinatorLayout, "Enter group name", Snackbar.LENGTH_LONG).show();
+                        }else {
+                            Snackbar.make(coordinatorLayout, "Select Unit Marker", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(coordinatorLayout, "Enter mobile number", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(coordinatorLayout, "Select Item Group", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Enter account name", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Enter Item name", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -574,16 +594,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 appUser.item_tax_category = Integer.parseInt(id);
                 mTaxCategory.setText(result);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-               // if(!mTaxCategory.getText().toString().equals("")){
-                    mTaxCategory.setText(result);
-               // }
 
-                /*if(!mTaxCategory.getText().toString().equals("")){
-                    mTaxCategory.setText(result);
-                }
-                else {
-                    Snackbar.make(coordinatorLayout,"Add Tax Catagory",Snackbar.LENGTH_LONG).show();
-                }*/
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

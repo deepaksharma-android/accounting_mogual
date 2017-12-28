@@ -140,7 +140,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Tax Category"
+                        android:text="Tax Category *"
                         android:textColor="#000"
                         android:textSize="15sp" />
                     <LinearLayout
