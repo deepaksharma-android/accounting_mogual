@@ -394,6 +394,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                appUser.voucher_type = "Receipt";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 intent.putExtra("account",mPartyName.getText().toString());
                 intent.putExtra("account_id",appUser.sale_partyName);
                 intent.putExtra("from","sale");
