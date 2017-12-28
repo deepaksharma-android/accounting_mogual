@@ -111,7 +111,7 @@
                                     android:gravity="center"
                                     android:orientation="vertical">
 
-                                    <com.berylsystems.buzz.utils.BuzzEditText
+                                    <com.berylsystems.buzz.utils.BuzzTextView
                                         android:id="@+id/vouchar_no"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
