@@ -3651,10 +3651,9 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-
     private void handleGetPdc() {
-
-        api.getPdc(Preferences.getInstance(getApplicationContext()).getCid(),"Last 7 days").enqueue(new Callback<GetPdcResponse>() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getPdc(Preferences.getInstance(getApplicationContext()).getCid(),appUser.receipt_duration_spinner).enqueue(new Callback<GetPdcResponse>() {
             @Override
             public void onResponse(Call<GetPdcResponse> call, Response<GetPdcResponse> r) {
                 if (r.code() == 200) {
