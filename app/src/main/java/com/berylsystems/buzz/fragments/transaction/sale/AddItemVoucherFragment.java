@@ -64,7 +64,6 @@ public class AddItemVoucherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_item_voucher, container, false);
         ButterKnife.bind(this, view);
-
         context=AddItemVoucherFragment.this;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
@@ -668,6 +667,6 @@ public class AddItemVoucherFragment extends Fragment {
                 })
                 .show();
     }
-
+    
 
 }
