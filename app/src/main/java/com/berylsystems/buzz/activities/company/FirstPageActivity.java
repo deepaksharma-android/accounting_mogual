@@ -99,31 +99,6 @@ public class FirstPageActivity extends BaseActivityCompany {
         String date1 = dateFormatter.format(newCalendar.getTime());
         mDate.setText("As On "+date1);
 
-
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(FirstPageActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_COMPANY_DASHBOARD_INFO);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
-
         mlayout_cash_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,6 +166,7 @@ public class FirstPageActivity extends BaseActivityCompany {
             public void onClick(View view) {
                 //appUser.duration_spinner ="Today";
                 Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(intent);
             }
         });
@@ -198,6 +174,7 @@ public class FirstPageActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), TransactionExpensesActivity.class);
+                FirstPageActivity.isDirectForFirstPage=false;
                 startActivity(intent);
             }
         });
@@ -224,6 +201,29 @@ public class FirstPageActivity extends BaseActivityCompany {
     protected void onResume() {
         super.onResume();
 
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(FirstPageActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_COMPANY_DASHBOARD_INFO);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
     }
 
     @Override
@@ -246,7 +246,6 @@ public class FirstPageActivity extends BaseActivityCompany {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         //mProgressDialog.dismiss();
-
     }
 
     @Override
