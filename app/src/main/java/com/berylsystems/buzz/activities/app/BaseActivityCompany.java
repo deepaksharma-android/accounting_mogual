@@ -163,7 +163,7 @@ public class BaseActivityCompany extends AppCompatActivity {
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
-
+                    finish();
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
