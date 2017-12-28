@@ -394,7 +394,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(photo);
                         break;
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
