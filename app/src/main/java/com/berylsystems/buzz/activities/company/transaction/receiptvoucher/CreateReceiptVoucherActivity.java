@@ -659,6 +659,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 if (from.equals("sale")) {
                     appUser.mListMapForItemSale.clear();
                     appUser.mListMapForBillSale.clear();
+                    appUser.voucher_type="Sales";
                     LocalRepositories.saveAppUser(this, appUser);
                     Intent intent = new Intent(this, CreateSaleActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -667,6 +668,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 } else if (from.equals("sale_return")) {
                     appUser.mListMapForItemSaleReturn.clear();
                     appUser.mListMapForBillSaleReturn.clear();
+                    appUser.voucher_type = "Sale Return";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Intent intent = new Intent(this, CreateSaleReturnActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -685,6 +687,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 } else if (from.equals("purchase_return")) {
                     appUser.mListMapForItemPurchaseReturn.clear();
                     appUser.mListMapForBillPurchaseReturn.clear();
+                    appUser.voucher_type = "Purchase Return";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

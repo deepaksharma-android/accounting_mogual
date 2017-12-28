@@ -274,7 +274,6 @@ public class ItemGroupListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
-        Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
         if (!isDirectForItemGroup && bool) {
             Intent intentForward=null;
             if (ParameterConstant.checkStartActivityResultForItemGroupOfItem ==1){

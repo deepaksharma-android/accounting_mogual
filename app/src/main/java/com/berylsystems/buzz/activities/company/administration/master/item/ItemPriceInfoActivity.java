@@ -89,8 +89,14 @@ public class ItemPriceInfoActivity extends AppCompatActivity {
         min_sale_price_alt_text.setText("Min Sales Price Alt. Unit (" + Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name() + ")");
         purchase_price_min_text.setText("Purchase Price Main Unit (" + item_unit + ")");
         purchase_price_alt_text.setText("Purchase Price Alt. Unit (" + Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name() + ")");
-        mrp.setText(Preferences.getInstance(getApplicationContext()).getitem_price_mrp());
-        self_val_price.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_self_val_price());
+        if (!Preferences.getInstance(getApplicationContext()).getitem_price_mrp().equals("")){
+            mrp.setText(Preferences.getInstance(getApplicationContext()).getitem_price_mrp());
+        }
+
+        if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_self_val_price().equals("")){
+            self_val_price.setText(Preferences.getInstance(getApplicationContext()).getitem_price_info_self_val_price());
+        }
+
         if (!Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_applied_on().equals("")) {
             if (Preferences.getInstance(getApplicationContext()).getitem_price_info_sale_price_applied_on().equals("Main Unit")) {
                 mSpinnerSalePriceApplied.setSelection(0);

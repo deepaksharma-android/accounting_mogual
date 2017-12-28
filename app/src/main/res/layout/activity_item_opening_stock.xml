@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@android:color/transparent"
-                        android:hint="eg.4"
+                        android:text="0"
                         android:inputType="number"
                         android:textColor="#000"
                         android:textSize="16sp" />
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@android:color/transparent"
-                        android:hint="eg.Rs5000"
+                        android:text="0"
                         android:inputType="numberDecimal"
                         android:textColor="#000"
                         android:textSize="16sp" />
