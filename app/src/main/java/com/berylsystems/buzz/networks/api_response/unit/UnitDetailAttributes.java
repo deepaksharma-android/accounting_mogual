@@ -20,4 +20,14 @@ public class UnitDetailAttributes {
     public String name;
     public String uqc;
 
+    public int getUqc_id() {
+        return uqc_id;
+    }
+
+    public void setUqc_id(int uqc_id) {
+        this.uqc_id = uqc_id;
+    }
+
+    public int uqc_id;
+
 }
