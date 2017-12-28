@@ -501,13 +501,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                     mSelectedImage.setImageBitmap(photo);
                     break;
 
-
                 case Cv.REQUEST_GALLERY:
 
-
                     try {
-
-
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
