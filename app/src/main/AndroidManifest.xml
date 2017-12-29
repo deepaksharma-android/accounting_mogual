@@ -512,6 +512,10 @@
         <activity android:name=".activities.company.navigation.reports.outstanding.AmountReceivablesListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
