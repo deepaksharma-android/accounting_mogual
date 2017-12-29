@@ -102,12 +102,6 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
-        mItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
-            }
-        });
 
 
 

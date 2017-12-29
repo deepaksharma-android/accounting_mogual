@@ -114,12 +114,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-        mItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
-            }
-        });
+
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
