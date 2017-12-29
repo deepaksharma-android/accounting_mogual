@@ -324,6 +324,7 @@ public class UnitListActivity extends AppCompatActivity {
                 CreateNewItemActivity.context.finish();
                 intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForUnitList == 2) {
+                CreateUnitConversionActivity.context.finish();
                 intentForward = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
             }
             intentForward.putExtra("result", String.valueOf(pos.getPosition()));

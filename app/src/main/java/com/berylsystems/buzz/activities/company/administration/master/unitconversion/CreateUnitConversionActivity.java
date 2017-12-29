@@ -66,12 +66,13 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     public Boolean boolForMainUnit = false;
     public Boolean boolForAltUnit = false;
     public static int intStartActivityForResult = 0;
-
+    public static CreateUnitConversionActivity context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        context=this;
         appUser = LocalRepositories.getAppUser(this);
         title = "CREATE ITEM UNIT CONVERSION";
 
