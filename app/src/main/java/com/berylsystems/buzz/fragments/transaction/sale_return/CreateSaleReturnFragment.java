@@ -342,8 +342,6 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
-                String group = data.getStringExtra("group");
-                appUser.sale_party_group=group;
                 party_id=id;
                 appUser.sale_return_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -417,7 +415,7 @@ public class CreateSaleReturnFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");*/
            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-               if(!appUser.sale_party_group.equals("Cash-in-hand")) {
+               if (!appUser.sale_party_group.equals("Cash-in-hand")) {
                    Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                    appUser.voucher_type = "Receipt";
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -426,19 +424,17 @@ public class CreateSaleReturnFragment extends Fragment {
                    intent.putExtra("from", "sale_return");
                    Timber.i("ACCOUNT_ID" + party_id);
                    startActivity(intent);
-               }
-               else{
+               } else {
                    mPartyName.setText("");
                    mMobileNumber.setText("");
                    mNarration.setText("");
                    appUser.mListMapForItemSaleReturn.clear();
                    appUser.mListMapForBillSaleReturn.clear();
-                   LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    FragmentTransaction ft = getFragmentManager().beginTransaction();
                    ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
-//                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
                }
-            }
+           }
             else{
                mPartyName.setText("");
                mMobileNumber.setText("");

@@ -146,11 +146,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             from = bundle.getString("from");
             LocalRepositories.saveAppUser(this, appUser);
             received_from.setText(account);
-
         }
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
-
         appUser.voucher_type = "Receipt";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
