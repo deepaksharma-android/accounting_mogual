@@ -114,6 +114,9 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
+        appUser.voucher_type = "Income";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
         received_from.setText(""+ appUser.received_from_name);
         received_into.setText(""+ appUser.received_into_name);
         android.support.v7.app.ActionBar actionBar =getSupportActionBar();
@@ -129,7 +132,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE INCOME";
-        fromIncome=getIntent().getExtras().getBoolean("fromIncome");
+        fromIncome=getIntent().getBooleanExtra("fromIncome",false);
         if(fromIncome==true){
             title="EDIT INCOME";
             mSubmit.setVisibility(View.GONE);

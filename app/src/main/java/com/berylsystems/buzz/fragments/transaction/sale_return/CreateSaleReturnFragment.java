@@ -102,6 +102,9 @@ public class CreateSaleReturnFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sales_return_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
+        appUser = LocalRepositories.getAppUser(getActivity());
+        appUser.voucher_type = "Sale Return";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -126,7 +129,7 @@ public class CreateSaleReturnFragment extends Fragment {
             snackbar.show();
         }
 
-        appUser = LocalRepositories.getAppUser(getActivity());
+
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());

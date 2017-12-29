@@ -107,6 +107,9 @@ public class CreateSaleVoucherFragment extends Fragment {
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
 
+        appUser = LocalRepositories.getAppUser(getActivity());
+        appUser.voucher_type = "Sales";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -132,8 +135,6 @@ public class CreateSaleVoucherFragment extends Fragment {
             snackbar.show();
         }
 
-
-        appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());

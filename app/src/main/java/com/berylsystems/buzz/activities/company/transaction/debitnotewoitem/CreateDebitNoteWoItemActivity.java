@@ -110,6 +110,9 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        appUser.voucher_type = "Debit Note";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -122,7 +125,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
-        fromDebitNote = getIntent().getExtras().getBoolean("fromDebitNote");
+        fromDebitNote = getIntent().getBooleanExtra("fromDebitNote",false);
         if (fromDebitNote == true) {
             title="EDIT DEBIT NOTE";
             mSubmit.setVisibility(View.GONE);

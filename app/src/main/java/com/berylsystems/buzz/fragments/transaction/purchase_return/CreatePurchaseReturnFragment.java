@@ -102,7 +102,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_purchase_return_create, container, false);
         ButterKnife.bind(this, view);
-
+        appUser = LocalRepositories.getAppUser(getActivity());
+        appUser.voucher_type = "Purchase Return";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(getActivity());
@@ -126,8 +128,6 @@ public class CreatePurchaseReturnFragment extends Fragment {
             snackbar.show();
         }
 
-
-        appUser = LocalRepositories.getAppUser(getActivity());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
