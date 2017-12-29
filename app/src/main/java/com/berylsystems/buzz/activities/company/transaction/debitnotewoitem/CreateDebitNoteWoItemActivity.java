@@ -28,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -427,7 +426,6 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 account_name_debit.setText(name[0]);
-                Toast.makeText(this, ""+name[0], Toast.LENGTH_SHORT).show();
             }
         }
     }
