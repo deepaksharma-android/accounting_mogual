@@ -104,6 +104,7 @@ public class AppUser {
     public String account_credit_sale="";
     public String account_credit_purchase="";
     public String account_mobile_number;
+    public String account_email;
     public String create_account_group_id;
     public String account_group_name;
     public String edit_account_id;

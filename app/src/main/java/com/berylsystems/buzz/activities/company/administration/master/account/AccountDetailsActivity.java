@@ -54,6 +54,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     EditText mAccountName;
     @Bind(R.id.mobile_number)
     EditText mMobileNumber;
+    @Bind(R.id.email)
+    EditText mEmail;
     @Bind(R.id.group_name)
     TextView mGroupName;
     @Bind(R.id.submit)
@@ -138,6 +140,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                         if (!mGroupName.getText().toString().equals("")) {
                             appUser.account_name = mAccountName.getText().toString();
                             appUser.account_mobile_number = mMobileNumber.getText().toString();
+                            appUser.account_email=mEmail.getText().toString();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                                     Boolean isConnected = ConnectivityReceiver.isConnected();
                                                     if (isConnected) {
@@ -179,6 +182,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                         if (!mGroupName.getText().toString().equals("")) {
                             appUser.account_name = mAccountName.getText().toString();
                             appUser.account_mobile_number = mMobileNumber.getText().toString();
+                            appUser.account_email=mEmail.getText().toString();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             Boolean isConnected = ConnectivityReceiver.isConnected();
                             if (isConnected) {
