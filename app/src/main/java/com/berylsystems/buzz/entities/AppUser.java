@@ -267,6 +267,7 @@ public class AppUser {
     public String sale_saleType = "";
     public String sale_store = "";
     public String sale_partyName = "";
+    public String sale_party_group="";
     public String sale_mobileNumber = "";
     public String sale_cash_credit;
     public String sale_narration = "";

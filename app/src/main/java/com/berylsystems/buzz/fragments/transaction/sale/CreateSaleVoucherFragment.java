@@ -108,6 +108,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         ButterKnife.bind(this, view);
 
 
+
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(getActivity());
@@ -350,6 +351,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.sale_saleType = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
+
                 // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
                 Preferences.getInstance(getContext()).setSale_type_name(result);
                 Preferences.getInstance(getContext()).setSale_type_id(id);
@@ -368,9 +370,12 @@ public class CreateSaleVoucherFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                String group = data.getStringExtra("group");
+                appUser.sale_party_group=group;
                 party_id = id;
                 // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
                 appUser.sale_partyName = id;
+                appUser.sale_party_group=group;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
@@ -398,13 +403,25 @@ public class CreateSaleVoucherFragment extends Fragment {
 
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-               appUser.voucher_type = "Receipt";
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                intent.putExtra("account",mPartyName.getText().toString());
-                intent.putExtra("account_id",appUser.sale_partyName);
-                intent.putExtra("from","sale");
-                startActivity(intent);
+                if(!appUser.sale_party_group.equals("Cash-in-hand")) {
+                    Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                    appUser.voucher_type = "Receipt";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    intent.putExtra("account", mPartyName.getText().toString());
+                    intent.putExtra("account_id", appUser.sale_partyName);
+                    intent.putExtra("from", "sale");
+                    startActivity(intent);
+                }
+                else{
+                        mPartyName.setText("");
+                        mMobileNumber.setText("");
+                        mNarration.setText("");
+                        appUser.mListMapForItemSale.clear();
+                        appUser.mListMapForBillSale.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
+                }
             }
             else{
                 mPartyName.setText("");
@@ -458,7 +475,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
+                String group = intent.getStringExtra("group");
                 appUser.sale_partyName = id;
+                appUser.sale_party_group=group;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);

@@ -322,6 +322,8 @@ public class CreatePurchaseFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                String group = data.getStringExtra("group");
+                appUser.sale_party_group=group;
                 party_id=id;
                 appUser.purchase_account_master_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -359,6 +361,8 @@ public class CreatePurchaseFragment extends Fragment {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
+                String group = intent.getStringExtra("group");
+                appUser.sale_party_group=group;
                 appUser.sale_partyName = id;
 
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -391,11 +395,24 @@ public class CreatePurchaseFragment extends Fragment {
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-                intent.putExtra("account",mPartyName.getText().toString());
-                intent.putExtra("account_id",appUser.sale_partyName);
-                intent.putExtra("from","purchase");
-                startActivity(intent);
+                if(!appUser.sale_party_group.equals("Cash-in-hand")) {
+                    Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                    intent.putExtra("account", mPartyName.getText().toString());
+                    intent.putExtra("account_id", appUser.sale_partyName);
+                    intent.putExtra("from", "purchase");
+                    startActivity(intent);
+                }
+                else{
+                    mPartyName.setText("");
+                    mMobileNumber.setText("");
+                    mNarration.setText("");
+                    appUser.mListMapForItemPurchase.clear();
+                    appUser.mListMapForBillPurchase.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
+                    // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+                }
             }
             else{
                 mPartyName.setText("");

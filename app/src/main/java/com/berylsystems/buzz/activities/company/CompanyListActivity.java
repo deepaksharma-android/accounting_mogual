@@ -158,6 +158,7 @@ public class CompanyListActivity extends BaseActivity {
             mReset.setVisibility(View.VISIBLE);
             mMainLayout.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
+            appUser.company_name=response.getCompany().getData().getAttributes().getName();
             appUser.company_id=response.getCompany().getData().getId();
             LocalRepositories.saveAppUser(this,appUser);
             mCompanyName.setText(response.getCompany().getData().getAttributes().getName()+" "+"("+response.getCompany().getData().getAttributes().getUnique_id()+")");
