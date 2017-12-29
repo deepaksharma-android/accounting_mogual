@@ -90,6 +90,7 @@ public class AppUser {
     public String delete_account_id;
     public String edit_group_id;
     public String edit_group_id1;
+    public String delete_item_group_id;
     public String account_group_from_group_list="";
     public String account_amount_receivable="";
     public String account_amount_payable="";
@@ -103,6 +104,7 @@ public class AppUser {
     public String account_credit_sale="";
     public String account_credit_purchase="";
     public String account_mobile_number;
+    public String account_email;
     public String create_account_group_id;
     public String account_group_name;
     public String edit_account_id;
@@ -163,6 +165,7 @@ public class AppUser {
     public String item_company_id="";
     public String item_item_group_id="";
     public String item_unit_id;
+    public String item_unit_name;
     public String item_stock_quantity="";
     public String item_stock_amount="";
     public String item_alternate_unit_id;

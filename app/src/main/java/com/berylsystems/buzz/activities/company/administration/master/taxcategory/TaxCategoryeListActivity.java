@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.PurchaseTypeListAdapter;
 import com.berylsystems.buzz.adapters.TaxCategoryListAdapter;
@@ -112,9 +113,9 @@ public class TaxCategoryeListActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case android.R.id.home:
-                Intent intent = new Intent(this, MasterDashboardActivity.class);
+                /*Intent intent = new Intent(this, CreateNewItemActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivity(intent);*/
                 finish();
                 return true;
             default:
@@ -124,14 +125,13 @@ public class TaxCategoryeListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
+        /*Intent intent = new Intent(this, CreateNewItemActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        startActivity(intent);*/
         finish();
     }
     @Override
     protected void onResume() {
-
         super.onResume();
     }
 
