@@ -1,4 +1,4 @@
-package com.berylsystems.buzz.activities.company.navigation.reports.saleanalysis;
+package com.berylsystems.buzz.activities.company.navigation.reports.purchaseanalysis;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.account_group.AcountGroupActivity;
-import com.berylsystems.buzz.adapters.SaleReportAdapter;
+import com.berylsystems.buzz.adapters.PurchaseReportAdapter;
 import com.berylsystems.buzz.adapters.TransactionSalesVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -39,12 +39,12 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AnalysisSaleReportActivity extends RegisterAbstractActivity {
+public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     RecyclerView.LayoutManager layoutManager;
-    SaleReportAdapter mAdapter;
+    PurchaseReportAdapter mAdapter;
     @Bind(R.id.sale_type_list_recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.dashboard_spinner_layout)
@@ -103,7 +103,7 @@ public class AnalysisSaleReportActivity extends RegisterAbstractActivity {
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    mProgressDialog = new ProgressDialog(AnalysisSaleReportActivity.this);
+                    mProgressDialog = new ProgressDialog(AnalysisPurchaseReportActivity.this);
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
@@ -153,7 +153,7 @@ public class AnalysisSaleReportActivity extends RegisterAbstractActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         //Spinner spinner = (Spinner) viewActionBar.findViewById(R.id.dashboard_spinner1);
        // spinner.setVisibility(View.VISIBLE);
-        actionbarTitle.setText("SALE REPORT");
+        actionbarTitle.setText("PURCHASE REPORT");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -225,7 +225,7 @@ public class AnalysisSaleReportActivity extends RegisterAbstractActivity {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new SaleReportAdapter(this,response.getSale_vouchers().data);
+            mAdapter = new PurchaseReportAdapter(this,response.getSale_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
         }
         else{
