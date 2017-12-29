@@ -323,8 +323,9 @@ public class CreatePurchaseFragment extends Fragment {
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
                 String group = data.getStringExtra("group");
-                appUser.sale_party_group=group;
                 party_id=id;
+                appUser.sale_partyName = id;
+                appUser.sale_party_group=group;
                 appUser.purchase_account_master_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
