@@ -50,6 +50,7 @@
             <ListView
                 android:id="@+id/listViewItems"
                 android:layout_width="fill_parent"
+                android:divider="@null"
                 android:layout_height="fill_parent"></ListView>
 
             <LinearLayout
