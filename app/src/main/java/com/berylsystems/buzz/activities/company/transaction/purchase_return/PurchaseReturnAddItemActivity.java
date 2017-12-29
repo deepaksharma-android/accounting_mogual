@@ -14,6 +14,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
@@ -103,15 +105,6 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
-        mItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ExpandableItemListActivity.class));
-            }
-        });
-
-
-
 
        /* intent = getIntent();
         boolean b = intent.getBooleanExtra("bool", false);
@@ -124,7 +117,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
         CreateSaleActivity.hideKeyPad(this);
         Intent intent = getIntent();
-         id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
         String name = intent.getStringExtra("name");
         String desc = intent.getStringExtra("desc");
         String main_unit = intent.getStringExtra("main_unit");
@@ -165,10 +158,10 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                    int width=getWidth();
-                    int height=getHeight();
+                    int width = getWidth();
+                    int height = getHeight();
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-                    lp.setMargins(20,10,20,0);
+                    lp.setMargins(20, 10, 20, 0);
                     EditText[] pairs = new EditText[Integer.parseInt(serial)];
                     for (int l = 0; l < Integer.parseInt(serial); l++) {
                         pairs[l] = new EditText(getApplicationContext());
@@ -178,10 +171,10 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                         pairs[l].setHeight(height);
                         pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                         pairs[l].setTextSize(18);
-                        if(appUser.serial_arr.size()>0) {
+                        if (appUser.serial_arr.size() > 0) {
                             pairs[l].setText(appUser.serial_arr.get(l));
                         }
-                        pairs[l].setHint("Enter Serial Number"+" "+(l+1));
+                        pairs[l].setHint("Enter Serial Number" + " " + (l + 1));
                         pairs[l].setHintTextColor(Color.GRAY);
                         pairs[l].setTextColor(Color.BLACK);
                         pairs[l].setLayoutParams(lp);
@@ -306,25 +299,24 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                             Double main_unit_price = Double.parseDouble(purchase_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                             mRate.setText(String.valueOf(main_unit_price));
                         } else {
-                            if (!purchase_price_main.equals("null")){
+                            if (!purchase_price_main.equals("null")) {
                                 mRate.setText(purchase_price_main);
-                            }
-                            else {
+                            } else {
                                 mRate.setText("");
                             }
                         }
                     } else if (i == 1) {
                         price_selected_unit = "alternate";
                         if (purchase_price_applied_on.equals("Main Unit")) {
-                            if (!purchase_price_main.equals("null")){
+                            if (!purchase_price_main.equals("null")) {
                                 Double alternate_unit_price = Double.parseDouble(purchase_price_main) / Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(alternate_unit_price));
                             }
 
                         } else {
-                            if (!purchase_price_main.equals("null")){
+                            if (!purchase_price_main.equals("null")) {
                                 mRate.setText(purchase_price_alternate);
-                            }else {
+                            } else {
                                 mRate.setText("");
                             }
 
@@ -342,8 +334,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
-                if (mQuantity.getText().toString().equals("0")|mQuantity.getText().toString().equals("")){
-                    Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
+                if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
+                    Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 mMap.put("id", id);
@@ -355,27 +347,25 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("rate", mRate.getText().toString());
                 mMap.put("discount", mDiscount.getText().toString());
                 mMap.put("value", mValue.getText().toString());
-                String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
-                if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
+                String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
+                if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");
                     String taxname = arrtaxstring[0].trim();
                     String taxvalue = arrtaxstring[1].trim();
-                    if(taxvalue.equals("ItemWise")) {
-                        String total=mTotal.getText().toString();
-                        String arr[]=tax.split(" ");
-                        String itemtax=arr[1];
-                        String taxval[]=itemtax.split("%");
-                        String taxpercent=taxval[0];
-                        double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
-                        totalamt=Double.parseDouble(total)+totalamt;
+                    if (taxvalue.equals("ItemWise")) {
+                        String total = mTotal.getText().toString();
+                        String arr[] = tax.split(" ");
+                        String itemtax = arr[1];
+                        String taxval[] = itemtax.split("%");
+                        String taxpercent = taxval[0];
+                        double totalamt = Double.parseDouble(total) * (Double.parseDouble(taxpercent) / 100);
+                        totalamt = Double.parseDouble(total) + totalamt;
                         mMap.put("total", String.valueOf(totalamt));
-                        mMap.put("itemwiseprice",totalitemprice);
-                    }
-                    else {
+                        mMap.put("itemwiseprice", totalitemprice);
+                    } else {
                         mMap.put("total", mTotal.getText().toString());
                     }
-                }
-                else{
+                } else {
                     mMap.put("total", mTotal.getText().toString());
                 }
                 mMap.put("applied", purchase_price_applied_on);
@@ -384,7 +374,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
-                mMap.put("serial_number",appUser.serial_arr);
+                mMap.put("serial_number", appUser.serial_arr);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemPurchaseReturn.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -456,9 +446,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count==0){
+                if (count == 0) {
                     appUser.serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
@@ -526,7 +516,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("PURCHASE RETURN ADD ITEM");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -539,11 +529,11 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         startActivity(new Intent(this, ExpandableItemListActivity.class));
         finish();
     }
-    private int getWidth(){
-        int density= getResources().getDisplayMetrics().densityDpi;
-        int size =0;
-        switch(density)
-        {
+
+    private int getWidth() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int size = 0;
+        switch (density) {
             case DisplayMetrics.DENSITY_LOW:
                 size = 500;
                 break;
@@ -567,11 +557,11 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
         return size;
     }
-    private int getHeight(){
-        int density= getResources().getDisplayMetrics().densityDpi;
-        int height =150;
-        switch(density)
-        {
+
+    private int getHeight() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int height = 150;
+        switch (density) {
             case DisplayMetrics.DENSITY_LOW:
                 height = 150;
                 break;
@@ -591,6 +581,20 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         }
 
         return height;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, ExpandableItemListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
