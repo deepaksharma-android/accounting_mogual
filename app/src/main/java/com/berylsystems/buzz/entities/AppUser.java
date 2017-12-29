@@ -27,6 +27,7 @@ public class AppUser {
     public String signature="";
     public String companyUserName;
     public String companyUserPassword;
+    public String companymobile;
     public String country;
     public String state;
     public String address;

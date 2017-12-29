@@ -277,6 +277,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 intent.putExtra("fromRegisterPage",true);
                 intent.putExtra("mobile",mMobile.getText().toString());
                 startActivity(intent);
+                finish();
             }
 
         } else {
