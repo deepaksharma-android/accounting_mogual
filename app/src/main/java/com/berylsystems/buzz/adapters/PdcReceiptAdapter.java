@@ -78,7 +78,6 @@ public class PdcReceiptAdapter extends BaseAdapter {
                 Intent intent=new Intent(context, CreateReceiptVoucherActivity.class);
                 intent.putExtra("fromReceipt",true);
                 intent.putExtra("id",list.get(position).getId());
-                Toast.makeText(context, ""+list.get(position).getId(), Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }
         });
