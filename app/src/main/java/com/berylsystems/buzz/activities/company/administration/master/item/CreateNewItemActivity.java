@@ -269,6 +269,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
         });*/
 
+        mItemUnit.setText(appUser.item_unit_name);
+
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_on_click);
         initActionbar();
 
@@ -572,6 +574,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.item_unit_id = id;
+                appUser.item_unit_name =result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mItemUnit.setText(result);
             }
@@ -594,8 +597,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 appUser.item_tax_category = Integer.parseInt(id);
                 mTaxCategory.setText(result);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -608,6 +609,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         super.onResume();
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
+        Toast.makeText(CreateNewItemActivity.this, ""+bool, Toast.LENGTH_SHORT).show();
         if (bool) {
 
             if (intStartActivityForResult == 1) {

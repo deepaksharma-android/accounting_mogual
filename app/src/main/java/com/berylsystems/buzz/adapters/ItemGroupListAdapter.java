@@ -54,6 +54,7 @@ public class ItemGroupListAdapter extends RecyclerView.Adapter<ItemGroupListAdap
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new EventDeleteItemGroup(position));
+                //EventBus.getDefault().post(new EventDeleteItemGroup(data.get(position).getAttributes().getId()));
             }
         });
 

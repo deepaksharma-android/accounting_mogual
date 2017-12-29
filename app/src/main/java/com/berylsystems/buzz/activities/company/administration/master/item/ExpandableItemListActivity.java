@@ -173,8 +173,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         mPurchaseVoucherItem = new HashMap<>();
         mPurchaseReturnItem = new HashMap<>();
         mSaleReturnItem = new HashMap<>();
-
         EventBus.getDefault().register(this);
+        appUser.item_unit_name="";
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(this);

@@ -110,6 +110,7 @@ public class UnitListActivity extends AppCompatActivity {
             case android.R.id.home:
                 if (isDirectForUnitList) {
                     Intent intent = new Intent(this, MasterDashboardActivity.class);
+                    intent.putExtra("bool",false);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();

@@ -491,7 +491,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleDeleteItemGroup() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.deleteitemgroup(appUser.delete_group_id).enqueue(new Callback<DeleteItemGroupReponse>() {
+        api.deleteitemgroup(appUser.delete_item_group_id).enqueue(new Callback<DeleteItemGroupReponse>() {
             @Override
             public void onResponse(Call<DeleteItemGroupReponse> call, Response<DeleteItemGroupReponse> r) {
                 if (r.code() == 200) {

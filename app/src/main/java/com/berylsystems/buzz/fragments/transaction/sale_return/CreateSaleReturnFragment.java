@@ -202,7 +202,7 @@ public class CreateSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 ParameterConstant.checkStartActivityResultForAccount =8;
                 intStartActivityForResult=2;
-                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);

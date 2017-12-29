@@ -216,12 +216,12 @@ public class ItemGroupListActivity extends AppCompatActivity {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
-
     }
 
     @Subscribe
-    public void deletegroup(EventDeleteItemGroup pos) {
-        appUser.delete_group_id = String.valueOf(CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId());
+    public void deleteitemgroup(EventDeleteItemGroup pos) {
+        appUser.delete_item_group_id = String.valueOf(CreateItemGroupActivity.data.getData().get(pos.getPosition()).getAttributes().getId());
+        //appUser.delete_item_group_id = String.valueOf(pos.getPosition());
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ItemGroupListActivity.this)
                 .setTitle("Delete Item Group")
@@ -257,7 +257,7 @@ public class ItemGroupListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deletegroupresponse(DeleteItemGroupReponse response) {
+    public void deleteitemgroupresponse(DeleteItemGroupReponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_GROUP);
