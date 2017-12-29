@@ -130,10 +130,10 @@ public class AccountGroupListActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (!isDirectForAccountGroup) {
-                    Intent intent = new Intent(this, AccountDetailsActivity.class);
+                   /* Intent intent = new Intent(this, AccountDetailsActivity.class);
                     intent.putExtra("fromaccountlist", false);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    startActivity(intent);*/
                     finish();
                 }
                 return true;
@@ -150,10 +150,10 @@ public class AccountGroupListActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else if (!isDirectForAccountGroup) {
-            Intent intent = new Intent(this, AccountDetailsActivity.class);
+            /*Intent intent = new Intent(this, AccountDetailsActivity.class);
             intent.putExtra("fromaccountlist", false);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            startActivity(intent);*/
             finish();
         }
     }
