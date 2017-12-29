@@ -115,6 +115,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
         mUnitList = new ArrayList<>();
         int pos = -1;
 
+
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
