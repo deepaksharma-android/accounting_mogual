@@ -102,6 +102,9 @@ public class CreateSaleReturnFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sales_return_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
+        appUser = LocalRepositories.getAppUser(getActivity());
+        appUser.voucher_type = "Sale Return";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -126,7 +129,7 @@ public class CreateSaleReturnFragment extends Fragment {
             snackbar.show();
         }
 
-        appUser = LocalRepositories.getAppUser(getActivity());
+
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
@@ -339,8 +342,10 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                String group = data.getStringExtra("group");
                 party_id=id;
-                appUser.sale_return_partyName = id;
+                appUser.sale_party_group=group;
+                appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
@@ -374,6 +379,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
+                String group = intent.getStringExtra("group");
+                appUser.sale_party_group=group;
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
@@ -410,15 +417,26 @@ public class CreateSaleReturnFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");*/
            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-               appUser.voucher_type = "Receipt";
-               LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                intent.putExtra("account",mPartyName.getText().toString());
-                intent.putExtra("account_id",appUser.sale_partyName);
-               intent.putExtra("from","sale_return");
-               Timber.i("ACCOUNT_ID"+party_id);
-                startActivity(intent);
-            }
+               if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                   Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                   appUser.voucher_type = "Receipt";
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   intent.putExtra("account", mPartyName.getText().toString());
+                   intent.putExtra("account_id", appUser.sale_partyName);
+                   intent.putExtra("from", "sale_return");
+                   Timber.i("ACCOUNT_ID" + party_id);
+                   startActivity(intent);
+               } else {
+                   mPartyName.setText("");
+                   mMobileNumber.setText("");
+                   mNarration.setText("");
+                   appUser.mListMapForItemSaleReturn.clear();
+                   appUser.mListMapForBillSaleReturn.clear();
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   FragmentTransaction ft = getFragmentManager().beginTransaction();
+                   ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
+               }
+           }
             else{
                mPartyName.setText("");
                mMobileNumber.setText("");

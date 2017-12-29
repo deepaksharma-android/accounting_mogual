@@ -112,6 +112,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
+        appUser.voucher_type = "Bank Cash Deposit";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         android.support.v7.app.ActionBar actionBar =getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
@@ -127,7 +129,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         title="CREATE BANK CASH DEPOSIT";
-        fromBankcashDeposit=getIntent().getExtras().getBoolean("fromBankCashDeposit");
+        fromBankcashDeposit=getIntent().getBooleanExtra("fromBankCashDeposit",false);
         if(fromBankcashDeposit==true){
             title="EDIT BANK CASH DEPOSIT";
             mSubmit.setVisibility(View.GONE);

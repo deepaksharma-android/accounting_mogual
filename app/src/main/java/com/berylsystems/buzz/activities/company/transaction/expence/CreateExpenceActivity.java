@@ -111,6 +111,9 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        appUser.voucher_type = "Expense";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
         android.support.v7.app.ActionBar actionBar =getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -126,7 +129,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE EXPENSE";
-        fromExpence=getIntent().getExtras().getBoolean("fromExpense");
+        fromExpence=getIntent().getBooleanExtra("fromExpense",false);
         if(fromExpence==true){
             title="EDIT EXPENSE";
             mSubmit.setVisibility(View.GONE);

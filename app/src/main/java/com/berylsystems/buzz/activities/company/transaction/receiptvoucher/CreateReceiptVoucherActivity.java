@@ -35,6 +35,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.account_group.PdcActivity;
 import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
@@ -145,10 +146,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             from = bundle.getString("from");
             LocalRepositories.saveAppUser(this, appUser);
             received_from.setText(account);
-
         }
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
+        appUser.voucher_type = "Receipt";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
        /* received_from.setText(appUser.receipt_received_from_name);
         received_by.setText(appUser.receipt_received_by_name);*/
@@ -164,11 +166,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
 
-
         Boolean isConnected = ConnectivityReceiver.isConnected();
         title = "CREATE RECEIPT VOUCHER";
-        fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
+        fromReceiptVoucher = getIntent().getBooleanExtra("fromReceipt",false);
         if (fromReceiptVoucher == true) {
+            from="receipt";
             title = "EDIT RECEIPT VOUCHER";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
@@ -587,7 +589,6 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 boolForReceivedFrom = true;
             }
             if (!boolForReceivedFrom) {
-                Toast.makeText(getApplicationContext(), "Resume From", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
@@ -599,7 +600,6 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 received_from.setText(name[0]);
             }
             if (!boolForReceivedBy) {
-                Toast.makeText(getApplicationContext(), "Resume By", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String[] name = result.split(",");
@@ -836,6 +836,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         startActivity(intent);
                         finish();
                     }
+                    else if(from.equals("receipt")){
+                        finish();
+                    }
                 } else {
                     Intent intent = new Intent(this, TransactionDashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -885,6 +888,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
+            }
+            else if(from.equals("receipt")){
+               finish();
             }
         } else {
             Intent intent = new Intent(this, TransactionDashboardActivity.class);

@@ -208,6 +208,7 @@ public class CompanyPasswordFragment extends Fragment {
         dialog.setTitle("Company Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
+        EditText mobile = (EditText) dialog.findViewById(R.id.mobile);
         EditText username = (EditText) dialog.findViewById(R.id.cusername);
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
         EditText confirmpassword = (EditText) dialog.findViewById(R.id.cconfirmpassword);
@@ -225,47 +226,50 @@ public class CompanyPasswordFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!username.getText().toString().equals("")){
-                    if(!password.getText().toString().equals("")){
-                        if(password.getText().toString().equals(confirmpassword.getText().toString())){
-                        appUser.companyUserName=username.getText().toString();
-                        appUser.companyUserPassword=password.getText().toString();
-                        LocalRepositories.saveAppUser(getActivity(),appUser);
-                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                        if (isConnected) {
-                            mProgressDialog = new ProgressDialog(getActivity());
-                            mProgressDialog.setMessage("Info...");
-                            mProgressDialog.setIndeterminate(false);
-                            mProgressDialog.setCancelable(true);
-                            mProgressDialog.show();
-                            ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
+                if(!mobile.getText().toString().equals("")) {
+                    if (!username.getText().toString().equals("")) {
+                        if (!password.getText().toString().equals("")) {
+                            if (password.getText().toString().equals(confirmpassword.getText().toString())) {
+                                appUser.companyUserName = username.getText().toString();
+                                appUser.companyUserPassword = password.getText().toString();
+                                appUser.companymobile = mobile.getText().toString();
+                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    mProgressDialog = new ProgressDialog(getActivity());
+                                    mProgressDialog.setMessage("Info...");
+                                    mProgressDialog.setIndeterminate(false);
+                                    mProgressDialog.setCancelable(true);
+                                    mProgressDialog.show();
+                                    ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
+                                } else {
+                                    snackbar = Snackbar
+                                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                            .setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                }
+                                            });
+                                    snackbar.show();
+                                }
+
+
+                            } else {
+                                Toast.makeText(getActivity(), "Password does not match", Toast.LENGTH_LONG).show();
+                            }
                         } else {
-                            snackbar = Snackbar
-                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                    .setAction("RETRY", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if (isConnected) {
-                                                snackbar.dismiss();
-                                            }
-                                        }
-                                    });
-                            snackbar.show();
+                            Toast.makeText(getActivity(), "Ente password", Toast.LENGTH_LONG).show();
                         }
-
-
-                    }
-                        else{
-                            Toast.makeText(getActivity(),"Password does not match",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else{
-                        Toast.makeText(getActivity(),"Ente password",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Enter username", Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
-                    Toast.makeText(getActivity(),"Enter username",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Enter mobile number", Toast.LENGTH_LONG).show();
                 }
 
             }

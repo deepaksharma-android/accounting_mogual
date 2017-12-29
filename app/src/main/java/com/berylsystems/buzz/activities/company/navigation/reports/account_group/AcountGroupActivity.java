@@ -11,15 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
-import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountPaybleActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.outstanding.AmountReceivablesListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.saleanalysis.AnalysisSaleReportActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -41,6 +39,12 @@ public class AcountGroupActivity extends AppCompatActivity {
     LinearLayout mSaleReportLayout;
     @Bind(R.id.sale_report)
     TextView mSaleReport;
+
+    @Bind(R.id.purchase_report_layout)
+    LinearLayout mPurchaseReportLayout;
+    @Bind(R.id.purchase_report)
+    TextView mPurchaseReport;
+
     @Bind(R.id.ledger_txt)
     TextView ledger_txt;
     @Bind(R.id.cash_bank_txt)
@@ -122,6 +126,15 @@ public class AcountGroupActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), AnalysisSaleReportActivity.class));
             }
         });
+        mPurchaseReportLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPurchaseReport.setTextColor(Color.WHITE);
+                startActivity(new Intent(getApplicationContext(), AnalysisPurchaseReportActivity.class));
+            }
+        });
+
+
 
         ledger_txt.setTextColor(Color.BLACK);
     }

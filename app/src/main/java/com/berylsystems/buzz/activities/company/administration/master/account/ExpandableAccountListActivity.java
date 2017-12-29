@@ -356,6 +356,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String[] arr = id.split(",");
             String groupid = arr[0];
             String childid = arr[1];
+            String group=listDataHeader.get(Integer.parseInt(groupid));
             String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
@@ -395,6 +396,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             intentForward.putExtra("name", name);
             intentForward.putExtra("id", arrid);
             intentForward.putExtra("mobile", mobile);
+            intentForward.putExtra("group",group);
             startActivity(intentForward);
             finish();
         } else if (!isDirectForAccount) {
@@ -404,6 +406,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String[] arr = id.split(",");
             String groupid = arr[0];
             String childid = arr[1];
+            String group=listDataHeader.get(Integer.parseInt(groupid));
             String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
@@ -412,6 +415,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             returnIntent.putExtra("name", name);
             returnIntent.putExtra("id", arrid);
             returnIntent.putExtra("mobile", mobile);
+            returnIntent.putExtra("group",group);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }

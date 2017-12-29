@@ -242,7 +242,7 @@ public interface Api {
     Call<CompanyResponse> getcompany(@Path("id") String id);
 
     @GET("company/{unique_id}")
-    Call<CompanyResponse> searchcompany(@Path("unique_id") String unique_id);
+    Call<CompanyResponse> searchcompany(@Path("unique_id") String unique_id,@Query("mobile") String mobile);
 
     @GET("companyusers/{id}")
     Call<CompanyUserResponse> getcompanyusers(@Path("id") String id);

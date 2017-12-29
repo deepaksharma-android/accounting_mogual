@@ -129,6 +129,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        appUser.voucher_type = "Payment";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
         paid_to.setText(""+appUser.payment_paid_to_name);
         paid_from.setText(""+appUser.payment_paid_from_name);
 
@@ -146,7 +149,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE PAYMENT";
-        fromPayment = getIntent().getExtras().getBoolean("fromPayment");
+        fromPayment = getIntent().getBooleanExtra("fromPayment",false);
         if (fromPayment == true) {
             title="EDIT PAYMENT";
             mSubmit.setVisibility(View.GONE);

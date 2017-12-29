@@ -118,7 +118,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
 
         title = "CREATE ITEM";
-        fromList = getIntent().getExtras().getBoolean("fromlist");
+       /* fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
             title = "EDIT ITEM";
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
@@ -159,7 +159,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_purchase_price("");
             Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id("");
 
-        }
+        }*/
         fromitemlist = getIntent().getExtras().getBoolean("fromitemlist");
         if (fromitemlist) {
             title = "EDIT ITEM";

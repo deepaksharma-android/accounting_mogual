@@ -2372,7 +2372,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleSearchCompany() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.searchcompany(appUser.search_company_id).enqueue(new Callback<CompanyResponse>() {
+        api.searchcompany(appUser.search_company_id,appUser.mobile).enqueue(new Callback<CompanyResponse>() {
             @Override
             public void onResponse(Call<CompanyResponse> call, Response<CompanyResponse> r) {
                 if (r.code() == 200) {

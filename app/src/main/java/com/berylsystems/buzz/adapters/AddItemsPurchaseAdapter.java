@@ -71,10 +71,10 @@ public class AddItemsPurchaseAdapter extends BaseAdapter {
         String mrp= (String) map.get("mrp");
 
         holder.mItemName.setText(itemName);
-        holder.mDiscount.setText("Discount :"+discount);
-        holder.mMrp.setText("MRP :"+mrp);
-        holder.mUnit.setText(quantity+"*"+rate);
-        holder.mSrNo.setText("Sr.No. "+srNo);
+        holder.mDiscount.setText(discount);
+        holder.mMrp.setText(mrp);
+        holder.mQuantity.setText(quantity);
+        holder.mSalePrice.setText(rate);
         holder.mTotal.setText(total);
         return convertView;
     }
@@ -84,14 +84,15 @@ public class AddItemsPurchaseAdapter extends BaseAdapter {
         TextView mItemName;
         @Bind(R.id.discount)
         TextView mDiscount;
-        @Bind(R.id.unit)
-        TextView mUnit;
-        @Bind(R.id.sr_no)
-        TextView mSrNo;
         @Bind(R.id.total)
         TextView mTotal;
         @Bind(R.id.mrp)
         TextView mMrp;
+        @Bind(R.id.sale_price)
+        TextView mSalePrice;
+        @Bind(R.id.quantity)
+        TextView mQuantity;
+
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
