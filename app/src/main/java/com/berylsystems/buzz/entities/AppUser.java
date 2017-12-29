@@ -158,6 +158,8 @@ public class AppUser {
     public String uqc;
     public String unit_name;
     public String confactor;
+    public String unit_conversion_main_unit;
+    public String unit_conversion_sub_unit;
     public String main_unit_id;
     public String sub_unit_id;
 	 public String item_id="";
@@ -180,6 +182,7 @@ public class AppUser {
 	 public String item_default_unit_for_sales;
     public String item_default_unit_for_purchase;
     public int item_tax_category;
+    public String item_tax_category_name;
     public String item_hsn_number;
     public String item_description;
     public String item_serial_number_wise_detail;

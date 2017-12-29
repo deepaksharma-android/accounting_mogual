@@ -100,6 +100,22 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         initActionbar();
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);
+        appUser.account_name="";
+        appUser.account_mobile_number="";
+        appUser.account_email="";
+
+        appUser.account_amount_receivable = "";
+        appUser.account_amount_payable = "";
+        appUser.account_address = "";
+        appUser.account_city = "";
+        appUser.account_state = "";
+        appUser.account_gst = "";
+        appUser.account_aadhaar = "";
+        appUser.account_pan = "";
+        appUser.account_credit_limit = "";
+        appUser.account_credit_sale = "";
+        appUser.account_credit_purchase = "";
+        LocalRepositories.saveAppUser(this, appUser);
     }
 
     private void initActionbar() {

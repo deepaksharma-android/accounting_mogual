@@ -326,7 +326,10 @@ public class UnitListActivity extends AppCompatActivity {
             } else if (ParameterConstant.checkStartActivityResultForUnitList == 2) {
                 CreateUnitConversionActivity.context.finish();
                 intentForward = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
-            }
+            }/*else if (ParameterConstant.checkStartActivityResultForUnitList == 3) {
+                CreateUnitConversionActivity.context.finish();
+                intentForward = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);
+            }*/
             intentForward.putExtra("result", String.valueOf(pos.getPosition()));
             intentForward.putExtra("name", data.getData().get(pos.getPosition()).getAttributes().getName());
             intentForward.putExtra("id", String.valueOf(data.getData().get(pos.getPosition()).getId()));

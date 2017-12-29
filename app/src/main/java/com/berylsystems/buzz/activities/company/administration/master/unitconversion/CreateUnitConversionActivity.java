@@ -76,12 +76,20 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         appUser = LocalRepositories.getAppUser(this);
         title = "CREATE ITEM UNIT CONVERSION";
 
+        mainUnitText.setText( appUser.unit_conversion_main_unit);
+        subUnitText.setText(appUser.unit_conversion_sub_unit);
+        mConfactor.setText( appUser.confactor);
+
         mainUnitLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForUnitList = 2;
                 UnitListActivity.isDirectForUnitList=false;
+                appUser.unit_conversion_main_unit=mainUnitText.getText().toString();
+                appUser.unit_conversion_sub_unit=subUnitText.getText().toString();
+                appUser.confactor = mConfactor.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 startActivityForResult(new Intent(getApplicationContext(), UnitListActivity.class),1);
             }
         });
@@ -90,6 +98,10 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 intStartActivityForResult = 2;
+                appUser.unit_conversion_main_unit=mainUnitText.getText().toString();
+                appUser.unit_conversion_sub_unit=subUnitText.getText().toString();
+                appUser.confactor = mConfactor.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.checkStartActivityResultForUnitList = 2;
                 UnitListActivity.isDirectForUnitList=false;
                 startActivityForResult(new Intent(getApplicationContext(), UnitListActivity.class),2);

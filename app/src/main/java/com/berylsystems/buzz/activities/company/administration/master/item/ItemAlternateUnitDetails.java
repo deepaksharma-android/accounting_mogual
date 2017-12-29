@@ -22,6 +22,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.unit.UnitListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -65,6 +66,7 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
                 UnitListActivity.isDirectForUnitList=false;
                 Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
                 intent.putExtra("frommaster", false);
+               // ParameterConstant.checkStartActivityResultForUnitList=3;
                 startActivityForResult(intent, 3);
             }
         });

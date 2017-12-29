@@ -76,7 +76,10 @@ public class MaterialCentreListActivity extends AppCompatActivity {
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         mFloatingButton.bringToFront();
-
+        appUser.material_centre_name = "";
+        appUser.material_centre_address ="";
+        appUser.material_centre_city ="";
+        LocalRepositories.saveAppUser(getApplication(),appUser);
        /* mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);

@@ -143,6 +143,14 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         floatingActionButton.bringToFront();
+        appUser.item_name = "";
+        appUser.item_hsn_number = "";
+        appUser.item_group_name="";
+        appUser.item_unit_name="";
+        appUser.item_tax_category_name="";
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+
     }
 
     private void initActionbar() {

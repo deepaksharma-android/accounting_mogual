@@ -72,6 +72,11 @@ public class UnitConversionListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);*/
 
         actionButton.bringToFront();
+
+        appUser.unit_conversion_main_unit="";
+        appUser.unit_conversion_sub_unit="";
+        appUser.confactor="";
+        LocalRepositories.saveAppUser(getApplication(),appUser);
     }
 
     public void add(View v) {

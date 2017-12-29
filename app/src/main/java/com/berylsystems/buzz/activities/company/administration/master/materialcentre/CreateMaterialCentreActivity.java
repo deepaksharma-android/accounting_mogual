@@ -87,12 +87,14 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        context=this;
-        title="CREATE MATERIAL CENTRE";
+        context = this;
+
+
+        title = "CREATE MATERIAL CENTRE";
         frommaterialcentrelist = getIntent().getExtras().getBoolean("frommaterialcentrelist");
         appUser = LocalRepositories.getAppUser(this);
         if (frommaterialcentrelist) {
-            title="EDIT MATERIAL CENTRE";
+            title = "EDIT MATERIAL CENTRE";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             Boolean isaConnected = ConnectivityReceiver.isConnected();
@@ -117,9 +119,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                         });
                 snackbar.show();
             }
-        }
-
-        else{
+        } else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
@@ -147,13 +147,20 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mGroupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=false;
+                MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup = false;
+                appUser.material_centre_name = mCentreName.getText().toString();
+                appUser.material_centre_address = mCentreAddress.getText().toString();
+                appUser.material_centre_city = mCentreCity.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Intent intent = new Intent(getApplicationContext(), MaterialCentreGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
             }
         });
 
+        mCentreName.setText(appUser.material_centre_name);
+        mCentreAddress.setText(appUser.material_centre_address);
+        mCentreCity.setText(appUser.material_centre_city);
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,38 +206,38 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
                 if (!mCentreName.getText().toString().equals("")) {
                     if (!mGroupName.getText().toString().equals("")) {
-                    appUser.material_centre_name = mCentreName.getText().toString();
-                    appUser.material_centre_address = mCentreAddress.getText().toString();
-                    appUser.material_centre_city = mCentreCity.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_MATERIAL_CENTRE);
-                    } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            snackbar.dismiss();
+                        appUser.material_centre_name = mCentreName.getText().toString();
+                        appUser.material_centre_address = mCentreAddress.getText().toString();
+                        appUser.material_centre_city = mCentreCity.getText().toString();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(CreateMaterialCentreActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_MATERIAL_CENTRE);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
                                         }
-                                    }
-                                });
-                        snackbar.show();
+                                    });
+                            snackbar.show();
+                        }
+                    } else {
+                        Snackbar.make(coordinatorLayout, "Select group name", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
-                    Snackbar.make(coordinatorLayout, "Select group name", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
                 }
-            } else {
-                Snackbar.make(coordinatorLayout, "Enter the centre name", Snackbar.LENGTH_LONG).show();
-            }
             }
         });
 
@@ -283,7 +290,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -295,10 +302,10 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-          //  MaterialCentreListActivity.isDirectForMaterialCentre=true;
-            Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
-            intent.putExtra("bool",true);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //  MaterialCentreListActivity.isDirectForMaterialCentre=true;
+            Intent intent = new Intent(getApplicationContext(), MaterialCentreListActivity.class);
+            intent.putExtra("bool", true);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
         } else {
@@ -315,17 +322,17 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             mCentreCity.setText(response.getMaterial_center().getData().getAttributes().getCity());
             mGroupName.setText(response.getMaterial_center().getData().getAttributes().getMaterial_center_group_name());
             String group_type = response.getMaterial_center().getData().getAttributes().getMaterial_centre_stock_name().trim();
-            Timber.i("GROUPINDEX"+group_type);
+            Timber.i("GROUPINDEX" + group_type);
             // insert code here
             int groupindex = -1;
-            for (int i = 0; i<appUser.arr_stock_name.size(); i++) {
-                Timber.i("GROUPINDEX"+appUser.arr_stock_name);
+            for (int i = 0; i < appUser.arr_stock_name.size(); i++) {
+                Timber.i("GROUPINDEX" + appUser.arr_stock_name);
                 if (appUser.arr_stock_name.get(i).equals(group_type)) {
                     groupindex = i;
                     break;
                 }
             }
-            Timber.i("GROUPINDEX"+groupindex);
+            Timber.i("GROUPINDEX" + groupindex);
             mStockSpinner.setSelection(groupindex);
 
         } else {
@@ -335,18 +342,17 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void editaccount(EditMaterialCentreReponse response){
+    public void editaccount(EditMaterialCentreReponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-           // MaterialCentreListActivity.isDirectForMaterialCentre=true;
-            Intent intent=new Intent(getApplicationContext(),MaterialCentreListActivity.class);
-            intent.putExtra("bool",true);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-           startActivity(intent);
-        }
-        else{
+            // MaterialCentreListActivity.isDirectForMaterialCentre=true;
+            Intent intent = new Intent(getApplicationContext(), MaterialCentreListActivity.class);
+            intent.putExtra("bool", true);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
@@ -357,7 +363,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                boolForGroupName=true;
+                boolForGroupName = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.material_centre_group_id = id;
@@ -373,7 +379,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         }
     }
 
-    public Boolean boolForGroupName=false;
+    public Boolean boolForGroupName = false;
 
     @Override
     public void onResume() {
@@ -395,14 +401,15 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         }
 
     }
+
     @Subscribe
-    public void getstock(StockResponse response){
+    public void getstock(StockResponse response) {
         mProgressDialog.dismiss();
         appUser.arr_stock_id.clear();
         appUser.arr_stock_name.clear();
-        LocalRepositories.saveAppUser(this,appUser);
-        if(response.getStatus()==200){
-            for(int i=0;i<response.getCompany_account_groups().getData().size();i++){
+        LocalRepositories.saveAppUser(this, appUser);
+        if (response.getStatus() == 200) {
+            for (int i = 0; i < response.getCompany_account_groups().getData().size(); i++) {
                 appUser.arr_stock_name.add(response.getCompany_account_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_stock_id.add(response.getCompany_account_groups().getData().get(i).getId());
                 mStockAdapter = new ArrayAdapter<String>(getApplicationContext(),

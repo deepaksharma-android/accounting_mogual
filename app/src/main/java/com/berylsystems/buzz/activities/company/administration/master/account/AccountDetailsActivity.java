@@ -81,7 +81,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         title="CREATE ACCOUNT";
         fromaccountlist=getIntent().getExtras().getBoolean("fromaccountlist");
         appUser = LocalRepositories.getAppUser(this);
-        appUser.account_amount_receivable = "";
+        /*appUser.account_amount_receivable = "";
         appUser.account_amount_payable = "";
         appUser.account_address = "";
         appUser.account_city = "";
@@ -92,7 +92,12 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         appUser.account_credit_limit = "";
         appUser.account_credit_sale = "";
         appUser.account_credit_purchase = "";
-        LocalRepositories.saveAppUser(this, appUser);
+        LocalRepositories.saveAppUser(this, appUser);*/
+
+        mAccountName.setText(appUser.account_name);
+        mMobileNumber.setText(appUser.account_mobile_number);
+        mEmail.setText(appUser.account_email);
+
         if(fromaccountlist){
             title="EDIT ACCOUNT";
             mSubmitButton.setVisibility(View.GONE);
@@ -127,6 +132,10 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 hideSoftKeyboard(view);
                 AccountGroupListActivity.isDirectForAccountGroup=false;
                 ParameterConstant.checkStartActivityResultForAccountGroup =0;
+                appUser.account_name = mAccountName.getText().toString();
+                appUser.account_mobile_number = mMobileNumber.getText().toString();
+                appUser.account_email=mEmail.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent intent = new Intent(getApplicationContext(), AccountGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);

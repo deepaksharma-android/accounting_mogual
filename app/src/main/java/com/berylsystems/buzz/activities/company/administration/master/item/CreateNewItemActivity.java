@@ -107,8 +107,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-
         context=this;
+
+        mItemName.setText(appUser.item_name );
+        mHsnNumber.setText(appUser.item_hsn_number);
+        mItemGroup.setText( appUser.item_group_name);
+        mItemUnit.setText(appUser.item_unit_name);
+        mTaxCategory.setText(appUser.item_tax_category_name);
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+
         title = "CREATE ITEM";
         fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
@@ -415,6 +423,14 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForItemGroupOfItem = 1;
                 ItemGroupListActivity.isDirectForItemGroup = false;
+                appUser.item_name = mItemName.getText().toString();
+                appUser.item_hsn_number = mHsnNumber.getText().toString();
+                appUser.item_group_name=mItemGroup.getText().toString();
+                appUser.item_unit_name=mItemUnit.getText().toString();
+                appUser.item_tax_category_name=mTaxCategory.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+
                 Intent intent = new Intent(getApplicationContext(), ItemGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
@@ -427,6 +443,14 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 intStartActivityForResult = 2;
                 ParameterConstant.checkStartActivityResultForUnitList = 1;
                 UnitListActivity.isDirectForUnitList = false;
+
+                appUser.item_name = mItemName.getText().toString();
+                appUser.item_hsn_number = mHsnNumber.getText().toString();
+                appUser.item_group_name=mItemGroup.getText().toString();
+                appUser.item_unit_name=mItemUnit.getText().toString();
+                appUser.item_tax_category_name=mTaxCategory.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
                 Intent intent = new Intent(getApplicationContext(), UnitListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 2);
@@ -436,6 +460,13 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
 
+
+                appUser.item_name = mItemName.getText().toString();
+                appUser.item_hsn_number = mHsnNumber.getText().toString();
+                appUser.item_group_name=mItemGroup.getText().toString();
+                appUser.item_unit_name=mItemUnit.getText().toString();
+                appUser.item_tax_category_name=mTaxCategory.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                 TaxCategoryeListActivity.isDirectForTaxCategoryList = false;
                 Intent intent = new Intent(getApplicationContext(), TaxCategoryeListActivity.class);
@@ -617,7 +648,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 boolForUnit = true;
             } else if (intStartActivityForResult == 2) {
                 boolForItemGroup=true;
-
             }
             if (!boolForItemGroup) {
                 String result = intent.getStringExtra("name");
