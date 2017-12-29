@@ -69,6 +69,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     Snackbar snackbar;
     Boolean fromaccountlist;
     String title;
+    public static AccountDetailsActivity context;
 
     public Boolean boolForGroupName=false;
 
@@ -76,6 +77,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        context=this;
         title="CREATE ACCOUNT";
         fromaccountlist=getIntent().getExtras().getBoolean("fromaccountlist");
         appUser = LocalRepositories.getAppUser(this);

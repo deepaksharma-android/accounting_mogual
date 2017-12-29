@@ -95,6 +95,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     String title;
     Spinner spinner;
     ArrayAdapter<String> mTaxCategoryArrayAdapter;
+    public static CreateNewItemActivity context;
 
     public Boolean boolForItemGroup = false;
     public Boolean boolForUnit = false;
@@ -107,6 +108,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
 
+        context=this;
         title = "CREATE ITEM";
        /* fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {

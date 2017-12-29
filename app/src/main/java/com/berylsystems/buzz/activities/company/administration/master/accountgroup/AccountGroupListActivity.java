@@ -249,6 +249,7 @@ public class AccountGroupListActivity extends AppCompatActivity {
             String name = arr[1];
             Intent intentForward = null;
             if (ParameterConstant.checkStartActivityResultForAccountGroup == 0) {
+                AccountDetailsActivity.context.finish();
                 intentForward = new Intent(getApplicationContext(), AccountDetailsActivity.class);
             }
             intentForward.putExtra("result", String.valueOf(pos.getPosition()));
