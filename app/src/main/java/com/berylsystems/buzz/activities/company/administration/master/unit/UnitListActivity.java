@@ -321,6 +321,7 @@ public class UnitListActivity extends AppCompatActivity {
         if (!isDirectForUnitList && bool) {
             Intent intentForward = null;
             if (ParameterConstant.checkStartActivityResultForUnitList == 1) {
+                CreateNewItemActivity.context.finish();
                 intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForUnitList == 2) {
                 intentForward = new Intent(getApplicationContext(), CreateUnitConversionActivity.class);

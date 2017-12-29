@@ -277,6 +277,7 @@ public class ItemGroupListActivity extends AppCompatActivity {
         if (!isDirectForItemGroup && bool) {
             Intent intentForward=null;
             if (ParameterConstant.checkStartActivityResultForItemGroupOfItem ==1){
+                CreateNewItemActivity.context.finish();
                 intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
             }
 
