@@ -150,6 +150,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        appUser.voucher_type = "Receipt";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
        /* received_from.setText(appUser.receipt_received_from_name);
         received_by.setText(appUser.receipt_received_by_name);*/
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -164,10 +167,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         set_date.setText(dateString);
         set_date_pdc.setText(dateString);
 
-
         Boolean isConnected = ConnectivityReceiver.isConnected();
         title = "CREATE RECEIPT VOUCHER";
-        fromReceiptVoucher = getIntent().getExtras().getBoolean("fromReceipt");
+        fromReceiptVoucher = getIntent().getBooleanExtra("fromReceipt",false);
         if (fromReceiptVoucher == true) {
             title = "EDIT RECEIPT VOUCHER";
             mSubmit.setVisibility(View.GONE);

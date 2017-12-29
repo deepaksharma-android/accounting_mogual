@@ -124,6 +124,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
+        appUser.voucher_type = "Bank Cash Withdraw";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         withdraw_by.setText(appUser.withdraw_by_name);
         withdraw_from.setText(appUser.withdraw_from_name);
@@ -141,7 +143,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title = "CREATE BANK CASH WITHDRAW";
-        fromBankcashWithdraw = getIntent().getExtras().getBoolean("fromBankCashWithdraw");
+        fromBankcashWithdraw = getIntent().getBooleanExtra("fromBankCashWithdraw",false);
         if (fromBankcashWithdraw == true) {
             title = "EDIT BANK CASH WITHDRAW";
             mSubmit.setVisibility(View.GONE);

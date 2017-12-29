@@ -112,6 +112,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        appUser.voucher_type = "Journal Voucher";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -125,7 +128,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_debit.setText(appUser.account_name_debit_name);
         Boolean isConnected = ConnectivityReceiver.isConnected();
        title="CREATE JOURNAL VOUCHER";
-        fromJournalVoucher = getIntent().getExtras().getBoolean("fromJournalVoucher");
+        fromJournalVoucher = getIntent().getBooleanExtra("fromJournalVoucher",false);
         if (fromJournalVoucher == true) {
             title="EDIT JOURNAL VOUCHER";
             mSubmit.setVisibility(View.GONE);

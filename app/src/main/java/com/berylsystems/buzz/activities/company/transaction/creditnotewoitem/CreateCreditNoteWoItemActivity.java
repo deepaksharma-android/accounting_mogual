@@ -110,6 +110,9 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
+        appUser.voucher_type = "Credit Note";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -123,7 +126,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title="CREATE CREDIT NOTE";
-        fromCreditNote = getIntent().getExtras().getBoolean("fromCreditNote");
+        fromCreditNote = getIntent().getBooleanExtra("fromCreditNote",false);
         if (fromCreditNote == true) {
             title="EDIT CREDIT NOTE";
             mSubmit.setVisibility(View.GONE);
