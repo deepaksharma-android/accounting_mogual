@@ -80,12 +80,14 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Boolean frommaterialcentrelist;
     String title;
+    public static CreateMaterialCentreActivity context;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        context=this;
         title="CREATE MATERIAL CENTRE";
         frommaterialcentrelist = getIntent().getExtras().getBoolean("frommaterialcentrelist");
         appUser = LocalRepositories.getAppUser(this);

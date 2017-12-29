@@ -282,6 +282,7 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
         //Toast.makeText(this, ""+bool, Toast.LENGTH_SHORT).show();
         if (!isDirectForMaterialCentreGroup && bool) {
             //Toast.makeText(this, "entered", Toast.LENGTH_SHORT).show();
+            CreateMaterialCentreActivity.context.finish();
             Intent intentForward = new Intent(getApplicationContext(),CreateMaterialCentreActivity.class);
             intentForward.putExtra("bool",true);
             intentForward.putExtra("result", String.valueOf(pos.getPosition()));
