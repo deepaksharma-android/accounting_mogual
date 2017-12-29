@@ -342,6 +342,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                String group = data.getStringExtra("group");
+                appUser.sale_party_group=group;
                 party_id=id;
                 appUser.sale_return_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -377,6 +379,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
+                String group = intent.getStringExtra("group");
+                appUser.sale_party_group=group;
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
@@ -413,14 +417,27 @@ public class CreateSaleReturnFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");*/
            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-               appUser.voucher_type = "Receipt";
-               LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                intent.putExtra("account",mPartyName.getText().toString());
-                intent.putExtra("account_id",appUser.sale_partyName);
-               intent.putExtra("from","sale_return");
-               Timber.i("ACCOUNT_ID"+party_id);
-                startActivity(intent);
+               if(!appUser.sale_party_group.equals("Cash-in-hand")) {
+                   Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                   appUser.voucher_type = "Receipt";
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   intent.putExtra("account", mPartyName.getText().toString());
+                   intent.putExtra("account_id", appUser.sale_partyName);
+                   intent.putExtra("from", "sale_return");
+                   Timber.i("ACCOUNT_ID" + party_id);
+                   startActivity(intent);
+               }
+               else{
+                   mPartyName.setText("");
+                   mMobileNumber.setText("");
+                   mNarration.setText("");
+                   appUser.mListMapForItemSaleReturn.clear();
+                   appUser.mListMapForBillSaleReturn.clear();
+                   LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                   FragmentTransaction ft = getFragmentManager().beginTransaction();
+                   ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
+//                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+               }
             }
             else{
                mPartyName.setText("");

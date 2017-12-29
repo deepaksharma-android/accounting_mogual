@@ -341,6 +341,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
+                String group = data.getStringExtra("group");
+                appUser.sale_party_group=group;
                 party_id=id;
                 appUser.purchase_account_master_id=id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -365,13 +367,27 @@ public class CreatePurchaseReturnFragment extends Fragment {
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-                Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
-                appUser.voucher_type = "Receipt";
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                intent.putExtra("account",mPartyName.getText().toString());
-                intent.putExtra("account_id",appUser.sale_partyName);
-                intent.putExtra("from","purchase_return");
-                startActivity(intent);
+                if(!appUser.sale_party_group.equals("Cash-in-hand")) {
+                    Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
+                    appUser.voucher_type = "Receipt";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    intent.putExtra("account", mPartyName.getText().toString());
+                    intent.putExtra("account_id", appUser.sale_partyName);
+                    intent.putExtra("from", "purchase_return");
+                    startActivity(intent);
+                }
+                else{
+
+                    mPartyName.setText("");
+                    mMobileNumber.setText("");
+                    mNarration.setText("");
+                    appUser.mListMapForItemPurchaseReturn.clear();
+                    appUser.mListMapForBillPurchaseReturn.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
+                    // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+                }
             }
             else{
 
@@ -439,6 +455,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
+                String group = intent.getStringExtra("group");
+                appUser.sale_party_group=group;
                 appUser.sale_partyName = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
