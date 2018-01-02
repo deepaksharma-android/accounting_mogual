@@ -93,6 +93,8 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
     String alternate_unit_con_factor;
     String packaging_unit_con_factor;
     String mrp;
+    String barcode;
+    ArrayList arr_barcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
         purchase_price_applied_on = intent.getStringExtra("applied");
         alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
         tax = intent.getStringExtra("tax");
+
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
@@ -240,63 +243,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                 }
                             }
-                           /* if(appUser.serial_arr.contains("")){
-                                for(int i=0;i<appUser.serial_arr.size();i++){
-                                    if(!appUser.serial_arr.get(i).equals("")){
-
-                                    }
-                                }
-                                Toast.makeText(getApplicationContext(),"Enter values",Toast.LENGTH_LONG).show();
-                            }*/
                             dialogbal.dismiss();
-                           /* if(appUser.serial_arr.contains("")){
-
-                                Toast.makeText(getApplicationContext(),"Enter values",Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                dialogbal.dismiss();
-                            }*/
-                           /* if(appUser.serial_arr.contains("")){
-                                for(int i=0;i<appUser.serial_arr.size();i++){
-                                    if(appUser.serial_arr.get(i).equals("")){
-                                        pairs[i].setText("");
-                                    }
-                                    else{
-
-                                    }
-
-                                }
-                                Toast.makeText(PurchaseAddItemActivity.this, "Enter values", Toast.LENGTH_SHORT).show();
-                               // dialogbal.show();
-                            }
-                            else{
-                               *//* for(int i=0;i<appUser.serial_arr.size();i++) {
-                                    appUser.serial_arr.add(pairs[i].getText().toString());
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                }*//*
-                                dialogbal.dismiss();
-                            }*/
-                           /* appUser.serial_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                            for (int l = 0; l < Integer.parseInt(serial); l++) {
-                                appUser.serial_arr.add(pairs[l].getText().toString());
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                *//*if(appUser.serial_arr.contains(pairs[l].getText().toString())) {
-                                    Toast.makeText(getApplicationContext(),"DUPLICATE",Toast.LENGTH_LONG).show();
-
-                                }
-                                else {
-                                    appUser.serial_arr.add(pairs[l].getText().toString());
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                }*//*
-                               *//* if(!Arrays.asList(appUser.serial_arr).contains(pairs[l].getText().toString())) {
-                                    appUser.serial_arr.add(pairs[l].getText().toString());
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Same Value present",Toast.LENGTH_LONG).show();
-                                }*//*
-                            }*/
-                           // dialogbal.dismiss();
                         }
                     });
                     dialogbal.show();

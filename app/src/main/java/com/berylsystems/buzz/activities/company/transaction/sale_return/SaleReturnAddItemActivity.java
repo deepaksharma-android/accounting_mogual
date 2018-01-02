@@ -236,8 +236,26 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                for (int l = 0; l < Integer.parseInt(serial); l++) {
-                                    appUser.serial_arr.add(pairs[l].getText().toString());
+                                appUser.serial_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                for(int i=0;i<Integer.parseInt(serial);i++){
+                                    if(appUser.serial_arr.contains(pairs[i].getText().toString())){
+                                        pairs[i].setText("");
+                                        appUser.serial_arr.add(i,"");
+                                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                    }
+                                    else{
+                                        appUser.serial_arr.add(i,pairs[i].getText().toString());
+                                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                    }
+                                }
+                                appUser.purchase_item_serail_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                for(int i=0;i<appUser.serial_arr.size();i++){
+                                    if(!appUser.serial_arr.get(i).equals("")){
+                                        appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
+                                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                    }
                                 }
                                 dialogbal.dismiss();
                             }
@@ -417,7 +435,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
-                mMap.put("serial_number",appUser.serial_arr);
+                mMap.put("serial_number",appUser.purchase_item_serail_arr);
 
                 if(!frombillitemvoucherlist) {
                     appUser.mListMapForItemSaleReturn.add(mMap);

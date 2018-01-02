@@ -19,7 +19,8 @@
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/FB_APP_ID" />
@@ -27,6 +28,7 @@
         <activity
             android:name=".activities.app.SplashActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

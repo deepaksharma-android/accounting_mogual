@@ -265,36 +265,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             }
                         });
 
-                       /* EditText[] pairs = new EditText[Integer.parseInt(serial)];
-                        for (int l = 0; l < Integer.parseInt(serial); l++) {
-                            pairs[l] = new EditText(getApplicationContext());
-                            pairs[l].setPadding(10, 10, 10, 0);
-                            pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
-                            pairs[l].setWidth(width);
-                            pairs[l].setHeight(height);
-                            pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
-                            pairs[l].setTextSize(18);
-                            if(appUser.serial_arr.size()>0) {
-                                pairs[l].setText(appUser.serial_arr.get(l));
-                            }
-                            pairs[l].setHint("Enter Serial Number"+" "+(l+1));
-                            pairs[l].setHintTextColor(Color.GRAY);
-                            pairs[l].setTextColor(Color.BLACK);
-                            pairs[l].setLayoutParams(lp);
-                            pairs[l].setId(l);
-                            //pairs[l].setText((l + 1) + ": something");
-                            serialLayout.addView(pairs[l]);
-                        }*/
-                       /* submit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                for (int l = 0; l < Integer.parseInt(serial); l++) {
-                                    appUser.serial_arr.add(pairs[l].getText().toString());
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                }
-                                dialogbal.dismiss();
-                            }
-                        });*/
                         dialogbal.show();
 
                     }

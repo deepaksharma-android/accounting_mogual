@@ -754,6 +754,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("packaging_unit", packaging_unit);
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
+
                 intent.putExtra("frombillitemvoucherlist", false);
                 startActivity(intent);
                 finish();
@@ -782,6 +783,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String barcode=listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromPurchaseReturnItemList", true);
                 intent.putExtra("id", childid);
@@ -822,6 +824,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("packaging_unit", packaging_unit);
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
+                intent.putExtra("barcode", barcode);
                 startActivity(intent);
                 finish();
 
