@@ -1,5 +1,7 @@
 package com.berylsystems.buzz.networks.api_response.item;
 
+import java.util.ArrayList;
+
 import retrofit2.http.PUT;
 
 public class Attributes {
@@ -271,4 +273,14 @@ public class Attributes {
     }
 
     public String tax_category;
+
+    public ArrayList<String> getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(ArrayList<String> barcode) {
+        this.barcode = barcode;
+    }
+
+    public ArrayList<String> barcode;
 }

@@ -26,6 +26,7 @@ import com.berylsystems.buzz.adapters.PurchaseReportAdapter;
 import com.berylsystems.buzz.adapters.TransactionSalesVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -109,7 +110,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity {
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER);
                 } else {
                     snackbar = Snackbar
                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -219,13 +220,13 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void getSaleVoucher(GetSaleVoucherListResponse response){
+    public void getSaleVoucher(GetPurchaseVoucherListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new PurchaseReportAdapter(this,response.getSale_vouchers().data);
+            mAdapter = new PurchaseReportAdapter(this,response.getPurchase_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
         }
         else{
