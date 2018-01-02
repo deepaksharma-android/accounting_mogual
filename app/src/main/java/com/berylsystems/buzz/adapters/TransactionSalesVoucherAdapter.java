@@ -33,7 +33,7 @@ public class TransactionSalesVoucherAdapter extends RecyclerView.Adapter<Transac
     public void onBindViewHolder(TransactionSalesVoucherAdapter.ViewHolder viewHolder, int position) {
 
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_master);
-        viewHolder.bank_edit_text2.setText(""+data.get(position).getAttributes().total_amount);
+        viewHolder.bank_edit_text2.setText(""+String.format("%.2f", data.get(position).getAttributes().total_amount));
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));

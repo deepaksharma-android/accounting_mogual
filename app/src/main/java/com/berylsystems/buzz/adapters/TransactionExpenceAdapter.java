@@ -45,7 +45,7 @@ public class TransactionExpenceAdapter extends RecyclerView.Adapter<TransactionE
         viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().paid_to);
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().voucher_number);
-        viewHolder.bank_edit_text5.setText(String.valueOf(data.get(position).getAttributes().amount));
+        viewHolder.bank_edit_text5.setText(""+String.format("%.2f", data.get(position).getAttributes().amount));
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
       /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
