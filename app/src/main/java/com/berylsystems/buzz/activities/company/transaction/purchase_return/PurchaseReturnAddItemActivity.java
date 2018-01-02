@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
@@ -36,6 +37,7 @@ import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +93,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
     String mrp;
     String tax;
     String totalitemprice;
+    ArrayAdapter<String> spinnerAdapter;
+    ArrayList arr_barcode;
+    String barcode;
 
     //activity_purchase_return_add_item
     @Override
@@ -134,6 +139,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         purchase_price_applied_on = intent.getStringExtra("applied");
         alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
         tax = intent.getStringExtra("tax");
+        barcode = intent.getStringExtra("barcode");
+        arr_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
@@ -158,25 +165,20 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                    int width = getWidth();
-                    int height = getHeight();
+                    int width=getWidth();
+                    int height=getHeight();
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-                    lp.setMargins(20, 10, 20, 0);
-                    EditText[] pairs = new EditText[Integer.parseInt(serial)];
+                    lp.setMargins(20,10,20,0);
+                    Spinner[] pairs=new Spinner[Integer.parseInt(serial)];
+
+                    String[] countries=getResources().getStringArray(R.array.bill_sundry_nature);
                     for (int l = 0; l < Integer.parseInt(serial); l++) {
-                        pairs[l] = new EditText(getApplicationContext());
-                        pairs[l].setPadding(20, 10, 10, 0);
-                        pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
-                        pairs[l].setWidth(width);
-                        pairs[l].setHeight(height);
-                        pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
-                        pairs[l].setTextSize(18);
-                        if (appUser.serial_arr.size() > 0) {
-                            pairs[l].setText(appUser.serial_arr.get(l));
-                        }
-                        pairs[l].setHint("Enter Serial Number" + " " + (l + 1));
-                        pairs[l].setHintTextColor(Color.GRAY);
-                        pairs[l].setTextColor(Color.BLACK);
+                        pairs[l] = new Spinner(getApplicationContext(),Spinner.MODE_DROPDOWN/*,null,android.R.style.Widget_Spinner,Spinner.MODE_DROPDOWN*/);
+                        pairs[l].setLayoutParams(new LinearLayout.LayoutParams(500, 100));
+                        spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.layout_trademark_type_spinner_dropdown_item, arr_barcode);
+                        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+                        pairs[l].setAdapter(spinnerAdapter);
                         pairs[l].setLayoutParams(lp);
                         pairs[l].setId(l);
                         //pairs[l].setText((l + 1) + ": something");
@@ -185,10 +187,30 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            appUser.sale_item_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                               /* appUser.sale_item_serial_arr.add("5");
+                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
                             for (int l = 0; l < Integer.parseInt(serial); l++) {
-                                appUser.serial_arr.add(pairs[l].getText().toString());
+                                if(appUser.sale_item_serial_arr.contains(pairs[l].getSelectedItem().toString())){
+                                    pairs[l].setSelection(0);
+                                    appUser.sale_item_serial_arr.add(l,"");
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                                }
+                                else {
+                                    appUser.sale_item_serial_arr.add(l, pairs[l].getSelectedItem().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }
+
                             }
-                            dialogbal.dismiss();
+
+                            if(appUser.sale_item_serial_arr.contains("")){
+                                Toast.makeText(getApplicationContext(),"SAME VALUE",Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                dialogbal.dismiss();
+                            }
                         }
                     });
                     dialogbal.show();
@@ -374,7 +396,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
-                mMap.put("serial_number", appUser.serial_arr);
+                mMap.put("serial_number", appUser.sale_item_serial_arr);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemPurchaseReturn.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
