@@ -515,6 +515,26 @@
         <activity android:name=".activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activities.company.transaction.CashInHandReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activities.company.transaction.BankCashReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionBankActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activities.company.transaction.CustomerReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionCustomerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activities.company.transaction.SupplierReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionSupplierActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->

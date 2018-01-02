@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventReport;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -120,6 +121,16 @@ public class TransactionCustomerAdapter extends BaseExpandableListAdapter {
         //lblListHeader2.setTypeface(null, Typeface.BOLD);
         lblListItem1.setText(name);
         lblListItem2.setText("₹ " + String.format("%.2f",Double.valueOf(amount)));
+
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=groupPosition+","+childPosititon;
+                // Timber.i("i am here");
+                EventBus.getDefault().post(new EventReport(id));
+            }
+        });
 
        /* LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);

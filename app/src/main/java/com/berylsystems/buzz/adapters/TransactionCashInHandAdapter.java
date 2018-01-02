@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.utils.EventAmountReceivable;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventReport;
 import com.berylsystems.buzz.utils.EventSaleAddItem;
 import com.berylsystems.buzz.utils.EventTransaction;
 
@@ -22,13 +24,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
     private ArrayList<Double> addAmount;
-    private static DecimalFormat df2 = new DecimalFormat(".##");
+  //  private static DecimalFormat df2 = new DecimalFormat(".##");
 
     public TransactionCashInHandAdapter(Context context,List<String> _listDataHeader,HashMap<String,List<String>> _listDataChild, ArrayList<Double> addAmount){
 
@@ -124,9 +128,19 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
         lblListItem1.setText(name);
         lblListItem2.setText("₹ " + String.format("%.2f",Double.valueOf(amount)));
 
-      /*  LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
-        LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);*/
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=groupPosition+","+childPosititon;
+               // Timber.i("i am here");
+                EventBus.getDefault().post(new EventReport(id));
+            }
+        });
+
+        /*LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+        LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);*/
+
 
       /*  if (undefined.equals("true")) {
             delete.setVisibility(View.VISIBLE);
@@ -151,7 +165,8 @@ public class TransactionCashInHandAdapter extends BaseExpandableListAdapter {
             }
         });*/
 
-       /* mMainLayout.setOnClickListener(new View.OnClickListener() {
+      /*  LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String id=groupPosition+","+childPosititon;

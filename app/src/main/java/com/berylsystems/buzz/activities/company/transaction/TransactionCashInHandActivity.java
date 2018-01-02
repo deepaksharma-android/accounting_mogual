@@ -26,8 +26,10 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.account.DeleteAccountResponse;
 import com.berylsystems.buzz.networks.api_response.account.GetAccountResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventAmountReceivable;
 import com.berylsystems.buzz.utils.EventDeleteAccount;
 import com.berylsystems.buzz.utils.EventEditAccount;
+import com.berylsystems.buzz.utils.EventReport;
 import com.berylsystems.buzz.utils.EventTransaction;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -264,12 +266,22 @@ public class TransactionCashInHandActivity extends AppCompatActivity{
         startActivity(intent);
     }*/
 
-    /*@Subscribe
-    public void ClickEventTransaction(EventTransaction pos) {
+    @Subscribe
+    public void ClickEventCashInHandList(EventReport pos) {
 
-        Intent intent = new Intent(getApplicationContext(), TransactionSalesActivity.class);
-        startActivity(intent);
-    }*/
+        String id = pos.getPosition();
+        String[] arr = id.split(",");
+        String groupid = arr[0];
+        String childid = arr[1];
+        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+        String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+        appUser.childId = arrid;
+        LocalRepositories.saveAppUser(this, appUser);
+            Intent intent = new Intent(getApplicationContext(), CashInHandReportActivity.class);
+            intent.putExtra("name",name);
+            intent.putExtra("id",arrid);
+            startActivity(intent);
+    }
 
     @Override
     protected void onPause() {
