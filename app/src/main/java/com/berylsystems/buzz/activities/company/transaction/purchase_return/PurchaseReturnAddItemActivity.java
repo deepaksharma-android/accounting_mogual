@@ -184,6 +184,19 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                         //pairs[l].setText((l + 1) + ": something");
                         serialLayout.addView(pairs[l]);
                     }
+                    if(appUser.sale_item_serial_arr.size()>0) {
+                        for (int i = 0; i < appUser.sale_item_serial_arr.size(); i++) {
+                            String group_type = appUser.sale_item_serial_arr.get(i);
+                            int groupindex = -1;
+                            for (int j = 0; j < arr_barcode.size(); j++) {
+                                if (arr_barcode.get(j).equals(group_type)) {
+                                    groupindex = j;
+                                    break;
+                                }
+                            }
+                            pairs[i].setSelection(groupindex);
+                        }
+                    }
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -209,6 +222,13 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"SAME VALUE",Toast.LENGTH_LONG).show();
                             }
                             else{
+                                String listString = "";
+
+                                for (String s : appUser.sale_item_serial_arr)
+                                {
+                                    listString += s + ",";
+                                }
+                                mSr_no.setText(listString);
                                 dialogbal.dismiss();
                             }
                         }

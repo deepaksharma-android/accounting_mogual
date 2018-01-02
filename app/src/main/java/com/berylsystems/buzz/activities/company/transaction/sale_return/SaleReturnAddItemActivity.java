@@ -258,6 +258,13 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                                     }
                                 }
                                 dialogbal.dismiss();
+                                String listString = "";
+
+                                for (String s : appUser.purchase_item_serail_arr)
+                                {
+                                    listString += s + ",";
+                                }
+                                mSr_no.setText(listString);
                             }
                         });
                         dialogbal.show();

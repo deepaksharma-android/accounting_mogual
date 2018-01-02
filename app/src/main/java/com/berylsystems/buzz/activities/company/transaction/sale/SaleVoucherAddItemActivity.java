@@ -44,6 +44,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
@@ -120,7 +121,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-
+        appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
@@ -222,7 +224,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         lp.setMargins(20,10,20,0);
                         Spinner[] pairs=new Spinner[Integer.parseInt(serial)];
 
-                        String[] countries=getResources().getStringArray(R.array.bill_sundry_nature);
                         for (int l = 0; l < Integer.parseInt(serial); l++) {
                             pairs[l] = new Spinner(getApplicationContext(),Spinner.MODE_DROPDOWN/*,null,android.R.style.Widget_Spinner,Spinner.MODE_DROPDOWN*/);
                             pairs[l].setLayoutParams(new LinearLayout.LayoutParams(500, 100));
@@ -232,9 +233,40 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             pairs[l].setAdapter(spinnerAdapter);
                             pairs[l].setLayoutParams(lp);
                             pairs[l].setId(l);
+
+
+
+                           /* if(appUser.sale_item_serial_arr.size()>0) {
+                                String group_type = appUser.sale_item_serial_arr.get(l);
+                                Timber.i("GROUPTYPE"+group_type);
+                                // insert code here
+                                int groupindex = -1;
+                                for (int i = 0; i<appUser.sale_item_serial_arr.size(); i++) {
+                                    if (appUser.sale_item_serial_arr.get(i).equals(group_type)) {
+                                        groupindex = i;
+                                        break;
+                                    }
+                                }
+                                pairs[l].setSelection(groupindex);
+
+                            }*/
                             //pairs[l].setText((l + 1) + ": something");
                             serialLayout.addView(pairs[l]);
                         }
+                        if(appUser.sale_item_serial_arr.size()>0) {
+                            for (int i = 0; i < Integer.parseInt(serial); i++) {
+                                String group_type = appUser.sale_item_serial_arr.get(i);
+                                int groupindex = -1;
+                                for (int j = 0; j < arr_barcode.size(); j++) {
+                                    if (arr_barcode.get(j).equals(group_type)) {
+                                        groupindex = j;
+                                        break;
+                                    }
+                                }
+                                pairs[i].setSelection(groupindex);
+                            }
+                        }
+
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -260,6 +292,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(),"SAME VALUE",Toast.LENGTH_LONG).show();
                                 }
                                 else{
+                                    String listString = "";
+
+                                    for (String s : appUser.sale_item_serial_arr)
+                                    {
+                                        listString += s + ",";
+                                    }
+                                    mSr_no.setText(listString);
                                     dialogbal.dismiss();
                                 }
                             }

@@ -241,8 +241,18 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                                 if(!appUser.serial_arr.get(i).equals("")){
                                     appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
                                 }
                             }
+
+
+                            String listString = "";
+
+                            for (String s : appUser.purchase_item_serail_arr)
+                            {
+                                listString += s + ",";
+                            }
+                            mSr_no.setText(listString);
                             dialogbal.dismiss();
                         }
                     });
