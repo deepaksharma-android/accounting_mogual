@@ -273,9 +273,9 @@ public class SupplierReportActivity extends RegisterAbstractActivity implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                    Intent intent = new Intent(this, TransactionSupplierActivity.class);
+                   /* Intent intent = new Intent(this, TransactionSupplierActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    startActivity(intent);*/
                     finish();
                 return true;
             default:
@@ -285,9 +285,9 @@ public class SupplierReportActivity extends RegisterAbstractActivity implements 
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, TransactionSupplierActivity.class);
+       /* Intent intent = new Intent(this, TransactionSupplierActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        startActivity(intent);*/
         finish();
     }
 
