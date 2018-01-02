@@ -140,8 +140,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
         purchase_price_applied_on = intent.getStringExtra("applied");
         alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
         tax = intent.getStringExtra("tax");
-        barcode = intent.getStringExtra("barcode");
-        arr_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
+
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
