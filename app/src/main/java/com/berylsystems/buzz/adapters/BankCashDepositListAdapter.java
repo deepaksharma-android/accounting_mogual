@@ -44,7 +44,7 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().deposit_to);
         viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().deposit_by);
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
-        viewHolder.bank_edit_text4.setText(String.valueOf(data.get(position).getAttributes().amount));
+        viewHolder.bank_edit_text4.setText(""+String.format("%.2f",data.get(position).getAttributes().amount));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
 
         viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {

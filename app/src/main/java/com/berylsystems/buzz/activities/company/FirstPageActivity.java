@@ -185,13 +185,13 @@ public class FirstPageActivity extends BaseActivityCompany {
     public void getCompanyDashboardInfo(GetCompanyDashboardInfoResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            mtextview_cash_in_hand.setText("₹ " + response.getCompany_details().getData().getAttributes().getCash_in_hand());
-            mtextview_bank.setText("₹ " + response.getCompany_details().getData().getAttributes().getBank_account());
-            mtextview_customer.setText("₹ " + response.getCompany_details().getData().getAttributes().getCustomer());
-            mtextview_supplier.setText("₹ " + response.getCompany_details().getData().getAttributes().getSupplier());
-            mtextview_stock_in_hand.setText("₹ " + response.getCompany_details().getData().getAttributes().getStock_in_hand());
-            mtextview_sales.setText("₹ " +response.getCompany_details().getData().getAttributes().getSales());
-            mtextview_expenses.setText("₹ " +response.getCompany_details().getData().getAttributes().getExpenses());
+            mtextview_cash_in_hand.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getCash_in_hand()));
+            mtextview_bank.setText("₹ " +String.format("%.2f", response.getCompany_details().getData().getAttributes().getBank_account()));
+            mtextview_customer.setText("₹ " +String.format("%.2f", response.getCompany_details().getData().getAttributes().getCustomer()));
+            mtextview_supplier.setText("₹ " +String.format("%.2f", response.getCompany_details().getData().getAttributes().getSupplier()));
+            mtextview_stock_in_hand.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getStock_in_hand()));
+            mtextview_sales.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getSales()));
+            mtextview_expenses.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getExpenses()));
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

@@ -276,10 +276,10 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
-                                Snackbar.make(coordinatorLayout, "Please select withdraw from", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(coordinatorLayout, "Please select withdraw by", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
-                            Snackbar.make(coordinatorLayout, "Please select withdraw by", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(coordinatorLayout, "Please select withdraw from", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();

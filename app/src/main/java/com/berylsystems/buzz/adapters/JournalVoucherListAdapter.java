@@ -43,7 +43,7 @@ public class JournalVoucherListAdapter extends RecyclerView.Adapter<JournalVouch
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_name_debit);
         viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().account_name_credit);
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
-        viewHolder.bank_edit_text4.setText(""+data.get(position).getAttributes().amount);
+        viewHolder.bank_edit_text4.setText(""+ String.format("%.2f",data.get(position).getAttributes().amount));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
 
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));

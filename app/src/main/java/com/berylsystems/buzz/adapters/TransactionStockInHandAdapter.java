@@ -74,7 +74,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
 
         TextView lblListAmount = (TextView) convertView.findViewById(R.id.lblListHeader2);
         TextView lblListQuantity = (TextView) convertView.findViewById(R.id.lblListHeader3);
-        lblListAmount.setText("₹ " + ""+addAmount.get(groupPosition));
+        lblListAmount.setText("₹ " + ""+String.format("%.2f",addAmount.get(groupPosition)));
         lblListQuantity.setText("qty: " + ""+addQuantity.get(groupPosition));
 
         ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
@@ -125,7 +125,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
         lblListItem1.setTypeface(null, Typeface.BOLD);
         //lblListHeader2.setTypeface(null, Typeface.BOLD);
         lblListItem1.setText(name);
-        lblListItem2.setText("₹ " + amount);
+        lblListItem2.setText("₹ " +String.format("%.2f", Double.valueOf(amount)));
         lblListItem3.setText("qty: " + quantity);
 
       /*  LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
