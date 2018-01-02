@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,7 @@ import com.berylsystems.buzz.utils.EventEditItem;
 import com.berylsystems.buzz.utils.EventSaleAddItem;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
+import com.google.zxing.common.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,6 +97,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     HashMap<Integer, List<String>> listDataChildPackagingUnit;
     HashMap<Integer, List<String>> listDataChildMrp;
     HashMap<Integer, List<String>> listDataTax;
+    HashMap<Integer, List<String>> listDataBarcode;
     public Map<String, String> mSaleVoucherItem;
     HashMap<Integer, List<String>> listDataChildPurchasePriceMain;
     HashMap<Integer, List<String>> listDataChildPurchasePriceAlternate;
@@ -128,7 +131,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     List<String> purchasePriceMain;
     List<String> purchasePriceAlternate;
     List<String> packaging_purchase_price;
-
+    List<String> barcode;
     List<String> nameList;
     List<String> idList;
     private ArrayAdapter<String> adapter;
@@ -247,6 +250,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             listDataChildAlternateUnit = new HashMap<Integer, List<String>>();
             listDataChildSalePriceMain = new HashMap<Integer, List<String>>();
             listDataChildPurchasePriceMain = new HashMap<Integer, List<String>>();
+            listDataBarcode = new HashMap<Integer, List<String>>();
 
             listDataChildSalePriceAlternate = new HashMap<Integer, List<String>>();
             listDataChildPurchasePriceAlternate = new HashMap<Integer, List<String>>();
@@ -289,6 +293,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 packaging_unit = new ArrayList<>();
                 mrp = new ArrayList<>();
                 tax = new ArrayList<>();
+                barcode = new ArrayList<>();
                 id = new ArrayList<>();
                 default_unit.clear();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
@@ -336,6 +341,22 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mrp.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getMrp()));
                     } else {
                         mrp.add("");
+                    }
+                    StringBuilder sb=new StringBuilder();
+                    if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getBarcode()!= null) {
+                        for(String str : response.getOrdered_items().get(i).getData().get(j).getAttributes().getBarcode()){
+                            sb.append(str).append(";"); //separating contents using semi colon
+                        }
+                        String strfromArrayList = sb.toString();
+
+                      /*  for(int k=0;k<response.getOrdered_items().get(i).getData().get(j).getAttributes().getBarcode().size();k++){
+                            String barcode= StringUtils.collectionToDelimitedString(",",response.getOrdered_items().get(i).getData().get(j).getAttributes().getBarcode().get(k).toString());
+
+                        }*/
+                        barcode.add(strfromArrayList);
+                        Timber.i("MYBARCODE"+barcode);
+                    } else {
+                        barcode.add("");
                     }
                     unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_unit());
 
@@ -430,6 +451,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataChildPackagingUnit.put(i, packaging_unit);
                 listDataChildMrp.put(i, mrp);
                 listDataTax.put(i, tax);
+                listDataBarcode.put(i,barcode);
             }
             listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -567,6 +589,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String barcode=listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 intent.putExtra("fromitemlist", true);
                 intent.putExtra("fromSaleVoucherItemList", true);
                 mSaleVoucherItem.put("name", itemName);
@@ -603,6 +626,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("packaging_unit", packaging_unit);
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
+                intent.putExtra("barcode", barcode);
                 intent.putExtra("frombillitemvoucherlist", false);
                 startActivity(intent);
                 finish();

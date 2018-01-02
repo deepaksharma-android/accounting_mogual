@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.networks.api_response.salevoucher.Data;
+import com.berylsystems.buzz.networks.api_response.purchasevoucher.Data;
 
 import java.util.ArrayList;
 

@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
@@ -36,12 +37,14 @@ import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class PurchaseAddItemActivity extends AppCompatActivity {
 
@@ -182,14 +185,118 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                         pairs[l].setId(l);
                         //pairs[l].setText((l + 1) + ": something");
                         serialLayout.addView(pairs[l]);
+
+                      /*  final int finalL = l;
+                        pairs[l].addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+
+                                if(appUser.serial_arr.contains(pairs[finalL].getText().toString())){
+                                    appUser.serial_arr.set(finalL,"");
+                                }
+                                else{
+
+                                    appUser.serial_arr.add(pairs[finalL].getText().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }
+
+
+                            }
+                        });*/
                     }
+
+
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            appUser.serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            for(int i=0;i<Integer.parseInt(serial);i++){
+                                if(appUser.serial_arr.contains(pairs[i].getText().toString())){
+                                    pairs[i].setText("");
+                                    appUser.serial_arr.add(i,"");
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                }
+                                else{
+                                    appUser.serial_arr.add(i,pairs[i].getText().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                }
+                            }
+                            appUser.purchase_item_serail_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            for(int i=0;i<appUser.serial_arr.size();i++){
+                                if(!appUser.serial_arr.get(i).equals("")){
+                                    appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                }
+                            }
+                           /* if(appUser.serial_arr.contains("")){
+                                for(int i=0;i<appUser.serial_arr.size();i++){
+                                    if(!appUser.serial_arr.get(i).equals("")){
+
+                                    }
+                                }
+                                Toast.makeText(getApplicationContext(),"Enter values",Toast.LENGTH_LONG).show();
+                            }*/
+                            dialogbal.dismiss();
+                           /* if(appUser.serial_arr.contains("")){
+
+                                Toast.makeText(getApplicationContext(),"Enter values",Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                dialogbal.dismiss();
+                            }*/
+                           /* if(appUser.serial_arr.contains("")){
+                                for(int i=0;i<appUser.serial_arr.size();i++){
+                                    if(appUser.serial_arr.get(i).equals("")){
+                                        pairs[i].setText("");
+                                    }
+                                    else{
+
+                                    }
+
+                                }
+                                Toast.makeText(PurchaseAddItemActivity.this, "Enter values", Toast.LENGTH_SHORT).show();
+                               // dialogbal.show();
+                            }
+                            else{
+                               *//* for(int i=0;i<appUser.serial_arr.size();i++) {
+                                    appUser.serial_arr.add(pairs[i].getText().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }*//*
+                                dialogbal.dismiss();
+                            }*/
+                           /* appUser.serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             for (int l = 0; l < Integer.parseInt(serial); l++) {
                                 appUser.serial_arr.add(pairs[l].getText().toString());
-                            }
-                            dialogbal.dismiss();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                *//*if(appUser.serial_arr.contains(pairs[l].getText().toString())) {
+                                    Toast.makeText(getApplicationContext(),"DUPLICATE",Toast.LENGTH_LONG).show();
+
+                                }
+                                else {
+                                    appUser.serial_arr.add(pairs[l].getText().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }*//*
+                               *//* if(!Arrays.asList(appUser.serial_arr).contains(pairs[l].getText().toString())) {
+                                    appUser.serial_arr.add(pairs[l].getText().toString());
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Same Value present",Toast.LENGTH_LONG).show();
+                                }*//*
+                            }*/
+                           // dialogbal.dismiss();
                         }
                     });
                     dialogbal.show();
@@ -379,7 +486,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
-                mMap.put("serial_number",appUser.serial_arr);
+                mMap.put("serial_number",appUser.purchase_item_serail_arr);
                 // mListMap.add(mMap);
                 appUser.mListMapForItemPurchase.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

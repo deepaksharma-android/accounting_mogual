@@ -44,6 +44,7 @@ import com.berylsystems.buzz.networks.api_response.pdc.GetPdcResponse;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
@@ -242,7 +243,7 @@ public interface Api {
     Call<CompanyResponse> getcompany(@Path("id") String id);
 
     @GET("company/{unique_id}")
-    Call<CompanyResponse> searchcompany(@Path("unique_id") String unique_id,@Query("mobile") String mobile);
+    Call<CompanyResponse> searchcompany(@Path("unique_id") String unique_id,@Query("phone_number") String phone_number);
 
     @GET("companyusers/{id}")
     Call<CompanyUserResponse> getcompanyusers(@Path("id") String id);
@@ -567,6 +568,9 @@ public interface Api {
 
     @GET("company_sale_vouchers/{id}")
     Call<GetSaleVoucherListResponse> getsalevoucher(@Path("id") String id, @Query("duration") String duration);
+
+    @GET("company_purchase_vouchers/{id}")
+    Call<GetPurchaseVoucherListResponse> getpurchasevoucher(@Path("id") String id, @Query("duration") String duration);
 
     @GET("pdc_details/{id}")
     Call<GetPdcResponse> getPdc(@Path("id") String id, @Query("duration") String duration);
