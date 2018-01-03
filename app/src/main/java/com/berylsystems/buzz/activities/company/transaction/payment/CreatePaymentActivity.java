@@ -35,6 +35,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.account_group.PdcActivity;
 import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
 import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -113,12 +114,14 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     ProgressDialog mProgressDialog;
     Boolean fromPayment;
     String encodedString;
-    String title;
+    String title,from;
     AppUser appUser;
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
     public static int intStartActivityForResult=0;
+    public Bundle bundle;
     Bitmap photo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +129,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+
+        bundle=getIntent().getExtras();
+        if(bundle!=null){
+            from =bundle.getString("from");
+        }
+
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
@@ -151,6 +160,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         title="CREATE PAYMENT";
         fromPayment = getIntent().getBooleanExtra("fromPayment",false);
         if (fromPayment == true) {
+                if(from.equals("pdcdetail")){
+                    from="pdcdetail";
+                    // Toast.makeText(CreateReceiptVoucherActivity.this, "i am here", Toast.LENGTH_SHORT).show();
+                }
             title="EDIT PAYMENT";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
@@ -718,12 +731,23 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public void editPayment(EditPaymentResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            Intent intent = new Intent(this, PaymentActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            if(from!=null){
+                if(from.equals("pdcdetail")){
+                    Intent intent = new Intent(this, PdcActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    startActivity(intent);
+                    Snackbar
+                            .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                }else{
+                    Intent intent = new Intent(this, PaymentActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    startActivity(intent);
+                    Snackbar
+                            .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            }
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -746,10 +770,19 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if(from!=null){
+                    if(from.equals("pdcdetail")){
+                        Intent intent = new Intent(this, PdcActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -759,9 +792,17 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if(from.equals("pdcdetail")){
+            Intent intent = new Intent(this, PdcActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else{
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }

@@ -48,6 +48,8 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         String arr[] = childText.split(",");
         String acc_name = arr[0];
         String undefined = arr[1];
+        String amount = arr[2];
+
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -56,7 +58,7 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-        txtListChild.setText(acc_name);
+        txtListChild.setText(acc_name+" "+"(₹-" +String.format("%.2f", Double.valueOf(amount))+")");
 
         LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);

@@ -1,6 +1,5 @@
 package com.berylsystems.buzz.activities.company.navigation.reports.account_group;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
@@ -25,24 +24,24 @@ import com.berylsystems.buzz.adapters.PdcPaymentAdapter;
 import com.berylsystems.buzz.adapters.PdcReceiptAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.payment.DeletePaymentResponse;
 import com.berylsystems.buzz.networks.api_response.pdc.Attribute;
 import com.berylsystems.buzz.networks.api_response.pdc.GetPdcResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventDeletePaymentPdcDetails;
+import com.berylsystems.buzz.utils.EventDeleteReceiptPdcDetails;
 import com.berylsystems.buzz.utils.ListHeight;
 import com.berylsystems.buzz.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Attr;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class PdcActivity extends RegisterAbstractActivity {
 
@@ -77,7 +76,7 @@ public class PdcActivity extends RegisterAbstractActivity {
     Spinner spinner;
     ArrayList<Attribute> receiptList;
     ArrayList<Attribute> paymentList;
-
+    Boolean pdcdetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +207,10 @@ public class PdcActivity extends RegisterAbstractActivity {
         });*/
     }
 
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_pdc;
+    }
 
     @Subscribe
     public void getPdcResponse(GetPdcResponse response) {
@@ -242,10 +245,107 @@ public class PdcActivity extends RegisterAbstractActivity {
         }
     }
 
-    @Override
-    protected int layoutId() {
-        return R.layout.activity_pdc;
+    @Subscribe
+    public void deletereceiptvoucher(EventDeleteReceiptPdcDetails pos){
+        appUser.delete_receipt_id= pos.getPosition();
+        LocalRepositories.saveAppUser(this,appUser);
+
+        new AlertDialog.Builder(PdcActivity.this)
+                .setTitle("Delete Expence Item")
+                .setMessage("Are you sure you want to delete this Record ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if(isConnected) {
+                        mProgressDialog = new ProgressDialog(PdcActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_RECEIPT_VOUCHER);
+                    }
+                    else{
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if(isConnected){
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
     }
+    @Subscribe
+    public void deletereceiptvoucherresponse(DeleteReceiptVoucherResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDC);
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void deletepayment(EventDeletePaymentPdcDetails pos){
+        appUser.delete_payment_id= pos.getPosition();
+        LocalRepositories.saveAppUser(this,appUser);
+        new AlertDialog.Builder(PdcActivity.this)
+                .setTitle("Delete Expence Item")
+                .setMessage("Are you sure you want to delete this Record ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if(isConnected) {
+                        mProgressDialog = new ProgressDialog(PdcActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_PAYMENT);
+                    }
+                    else{
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if(isConnected){
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+    @Subscribe
+    public void deletepaymentresponse(DeletePaymentResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDC);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+
 /*
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {

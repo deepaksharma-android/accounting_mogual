@@ -244,13 +244,14 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 mobile = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()));
+                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName()
+                            + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined())
+                            +","+response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount());
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                     mobile.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
 
                     nameList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
                     idList.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
-
                 }
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);

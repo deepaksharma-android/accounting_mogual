@@ -8,22 +8,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.networks.api_response.pdc.Attribute;
-import com.berylsystems.buzz.networks.api_response.pdc.Data;
-
-import org.w3c.dom.Attr;
-
+import com.berylsystems.buzz.utils.EventDeleteReceiptPdcDetails;
+import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by BerylSystems on 11/25/2017.
@@ -60,7 +54,7 @@ public class PdcReceiptAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.pdc_row, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.pdc_receipt_row, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -70,18 +64,25 @@ public class PdcReceiptAdapter extends BaseAdapter {
         holder.by.setText(list.get(position).getReceived_by());
         holder.amount.setText(list.get(position).getAmount());
         holder.voucher_number.setText(list.get(position).getVoucher_number());
-        holder.date.setText(list.get(position).getDate());
+        holder.date.setText(list.get(position).getPdc_date());
 
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=list.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteReceiptPdcDetails(receipt_voucher_id));
+            }
+        });
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, CreateReceiptVoucherActivity.class);
                 intent.putExtra("fromReceipt",true);
+                intent.putExtra("from", "pdcdetail");
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
         });
-
         return convertView;
     }
 
