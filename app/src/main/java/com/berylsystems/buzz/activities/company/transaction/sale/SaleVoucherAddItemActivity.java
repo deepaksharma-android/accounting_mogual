@@ -314,12 +314,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             });
             mItemName.setText(name);
             mDescription.setText(desc);
-            appUser.unitlist.add("Main Unit : " + main_unit);
-            appUser.unitlist.add("Alternate Unit :" + alternate_unit);
+            mUnitList.add("Main Unit : " + main_unit);
+            mUnitList.add("Alternate Unit :" + alternate_unit);
 
         }
         if (!packaging_unit.equals("")) {
-            appUser.unitlist.add("Packaging Unit :" + packaging_unit);
+            mUnitList.add("Packaging Unit :" + packaging_unit);
         }
 
 
@@ -329,7 +329,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         mValue.setEnabled(true);
         mTotal.setEnabled(false);
         mUnitAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,  appUser.unitlist);
+                android.R.layout.simple_spinner_item,  mUnitList);
         mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerUnit.setAdapter(mUnitAdapter);
         if (!packaging_unit.equals("")) {

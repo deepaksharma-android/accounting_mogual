@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,9 +63,11 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class ExpandableAccountListActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
@@ -87,8 +90,13 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     List<String> name;
     List<String> id;
     public static Boolean isDirectForAccount = true;
+    private ArrayList<Map<String, String>> mPeopleList;
+    Map<String, String> NamePhoneType;
+
+    private SimpleAdapter mAdapter;
 
     List<String> nameList;
+    List<String> mobileList;
     List<String> idList;
     private ArrayAdapter<String> adapter;
 
@@ -116,6 +124,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         appUser.account_credit_sale = "";
         appUser.account_credit_purchase = "";
         LocalRepositories.saveAppUser(this, appUser);
+
     }
 
     private void initActionbar() {
@@ -227,8 +236,9 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     public void getAccount(GetAccountResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
+            mPeopleList = new ArrayList<Map<String, String>>();
             nameList = new ArrayList();
+            mobileList = new ArrayList();
             idList = new ArrayList();
 
             listDataHeader = new ArrayList<>();
@@ -244,19 +254,32 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 mobile = new ArrayList<>();
                 id = new ArrayList<>();
                 for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
+                    NamePhoneType = new HashMap<String, String>();
                     name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName()
                             + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined())
                             +","+response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount());
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                     mobile.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
-
+                    NamePhoneType.put("Name", response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    if(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number()!=null) {
+                        NamePhoneType.put("Phone", response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
+                    }
+                    else{
+                        NamePhoneType.put("Phone","");
+                    }
                     nameList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    mobileList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
                     idList.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
+                    mPeopleList.add(NamePhoneType);
                 }
+
+                Timber.i("MYNAMETYPE"+mPeopleList);
                 listDataChild.put(listDataHeader.get(i), name);
                 listDataChildId.put(i, id);
                 listDataChildMobile.put(i, mobile);
+
             }
+
 
             listAdapter = new AccountExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -470,8 +493,11 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
     private void autoCompleteTextView() {
         autoCompleteTextView.setThreshold(1);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
-        autoCompleteTextView.setAdapter(adapter);
+        mAdapter = new SimpleAdapter(this, mPeopleList, R.layout.account_row ,new String[] { "Name", "Phone" }, new int[] { R.id.ccontName, R.id.ccontNo });
+
+        autoCompleteTextView.setAdapter(mAdapter);
+/*        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
+        autoCompleteTextView.setAdapter(adapter);*/
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
