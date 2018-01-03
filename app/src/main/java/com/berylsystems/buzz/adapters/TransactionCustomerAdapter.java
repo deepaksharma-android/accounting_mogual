@@ -1,7 +1,9 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +112,7 @@ public class TransactionCustomerAdapter extends BaseExpandableListAdapter {
         String name = strArr[0];
         String undefined=strArr[1];
         String amount = strArr[2];
+        String mobile=strArr[3];
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -121,7 +124,17 @@ public class TransactionCustomerAdapter extends BaseExpandableListAdapter {
         //lblListHeader2.setTypeface(null, Typeface.BOLD);
         lblListItem1.setText(name);
         lblListItem2.setText("₹ " + String.format("%.2f",Double.valueOf(amount)));
+        LinearLayout mCall = (LinearLayout) convertView.findViewById(R.id.call);
+        if(!mobile.equals("")||mobile!=null) {
+            mCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", mobile, null));
+                    context.startActivity(intent);
 
+                }
+            });
+        }
         LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
         mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
