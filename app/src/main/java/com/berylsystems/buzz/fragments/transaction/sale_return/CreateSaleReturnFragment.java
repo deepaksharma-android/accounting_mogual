@@ -416,7 +416,7 @@ public class CreateSaleReturnFragment extends Fragment {
 /*            mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");*/
-           if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+           /*if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                if (!appUser.sale_party_group.equals("Cash-in-hand")) {
                    Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                    appUser.voucher_type = "Receipt";
@@ -426,7 +426,7 @@ public class CreateSaleReturnFragment extends Fragment {
                    intent.putExtra("from", "sale_return");
                    Timber.i("ACCOUNT_ID" + party_id);
                    startActivity(intent);
-               } else {
+               } else {*//*
                    mPartyName.setText("");
                    mMobileNumber.setText("");
                    mNarration.setText("");
@@ -437,7 +437,7 @@ public class CreateSaleReturnFragment extends Fragment {
                    ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
                }
            }
-            else{
+            else{*/
                mPartyName.setText("");
                mMobileNumber.setText("");
                mNarration.setText("");
@@ -447,7 +447,7 @@ public class CreateSaleReturnFragment extends Fragment {
                FragmentTransaction ft = getFragmentManager().beginTransaction();
                ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
 //                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            }
+            //}
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

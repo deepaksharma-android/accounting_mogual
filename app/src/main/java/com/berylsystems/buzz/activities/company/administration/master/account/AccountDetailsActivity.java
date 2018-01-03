@@ -5,15 +5,19 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -56,6 +60,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     EditText mMobileNumber;
     @Bind(R.id.email)
     EditText mEmail;
+    @Bind(R.id.contact_list)
+    LinearLayout mContactList;
     @Bind(R.id.group_name)
     TextView mGroupName;
     @Bind(R.id.submit)
@@ -70,6 +76,10 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     Boolean fromaccountlist;
     String title;
     public static AccountDetailsActivity context;
+    private static final String TAG = AccountDetailsActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_PICK_CONTACTS = 1;
+    private Uri uriContact;
+    private String contactID;
 
     public Boolean boolForGroupName=false;
 
@@ -139,6 +149,13 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 Intent intent = new Intent(getApplicationContext(), AccountGroupListActivity.class);
                 intent.putExtra("frommaster", false);
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        mContactList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), REQUEST_CODE_PICK_CONTACTS);
             }
         });
 
@@ -229,6 +246,19 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             }
         });
     }
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_PICK_CONTACTS && resultCode == RESULT_OK) {
+            Log.d(TAG, "Response: " + data.toString());
+            uriContact = data.getData();
+
+            retrieveContactName();
+            retrieveContactNumber();
+
+        }
+    }*/
 
     @Override
     protected int layoutId() {
@@ -430,8 +460,16 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_PICK_CONTACTS && resultCode == RESULT_OK) {
+            Log.d(TAG, "Response: " + data.toString());
+            uriContact = data.getData();
 
-        if (requestCode == 1) {
+            retrieveContactName();
+            retrieveContactNumber();
+
+        }
+       else if (requestCode == 1) {
+
             if (resultCode == Activity.RESULT_OK) {
                 boolForGroupName=true;
 
@@ -447,6 +485,66 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 mGroupName.setText("");
             }
         }
+    }
+    private void retrieveContactNumber() {
+
+        String contactNumber = null;
+
+        // getting contacts ID
+        Cursor cursorID = getContentResolver().query(uriContact,
+                new String[]{ContactsContract.Contacts._ID},
+                null, null, null);
+
+        if (cursorID.moveToFirst()) {
+
+            contactID = cursorID.getString(cursorID.getColumnIndex(ContactsContract.Contacts._ID));
+        }
+
+        cursorID.close();
+
+        Log.d(TAG, "Contact ID: " + contactID);
+
+        // Using the contact ID now we will get contact phone number
+        Cursor cursorPhone = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND " +
+                        ContactsContract.CommonDataKinds.Phone.TYPE + " = " +
+                        ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
+
+                new String[]{contactID},
+                null);
+
+        if (cursorPhone.moveToFirst()) {
+            contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            mMobileNumber.setText(contactNumber);
+        }
+
+        cursorPhone.close();
+
+        Log.d(TAG, "Contact Phone Number: " + contactNumber);
+    }
+
+    private void retrieveContactName() {
+
+        String contactName = null;
+
+        // querying contact data store
+        Cursor cursor = getContentResolver().query(uriContact, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+
+            // DISPLAY_NAME = The display name for the contact.
+            // HAS_PHONE_NUMBER =   An indicator of whether this contact has at least one phone number.
+
+            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            mAccountName.setText(contactName);
+        }
+
+        cursor.close();
+
+        Log.d(TAG, "Contact Name: " + contactName);
+
     }
 
     @Override

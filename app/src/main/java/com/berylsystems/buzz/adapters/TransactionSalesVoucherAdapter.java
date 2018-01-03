@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.salevoucher.Data;
@@ -73,6 +74,8 @@ public class TransactionSalesVoucherAdapter extends RecyclerView.Adapter<Transac
         TextView bank_edit_text3;
         @Bind(R.id.bank_edit_text4)
         TextView bank_edit_text4;
+        @Bind(R.id.mainLayout)
+        LinearLayout mMainLayout;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

@@ -209,6 +209,7 @@
                                 android:background="@android:color/transparent"
                                 android:inputType="numberDecimal"
                                 android:textColor="#000"
+                                android:text="0.0"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -288,8 +289,10 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:inputType="number"
                                 android:background="@android:color/transparent"
                                 android:textColor="#000"
+                                android:text="0.0"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -369,6 +372,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:textColor="#000"
+                            android:text="0.0"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>

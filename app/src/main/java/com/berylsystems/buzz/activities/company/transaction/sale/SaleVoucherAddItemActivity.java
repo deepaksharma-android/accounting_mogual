@@ -126,7 +126,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
-             pos=getIntent().getExtras().getInt("pos");
+            pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
             map=appUser.mListMapForItemSale.get(pos);
             String itemName= (String) map.get("item_name");
@@ -144,6 +144,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
             String packagingunitconfactoritem= (String) map.get("packaging_unit_con_factor");
             String taxitem= (String) map.get("tax");
+            String packagingunit=(String) map.get("packaging_unit");
 
 
             mItemName.setText(itemName);
@@ -155,6 +156,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             mrp=mrpitem;
             sales_price_applied_on=applieditem;
             price_selected_unit=priceselectedunititem;
+            packaging_unit = packagingunit;
             packaging_unit_con_factor=packagingunitconfactoritem;
             tax=taxitem;
             if(price_selected_unit.equals("main")){
@@ -324,7 +326,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
 
         mItemName.setEnabled(false);
-        mValue.setEnabled(false);
+        mValue.setEnabled(true);
         mTotal.setEnabled(false);
         mUnitAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,  appUser.unitlist);
@@ -600,13 +602,23 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                /*    if(count==0){
+                        mValue.setText("0.0");
+                    }*/
                     if (!mValue.getText().toString().isEmpty()) {
                         if (!mQuantity.getText().toString().isEmpty()) {
                             second = Double.valueOf(mQuantity.getText().toString());
                             if (!mValue.getText().toString().isEmpty()) {
                                 first = Double.valueOf(mValue.getText().toString());
                                 third = Double.valueOf(mRate.getText().toString());
-                                mTotal.setText("" + (third - first) * second);
+                                if(((third*second)-first)>=0){
+                                    mTotal.setText("" + ((third*second)-first));
+                                }
+                                else{
+                                    mValue.setText("0.0");
+                                    Toast.makeText(getApplicationContext(),"Value can not be more than total price",Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         } else {
                             mTotal.setText("");

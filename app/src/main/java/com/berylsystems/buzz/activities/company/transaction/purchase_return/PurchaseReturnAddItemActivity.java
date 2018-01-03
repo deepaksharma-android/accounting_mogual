@@ -249,7 +249,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
 
         mItemName.setEnabled(false);
-        mValue.setEnabled(false);
+        mValue.setEnabled(true);
         mTotal.setEnabled(false);
         mUnitAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, mUnitList);
@@ -526,13 +526,18 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
                             third = Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third - first) * second);
+                            if(((third*second)-first)>=0){
+                                mTotal.setText("" + ((third*second)-first));
+                            }
+                            else{
+                                mValue.setText("0.0");
+                                Toast.makeText(getApplicationContext(),"Value can not be more than total price",Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     } else {
                         mTotal.setText("");
                     }
-                } else {
-                    mTotal.setText("");
                 }
             }
 

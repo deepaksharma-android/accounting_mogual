@@ -91,8 +91,6 @@ public class FirstPageActivity extends BaseActivityCompany {
         setAddCompany(0);
         setAppBarTitleCompany(1, appUser.company_name.toUpperCase());
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-
         final Calendar newCalendar = Calendar.getInstance();
         String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));
         dateFormatter = new SimpleDateFormat(" dd'" + dayNumberSuffix + "' MMM yy", Locale.US);
@@ -181,6 +179,7 @@ public class FirstPageActivity extends BaseActivityCompany {
 
     }
 
+
     @Subscribe
     public void getCompanyDashboardInfo(GetCompanyDashboardInfoResponse response) {
         mProgressDialog.dismiss();
@@ -199,6 +198,7 @@ public class FirstPageActivity extends BaseActivityCompany {
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
         super.onResume();
 
         Boolean isConnected = ConnectivityReceiver.isConnected();

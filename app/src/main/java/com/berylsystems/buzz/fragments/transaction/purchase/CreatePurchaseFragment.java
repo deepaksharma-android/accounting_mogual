@@ -395,7 +395,7 @@ public class CreatePurchaseFragment extends Fragment {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+           /* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 if(!appUser.sale_party_group.equals("Cash-in-hand")) {
                     Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                     intent.putExtra("account", mPartyName.getText().toString());
@@ -415,7 +415,7 @@ public class CreatePurchaseFragment extends Fragment {
                     // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
                 }
             }
-            else{
+            else{*/
                 mPartyName.setText("");
                 mMobileNumber.setText("");
                 mNarration.setText("");
@@ -425,7 +425,7 @@ public class CreatePurchaseFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
                // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            }
+           // }
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

@@ -123,6 +123,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 appUser.boolSetOrAddtoMap=false;
+                appUser.company_logo=data.get(pos).getAttributes().getLogo();
                 LocalRepositories.saveAppUser(context,appUser);
                 Map mapAdd= new HashMap();
                 if (!username.getText().toString().equals("")) {

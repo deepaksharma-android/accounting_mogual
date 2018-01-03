@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.app;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +26,11 @@ import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import org.w3c.dom.Text;
 
 public class BaseActivityCompany extends AppCompatActivity {
     private Menu menu;
@@ -58,7 +64,23 @@ public class BaseActivityCompany extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.icon_left_carat_selected);
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
+
         navigationViewcompany = (NavigationView) findViewById(R.id.navigationViewCompany);
+        View headercompany = navigationViewcompany.getHeaderView(0);
+        ImageView company_logo=(ImageView)headercompany.findViewById(R.id.company_logo);
+        TextView company_name=(TextView) headercompany.findViewById(R.id.company_name);
+        company_name.setText(appUser.company_name.toUpperCase());
+        if(!appUser.company_logo.equals("")){
+            company_logo.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext())
+                    .load(appUser.company_logo)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(company_logo);
+        }
+        else{
+            company_logo.setVisibility(View.GONE);
+        }
          mMasterLayout=(LinearLayout)navigationViewcompany.findViewById(R.id.administration_sub_layout);
          mArrow=(ImageView)navigationViewcompany.findViewById(R.id.arrow);
 
@@ -146,6 +168,7 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void share(View v){
+        drawerLayout.closeDrawers();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.setType("text/plain");
