@@ -8,6 +8,7 @@
     >
 
     <com.berylsystems.buzz.utils.BuzzTextView
+        android:id="@+id/company_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/m_billing"
@@ -16,6 +17,14 @@
         android:layout_centerVertical="true"
         android:gravity="center_horizontal"
         style="@style/Gotham_Bold"/>
+
+    <ImageView
+        android:id="@+id/company_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/icon_question"/>
 
 
 </RelativeLayout>
