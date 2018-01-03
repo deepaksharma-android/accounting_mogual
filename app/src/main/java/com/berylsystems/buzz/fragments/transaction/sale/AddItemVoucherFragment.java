@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsVoucherAdapter;
 import com.berylsystems.buzz.adapters.AddItemsVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -105,7 +106,7 @@ public class AddItemVoucherFragment extends Fragment {
         });
         amountCalculation();
 
-      /*  listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);

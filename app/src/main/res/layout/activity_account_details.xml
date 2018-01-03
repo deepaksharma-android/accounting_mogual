@@ -45,17 +45,36 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/bg_grey_stroke"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+
+
 
                         <com.berylsystems.buzz.utils.BuzzEditText
                             android:id="@+id/account_name"
-                            android:layout_width="fill_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:layout_weight="0.8"
                             android:background="@android:color/transparent"
                             android:hint="Account Name"
                             android:textColor="#000"
                             android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:id="@+id/contact_list"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="0.2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/phone_book"/>
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -84,7 +103,6 @@
                             android:background="@android:color/transparent"
                             android:hint="Mobile number"
                             android:inputType="number"
-                            android:maxLength="10"
                             android:textColor="#000"
                             android:textSize="16sp" />
 

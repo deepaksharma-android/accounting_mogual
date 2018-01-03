@@ -126,7 +126,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
-             pos=getIntent().getExtras().getInt("pos");
+            pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
             map=appUser.mListMapForItemSale.get(pos);
             String itemName= (String) map.get("item_name");
@@ -144,6 +144,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
             String packagingunitconfactoritem= (String) map.get("packaging_unit_con_factor");
             String taxitem= (String) map.get("tax");
+            String packagingunit=(String) map.get("packaging_unit");
 
 
             mItemName.setText(itemName);
@@ -155,6 +156,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             mrp=mrpitem;
             sales_price_applied_on=applieditem;
             price_selected_unit=priceselectedunititem;
+            packaging_unit = packagingunit;
             packaging_unit_con_factor=packagingunitconfactoritem;
             tax=taxitem;
             if(price_selected_unit.equals("main")){

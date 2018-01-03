@@ -89,6 +89,7 @@ public class SplashActivity extends Activity {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_CONTACTS,
 
             }, Cv.PERMISSIONS_BUZZ_REQUEST);
         }
