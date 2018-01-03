@@ -89,6 +89,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     public static Boolean isDirectForAccount = true;
 
     List<String> nameList;
+    List<String> mobileList;
     List<String> idList;
     private ArrayAdapter<String> adapter;
 
@@ -229,6 +230,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         if (response.getStatus() == 200) {
 
             nameList = new ArrayList();
+            mobileList = new ArrayList();
             idList = new ArrayList();
 
             listDataHeader = new ArrayList<>();
@@ -251,6 +253,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     mobile.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
 
                     nameList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    mobileList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
                     idList.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                 }
                 listDataChild.put(listDataHeader.get(i), name);
