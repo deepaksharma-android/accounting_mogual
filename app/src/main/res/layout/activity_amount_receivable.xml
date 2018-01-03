@@ -78,7 +78,7 @@
 
                             <ImageView
                                 android:layout_width="0dp"
-                                android:layout_height="15dp"
+                                android:layout_height="20dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_weight="0.1"
                                 android:src="@drawable/right_chevron"/>
@@ -120,8 +120,9 @@
 
                             <ImageView
                                 android:layout_width="0dp"
-                                android:layout_height="15dp"
+                                android:layout_height="25dp"
                                 android:layout_marginRight="5dp"
+                                android:id="@+id/calender_icon"
                                 android:layout_weight="0.1"
                                 android:src="@drawable/icon_calendar" />
 
@@ -164,8 +165,9 @@
 
                             <ImageView
                                 android:layout_width="0dp"
-                                android:layout_height="15dp"
+                                android:layout_height="25dp"
                                 android:layout_marginRight="5dp"
+                                android:id="@+id/calender_icon1"
                                 android:layout_weight="0.1"
                                 android:src="@drawable/icon_calendar" />
 
