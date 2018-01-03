@@ -504,8 +504,12 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
                 if (!isDirectForAccount) {
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra("name", adapter.getItem(i));
-                    String id = idList.get(getPositionOfItem(adapter.getItem(i)));
+                    Map<String, String> map = (Map<String, String>) adapterView.getItemAtPosition(i);
+                    String name = map.get("Name");
+                    String number = map.get("Phone");
+                    returnIntent.putExtra("name", name);
+                    returnIntent.putExtra("mobile", number);
+                    String id = idList.get(getPositionOfItem(name));
                     returnIntent.putExtra("id", id);
                     //Toast.makeText(ExpandableAccountListActivity.this, "" + id, Toast.LENGTH_SHORT).show();
                     setResult(Activity.RESULT_OK, returnIntent);
