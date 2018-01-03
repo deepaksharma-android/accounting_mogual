@@ -58,7 +58,9 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-        txtListChild.setText(acc_name+" "+"(₹-" +String.format("%.2f", Double.valueOf(amount))+")");
+        TextView txtListAmount = (TextView) convertView.findViewById(R.id.amount_qty);
+        txtListChild.setText(acc_name);
+        txtListAmount.setText("₹ " +String.format("%.2f", Double.valueOf(amount)));
 
         LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
