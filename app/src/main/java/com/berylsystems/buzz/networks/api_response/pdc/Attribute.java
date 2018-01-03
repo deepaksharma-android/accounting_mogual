@@ -15,6 +15,15 @@ public class Attribute {
     public String amount;
     public String voucher_number;
     public String id;
+    public String pdc_date;
+
+    public String getPdc_date() {
+        return pdc_date;
+    }
+
+    public void setPdc_date(String pdc_date) {
+        this.pdc_date = pdc_date;
+    }
 
     public String getId() {
         return id;

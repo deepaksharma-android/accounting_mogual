@@ -61,6 +61,7 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
             public void onClick(View view) {
                 Intent i= new Intent(context, CreateReceiptVoucherActivity.class);
                 i.putExtra("fromReceipt",true);
+                i.putExtra("from", "");
                 String receipt_voucher_id=data.get(position).getId();
                 i.putExtra("id",receipt_voucher_id);
                 context.startActivity(i);

@@ -60,6 +60,7 @@ public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.
             public void onClick(View view) {
                 Intent i= new Intent(context, CreatePaymentActivity.class);
                 i.putExtra("fromPayment",true);
+                i.putExtra("from", "");
                 String payment_id=data.get(position).getId();
                 i.putExtra("id",payment_id);
                 context.startActivity(i);
