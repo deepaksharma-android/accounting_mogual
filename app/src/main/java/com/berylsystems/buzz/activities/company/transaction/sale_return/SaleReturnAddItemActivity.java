@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
@@ -281,7 +282,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
         }
 
         mItemName.setEnabled(false);
-        mValue.setEnabled(false);
+        mValue.setEnabled(true);
         mTotal.setEnabled(false);
         mUnitAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mUnitList);
         mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -563,7 +564,13 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
                             third = Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third - first) * second);
+                            if(((third*second)-first)>=0){
+                                mTotal.setText("" + ((third*second)-first));
+                            }
+                            else{
+                                mValue.setText("0.0");
+                                Toast.makeText(getApplicationContext(),"Value can not be more than total price",Toast.LENGTH_LONG).show();
+                            }
                         }
                     } else {
                         mTotal.setText("");

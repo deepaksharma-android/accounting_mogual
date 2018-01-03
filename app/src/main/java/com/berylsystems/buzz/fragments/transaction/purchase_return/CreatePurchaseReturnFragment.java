@@ -367,7 +367,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+           /* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 if(!appUser.sale_party_group.equals("Cash-in-hand")) {
                     Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                     appUser.voucher_type = "Receipt";
@@ -390,7 +390,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
                 }
             }
-            else{
+            else{*/
 
                 mPartyName.setText("");
                 mMobileNumber.setText("");
@@ -401,7 +401,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
                // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            }
+          //  }
            /* mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");*/
