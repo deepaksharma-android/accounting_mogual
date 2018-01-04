@@ -163,6 +163,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 if(from.equals("pdcdetail")){
                     from="pdcdetail";
                     // Toast.makeText(CreateReceiptVoucherActivity.this, "i am here", Toast.LENGTH_SHORT).show();
+                }else {
+                    from="payment";
                 }
             title="EDIT PAYMENT";
             mSubmit.setVisibility(View.GONE);
@@ -791,18 +793,21 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
     @Override
     public void onBackPressed() {
-
-        if(from.equals("pdcdetail")){
-            Intent intent = new Intent(this, PdcActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }else{
+        if (from != null) {
+            if (from.equals("pdcdetail")) {
+                Intent intent = new Intent(this, PdcActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }else if(from.equals("Payment"));{
+                finish();
+            }
+        }
+        else {
             Intent intent = new Intent(this, TransactionDashboardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
-
     }
 }

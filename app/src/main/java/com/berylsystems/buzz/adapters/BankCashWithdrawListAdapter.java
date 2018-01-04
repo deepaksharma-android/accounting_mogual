@@ -46,7 +46,7 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-        viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+      /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String bank_cash_withdraw_id=data.get(position).getId();
@@ -63,7 +63,7 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
                 i.putExtra("id",bank_cash_withdraw_id);
                 context.startActivity(i);
             }
-        });
+        });*/
     }
 
     @Override
@@ -83,10 +83,10 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
-        @Bind(R.id.delete)
+        /*@Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)
-        LinearLayout mEdit;
+        LinearLayout mEdit;*/
 
         public ViewHolder(View itemView) {
             super(itemView);

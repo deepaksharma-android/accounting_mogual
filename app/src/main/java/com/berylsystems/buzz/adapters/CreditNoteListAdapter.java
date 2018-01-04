@@ -50,7 +50,7 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
 
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-        viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+     /*   viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String credit_note_id=data.get(position).getId();
@@ -66,7 +66,7 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
                 i.putExtra("id",credit_note_id);
                 context.startActivity(i);
             }
-        });
+        });*/
     }
 
     @Override
@@ -86,10 +86,10 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
-        @Bind(R.id.delete)
+       /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)
-        LinearLayout mEdit;
+        LinearLayout mEdit;*/
 
         public ViewHolder(View itemView) {
             super(itemView);

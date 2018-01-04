@@ -30,7 +30,6 @@
             android:textSize="12sp"
             style="@style/Gotham_Book"
             android:layout_marginLeft="10dp"
-            android:text="date"
             android:textColor="#000"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
@@ -43,7 +42,6 @@
             android:layout_marginRight="10dp"
             style="@style/Gotham_Book"
             android:gravity="right"
-            android:text="amount"
             android:layout_marginTop="5dp"
             android:textColor="#000"
             android:layout_height="wrap_content" />
@@ -75,7 +73,7 @@
             style="@style/Gotham_Book"
             android:layout_marginRight="10dp"
             android:gravity="right"
-            android:text="voucher no"
+
             android:textColor="#000"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
@@ -96,7 +94,6 @@
             style="@style/Gotham_Book"
             android:layout_marginRight="10dp"
             android:gravity="right"
-            android:text="from"
             android:layout_marginTop="5dp"
             android:textColor="#000"
             android:id="@+id/bank_edit_text1"
@@ -121,7 +118,6 @@
             android:gravity="right"
             style="@style/Gotham_Book"
             android:layout_marginRight="10dp"
-            android:text="by"
             android:layout_marginTop="5dp"
             android:textColor="#000"
             android:layout_height="wrap_content" />

@@ -20,9 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.ReceiptVoucherListAdapter;
@@ -34,13 +32,10 @@ import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

@@ -1,11 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:background="@drawable/bg_grey_stroke_3dp"
-    android:layout_margin="5dp">
+    android:orientation="vertical">
 
     <!-- <com.berylsystems.buzz.utils.BuzzTextView
          android:layout_width="wrap_content"
@@ -19,6 +15,7 @@
          android:textColor="#66000000"
          android:textSize="15sp"/>-->
 
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -28,160 +25,174 @@
 
         <com.berylsystems.buzz.utils.BuzzTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:id="@+id/bank_edit_text3"
+            android:textSize="12sp"
+            style="@style/Gotham_Book"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content" />
+
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".6"
+            android:id="@+id/bank_edit_text4"
+            android:textSize="12sp"
+            android:layout_marginRight="10dp"
+            style="@style/Gotham_Book"
+            android:gravity="right"
+            android:layout_marginTop="5dp"
+            android:textColor="#000"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_gravity="center">
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".4"
+            android:textSize="12sp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_weight="0.5"
-            android:textSize="15sp"
-            android:text="Account Name(Credit)"
+            android:text="Credit Note"
+            android:textStyle="bold"
             android:textColor="#000"
             style="@style/Gotham_Book"
-            />
+            android:layout_height="wrap_content" />
+
+        <com.berylsystems.buzz.utils.BuzzTextView
+            android:layout_width="0dp"
+            android:layout_weight=".6"
+            android:id="@+id/bank_edit_text5"
+            android:textSize="12sp"
+            style="@style/Gotham_Book"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+
+            android:textColor="#000"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_gravity="center">
         <com.berylsystems.buzz.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:textSize="15sp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            style="@style/Gotham_Book"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
             android:layout_marginTop="5dp"
             android:textColor="#000"
             android:id="@+id/bank_edit_text1"
             />
-    </LinearLayout>
 
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
+        android:layout_marginBottom="5dp"
         android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:textSize="15sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="Account Name(Debit)"
-            android:textStyle="bold"
-            android:textColor="#000"
-            style="@style/Gotham_Book"
-            android:layout_height="wrap_content" />
+
+
 
         <com.berylsystems.buzz.utils.BuzzTextView
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_weight="1"
             android:id="@+id/bank_edit_text2"
-            android:textSize="15sp"
-            android:layout_marginTop="5dp"
-            android:textColor="#000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:textSize="15sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="Amount"
-            android:textStyle="bold"
-            android:textColor="#000"
+            android:textSize="12sp"
+            android:gravity="right"
             style="@style/Gotham_Book"
+            android:text="Debit Note"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#000"
             android:layout_height="wrap_content" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:id="@+id/bank_edit_text4"
-            android:textSize="15sp"
-            android:layout_marginTop="5dp"
-            android:textColor="#000"
-            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
+        android:layout_height="35dp"
         android:layout_marginBottom="5dp"
         android:layout_gravity="center">
-
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <!--<com.berylsystems.buzz.utils.BuzzTextView
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_weight=".7"
             android:textSize="15sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:textColor="#000"
-            style="@style/Gotham_Book"
-            android:text="Voucher no."
-            android:layout_height="wrap_content" />
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:id="@+id/bank_edit_text5"
-            android:textSize="15sp"
-            android:textColor="#000"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginBottom="5dp"
-        android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:textSize="15sp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:textColor="#000"
             style="@style/Gotham_Book"
             android:text="Date"
-            android:layout_height="wrap_content" />
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:layout_width="0dp"
-            android:layout_weight=".3"
-            android:id="@+id/bank_edit_text3"
-            android:textSize="15sp"
-            android:textColor="#000"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
+
 
         <LinearLayout
             android:id="@+id/edit1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_marginBottom="4dp"
-            android:layout_weight="0.10"
-            android:gravity="center">
+            android:gravity="right"
+            android:layout_weight="0.9">
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_edit"
+                android:src="@drawable/icon_eye"
                 android:visibility="visible" />
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/delete"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_marginBottom="4dp"
-            android:layout_weight="0.10"
-            android:gravity="center">
+            android:gravity="right"
+            android:layout_weight="0.05">
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_delete"
+                android:src="@drawable/icon_printing"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edit2"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.05">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_share"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#0B0B0B"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"></View>
 </LinearLayout>
