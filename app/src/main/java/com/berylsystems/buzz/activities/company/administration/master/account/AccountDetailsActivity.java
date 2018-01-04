@@ -77,7 +77,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     String title;
     public static AccountDetailsActivity context;
     private static final String TAG = AccountDetailsActivity.class.getSimpleName();
-    private static final int REQUEST_CODE_PICK_CONTACTS = 1;
+    private static final int REQUEST_CODE_PICK_CONTACTS = 9;
     private Uri uriContact;
     private String contactID;
 
@@ -460,12 +460,14 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_CONTACTS && resultCode == RESULT_OK) {
-            Log.d(TAG, "Response: " + data.toString());
-            uriContact = data.getData();
+        if (requestCode == REQUEST_CODE_PICK_CONTACTS) {
+            if( resultCode == RESULT_OK) {
+                Log.d(TAG, "Response: " + data.toString());
+                uriContact = data.getData();
 
-            retrieveContactName();
-            retrieveContactNumber();
+                retrieveContactName();
+                retrieveContactNumber();
+            }
 
         }
        else if (requestCode == 1) {

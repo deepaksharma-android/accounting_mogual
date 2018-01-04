@@ -144,8 +144,25 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
             String packagingunitconfactoritem= (String) map.get("packaging_unit_con_factor");
             String taxitem= (String) map.get("tax");
+            String batch_wise=(String) map.get("batch_wise").toString();
+            String serial_wise= (String) map.get("serial_wise").toString();
             String packagingunit=(String) map.get("packaging_unit");
+            String defaultunit=(String) map.get("default_unit");
+            String salepricemain=(String) map.get("sales_price_main");
+            String salepricealternate=(String) map.get("sales_price_alternate");
+            String unit_list=(String) map.get("unit_list").toString().replace("[","").replace("]","");
+            List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
+            for(int i=0;i<myList.size();i++){
+                mUnitList.add(myList.get(i));
+            }
+            Timber.i("UNIT_LIST"+myList);
+            barcode = (String) map.get("barcode");;
+            arr_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
 
+       /*     mUnitAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, mUnitList);
+            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUnit.setAdapter(mUnitAdapter);*/
 
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -153,13 +170,26 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             mValue.setText(value);
             mTotal.setText(total);
             mDescription.setText(description);
+            default_unit=defaultunit;
             mrp=mrpitem;
             sales_price_applied_on=applieditem;
+            sales_price_main=salepricemain;
+            alternate_unit_con_factor=alternateunitconfactoritem;
+            packaging_unit_con_factor=packagingunitconfactoritem;
+            sales_price_alternate=salepricealternate;
             price_selected_unit=priceselectedunititem;
-            packaging_unit = packagingunit;
+            serailwise=Boolean.valueOf(serial_wise);
+            batchwise=Boolean.valueOf(batch_wise);
+            Timber.i("PRICESELECTED"+price_selected_unit);
+         /*   if(packagingunit==null){
+                packaging_unit="";
+            }
+            else{*/
+                packaging_unit = packagingunit;
+           // }
             packaging_unit_con_factor=packagingunitconfactoritem;
             tax=taxitem;
-            if(price_selected_unit.equals("main")){
+           /* if(price_selected_unit.equals("main")){
                 mSpinnerUnit.setSelection(0);
             }
             else if(price_selected_unit.equals("alternate")){
@@ -169,7 +199,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 if (!packaging_unit_con_factor.equals("")) {
                     mSpinnerUnit.setSelection(2);
                 }
-            }
+            }*/
         }
 
         else {
@@ -184,7 +214,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             sales_price_alternate = intent.getStringExtra("sales_price_alternate");
             serailwise = intent.getExtras().getBoolean("serial_wise");
             batchwise = intent.getExtras().getBoolean("batch_wise");
-            totalitemprice=intent.getStringExtra("total");
+            totalitemprice = intent.getStringExtra("total");
             packaging_unit = intent.getStringExtra("packaging_unit");
             default_unit = intent.getStringExtra("default_unit");
             packaging_unit_sales_price = intent.getStringExtra("packaging_unit_sales_price");
@@ -197,44 +227,59 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             arr_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
 
 
-            mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
 
-                public void onClick(View view) {
-                    if (batchwise && !serailwise) {
-                        serial = "1";
-                    } else if (!batchwise && serailwise) {
-                        if (mQuantity.getText().toString().equals("")) {
-                            serial = "0";
-                        } else {
-                            serial = mQuantity.getText().toString();
-                        }
+            mItemName.setText(name);
+            mDescription.setText(desc);
+            mUnitList.add("Main Unit : " + main_unit);
+            mUnitList.add("Alternate Unit :" + alternate_unit);
 
-                    } else {
+            if (!packaging_unit.equals("")) {
+                mUnitList.add("Packaging Unit :" + packaging_unit);
+            }
+
+
+            mItemName.setEnabled(false);
+            mValue.setEnabled(true);
+            mTotal.setEnabled(false);
+        }
+        mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+                if (batchwise && !serailwise) {
+                    serial = "1";
+                } else if (!batchwise && serailwise) {
+                    if (mQuantity.getText().toString().equals("")) {
                         serial = "0";
+                    } else {
+                        serial = mQuantity.getText().toString();
                     }
-                    if (!serial.equals("0")) {
-                        Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
-                        dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                        dialogbal.setContentView(R.layout.dialog_serail);
-                        dialogbal.setCancelable(true);
-                        LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
-                        LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                        int width=getWidth();
-                        int height=getHeight();
-                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-                        lp.setMargins(20,10,20,0);
-                        Spinner[] pairs=new Spinner[Integer.parseInt(serial)];
 
-                        for (int l = 0; l < Integer.parseInt(serial); l++) {
-                            pairs[l] = new Spinner(getApplicationContext(),Spinner.MODE_DROPDOWN/*,null,android.R.style.Widget_Spinner,Spinner.MODE_DROPDOWN*/);
-                            pairs[l].setLayoutParams(new LinearLayout.LayoutParams(500, 100));
-                            spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.layout_trademark_type_spinner_dropdown_item, arr_barcode);
-                            spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-                            pairs[l].setAdapter(spinnerAdapter);
-                            pairs[l].setLayoutParams(lp);
-                            pairs[l].setId(l);
+                } else {
+                    serial = "0";
+                }
+                if (!serial.equals("0")) {
+                    Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
+                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                    dialogbal.setContentView(R.layout.dialog_serail);
+                    dialogbal.setCancelable(true);
+                    LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
+                    LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                    int width = getWidth();
+                    int height = getHeight();
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+                    lp.setMargins(20, 10, 20, 0);
+                    Spinner[] pairs = new Spinner[Integer.parseInt(serial)];
+
+                    for (int l = 0; l < Integer.parseInt(serial); l++) {
+                        pairs[l] = new Spinner(getApplicationContext(), Spinner.MODE_DROPDOWN/*,null,android.R.style.Widget_Spinner,Spinner.MODE_DROPDOWN*/);
+                        pairs[l].setLayoutParams(new LinearLayout.LayoutParams(500, 100));
+                        spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.layout_trademark_type_spinner_dropdown_item, arr_barcode);
+                        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+                        pairs[l].setAdapter(spinnerAdapter);
+                        pairs[l].setLayoutParams(lp);
+                        pairs[l].setId(l);
 
 
 
@@ -252,115 +297,96 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 pairs[l].setSelection(groupindex);
 
                             }*/
-                            //pairs[l].setText((l + 1) + ": something");
-                            serialLayout.addView(pairs[l]);
-                        }
-                        if(appUser.sale_item_serial_arr.size()>0) {
-                            for (int i = 0; i < Integer.parseInt(serial); i++) {
-                                String group_type = appUser.sale_item_serial_arr.get(i);
-                                int groupindex = -1;
-                                for (int j = 0; j < arr_barcode.size(); j++) {
-                                    if (arr_barcode.get(j).equals(group_type)) {
-                                        groupindex = j;
-                                        break;
-                                    }
+                        //pairs[l].setText((l + 1) + ": something");
+                        serialLayout.addView(pairs[l]);
+                    }
+                    if (appUser.sale_item_serial_arr.size() > 0) {
+                        for (int i = 0; i < Integer.parseInt(serial); i++) {
+                            String group_type = appUser.sale_item_serial_arr.get(i);
+                            int groupindex = -1;
+                            for (int j = 0; j < arr_barcode.size(); j++) {
+                                if (arr_barcode.get(j).equals(group_type)) {
+                                    groupindex = j;
+                                    break;
                                 }
-                                pairs[i].setSelection(groupindex);
                             }
+                            pairs[i].setSelection(groupindex);
                         }
+                    }
 
-                        submit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                appUser.sale_item_serial_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            appUser.sale_item_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.sale_item_serial_arr.add("5");
                                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                                for (int l = 0; l < Integer.parseInt(serial); l++) {
-                                    if(appUser.sale_item_serial_arr.contains(pairs[l].getSelectedItem().toString())){
-                                        pairs[l].setSelection(0);
-                                        appUser.sale_item_serial_arr.add(l,"");
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int l = 0; l < Integer.parseInt(serial); l++) {
+                                if (appUser.sale_item_serial_arr.contains(pairs[l].getSelectedItem().toString())) {
+                                    pairs[l].setSelection(0);
+                                    appUser.sale_item_serial_arr.add(l, "");
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                                    }
-                                    else {
-                                        appUser.sale_item_serial_arr.add(l, pairs[l].getSelectedItem().toString());
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    }
-
+                                } else {
+                                    appUser.sale_item_serial_arr.add(l, pairs[l].getSelectedItem().toString());
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 }
 
-                                if(appUser.sale_item_serial_arr.contains("")){
-                                    Toast.makeText(getApplicationContext(),"SAME VALUE",Toast.LENGTH_LONG).show();
-                                }
-                                else{
-                                    String listString = "";
-
-                                    for (String s : appUser.sale_item_serial_arr)
-                                    {
-                                        listString += s + ",";
-                                    }
-                                    mSr_no.setText(listString);
-                                    dialogbal.dismiss();
-                                }
                             }
-                        });
 
-                        dialogbal.show();
+                            if (appUser.sale_item_serial_arr.contains("")) {
+                                Toast.makeText(getApplicationContext(), "SAME VALUE", Toast.LENGTH_LONG).show();
+                            } else {
+                                String listString = "";
 
-                    }
-                }
-
-            });
-            mItemName.setText(name);
-            mDescription.setText(desc);
-            mUnitList.add("Main Unit : " + main_unit);
-            mUnitList.add("Alternate Unit :" + alternate_unit);
-
-        }
-        if (!packaging_unit.equals("")) {
-            mUnitList.add("Packaging Unit :" + packaging_unit);
-        }
-
-
-
-
-        mItemName.setEnabled(false);
-        mValue.setEnabled(true);
-        mTotal.setEnabled(false);
-        mUnitAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,  mUnitList);
-        mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerUnit.setAdapter(mUnitAdapter);
-        if (!packaging_unit.equals("")) {
-            if (default_unit.equals("Main Unit")) {
-                mSpinnerUnit.setSelection(0);
-            } else if (default_unit.equals("Alt. Unit")) {
-                mSpinnerUnit.setSelection(1);
-            } else if (default_unit.equals("Pckg. Unit")) {
-                mSpinnerUnit.setSelection(2);
-            } else {
-                mSpinnerUnit.setSelection(0);
-            }
-        } else {
-            if (default_unit.equals("Main Unit")) {
-                mSpinnerUnit.setSelection(0);
-            } else if (default_unit.equals("Alt. Unit")) {
-                mSpinnerUnit.setSelection(1);
-            } else {
-                mSpinnerUnit.setSelection(0);
-            }
-        }
-        if (!packaging_unit.equals("")) {
-            mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    if (i == 2) {
-                        price_selected_unit = "packaging";
-                        if (default_unit.equals("Pckg. Unit")) {
-                            mRate.setText(String.valueOf(packaging_unit_sales_price));
+                                for (String s : appUser.sale_item_serial_arr) {
+                                    listString += s + ",";
+                                }
+                                mSr_no.setText(listString);
+                                dialogbal.dismiss();
+                            }
                         }
+                    });
+
+                    dialogbal.show();
+
+                }
+            }
+
+        });
+            mUnitAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, mUnitList);
+            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUnit.setAdapter(mUnitAdapter);
+            if (!packaging_unit.equals("")||packaging_unit!=null) {
+                if (default_unit.equals("Main Unit")) {
+                    mSpinnerUnit.setSelection(0);
+                } else if (default_unit.equals("Alt. Unit")) {
+                    mSpinnerUnit.setSelection(1);
+                } else if (default_unit.equals("Pckg. Unit")) {
+                    mSpinnerUnit.setSelection(2);
+                } else {
+                    mSpinnerUnit.setSelection(0);
+                }
+            } else {
+                if (default_unit.equals("Main Unit")) {
+                    mSpinnerUnit.setSelection(0);
+                } else if (default_unit.equals("Alt. Unit")) {
+                    mSpinnerUnit.setSelection(1);
+                } else {
+                    mSpinnerUnit.setSelection(0);
+                }
+            }
+            if (!packaging_unit.equals("")) {
+                mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        if (i == 2) {
+                            price_selected_unit = "packaging";
+                            if (default_unit.equals("Pckg. Unit")) {
+                                mRate.setText(String.valueOf(packaging_unit_sales_price));
+                            }
 
                            /* if (sales_price_applied_on.equals("Main Unit")) {
                                 Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -372,27 +398,56 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 mRate.setText(String.valueOf(alternate_unit_price));
                             }*/
 
+                        }
+                        if (i == 0) {
+                            price_selected_unit = "main";
+                            if (default_unit.equals("Pckg. Unit")) {
+                                Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
+                                mRate.setText(String.valueOf(main_unit_price));
+                            } else {
+                                if (sales_price_applied_on.equals("Alternate Unit")) {
+                                    Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
+                                    mRate.setText(String.valueOf(main_unit_price));
+                                } else {
+                                    mRate.setText(sales_price_main);
+                                }
+                            }
+                        } else if (i == 1) {
+                            price_selected_unit = "alternate";
+                            if (default_unit.equals("Pckg. Unit")) {
+                                Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
+                                Double alternate_unit_price = main_unit_price / Double.parseDouble(alternate_unit_con_factor);
+                                mRate.setText(String.valueOf(alternate_unit_price));
+                            } else {
+                                if (sales_price_applied_on.equals("Main Unit")) {
+                                    Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
+                                    mRate.setText(String.valueOf(alternate_unit_price));
+                                } else {
+                                    mRate.setText(sales_price_alternate);
+                                }
+                            }
+                        }
                     }
-                    if (i == 0) {
-                        price_selected_unit = "main";
-                        if (default_unit.equals("Pckg. Unit")) {
-                            Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
-                            mRate.setText(String.valueOf(main_unit_price));
-                        } else {
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            } else {
+                mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        if (i == 0) {
+                            price_selected_unit = "main";
                             if (sales_price_applied_on.equals("Alternate Unit")) {
                                 Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(main_unit_price));
                             } else {
                                 mRate.setText(sales_price_main);
                             }
-                        }
-                    } else if (i == 1) {
-                        price_selected_unit = "alternate";
-                        if (default_unit.equals("Pckg. Unit")) {
-                            Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
-                            Double alternate_unit_price = main_unit_price / Double.parseDouble(alternate_unit_con_factor);
-                            mRate.setText(String.valueOf(alternate_unit_price));
-                        } else {
+                        } else if (i == 1) {
+                            price_selected_unit = "alternate";
                             if (sales_price_applied_on.equals("Main Unit")) {
                                 Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(alternate_unit_price));
@@ -401,42 +456,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             }
                         }
                     }
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                }
-            });
-        } else {
-            mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (i == 0) {
-                        price_selected_unit = "main";
-                        if (sales_price_applied_on.equals("Alternate Unit")) {
-                            Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
-                            mRate.setText(String.valueOf(main_unit_price));
-                        } else {
-                            mRate.setText(sales_price_main);
-                        }
-                    } else if (i == 1) {
-                        price_selected_unit = "alternate";
-                        if (sales_price_applied_on.equals("Main Unit")) {
-                            Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
-                            mRate.setText(String.valueOf(alternate_unit_price));
-                        } else {
-                            mRate.setText(sales_price_alternate);
-                        }
                     }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-        }
+                });
+            }
             final int finalPos = pos;
             final int finalPos1 = pos;
             mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -447,6 +473,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
                         return;
                     }
+
+
+
                     mMap.put("id", id);
                     mMap.put("item_name", mItemName.getText().toString());
                     mMap.put("description", mDescription.getText().toString());
@@ -456,6 +485,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     mMap.put("rate", mRate.getText().toString());
                     mMap.put("discount", mDiscount.getText().toString());
                     mMap.put("value", mValue.getText().toString());
+                    mMap.put("default_unit",default_unit);
+                    mMap.put("packaging_unit",packaging_unit);
+                    mMap.put("sales_price_alternate",sales_price_alternate);
+                    mMap.put("sales_price_main",sales_price_main);
+                    mMap.put("alternate_unit",alternate_unit);
+                    mMap.put("packaging_unit_sales_price",packaging_unit_sales_price);
+                    mMap.put("main_unit",main_unit);
+                    mMap.put("batch_wise",batchwise);
+                    mMap.put("serial_wise",serailwise);
+                    mMap.put("barcode",barcode);
+
                     String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
                     if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
                         String arrtaxstring[] = taxstring.split("-");
@@ -488,6 +528,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     mMap.put("mrp", mrp);
                     mMap.put("tax", tax);
                     mMap.put("serial_number",appUser.sale_item_serial_arr);
+                    mMap.put("unit_list",mUnitList);
                     // mListMap.add(mMap);
                     if(!frombillitemvoucherlist) {
                         appUser.mListMapForItemSale.add(mMap);

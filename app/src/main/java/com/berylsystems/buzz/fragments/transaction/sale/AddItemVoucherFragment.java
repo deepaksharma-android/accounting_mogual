@@ -104,7 +104,7 @@ public class AddItemVoucherFragment extends Fragment {
         });
         amountCalculation();
 
-       /* listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);
@@ -113,7 +113,7 @@ public class AddItemVoucherFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             }
-        });*/
+        });
 
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
