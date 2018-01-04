@@ -241,9 +241,11 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
                                     new AlertDialog.Builder(CreateBankCaseDepositActivity.this)
                                             .setTitle("Email")
-                                            .setMessage("Do you want to receive email...?")
+                                            .setMessage("Do you want to receive email ?")
                                             .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
+                                                appUser.email_yes_no="YES";
+                                                LocalRepositories.saveAppUser(getApplication(),appUser);
                                                 if (isConnected) {
                                                     mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
                                                     mProgressDialog.setMessage("Info...");
@@ -266,8 +268,11 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                                                 }
 
                                             })
+
                                             .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
+                                                appUser.email_yes_no="NO";
+                                                LocalRepositories.saveAppUser(getApplication(),appUser);
                                                 if (isConnected) {
                                                     mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
                                                     mProgressDialog.setMessage("Info...");
