@@ -53,6 +53,14 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     String billSundryAmount;
     String billSundryCharges;
     String billsundryothername;
+    int billSundryId;
+    String billSundryFedAs;
+    String billSundryFedAsPercentage;
+    String billSundryPercentageValue;
+    String billSundryType;
+    Double billSundryDefaultValue;
+    int billSundryNumber;
+    Boolean billSundryConsolidated;
     double taxval=0.0;
 
 
@@ -65,8 +73,17 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         appUser=LocalRepositories.getAppUser(this);
         blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
         billSundaryPercentage=data.getAttributes().getBill_sundry_percentage_value();
-
         billSundryCharges=data.getAttributes().getName();
+        billSundryFedAs=data.getAttributes().getAmount_of_bill_sundry_fed_as();
+        billSundryDefaultValue=data.getAttributes().getDefault_value();
+        billSundryFedAsPercentage=data.getAttributes().getBill_sundry_of_percentage();
+        billSundryType=data.getAttributes().getBill_sundry_type();
+        billSundryPercentageValue=data.getAttributes().getBill_sundry_percentage_value();
+        billSundryNumber=data.getAttributes().getNumber_of_bill_sundry();
+        billSundryConsolidated=data.getAttributes().isConsolidate_bill_sundry();
+        billSundryId=data.getAttributes().getBill_sundry_id();
+
+
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
 

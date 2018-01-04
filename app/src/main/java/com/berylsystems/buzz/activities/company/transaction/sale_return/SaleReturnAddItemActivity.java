@@ -163,10 +163,12 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             mQuantity.setText(quantity);
             mRate.setText(rate);
             mValue.setText(value);
+            mDiscount.setText(discount);
             mTotal.setText(total);
             mDescription.setText(description);
             default_unit=defaultunit;
             mrp=mrpitem;
+
             sales_price_applied_on=applieditem;
             sales_price_main=salepricemain;
             alternate_unit_con_factor=alternateunitconfactoritem;
@@ -195,6 +197,31 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                     mSpinnerUnit.setSelection(2);
                 }
             }*/
+            mUnitAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, mUnitList);
+            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUnit.setAdapter(mUnitAdapter);
+            if (!packaging_unit.equals("")) {
+                if (price_selected_unit.equals("main")) {
+                    mSpinnerUnit.setSelection(0);
+                } else if (price_selected_unit.equals("alternate")) {
+                    mSpinnerUnit.setSelection(1);
+                } else if (price_selected_unit.equals("packaging")) {
+                    mSpinnerUnit.setSelection(2);
+                } else {
+                    mSpinnerUnit.setSelection(0);
+                }
+            } else {
+                if (price_selected_unit.equals("main")) {
+                    mSpinnerUnit.setSelection(0);
+                } else if (price_selected_unit.equals("alternate")) {
+                    mSpinnerUnit.setSelection(1);
+                } else {
+                    mSpinnerUnit.setSelection(0);
+                }
+
+
+            }
         }
         else {
             CreateSaleActivity.hideKeyPad(this);
@@ -227,6 +254,31 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             mItemName.setEnabled(false);
             mValue.setEnabled(true);
             mTotal.setEnabled(false);
+
+            mUnitAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mUnitList);
+            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUnit.setAdapter(mUnitAdapter);
+
+            if (!packaging_unit.equals("")) {
+                if (default_unit.equals("Main Unit")) {
+                    mSpinnerUnit.setSelection(0);
+                } else if (default_unit.equals("Alt. Unit")) {
+                    mSpinnerUnit.setSelection(1);
+                } else if (default_unit.equals("Pckg. Unit")) {
+                    mSpinnerUnit.setSelection(2);
+                } else {
+                    mSpinnerUnit.setSelection(0);
+                }
+            } else {
+                if (default_unit.equals("Main Unit")) {
+                    mSpinnerUnit.setSelection(0);
+                } else if (default_unit.equals("Alt. Unit")) {
+                    mSpinnerUnit.setSelection(1);
+                } else {
+                    mSpinnerUnit.setSelection(0);
+                }
+            }
+
         }
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -314,29 +366,6 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 }
 
             });
-        mUnitAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mUnitList);
-        mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerUnit.setAdapter(mUnitAdapter);
-
-        if (!packaging_unit.equals("")) {
-            if (default_unit.equals("Main Unit")) {
-                mSpinnerUnit.setSelection(0);
-            } else if (default_unit.equals("Alt. Unit")) {
-                mSpinnerUnit.setSelection(1);
-            } else if (default_unit.equals("Pckg. Unit")) {
-                mSpinnerUnit.setSelection(2);
-            } else {
-                mSpinnerUnit.setSelection(0);
-            }
-        } else {
-            if (default_unit.equals("Main Unit")) {
-                mSpinnerUnit.setSelection(0);
-            } else if (default_unit.equals("Alt. Unit")) {
-                mSpinnerUnit.setSelection(1);
-            } else {
-                mSpinnerUnit.setSelection(0);
-            }
-        }
 
         if (!packaging_unit.equals("")) {
             mSpinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
