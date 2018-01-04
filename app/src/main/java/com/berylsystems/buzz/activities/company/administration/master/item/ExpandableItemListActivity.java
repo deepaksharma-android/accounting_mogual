@@ -570,6 +570,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                String arr1[]=itemName.split(",");
+                itemName=arr1[0];
                 String descr;
                 String alternate_unit;
                 String sales_price_main;
@@ -635,6 +637,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                String arr1[]=itemName.split(",");
+                itemName=arr1[0];
                 String descr;
                 String alternate_unit;
                 String purchase_price_main;
@@ -697,6 +701,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SaleReturnAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                String arr1[]=itemName.split(",");
+                itemName=arr1[0];
                 String descr;
                 String alternate_unit;
                 String sales_price_main;
@@ -764,6 +770,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                String arr1[]=itemName.split(",");
+                itemName=arr1[0];
                 String descr;
                 String alternate_unit;
                 String purchase_price_main;
@@ -931,6 +939,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                         String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String arr1[]=itemName.split(",");
+                        itemName=arr1[0];
                         String descr;
                         String alternate_unit;
                         String sales_price_main;
@@ -994,6 +1004,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), PurchaseAddItemActivity.class);
                         String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String arr1[]=itemName.split(",");
+                        itemName=arr1[0];
                         String descr;
                         String alternate_unit;
                         String purchase_price_main;
@@ -1056,6 +1068,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), SaleReturnAddItemActivity.class);
                         String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String arr1[]=itemName.split(",");
+                        itemName=arr1[0];
                         String descr;
                         String alternate_unit;
                         String sales_price_main;
@@ -1122,6 +1136,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), PurchaseReturnAddItemActivity.class);
                         String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String arr1[]=itemName.split(",");
+                        itemName=arr1[0];
                         String descr;
                         String alternate_unit;
                         String purchase_price_main;

@@ -194,6 +194,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 //final CharSequence[] items = {"Add", "Modify"};
                 appUser.mListMapForItemSale.clear();
                 appUser.mListMapForBillSale.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 context.startActivity(new Intent(context, CreateSaleActivity.class));
                /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -457,6 +458,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 appUser.mListMapForItemSaleReturn.clear();
                 appUser.mListMapForBillSaleReturn.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
 
               /*  final CharSequence[] items = {"Add", "Modify"};
@@ -498,6 +500,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);

@@ -38,12 +38,14 @@ import com.berylsystems.buzz.utils.Preferences;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class SaleReturnAddItemActivity extends AppCompatActivity {
 
@@ -138,8 +140,24 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             String priceselectedunititem= (String) map.get("price_selected_unit");
             String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
             String packagingunitconfactoritem= (String) map.get("packaging_unit_con_factor");
-            //String taxitem= (String) map.get("tax");
+            String taxitem= (String) map.get("tax");
+            String batch_wise=(String) map.get("batch_wise").toString();
+            String serial_wise= (String) map.get("serial_wise").toString();
+            String packagingunit=(String) map.get("packaging_unit");
+            String defaultunit=(String) map.get("default_unit");
+            String salepricemain=(String) map.get("sales_price_main");
+            String salepricealternate=(String) map.get("sales_price_alternate");
+            String unit_list=(String) map.get("unit_list").toString().replace("[","").replace("]","");
+            List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
+            for(int i=0;i<myList.size();i++){
+                mUnitList.add(myList.get(i));
+            }
+            Timber.i("UNIT_LIST"+myList);
 
+       /*     mUnitAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, mUnitList);
+            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUnit.setAdapter(mUnitAdapter);*/
 
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -147,12 +165,26 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             mValue.setText(value);
             mTotal.setText(total);
             mDescription.setText(description);
+            default_unit=defaultunit;
             mrp=mrpitem;
             sales_price_applied_on=applieditem;
-            price_selected_unit=priceselectedunititem;
+            sales_price_main=salepricemain;
+            alternate_unit_con_factor=alternateunitconfactoritem;
             packaging_unit_con_factor=packagingunitconfactoritem;
-            //tax=taxitem;
-            if(price_selected_unit.equals("main")){
+            sales_price_alternate=salepricealternate;
+            price_selected_unit=priceselectedunititem;
+            serailwise=Boolean.valueOf(serial_wise);
+            batchwise=Boolean.valueOf(batch_wise);
+            Timber.i("PRICESELECTED"+price_selected_unit);
+         /*   if(packagingunit==null){
+                packaging_unit="";
+            }
+            else{*/
+            packaging_unit = packagingunit;
+            // }
+            packaging_unit_con_factor=packagingunitconfactoritem;
+            tax=taxitem;
+           /* if(price_selected_unit.equals("main")){
                 mSpinnerUnit.setSelection(0);
             }
             else if(price_selected_unit.equals("alternate")){
@@ -162,12 +194,12 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 if (!packaging_unit_con_factor.equals("")) {
                     mSpinnerUnit.setSelection(2);
                 }
-            }
+            }*/
         }
         else {
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
-             id = intent.getStringExtra("id");
+            id = intent.getStringExtra("id");
             name = intent.getStringExtra("name");
             desc = intent.getStringExtra("desc");
             main_unit = intent.getStringExtra("main_unit");
@@ -183,11 +215,19 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
             sales_price_applied_on = intent.getStringExtra("applied");
             alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
-            //tax = intent.getStringExtra("tax");
+            tax = intent.getStringExtra("tax");
             mItemName.setText(name);
             mDescription.setText(desc);
             mUnitList.add("Main Unit : " + main_unit);
             mUnitList.add("Alternate Unit :" + alternate_unit);
+            if (!packaging_unit.equals("")) {
+                appUser.unitlist.add("Packaging Unit :" + packaging_unit);
+            }
+
+            mItemName.setEnabled(false);
+            mValue.setEnabled(true);
+            mTotal.setEnabled(false);
+        }
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -274,16 +314,6 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 }
 
             });
-
-        }
-
-        if (!packaging_unit.equals("")) {
-            appUser.unitlist.add("Packaging Unit :" + packaging_unit);
-        }
-
-        mItemName.setEnabled(false);
-        mValue.setEnabled(true);
-        mTotal.setEnabled(false);
         mUnitAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mUnitList);
         mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerUnit.setAdapter(mUnitAdapter);
@@ -416,6 +446,15 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("rate", mRate.getText().toString());
                 mMap.put("discount", mDiscount.getText().toString());
                 mMap.put("value", mValue.getText().toString());
+                mMap.put("default_unit",default_unit);
+                mMap.put("packaging_unit",packaging_unit);
+                mMap.put("sales_price_alternate",sales_price_alternate);
+                mMap.put("sales_price_main",sales_price_main);
+                mMap.put("alternate_unit",alternate_unit);
+                mMap.put("packaging_unit_sales_price",packaging_unit_sales_price);
+                mMap.put("main_unit",main_unit);
+                mMap.put("batch_wise",batchwise);
+                mMap.put("serial_wise",serailwise);
                 String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if(taxstring.startsWith("I")) {
                     String arrtaxstring[] = taxstring.split("-");
@@ -443,6 +482,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
+                mMap.put("unit_list",mUnitList);
                 mMap.put("serial_number",appUser.purchase_item_serail_arr);
 
                 if(!frombillitemvoucherlist) {

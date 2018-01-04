@@ -131,8 +131,6 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
             Map map=new HashMap<>();
             map=appUser.mListMapForItemPurchase.get(pos);
             String itemName= (String) map.get("item_name");
-            String arr[]=itemName.split(",");
-            itemName=arr[0];
             String description= (String) map.get("description");
             String quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
@@ -208,8 +206,6 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
             Intent intent = getIntent();
             id = intent.getStringExtra("id");
              name = intent.getStringExtra("name");
-            String arr[]=name.split(",");
-            name=arr[0];
              desc = intent.getStringExtra("desc");
              main_unit = intent.getStringExtra("main_unit");
             alternate_unit = intent.getStringExtra("alternate_unit");
