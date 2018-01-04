@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.berylsystems.buzz.activities.company.transaction.purchase.PurchaseAddItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsPurchaseAdapter;
 import com.berylsystems.buzz.adapters.AddItemsPurchaseAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -119,6 +121,17 @@ public class AddItemPurchaseFragment extends Fragment {
 
         ProgressDialog progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Removing...");
+
+        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), PurchaseAddItemActivity.class);
+                intent.putExtra("frombillitemvoucherlist", true);
+                intent.putExtra("pos", i);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

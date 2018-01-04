@@ -225,9 +225,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             tax = intent.getStringExtra("tax");
             barcode = intent.getStringExtra("barcode");
             arr_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
-
-
-
             mItemName.setText(name);
             mDescription.setText(desc);
             mUnitList.add("Main Unit : " + main_unit);
@@ -236,8 +233,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             if (!packaging_unit.equals("")) {
                 mUnitList.add("Packaging Unit :" + packaging_unit);
             }
-
-
             mItemName.setEnabled(false);
             mValue.setEnabled(true);
             mTotal.setEnabled(false);
@@ -358,7 +353,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);
-            if (!packaging_unit.equals("")||packaging_unit!=null) {
+            if (!packaging_unit.equals("")) {
                 if (default_unit.equals("Main Unit")) {
                     mSpinnerUnit.setSelection(0);
                 } else if (default_unit.equals("Alt. Unit")) {
