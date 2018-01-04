@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
@@ -48,6 +49,34 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
+        viewHolder.mEye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteReceiptVoucher(receipt_voucher_id));*/
+                Toast.makeText(context, "Eye Icon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        viewHolder.mPrinting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteReceiptVoucher(receipt_voucher_id));*/
+                Toast.makeText(context, "Printing Icon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        viewHolder.mShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteReceiptVoucher(receipt_voucher_id));*/
+                Toast.makeText(context, "Share Icon", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
        /* viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,10 +115,12 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
-       /* @Bind(R.id.delete)
-        LinearLayout mDelete;
-        @Bind(R.id.edit1)
-        LinearLayout mEdit;*/
+        @Bind(R.id.icon_eye)
+        LinearLayout mEye;
+        @Bind(R.id.icon_printing)
+        LinearLayout mPrinting;
+        @Bind(R.id.icon_share)
+        LinearLayout mShare;
 
         public ViewHolder(View itemView) {
             super(itemView);
