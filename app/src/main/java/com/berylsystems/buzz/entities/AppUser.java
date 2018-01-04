@@ -505,4 +505,6 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String debit_note_duration_spinner;
     public String credit_note_duration_spinner;
 
+    public String email_yes_no="";
+
 }

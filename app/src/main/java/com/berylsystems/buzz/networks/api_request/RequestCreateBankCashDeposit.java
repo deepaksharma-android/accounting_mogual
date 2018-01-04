@@ -26,5 +26,6 @@ public class RequestCreateBankCashDeposit {
         bank_cash_deposit.put("amount",appUser.bank_cash_deposit_amount);
         bank_cash_deposit.put("narration",appUser.bank_cash_deposit_narration);
         bank_cash_deposit.put("attachment",appUser.bank_cash_deposit_attachment);
+        bank_cash_deposit.put("email_alertdialog",appUser.email_yes_no);
     }
 }

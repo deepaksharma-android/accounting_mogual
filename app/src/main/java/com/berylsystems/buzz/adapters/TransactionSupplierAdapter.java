@@ -115,7 +115,7 @@ public class TransactionSupplierAdapter extends BaseExpandableListAdapter {
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item_transaction_cash_in_hand,null);
+            convertView = layoutInflater.inflate(R.layout.list_item_customer_supplier,null);
         }
         TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
         TextView lblListItem2 = (TextView) convertView.findViewById(R.id.lblListItem2);

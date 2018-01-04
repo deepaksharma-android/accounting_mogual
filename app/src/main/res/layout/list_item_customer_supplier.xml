@@ -18,20 +18,20 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             style="@style/Gotham_Book"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             />
 
 
-      <!--  <com.berylsystems.buzz.utils.BuzzTextView
-            android:id="@+id/lblListItem3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            style="@style/Gotham_Book"
-            android:layout_weight="0.2"
-            />-->
+        <!--  <com.berylsystems.buzz.utils.BuzzTextView
+              android:id="@+id/lblListItem3"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:textSize="14sp"
+              android:layout_gravity="center_vertical"
+              android:layout_marginLeft="5dp"
+              style="@style/Gotham_Book"
+              android:layout_weight="0.2"
+              />-->
         <com.berylsystems.buzz.utils.BuzzTextView
             android:id="@+id/lblListItem2"
             android:layout_width="0dp"
@@ -41,9 +41,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             style="@style/Gotham_Book"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             />
-      <!--  <LinearLayout
+        <LinearLayout
             android:id="@+id/call"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -55,33 +55,33 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/telephone"/>
-        </LinearLayout>-->
-       <!-- <LinearLayout
-            android:id="@+id/edit_icon"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:layout_weight="0.10">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:src="@drawable/icon_edit"/>
         </LinearLayout>
+        <!-- <LinearLayout
+             android:id="@+id/edit_icon"
+             android:layout_width="0dp"
+             android:layout_height="fill_parent"
+             android:gravity="center"
+             android:layout_weight="0.10">
+             <ImageView
+                 android:layout_width="20dp"
+                 android:layout_height="30dp"
+                 android:src="@drawable/icon_edit"/>
+         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/delete_icon"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:layout_weight="0.10">
+         <LinearLayout
+             android:id="@+id/delete_icon"
+             android:layout_width="0dp"
+             android:layout_height="fill_parent"
+             android:gravity="center"
+             android:layout_weight="0.10">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_weight="0.1"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/icon_delete"/>
-        </LinearLayout>-->
+             <ImageView
+                 android:layout_width="0dp"
+                 android:layout_height="20dp"
+                 android:layout_weight="0.1"
+                 android:layout_marginRight="10dp"
+                 android:src="@drawable/icon_delete"/>
+         </LinearLayout>-->
 
     </LinearLayout>
 
