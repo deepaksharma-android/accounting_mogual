@@ -126,7 +126,7 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
                         mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
                     }
 
-                    if(data.getAttributes().getBill_sundry_id()!=null) {
+                    if(String.valueOf(data.getAttributes().getBill_sundry_id())!=null) {
                         int size=appUser.arr_billSundryId.size();
                         for(int i=0;i<size;i++){
                             String id=appUser.arr_billSundryId.get(i);

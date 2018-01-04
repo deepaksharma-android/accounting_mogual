@@ -56,32 +56,52 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     int billSundryId;
     String billSundryFedAs;
     String billSundryFedAsPercentage;
-    String billSundryPercentageValue;
     String billSundryType;
     Double billSundryDefaultValue;
     int billSundryNumber;
+    String id;
     Boolean billSundryConsolidated;
+    Boolean frombillvoucherlist;
     double taxval=0.0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        frombillvoucherlist=getIntent().getExtras().getBoolean("frombillvoucherlist");
         setContentView(R.layout.activity_sale_voucher_add_bill);
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        int pos = -1;
         blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
-        billSundaryPercentage=data.getAttributes().getBill_sundry_percentage_value();
-        billSundryCharges=data.getAttributes().getName();
-        billSundryFedAs=data.getAttributes().getAmount_of_bill_sundry_fed_as();
-        billSundryDefaultValue=data.getAttributes().getDefault_value();
-        billSundryFedAsPercentage=data.getAttributes().getBill_sundry_of_percentage();
-        billSundryType=data.getAttributes().getBill_sundry_type();
-        billSundryPercentageValue=data.getAttributes().getBill_sundry_percentage_value();
-        billSundryNumber=data.getAttributes().getNumber_of_bill_sundry();
-        billSundryConsolidated=data.getAttributes().isConsolidate_bill_sundry();
-        billSundryId=data.getAttributes().getBill_sundry_id();
+        if(frombillvoucherlist){
+            pos=getIntent().getExtras().getInt("pos");
+            Map map=new HashMap<>();
+            map=appUser.mListMapForBillSale.get(pos);
+            billSundaryPercentage=(String) map.get("percentage");
+            billSundryCharges=(String) map.get("courier_charges");
+            billSundryFedAs=(String) map.get("fed_as");
+            billSundryDefaultValue=Double.parseDouble((String) map.get("default_unit"));
+            billSundryFedAsPercentage=(String) map.get("fed_as_percentage");
+            billSundryType=(String) map.get("type");
+            billSundryNumber=Integer.parseInt((String) map.get("number_of_bill"));
+            billSundryConsolidated=Boolean.parseBoolean((String) map.get("consolidated"));
+            billSundryId=Integer.parseInt((String) map.get("bill_sundry_id"));
+            id=(String) map.get("id");
+        }
+        else {
+            billSundaryPercentage = data.getAttributes().getBill_sundry_percentage_value();
+            billSundryCharges = data.getAttributes().getName();
+            billSundryFedAs = data.getAttributes().getAmount_of_bill_sundry_fed_as();
+            billSundryDefaultValue = data.getAttributes().getDefault_value();
+            billSundryFedAsPercentage = data.getAttributes().getBill_sundry_of_percentage();
+            billSundryType = data.getAttributes().getBill_sundry_type();
+            billSundryNumber = data.getAttributes().getNumber_of_bill_sundry();
+            billSundryConsolidated = data.getAttributes().isConsolidate_bill_sundry();
+            billSundryId = data.getAttributes().getBill_sundry_id();
+            id = data.getId();
+        }
 
 
         courier_charges.setText(billSundryCharges);
@@ -94,7 +114,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
 //        Timber.i("SIZE"+appUser.arr_billSundryId.get(1));
 
-        if(data.getAttributes().getAmount_of_bill_sundry_fed_as().equals("Percentage")){
+        if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
             mPercentageLayout.setVisibility(View.VISIBLE);
             percentage.setText(billSundaryPercentage);
         }
@@ -118,7 +138,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             else{
               taxval=0.0;
             }
-            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value()+taxval);
+            billSundryAmount=String.valueOf(/*data.getAttributes().getDefault_value()*/billSundryDefaultValue+taxval);
 
         }
         else if(billSundryCharges.equals("CGST")||billSundryCharges.equals("SGST")){
@@ -137,11 +157,11 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             else{
                 taxval=0.0;
             }
-            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value()+(taxval/2.0));
+            billSundryAmount=String.valueOf(/*data.getAttributes().getDefault_value()*/billSundryDefaultValue+(taxval/2.0));
 
         }
         else{
-            billSundryAmount=String.valueOf(data.getAttributes().getDefault_value());
+            billSundryAmount=String.valueOf(/*data.getAttributes().getDefault_value()*/billSundryDefaultValue);
         }
 
         billAmount.setText(billSundryAmount);
@@ -170,28 +190,30 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 submit.startAnimation(blinkOnClick);
-                appUser.bill_sundry_fed_as=data.getAttributes().getAmount_of_bill_sundry_fed_as();
-                appUser.bill_sundry_sale_voucher_type=data.getAttributes().getBill_sundry_type();
-                mMap.put("id", data.getId());
+                appUser.bill_sundry_fed_as=/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs;
+                appUser.bill_sundry_sale_voucher_type=/*data.getAttributes().getBill_sundry_type()*/billSundryType;
+                mMap.put("id", /*data.getId()*/id);
                 mMap.put("courier_charges",billSundryCharges);
+                mMap.put("bill_sundry_id",String.valueOf(billSundryId));
                 mMap.put("percentage",billSundaryPercentage);
-                mMap.put("fed_as",data.getAttributes().getAmount_of_bill_sundry_fed_as());
-                mMap.put("fed_as_percentage",data.getAttributes().getBill_sundry_of_percentage());
-                mMap.put("percentage_value",data.getAttributes().getBill_sundry_percentage_value());
-                mMap.put("type",data.getAttributes().getBill_sundry_type());
+                mMap.put("percentage_value",billSundaryPercentage);
+                mMap.put("default_unit",String.valueOf(billSundryDefaultValue));
+                mMap.put("fed_as",/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs);
+                mMap.put("fed_as_percentage",/*data.getAttributes().getBill_sundry_of_percentage()*/billSundryFedAsPercentage);
+                mMap.put("type",/*data.getAttributes().getBill_sundry_type()*/billSundryType);
                 mMap.put("amount",billAmount.getText().toString());
-                if(String.valueOf(data.getAttributes().getNumber_of_bill_sundry())!=null) {
-                    mMap.put("number_of_bill", String.valueOf(data.getAttributes().getNumber_of_bill_sundry()));
+                if(String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber)!=null) {
+                    mMap.put("number_of_bill", String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber));
                 }
-                if(String.valueOf(data.getAttributes().isConsolidate_bill_sundry())!=null) {
+                if(String.valueOf(/*data.getAttributes().isConsolidate_bill_sundry()*/billSundryConsolidated)!=null) {
                     mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
                 }
 
-                if(data.getAttributes().getBill_sundry_id()!=null) {
+                if(/*data.getAttributes().getBill_sundry_id()*/String.valueOf(billSundryId)!=null) {
                     int size=appUser.arr_billSundryId.size();
                     for(int i=0;i<size;i++){
                         String id=appUser.arr_billSundryId.get(i);
-                        if(id.equals(String.valueOf(data.getAttributes().getBill_sundry_id()))){
+                        if(id.equals(String.valueOf(/*data.getAttributes().getBill_sundry_id()*/billSundryId))){
                              billsundryothername=appUser.arr_billSundryName.get(i);
                             break;
                         }

@@ -117,13 +117,7 @@ public class BillSundryAttributes {
         this.bill_sundry_round_off_limit = bill_sundry_round_off_limit;
     }
 
-    public Integer getRounding_off_nearest() {
-        return rounding_off_nearest;
-    }
 
-    public void setRounding_off_nearest(Integer rounding_off_nearest) {
-        this.rounding_off_nearest = rounding_off_nearest;
-    }
 
     public Boolean getBill_sundry_amount_round_off() {
         return bill_sundry_amount_round_off;
@@ -133,13 +127,6 @@ public class BillSundryAttributes {
         this.bill_sundry_amount_round_off = bill_sundry_amount_round_off;
     }
 
-    public Integer getBill_sundry_id() {
-        return bill_sundry_id;
-    }
-
-    public void setBill_sundry_id(Integer bill_sundry_id) {
-        this.bill_sundry_id = bill_sundry_id;
-    }
 
     public String getBill_sundry_calculated_on() {
         return bill_sundry_calculated_on;
@@ -150,8 +137,26 @@ public class BillSundryAttributes {
     }
 
     public String bill_sundry_round_off_limit;
-    public Integer rounding_off_nearest;
-    public Integer bill_sundry_id;
+
+    public int getRounding_off_nearest() {
+        return rounding_off_nearest;
+    }
+
+    public void setRounding_off_nearest(int rounding_off_nearest) {
+        this.rounding_off_nearest = rounding_off_nearest;
+    }
+
+    public int rounding_off_nearest;
+
+    public int getBill_sundry_id() {
+        return bill_sundry_id;
+    }
+
+    public void setBill_sundry_id(int bill_sundry_id) {
+        this.bill_sundry_id = bill_sundry_id;
+    }
+
+    public int bill_sundry_id;
     public String bill_sundry_calculated_on;
 
     public String getBill_sundry_percentage_value() {
