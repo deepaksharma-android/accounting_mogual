@@ -39,8 +39,8 @@ public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.
     @Override
     public void onBindViewHolder(PaymentListAdapter.ViewHolder viewHolder, int position) {
 
-        viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().paid_to);
-        viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().paid_from);
+        viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().paid_from);
+        viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().paid_to);
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(""+ String.format("%.2f",data.get(position).getAttributes().amount));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
