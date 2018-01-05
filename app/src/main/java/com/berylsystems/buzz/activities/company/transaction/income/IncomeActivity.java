@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.IncomeListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -31,6 +33,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.income.DeleteIncomeResponse;
 import com.berylsystems.buzz.networks.api_response.income.GetIncomeResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForBankCashDeposite;
+import com.berylsystems.buzz.utils.EventClickAlertForIncome;
 import com.berylsystems.buzz.utils.EventDeleteIncome;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -203,6 +207,17 @@ public class IncomeActivity extends AppCompatActivity {
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void event_click_alert(EventClickAlertForIncome response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(IncomeActivity.this, CreateIncomeActivity.class);
+        intent.putExtra("fromIncome", true);
+        intent.putExtra("id", response.getPosition());
+        startActivity(intent);
+        finish();
     }
 
     @Subscribe
