@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
+import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.PaymentListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -31,6 +33,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.payment.DeletePaymentResponse;
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForPayment;
+import com.berylsystems.buzz.utils.EventClickAlertForReceipt;
 import com.berylsystems.buzz.utils.EventDeletePayment;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -243,6 +247,21 @@ public class PaymentActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
+    }
+
+
+    @Subscribe
+    public void event_click_alert(EventClickAlertForPayment response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(PaymentActivity.this, CreatePaymentActivity.class);
+        intent.putExtra("from", "payment");
+        intent.putExtra("fromPayment", true);
+        intent.putExtra("id", response.getPosition());
+        //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
+
     }
     @Subscribe
     public void deletepaymentresponse(DeletePaymentResponse response){

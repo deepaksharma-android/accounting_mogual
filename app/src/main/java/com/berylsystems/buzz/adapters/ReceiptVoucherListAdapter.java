@@ -1,7 +1,6 @@
 package com.berylsystems.buzz.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.Data;
+import com.berylsystems.buzz.utils.EventClickAlertForReceipt;
+import com.berylsystems.buzz.utils.EventDeletePayment;
+import com.berylsystems.buzz.utils.EventDeleteReceipt;
 import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,6 +74,21 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
                 Toast.makeText(context, "Share Icon", Toast.LENGTH_SHORT).show();
             }
         });
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventClickAlertForReceipt(receipt_voucher_id));
+            }
+        });
+
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteReceiptVoucher(receipt_voucher_id));
+            }
+        });
 
 
 
@@ -121,6 +137,10 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         LinearLayout mPrinting;
         @Bind(R.id.icon_share)
         LinearLayout mShare;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
 
         public ViewHolder(View itemView) {
             super(itemView);

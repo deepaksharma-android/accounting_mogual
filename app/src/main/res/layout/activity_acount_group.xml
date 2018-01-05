@@ -50,7 +50,7 @@
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:padding="10dp"
                     android:text="Ledger" />
 
                 <View
@@ -276,7 +276,7 @@
                         android:text="GSTR-2" />
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height=".1dp"
                         android:background="?android:attr/listDivider" />
                 </LinearLayout>
 
@@ -284,6 +284,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:id="@+id/gstr2_b3"
+                    android:visibility="gone"
                     android:background="@drawable/background"
                     android:orientation="vertical">
                     <com.berylsystems.buzz.utils.BuzzTextView
@@ -314,7 +315,7 @@
                     android:textColor="@color/black"
                     style="@style/Gotham_Book"
                     android:layout_margin="10dp"
-                    android:text="GSTR-E1 Return" />
+                    android:text="Sale Register" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
@@ -334,7 +335,7 @@
                     style="@style/Gotham_Book"
                     android:textColor="@color/black"
                     android:layout_margin="10dp"
-                    android:text="GSTR-E2 Return" />
+                    android:text="Purchase Register" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
@@ -344,6 +345,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:visibility="gone"
                 android:background="@drawable/background"
                 android:id="@+id/gstr_b3"
                 android:orientation="vertical">
@@ -429,6 +431,87 @@
                     android:textColor="@color/black"
                     android:layout_margin="10dp"
                     android:text="purchase report" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:background="?android:attr/listDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/parent_list_item_color">
+                <TextView
+                    style="@style/Gotham_Bold"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="Financial Reports"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/balance_sheet_layout"
+                android:background="@drawable/background"
+                android:orientation="vertical">
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/balance_sheet"
+                    style="@style/Gotham_Book"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp"
+                    android:text="Balance sheet" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:background="?android:attr/listDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/profit_report_layout"
+                android:background="@drawable/background"
+                android:orientation="vertical">
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/profit"
+                    style="@style/Gotham_Book"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp"
+                    android:text="Profit" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".1dp"
+                    android:background="?android:attr/listDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/loss_report_layout"
+                android:background="@drawable/background"
+                android:orientation="vertical">
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/loss"
+                    style="@style/Gotham_Book"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp"
+                    android:text="Loss" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"

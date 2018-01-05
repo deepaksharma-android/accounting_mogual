@@ -192,6 +192,7 @@ public class AddItemVoucherFragment extends Fragment {
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
+        double changeamount=0.0;
 
         appUser = LocalRepositories.getAppUser(getApplicationContext());
 
@@ -227,6 +228,11 @@ public class AddItemVoucherFragment extends Fragment {
                 String other = (String) map.get("other");
                 String fedas = (String) map.get("fed_as");
                 String fed_as_percentage = (String) map.get("fed_as_percentage");
+                if(fed_as_percentage!=null) {
+                    if (fed_as_percentage.equals("valuechange")) {
+                        changeamount = Double.parseDouble((String) map.get("changeamount"));
+                    }
+                }
                 String percentage_value = (String) map.get("percentage_value");
                 String number_of_bill = (String) map.get("number_of_bill");
                 String consolidated = (String) map.get("consolidated");
@@ -626,6 +632,35 @@ public class AddItemVoucherFragment extends Fragment {
 
                         }
 
+                    }
+                    else if(fed_as_percentage.equals("valuechange")){
+                        if (appUser.mListMapForItemSale.size() > 0) {
+                            double subtot = 0.0;
+                            for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSale.get(j);
+                                String total = (String) mapj.get("total");
+                                double itemtot = Double.parseDouble(total);
+                                subtot = subtot + itemtot;
+
+
+
+                            }
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + changeamount;
+                            } else {
+                                billsundrymamount = billsundrymamount - changeamount;
+                            }
+                           /* double per_val = Double.parseDouble(percentage_value);
+                            double percentagebillsundry = (billsundrymamounttotal + subtot) * (((per_val / 100) * amt) / 100);
+
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + percentagebillsundry;
+                            } else {
+                                billsundrymamount = billsundrymamount - percentagebillsundry;
+                            }*/
+
+
+                        }
                     }
 
 

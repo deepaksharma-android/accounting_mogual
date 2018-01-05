@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/main_layout"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -122,6 +123,21 @@
             android:gravity="right"
             android:layout_weight="0.7">
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/icon_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_weight="0.1">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_delete"
+                android:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
