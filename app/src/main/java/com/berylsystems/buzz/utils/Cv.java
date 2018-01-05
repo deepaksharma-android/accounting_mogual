@@ -148,6 +148,7 @@ public interface Cv {
     String ACTION_GET_DEBIT_NOTE_DETAILS = "action_get_debit_note_details";
     String ACTION_EDIT_DEBIT_NOTE = "action_edit_debit_note";
     String ACTION_CREATE_SALE_RETURN = "action_create_sale_return";
+    String ACTION_GET_SALE_RETURN_VOUCHER = "action_get_sale_return_voucher";
     String ACTION_CREATE_PURCHASE_RETURN = "action_create_purchase_return";
 
     String ACTION_GET_COMPANY_DASHBOARD_INFO = "action_get_company_dashboard_details";

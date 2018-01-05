@@ -45,6 +45,7 @@ import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
@@ -574,5 +575,8 @@ public interface Api {
 
     @GET("pdc_details/{id}")
     Call<GetPdcResponse> getPdc(@Path("id") String id, @Query("duration") String duration);
+
+    @GET("company_sale_return_vouchers/{id}")
+    Call<GetSaleReturnVoucherListResponse> getsalereturnvoucher(@Path("id") String id, @Query("duration") String duration);
 
 }

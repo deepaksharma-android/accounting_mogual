@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.berylsystems.buzz.ThisApp;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_request.RequestBasic;
 import com.berylsystems.buzz.networks.api_request.RequestCompanyAdditional;
@@ -138,6 +139,7 @@ import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptV
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
@@ -465,6 +467,8 @@ public class ApiCallsService extends IntentService {
             handleGetPurchaseVoucher();
         } else if (Cv.ACTION_GET_PDC.equals(action)) {
             handleGetPdc();
+        }else if(Cv.ACTION_GET_SALE_RETURN_VOUCHER.equals(action)){
+            handleGetSaleReturnVoucher();
         }
     }
 
@@ -3645,6 +3649,31 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetSaleVoucherListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetSaleReturnVoucher(){
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getsalereturnvoucher(Preferences.getInstance(getApplicationContext()).getCid(),appUser.sales_duration_spinner).enqueue(new Callback<GetSaleReturnVoucherListResponse>(){
+
+            @Override
+            public void onResponse(Call<GetSaleReturnVoucherListResponse> call, Response<GetSaleReturnVoucherListResponse> r) {
+                if (r.code() == 200) {
+                    GetSaleReturnVoucherListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleReturnVoucherListResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
