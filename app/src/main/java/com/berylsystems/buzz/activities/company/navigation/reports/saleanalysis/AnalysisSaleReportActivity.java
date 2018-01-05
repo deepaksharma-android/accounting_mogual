@@ -23,7 +23,6 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.account_group.AcountGroupActivity;
 import com.berylsystems.buzz.adapters.SaleReportAdapter;
-import com.berylsystems.buzz.adapters.TransactionSalesVoucherAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;

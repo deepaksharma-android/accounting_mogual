@@ -18,6 +18,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -67,6 +69,11 @@ public class CreateSaleActivity extends AppCompatActivity {
         if (b){
             mHeaderViewPager.setCurrentItem(1, true);
         }
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.drawable.list_button);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
         //Boolean isConnected = ConnectivityReceiver.isConnected();
         /*if (isConnected) {
@@ -167,8 +174,22 @@ public class CreateSaleActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
+                startActivity(i);
+                finish();
+                return true;
             case android.R.id.home:
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

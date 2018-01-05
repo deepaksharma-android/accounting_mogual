@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
@@ -15,25 +16,25 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SaleReportAdapter extends RecyclerView.Adapter<SaleReportAdapter.ViewHolder> {
+public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVoucherListAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Data> data;
 
-    public SaleReportAdapter(Context context, ArrayList<Data> data){
+    public GetSaleVoucherListAdapter(Context context, ArrayList<Data> data){
         this.context=context;
         this.data=data;
     }
 
     @Override
-    public SaleReportAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public GetSaleVoucherListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_transaction_sale_list, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_sale_voucher_list, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SaleReportAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(GetSaleVoucherListAdapter.ViewHolder viewHolder, int position) {
 
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_master);
         viewHolder.bank_edit_text2.setText(""+String.format("%.2f", data.get(position).getAttributes().total_amount));
@@ -76,6 +77,8 @@ public class SaleReportAdapter extends RecyclerView.Adapter<SaleReportAdapter.Vi
         TextView bank_edit_text3;
         @Bind(R.id.bank_edit_text4)
         TextView bank_edit_text4;
+        @Bind(R.id.mainLayout)
+        LinearLayout mMainLayout;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

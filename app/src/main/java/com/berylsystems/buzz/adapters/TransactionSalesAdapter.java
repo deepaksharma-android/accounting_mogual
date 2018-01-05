@@ -13,25 +13,25 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionSalesVoucherAdapter extends RecyclerView.Adapter<TransactionSalesVoucherAdapter.ViewHolder> {
+public class TransactionSalesAdapter extends RecyclerView.Adapter<TransactionSalesAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Data> data;
 
-    public TransactionSalesVoucherAdapter(Context context, ArrayList<Data> data){
+    public TransactionSalesAdapter(Context context, ArrayList<Data> data){
         this.context=context;
         this.data=data;
     }
 
     @Override
-    public TransactionSalesVoucherAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public TransactionSalesAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_sale_voucher_list, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_transaction_sale_list, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TransactionSalesVoucherAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(TransactionSalesAdapter.ViewHolder viewHolder, int position) {
 
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_master);
         viewHolder.bank_edit_text2.setText(""+String.format("%.2f", data.get(position).getAttributes().total_amount));
