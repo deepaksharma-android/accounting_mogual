@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.BankCashWithdrawListAdapter;
@@ -32,6 +34,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.GetBankCashWithdrawResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForBakCashWithDraw;
+import com.berylsystems.buzz.utils.EventClickAlertForBankCashDeposite;
 import com.berylsystems.buzz.utils.EventDeleteBankCashWithdraw;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -249,6 +253,17 @@ public class BankCaseWithdrawActivity extends AppCompatActivity {
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void event_click_alert(EventClickAlertForBakCashWithDraw response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(BankCaseWithdrawActivity.this, CreateBankCaseDepositActivity.class);
+        intent.putExtra("fromBankCashDeposit", true);
+        intent.putExtra("id", response.getPosition());
+        startActivity(intent);
+        finish();
     }
 
     @Subscribe

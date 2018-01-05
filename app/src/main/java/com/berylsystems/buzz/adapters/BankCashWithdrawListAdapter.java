@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.Data;
+import com.berylsystems.buzz.utils.EventClickAlertForBakCashWithDraw;
+import com.berylsystems.buzz.utils.EventClickAlertForReceipt;
 import com.berylsystems.buzz.utils.EventDeleteBankCashWithdraw;
+import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -64,6 +67,22 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
                 context.startActivity(i);
             }
         });*/
+
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventClickAlertForBakCashWithDraw(receipt_voucher_id));
+            }
+        });
+
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteBankCashWithdraw(receipt_voucher_id));
+            }
+        });
     }
 
     @Override
@@ -83,6 +102,10 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
         /*@Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

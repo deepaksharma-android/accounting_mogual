@@ -4,11 +4,11 @@ package com.berylsystems.buzz.utils;
  * Created by BerylSystems on 05-Jan-18.
  */
 
-public class EventClickAlert {
+public class EventClickAlertForIncome {
 
     private final String position;
 
-    public EventClickAlert(String position) {
+    public EventClickAlertForIncome(String position) {
         this.position = position;
     }
 

@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -31,7 +30,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
 import com.berylsystems.buzz.utils.Cv;
-import com.berylsystems.buzz.utils.EventClickAlert;
+import com.berylsystems.buzz.utils.EventClickAlertForReceipt;
+import com.berylsystems.buzz.utils.EventDeleteReceipt;
 import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -242,6 +242,8 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
                 .show();
     }
 
+
+
     @Subscribe
     public void deletereceiptvoucherresponse(DeleteReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
@@ -256,14 +258,14 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void event_click_alert(EventClickAlert response) {
+    public void event_click_alert(EventClickAlertForReceipt response) {
         mProgressDialog.dismiss();
         response.getPosition();
         Intent intent = new Intent(ReceiptVoucherActivity.this, CreateReceiptVoucherActivity.class);
         intent.putExtra("from", "receipt");
         intent.putExtra("fromReceipt", true);
         intent.putExtra("id", response.getPosition());
-        Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
         startActivity(intent);
         finish();
 
