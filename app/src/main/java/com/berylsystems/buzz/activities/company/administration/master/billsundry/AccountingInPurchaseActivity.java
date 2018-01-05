@@ -77,6 +77,8 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
         mHeadToPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.account_master_group="";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 intStartActivityForResult=1;
                 ParameterConstant.checkStartActivityResultForAccount =14;
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -86,6 +88,8 @@ public class AccountingInPurchaseActivity extends AppCompatActivity {
         mPartyHeadToPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.account_master_group="";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 intStartActivityForResult=2;
                 ParameterConstant.checkStartActivityResultForAccount =14;
                 ExpandableAccountListActivity.isDirectForAccount=false;

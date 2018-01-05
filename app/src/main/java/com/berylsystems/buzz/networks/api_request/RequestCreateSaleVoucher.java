@@ -29,6 +29,7 @@ public class RequestCreateSaleVoucher {
         voucher.put("material_center_id",Preferences.getInstance(ctx).getStoreId());
         voucher.put("narration", appUser.sale_narration);
         voucher.put("items", appUser.mListMapForItemSale);
+        voucher.put("bill_sundry_amount",appUser.billsundrytotal);
         voucher.put("bill_sundry", appUser.mListMapForBillSale);
         voucher.put("total", appUser.totalamount);
         voucher.put("items_amount", appUser.items_amount);

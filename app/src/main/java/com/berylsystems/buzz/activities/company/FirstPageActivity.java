@@ -93,7 +93,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         final Calendar newCalendar = Calendar.getInstance();
         String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));
-        dateFormatter = new SimpleDateFormat(" dd'" + dayNumberSuffix + "' MMM yy", Locale.US);
+        dateFormatter = new SimpleDateFormat(" d'" + dayNumberSuffix + "' MMM yy", Locale.US);
         String date1 = dateFormatter.format(newCalendar.getTime());
         mDate.setText("As On "+date1);
 
