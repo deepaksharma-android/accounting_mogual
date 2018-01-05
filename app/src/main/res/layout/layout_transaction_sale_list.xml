@@ -15,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:id="@+id/bank_edit_text3"
-            android:textSize="12sp"
+            android:textSize="15sp"
             style="@style/Gotham_Book"
             android:layout_marginLeft="10dp"
             android:textColor="#000"
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_weight=".6"
             android:id="@+id/bank_edit_text2"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_marginRight="10dp"
             style="@style/Gotham_Book"
             android:gravity="right"
@@ -133,7 +133,7 @@
             android:layout_weight="0.1">
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_eye"
@@ -149,7 +149,7 @@
             android:layout_weight="0.1">
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_printing"
@@ -164,7 +164,7 @@
             android:layout_weight="0.1">
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_share"

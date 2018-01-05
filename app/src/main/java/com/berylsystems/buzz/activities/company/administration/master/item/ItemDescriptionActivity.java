@@ -39,6 +39,8 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         if (!Preferences.getInstance(getApplicationContext()).getitem_description().equals("")) {
             mItemDescription.setText(Preferences.getInstance(getApplicationContext()).getitem_description());
         }
+
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

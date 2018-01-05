@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.DebitNoteListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -31,6 +33,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.DeleteDebitNoteResponse;
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.GetDebitNoteResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForCreditNote;
+import com.berylsystems.buzz.utils.EventClickAlertForDebitNote;
 import com.berylsystems.buzz.utils.EventDeleteDebitNote;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -206,6 +210,16 @@ public class DebitNoteWoItemActivity extends AppCompatActivity {
         }
     }
 
+    @Subscribe
+    public void event_click_alert(EventClickAlertForDebitNote response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(DebitNoteWoItemActivity.this, CreateDebitNoteWoItemActivity.class);
+        intent.putExtra("fromDebitNote", true);
+        intent.putExtra("id", response.getPosition());
+        startActivity(intent);
+        finish();
+    }
     @Subscribe
     public void deletecreditnote(EventDeleteDebitNote pos){
         appUser.delete_debit_note_id= pos.getPosition();

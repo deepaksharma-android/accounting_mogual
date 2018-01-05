@@ -151,6 +151,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.item_group_name="";
         appUser.item_unit_name="";
         appUser.item_tax_category_name="";
+
+
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
 

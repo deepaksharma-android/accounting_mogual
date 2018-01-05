@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
 import com.berylsystems.buzz.networks.api_response.journalvoucher.Data;
+import com.berylsystems.buzz.utils.EventClickAlertForIncome;
+import com.berylsystems.buzz.utils.EventClickAlertForJournalVoucher;
+import com.berylsystems.buzz.utils.EventDeleteIncome;
 import com.berylsystems.buzz.utils.EventDeleteJournalVoucher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +68,22 @@ public class JournalVoucherListAdapter extends RecyclerView.Adapter<JournalVouch
                 context.startActivity(i);
             }
         });*/
+
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String bankCashDepositeId=data.get(position).getId();
+                EventBus.getDefault().post(new EventClickAlertForJournalVoucher(bankCashDepositeId));
+            }
+        });
+
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteJournalVoucher(receipt_voucher_id));
+            }
+        });
     }
 
     @Override
@@ -84,6 +103,10 @@ public class JournalVoucherListAdapter extends RecyclerView.Adapter<JournalVouch
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

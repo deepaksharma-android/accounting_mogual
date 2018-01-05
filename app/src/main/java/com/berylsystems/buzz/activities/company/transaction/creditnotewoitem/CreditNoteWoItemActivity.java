@@ -24,6 +24,9 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.income.IncomeActivity;
+import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.CreditNoteListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
@@ -31,6 +34,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.DeleteCreditNoteResponse;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.GetCreditNoteResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForCreditNote;
+import com.berylsystems.buzz.utils.EventClickAlertForIncome;
 import com.berylsystems.buzz.utils.EventDeleteCreditNote;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -202,6 +207,17 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void event_click_alert(EventClickAlertForCreditNote response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(CreditNoteWoItemActivity.this, CreateCreditNoteWoItemActivity.class);
+        intent.putExtra("fromCreditNote", true);
+        intent.putExtra("id", response.getPosition());
+        startActivity(intent);
+        finish();
     }
 
     @Subscribe
