@@ -490,7 +490,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_of_percentage() != null) {
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_of_percentage(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_of_percentage());
             }
-            if (response.getBill_sundry_info().getData().getAttributes().getRounding_off_nearest() != null) {
+            if (String.valueOf(response.getBill_sundry_info().getData().getAttributes().getRounding_off_nearest()) != null) {
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_rouding_off_nearest(String.valueOf(response.getBill_sundry_info().getData().getAttributes().getRounding_off_nearest()));
             }
             if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_amount_round_off() != null) {
@@ -503,7 +503,7 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit() != null) {
                 Preferences.getInstance(getApplicationContext()).setbill_sundry_rounding_off_limit(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit());
             }
-            if (response.getBill_sundry_info().getData().getAttributes().getBill_sundry_id() != null) {
+            if (String.valueOf(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_id()) != null) {
                 Preferences.getInstance(getApplicationContext()).setcalculated_on_bill_sundry_id(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit());
             }
 
