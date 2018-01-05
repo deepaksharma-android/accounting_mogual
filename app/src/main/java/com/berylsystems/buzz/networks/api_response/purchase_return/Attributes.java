@@ -1,6 +1,4 @@
-package com.berylsystems.buzz.networks.api_response.salevoucher;
-
-import java.util.ArrayList;
+package com.berylsystems.buzz.networks.api_response.purchase_return;
 
 public class Attributes {
 
@@ -49,5 +47,4 @@ public class Attributes {
     public void setTotal_amount(Double total_amount) {
         this.total_amount = total_amount;
     }
-
 }

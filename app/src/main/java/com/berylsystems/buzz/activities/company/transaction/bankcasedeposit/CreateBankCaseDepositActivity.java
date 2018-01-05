@@ -197,8 +197,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View view) {
                 intStartActivityForResult=1;
-
-
                 appUser.account_master_group = "Bank Accounts";
                 ParameterConstant.checkStartActivityResultForAccount =4;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
