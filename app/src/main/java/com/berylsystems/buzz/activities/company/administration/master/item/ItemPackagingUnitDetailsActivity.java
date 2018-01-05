@@ -76,7 +76,9 @@ public class ItemPackagingUnitDetailsActivity extends AppCompatActivity {
                 startActivityForResult(intent, 4);
             }
         });
-        ;
+
+
+
 
         if (!Preferences.getInstance(getApplicationContext()).getitem_conversion_factor_pkg_unit().equals("")) {
             mConFactor.setText(Preferences.getInstance(getApplicationContext()).getitem_conversion_factor_pkg_unit());

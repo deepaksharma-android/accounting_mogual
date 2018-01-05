@@ -97,6 +97,11 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
         });
 
 
+        /*Preferences.getInstance(getApplicationContext()).getItem_stock_quantity();
+         mStockPrice.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_amount());
+          mStockValue.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_value());
+         */
+
         if (! Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")) {
             mStockQuantity.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_quantity());
         }

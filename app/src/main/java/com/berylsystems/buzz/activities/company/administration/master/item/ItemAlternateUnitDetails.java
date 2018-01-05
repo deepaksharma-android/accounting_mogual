@@ -89,6 +89,9 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
             }
         }
 
+
+
+
         if(!Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals("")){
             mAlternateUnit.setText(Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name());
         }
