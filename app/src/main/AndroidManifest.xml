@@ -394,6 +394,11 @@
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity"
+            android:parentActivityName=".activities.company.transaction.sale_return.CreateSaleReturnActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -403,6 +408,11 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.purchase_return.GetPurchaseReturnListActivity"
+            android:parentActivityName=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

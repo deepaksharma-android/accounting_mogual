@@ -46,9 +46,12 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventDeleteReceipt;
+import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.ParameterConstant;
@@ -57,6 +60,7 @@ import com.berylsystems.buzz.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.ByteArrayOutputStream;
@@ -130,6 +134,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public static int intStartActivityForResult = 0;
     public Bundle bundle;
     Bitmap photo;
+    public static int iconHandlerVariable = 0;
 
 
     @Override
@@ -137,6 +142,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
+        iconHandlerVariable = 0;
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         bundle = getIntent().getExtras();
@@ -156,6 +162,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
        /* received_from.setText(appUser.receipt_received_from_name);
         received_by.setText(appUser.receipt_received_by_name);*/
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        //actionBar.setLogo(R.drawable.icon_delete);
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
@@ -169,17 +176,19 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         title = "CREATE RECEIPT VOUCHER";
-        fromReceiptVoucher = getIntent().getBooleanExtra("fromReceipt",false);
-       // fromPdcReceiptVoucher = getIntent().getBooleanExtra("fromPdcReceipt",false);
+        iconHandlerVariable = 1;
+        fromReceiptVoucher = getIntent().getBooleanExtra("fromReceipt", false);
+        // fromPdcReceiptVoucher = getIntent().getBooleanExtra("fromPdcReceipt",false);
         if (fromReceiptVoucher == true) {
 
-            if(from.equals("pdcdetail")){
-                from="pdcdetail";
-               // Toast.makeText(CreateReceiptVoucherActivity.this, "i am here", Toast.LENGTH_SHORT).show();
-            }else {
-                from="receipt";
+            if (from.equals("pdcdetail")) {
+                from = "pdcdetail";
+                // Toast.makeText(CreateReceiptVoucherActivity.this, "i am here", Toast.LENGTH_SHORT).show();
+            } else {
+                from = "receipt";
             }
             title = "EDIT RECEIPT VOUCHER";
+            iconHandlerVariable = 2;
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             getIntent().getExtras().getString("id");
@@ -193,10 +202,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 mProgressDialog.show();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_RECEIPT_VOUCHER_DETAILS);
-            }else if(fromReceiptVoucher==false) {
+            } else if (fromReceiptVoucher == false) {
 
-            }
-            else {
+            } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                         .setAction("RETRY", new View.OnClickListener() {
@@ -212,9 +220,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             }
         }/*else if(fromPdcReceiptVoucher==true){
 
-        }*/
-        else
-         {
+        }*/ else {
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -260,7 +266,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 } else {
                     date_pdc_layout.setVisibility(View.VISIBLE);
                     date_pdc_textview.setVisibility(View.VISIBLE);
-                    if(set_date_pdc.getText().toString().equals("")){
+                    if (set_date_pdc.getText().toString().equals("")) {
                         set_date_pdc.setText(dateString);
                     }
                 }
@@ -452,7 +458,6 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -674,7 +679,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 if (from.equals("sale")) {
                     appUser.mListMapForItemSale.clear();
                     appUser.mListMapForBillSale.clear();
-                    appUser.voucher_type="Sales";
+                    appUser.voucher_type = "Sales";
                     LocalRepositories.saveAppUser(this, appUser);
                     Intent intent = new Intent(this, CreateSaleActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -748,11 +753,10 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 mSelectedImage.setVisibility(View.GONE);
             }
             String type_pdc_regular = response.getReceipt_voucher().getData().getAttributes().getPayment_type().trim();
-            if (type_pdc_regular.equals("PDC")){
+            if (type_pdc_regular.equals("PDC")) {
                 type_spinner.setSelection(1);
                 set_date_pdc.setText(response.getReceipt_voucher().getData().getAttributes().getPdc_date());
-            }
-            else {
+            } else {
                 type_spinner.setSelection(0);
                 set_date_pdc.setText("");
             }
@@ -776,14 +780,14 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public void editExpence(EditReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            if(from!=null){
-                if(from.equals("pdcdetail")){
+            if (from != null) {
+                if (from.equals("pdcdetail")) {
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     startActivity(intent);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-                }else {
+                } else {
                     Intent intent = new Intent(this, ReceiptVoucherActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -819,9 +823,15 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(), ReceiptVoucherActivity.class);
-                startActivity(i);
-                finish();
+                if (iconHandlerVariable == 2) {
+                    String receipt_voucher_id=  appUser.edit_receipt_id;
+                    EventBus.getDefault().post(new EventDeleteReceipt(receipt_voucher_id));
+                } else {
+                    Intent i = new Intent(getApplicationContext(), ReceiptVoucherActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
                 return true;
             case android.R.id.home:
                 if (from != null) {
@@ -859,13 +869,12 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
-                    }else if(from.equals("pdcdetail")){
+                    } else if (from.equals("pdcdetail")) {
                         Intent intent = new Intent(this, PdcActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
-                    }
-                    else if(from.equals("receipt")){
+                    } else if (from.equals("receipt")) {
                         finish();
                     }
                 } else {
@@ -917,20 +926,70 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            }else if(from.equals("pdcdetail")){
+            } else if (from.equals("pdcdetail")) {
                 Intent intent = new Intent(this, PdcActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            }
-            else if(from.equals("receipt")){
-               finish();
+            } else if (from.equals("receipt")) {
+                finish();
             }
         } else {
             Intent intent = new Intent(this, TransactionDashboardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        }
+    }
+
+    @Subscribe
+    public void deletereceipt(EventDeleteReceipt pos) {
+        appUser.delete_receipt_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
+        new android.support.v7.app.AlertDialog.Builder(CreateReceiptVoucherActivity.this)
+                .setTitle("Delete Expence Item")
+                .setMessage("Are you sure you want to delete this Record ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_RECEIPT_VOUCHER);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
+    @Subscribe
+    public void deletereceiptvoucherresponse(DeleteReceiptVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_RECEIPT_VOUCHER);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(CreateReceiptVoucherActivity.this,ReceiptVoucherActivity.class));
+            finish();
+        } else {
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 }

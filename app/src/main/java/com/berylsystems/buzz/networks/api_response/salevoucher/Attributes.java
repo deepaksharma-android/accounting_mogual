@@ -8,6 +8,7 @@ public class Attributes {
     public String voucher_number;
     public int company_id;
     public String account_master;
+    public Double total_amount;
 
     public String getDate() {
         return date;
@@ -48,7 +49,5 @@ public class Attributes {
     public void setTotal_amount(Double total_amount) {
         this.total_amount = total_amount;
     }
-
-    public Double total_amount;
 
 }

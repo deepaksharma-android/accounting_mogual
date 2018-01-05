@@ -12,7 +12,10 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.Data;
+import com.berylsystems.buzz.utils.EventClickAlertForBankCashDeposite;
+import com.berylsystems.buzz.utils.EventClickAlertForPayment;
 import com.berylsystems.buzz.utils.EventDeleteBankCashDeposit;
+import com.berylsystems.buzz.utils.EventDeletePayment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -65,6 +68,22 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
                 context.startActivity(i);
             }
         });*/
+
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String bankCashDepositeId=data.get(position).getId();
+                EventBus.getDefault().post(new EventClickAlertForBankCashDeposite(bankCashDepositeId));
+            }
+        });
+
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteBankCashDeposit(receipt_voucher_id));
+            }
+        });
     }
 
     @Override
@@ -84,6 +103,10 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

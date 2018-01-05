@@ -77,8 +77,8 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         TextView bank_edit_text3;
         @Bind(R.id.bank_edit_text4)
         TextView bank_edit_text4;
-        @Bind(R.id.mainLayout)
-        LinearLayout mMainLayout;
+        /*@Bind(R.id.mainLayout)
+        LinearLayout mMainLayout;*/
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

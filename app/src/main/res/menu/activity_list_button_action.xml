@@ -10,4 +10,11 @@
         app:showAsAction="always">
     </item>
 
+    <item android:id="@+id/icon_delete"
+        android:title="click"
+        android:visible="false"
+        android:icon="@drawable/icon_delete"
+        app:showAsAction="always">
+    </item>
+
 </menu>

@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -29,13 +30,18 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForReceipt;
+import com.berylsystems.buzz.utils.EventDeleteReceipt;
 import com.berylsystems.buzz.utils.EventDeleteReceiptVoucher;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -72,16 +78,15 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
+        if (currentMonthPosition < inputMonthPosition) {
+            for (int i = currentMonthPosition; i >= 0; i--) {
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            for (int j = 11; j >= inputMonthPosition; j--) {
+                cashInHand.add(monthName[j] + " " + (currentYear - 1));
             }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+        } else {
+            for (int i = currentMonthPosition; i >= inputMonthPosition; i--) {
 
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
@@ -96,8 +101,8 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.receipt_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                appUser.receipt_duration_spinner = selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -123,6 +128,7 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
                     snackbar.show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -186,30 +192,30 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getReceiptVoucher(GetReceiptVoucherResponse response){
+    public void getReceiptVoucher(GetReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new ReceiptVoucherListAdapter(this,response.getReceipt_vouchers().data);
+            mAdapter = new ReceiptVoucherListAdapter(this, response.getReceipt_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void deletereceiptvoucher(EventDeleteReceiptVoucher pos){
-        appUser.delete_receipt_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletereceiptvoucher(EventDeleteReceiptVoucher pos) {
+        appUser.delete_receipt_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ReceiptVoucherActivity.this)
                 .setTitle("Delete Expence Item")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(ReceiptVoucherActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -217,15 +223,14 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_RECEIPT_VOUCHER);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -236,24 +241,41 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
     }
+
+
+
     @Subscribe
-    public void deletereceiptvoucherresponse(DeleteReceiptVoucherResponse response){
+    public void deletereceiptvoucherresponse(DeleteReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_RECEIPT_VOUCHER);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Subscribe
+    public void event_click_alert(EventClickAlertForReceipt response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(ReceiptVoucherActivity.this, CreateReceiptVoucherActivity.class);
+        intent.putExtra("from", "receipt");
+        intent.putExtra("fromReceipt", true);
+        intent.putExtra("id", response.getPosition());
+        //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
@@ -297,7 +319,7 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, CreateReceiptVoucherActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("fromReceipt",false);
+        intent.putExtra("fromReceipt", false);
         startActivity(intent);
         finish();
     }

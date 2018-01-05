@@ -24,6 +24,9 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.BankCashReportActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
+import com.berylsystems.buzz.activities.company.transaction.payment.PaymentActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.BankCashDepositListAdapter;
@@ -32,6 +35,8 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventClickAlertForBankCashDeposite;
+import com.berylsystems.buzz.utils.EventClickAlertForPayment;
 import com.berylsystems.buzz.utils.EventDeleteBankCashDeposit;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
@@ -263,6 +268,17 @@ public class BankCaseDepositListActivity extends AppCompatActivity {
         }
     }
 
+    @Subscribe
+    public void event_click_alert(EventClickAlertForBankCashDeposite response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(BankCaseDepositListActivity.this, CreateBankCaseDepositActivity.class);
+        intent.putExtra("fromBankCashDeposit", true);
+        intent.putExtra("id", response.getPosition());
+        startActivity(intent);
+        finish();
+
+    }
     @Subscribe
     public void deletebankcashdeposit(EventDeleteBankCashDeposit pos){
         //appUser.delete_bank_cash_deposit_id= String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
