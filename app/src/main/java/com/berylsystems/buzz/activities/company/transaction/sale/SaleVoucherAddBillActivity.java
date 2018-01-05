@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -40,6 +42,10 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     LinearLayout mPercentageLayout;
     @Bind(R.id.bill_amount)
     EditText billAmount;
+    @Bind(R.id.totalamt)
+    EditText mTotalAmt;
+    @Bind(R.id.totallayout)
+    LinearLayout mTotalLayout;
     @Bind(R.id.submit)
     LinearLayout submit;
     public static BillSundryData data=null;
@@ -56,6 +62,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     int billSundryId;
     String billSundryFedAs;
     String billSundryFedAsPercentage;
+    String billSundryFedAsPercentagePrevious;
     String billSundryType;
     Double billSundryDefaultValue;
     int billSundryNumber;
@@ -63,6 +70,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     Boolean billSundryConsolidated;
     Boolean frombillvoucherlist;
     double taxval=0.0;
+    private MyInputWatcher watcher1, watcher2;
 
 
     @Override
@@ -72,6 +80,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sale_voucher_add_bill);
         ButterKnife.bind(this);
         initActionbar();
+        courier_charges.setEnabled(false);
         appUser=LocalRepositories.getAppUser(this);
         int pos = -1;
         blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
@@ -79,6 +88,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
             map=appUser.mListMapForBillSale.get(pos);
+            billSundryFedAsPercentagePrevious=(String)map.get("previous");
             billSundaryPercentage=(String) map.get("percentage");
             billSundryCharges=(String) map.get("courier_charges");
             billSundryFedAs=(String) map.get("fed_as");
@@ -89,8 +99,14 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             billSundryConsolidated=Boolean.parseBoolean((String) map.get("consolidated"));
             billSundryId=Integer.parseInt((String) map.get("bill_sundry_id"));
             id=(String) map.get("id");
+            if(billSundryFedAsPercentage.equals("valuechange")){
+               String changeamount= (String) map.get("changeamount");
+                mTotalAmt.setText(changeamount);
+
+            }
         }
         else {
+            billSundryFedAsPercentagePrevious=data.getAttributes().getBill_sundry_of_percentage();
             billSundaryPercentage = data.getAttributes().getBill_sundry_percentage_value();
             billSundryCharges = data.getAttributes().getName();
             billSundryFedAs = data.getAttributes().getAmount_of_bill_sundry_fed_as();
@@ -105,6 +121,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
 
         courier_charges.setText(billSundryCharges);
+
         //percentage.setText(billSundaryPercentage);
 
         String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
@@ -115,13 +132,77 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 //        Timber.i("SIZE"+appUser.arr_billSundryId.get(1));
 
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
-            mPercentageLayout.setVisibility(View.VISIBLE);
-            percentage.setText(billSundaryPercentage);
+           // mPercentageLayout.setVisibility(View.VISIBLE);
+            mTotalLayout.setVisibility(View.VISIBLE);
+          //  percentage.setText(billSundaryPercentage);
         }
         else{
-            mPercentageLayout.setVisibility(View.GONE);
-            percentage.setText("");
+          //  mPercentageLayout.setVisibility(View.GONE);
+           // percentage.setText("");
         }
+        watcher1 = new MyInputWatcher(billAmount);
+        watcher2 = new MyInputWatcher(mTotalAmt);
+
+        billAmount.addTextChangedListener(watcher1);
+        mTotalAmt.addTextChangedListener(watcher2);
+       /* textWatcher=new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+        mTotalAmt.addTextChangedListener(textWatcher);
+        mTotalAmt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                billAmount.removeTextChangedListener(textWatcher);
+                billAmount.setText("0");
+                billSundryFedAsPercentage="valuechange";
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        billAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mTotalAmt.setText("0");
+               // String previousbillsundry=billSundryFedAsPercentagePrevious;
+              //  billSundryFedAsPercentage=;
+                return;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });*/
         if(billSundryCharges.equals("IGST")){
             if(taxstring.startsWith("I")) {
                 String arrtaxstring[] = taxstring.split("-");
@@ -161,10 +242,16 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
         }
         else{
+
             billSundryAmount=String.valueOf(/*data.getAttributes().getDefault_value()*/billSundryDefaultValue);
         }
+        if(billSundryFedAsPercentage.equals("valuechange")){
+         billAmount.setText("0");
+        }
+        else{
+            billAmount.setText(billSundryAmount);
+        }
 
-        billAmount.setText(billSundryAmount);
 
        /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
         if(fromSaleVoucherBillList){
@@ -203,11 +290,17 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
                 mMap.put("fed_as_percentage",/*data.getAttributes().getBill_sundry_of_percentage()*/billSundryFedAsPercentage);
                 mMap.put("type",/*data.getAttributes().getBill_sundry_type()*/billSundryType);
                 mMap.put("amount",billAmount.getText().toString());
+                mMap.put("previous",billSundryFedAsPercentagePrevious);
                 if(String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber)!=null) {
                     mMap.put("number_of_bill", String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber));
                 }
                 if(String.valueOf(/*data.getAttributes().isConsolidate_bill_sundry()*/billSundryConsolidated)!=null) {
                     mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
+                }
+                if(billSundryFedAsPercentage!=null){
+                if(billSundryFedAsPercentage.equals("valuechange")) {
+                    mMap.put("changeamount",/*data.getAttributes().getBill_sundry_type()*/mTotalAmt.getText().toString());
+                }
                 }
 
                 if(/*data.getAttributes().getBill_sundry_id()*/String.valueOf(billSundryId)!=null) {
@@ -267,5 +360,47 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         Intent intent=new Intent(this, BillSundryListActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    class MyInputWatcher implements TextWatcher {
+        private EditText et;
+
+        private MyInputWatcher(EditText editText) {
+            et = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+            switch (et.getId()) {
+                case R.id.bill_amount: {
+                    mTotalAmt.removeTextChangedListener(watcher2);
+                    mTotalAmt.setText("0");
+                    billSundryFedAsPercentage=billSundryFedAsPercentagePrevious;
+                    mTotalAmt.addTextChangedListener(watcher2);
+                    break;
+                }
+                case R.id.totalamt: {
+                    billAmount.removeTextChangedListener(watcher1);
+                    billAmount.setText("0");
+                    billSundryFedAsPercentage="valuechange";// set whatever text you want to set in editText1
+                    billAmount.addTextChangedListener(watcher1);
+
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 }
