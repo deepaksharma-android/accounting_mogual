@@ -28,7 +28,7 @@ public class PurchaseReportAdapter extends RecyclerView.Adapter<PurchaseReportAd
     @Override
     public PurchaseReportAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_sale_voucher_list, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_transaction_sale_list, viewGroup, false);
         return new ViewHolder(view);
     }
 

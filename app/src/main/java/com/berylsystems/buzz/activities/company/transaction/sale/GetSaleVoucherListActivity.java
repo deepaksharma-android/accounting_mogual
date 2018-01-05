@@ -1,13 +1,13 @@
-package com.berylsystems.buzz.activities.company.transaction;
+package com.berylsystems.buzz.activities.company.transaction.sale;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -23,7 +23,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
-
+import com.berylsystems.buzz.adapters.GetSaleVoucherListAdapter;
 import com.berylsystems.buzz.adapters.TransactionSalesAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -40,12 +40,12 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionSalesActivity extends RegisterAbstractActivity {
+public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     RecyclerView.LayoutManager layoutManager;
-    TransactionSalesAdapter mAdapter;
+    GetSaleVoucherListAdapter mAdapter;
     @Bind(R.id.sale_type_list_recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.dashboard_spinner_layout)
@@ -104,7 +104,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    mProgressDialog = new ProgressDialog(TransactionSalesActivity.this);
+                    mProgressDialog = new ProgressDialog(GetSaleVoucherListActivity.this);
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
@@ -137,7 +137,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_transaction_month_year;
+        return R.layout.activity_get_sale_voucher_list;
     }
 
     private void initActionbar() {
@@ -154,7 +154,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         //Spinner spinner = (Spinner) viewActionBar.findViewById(R.id.dashboard_spinner1);
        // spinner.setVisibility(View.VISIBLE);
-        actionbarTitle.setText("Sales");
+        actionbarTitle.setText("Sales Voucher");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -201,7 +201,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, FirstPageActivity.class);
+                Intent intent = new Intent(this, CreateSaleActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -213,7 +213,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, FirstPageActivity.class);
+        Intent intent = new Intent(this, CreateSaleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -226,7 +226,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new TransactionSalesAdapter(this,response.getSale_vouchers().data);
+            mAdapter = new GetSaleVoucherListAdapter(this,response.getSale_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
         }
         else{

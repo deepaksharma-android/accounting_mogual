@@ -8,35 +8,35 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.networks.api_response.salevoucher.Data;
+import com.berylsystems.buzz.networks.api_response.purchasevoucher.Data;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SaleReportAdapter extends RecyclerView.Adapter<SaleReportAdapter.ViewHolder> {
+public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseListAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Data> data;
 
-    public SaleReportAdapter(Context context, ArrayList<Data> data){
+    public GetPurchaseListAdapter(Context context, ArrayList<Data> data){
         this.context=context;
         this.data=data;
     }
 
     @Override
-    public SaleReportAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public GetPurchaseListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_transaction_sale_list, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_purchase_list, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SaleReportAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(GetPurchaseListAdapter.ViewHolder viewHolder, int position) {
 
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_master);
-        viewHolder.bank_edit_text2.setText(""+String.format("%.2f", data.get(position).getAttributes().total_amount));
+        viewHolder.bank_edit_text2.setText(""+String.format("%.2f",data.get(position).getAttributes().total_amount));
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));

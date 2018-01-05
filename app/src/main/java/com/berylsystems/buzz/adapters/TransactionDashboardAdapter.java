@@ -1,7 +1,6 @@
 package com.berylsystems.buzz.adapters;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 
 
@@ -17,7 +16,6 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
@@ -26,7 +24,6 @@ import com.berylsystems.buzz.activities.company.transaction.purchase_return.Crea
 import com.berylsystems.buzz.activities.company.transaction.purchase_return.EditPurchaseReturnActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.EditSaleActivity;
-import com.berylsystems.buzz.activities.company.transaction.sale.GetSaleListActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
@@ -47,22 +44,6 @@ import com.berylsystems.buzz.activities.company.transaction.payment.PaymentActiv
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.EditSaleReturnActivity;
-import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
-import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
-
-import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
-import com.berylsystems.buzz.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
-import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
-import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
-import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
-import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
-import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
-import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
-import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
-import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
-import com.berylsystems.buzz.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
-import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
-import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
