@@ -184,7 +184,8 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
         mMap = new HashMap<>();
 
-
+        final int finalPos = pos;
+        final int finalPos1 = pos;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,9 +221,16 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
                     }
                     mMap.put("other", billsundryothername);
                 }
-                appUser.mListMapForBillSale.add(mMap);
-                Timber.i("************************************"+appUser.mListMapForBillSale);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if(!frombillvoucherlist) {
+                    appUser.mListMapForBillSale.add(mMap);
+                    // appUser.mListMap = mListMap;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                else{
+                    appUser.mListMapForBillSale.remove(finalPos);
+                    appUser.mListMapForBillSale.add(finalPos,mMap);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
                 Intent intent =new Intent(getApplicationContext(),CreateSaleActivity.class);
                 intent.putExtra("is",true);
                 startActivity(intent);
