@@ -404,7 +404,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
-                if(!appUser.sale_party_group.equals("Cash-in-hand")) {
+                /*if(!appUser.sale_party_group.equals("Cash-in-hand")) {
                     Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                     appUser.voucher_type = "Receipt";
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -413,7 +413,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     intent.putExtra("from", "sale");
                     startActivity(intent);
                 }
-                else{
+                else{*/
                         mPartyName.setText("");
                         mMobileNumber.setText("");
                         mNarration.setText("");
@@ -422,7 +422,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
-                }
+               /* }*/
             }
             else{
                 mPartyName.setText("");
