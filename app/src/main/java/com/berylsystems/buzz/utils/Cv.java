@@ -150,6 +150,7 @@ public interface Cv {
     String ACTION_CREATE_SALE_RETURN = "action_create_sale_return";
     String ACTION_GET_SALE_RETURN_VOUCHER = "action_get_sale_return_voucher";
     String ACTION_CREATE_PURCHASE_RETURN = "action_create_purchase_return";
+    String ACTION_GET_PURCHASE_RETURN_VOUCHER = "action_get_purchase_return_voucher";
 
     String ACTION_GET_COMPANY_DASHBOARD_INFO = "action_get_company_dashboard_details";
     String ACTION_GET_TRANSACTION_PDF = "action_get_transaction_pdf";

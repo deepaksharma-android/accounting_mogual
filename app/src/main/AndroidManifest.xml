@@ -411,6 +411,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.transaction.purchase_return.GetPurchaseReturnListActivity"
+            android:parentActivityName=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

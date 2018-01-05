@@ -132,6 +132,7 @@ import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResp
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.berylsystems.buzz.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
@@ -469,6 +470,8 @@ public class ApiCallsService extends IntentService {
             handleGetPdc();
         }else if(Cv.ACTION_GET_SALE_RETURN_VOUCHER.equals(action)){
             handleGetSaleReturnVoucher();
+        }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER.equals(action)){
+            handleGetPurchaseReturnvoucher();
         }
     }
 
@@ -3705,6 +3708,32 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
+    }
+
+    private void handleGetPurchaseReturnvoucher(){
+
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getpurchasereturnvoucher(Preferences.getInstance(getApplicationContext()).getCid(),appUser.sales_duration_spinner).enqueue(new Callback<GetPurchaseReturnVoucherListResponse>() {
+            @Override
+            public void onResponse(Call<GetPurchaseReturnVoucherListResponse> call, Response<GetPurchaseReturnVoucherListResponse> r) {
+                if(r.code()==200){
+                    GetPurchaseReturnVoucherListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                }else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPurchaseReturnVoucherListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                }catch (Exception ex){
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
     }
 
     private void handleGetPdc() {
