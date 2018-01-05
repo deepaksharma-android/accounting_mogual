@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.Data;
+import com.berylsystems.buzz.utils.EventClickAlertForCreditNote;
+import com.berylsystems.buzz.utils.EventClickAlertForIncome;
+import com.berylsystems.buzz.utils.EventClickAlertForJournalVoucher;
 import com.berylsystems.buzz.utils.EventDeleteCreditNote;
+import com.berylsystems.buzz.utils.EventDeleteIncome;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -67,6 +71,22 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
                 context.startActivity(i);
             }
         });*/
+
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String bankCashDepositeId=data.get(position).getId();
+                EventBus.getDefault().post(new EventClickAlertForCreditNote(bankCashDepositeId));
+            }
+        });
+
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteCreditNote(receipt_voucher_id));
+            }
+        });
     }
 
     @Override
@@ -86,6 +106,11 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
+
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)
