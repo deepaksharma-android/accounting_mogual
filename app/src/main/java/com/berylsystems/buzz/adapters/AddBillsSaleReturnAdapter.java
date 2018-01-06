@@ -71,10 +71,9 @@ public class AddBillsSaleReturnAdapter extends BaseAdapter {
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 holder.mDiscount.setText(String.valueOf(changeamount));
+            } else {
+                holder.mDiscount.setText(amount);
             }
-        }
-        else{
-            holder.mDiscount.setText(amount);
         }
         holder.mTotal.setText(mListItemMap.get(position));
         holder.mItemName.setText(itemName);

@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale.SaleVoucherAddBillActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.SaleReturnAddBillActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
 import com.berylsystems.buzz.adapters.AddBillsSaleReturnAdapter;
 import com.berylsystems.buzz.adapters.AddItemsSaleReturnAdapter;
@@ -115,6 +117,17 @@ public class AddItemSaleReturnFragment extends Fragment {
             }
         });
 
+        listViewBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), SaleReturnAddBillActivity.class);
+                intent.putExtra("frombillvoucherlist", true);
+                intent.putExtra("pos", i);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
         listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -180,6 +193,7 @@ public class AddItemSaleReturnFragment extends Fragment {
         double itemamount = 0.0;
         double billsundrymamount = 0.0;
         double billsundrymamounttotal = 0.0;
+        double changeamount=0.0;
 
         appUser = LocalRepositories.getAppUser(getApplicationContext());
 
@@ -215,6 +229,11 @@ public class AddItemSaleReturnFragment extends Fragment {
                 String other = (String) map.get("other");
                 String fedas = (String) map.get("fed_as");
                 String fed_as_percentage = (String) map.get("fed_as_percentage");
+                if(fed_as_percentage!=null) {
+                    if (fed_as_percentage.equals("valuechange")) {
+                        changeamount = Double.parseDouble((String) map.get("changeamount"));
+                    }
+                }
                 String percentage_value = (String) map.get("percentage_value");
                 String number_of_bill = (String) map.get("number_of_bill");
                 String consolidated = (String) map.get("consolidated");
@@ -615,6 +634,35 @@ public class AddItemSaleReturnFragment extends Fragment {
 
                         }
 
+                    }
+                    else if(fed_as_percentage.equals("valuechange")){
+                        if (appUser.mListMapForBillSaleReturn.size() > 0) {
+                            double subtot = 0.0;
+                            for (int j = 0; j < appUser.mListMapForItemSaleReturn.size(); j++) {
+                                Map mapj = appUser.mListMapForItemSaleReturn.get(j);
+                                String total = (String) mapj.get("total");
+                                double itemtot = Double.parseDouble(total);
+                                subtot = subtot + itemtot;
+
+
+
+                            }
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + changeamount;
+                            } else {
+                                billsundrymamount = billsundrymamount - changeamount;
+                            }
+                           /* double per_val = Double.parseDouble(percentage_value);
+                            double percentagebillsundry = (billsundrymamounttotal + subtot) * (((per_val / 100) * amt) / 100);
+
+                            if (type.equals("Additive")) {
+                                billsundrymamount = billsundrymamount + percentagebillsundry;
+                            } else {
+                                billsundrymamount = billsundrymamount - percentagebillsundry;
+                            }*/
+
+
+                        }
                     }
                 }
                 billsundrymamounttotal = billsundrymamounttotal + billsundrymamount;
