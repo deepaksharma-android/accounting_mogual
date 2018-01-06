@@ -53,8 +53,8 @@
             android:layout_weight="0.1">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@drawable/telephone"/>
         </LinearLayout>
         <!-- <LinearLayout

@@ -70,8 +70,8 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:layout_gravity="right"
                                 android:src="@drawable/phone_book"/>
                         </LinearLayout>
@@ -103,6 +103,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:hint="Mobile number"
+                            android:maxLength="13"
                             android:inputType="number"
                             android:textColor="#000"
                             android:textSize="16sp" />
