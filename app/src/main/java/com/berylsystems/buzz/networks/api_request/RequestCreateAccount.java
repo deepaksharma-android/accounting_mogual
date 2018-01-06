@@ -21,7 +21,7 @@ public class RequestCreateAccount {
         account.put("name", appUser.account_name);
         account.put("company_id", Preferences.getInstance(ctx).getCid());
         account.put("mobile_number", appUser.account_mobile_number);
-        account.put("email", appUser.email);
+        account.put("email", appUser.account_email);
         account.put("account_master_group_id", appUser.create_account_group_id);
         account.put("address", appUser.account_address);
         account.put("city", appUser.account_city);

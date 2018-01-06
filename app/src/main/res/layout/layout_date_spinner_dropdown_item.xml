@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.berylsystems.buzz.utils.BuzzTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="@style/Gotham_Bold"
+    android:singleLine="true"
+    android:layout_width="match_parent"
+    android:textSize="13sp"
+    android:layout_height="40dp"
+    android:ellipsize="none"
+    android:paddingLeft="10dp"
+    android:textAllCaps="true"
+    android:gravity="center_vertical"
+    android:textColor="#D9000000"/>
