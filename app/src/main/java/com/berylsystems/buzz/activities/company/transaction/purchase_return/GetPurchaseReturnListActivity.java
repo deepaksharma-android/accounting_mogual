@@ -91,8 +91,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
              }
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, cashInHand);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.layout_date_spinner_textview, cashInHand);
+        dataAdapter.setDropDownViewResource(R.layout.layout_date_spinner_dropdown_item);
         dashboardSpinner.setAdapter(dataAdapter);
 
         dashboardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -138,7 +138,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_get_purchase_list;
+        return R.layout.activity_get_purchase_return_list;
     }
 
     private void initActionbar() {

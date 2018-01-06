@@ -60,20 +60,20 @@ public class PdcReceiptAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.from.setText(list.get(position).getReceived_from());
-        holder.by.setText(list.get(position).getReceived_by());
-        holder.amount.setText(list.get(position).getAmount());
-        holder.voucher_number.setText(list.get(position).getVoucher_number());
-        holder.date.setText(list.get(position).getPdc_date());
+        holder.bank_edit_text1.setText(list.get(position).getReceived_from());
+        holder.bank_edit_text2.setText(list.get(position).getReceived_by());
+        holder.bank_edit_text4.setText(list.get(position).getAmount());
+        holder.bank_edit_text5.setText(list.get(position).getVoucher_number());
+        holder.bank_edit_text3.setText(list.get(position).getPdc_date());
 
-        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+        holder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String receipt_voucher_id=list.get(position).getId();
                 EventBus.getDefault().post(new EventDeleteReceiptPdcDetails(receipt_voucher_id));
             }
         });
-        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+      /*  holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, CreateReceiptVoucherActivity.class);
@@ -82,26 +82,32 @@ public class PdcReceiptAdapter extends BaseAdapter {
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
-        });
+        });*/
         return convertView;
     }
 
     static class ViewHolder {
 
-        @Bind(R.id.from)
-        TextView from;
-        @Bind(R.id.by)
-        TextView by;
-        @Bind(R.id.amount)
-        TextView amount;
-        @Bind(R.id.voucher_number)
-        TextView voucher_number;
-        @Bind(R.id.date)
-        TextView date;
-        @Bind(R.id.edit_btn)
-        LinearLayout editBtn;
-        @Bind(R.id.delete_btn)
-        LinearLayout deleteBtn;
+        @Bind(R.id.bank_edit_text1)
+        TextView bank_edit_text1;
+        @Bind(R.id.bank_edit_text2)
+        TextView bank_edit_text2;
+        @Bind(R.id.bank_edit_text3)
+        TextView bank_edit_text3;
+        @Bind(R.id.bank_edit_text4)
+        TextView bank_edit_text4;
+        @Bind(R.id.bank_edit_text5)
+        TextView bank_edit_text5;
+        @Bind(R.id.icon_eye)
+        LinearLayout mEye;
+        @Bind(R.id.icon_printing)
+        LinearLayout mPrinting;
+        @Bind(R.id.icon_share)
+        LinearLayout mShare;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
 
 
         public ViewHolder(View view) {

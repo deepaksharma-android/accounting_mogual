@@ -115,17 +115,27 @@
                             android:layout_marginTop="5dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <com.berylsystems.buzz.utils.BuzzTextView
                                 android:id="@+id/date"
-                                android:layout_width="fill_parent"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.9"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
                                 android:hint="eg.1 April 2017"
                                 android:textColor="#000"
                                 android:textSize="16sp" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="16dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/icon_calendar" />
+
+
                         </LinearLayout>
                     </LinearLayout>
 
@@ -207,9 +217,9 @@
 
                     <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="10dp"
+                        android:layout_height="15dp"
                         android:layout_weight="0.1"
-                        android:src="@drawable/right_carat" />
+                        android:src="@drawable/right_chevron" />
                 </LinearLayout>
 
                 <com.berylsystems.buzz.utils.BuzzTextView
@@ -243,9 +253,9 @@
 
                     <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="10dp"
+                        android:layout_height="15dp"
                         android:layout_weight="0.1"
-                        android:src="@drawable/right_carat" />
+                        android:src="@drawable/right_chevron" />
                 </LinearLayout>
 
                 <com.berylsystems.buzz.utils.BuzzTextView
@@ -279,9 +289,9 @@
 
                     <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="10dp"
+                        android:layout_height="15dp"
                         android:layout_weight="0.1"
-                        android:src="@drawable/right_carat" />
+                        android:src="@drawable/right_chevron" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -331,6 +341,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
                                 android:hint="Enter Mob. No"
+                                android:maxLength="13"
                                 android:inputType="number"
                                 android:textColor="#000"
                                 android:textSize="16sp" />

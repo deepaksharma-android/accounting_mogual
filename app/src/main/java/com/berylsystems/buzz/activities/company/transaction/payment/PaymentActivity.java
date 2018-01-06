@@ -97,10 +97,9 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, cashInHand);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.layout_date_spinner_textview, cashInHand);
+        dataAdapter.setDropDownViewResource(R.layout.layout_date_spinner_dropdown_item);
         dashboardSpinner.setAdapter(dataAdapter);
-
 
         dashboardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

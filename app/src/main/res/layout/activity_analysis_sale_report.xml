@@ -12,20 +12,17 @@
 
         <LinearLayout
             android:id="@+id/dashboard_spinner_layout"
-            android:layout_width="fill_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_height="50dp"
-            android:background="@drawable/bg_grey_stroke"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#067bc9"
             android:orientation="vertical">
-
             <Spinner
                 android:id="@+id/dashboard_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:spinnerMode="dialog">
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_gravity="left">
             </Spinner>
 
         </LinearLayout>
@@ -33,7 +30,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sale_type_list_recycler_view"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_height="fill_parent"
             android:scrollbars="none" />
     </LinearLayout>

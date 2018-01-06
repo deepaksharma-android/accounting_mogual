@@ -60,20 +60,20 @@ public class PdcPaymentAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.from.setText(list.get(position).getPaid_from());
-        holder.by.setText(list.get(position).getPaid_to());
-        holder.voucher_number.setText(list.get(position).getVoucher_number());
-        holder.amount.setText(list.get(position).getAmount());
-        holder.date.setText(list.get(position).getPdc_date());
+        holder.bank_edit_text1.setText(list.get(position).getPaid_from());
+        holder.bank_edit_text2.setText(list.get(position).getPaid_to());
+        holder.bank_edit_text5.setText(list.get(position).getVoucher_number());
+        holder.bank_edit_text4.setText(list.get(position).getAmount());
+        holder.bank_edit_text3.setText(list.get(position).getPdc_date());
 
-        holder.deleteBtn1.setOnClickListener(new View.OnClickListener() {
+        holder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String payment_id=list.get(position).getId();
                 EventBus.getDefault().post(new EventDeletePaymentPdcDetails(payment_id));
             }
         });
-        holder.editBtn1.setOnClickListener(new View.OnClickListener() {
+        /*holder.editBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, CreatePaymentActivity.class);
@@ -82,25 +82,25 @@ public class PdcPaymentAdapter extends BaseAdapter {
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
             }
-        });
+        });*/
         return convertView;
     }
 
     static class ViewHolder {
-        @Bind(R.id.from)
-        TextView from;
-        @Bind(R.id.by)
-        TextView by;
-        @Bind(R.id.amount)
-        TextView amount;
-        @Bind(R.id.voucher_number)
-        TextView voucher_number;
-        @Bind(R.id.date)
-        TextView date;
-        @Bind(R.id.edit_btn1)
-        LinearLayout editBtn1;
-        @Bind(R.id.delete_btn1)
-        LinearLayout deleteBtn1;
+        @Bind(R.id.bank_edit_text1)
+        TextView bank_edit_text1;
+        @Bind(R.id.bank_edit_text2)
+        TextView bank_edit_text2;
+        @Bind(R.id.bank_edit_text3)
+        TextView bank_edit_text3;
+        @Bind(R.id.bank_edit_text4)
+        TextView bank_edit_text4;
+        @Bind(R.id.bank_edit_text5)
+        TextView bank_edit_text5;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
