@@ -44,14 +44,14 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="match_parent"
                     android:id="@+id/ledger_txt"
                     style="@style/Gotham_Book"
-                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:padding="10dp"
-                    android:text="Ledger" />
+                    android:text="Ledger"
+                    android:textColor="@color/black" />
 
                 <View
                     android:layout_width="match_parent"
@@ -62,19 +62,19 @@
             <LinearLayout
                 android:id="@+id/cash_bank"
                 android:layout_width="match_parent"
-                android:background="@drawable/background"
                 android:layout_height="40dp"
+                android:background="@drawable/background"
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/cash_bank_txt"
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    style="@style/Gotham_Book"
-                    android:id="@+id/cash_bank_txt"
                     android:layout_margin="10dp"
-                    android:text="Cash/Bank" />
+                    android:text="Cash/Bank"
+                    android:textColor="@color/black" />
 
                 <View
                     android:layout_width="match_parent"
@@ -90,14 +90,14 @@
                 android:orientation="vertical">
 
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/pdc_detail_txt"
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:id="@+id/pdc_detail_txt"
-                    style="@style/Gotham_Book"
-                    android:textColor="@color/black"
                     android:layout_margin="10dp"
-                    android:text="Pdc Detail" />
+                    android:text="Pdc Detail"
+                    android:textColor="@color/black" />
 
 
             </LinearLayout>
@@ -130,21 +130,21 @@
 
                 <LinearLayout
 
+                    android:id="@+id/amount_receivable"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/background"
-                    android:id="@+id/amount_receivable"
                     android:orientation="vertical">
 
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        android:id="@+id/amount_receivable_txt"
+                        style="@style/Gotham_Book"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        style="@style/Gotham_Book"
-                        android:textColor="@color/black"
-                        android:id="@+id/amount_receivable_txt"
-                        android:text="Amount Receivable" />
+                        android:text="Amount Receivable"
+                        android:textColor="@color/black" />
 
                     <View
                         android:layout_width="match_parent"
@@ -154,25 +154,24 @@
 
                 <LinearLayout
 
+                    android:id="@+id/amount_payble"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/background"
-                    android:id="@+id/amount_payble"
                     android:orientation="vertical">
 
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        android:id="@+id/amount_payble_txt"
+                        style="@style/Gotham_Book"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        style="@style/Gotham_Book"
-                        android:textColor="@color/black"
-                        android:id="@+id/amount_payble_txt"
-                        android:text="Amount Payble" />
+                        android:text="Amount Payble"
+                        android:textColor="@color/black" />
 
 
                 </LinearLayout>
-
 
 
             </LinearLayout>
@@ -181,10 +180,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@color/parent_list_item_color">
+
                     <TextView
                         style="@style/Gotham_Bold"
                         android:layout_width="0dp"
@@ -200,19 +201,20 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/opening_stock_group"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/background"
-                    android:id="@+id/opening_stock_group"
                     android:orientation="vertical">
+
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Book"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        style="@style/Gotham_Book"
-                        android:textColor="@color/black"
-                        android:text="Stock Report" />
+                        android:text="Stock Report"
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -222,10 +224,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@color/parent_list_item_color">
+
                     <TextView
                         style="@style/Gotham_Bold"
                         android:layout_width="0dp"
@@ -241,19 +245,21 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:id="@+id/gstr1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:background="@drawable/background"
                     android:orientation="vertical">
+
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Book"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        style="@style/Gotham_Book"
-                        android:textColor="@color/black"
                         android:layout_margin="10dp"
-                        android:text="GSTR-1" />
+                        android:text="GSTR-1"
+                        android:textColor="@color/black" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height=".1dp"
@@ -261,19 +267,21 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:id="@+id/gstr2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:background="@drawable/background"
                     android:orientation="vertical">
+
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Book"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        style="@style/Gotham_Book"
-                        android:textColor="@color/black"
                         android:layout_margin="10dp"
-                        android:text="GSTR-2" />
+                        android:text="GSTR-2"
+                        android:textColor="@color/black" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height=".1dp"
@@ -281,20 +289,22 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/gstr2_b3"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:id="@+id/gstr2_b3"
-                    android:visibility="gone"
                     android:background="@drawable/background"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
                     <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Book"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        style="@style/Gotham_Book"
-                        android:textColor="@color/black"
                         android:layout_margin="10dp"
-                        android:text="GSTR-B3" />
+                        android:text="GSTR-B3"
+                        android:textColor="@color/black" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height=".1dp"
@@ -303,19 +313,21 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
                 android:id="@+id/gstr_e1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:background="@drawable/background"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    style="@style/Gotham_Book"
                     android:layout_margin="10dp"
-                    android:text="Sale Register" />
+                    android:text="Sale Register"
+                    android:textColor="@color/black" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
@@ -323,19 +335,21 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
                 android:id="@+id/gstr_e2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:background="@drawable/background"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    style="@style/Gotham_Book"
-                    android:textColor="@color/black"
                     android:layout_margin="10dp"
-                    android:text="Purchase Register" />
+                    android:text="Purchase Register"
+                    android:textColor="@color/black" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
@@ -343,20 +357,21 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/gstr_b3"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:visibility="gone"
                 android:background="@drawable/background"
-                android:id="@+id/gstr_b3"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:layout_gravity="center"
-                    style="@style/Gotham_Book"
                     android:layout_margin="10dp"
-                    android:text="GSTR-B3 Excel" />
+                    android:text="GSTR-B3 Excel"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -365,6 +380,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/parent_list_item_color">
+
                 <TextView
                     style="@style/Gotham_Bold"
                     android:layout_width="0dp"
@@ -381,27 +397,29 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sale_report_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/sale_report_layout"
                 android:background="@drawable/background"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/sale_report"
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sale_report"
                     android:layout_gravity="center"
-                    style="@style/Gotham_Book"
-                    android:textColor="@color/black"
                     android:layout_margin="10dp"
-                    android:textSize="16dp"
-                    android:text="sale report" />
+                    android:text="sale report"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/parent_list_item_color">
+
                 <TextView
                     style="@style/Gotham_Bold"
                     android:layout_width="0dp"
@@ -417,20 +435,22 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/purchase_report_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/purchase_report_layout"
                 android:background="@drawable/background"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/purchase_report"
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:id="@+id/purchase_report"
-                    style="@style/Gotham_Book"
-                    android:textColor="@color/black"
                     android:layout_margin="10dp"
-                    android:text="purchase report" />
+                    android:text="purchase report"
+                    android:textColor="@color/black" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
@@ -441,6 +461,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/parent_list_item_color">
+
                 <TextView
                     style="@style/Gotham_Bold"
                     android:layout_width="0dp"
@@ -456,20 +477,22 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/balance_sheet_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/balance_sheet_layout"
                 android:background="@drawable/background"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:id="@+id/balance_sheet"
                     style="@style/Gotham_Book"
-                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:text="Balance sheet" />
+                    android:text="Balance sheet"
+                    android:textColor="@color/black" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
@@ -477,55 +500,30 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/profit_loss_report_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/profit_report_layout"
                 android:background="@drawable/background"
                 android:orientation="vertical">
+
                 <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/profit_loss"
+                    style="@style/Gotham_Book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:id="@+id/profit"
-                    style="@style/Gotham_Book"
-                    android:textColor="@color/black"
                     android:layout_margin="10dp"
-                    android:text="Profit" />
+                    android:text="Profit and Loss"
+                    android:textColor="@color/black" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height=".1dp"
                     android:background="?android:attr/listDivider" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/loss_report_layout"
-                android:background="@drawable/background"
-                android:orientation="vertical">
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/loss"
-                    style="@style/Gotham_Book"
-                    android:textColor="@color/black"
-                    android:layout_margin="10dp"
-                    android:text="Loss" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height=".1dp"
-                    android:background="?android:attr/listDivider" />
-            </LinearLayout>
-
-
-
         </LinearLayout>
 
 
     </ScrollView>
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>
