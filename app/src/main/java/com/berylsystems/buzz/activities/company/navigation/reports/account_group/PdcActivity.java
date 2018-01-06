@@ -105,9 +105,10 @@ public class PdcActivity extends RegisterAbstractActivity {
                 arrayList.add(monthName[i] + " " + currentYear);
             }
         }
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arrayList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.layout_date_spinner_textview, arrayList);
+        dataAdapter.setDropDownViewResource(R.layout.layout_date_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
 
 
