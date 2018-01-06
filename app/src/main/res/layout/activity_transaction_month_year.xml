@@ -18,12 +18,11 @@
             android:orientation="vertical">
             <Spinner
                 android:id="@+id/dashboard_spinner"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
-                android:layout_gravity="left"
-                android:spinnerMode="dialog">
+                android:layout_gravity="left">
             </Spinner>
 
         </LinearLayout>

@@ -2,7 +2,7 @@
 
 <com.berylsystems.buzz.utils.BuzzTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    style="@style/Gotham_Light"
+    style="@style/Gotham_Bold"
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,4 +10,5 @@
     android:textSize="13sp"
     android:textAlignment="inherit"
     android:paddingLeft="10dp"
-    android:textColor="@drawable/solid_white"/>
+    android:textAllCaps="true"
+    android:textColor="@color/white"/>
