@@ -54,6 +54,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:hint="Item Name"
+                            android:inputType="text"
                             android:textColor="#000"
                             android:textSize="16sp" />
 
@@ -200,9 +201,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_grey_stroke"
                             android:padding="10dp"
-                            android:hint="HSN number"
+                            android:hint="eg.ab12c"
+                            android:inputType="text"
                             android:textSize="16sp"
-                            android:textAllCaps="false"
                             android:textColor="#000" />
                     </LinearLayout>
 
