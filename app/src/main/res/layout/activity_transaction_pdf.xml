@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top|fill_vertical"
+    android:orientation="vertical"
+    tools:context=".activities.company.navigation.reports.TransactionPdfActivity">
+
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="top|fill_vertical"
-         tools:context=".activities.company.navigation.reports.TransactionPdfActivity">
+        android:layout_height="wrap_content"
+        android:text="Create Pdf"
+        android:layout_marginTop="30dp"
+        android:id="@+id/buttonPdf"/>
 
-
-
-        <WebView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/webView"/>
-
-    </LinearLayout>
+</LinearLayout>
