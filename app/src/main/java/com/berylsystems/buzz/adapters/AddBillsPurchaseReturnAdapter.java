@@ -63,12 +63,19 @@ public class AddBillsPurchaseReturnAdapter extends BaseAdapter {
         Timber.i("MEEEEEEEEEE" + mListMap.get(position));
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
+        String fed_as_percentage = (String) map.get("fed_as_percentage");
+        if(fed_as_percentage!=null) {
+            if (fed_as_percentage.equals("valuechange")) {
+                Double changeamount = Double.parseDouble((String) map.get("changeamount"));
+                holder.mDiscount.setText(String.valueOf(changeamount));
+            } else {
+                holder.mDiscount.setText(amount);
+            }
+        }
         holder.mItemName.setText(itemName);
         if (mListItemMap.size()>0){
             holder.mTotal.setText(mListItemMap.get(position));
         }
-
-        holder.mDiscount.setText(amount);
         return convertView;
     }
 

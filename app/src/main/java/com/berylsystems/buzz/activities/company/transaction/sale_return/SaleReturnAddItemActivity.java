@@ -511,6 +511,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
                 mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
                 mMap.put("mrp", mrp);
+                mMap.put("tax", tax);
                 mMap.put("unit_list",mUnitList);
                 mMap.put("serial_number",appUser.purchase_item_serail_arr);
 

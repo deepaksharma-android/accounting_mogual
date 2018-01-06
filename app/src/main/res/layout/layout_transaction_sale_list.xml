@@ -118,39 +118,42 @@
         android:layout_gravity="center">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="right"
-            android:layout_weight="0.8">
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/icon_delete"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:gravity="right"
+            android:gravity="left"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0.05">
-
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_delete1"
                 android:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="right"
+            android:layout_weight="0.8">
+
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/icon_eye"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="0.05">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginRight="1dp"
                 android:src="@drawable/icon_eye"
                 android:visibility="visible" />
         </LinearLayout>
@@ -161,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:layout_weight="0.05">
+            android:layout_weight="0.1">
 
             <ImageView
                 android:layout_width="20dp"
