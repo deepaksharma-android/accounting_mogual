@@ -19,6 +19,16 @@ public class AccountAttributes {
     public String amount_payable;
     public Double amount;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String email;
+
     public Double getAmount() {
         return amount;
     }
