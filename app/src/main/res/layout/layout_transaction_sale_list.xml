@@ -121,8 +121,23 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="right"
-            android:layout_weight="0.7">
+            android:layout_weight="0.8">
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/icon_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="right"
+            android:layout_weight="0.05">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_delete1"
+                android:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,10 +145,10 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:layout_weight="0.1">
+            android:layout_weight="0.05">
 
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_eye"
@@ -146,10 +161,10 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:layout_weight="0.1">
+            android:layout_weight="0.05">
 
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_printing"
@@ -161,13 +176,14 @@
             android:layout_width="15dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_weight="0.1">
+            android:layout_weight="0.05">
 
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_share"
+                android:layout_marginRight="10dp"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
