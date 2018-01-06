@@ -342,6 +342,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String delete_bank_cash_deposit_id;
     public String edit_bank_cash_deposit_id;
     public ArrayList<String> serial_arr=new ArrayList<>();
+    public ArrayList<String> stock_serial_arr=new ArrayList<>();
+    public ArrayList<String> stock_item_serail_arr=new ArrayList<>();
     public ArrayList<String> purchase_item_serail_arr=new ArrayList<>();
     public ArrayList<String> sale_item_serial_arr=new ArrayList<>();
     public ArrayList<BillSundryData> billSundryData = new ArrayList<>();

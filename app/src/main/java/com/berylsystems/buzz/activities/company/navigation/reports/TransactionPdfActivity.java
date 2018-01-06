@@ -1,6 +1,7 @@
 package com.berylsystems.buzz.activities.company.navigation.reports;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
 import android.print.PrintManager;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -22,6 +24,7 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -75,8 +78,9 @@ public class TransactionPdfActivity extends AppCompatActivity {
                 mPdf_webview.createPrintDocumentAdapter("MyDocument");*/
         Spanned htmlAsSpanned = Html.fromHtml(company_report);
         htmlString = htmlAsSpanned.toString();
-        mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
+       // mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
         mPdf_webview.getSettings().setBuiltInZoomControls(true);
+
 
         buttonPdf.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -89,15 +93,32 @@ public class TransactionPdfActivity extends AppCompatActivity {
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
-                //createWebPrintJob(mPdf_webview);
+               // createWebPrintJob(mPdf_webview);
             }
         });
 
     }
+  /*  private void createWebPrintJob(WebView webView) {
 
+        // Get a PrintManager instance
+        PrintManager printManager = (PrintManager)this
+                .getSystemService(Context.PRINT_SERVICE);
+
+        // Get a print adapter instance
+        PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
+
+        // Create a print job with name and adapter instance
+        String jobName = getString(R.string.app_name) + " Document";
+        PrintJob printJob = printManager.print(jobName, printAdapter,
+                new PrintAttributes.Builder().build());
+
+        // Save the job object for later status checking
+       // mPrintJobs.add(printJob);
+    }*/
     //this method is for print the Whole WebView Page
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    /*private void createWebPrintJob(WebView webView) {
+    private void createWebPrintJob(WebView webView) {
 
         PrintManager printManager = (PrintManager) this
                 .getSystemService(Context.PRINT_SERVICE);
@@ -110,7 +131,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
         printManager.print(jobName, printAdapter,
                 new PrintAttributes.Builder().build());
-    }*/
+    }
 
     private void createPdfWrapper(String htmlString) throws FileNotFoundException, DocumentException {
 
@@ -209,4 +230,6 @@ public class TransactionPdfActivity extends AppCompatActivity {
             Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

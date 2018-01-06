@@ -193,6 +193,8 @@ public class RequestCreateItem {
         if (!Preferences.getInstance(ctx).getitem_description().equals("")) {
             item.put("item_description", Preferences.getInstance(ctx).getitem_description());
         }
+        item.put("serial_number",appUser.stock_item_serail_arr);
+
 
     }
 }
