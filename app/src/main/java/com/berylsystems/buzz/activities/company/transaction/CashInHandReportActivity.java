@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,10 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
     TextView mStart_date;
     @Bind(R.id.end_date)
     TextView mEnd_date;
+    @Bind(R.id.calender_icon)
+    ImageView mCalender_Icon;
+    @Bind(R.id.calender_icon1)
+    ImageView mCalender_Icon1;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     ProgressDialog mProgressDialog;
@@ -157,6 +162,8 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
     private void setDateField() {
         mStart_date.setOnClickListener(this);
         mEnd_date.setOnClickListener(this);
+        mCalender_Icon.setOnClickListener(this);
+        mCalender_Icon1.setOnClickListener(this);
 
         final Calendar newCalendar = Calendar.getInstance();
 
@@ -243,10 +250,10 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date) {
+        if (view == mStart_date || view==mCalender_Icon) {
             DatePickerDialog1.show();
         }
-        else if(view == mEnd_date){
+        else if(view == mEnd_date || view==mCalender_Icon1){
             DatePickerDialog2.show();
         }
     }

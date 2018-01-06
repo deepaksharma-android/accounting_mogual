@@ -119,6 +119,7 @@
                                 android:textSize="16sp"/>
 
                             <ImageView
+                                android:id="@+id/calender_icon"
                                 android:layout_width="0dp"
                                 android:layout_height="25dp"
                                 android:layout_marginRight="5dp"
@@ -163,6 +164,7 @@
                                 android:textSize="16sp"/>
 
                             <ImageView
+                                android:id="@+id/calender_icon1"
                                 android:layout_width="0dp"
                                 android:layout_height="25dp"
                                 android:layout_marginRight="5dp"

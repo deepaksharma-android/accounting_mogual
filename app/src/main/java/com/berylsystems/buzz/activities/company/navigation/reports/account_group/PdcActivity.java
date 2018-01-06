@@ -72,7 +72,7 @@ public class PdcActivity extends RegisterAbstractActivity {
     Snackbar snackbar;
     AppUser appUser;
     ArrayList<String> arrayList = new ArrayList<>();
-    @Bind(R.id.spinner)
+    @Bind(R.id.dashboard_spinner)
     Spinner spinner;
     ArrayList<Attribute> receiptList;
     ArrayList<Attribute> paymentList;

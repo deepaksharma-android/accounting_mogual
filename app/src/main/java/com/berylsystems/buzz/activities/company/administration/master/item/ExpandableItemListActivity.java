@@ -302,7 +302,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 default_unit.clear();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
-                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()));
+                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getStock_quantity()));
 
                     nameList.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
                     idList.add(String.valueOf(i)+","+String.valueOf(j));

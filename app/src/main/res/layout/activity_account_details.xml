@@ -66,12 +66,13 @@
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_weight="0.2"
+                            android:layout_marginRight="10dp"
                             android:gravity="center"
                             android:orientation="vertical">
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:layout_gravity="center"
+                                android:layout_gravity="right"
                                 android:src="@drawable/phone_book"/>
                         </LinearLayout>
 
