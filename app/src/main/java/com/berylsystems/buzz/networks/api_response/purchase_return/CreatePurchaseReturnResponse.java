@@ -7,6 +7,16 @@ package com.berylsystems.buzz.networks.api_response.purchase_return;
 public class CreatePurchaseReturnResponse {
     public String message;
 
+    public String html;
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
+
     public int getStatus() {
         return status;
     }

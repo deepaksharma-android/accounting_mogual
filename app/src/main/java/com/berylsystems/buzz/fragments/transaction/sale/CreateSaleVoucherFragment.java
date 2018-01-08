@@ -509,10 +509,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+
                         ProgressDialog progressDialog=new ProgressDialog(getActivity());
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
-
                         String htmlString=response.getHtml();
                         Spanned htmlAsSpanned = Html.fromHtml(htmlString);
                         mPdf_webview=new WebView(getApplicationContext());
