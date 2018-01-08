@@ -114,7 +114,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mItemGroup.setText(appUser.item_group_name);
         mItemUnit.setText(appUser.item_unit_name);
         mTaxCategory.setText(appUser.item_tax_category_name);
-        Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
         Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
@@ -153,7 +152,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("");
         Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("");
         Preferences.getInstance(getApplicationContext()).setitem_description("");
-
+        Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
+        Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
         title = "CREATE ITEM";
        /* fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
@@ -237,6 +237,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("");
             Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("");
             Preferences.getInstance(getApplicationContext()).setitem_description("");
+            Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
+            Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
             mSubmitButton.setVisibility(View.GONE);
             mUpdateButton.setVisibility(View.VISIBLE);
            /* mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
