@@ -102,7 +102,7 @@
                                 android:id="@+id/settings_serial_number_wise_detail_spinner"
                                 android:layout_width="fill_parent"
                                 android:layout_height="40dp"
-                                android:entries="@array/setting_array"></Spinner>
+                                android:entries="@array/primary_group"></Spinner>
 
                         </LinearLayout>
                     </LinearLayout>

@@ -15,6 +15,7 @@ public class AppUser {
     public String name;
     public String email;
     public String zipcode;
+    public String device_type="Android";
     public String salesmanmobile;
     public String user_id;
     public String otp;
