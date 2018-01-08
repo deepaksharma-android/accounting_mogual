@@ -78,7 +78,7 @@ public class CreatePurchaseActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreatePurchaseFragment(), "CREATE PURCHASE FRAGMENT");
+        adapter.addFragment(new CreatePurchaseFragment(), "CREATE PURCHASE VOUCHER");
         adapter.addFragment(new AddItemPurchaseFragment(), "ADD ITEM PURCHASE");
         viewPager.setAdapter(adapter);
     }

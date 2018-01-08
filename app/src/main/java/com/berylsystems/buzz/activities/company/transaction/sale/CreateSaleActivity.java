@@ -102,7 +102,7 @@ public class CreateSaleActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         CreateSaleActivity.ViewPagerAdapter adapter = new CreateSaleActivity.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreateSaleVoucherFragment(), "CREATE VOUCHER FRAGMENT");
+        adapter.addFragment(new CreateSaleVoucherFragment(), "CREATE SALE VOUCHER");
         adapter.addFragment(new AddItemVoucherFragment(), "ADD ITEM VOUCHER");
         viewPager.setAdapter(adapter);
     }
