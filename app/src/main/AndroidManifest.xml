@@ -519,7 +519,6 @@
         <activity
             android:name=".activities.company.navigation.reports.TransactionPdfActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"/>
                <activity
             android:name=".activities.company.transaction.TransactionSalesActivity"
