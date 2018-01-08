@@ -177,6 +177,7 @@ import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCas
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.EditBankCashDepositResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
+import com.berylsystems.buzz.networks.api_response.version.VersionResponse;
 
 public interface Api {
     @POST("signup")
@@ -599,4 +600,6 @@ public interface Api {
     @DELETE("purchase_return_voucher/{id}")
     Call<DeletePurchaseReturnVoucherResponse> deletepurchasereturnvoucher(@Path("id") String id);
 
+    @GET("version")
+    Call<VersionResponse> version(@Query("device_type") String device_type);
 }

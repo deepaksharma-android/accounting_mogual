@@ -8,6 +8,7 @@ public class CreatePurchaseResponce {
 
     public String message;
     public int status;
+    public String html;
 
     public String getMessage() {
         return message;
@@ -15,6 +16,14 @@ public class CreatePurchaseResponce {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
     }
 
     public int getStatus() {

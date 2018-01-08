@@ -133,7 +133,7 @@ public class ItemSettingsActivity extends AppCompatActivity {
         mSpinnerSerialNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if(i==0){
                     mBatchWiseLayout.setVisibility(View.GONE);
                 }
                 else{

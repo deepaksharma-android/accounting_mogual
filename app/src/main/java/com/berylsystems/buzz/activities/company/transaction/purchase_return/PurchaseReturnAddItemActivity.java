@@ -238,6 +238,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             main_unit = intent.getStringExtra("main_unit");
             alternate_unit = intent.getStringExtra("alternate_unit");
             purchase_price_main = intent.getStringExtra("purchase_price_main");
+            if(purchase_price_main.equals("null")){
+                purchase_price_main="0.0";
+            }
              purchase_price_alternate = intent.getStringExtra("purchase_price_alternate");
              serailwise = intent.getExtras().getBoolean("serial_wise");
            batchwise = intent.getExtras().getBoolean("batch_wise");
