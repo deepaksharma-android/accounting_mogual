@@ -91,6 +91,7 @@ public interface Cv {
     String ACTION_GET_TAX_CATEGORY = "action_get_tax_category";
     String ACTION_CREATE_SALE_VOUCHER = "action_create_sale_voucher";
     String ACTION_GET_SALE_VOUCHER_LIST = "action_get_sale_voucher_list";
+    String ACTION_DELETE_SALE_VOUCHER = "action_delete_sale_voucher";
     String ACTION_CREATE_BANK_CASH_DEPOSIT = "action_create_bank_cash_deposit";
     String ACTION_GET_BANK_CASH_DEPOSIT = "action_get_bank_cash_deposit";
     String ACTION_DELETE_BANK_CASH_DEPOSIT = "action_delete_bank_cash_deposit";
@@ -149,15 +150,17 @@ public interface Cv {
     String ACTION_EDIT_DEBIT_NOTE = "action_edit_debit_note";
     String ACTION_CREATE_SALE_RETURN = "action_create_sale_return";
     String ACTION_GET_SALE_RETURN_VOUCHER = "action_get_sale_return_voucher";
+    String ACTION_DELETE_SALE_RETURN_VOUCHER = "action_delete_sale_return_voucher";
     String ACTION_CREATE_PURCHASE_RETURN = "action_create_purchase_return";
     String ACTION_GET_PURCHASE_RETURN_VOUCHER = "action_get_purchase_return_voucher";
-
+    String ACTION_DELETE_PURCHASE_RETURN_VOUCHER = "action_delete_purchase_return_voucher";
     String ACTION_GET_COMPANY_DASHBOARD_INFO = "action_get_company_dashboard_details";
     String ACTION_GET_TRANSACTION_PDF = "action_get_transaction_pdf";
     String ACTION_GET_VOUCHER_NUMBERS= "action_get_voucher_numbers";
 
     String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";
     String  ACTION_GET_PURCHASE_VOUCHER="action_get_purchase_report";
+    String  ACTION_DELETE_PURCHASE_VOUCHER="action_delete_purchase_voucher";
     String  ACTION_GET_PDC="action_get_pdc";
 
     int REQUEST_CAMERA = 0xABBA;

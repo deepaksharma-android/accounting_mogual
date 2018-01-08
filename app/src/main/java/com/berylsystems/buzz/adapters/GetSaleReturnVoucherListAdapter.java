@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.sale_return.Data;
+import com.berylsystems.buzz.utils.EventDeleteSaleReturnVoucher;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,13 @@ public class GetSaleReturnVoucherListAdapter extends RecyclerView.Adapter<GetSal
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().voucher_number);
 
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sale_return_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteSaleReturnVoucher(sale_return_voucher_id));
+            }
+        });
       /*  viewHolder.bank_edit_text1.setText("cash");
         viewHolder.bank_edit_text2.setText("5000");
         viewHolder.bank_edit_text3.setText("01 Jan 2018");
@@ -50,14 +60,7 @@ public class GetSaleReturnVoucherListAdapter extends RecyclerView.Adapter<GetSal
 
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-      /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String expence_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteExpence(expence_id));
-            }
-        });
-
+      /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +88,8 @@ public class GetSaleReturnVoucherListAdapter extends RecyclerView.Adapter<GetSal
         TextView bank_edit_text3;
         @Bind(R.id.bank_edit_text4)
         TextView bank_edit_text4;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
         /*@Bind(R.id.mainLayout)
         LinearLayout mMainLayout;*/
        /* @Bind(R.id.delete)

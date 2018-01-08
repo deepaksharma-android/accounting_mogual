@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -27,9 +28,11 @@ import com.berylsystems.buzz.adapters.GetPurchaseListAdapter;
 import com.berylsystems.buzz.adapters.GetPurchaseReturnListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
+import com.berylsystems.buzz.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventDeletePurchaseReturnVoucher;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
@@ -66,7 +69,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
 
         ButterKnife.bind(this);
         initActionbar();
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
 
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
@@ -76,19 +79,18 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
+        if (currentMonthPosition < inputMonthPosition) {
+            for (int i = currentMonthPosition; i >= 0; i--) {
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            for (int j = 11; j >= inputMonthPosition; j--) {
+                cashInHand.add(monthName[j] + " " + (currentYear - 1));
             }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+        } else {
+            for (int i = currentMonthPosition; i >= inputMonthPosition; i--) {
 
                 cashInHand.add(monthName[i] + " " + currentYear);
-             }
+            }
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_date_spinner_textview, cashInHand);
@@ -100,8 +102,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.sales_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                appUser.sales_duration_spinner = selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -129,6 +131,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
 
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -154,7 +157,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         //Spinner spinner = (Spinner) viewActionBar.findViewById(R.id.dashboard_spinner1);
-       // spinner.setVisibility(View.VISIBLE);
+        // spinner.setVisibility(View.VISIBLE);
         actionbarTitle.setText("PURCHASE RETURN VOUCHER");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
@@ -221,17 +224,65 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void getPurchaseReturnVoucher(GetPurchaseReturnVoucherListResponse response){
+    public void getPurchaseReturnVoucher(GetPurchaseReturnVoucherListResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new GetPurchaseReturnListAdapter(this,response.getPurchase_vouchers().data);
+            mAdapter = new GetPurchaseReturnListAdapter(this, response.getPurchase_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Subscribe
+    public void deletepurchasereturnvoucher(EventDeletePurchaseReturnVoucher pos) {
+        appUser.delete_purchase_return_voucher_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
+        new AlertDialog.Builder(GetPurchaseReturnListActivity.this)
+                .setTitle("Delete Purchase Return Voucher")
+                .setMessage("Are you sure you want to delete this Record ?")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(GetPurchaseReturnListActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_PURCHASE_RETURN_VOUCHER);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
+    @Subscribe
+    public void deletepurchasereturnvoucherresponse(DeletePurchaseReturnVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER);
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 }

@@ -5,10 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.purchasevoucher.Data;
+import com.berylsystems.buzz.utils.EventDeletePurchaseVoucher;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -39,16 +43,16 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
         viewHolder.bank_edit_text2.setText(""+String.format("%.2f",data.get(position).getAttributes().total_amount));
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().voucher_number);
-        //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-      /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String expence_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteExpence(expence_id));
+                String purchase_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeletePurchaseVoucher(purchase_voucher_id));
             }
         });
 
+      /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +80,8 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
         TextView bank_edit_text3;
         @Bind(R.id.bank_edit_text4)
         TextView bank_edit_text4;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

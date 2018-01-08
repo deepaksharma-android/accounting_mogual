@@ -2,7 +2,7 @@ package com.berylsystems.buzz.networks.api_response.sale_return;
 
 public class Data {
     public String type;
-    public int id;
+    public String id;
     public Attributes attributes;
 
     public String getType() {
@@ -13,11 +13,11 @@ public class Data {
         this.type = type;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
