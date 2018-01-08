@@ -19,12 +19,16 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.CompanyAboutActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.ContactUsActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.HelpActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.account_group.AcountGroupActivity;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
+import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 import com.bumptech.glide.Glide;
@@ -162,10 +166,16 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void help(View v){
-
+        Intent intent=new Intent(getApplicationContext(),HelpActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
     public void contactus(View v){
-
+        Intent intent=new Intent(getApplicationContext(),ContactUsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
     public void share(View v){
         drawerLayout.closeDrawers();
@@ -178,7 +188,10 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void about(View v){
-
+        Intent intent=new Intent(getApplicationContext(),CompanyAboutActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
     public void exit(View v){
         new AlertDialog.Builder(BaseActivityCompany.this)
