@@ -143,8 +143,9 @@ public class TransactionPdfActivity extends AppCompatActivity {
       File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/PDFTest/");
       PdfPrint pdfPrint = new PdfPrint(attributes);
       pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "output_" + System.currentTimeMillis() + ".pdf");
+      previewPdf(path);
   }
-    private void createPdfWrapper(String htmlString) throws FileNotFoundException, DocumentException {
+   /* private void createPdfWrapper(String htmlString) throws FileNotFoundException, DocumentException {
 
         int hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
@@ -171,9 +172,9 @@ public class TransactionPdfActivity extends AppCompatActivity {
         } else {
             createPdf(htmlString);
         }
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS:
@@ -195,18 +196,18 @@ public class TransactionPdfActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+    }*/
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+/*    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
-    }
+    }*/
 
-    private void createPdf(String htmlString) throws FileNotFoundException, DocumentException {
+/*    private void createPdf(String htmlString) throws FileNotFoundException, DocumentException {
 
         File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents");
         if (!docsFolder.exists()) {
@@ -221,11 +222,11 @@ public class TransactionPdfActivity extends AppCompatActivity {
         document.open();
         document.add(new Paragraph(htmlString));
         document.close();
-        previewPdf();
+        //previewPdf();
 
-    }
+    }*/
 
-    private void previewPdf() {
+    private void previewPdf(File file) {
 
         PackageManager packageManager = getPackageManager();
         Intent testIntent = new Intent(Intent.ACTION_VIEW);
@@ -234,7 +235,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
         if (list.size() > 0) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(pdfFile);
+            Uri uri = Uri.fromFile(file);
             intent.setDataAndType(uri, "application/pdf");
             startActivity(intent);
         } else {
