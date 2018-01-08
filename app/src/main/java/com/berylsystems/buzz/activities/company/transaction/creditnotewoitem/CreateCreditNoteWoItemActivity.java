@@ -550,6 +550,16 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             mSelectedImage.setVisibility(View.GONE);
             // mSelectedImage.setImageDrawable(null);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
+            new AlertDialog.Builder(CreateCreditNoteWoItemActivity.this)
+                    .setTitle("Print/Preview").setMessage("")
+                    .setMessage(R.string.print_preview_mesage)
+                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

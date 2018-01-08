@@ -553,8 +553,17 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             paid_to.setText("");
             mSelectedImage.setImageResource(0);
             mSelectedImage.setVisibility(View.GONE);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
+            new AlertDialog.Builder(CreateExpenceActivity.this)
+                    .setTitle("Print/Preview").setMessage("")
+                    .setMessage(R.string.print_preview_mesage)
+                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

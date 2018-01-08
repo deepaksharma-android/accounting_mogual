@@ -214,6 +214,8 @@
     <string name="btn_ok">OK</string>
     <string name="btn_yes">YES</string>
     <string name="btn_no">NO</string>
+    <string name="btn_print_preview">Print/Preview</string>
+    <string name="print_preview_mesage">Please select</string>
     <string name="btn_cancel">Cancel</string>
     <string name="FB_APP_ID">247748645750878</string>
     <string name="enable_gps">To get exact location it is better to enable GPS</string>
