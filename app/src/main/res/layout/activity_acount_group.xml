@@ -410,7 +410,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:text="sale report"
+                    android:text="Sale Report"
                     android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
@@ -448,7 +448,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:text="purchase report"
+                    android:text="Purchase Report"
                     android:textColor="@color/black" />
 
                 <View
@@ -490,7 +490,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:text="Balance sheet"
+                    android:text="Balance Sheet"
                     android:textColor="@color/black" />
 
                 <View

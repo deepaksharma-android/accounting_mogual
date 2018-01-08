@@ -74,7 +74,7 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
       ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreateSaleReturnFragment(), "CREATE SALE RETURN FRAGMENT");
+        adapter.addFragment(new CreateSaleReturnFragment(), "CREATE SALE RETURN VOUCHER");
         adapter.addFragment(new AddItemSaleReturnFragment(), "ADD ITEM SALE RETURN");
         viewPager.setAdapter(adapter);
     }
