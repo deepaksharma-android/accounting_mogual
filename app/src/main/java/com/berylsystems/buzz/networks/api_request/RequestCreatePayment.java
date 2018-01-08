@@ -31,5 +31,6 @@ public class RequestCreatePayment {
         payment.put("amount", appUser.payment_amount);
         payment.put("narration", appUser.payment_narration);
         payment.put("attachment", appUser.payment_attachment);
+        payment.put("send_email",appUser.email_yes_no);
     }
 }

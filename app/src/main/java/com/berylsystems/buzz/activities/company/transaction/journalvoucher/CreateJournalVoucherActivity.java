@@ -239,26 +239,61 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                     appUser.journal_voucher_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
-                                        mProgressDialog.setMessage("Info...");
-                                        mProgressDialog.setIndeterminate(false);
-                                        mProgressDialog.setCancelable(true);
-                                        mProgressDialog.show();
-                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_JOURNAL_VOUCHER);
-                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                    } else {
-                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    new AlertDialog.Builder(CreateJournalVoucherActivity.this)
+                                            .setTitle("Email")
+                                            .setMessage("Do you want to receive email ?")
+                                            .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                                appUser.email_yes_no = "true";
+                                                LocalRepositories.saveAppUser(CreateJournalVoucherActivity.this, appUser);
                                                 if (isConnected) {
-                                                    snackbar.dismiss();
+                                                    mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_JOURNAL_VOUCHER);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                    snackbar.show();
                                                 }
-                                            }
-                                        });
-                                        snackbar.show();
-                                    }
+                                            })
+                                            .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+
+                                                appUser.email_yes_no = "false";
+                                                LocalRepositories.saveAppUser(CreateJournalVoucherActivity.this, appUser);
+                                                if (isConnected) {
+                                                    mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_JOURNAL_VOUCHER);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                    snackbar.show();
+                                                }
+
+                                            })
+                                            .show();
                                 }else {
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }

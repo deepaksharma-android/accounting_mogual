@@ -467,6 +467,7 @@ public class CreatePurchaseFragment extends Fragment {
                 mPartyName.setText("");
                 mMobileNumber.setText("");
                 mNarration.setText("");
+                mVchNumber.setText("");
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
