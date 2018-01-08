@@ -186,24 +186,8 @@ public class SplashActivity extends Activity {
                         i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.berylsystems.buzz"));
                         startActivity(i);
                     }
-                })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                               if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                 startActivity(intent);
-                                 finish();
+                });
 
-                                 }
-                                 else {
-                                 Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                 startActivity(intent);
-                                 finish();
-                                 }
-                                    }
-                        });
                 alert.show();
             } else {
                 if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {

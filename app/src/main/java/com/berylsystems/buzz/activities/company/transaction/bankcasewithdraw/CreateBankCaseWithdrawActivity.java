@@ -1,11 +1,13 @@
 package com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,12 +18,18 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.print.PdfPrint;
+import android.print.PrintAttributes;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +49,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -67,6 +77,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -115,6 +126,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public Boolean boolForReceivedBy = false;
     public static int intStartActivityForResult = 0;
     Bitmap photo;
+    WebView mPdf_webview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +155,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
         title = "CREATE BANK CASH WITHDRAW";
-        fromBankcashWithdraw = getIntent().getBooleanExtra("fromBankCashWithdraw",false);
+        fromBankcashWithdraw = getIntent().getBooleanExtra("fromBankCashWithdraw", false);
         if (fromBankcashWithdraw == true) {
             title = "EDIT BANK CASH WITHDRAW";
             mSubmit.setVisibility(View.GONE);
@@ -374,6 +386,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 });
         myAlertDialog.show();
     }
+
     private void setDateField() {
         set_date.setOnClickListener(this);
 
@@ -583,7 +596,20 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
 
-
+                        ProgressDialog progressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.show();
+                        String htmlString = response.getHtml();
+                        mPdf_webview = new WebView(getApplicationContext());
+                        mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
+                        mPdf_webview.getSettings().setBuiltInZoomControls(true);
+                        createWebPrintJob(mPdf_webview);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        }, 5 * 1000);
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
@@ -864,5 +890,41 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         return filename;
 
     }*/
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void createWebPrintJob(WebView webView) {
+
+        String jobName = getString(R.string.app_name) + " Document";
+        PrintAttributes attributes = new PrintAttributes.Builder()
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+                .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
+        if (path.exists()) {
+            path.delete();
+            path.mkdir();
+        }
+        File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
+
+        PdfPrint pdfPrint = new PdfPrint(attributes);
+        pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
+        previewPdf(pathPrint);
+    }
+
+    private void previewPdf(File path) {
+        PackageManager packageManager = getPackageManager();
+        Intent testIntent = new Intent(Intent.ACTION_VIEW);
+        testIntent.setType("application/pdf");
+        List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (list.size() > 0) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(path);
+            intent.setDataAndType(uri, "application/pdf");
+            startActivity(intent);
+        } else {
+//            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

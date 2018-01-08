@@ -3,6 +3,15 @@ package com.berylsystems.buzz.networks.api_response.journalvoucher;
 public class CreateJournalVoucherResponse {
     public String message;
     public int status;
+    public String html;
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
 
     public String getMessage() {
         return message;
