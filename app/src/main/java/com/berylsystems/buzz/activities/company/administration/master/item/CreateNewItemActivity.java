@@ -152,7 +152,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("");
         Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("");
         Preferences.getInstance(getApplicationContext()).setitem_description("");
-
+        Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
+        Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
         title = "CREATE ITEM";
        /* fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
@@ -236,6 +237,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("");
             Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("");
             Preferences.getInstance(getApplicationContext()).setitem_description("");
+            Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
+            Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
             mSubmitButton.setVisibility(View.GONE);
             mUpdateButton.setVisibility(View.VISIBLE);
            /* mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),

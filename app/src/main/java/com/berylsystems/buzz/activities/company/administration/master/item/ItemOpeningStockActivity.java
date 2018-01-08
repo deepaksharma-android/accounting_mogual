@@ -54,6 +54,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser= LocalRepositories.getAppUser(this);
+
         mStockQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
