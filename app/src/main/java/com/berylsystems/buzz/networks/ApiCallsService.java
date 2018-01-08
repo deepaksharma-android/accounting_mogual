@@ -168,6 +168,7 @@ import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupDetails
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
 import com.berylsystems.buzz.networks.api_response.item.CreateItemResponse;
 import com.berylsystems.buzz.networks.api_response.item.GetItemResponse;
+import com.berylsystems.buzz.networks.api_response.version.VersionResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
@@ -472,6 +473,8 @@ public class ApiCallsService extends IntentService {
             handleGetSaleReturnVoucher();
         }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER.equals(action)){
             handleGetPurchaseReturnvoucher();
+        }else if (Cv.ACTION_VERSION.equals(action)) {
+            handleVersion();
         }
     }
 
@@ -3734,6 +3737,28 @@ public class ApiCallsService extends IntentService {
             }
         });
 
+    }
+
+    private void handleVersion() {
+        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+        api.version(appUser.device_type).enqueue(new Callback<VersionResponse>() {
+            @Override
+            public void onResponse(Call<VersionResponse> call, Response<VersionResponse> response) {
+
+                if (response.code() == 200) {
+                    VersionResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VersionResponse> call, Throwable t) {
+                EventBus.getDefault().post(t.getMessage());
+            }
+        });
     }
 
     private void handleGetPdc() {

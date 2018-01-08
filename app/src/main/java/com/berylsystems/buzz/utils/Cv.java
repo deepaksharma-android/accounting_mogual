@@ -18,6 +18,7 @@ public interface Cv {
     String ACTION_UPDATE_USER = "update_user";
     String ACTION_CREATE_COMPANY = "create_company";
     String ACTION_CREATE_BASIC = "create_basic";
+    String ACTION_VERSION = "show_version";
     String ACTION_CREATE_DETAILS = "company_details";
     String ACTION_CREATE_GST = "company_gst";
     String ACTION_CREATE_ADDITIONAL = "company_additional";
