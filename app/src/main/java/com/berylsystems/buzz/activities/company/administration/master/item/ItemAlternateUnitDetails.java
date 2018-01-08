@@ -115,14 +115,19 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mAlternateUnit.getText().toString().equals("")) {
-                    Preferences.getInstance(getApplicationContext()).setitem_conversion_factor( mConFactor.getText().toString());
-                    Preferences.getInstance(getApplicationContext()).setitem_conversion_type(mSpinnerConFactor.getSelectedItem().toString());
-                    Preferences.getInstance(getApplicationContext()).setitem_opening_stock_quantity_alternate(mStockQuantity.getText().toString());
-                    finish();
+                if(!item_unit.equals(Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name())) {
+                    if (!mAlternateUnit.getText().toString().equals("")) {
+                        Preferences.getInstance(getApplicationContext()).setitem_conversion_factor(mConFactor.getText().toString());
+                        Preferences.getInstance(getApplicationContext()).setitem_conversion_type(mSpinnerConFactor.getSelectedItem().toString());
+                        Preferences.getInstance(getApplicationContext()).setitem_opening_stock_quantity_alternate(mStockQuantity.getText().toString());
+                        finish();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Enter the alternate unit", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"Enter the alternate unit",Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         });
