@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.AboutActivity;
 import com.berylsystems.buzz.activities.user.LoginActivity;
 import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.activities.user.UpdateUserActivity;
@@ -149,12 +150,15 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);*//*
     }*/
     public void profile(View v){
+        drawerLayout.closeDrawers();
         Intent intent = new Intent(getApplicationContext(),UpdateUserActivity.class);
         startActivity(intent);
     }
 
     public void about(View v){
-
+        drawerLayout.closeDrawers();
+        Intent intent = new Intent(getApplicationContext(),AboutActivity.class);
+        startActivity(intent);
     }
     public void logout(View v){
         new AlertDialog.Builder(BaseActivity.this)

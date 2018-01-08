@@ -216,7 +216,7 @@ public class PaymentActivity extends AppCompatActivity {
         appUser.delete_payment_id= pos.getPosition();
         LocalRepositories.saveAppUser(this,appUser);
         new AlertDialog.Builder(PaymentActivity.this)
-                .setTitle("Delete Expence Item")
+                .setTitle("Delete Payment Voucher")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();

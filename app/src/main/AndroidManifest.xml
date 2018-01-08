@@ -20,8 +20,7 @@
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/FB_APP_ID" />
@@ -29,8 +28,8 @@
         <activity
             android:name=".activities.app.SplashActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -512,51 +511,68 @@
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.navigation.reports.saleanalysis.AnalysisSaleReportActivity"
+        <activity
+            android:name=".activities.company.navigation.reports.saleanalysis.AnalysisSaleReportActivity"
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigation.reports.TransactionPdfActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-               <activity
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.transaction.TransactionSalesActivity"
             android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.navigation.reports.account_group.StocksReportsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.account_group.StocksReportsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.TransactionExpensesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.TransactionExpensesActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.navigation.reports.outstanding.AmountReceivablesListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.outstanding.AmountReceivablesListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.CashInHandReportActivity"
             android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.BankCashReportActivity"
             android:parentActivityName=".activities.company.transaction.TransactionBankActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.CustomerReportActivity"
             android:parentActivityName=".activities.company.transaction.TransactionCustomerActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.SupplierReportActivity"
             android:parentActivityName=".activities.company.transaction.TransactionSupplierActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.AboutActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.CompanyAboutActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.HelpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->

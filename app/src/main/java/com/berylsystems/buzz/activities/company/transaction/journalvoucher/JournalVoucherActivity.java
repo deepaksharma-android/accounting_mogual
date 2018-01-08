@@ -228,7 +228,7 @@ public class JournalVoucherActivity extends AppCompatActivity {
         appUser.delete_journal_voucher_id= pos.getPosition();
         LocalRepositories.saveAppUser(this,appUser);
         new AlertDialog.Builder(JournalVoucherActivity.this)
-                .setTitle("Delete Expence Item")
+                .setTitle("Delete Journal Voucher")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
