@@ -326,7 +326,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
                                     new AlertDialog.Builder(CreatePaymentActivity.this)
                                             .setTitle("Email")
-                                            .setMessage("Do you want to receive email ?")
+                                            .setMessage(R.string.btn_send_email)
                                             .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
                                                 appUser.email_yes_no = "true";
