@@ -571,7 +571,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             //mSelectedImage.setImageDrawable(null);
 
             new AlertDialog.Builder(CreateBankCaseDepositActivity.this)
-                    .setTitle("Print/Preview").setMessage("")
+                    .setTitle("Print/Preview")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
 

@@ -1,9 +1,11 @@
 package com.berylsystems.buzz.activities.user;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -280,7 +282,20 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 finish();
             }
 
-        } else {
+        }else if(response.getStatus() == 412) {
+            String mobile = "+917015860006";
+            new AlertDialog.Builder(RegisterActivity.this)
+                    .setTitle("Call us")
+                    .setMessage(R.string.call_us)
+                    .setPositiveButton(R.string.click_me, (dialogInterface, i) -> {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", mobile, null));
+                        startActivity(intent);
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();
+
+        } else{
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

@@ -80,6 +80,8 @@ public class RequestCreateItem {
 
         if (!Preferences.getInstance(ctx).getitem_price_mrp().equals("")) {
             item.put("mrp", Preferences.getInstance(ctx).getitem_price_mrp());
+        }else {
+            item.put("mrp","0.00");
         }
 
 

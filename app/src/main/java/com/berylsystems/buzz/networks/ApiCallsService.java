@@ -132,18 +132,22 @@ import com.berylsystems.buzz.networks.api_response.payment.GetPaymentDetailsResp
 import com.berylsystems.buzz.networks.api_response.payment.GetPaymentResponse;
 import com.berylsystems.buzz.networks.api_response.purchase.CreatePurchaseResponce;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.berylsystems.buzz.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
+import com.berylsystems.buzz.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.EditReceiptVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.berylsystems.buzz.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
+import com.berylsystems.buzz.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
@@ -361,7 +365,9 @@ public class ApiCallsService extends IntentService {
             handleSaleVoucher();
         } else if (Cv.ACTION_GET_SALE_VOUCHER_LIST.equals(action)) {
             handleGetSaleVoucherList();
-        } else if (Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)) {
+        }else if(Cv.ACTION_DELETE_SALE_VOUCHER.equals(action)) {
+            handleDeleteSaleVoucher();
+        }else if (Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)) {
             handleGetBankCashDeposit();
         } else if (Cv.ACTION_DELETE_BANK_CASH_DEPOSIT.equals(action)) {
             handleDeleteBankCashDeposit();
@@ -473,6 +479,12 @@ public class ApiCallsService extends IntentService {
             handleGetSaleReturnVoucher();
         }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER.equals(action)){
             handleGetPurchaseReturnvoucher();
+        }else if(Cv.ACTION_DELETE_SALE_RETURN_VOUCHER.equals(action)){
+            handleDeleteSaleReturnVoucher();
+        }else if(Cv.ACTION_DELETE_PURCHASE_VOUCHER.equals(action)){
+            handleDeletePurchaseVoucher();
+        }else if(Cv.ACTION_DELETE_PURCHASE_RETURN_VOUCHER.equals(action)){
+            handleDeletePurchaseReturnVoucher();
         }else if (Cv.ACTION_VERSION.equals(action)) {
             handleVersion();
         }
@@ -3382,7 +3394,30 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
+    }
 
+    private void handleDeleteSaleVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletesalevoucher(appUser.delete_sale_voucher_id).enqueue(new Callback<DeleteSaleVoucherResponse>() {
+            @Override
+            public void onResponse(Call<DeleteSaleVoucherResponse> call, Response<DeleteSaleVoucherResponse> r) {
+                if (r.code() == 200) {
+                    DeleteSaleVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteSaleVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 
     private void handleDeleteBillSundry() {
@@ -3713,6 +3748,30 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleDeleteSaleReturnVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletesalereturnvoucher(appUser.delete_sale_return_voucher_id).enqueue(new Callback<DeleteSaleReturnVoucherResponse>() {
+            @Override
+            public void onResponse(Call<DeleteSaleReturnVoucherResponse> call, Response<DeleteSaleReturnVoucherResponse> r) {
+                if (r.code() == 200) {
+                    DeleteSaleReturnVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteSaleReturnVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
     private void handleGetPurchaseReturnvoucher(){
 
         AppUser appUser = LocalRepositories.getAppUser(this);
@@ -3776,6 +3835,54 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetPdcResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeletePurchaseVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletepurchasevoucher(appUser.delete_purchase_voucher_id).enqueue(new Callback<DeletePurchaseVoucherResponse>() {
+            @Override
+            public void onResponse(Call<DeletePurchaseVoucherResponse> call, Response<DeletePurchaseVoucherResponse> r) {
+                if (r.code() == 200) {
+                    DeletePurchaseVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeletePurchaseVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeletePurchaseReturnVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deletepurchasereturnvoucher(appUser.delete_purchase_return_voucher_id).enqueue(new Callback<DeletePurchaseReturnVoucherResponse>() {
+            @Override
+            public void onResponse(Call<DeletePurchaseReturnVoucherResponse> call, Response<DeletePurchaseReturnVoucherResponse> r) {
+                if (r.code() == 200) {
+                    DeletePurchaseReturnVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeletePurchaseReturnVoucherResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

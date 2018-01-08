@@ -297,7 +297,7 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="1"
                             android:gravity="start"
-                            android:text="Stock In Hand"
+                            android:text="Stock-in-hand"
                             android:textColor="#050505"
                             android:textSize="16sp" />
 
