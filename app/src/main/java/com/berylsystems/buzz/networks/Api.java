@@ -44,8 +44,11 @@ import com.berylsystems.buzz.networks.api_response.pdc.GetPdcResponse;
 import com.berylsystems.buzz.networks.api_response.GetVoucherNumbersResponse;
 import com.berylsystems.buzz.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.berylsystems.buzz.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
+import com.berylsystems.buzz.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
+import com.berylsystems.buzz.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
@@ -135,6 +138,7 @@ import com.berylsystems.buzz.networks.api_response.packages.PlanResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.berylsystems.buzz.networks.api_response.saletype.GetSaleTypeResponse;
+import com.berylsystems.buzz.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.berylsystems.buzz.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.berylsystems.buzz.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.berylsystems.buzz.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
@@ -416,6 +420,9 @@ public interface Api {
     @GET("company_sale_vouchers/{id}")
     Call<GetSaleVoucherListResponse> getsalevoucherlist(@Path("id") String id);
 
+    @DELETE("sale_voucher/{id}")
+    Call<DeleteSaleVoucherResponse> deletesalevoucher(@Path("id") String id);
+
     @GET("company_bank_cash_deposits/{id}")
     Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id,@Query("duration") String duration);
 
@@ -581,10 +588,18 @@ public interface Api {
     @GET("company_sale_return_vouchers/{id}")
     Call<GetSaleReturnVoucherListResponse> getsalereturnvoucher(@Path("id") String id, @Query("duration") String duration);
 
+    @DELETE("sale_return_voucher/{id}")
+    Call<DeleteSaleReturnVoucherResponse> deletesalereturnvoucher(@Path("id") String id);
+
     @GET("company_purchase_return_vouchers/{id}")
     Call<GetPurchaseReturnVoucherListResponse>getpurchasereturnvoucher(@Path("id") String id, @Query("duration") String duration);
 
+    @DELETE("purchase_voucher/{id}")
+    Call<DeletePurchaseVoucherResponse> deletepurchasevoucher(@Path("id") String id);
+
+    @DELETE("purchase_return_voucher/{id}")
+    Call<DeletePurchaseReturnVoucherResponse> deletepurchasereturnvoucher(@Path("id") String id);
+
     @GET("version")
     Call<VersionResponse> version(@Query("device_type") String device_type);
-
 }

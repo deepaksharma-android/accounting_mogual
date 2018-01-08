@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.networks.api_response.salevoucher.Data;
+import com.berylsystems.buzz.utils.EventDeleteSaleVoucher;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -42,14 +45,15 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-      /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String expence_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteExpence(expence_id));
+                String sale_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteSaleVoucher(sale_voucher_id));
             }
         });
 
+      /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,10 +81,11 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         TextView bank_edit_text3;
         @Bind(R.id.bank_edit_text4)
         TextView bank_edit_text4;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
         /*@Bind(R.id.mainLayout)
         LinearLayout mMainLayout;*/
-       /* @Bind(R.id.delete)
-        LinearLayout mDelete;
+       /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/
 

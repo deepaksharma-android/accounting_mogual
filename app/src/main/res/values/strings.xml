@@ -217,6 +217,8 @@
     <string name="btn_print_preview">Print/Preview</string>
     <string name="print_preview_mesage">Please select</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="call_us">Please call us on this number: +917015860006</string>
+    <string name="click_me">Call</string>
     <string name="FB_APP_ID">247748645750878</string>
     <string name="enable_gps">To get exact location it is better to enable GPS</string>
     <string name="ok">Ok</string>

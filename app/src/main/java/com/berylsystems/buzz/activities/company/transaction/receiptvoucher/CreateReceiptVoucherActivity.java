@@ -1081,9 +1081,13 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
-        if (path.exists()) {
-            path.delete();
-            path.mkdir();
+        if (path.isDirectory())
+        {
+            String[] children = path.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(path, children[i]).delete();
+            }
         }
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
 

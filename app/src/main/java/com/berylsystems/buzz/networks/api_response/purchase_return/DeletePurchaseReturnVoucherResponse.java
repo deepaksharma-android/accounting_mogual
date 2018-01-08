@@ -1,19 +1,8 @@
-package com.berylsystems.buzz.networks.api_response.payment;
+package com.berylsystems.buzz.networks.api_response.purchase_return;
 
-public class CreatePaymentResponse {
-
+public class DeletePurchaseReturnVoucherResponse {
     public String message;
     public int status;
-
-    public String html;
-
-    public String getHtml() {
-        return html;
-    }
-
-    public void setHtml(String html) {
-        this.html = html;
-    }
 
     public String getMessage() {
         return message;
