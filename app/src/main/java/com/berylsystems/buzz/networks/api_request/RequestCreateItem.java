@@ -6,7 +6,10 @@ import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.Preferences;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RequestCreateItem {
@@ -193,7 +196,9 @@ public class RequestCreateItem {
         if (!Preferences.getInstance(ctx).getitem_description().equals("")) {
             item.put("item_description", Preferences.getInstance(ctx).getitem_description());
         }
-        item.put("serial_number",appUser.stock_item_serail_arr);
+        String unit_list=Preferences.getInstance(ctx).getStockSerial();
+        List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
+        item.put("serial_number",myList);
 
 
     }

@@ -387,6 +387,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 for (String s : appUser.sale_item_serial_arr) {
                                     listString += s + ",";
                                 }
+
                                 mSr_no.setText(listString);
                                 dialogbal.dismiss();
                             }

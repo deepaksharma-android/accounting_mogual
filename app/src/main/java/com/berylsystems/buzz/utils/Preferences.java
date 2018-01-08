@@ -43,6 +43,9 @@ public class Preferences {
     private static final String CSIGN = "sign";
     private static final String CUSERNAME = "username";
     private static final String CPASSWORD = "password";
+    private static final String SERIAL = "serial";
+    private static final String STOCK_SERIAL = "stock_serial";
+
 
     private static final String bill_sundry_amount_of_bill_sundry_fed_as_percent="bill_sundry_amount_of_bill_sundry_fed_as_percent";
     private static final String bill_sundry_amount_of_bill_sundry_fed_as = "bill_sundry_amount_of_bill_sundry_fed_as";
@@ -55,6 +58,7 @@ public class Preferences {
     private static final String bill_sundry_rounding_off_limit = "bill_sundry_rounding_off_limit";
     private static final String bill_sundry_type = "bill_sundry_type";
     private static final String calculated_on_bill_sundry_id = "calculated_on_bill_sundry_id";
+
 
     private static final String sale_affect_accounting = "sale_affect_accounting";
     private static final String sale_affect_sale_amount = "sale_affect_sale_amount";
@@ -1204,6 +1208,26 @@ public class Preferences {
     public String getCash_credit() {
         return pref.getString(cash_credit, "");
     }
+
+    public void setSerial(String serial) {
+        editor.putString(SERIAL, serial);
+        editor.commit();
+    }
+
+    public String getSerial() {
+        return pref.getString(SERIAL, "");
+    }
+
+    public void setStockSerial(String stockserial) {
+        editor.putString(STOCK_SERIAL, stockserial);
+        editor.commit();
+    }
+
+    public String getStockSerial() {
+        return pref.getString(STOCK_SERIAL, "");
+    }
+
+
 
 
 
