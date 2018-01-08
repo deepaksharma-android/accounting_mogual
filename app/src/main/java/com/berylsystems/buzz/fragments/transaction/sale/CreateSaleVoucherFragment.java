@@ -612,6 +612,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createWebPrintJob(WebView webView) {
 
         String jobName = getString(R.string.app_name) + " Document";
@@ -620,7 +621,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
-        
+
         if (path.exists()){
             path.delete();
             path.mkdir();
@@ -628,9 +629,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
 
         PdfPrint pdfPrint = new PdfPrint(attributes);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
-        }
+        pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
         previewPdf(pathPrint);
     }
 
