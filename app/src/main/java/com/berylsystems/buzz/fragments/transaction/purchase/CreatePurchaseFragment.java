@@ -1,21 +1,32 @@
 package com.berylsystems.buzz.fragments.transaction.purchase;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.print.PdfPrint;
+import android.print.PrintAttributes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -43,8 +54,10 @@ import com.berylsystems.buzz.utils.Preferences;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -87,10 +100,11 @@ public class CreatePurchaseFragment extends Fragment {
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
     String party_id;
-    public static int intStartActivityForResult=0;
-    public Boolean boolForPartyName=false;
-    public Boolean boolForStore=false;
+    public static int intStartActivityForResult = 0;
+    public Boolean boolForPartyName = false;
+    public Boolean boolForStore = false;
     Snackbar snackbar;
+    WebView mPdf_webview;
 
     @Override
     public void onStart() {
@@ -117,28 +131,26 @@ public class CreatePurchaseFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
+        if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
-        }
-        else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
+        } else if (Preferences.getInstance(getContext()).getCash_credit().equals("Credit")) {
             credit.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
             cash.setTextColor(Color.parseColor("#000000"));//black
-        }
-        else{
+        } else {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
 
-        if (!mDate.getText().toString().equals("")){
-            appUser.purchase_date=mDate.getText().toString();
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        if (!mDate.getText().toString().equals("")) {
+            appUser.purchase_date = mDate.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         }
 
         mDate.setOnClickListener(new View.OnClickListener() {
@@ -164,9 +176,9 @@ public class CreatePurchaseFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intStartActivityForResult=1;
-                ParameterConstant.checkStartActivityResultForAccount =2;
-                MaterialCentreListActivity.isDirectForMaterialCentre=false;
+                intStartActivityForResult = 1;
+                ParameterConstant.checkStartActivityResultForAccount = 2;
+                MaterialCentreListActivity.isDirectForMaterialCentre = false;
 
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
@@ -175,19 +187,19 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                SaleTypeListActivity.isDirectForSaleType=false;
-                ParameterConstant.checkStartActivityResultForAccount =2;
+                SaleTypeListActivity.isDirectForSaleType = false;
+                ParameterConstant.checkStartActivityResultForAccount = 2;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intStartActivityForResult=2;
-                ParameterConstant.checkStartActivityResultForAccount =2;
+                intStartActivityForResult = 2;
+                ParameterConstant.checkStartActivityResultForAccount = 2;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
         });
@@ -225,7 +237,7 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                if(appUser.mListMapForItemPurchase.size()>0) {
+                if (appUser.mListMapForItemPurchase.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
@@ -233,19 +245,19 @@ public class CreatePurchaseFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
-                                                appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
-                                                appUser.purchase_voucher_number = mVchNumber.getText().toString();
-                                                appUser.purchase_mobile_number = mMobileNumber.getText().toString();
-                                                appUser.purchase_narration = mNarration.getText().toString();
-                                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
+                                            appUser.purchase_voucher_number = mVchNumber.getText().toString();
+                                            appUser.purchase_mobile_number = mMobileNumber.getText().toString();
+                                            appUser.purchase_narration = mNarration.getText().toString();
+                                            LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())
                                                     .setTitle("Email")
                                                     .setMessage("Do you want to receive email ?")
                                                     .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="true";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        appUser.email_yes_no = "true";
+                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -253,7 +265,7 @@ public class CreatePurchaseFragment extends Fragment {
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
-                                                        }else {
+                                                        } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View view) {
@@ -268,8 +280,8 @@ public class CreatePurchaseFragment extends Fragment {
                                                     })
                                                     .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="false";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        appUser.email_yes_no = "false";
+                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -277,8 +289,7 @@ public class CreatePurchaseFragment extends Fragment {
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
-                                                        }
-                                                        else {
+                                                        } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View view) {
@@ -308,12 +319,10 @@ public class CreatePurchaseFragment extends Fragment {
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                         }
-                    }
-                    else{
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
                     }
-                }
-                else{
+                } else {
                     Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
 
@@ -335,7 +344,7 @@ public class CreatePurchaseFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
-                boolForStore=true;
+                boolForStore = true;
                 Preferences.getInstance(getContext()).setStore(name[0]);
                 Preferences.getInstance(getContext()).setStoreId(id);
 
@@ -371,15 +380,15 @@ public class CreatePurchaseFragment extends Fragment {
                 String id = data.getStringExtra("id");
                 String mobile = data.getStringExtra("mobile");
                 String group = data.getStringExtra("group");
-                party_id=id;
+                party_id = id;
                 appUser.sale_partyName = id;
-                appUser.sale_party_group=group;
+                appUser.sale_party_group = group;
                 appUser.purchase_account_master_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
                 mMobileNumber.setText(mobile);
-                boolForPartyName=true;
+                boolForPartyName = true;
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
                 Preferences.getInstance(getContext()).setParty_id(id);
@@ -392,7 +401,6 @@ public class CreatePurchaseFragment extends Fragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -400,10 +408,10 @@ public class CreatePurchaseFragment extends Fragment {
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
-            if (intStartActivityForResult==1){
-                boolForPartyName=true;
-            }else if (intStartActivityForResult==2){
-                boolForStore=true;
+            if (intStartActivityForResult == 1) {
+                boolForPartyName = true;
+            } else if (intStartActivityForResult == 2) {
+                boolForStore = true;
             }
             if (!boolForPartyName) {
                 // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
@@ -411,7 +419,7 @@ public class CreatePurchaseFragment extends Fragment {
                 String id = intent.getStringExtra("id");
                 String mobile = intent.getStringExtra("mobile");
                 String group = intent.getStringExtra("group");
-                appUser.sale_party_group=group;
+                appUser.sale_party_group = group;
                 appUser.sale_partyName = id;
 
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -464,23 +472,37 @@ public class CreatePurchaseFragment extends Fragment {
                 }
             }
             else{*/
-                mPartyName.setText("");
-                mMobileNumber.setText("");
-                mNarration.setText("");
-                mVchNumber.setText("");
-                appUser.mListMapForItemPurchase.clear();
-                appUser.mListMapForBillPurchase.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-               // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-           // }
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            mVchNumber.setText("");
+            appUser.mListMapForItemPurchase.clear();
+            appUser.mListMapForBillPurchase.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
+            // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
+            // }
             new AlertDialog.Builder(getActivity())
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
 
-
+                        String htmlString = response.getHtml();
+                        Spanned htmlAsSpanned = Html.fromHtml(htmlString);
+                        mPdf_webview = new WebView(getApplicationContext());
+                        mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
+                        mPdf_webview.getSettings().setBuiltInZoomControls(true);
+                        ProgressDialog progressDialog=new ProgressDialog(getActivity());
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.show();
+                        createWebPrintJob(mPdf_webview);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        }, 5 * 1000);
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
@@ -504,4 +526,39 @@ public class CreatePurchaseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void createWebPrintJob(WebView webView) {
+
+        String jobName = getString(R.string.app_name) + " Document";
+        PrintAttributes attributes = new PrintAttributes.Builder()
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+                .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
+        if (path.exists()) {
+            path.delete();
+            path.mkdir();
+        }
+        File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
+
+        PdfPrint pdfPrint = new PdfPrint(attributes);
+        pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
+        previewPdf(pathPrint);
+    }
+
+    private void previewPdf(File path) {
+        PackageManager packageManager = getActivity().getPackageManager();
+        Intent testIntent = new Intent(Intent.ACTION_VIEW);
+        testIntent.setType("application/pdf");
+        List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (list.size() > 0) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(path);
+            intent.setDataAndType(uri, "application/pdf");
+            startActivity(intent);
+        } else {
+//            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
