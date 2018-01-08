@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
@@ -78,7 +79,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
                 mPdf_webview.createPrintDocumentAdapter("MyDocument");*/
         Spanned htmlAsSpanned = Html.fromHtml(company_report);
         htmlString = htmlAsSpanned.toString();
-       // mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
+        mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
         mPdf_webview.getSettings().setBuiltInZoomControls(true);
 
 
@@ -86,14 +87,14 @@ public class TransactionPdfActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                try {
+              /*  try {
                     createPdfWrapper(htmlString);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (DocumentException e) {
                     e.printStackTrace();
-                }
-               // createWebPrintJob(mPdf_webview);
+                }*/
+                createWebPrintJob(mPdf_webview);
             }
         });
 
@@ -116,7 +117,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
        // mPrintJobs.add(printJob);
     }*/
     //this method is for print the Whole WebView Page
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+ /*   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createWebPrintJob(WebView webView) {
 
@@ -131,8 +132,18 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
         printManager.print(jobName, printAdapter,
                 new PrintAttributes.Builder().build());
-    }
-
+    }*/
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+  private void createWebPrintJob(WebView webView) {
+      String jobName = getString(R.string.app_name) + " Document";
+      PrintAttributes attributes = new PrintAttributes.Builder()
+              .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+              .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+              .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
+      File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/PDFTest/");
+      PdfPrint pdfPrint = new PdfPrint(attributes);
+      pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "output_" + System.currentTimeMillis() + ".pdf");
+  }
     private void createPdfWrapper(String htmlString) throws FileNotFoundException, DocumentException {
 
         int hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
