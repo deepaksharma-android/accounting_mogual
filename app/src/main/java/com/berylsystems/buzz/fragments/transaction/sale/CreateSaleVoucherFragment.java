@@ -488,12 +488,16 @@ public class CreateSaleVoucherFragment extends Fragment {
                 ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
                /* startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));*/
             }
-           // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-           /* mPartyName.setText("");
-            mMobileNumber.setText("");
-            mNarration.setText("");*/
-            /*appUser.mListMapForItemSale.clear();
-            appUser.mListMapForBillSale.clear();*/
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Print/Preview").setMessage("")
+                    .setMessage(R.string.print_preview_mesage)
+                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
