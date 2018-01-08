@@ -77,7 +77,7 @@ public class CreatePurchaseReturnActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreatePurchaseReturnFragment(), "CREATE PURCHASE RETURN FRAGMENT");
+        adapter.addFragment(new CreatePurchaseReturnFragment(), "CREATE PURCHASE RETURN VOUCHER");
         adapter.addFragment(new AddItemPurchaseReturnFragment(), "ADD ITEM PURCHASE RETURN");
         viewPager.setAdapter(adapter);
     }

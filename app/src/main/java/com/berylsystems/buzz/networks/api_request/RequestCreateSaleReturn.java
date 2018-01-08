@@ -32,6 +32,7 @@ public class RequestCreateSaleReturn {
         voucher.put("total", appUser.totalamount);
         voucher.put("items_amount", appUser.items_amount);
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
+        voucher.put("send_email",appUser.email_yes_no);
 
 
    }
