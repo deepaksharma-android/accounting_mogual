@@ -580,6 +580,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
+
         if (path.exists()){
             path.delete();
             path.mkdir();
