@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 public class ContactUsActivity extends AppCompatActivity {
@@ -51,6 +52,9 @@ public class ContactUsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent=new Intent(getApplicationContext(),FirstPageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
         finish();
     }
 
@@ -59,6 +63,9 @@ public class ContactUsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent intent=new Intent(getApplicationContext(),FirstPageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                startActivity(intent);
                 finish();
                 return true;
             default:
