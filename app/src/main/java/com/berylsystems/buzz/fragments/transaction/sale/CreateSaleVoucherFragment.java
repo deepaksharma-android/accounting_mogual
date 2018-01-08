@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.support.design.widget.CoordinatorLayout;
@@ -121,7 +122,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sales_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Sales";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -609,7 +611,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 */
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
     private void createWebPrintJob(WebView webView) {
 
         String jobName = getString(R.string.app_name) + " Document";
@@ -625,7 +627,9 @@ public class CreateSaleVoucherFragment extends Fragment {
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
 
         PdfPrint pdfPrint = new PdfPrint(attributes);
-        pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
+        }
         previewPdf(pathPrint);
     }
 

@@ -94,6 +94,12 @@ public class ItemAlternateUnitDetails extends AppCompatActivity {
 
         if(!Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals("")){
             mAlternateUnit.setText(Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name());
+            if(Preferences.getInstance(getApplicationContext()).getitem_alternate_unit_name().equals(item_unit)){
+                mConTypeLayout.setVisibility(View.GONE);
+            }
+            else{
+                mConTypeLayout.setVisibility(View.VISIBLE);
+            }
         }
         if( !Preferences.getInstance(getApplicationContext()).getitem_opening_stock_quantity_alternate().equals("")){
             mStockQuantity.setText(Preferences.getInstance(getApplicationContext()).getitem_opening_stock_quantity_alternate());
