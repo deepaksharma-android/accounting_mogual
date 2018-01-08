@@ -62,6 +62,11 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count==0){
+                    appUser.stock_serial_arr.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    mSr_no.setText("");
+                }
                 if (!mStockQuantity.getText().toString().isEmpty()) {
                     stockquantity = Double.valueOf(mStockQuantity.getText().toString());
                     if (!mStockPrice.getText().toString().isEmpty()) {
@@ -193,8 +198,9 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                appUser.stock_serial_arr.add("3");
-                      /*          appUser.stock_serial_arr.clear();
+                              //  appUser.stock_serial_arr.add("3");
+                                Preferences.getInstance(getApplicationContext()).setSerial("");
+                                appUser.stock_serial_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
                                     if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
@@ -206,6 +212,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     }
                                 }
+                                Preferences.getInstance(getApplicationContext()).setStockSerial("");
                                 appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int i = 0; i < appUser.stock_serial_arr.size(); i++) {
@@ -213,17 +220,20 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
                                         appUser.stock_item_serail_arr.add(appUser.stock_serial_arr.get(i));
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
+
+
                                     }
                                 }
 
 
                                 String listString = "";
 
-                                for (String s : appUser.purchase_item_serail_arr) {
+                                for (String s : appUser.stock_item_serail_arr) {
                                     listString += s + ",";
                                 }
+                                Preferences.getInstance(getApplication()).setStockSerial(listString);
                                 mSr_no.setText(listString);
-                                dialogbal.dismiss();*/
+                                dialogbal.dismiss();
                             }
                         });
                         dialogbal.show();
