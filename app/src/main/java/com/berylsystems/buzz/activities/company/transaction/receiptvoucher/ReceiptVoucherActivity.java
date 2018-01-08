@@ -212,7 +212,7 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
         appUser.delete_receipt_id = pos.getPosition();
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ReceiptVoucherActivity.this)
-                .setTitle("Delete Expence Item")
+                .setTitle("Delete Receipt Voucher")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
