@@ -31,5 +31,6 @@ public class RequestCreateReceipt {
         receipt_voucher.put("amount", appUser.receipt_amount);
         receipt_voucher.put("narration", appUser.receipt_narration);
         receipt_voucher.put("attachment", appUser.receipt_attachment);
+        receipt_voucher.put("send_email",appUser.email_yes_no);
     }
 }

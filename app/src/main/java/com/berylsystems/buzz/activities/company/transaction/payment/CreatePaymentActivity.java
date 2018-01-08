@@ -311,44 +311,82 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     appUser.payment_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
-                                        mProgressDialog.setMessage("Info...");
-                                        mProgressDialog.setIndeterminate(false);
-                                        mProgressDialog.setCancelable(true);
-                                        mProgressDialog.show();
+                                    new AlertDialog.Builder(CreatePaymentActivity.this)
+                                            .setTitle("Email")
+                                            .setMessage("Do you want to receive email ?")
+                                            .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
-                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                    } else {
-                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                appUser.email_yes_no = "true";
+                                                LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
                                                 if (isConnected) {
-                                                    snackbar.dismiss();
+                                                    mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                    snackbar.show();
                                                 }
-                                            }
-                                        });
-                                        snackbar.show();
-                                    }
+                                            })
+                                            .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                } else {
-                                    Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
-                                }
+                                                appUser.email_yes_no = "false";
+                                                LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                                if (isConnected) {
+                                                    mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                    snackbar.show();
+                                                }
+
+                                            })
+                                            .show();
+
                             } else {
-                                Snackbar.make(coordinatorLayout, "Please select paid from", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
-                            Snackbar.make(coordinatorLayout, "Please select paid to", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(coordinatorLayout, "Please select paid from", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(coordinatorLayout, "Please select paid to", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                 }
             }
+
+            else
+
+            {
+                Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
+            }
+        }
         });
 
         mUpdate.setOnClickListener(new View.OnClickListener() {
@@ -672,6 +710,16 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             mSelectedImage.setImageResource(0);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
+            new AlertDialog.Builder(CreatePaymentActivity.this)
+                    .setTitle("Print/Preview").setMessage("")
+                    .setMessage(R.string.print_preview_mesage)
+                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
