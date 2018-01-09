@@ -226,12 +226,13 @@ public class ExpenceActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     @Subscribe
     public void deleteincome(EventDeleteExpence pos){
         appUser.delete_expence_id= pos.getPosition();
         LocalRepositories.saveAppUser(this,appUser);
         new AlertDialog.Builder(ExpenceActivity.this)
-                .setTitle("Delete Expence Item")
+                .setTitle("Delete Expence")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();

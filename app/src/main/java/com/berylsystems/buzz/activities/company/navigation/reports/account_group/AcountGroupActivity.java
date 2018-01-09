@@ -158,7 +158,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_cancel,null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
 
@@ -172,7 +172,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_cancel,null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
 
@@ -186,7 +186,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_cancel,null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
 
@@ -200,7 +200,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_cancel,null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
 
@@ -214,7 +214,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_cancel,null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
 
@@ -228,7 +228,7 @@ public class AcountGroupActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_cancel,null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
 
