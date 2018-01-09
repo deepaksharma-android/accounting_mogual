@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.networks.api_response.expence.Data;
 import com.berylsystems.buzz.utils.EventDeleteExpence;
@@ -56,6 +57,32 @@ public class TransactionExpenceAdapter extends RecyclerView.Adapter<TransactionE
             }
         });
 
+        viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +115,12 @@ public class TransactionExpenceAdapter extends RecyclerView.Adapter<TransactionE
         TextView bank_edit_text5;
         @Bind(R.id.icon_delete)
         LinearLayout icon_delete;
+        @Bind(R.id.icon_eye)
+        LinearLayout icon_eye;
+        @Bind(R.id.icon_printing)
+        LinearLayout icon_printing;
+        @Bind(R.id.icon_share)
+        LinearLayout icon_share;
        /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/

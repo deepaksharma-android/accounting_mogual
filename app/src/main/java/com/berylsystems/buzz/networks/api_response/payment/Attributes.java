@@ -15,6 +15,16 @@ public class Attributes {
     public String paid_to;
     public Double amount;
     public String narration;
+    public String invoice_html;
+
+    public String getInvoice_html() {
+        return invoice_html;
+    }
+
+    public void setInvoice_html(String invoice_html) {
+        this.invoice_html = invoice_html;
+    }
+
 
     public String getPayment_type() {
         return payment_type;

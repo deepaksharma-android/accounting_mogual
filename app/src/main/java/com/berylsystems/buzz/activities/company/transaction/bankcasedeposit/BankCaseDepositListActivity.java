@@ -20,15 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
-import com.berylsystems.buzz.activities.company.transaction.BankCashReportActivity;
-import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
-import com.berylsystems.buzz.activities.company.transaction.payment.PaymentActivity;
-import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
-import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.adapters.BankCashDepositListAdapter;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.ApiCallsService;
@@ -36,7 +29,6 @@ import com.berylsystems.buzz.networks.api_response.bankcashdeposit.DeleteBankCas
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
 import com.berylsystems.buzz.utils.Cv;
 import com.berylsystems.buzz.utils.EventClickAlertForBankCashDeposite;
-import com.berylsystems.buzz.utils.EventClickAlertForPayment;
 import com.berylsystems.buzz.utils.EventDeleteBankCashDeposit;
 import com.berylsystems.buzz.utils.LocalRepositories;
 import com.berylsystems.buzz.utils.TypefaceCache;

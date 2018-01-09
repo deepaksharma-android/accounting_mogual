@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
 import com.berylsystems.buzz.networks.api_response.creditnotewoitem.Data;
 import com.berylsystems.buzz.utils.EventClickAlertForCreditNote;
@@ -87,6 +88,33 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
                 EventBus.getDefault().post(new EventDeleteCreditNote(receipt_voucher_id));
             }
         });
+
+        viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -108,6 +136,13 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
         TextView bank_edit_text5;
         @Bind(R.id.icon_delete)
         LinearLayout icon_delete;
+        @Bind(R.id.icon_eye)
+        LinearLayout icon_eye;
+        @Bind(R.id.icon_printing)
+        LinearLayout icon_printing;
+        @Bind(R.id.icon_share)
+        LinearLayout icon_share;
+
         @Bind(R.id.main_layout)
         LinearLayout main_layout;
 

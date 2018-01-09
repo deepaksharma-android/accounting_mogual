@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
 import com.berylsystems.buzz.networks.api_response.debitnotewoitem.Data;
 import com.berylsystems.buzz.utils.EventClickAlertForCreditNote;
@@ -52,13 +53,7 @@ public class DebitNoteListAdapter extends RecyclerView.Adapter<DebitNoteListAdap
 
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-       /* viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String debit_note_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteDebitNote(debit_note_id));
-            }
-        });
+       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +80,33 @@ public class DebitNoteListAdapter extends RecyclerView.Adapter<DebitNoteListAdap
                 EventBus.getDefault().post(new EventDeleteDebitNote(receipt_voucher_id));
             }
         });
+
+        viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -108,8 +130,13 @@ public class DebitNoteListAdapter extends RecyclerView.Adapter<DebitNoteListAdap
         LinearLayout main_layout;
         @Bind(R.id.icon_delete)
         LinearLayout icon_delete;
-      /*  @Bind(R.id.delete)
-        LinearLayout mDelete;
+        @Bind(R.id.icon_eye)
+        LinearLayout icon_eye;
+        @Bind(R.id.icon_printing)
+        LinearLayout icon_printing;
+        @Bind(R.id.icon_share)
+        LinearLayout icon_share;
+      /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/
 
