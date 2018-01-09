@@ -3,6 +3,7 @@ package com.berylsystems.buzz.activities.company.navigation.reports;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
@@ -38,7 +40,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 
 import com.berylsystems.buzz.R;
@@ -83,7 +84,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
         mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
         mPdf_webview.getSettings().setBuiltInZoomControls(true);
 
-}
+    }
 
 
     private void initActionbar() {
@@ -118,8 +119,25 @@ public class TransactionPdfActivity extends AppCompatActivity {
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
 
+        if (path.exists()) {
+            path.delete();
+            path.mkdir();
+        }
+        
         PdfPrint pdfPrint = new PdfPrint(attributes);
-        pdfPrint.print(webView.createPrintDocumentAdapter(jobName), path, "a.pdf");
+
+        PrintDocumentAdapter adapter;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            adapter = webView.createPrintDocumentAdapter(jobName);
+        } else {
+            adapter = webView.createPrintDocumentAdapter();
+        }
+        ProgressDialog progressDialog = new ProgressDialog(TransactionPdfActivity.this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+
+        pdfPrint.print(adapter, path, "a.pdf");
+
         previewPdf(pathPrint);
     }
 
@@ -148,10 +166,10 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        if (id==R.id.icon_id){
+        int id = item.getItemId();
+        if (id == R.id.icon_id) {
             createWebPrintJob(mPdf_webview);
-        }else {
+        } else {
             finish();
         }
         return true;
