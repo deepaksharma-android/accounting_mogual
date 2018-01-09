@@ -16,6 +16,15 @@ public class Attribute {
     public String voucher_number;
     public String id;
     public String pdc_date;
+    public String invoice_html;
+
+    public String getInvoice_html() {
+        return invoice_html;
+    }
+
+    public void setInvoice_html(String invoice_html) {
+        this.invoice_html = invoice_html;
+    }
 
     public String getPdc_date() {
         return pdc_date;

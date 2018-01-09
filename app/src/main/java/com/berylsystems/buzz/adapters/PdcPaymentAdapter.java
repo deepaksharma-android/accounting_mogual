@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.payment.CreatePaymentActivity;
 import com.berylsystems.buzz.networks.api_response.pdc.Attribute;
 import com.berylsystems.buzz.utils.EventDeletePaymentPdcDetails;
@@ -73,6 +74,33 @@ public class PdcPaymentAdapter extends BaseAdapter {
                 EventBus.getDefault().post(new EventDeletePaymentPdcDetails(payment_id));
             }
         });
+
+        holder.icon_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",list.get(position).getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.icon_printing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",list.get(position).getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",list.get(position).getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
         /*holder.editBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,10 +125,16 @@ public class PdcPaymentAdapter extends BaseAdapter {
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
-        @Bind(R.id.main_layout)
-        LinearLayout main_layout;
         @Bind(R.id.icon_delete)
         LinearLayout icon_delete;
+        @Bind(R.id.icon_eye)
+        LinearLayout icon_eye;
+        @Bind(R.id.icon_printing)
+        LinearLayout icon_printing;
+        @Bind(R.id.icon_share)
+        LinearLayout icon_share;
+        @Bind(R.id.main_layout)
+        LinearLayout main_layout;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
