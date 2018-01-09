@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.PrivacyPolicyActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TermsActivity;
 import com.berylsystems.buzz.activities.user.LoginActivity;
 import com.berylsystems.buzz.activities.user.RegisterActivity;
 import com.berylsystems.buzz.adapters.MyPagerAdapter;
@@ -67,8 +69,8 @@ public class HomePageActivity extends Activity {
         LocalRepositories.saveAppUser(this, appUser);
         mTerms.setClickable(true);
         mTerms.setMovementMethod(LinkMovementMethod.getInstance());
-        String text = "By continuing, you are indicating that you have read and agree to the <a href='https://www.google.com'> Terms of Use</a> and <a href='https://google.com'> Privacy Policy</a> ";
-        mTerms.setText(Html.fromHtml(text));
+       /* String text = "By continuing, you are indicating that you have read and agree to the <a href='https://www.google.com'> Terms of Use</a> and <a href='https://google.com'> Privacy Policy</a> ";
+        mTerms.setText(Html.fromHtml(text));*/
         adapter = new MyPagerAdapter();
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -130,6 +132,20 @@ public class HomePageActivity extends Activity {
                 return false;
             }
         });
+    }
+
+    public void terms(View v){
+        Intent intent = new Intent(getApplicationContext(), TermsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
+    }
+
+    public void privacy(View v){
+        Intent intent = new Intent(getApplicationContext(), PrivacyPolicyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
     }
 
     public void login(View v) {
