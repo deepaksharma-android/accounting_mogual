@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -55,6 +56,22 @@ public class AcountGroupActivity extends AppCompatActivity {
     TextView amount_receivable_txt;
     @Bind(R.id.amount_payble_txt)
     TextView amount_payble_txt;
+    @Bind(R.id.gstr1)
+    LinearLayout mGstr1;
+    @Bind(R.id.gstr2)
+    LinearLayout mGstr2;
+    @Bind(R.id.gstr_e1)
+    LinearLayout mGstr_e1;
+    @Bind(R.id.gstr_e2)
+    LinearLayout mGstr_e2;
+    @Bind(R.id.balance_sheet_layout)
+    LinearLayout mBalance_sheet_layout;
+    @Bind(R.id.profit_loss_report_layout)
+    LinearLayout mProfit_loss_report_layout;
+
+
+
+
     AppUser appUser;
 
 
@@ -131,6 +148,90 @@ public class AcountGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mPurchaseReport.setTextColor(Color.WHITE);
                 startActivity(new Intent(getApplicationContext(), AnalysisPurchaseReportActivity.class));
+            }
+        });
+
+        mGstr1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
+            }
+        });
+
+        mGstr2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
+            }
+        });
+
+        mGstr_e1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
+            }
+        });
+
+        mGstr_e2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
+            }
+        });
+
+        mBalance_sheet_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
+            }
+        });
+
+        mProfit_loss_report_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
             }
         });
 

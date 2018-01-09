@@ -48,14 +48,15 @@ public class TransactionExpenceAdapter extends RecyclerView.Adapter<TransactionE
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-      /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String expence_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteExpence(expence_id));
+                String receipt_voucher_id=data.get(position).getId();
+                EventBus.getDefault().post(new EventDeleteExpence(receipt_voucher_id));
             }
         });
 
+      /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,8 +86,9 @@ public class TransactionExpenceAdapter extends RecyclerView.Adapter<TransactionE
         TextView bank_edit_text4;
         @Bind(R.id.bank_edit_text5)
         TextView bank_edit_text5;
-       /* @Bind(R.id.delete)
-        LinearLayout mDelete;
+        @Bind(R.id.icon_delete)
+        LinearLayout icon_delete;
+       /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/
 
