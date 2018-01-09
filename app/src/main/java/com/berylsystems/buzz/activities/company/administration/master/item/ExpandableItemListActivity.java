@@ -359,9 +359,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
                         }*/
                         barcode.add(strfromArrayList);
+
                         Timber.i("MYBARCODE"+barcode);
                     } else {
                         barcode.add("");
+
                     }
                     unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_unit());
 
