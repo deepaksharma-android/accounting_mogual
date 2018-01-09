@@ -6,195 +6,198 @@
     android:orientation="vertical">
 
 
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
-
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.68"
-            android:orientation="vertical">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.04"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:orientation="horizontal"
-                android:layout_marginBottom="5dp"
-                android:id="@+id/radiogroup">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:buttonTint="@color/button_color"
-                    android:id="@+id/radioButton"
-                    android:checked="true" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="0.5"
-                    android:layout_marginLeft="-10dp"
-                    android:scaleY="0.5"
-                    android:buttonTint="@color/button_color"
-                    android:id="@+id/radioButton2" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="0.5"
-                    android:layout_marginLeft="-10dp"
-                    android:scaleY="0.5"
-                    android:buttonTint="@color/button_color"
-                    android:id="@+id/radioButton3" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:layout_weight="0.2"
-            android:orientation="vertical">
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:onClick="login"
-                android:background="@drawable/solid_blue"
-                android:gravity="center">
+                android:layout_height="0dp"
+                android:layout_weight="0.68"
+                android:orientation="vertical">
 
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="CLICK HERE TO LOGIN"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    style="@style/Gotham_Medium"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:onClick="signup"
-                android:background="@drawable/solid_white"
-                android:gravity="center">
+                android:layout_height="0dp"
+                android:layout_weight="0.04"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
 
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    android:layout_width="fill_parent"
+                <RadioGroup
+                    android:id="@+id/radiogroup"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="CREATE YOUR ACCOUNT "
-                    android:textColor="@color/button_color"
-                    android:textSize="14sp"
-                    style="@style/Gotham_Medium"
-                    />
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/button_color"
+                        android:checked="true"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-10dp"
+                        android:buttonTint="@color/button_color"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-10dp"
+                        android:buttonTint="@color/button_color"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5" />
+                </RadioGroup>
 
             </LinearLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.09"
-            android:orientation="vertical">
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="0dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
 
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Medium"
-                    android:id="@+id/text"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:textColor="#60000000"
-                    android:text="By continuing, you are indicating that you have read and agree to the"
-                    android:textColorLink="@color/button_color"
-                    android:textSize="10sp" />
+
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_below="@id/text">
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Medium"
-                    android:id="@+id/terms"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_weight="0.2"
-                    android:onClick="terms"
-                    android:textColor="@color/button_color"
-                    android:layout_below="@id/text"
-                    android:text="Terms Of Use"
-                    android:textSize="10sp" />
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/solid_blue"
+                    android:gravity="center"
+                    android:onClick="login">
+
                     <com.berylsystems.buzz.utils.BuzzTextView
                         style="@style/Gotham_Medium"
-                        android:layout_width="0dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.05"
-                        android:layout_marginLeft="-5dp"
-                        android:textColor="#60000000"
-                        android:layout_below="@id/text"
-                        android:text="and"
-                        android:textSize="10sp" />
-                <com.berylsystems.buzz.utils.BuzzTextView
-                    style="@style/Gotham_Medium"
-                    android:id="@+id/privacy"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:onClick="privacy"
-                   android:layout_marginLeft="5dp"
-                    android:textColor="@color/button_color"
-                    android:text="Privacy Policy"
-                    android:layout_below="@+id/terms"
-                    android:textSize="10sp" />
+                        android:gravity="center"
+                        android:text="CLICK HERE TO LOGIN"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
                 </LinearLayout>
-            </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/solid_white"
+                    android:gravity="center"
+                    android:onClick="signup">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="CREATE YOUR ACCOUNT "
+                        android:textColor="@color/button_color"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        android:id="@+id/text"
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="By continuing, you are indicating that you have read and agree to the"
+                        android:textColor="#60000000"
+                        android:textColorLink="@color/button_color"
+                        android:textSize="10sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/text"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="5dp"
+                        android:weightSum=".8">
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:id="@+id/terms"
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/text"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="0.2"
+                            android:onClick="terms"
+                            android:text="Terms Of Use"
+                            android:textColor="@color/button_color"
+                            android:textSize="10sp" />
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/text"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.1"
+                            android:text="and"
+                            android:textColor="#60000000"
+                            android:textSize="10sp" />
+
+                        <com.berylsystems.buzz.utils.BuzzTextView
+                            android:id="@+id/privacy"
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/terms"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.2"
+                            android:onClick="privacy"
+                            android:text="Privacy Policy"
+                            android:textColor="@color/button_color"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
     </LinearLayout>
 
 
