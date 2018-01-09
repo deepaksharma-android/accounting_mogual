@@ -106,6 +106,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String sale_type;
     String totalitemprice;
     String id;
+    String sale_unit;
     ArrayAdapter<String> spinnerAdapter;
     ArrayList arr_barcode;
 
@@ -139,6 +140,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             String value= (String) map.get("value");
             String total= (String) map.get("total");
             String mrpitem= (String) map.get("mrp");
+            String saleunit= (String) map.get("sale_unit");
             String applieditem= (String) map.get("applied");
             String priceselectedunititem= (String) map.get("price_selected_unit");
             String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
@@ -173,6 +175,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             mDescription.setText(description);
             default_unit=defaultunit;
             mrp=mrpitem;
+            sale_unit=saleunit;
             sales_price_applied_on=applieditem;
             sales_price_main=salepricemain;
             alternate_unit_con_factor=alternateunitconfactoritem;
@@ -407,6 +410,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                         if (i == 2) {
+                            sale_unit=packaging_unit;
                             price_selected_unit = "packaging";
                             if (default_unit.equals("Pckg. Unit")) {
                                 mRate.setText(String.valueOf(packaging_unit_sales_price));
@@ -424,6 +428,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
 
                         }
                         if (i == 0) {
+                            sale_unit=main_unit;
                             price_selected_unit = "main";
                             if (default_unit.equals("Pckg. Unit")) {
                                 Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -437,6 +442,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 }
                             }
                         } else if (i == 1) {
+                            sale_unit=alternate_unit;
                             price_selected_unit = "alternate";
                             if (default_unit.equals("Pckg. Unit")) {
                                 Double main_unit_price = Double.parseDouble(packaging_unit_sales_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -463,6 +469,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         if (i == 0) {
+                            sale_unit=main_unit;
                             price_selected_unit = "main";
                             if (sales_price_applied_on.equals("Alternate Unit")) {
                                 Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
@@ -471,6 +478,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                                 mRate.setText(sales_price_main);
                             }
                         } else if (i == 1) {
+                            sale_unit=alternate_unit;
                             price_selected_unit = "alternate";
                             if (sales_price_applied_on.equals("Main Unit")) {
                                 Double alternate_unit_price = Double.parseDouble(sales_price_main) / Double.parseDouble(alternate_unit_con_factor);
@@ -519,6 +527,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     mMap.put("batch_wise",batchwise);
                     mMap.put("serial_wise",serailwise);
                     mMap.put("barcode",barcode);
+                    mMap.put("sale_unit",sale_unit);
 
                     String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
                     if(taxstring.startsWith("I")||taxstring.startsWith("L")) {

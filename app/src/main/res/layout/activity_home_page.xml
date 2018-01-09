@@ -148,33 +148,50 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:textColor="#60000000"
-                    android:text="By continuing, you are indicating that you have read and agree to the following :-"
+                    android:text="By continuing, you are indicating that you have read and agree to the"
                     android:textColorLink="@color/button_color"
                     android:textSize="10sp" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_below="@id/text">
                 <com.berylsystems.buzz.utils.BuzzTextView
                     style="@style/Gotham_Medium"
                     android:id="@+id/terms"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.2"
                     android:onClick="terms"
                     android:textColor="@color/button_color"
                     android:layout_below="@id/text"
                     android:text="Terms Of Use"
                     android:textSize="10sp" />
+                    <com.berylsystems.buzz.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.05"
+                        android:layout_marginLeft="-5dp"
+                        android:textColor="#60000000"
+                        android:layout_below="@id/text"
+                        android:text="and"
+                        android:textSize="10sp" />
                 <com.berylsystems.buzz.utils.BuzzTextView
                     style="@style/Gotham_Medium"
                     android:id="@+id/privacy"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.2"
                     android:onClick="privacy"
+                   android:layout_marginLeft="5dp"
                     android:textColor="@color/button_color"
                     android:text="Privacy Policy"
                     android:layout_below="@+id/terms"
                     android:textSize="10sp" />
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,7 +1,7 @@
 package com.berylsystems.buzz.activities.app;
 
 import android.content.Intent;
-import android.media.Image;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,21 +20,15 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.CompanyListActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.CompanyAboutActivity;
-import com.berylsystems.buzz.activities.company.navigation.reports.ContactUsActivity;
-import com.berylsystems.buzz.activities.company.navigation.reports.HelpActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.account_group.AcountGroupActivity;
 import com.berylsystems.buzz.activities.company.FirstPageActivity;
 import com.berylsystems.buzz.activities.dashboard.CompanyDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
-import com.berylsystems.buzz.utils.Helpers;
 import com.berylsystems.buzz.utils.LocalRepositories;
-import com.berylsystems.buzz.utils.Preferences;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import org.w3c.dom.Text;
 
 public class BaseActivityCompany extends AppCompatActivity {
     private Menu menu;
@@ -118,6 +112,7 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void dashboard(View view){
+        drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),FirstPageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
@@ -125,6 +120,7 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void administration(View v){
+        drawerLayout.closeDrawers();
         count++;
         if(count%2==0){
             mMasterLayout.setVisibility(View.GONE);
@@ -138,6 +134,7 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void master(View v){
+        drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),MasterDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
@@ -146,18 +143,21 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void transaction(View v){
+        drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),TransactionDashboardActivity.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
     }
     public void reports(View v){
+        drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),AcountGroupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
     }
     public void settings(View v){
+        drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),CompanyDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
@@ -166,28 +166,34 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void help(View v){
-        Intent intent=new Intent(getApplicationContext(),HelpActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
-        startActivity(intent);
-        finish();
+        drawerLayout.closeDrawers();
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:support@mbilling.in"));
+        email.putExtra(Intent.EXTRA_SUBJECT, "Support m-Billing");
+        email.putExtra(Intent.EXTRA_TEXT, "Sent from m-Billing app");
+        startActivity(email);
+
     }
     public void contactus(View v){
-        Intent intent=new Intent(getApplicationContext(),ContactUsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
-        startActivity(intent);
-        finish();
+        drawerLayout.closeDrawers();
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:contact@mbilling.in"));
+        email.putExtra(Intent.EXTRA_SUBJECT, "Contact m-Billing");
+        email.putExtra(Intent.EXTRA_TEXT, "Sent from m-Billing app");
+        startActivity(email);
     }
     public void share(View v){
         drawerLayout.closeDrawers();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sent from Bahi Kata app");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Share the Bahi Khata App with your friends to spread goodness-Get the app-https://play.google.com/store/apps/details?id=com.berylsystems.buzz");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sent from m-Billing app");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Share the m-Billing App with your friends to spread goodness-Get the app-https://play.google.com/store/apps/details?id=com.berylsystems.buzz");
         startActivity(Intent.createChooser(shareIntent, "Share via"));
 
     }
     public void about(View v){
+        drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),CompanyAboutActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
