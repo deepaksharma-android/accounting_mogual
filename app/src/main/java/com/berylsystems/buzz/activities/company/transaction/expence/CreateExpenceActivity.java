@@ -43,6 +43,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.income.CreateIncomeActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -574,11 +575,12 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreateExpenceActivity.this);
+                        Intent intent = new Intent(CreateExpenceActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreateExpenceActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
-
                         String htmlString = response.getHtml();
                         Spanned htmlAsSpanned = Html.fromHtml(htmlString);
                         mPdf_webview = new WebView(getApplicationContext());
@@ -590,7 +592,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();

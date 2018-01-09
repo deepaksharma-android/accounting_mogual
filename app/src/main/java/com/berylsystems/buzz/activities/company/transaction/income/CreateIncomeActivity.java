@@ -42,6 +42,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -574,9 +575,11 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        Intent intent = new Intent(CreateIncomeActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreateIncomeActivity.this);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreateIncomeActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
 
@@ -591,7 +594,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
 
 
                     })

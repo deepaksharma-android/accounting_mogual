@@ -40,6 +40,7 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -511,8 +512,10 @@ public class CreateSaleReturnFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-
-                        ProgressDialog progressDialog=new ProgressDialog(getActivity());
+                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
+                       /* ProgressDialog progressDialog=new ProgressDialog(getActivity());
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
                         String htmlString=response.getHtml();
@@ -527,8 +530,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                 progressDialog.dismiss();
                             }
                         },5*1000);
-
-
+*/
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();

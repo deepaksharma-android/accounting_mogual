@@ -43,6 +43,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -568,12 +569,13 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        Intent intent = new Intent(CreateCreditNoteWoItemActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
-
                         String htmlString = response.getHtml();
                         Spanned htmlAsSpanned = Html.fromHtml(htmlString);
                         mPdf_webview = new WebView(getApplicationContext());
@@ -585,7 +587,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
 
 
                     })

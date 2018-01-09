@@ -39,6 +39,7 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -487,8 +488,11 @@ public class CreatePurchaseFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-                        String htmlString = response.getHtml();
+                       /* String htmlString = response.getHtml();
                         Spanned htmlAsSpanned = Html.fromHtml(htmlString);
                         mPdf_webview = new WebView(getApplicationContext());
                         mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
@@ -502,7 +506,7 @@ public class CreatePurchaseFragment extends Fragment {
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();

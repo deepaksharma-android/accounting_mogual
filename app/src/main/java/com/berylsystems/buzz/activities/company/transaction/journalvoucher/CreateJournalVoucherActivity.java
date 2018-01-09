@@ -42,6 +42,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -612,9 +613,11 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        Intent intent = new Intent(CreateJournalVoucherActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
 
@@ -629,7 +632,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
 
                     })
                     .setNegativeButton(R.string.btn_cancel, null)

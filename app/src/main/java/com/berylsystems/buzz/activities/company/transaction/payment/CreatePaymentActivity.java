@@ -45,6 +45,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.account_group.PdcActivity;
 import com.berylsystems.buzz.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
 import com.berylsystems.buzz.activities.company.transaction.expence.CreateExpenceActivity;
@@ -728,9 +729,11 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        Intent intent = new Intent(CreatePaymentActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreatePaymentActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
 
@@ -745,7 +748,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
 
 
                     })

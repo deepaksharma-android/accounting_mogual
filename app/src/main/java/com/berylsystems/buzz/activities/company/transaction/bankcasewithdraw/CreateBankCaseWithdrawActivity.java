@@ -49,6 +49,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
@@ -595,8 +596,10 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
+                        Intent intent = new Intent(CreateBankCaseWithdrawActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
                         String htmlString = response.getHtml();
@@ -609,7 +612,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();

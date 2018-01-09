@@ -43,6 +43,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.app.RegisterAbstractActivity;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
@@ -549,8 +550,10 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-
-                        ProgressDialog progressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
+                        Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
+                        /*ProgressDialog progressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
                         String htmlString = response.getHtml();
@@ -564,7 +567,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);
+                        }, 5 * 1000);*/
 
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
