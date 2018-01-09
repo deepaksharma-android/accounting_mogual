@@ -10,12 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
-import com.berylsystems.buzz.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.networks.api_response.bankcashdeposit.Data;
 import com.berylsystems.buzz.utils.EventClickAlertForBankCashDeposite;
-import com.berylsystems.buzz.utils.EventClickAlertForPayment;
 import com.berylsystems.buzz.utils.EventDeleteBankCashDeposit;
-import com.berylsystems.buzz.utils.EventDeletePayment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,14 +48,7 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
         viewHolder.bank_edit_text4.setText(""+String.format("%.2f",data.get(position).getAttributes().amount));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
 
-       /* viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String bank_cash_deposit_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteBankCashDeposit(bank_cash_deposit_id));
-            }
-        });
-
+       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +75,33 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
                 EventBus.getDefault().post(new EventDeleteBankCashDeposit(receipt_voucher_id));
             }
         });
+
+        viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -107,6 +125,12 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
         LinearLayout icon_delete;
         @Bind(R.id.main_layout)
         LinearLayout main_layout;
+        @Bind(R.id.icon_eye)
+        LinearLayout icon_eye;
+        @Bind(R.id.icon_printing)
+        LinearLayout icon_printing;
+        @Bind(R.id.icon_share)
+        LinearLayout icon_share;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

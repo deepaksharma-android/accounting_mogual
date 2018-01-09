@@ -6,6 +6,16 @@ public class Attributes {
     public String voucher_number;
     public int company_id;
     public String account_master;
+    public String invoice_html;
+
+    public String getInvoice_html() {
+        return invoice_html;
+    }
+
+    public void setInvoice_html(String invoice_html) {
+        this.invoice_html = invoice_html;
+    }
+
 
     public String getDate() {
         return date;

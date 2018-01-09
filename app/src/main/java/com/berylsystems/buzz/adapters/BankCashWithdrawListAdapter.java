@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.berylsystems.buzz.R;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
 import com.berylsystems.buzz.networks.api_response.bankcashwithdraw.Data;
 import com.berylsystems.buzz.utils.EventClickAlertForBakCashWithDraw;
@@ -49,14 +50,7 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-      /*  viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String bank_cash_withdraw_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeleteBankCashWithdraw(bank_cash_withdraw_id));
-            }
-        });
-
+      /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +77,33 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
                 EventBus.getDefault().post(new EventDeleteBankCashWithdraw(receipt_voucher_id));
             }
         });
+
+        viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TransactionPdfActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -106,8 +127,13 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
         LinearLayout main_layout;
         @Bind(R.id.icon_delete)
         LinearLayout icon_delete;
-        /*@Bind(R.id.delete)
-        LinearLayout mDelete;
+        @Bind(R.id.icon_eye)
+        LinearLayout icon_eye;
+        @Bind(R.id.icon_printing)
+        LinearLayout icon_printing;
+        @Bind(R.id.icon_share)
+        LinearLayout icon_share;
+        /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/
 
