@@ -125,7 +125,6 @@ public class TransactionPdfActivity extends AppCompatActivity {
 //        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
 
-
         PdfPrint pdfPrint = new PdfPrint(attributes);
 
         PrintDocumentAdapter adapter;

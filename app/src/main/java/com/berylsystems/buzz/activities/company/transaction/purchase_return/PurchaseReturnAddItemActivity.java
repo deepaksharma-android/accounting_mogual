@@ -104,6 +104,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
     String default_unit;
     String packaging_unit_purchase_price;
     String sale_type;
+    String purchase_unit;
     String totalitemprice;
     String id;
     ArrayAdapter<String> spinnerAdapter;
@@ -139,6 +140,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             String discount= (String) map.get("discount");
             String value= (String) map.get("value");
             String total= (String) map.get("total");
+            String purchaseunit= (String) map.get("purchase_unit");
             String mrpitem= (String) map.get("mrp");
             String applieditem= (String) map.get("applied");
             String priceselectedunititem= (String) map.get("price_selected_unit");
@@ -172,6 +174,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             mDescription.setText(description);
             default_unit=defaultunit;
             mrp=mrpitem;
+            purchase_unit=purchaseunit;
             purchase_price_applied_on=applieditem;
             purchase_price_main=purchasepricemain;
             alternate_unit_con_factor=alternateunitconfactoritem;
@@ -395,6 +398,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                     if (i == 2) {
+                        purchase_unit=packaging_unit;
                         price_selected_unit = "packaging";
                         if (default_unit.equals("Pckg. Unit")) {
                             mRate.setText(String.valueOf(packaging_unit_purchase_price));
@@ -412,6 +416,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
 
                     }
                     if (i == 0) {
+                        purchase_unit=main_unit;
                         price_selected_unit = "main";
                         if (default_unit.equals("Pckg. Unit")) {
                             Double main_unit_price = Double.parseDouble(packaging_unit_purchase_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -425,6 +430,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                             }
                         }
                     } else if (i == 1) {
+                        purchase_unit=alternate_unit;
                         price_selected_unit = "alternate";
                         if (default_unit.equals("Pckg. Unit")) {
                             Double main_unit_price = Double.parseDouble(packaging_unit_purchase_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -451,6 +457,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (i == 0) {
+                        purchase_unit=main_unit;
                         price_selected_unit = "main";
                         if (purchase_price_applied_on.equals("Alternate Unit")) {
                             Double main_unit_price = Double.parseDouble(purchase_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
@@ -463,6 +470,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                             }*/
                         }
                     } else if (i == 1) {
+                        purchase_unit=alternate_unit;
                         price_selected_unit = "alternate";
                         if (purchase_price_applied_on.equals("Main Unit")) {
                           /*  if (!purchase_price_main.equals("null")) {*/

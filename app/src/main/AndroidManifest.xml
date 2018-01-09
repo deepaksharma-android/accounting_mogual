@@ -570,11 +570,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.navigation.reports.HelpActivity"
+            android:name=".activities.company.navigation.reports.TermsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.navigation.reports.ContactUsActivity"
+            android:name=".activities.company.navigation.reports.PrivacyPolicyActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

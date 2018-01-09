@@ -1,5 +1,7 @@
 package com.berylsystems.buzz.networks.api_response.item;
 
+import java.util.ArrayList;
+
 /**
  * Created by BerylSystems on 11/20/2017.
  */
@@ -455,5 +457,27 @@ public class ItemAttribute {
     }
 
     public int tax_category_id;
+
+    public ArrayList<String> getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(ArrayList<String> barcode) {
+        this.barcode = barcode;
+    }
+
+    public ArrayList<String> barcode;
+
+    public ArrayList<String> getSerial_number() {
+        return serial_number;
+    }
+
+    public void setSerial_number(ArrayList<String> serial_number) {
+        this.serial_number = serial_number;
+    }
+
+    public ArrayList<String> serial_number;
+
+
 
 }
