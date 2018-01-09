@@ -113,7 +113,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
         String jobName = getString(R.string.app_name) + " Document";
         PrintAttributes attributes = new PrintAttributes.Builder()
                 .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+                .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 500, 500))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");

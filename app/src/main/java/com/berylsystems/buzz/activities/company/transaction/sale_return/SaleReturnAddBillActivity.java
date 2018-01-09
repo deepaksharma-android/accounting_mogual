@@ -136,6 +136,7 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
 
         billAmount.addTextChangedListener(watcher1);
         mTotalAmt.addTextChangedListener(watcher2);
+
         if(billSundryCharges.equals("IGST")){
             if(taxstring.startsWith("I")) {
                 String arrtaxstring[] = taxstring.split("-");
@@ -153,6 +154,25 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
                 taxval=0.0;
             }
             billSundryAmount=String.valueOf(billSundryDefaultValue+taxval);
+
+        }
+        else if(billSundryCharges.equals("CGST")||billSundryCharges.equals("SGST")){
+            if(taxstring.startsWith("L")) {
+                String arrtaxstring[] = taxstring.split("-");
+                String taxname = arrtaxstring[0].trim();
+                String taxvalue = arrtaxstring[1].trim();
+                if(taxvalue.contains("%")) {
+                    String taxvalpercent[] = taxvalue.split("%");
+                    String taxvalpercentval = taxvalpercent[0];
+                    Timber.i("TAXNAME" + taxname);
+                    Timber.i("TAXVAL" + taxvalpercentval);
+                    taxval=Double.parseDouble(taxvalpercentval);
+                }
+            }
+            else{
+                taxval=0.0;
+            }
+            billSundryAmount=String.valueOf(/*data.getAttributes().getDefault_value()*/billSundryDefaultValue+(taxval/2.0));
 
         }
         else{
