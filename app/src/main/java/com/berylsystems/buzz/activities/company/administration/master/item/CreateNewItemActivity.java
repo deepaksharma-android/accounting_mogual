@@ -681,6 +681,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 boolForUnit = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
+                Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_name(result);
+                Preferences.getInstance(getApplicationContext()).setitem_alternate_unit_id(id);
                 appUser.item_unit_id = id;
                 appUser.item_unit_name = result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

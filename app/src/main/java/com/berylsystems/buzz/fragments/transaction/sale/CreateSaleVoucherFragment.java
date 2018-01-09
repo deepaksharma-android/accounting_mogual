@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.support.design.widget.CoordinatorLayout;
@@ -41,6 +42,7 @@ import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
+import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity;
 import com.berylsystems.buzz.activities.company.transaction.sale.CreateSaleActivity;
@@ -121,7 +123,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sales_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Sales";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -509,8 +512,11 @@ public class CreateSaleVoucherFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-                        ProgressDialog progressDialog=new ProgressDialog(getActivity());
+                       /* ProgressDialog progressDialog=new ProgressDialog(getActivity());
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
                         String htmlString=response.getHtml();
@@ -524,7 +530,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        },5*1000);
+                        },5*1000);*/
 
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
@@ -609,6 +615,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 */
 
 
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createWebPrintJob(WebView webView) {
 
@@ -618,7 +625,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
-        
+
         if (path.exists()){
             path.delete();
             path.mkdir();

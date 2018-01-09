@@ -48,21 +48,21 @@ public class ItemSettingsActivity extends AppCompatActivity {
     @Bind(R.id.show_more)
     LinearLayout mShowMoreLayout;
     AppUser appUser;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_settings);
         ButterKnife.bind(this);
         initActionbar();
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         mSpinnerCriticalLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if (i == 1) {
                     mShowMoreLayout.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     mShowMoreLayout.setVisibility(View.GONE);
                 }
             }
@@ -75,14 +75,13 @@ public class ItemSettingsActivity extends AppCompatActivity {
         mShowMoreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ItemSettingCriticalLevelActivity.class));
+                startActivity(new Intent(getApplicationContext(), ItemSettingCriticalLevelActivity.class));
             }
         });
-        if(mSpinnerCriticalLevel.getSelectedItem().toString().equals("Yes")){
+        if (mSpinnerCriticalLevel.getSelectedItem().toString().equals("Yes")) {
             mShowMoreLayout.setVisibility(View.VISIBLE);
 
-        }
-        else{
+        } else {
             mShowMoreLayout.setVisibility(View.GONE);
         }
        /* else{
@@ -94,49 +93,48 @@ public class ItemSettingsActivity extends AppCompatActivity {
             Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days("");
         }*/
 
-            if (Preferences.getInstance(getApplicationContext()).getitem_set_critical_level().equals("Yes")) {
-                mSpinnerCriticalLevel.setSelection(1);
-            }
+        if (Preferences.getInstance(getApplicationContext()).getitem_set_critical_level().equals("Yes")) {
+            mSpinnerCriticalLevel.setSelection(1);
+        }
 
 
-            if (Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("Yes")) {
-                mSpinnerSerialNumber.setSelection(1);
-                mBatchWiseLayout.setVisibility(View.GONE);
-            }
+        if (Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("Yes")) {
+            mSpinnerSerialNumber.setSelection(0);
+            mBatchWiseLayout.setVisibility(View.GONE);
+        }
 
 
-            if ( Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("Yes")) {
-                mSpinnerBatchWise.setSelection(1);
-                mSerialWiseLayout.setVisibility(View.GONE);
+        if (Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("Yes")) {
+            mSpinnerBatchWise.setSelection(1);
+            mSerialWiseLayout.setVisibility(View.GONE);
 
-            }
-
-
-            if (Preferences.getInstance(getApplicationContext()).getitem_settings_alternate_unit().equals("Yes")) {
-                mSpinnerAlternateUnit.setSelection(1);
-            }
+        }
 
 
-            if ( Preferences.getInstance(getApplicationContext()).getitem_specify_purchase_account().equals("Yes")) {
-                mSpinnerSpecifyPurchase.setSelection(1);
-            }
+        if (Preferences.getInstance(getApplicationContext()).getitem_settings_alternate_unit().equals("Yes")) {
+            mSpinnerAlternateUnit.setSelection(1);
+        }
 
 
-            if (Preferences.getInstance(getApplicationContext()).getitem_specify_sales_account().equals("Yes")) {
-                mSpinnerSpecifySales.setSelection(1);
-            }
+        if (Preferences.getInstance(getApplicationContext()).getitem_specify_purchase_account().equals("Yes")) {
+            mSpinnerSpecifyPurchase.setSelection(1);
+        }
 
 
-            if (  Preferences.getInstance(getApplicationContext()).getitem_dont_maintain_stock_balance().equals("Yes")) {
-                mSpinnerDontMaintainStockBalance.setSelection(1);
-            }
+        if (Preferences.getInstance(getApplicationContext()).getitem_specify_sales_account().equals("Yes")) {
+            mSpinnerSpecifySales.setSelection(1);
+        }
+
+
+        if (Preferences.getInstance(getApplicationContext()).getitem_dont_maintain_stock_balance().equals("Yes")) {
+            mSpinnerDontMaintainStockBalance.setSelection(1);
+        }
         mSpinnerSerialNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==0){
+                if (i == 0) {
                     mBatchWiseLayout.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     mBatchWiseLayout.setVisibility(View.VISIBLE);
                 }
             }
@@ -150,10 +148,9 @@ public class ItemSettingsActivity extends AppCompatActivity {
         mSpinnerBatchWise.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
+                if (i == 1) {
                     mSerialWiseLayout.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     mSerialWiseLayout.setVisibility(View.VISIBLE);
                 }
             }
@@ -168,18 +165,18 @@ public class ItemSettingsActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mSpinnerBatchWise.getSelectedItem().toString().equals("Yes")){
+                if (mSpinnerBatchWise.getSelectedItem().toString().equals("Yes")) {
                     Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("No");
                     Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail(mSpinnerBatchWise.getSelectedItem().toString());
                 }
-                if(mSpinnerSerialNumber.getSelectedItem().toString().equals("Yes")){
+                if (mSpinnerSerialNumber.getSelectedItem().toString().equals("Yes")) {
                     Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail(mSpinnerSerialNumber.getSelectedItem().toString());
                     Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
                 }
                 Preferences.getInstance(getApplicationContext()).setitem_set_critical_level(mSpinnerCriticalLevel.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_specify_sales_account(mSpinnerSpecifySales.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_specify_purchase_account(mSpinnerSpecifyPurchase.getSelectedItem().toString());
-                Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance( mSpinnerDontMaintainStockBalance.getSelectedItem().toString());
+                Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance(mSpinnerDontMaintainStockBalance.getSelectedItem().toString());
                 Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit(mSpinnerAlternateUnit.getSelectedItem().toString());
 
 
@@ -212,7 +209,7 @@ public class ItemSettingsActivity extends AppCompatActivity {
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("SETTINGS");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
