@@ -563,10 +563,10 @@ public class AddItemSaleReturnFragment extends Fragment {
 
 
                                 }
-                                if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
+                               /* if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
                                     double per_val = Double.parseDouble(percentage_value);
                                     subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
-                                }
+                                }*/
 
                             }
 
