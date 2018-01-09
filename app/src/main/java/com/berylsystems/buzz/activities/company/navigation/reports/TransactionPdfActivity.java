@@ -70,6 +70,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
     private File pdfFile;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
     String htmlString;
+    ProgressDialog progressDialog;
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     @Override
@@ -77,6 +78,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_pdf);
         ButterKnife.bind(this);
+        progressDialog = new ProgressDialog(TransactionPdfActivity.this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         initActionbar();
@@ -114,19 +116,15 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createWebPrintJob(WebView webView) {
-
         String jobName = getString(R.string.app_name) + " Document";
         PrintAttributes attributes = new PrintAttributes.Builder()
                 .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                 .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 500, 500))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
+//        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
         File pathPrint = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/a.pdf");
 
-        if (path.exists()) {
-            path.delete();
-            path.mkdir();
-        }
 
         PdfPrint pdfPrint = new PdfPrint(attributes);
 
@@ -136,9 +134,16 @@ public class TransactionPdfActivity extends AppCompatActivity {
         } else {
             adapter = webView.createPrintDocumentAdapter();
         }
-
         pdfPrint.print(adapter, path, "a.pdf");
-        previewPdf(pathPrint);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                previewPdf(pathPrint);
+            }
+        }, 3 * 1000);
     }
 
 
@@ -168,17 +173,15 @@ public class TransactionPdfActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.icon_id) {
-            ProgressDialog progressDialog = new ProgressDialog(TransactionPdfActivity.this);
-            progressDialog.setMessage("Please wait");
-            progressDialog.show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    progressDialog.dismiss();
-                    createWebPrintJob(mPdf_webview);
-                }
-            },3*1000);
 
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
+            if (path.isDirectory()) {
+                String[] children = path.list();
+                for (int i = 0; i < children.length; i++) {
+                    new File(path, children[i]).delete();
+                }
+            }
+            createWebPrintJob(mPdf_webview);
         } else {
             finish();
         }

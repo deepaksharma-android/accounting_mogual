@@ -10,6 +10,15 @@ public class Attributes {
     public Double amount;
     public String narration;
     public String attachment;
+    public String invoice_html;
+
+    public String getInvoice_html() {
+        return invoice_html;
+    }
+
+    public void setInvoice_html(String invoice_html) {
+        this.invoice_html = invoice_html;
+    }
 
     public String getCompany_id() {
         return company_id;
