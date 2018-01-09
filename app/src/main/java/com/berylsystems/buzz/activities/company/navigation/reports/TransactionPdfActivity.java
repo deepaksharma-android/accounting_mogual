@@ -14,6 +14,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+
+import android.os.StrictMode;
 import android.os.Handler;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
@@ -75,6 +77,8 @@ public class TransactionPdfActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_pdf);
         ButterKnife.bind(this);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         initActionbar();
         Intent intent = getIntent();
         String company_report = intent.getStringExtra("company_report");
@@ -132,6 +136,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
         } else {
             adapter = webView.createPrintDocumentAdapter();
         }
+
         pdfPrint.print(adapter, path, "a.pdf");
         previewPdf(pathPrint);
     }
