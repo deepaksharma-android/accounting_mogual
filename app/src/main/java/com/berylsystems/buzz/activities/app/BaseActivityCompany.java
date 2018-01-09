@@ -120,7 +120,6 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void administration(View v){
-        drawerLayout.closeDrawers();
         count++;
         if(count%2==0){
             mMasterLayout.setVisibility(View.GONE);

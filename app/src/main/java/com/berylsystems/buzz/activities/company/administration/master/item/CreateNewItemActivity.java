@@ -934,6 +934,14 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()) != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days(String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()));
             }
+            if (response.getItem().getData().getAttributes().getSerial_number() != null) {
+                appUser.stock_serial_arr.clear();
+                LocalRepositories.saveAppUser(this,appUser);
+                for(int i=0;i<response.getItem().getData().getAttributes().getSerial_number().size();i++){
+                    appUser.stock_serial_arr.add(response.getItem().getData().getAttributes().getSerial_number().get(i));
+                    LocalRepositories.saveAppUser(this,appUser);
+                }
+            }
             if (response.getItem().getData().getAttributes().getItem_description() != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_description(String.valueOf(response.getItem().getData().getAttributes().getItem_description()));
             }
