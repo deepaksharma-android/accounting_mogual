@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.company.administration.master.billsundry.BillSundryListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.item.ExpandableItemListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.networks.api_response.bill_sundry.BillSundryData;
 import com.berylsystems.buzz.utils.LocalRepositories;
@@ -401,6 +403,20 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
 
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, BillSundryListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
