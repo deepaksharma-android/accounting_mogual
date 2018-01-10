@@ -373,6 +373,7 @@
         <activity
             android:name=".activities.company.transaction.purchase.CreatePurchaseActivity"
             android:label="@string/title_activity_create_purchase"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -386,10 +387,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.purchase.PurchaseAddBillActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.sale_return.CreateSaleReturnActivity"
             android:label="@string/title_activity_create_sale_type"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity

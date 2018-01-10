@@ -127,6 +127,8 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
             pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
             map=appUser.mListMapForItemSaleReturn.get(pos);
+            String iid=(String)map.get("id");
+
             String itemName= (String) map.get("item_name");
             String description= (String) map.get("description");
             String quantity= (String) map.get("quantity");
@@ -160,7 +162,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
-
+            id=iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);

@@ -132,6 +132,8 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
             Map map=new HashMap<>();
             map=appUser.mListMapForItemPurchase.get(pos);
             String itemName= (String) map.get("item_name");
+            String iid=(String)map.get("id");
+
             String description= (String) map.get("description");
             String quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
@@ -164,7 +166,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
-
+            id=iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
