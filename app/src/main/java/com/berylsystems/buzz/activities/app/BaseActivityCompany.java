@@ -27,6 +27,7 @@ import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.activities.dashboard.TransactionDashboardActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.Preferences;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -203,6 +204,12 @@ public class BaseActivityCompany extends AppCompatActivity {
                 .setTitle("Exit Company")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+
+                    Preferences.getInstance(getApplicationContext()).setSale_type_name("");
+                    Preferences.getInstance(getApplicationContext()).setSale_type_id("");
+                    Preferences.getInstance(getApplicationContext()).setStore("");
+                    Preferences.getInstance(getApplicationContext()).setStoreId("");
+                    
                     startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
                     finish();
                 })
