@@ -492,7 +492,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     private void autoCompleteTextView() {
         autoCompleteTextView.setThreshold(1);
         mAdapter = new SimpleAdapter(this, mPeopleList, R.layout.account_row ,new String[] { "Name", "Phone" }, new int[] { R.id.ccontName, R.id.ccontNo });
-       /* AutoCompleteAdapter mAdapter2 = new AutoCompleteAdapter(this, R.id.ccontName, R.id.ccontNo ,mPeopleList);
+        autoCompleteTextView.setAdapter(mAdapter);
+        /* AutoCompleteAdapter mAdapter2 = new AutoCompleteAdapter(this, R.id.ccontName, R.id.ccontNo ,mPeopleList);
         autoCompleteTextView.setAdapter(mAdapter);*/
 /*        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
         autoCompleteTextView.setAdapter(adapter);*/
