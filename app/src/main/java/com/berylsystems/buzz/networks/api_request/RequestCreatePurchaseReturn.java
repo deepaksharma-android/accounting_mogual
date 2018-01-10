@@ -21,7 +21,7 @@ public class RequestCreatePurchaseReturn {
         voucher.put("voucher_series", appUser.purchase_voucher_series);
         voucher.put("voucher_number", appUser.purchase_voucher_number);
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
-        voucher.put("purchase_type_id", Preferences.getInstance(ctx).getSale_type_id());
+        voucher.put("sale_type_id", Preferences.getInstance(ctx).getSale_type_id());
         voucher.put("payment_type", Preferences.getInstance(ctx).getCash_credit());
         voucher.put("account_master_id", Preferences.getInstance(ctx).getParty_id());
         voucher.put("mobile_number", appUser.purchase_mobile_number);
