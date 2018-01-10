@@ -1,80 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/main_layout"
-    android:orientation="vertical" >
-    
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:weightSum="1"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
-        <com.berylsystems.buzz.utils.BuzzTextView
-            android:id="@+id/lblListItem"
-            android:layout_width="0dp"
-            style="@style/Gotham_Medium"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#333333"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="0.8" />
-
-        <LinearLayout
-            android:id="@+id/edit_icon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.10">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:src="@drawable/icon_edit"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/delete_icon"
-            android:layout_width="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="0.10">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon_delete"/>
-        </LinearLayout>
-</LinearLayout>
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="0.5"
-            android:layout_marginBottom="5dp"
             android:weightSum="1">
-
-            <com.berylsystems.buzz.utils.BuzzTextView
-                android:id="@+id/amount_qty"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_weight=".7"
-                android:textSize="13sp"
-                android:layout_gravity="center_vertical"
-                style="@style/Gotham_Book" />
+                android:layout_weight="0.8"
+                android:orientation="vertical">
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/lblListItem"
+                    style="@style/Gotham_Medium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="PC"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+                <com.berylsystems.buzz.utils.BuzzTextView
+                    android:id="@+id/amount_qty"
+                    style="@style/Gotham_Book"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="Patidar"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/edit_icon"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="fill_parent"
+                    android:layout_weight=".1">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_edit"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/delete_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight=".1"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_delete1"/>
+                </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-
 </LinearLayout>
