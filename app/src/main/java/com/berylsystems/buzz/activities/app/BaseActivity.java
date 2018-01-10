@@ -170,6 +170,8 @@ public class BaseActivity extends AppCompatActivity {
                     appUser.companyLoginArray.clear();
                     Preferences.getInstance(getApplicationContext()).setSale_type_name("");
                     Preferences.getInstance(getApplicationContext()).setSale_type_id("");
+                    Preferences.getInstance(getApplicationContext()).setPurchase_type_name("");
+                    Preferences.getInstance(getApplicationContext()).setPurchase_type_id("");
                     Preferences.getInstance(getApplicationContext()).setStore("");
                     Preferences.getInstance(getApplicationContext()).setStoreId("");
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);

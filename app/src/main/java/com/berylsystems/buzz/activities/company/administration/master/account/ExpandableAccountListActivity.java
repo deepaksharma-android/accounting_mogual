@@ -22,7 +22,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
@@ -493,8 +492,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     private void autoCompleteTextView() {
         autoCompleteTextView.setThreshold(1);
         mAdapter = new SimpleAdapter(this, mPeopleList, R.layout.account_row ,new String[] { "Name", "Phone" }, new int[] { R.id.ccontName, R.id.ccontNo });
-
-        autoCompleteTextView.setAdapter(mAdapter);
+       /* AutoCompleteAdapter mAdapter2 = new AutoCompleteAdapter(this, R.id.ccontName, R.id.ccontNo ,mPeopleList);
+        autoCompleteTextView.setAdapter(mAdapter);*/
 /*        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
         autoCompleteTextView.setAdapter(adapter);*/
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

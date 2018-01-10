@@ -1,5 +1,6 @@
 package com.berylsystems.buzz.activities.company.administration.master.purchasetype;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.BaseActivityCompany;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
+import com.berylsystems.buzz.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.berylsystems.buzz.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.berylsystems.buzz.activities.dashboard.MasterDashboardActivity;
 import com.berylsystems.buzz.adapters.ItemGroupListAdapter;
 import com.berylsystems.buzz.adapters.PurchaseTypeListAdapter;
@@ -28,7 +31,9 @@ import com.berylsystems.buzz.networks.ApiCallsService;
 import com.berylsystems.buzz.networks.api_response.itemgroup.GetItemGroupResponse;
 import com.berylsystems.buzz.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.berylsystems.buzz.utils.Cv;
+import com.berylsystems.buzz.utils.EventPurchaseClicked;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 import com.berylsystems.buzz.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -36,6 +41,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class PurchaseTypeListActivity extends AppCompatActivity {
 
@@ -48,8 +54,8 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     PurchaseTypeListAdapter mAdapter;
     @Bind(R.id.purchase_type_list_recycler_view)
     RecyclerView mRecyclerView;
-    Boolean fromGeneral,fromMaster,fromCreateGroup;
-    public static Boolean isDirectForPurchaseTypeList=true;
+    Boolean fromGeneral, fromMaster, fromCreateGroup;
+    public static Boolean isDirectForPurchaseTypeList = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
-       initActionbar();
+        initActionbar();
         EventBus.getDefault().register(this);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -99,23 +105,36 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("PURCHASE TYPE");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, MasterDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (ParameterConstant.checkForPurchaseTypeList == 0) {
+                    Intent intent = new Intent(this, MasterDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else if (ParameterConstant.checkForPurchaseTypeList == 1) {
+                    Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+
+                } else if (ParameterConstant.checkForPurchaseTypeList == 2) {
+                    Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -124,10 +143,25 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MasterDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (ParameterConstant.checkForPurchaseTypeList == 0) {
+            Intent intent = new Intent(this, MasterDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else if (ParameterConstant.checkForPurchaseTypeList == 1) {
+            Intent intent = new Intent(this, CreatePurchaseActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        } else if (ParameterConstant.checkForPurchaseTypeList == 2) {
+            Intent intent = new Intent(this, CreateSaleReturnActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        }
+
     }
 
     @Override
@@ -152,27 +186,44 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getItemGroup(GetPurchaseTypeResponse response){
+    public void getItemGroup(GetPurchaseTypeResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            LocalRepositories.saveAppUser(this,appUser);
+        if (response.getStatus() == 200) {
+            LocalRepositories.saveAppUser(this, appUser);
 
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new PurchaseTypeListAdapter(this,response.getPurchase_type().data);
+            mAdapter = new PurchaseTypeListAdapter(this, response.getPurchase_type().data);
             mRecyclerView.setAdapter(mAdapter);
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
+
+    }
+
+
+    @Subscribe
+    public void itemclickedevent(EventPurchaseClicked pos) {
+
+        Timber.i("POSITION" + pos.getPosition());
+        String str = pos.getPosition();
+        String[] strAr = str.split(",");
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name", strAr[0]);
+        returnIntent.putExtra("id", strAr[1]);
+        /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+          LocalRepositories.saveAppUser(this, appUser);*/
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
 
     }
 }

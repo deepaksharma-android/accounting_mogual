@@ -202,7 +202,7 @@ public class SaleTypeListActivity extends AppCompatActivity {
 
     }
 
-
+/*
     @Subscribe
     public void itemclickedevent(EventPurchaseClicked pos) {
 
@@ -213,12 +213,12 @@ public class SaleTypeListActivity extends AppCompatActivity {
             Intent returnIntent = new Intent();
             returnIntent.putExtra("name", strAr[0]);
             returnIntent.putExtra("id", strAr[1]);
-        /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
-          LocalRepositories.saveAppUser(this, appUser);*/
+        *//*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
+          LocalRepositories.saveAppUser(this, appUser);*//*
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
-    }
+    }*/
 
     @Subscribe
     public void timout(String msg) {
