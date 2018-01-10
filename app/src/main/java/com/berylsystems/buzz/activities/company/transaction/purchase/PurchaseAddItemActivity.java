@@ -590,7 +590,8 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 // mListMap.add(mMap);
-
+                appUser.serial_arr.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
                 in.putExtra("is", true);
                 startActivity(in);

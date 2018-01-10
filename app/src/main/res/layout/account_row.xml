@@ -3,25 +3,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#fff"
     android:orientation="vertical"
     >
-    <TextView
+    <com.berylsystems.buzz.utils.BuzzTextView
+        style="@style/Gotham_Medium"
         android:id="@+id/ccontName"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:textColor="#A5000000"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="14sp"
+        android:textColor="#000"/>
 
-    <TextView
+    <com.berylsystems.buzz.utils.BuzzTextView
+        style="@style/Gotham_Book"
         android:id="@+id/ccontNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+       android:layout_marginLeft="10dp"
         android:layout_below="@id/ccontName"
-        android:text="Medium Text"
-        android:textColor="#A5000000"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textSize="12sp"
+        android:textColor="#000" />
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#e2e2e2"/>
 
 
 

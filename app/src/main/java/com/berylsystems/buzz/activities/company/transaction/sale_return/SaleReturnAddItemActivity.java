@@ -533,6 +533,8 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                     appUser.mListMapForItemSaleReturn.add(finalPos,mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
+                appUser.serial_arr.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent in = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
                 in.putExtra("is", true);
                 startActivity(in);
