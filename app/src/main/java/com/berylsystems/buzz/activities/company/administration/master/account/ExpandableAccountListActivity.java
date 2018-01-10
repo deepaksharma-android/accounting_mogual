@@ -111,7 +111,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         appUser.account_name="";
         appUser.account_mobile_number="";
         appUser.account_email="";
-
         appUser.account_amount_receivable = "";
         appUser.account_amount_payable = "";
         appUser.account_address = "";
@@ -501,7 +500,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                autoCompleteTextView.setText("");
                 if (!isDirectForAccount) {
                     Intent returnIntent = new Intent();
                     Map<String, String> map = (Map<String, String>) adapterView.getItemAtPosition(i);
