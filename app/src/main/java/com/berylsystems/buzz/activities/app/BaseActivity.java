@@ -168,6 +168,10 @@ public class BaseActivity extends AppCompatActivity {
                     Preferences.getInstance(getApplicationContext()).setLogin(false);
                     appUser.fb_id = "";
                     appUser.companyLoginArray.clear();
+                    Preferences.getInstance(getApplicationContext()).setSale_type_name("");
+                    Preferences.getInstance(getApplicationContext()).setSale_type_id("");
+                    Preferences.getInstance(getApplicationContext()).setStore("");
+                    Preferences.getInstance(getApplicationContext()).setStoreId("");
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

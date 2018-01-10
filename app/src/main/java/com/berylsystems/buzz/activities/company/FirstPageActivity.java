@@ -255,12 +255,6 @@ public class FirstPageActivity extends BaseActivityCompany {
                 .setTitle("Exit Company")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-
-                    Preferences.getInstance(getApplicationContext()).setSale_type_name("");
-                    Preferences.getInstance(getApplicationContext()).setSale_type_id("");
-                    Preferences.getInstance(getApplicationContext()).setStore("");
-                    Preferences.getInstance(getApplicationContext()).setStoreId("");
-
                     Intent intent=new Intent(getApplicationContext(),CompanyListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                     startActivity(intent);

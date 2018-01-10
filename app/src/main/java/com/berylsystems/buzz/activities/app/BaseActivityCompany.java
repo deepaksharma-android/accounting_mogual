@@ -205,11 +205,6 @@ public class BaseActivityCompany extends AppCompatActivity {
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
 
-                    Preferences.getInstance(getApplicationContext()).setSale_type_name("");
-                    Preferences.getInstance(getApplicationContext()).setSale_type_id("");
-                    Preferences.getInstance(getApplicationContext()).setStore("");
-                    Preferences.getInstance(getApplicationContext()).setStoreId("");
-                    
                     startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
                     finish();
                 })
