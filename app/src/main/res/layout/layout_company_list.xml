@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/mainLayout"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
             android:orientation="vertical">
 
@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
+                android:maxLines="2"
                 android:layout_marginTop="8dp"
                 android:text="COMPANY"
                 android:textColor="#050505"
@@ -35,6 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp">
 
                 <LinearLayout
