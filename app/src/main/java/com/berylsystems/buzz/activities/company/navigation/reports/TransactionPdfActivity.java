@@ -79,16 +79,25 @@ public class TransactionPdfActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_pdf);
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(TransactionPdfActivity.this);
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        initActionbar();
-        Intent intent = getIntent();
-        String company_report = intent.getStringExtra("company_report");
-        htmlString = company_report;
-        Spanned htmlAsSpanned = Html.fromHtml(company_report);
-        htmlString = htmlAsSpanned.toString();
-        mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
-        mPdf_webview.getSettings().setBuiltInZoomControls(true);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                initActionbar();
+                Intent intent = getIntent();
+                String company_report = intent.getStringExtra("company_report");
+                htmlString = company_report;
+                Spanned htmlAsSpanned = Html.fromHtml(company_report);
+                htmlString = htmlAsSpanned.toString();
+                mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
+                mPdf_webview.getSettings().setBuiltInZoomControls(true);
+            }
+        },3*1000);
+
 
     }
 
