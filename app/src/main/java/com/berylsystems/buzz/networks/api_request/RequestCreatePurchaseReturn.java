@@ -30,6 +30,7 @@ public class RequestCreatePurchaseReturn {
         voucher.put("items", appUser.mListMapForItemPurchaseReturn);
         voucher.put("bill_sundry",appUser.mListMapForBillPurchaseReturn);
         voucher.put("total", appUser.totalamount);
+        voucher.put("bill_sundry_amount",appUser.billsundrytotalPurchase);
         voucher.put("items_amount", appUser.items_amount);
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);

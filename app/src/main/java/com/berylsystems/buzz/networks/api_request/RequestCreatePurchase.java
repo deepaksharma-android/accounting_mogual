@@ -35,6 +35,7 @@ public class RequestCreatePurchase {
         voucher.put("bill_sundry",appUser.mListMapForBillPurchase);
         voucher.put("total", appUser.totalamount);
         voucher.put("items_amount", appUser.items_amount);
+        voucher.put("bill_sundry_amount",appUser.billsundrytotalPurchase);
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);
 
