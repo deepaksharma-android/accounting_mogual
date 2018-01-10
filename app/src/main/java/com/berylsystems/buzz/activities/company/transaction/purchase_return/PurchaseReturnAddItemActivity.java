@@ -322,7 +322,6 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                     lp.setMargins(20,10,20,0);
                     Spinner[] pairs=new Spinner[Integer.parseInt(serial)];
 
-                    String[] countries=getResources().getStringArray(R.array.bill_sundry_nature);
                     for (int l = 0; l < Integer.parseInt(serial); l++) {
                         pairs[l] = new Spinner(getApplicationContext(),Spinner.MODE_DROPDOWN/*,null,android.R.style.Widget_Spinner,Spinner.MODE_DROPDOWN*/);
                         pairs[l].setLayoutParams(new LinearLayout.LayoutParams(500, 100));
@@ -632,7 +631,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count == 0) {
-                    appUser.serial_arr.clear();
+                    appUser.sale_item_serial_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 if (!mValue.getText().toString().isEmpty()) {
