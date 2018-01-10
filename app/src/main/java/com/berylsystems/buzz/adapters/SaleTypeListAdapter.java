@@ -48,7 +48,7 @@ public class SaleTypeListAdapter extends RecyclerView.Adapter<SaleTypeListAdapte
             public void onClick(View view) {
                 String s=data.get(position).getAttributes().getName()+","+data.get(position).getId();
                 EventBus.getDefault().post(new EventSaleClicked(s));
-                EventBus.getDefault().post(new EventPurchaseClicked(s));
+               // EventBus.getDefault().post(new EventPurchaseClicked(s));
             }
         });
 

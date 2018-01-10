@@ -25,6 +25,7 @@ import com.berylsystems.buzz.activities.company.administration.master.unit.UnitL
 import com.berylsystems.buzz.activities.company.administration.master.unitconversion.UnitConversionListActivity;
 import com.berylsystems.buzz.entities.AppUser;
 import com.berylsystems.buzz.utils.LocalRepositories;
+import com.berylsystems.buzz.utils.ParameterConstant;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,6 +101,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                     context.startActivity(new Intent(context, BillSundryListActivity.class));
                 }
                 if(i==9){
+                    ParameterConstant.checkForPurchaseTypeList=0;
                     context.startActivity(new Intent(context, PurchaseTypeListActivity.class));
                 }
                 if(i==10){

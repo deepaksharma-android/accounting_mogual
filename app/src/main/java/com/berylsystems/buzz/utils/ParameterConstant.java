@@ -10,5 +10,6 @@ public class ParameterConstant {
     public static int checkStartActivityResultForAccountGroup;
     public static int checkStartActivityResultForItemGroupOfItem;
     public static int checkStartActivityResultForUnitList;
+    public static int checkForPurchaseTypeList;
 
 }

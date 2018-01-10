@@ -39,6 +39,7 @@ import com.berylsystems.buzz.R;
 import com.berylsystems.buzz.activities.app.ConnectivityReceiver;
 import com.berylsystems.buzz.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
+import com.berylsystems.buzz.activities.company.administration.master.purchasetype.PurchaseTypeListActivity;
 import com.berylsystems.buzz.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.berylsystems.buzz.activities.company.navigation.reports.TransactionPdfActivity;
 import com.berylsystems.buzz.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
@@ -147,7 +148,7 @@ public class CreateSaleReturnFragment extends Fragment {
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
         Preferences.getInstance(getContext()).setVoucher_date(date1);
-        mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
+        mSaleType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
         mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
@@ -209,8 +210,9 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ParameterConstant.checkStartActivityResultForAccount =8;
+                ParameterConstant.checkForPurchaseTypeList=2;
                 SaleTypeListActivity.isDirectForSaleType=false;
-                startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
+                startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
@@ -384,8 +386,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.sale_return_saleType = String.valueOf(id);
-                Preferences.getInstance(getContext()).setSale_type_name(result);
-                Preferences.getInstance(getContext()).setSale_type_id(id);
+                Preferences.getInstance(getContext()).setPurchase_type_name(result);
+                Preferences.getInstance(getContext()).setPurchase_type_id(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
             }

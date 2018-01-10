@@ -45,6 +45,8 @@ public class Preferences {
     private static final String CPASSWORD = "password";
     private static final String SERIAL = "serial";
     private static final String STOCK_SERIAL = "stock_serial";
+    private static final String PURCHASE_TAX_TYPE = "purchase_tax_type";
+
 
 
     private static final String bill_sundry_amount_of_bill_sundry_fed_as_percent="bill_sundry_amount_of_bill_sundry_fed_as_percent";
@@ -132,6 +134,9 @@ public class Preferences {
     private static final String sale_type_name="sale_type_name";
     private static final String sale_type_id="sale_type_id";
 
+    private static final String purchase_type_name="purchase_type_name";
+    private static final String purchase_type_id="purchase_type_id";
+
     private static final String voucher_date="voucher_date";
     private static final String voucher_number="voucher_number";
     private static final String voucherstore="store";
@@ -144,9 +149,6 @@ public class Preferences {
     private static final String cash_credit="cash_credit";
     private static final String paid_to="paid_to";
     private static final String paid_from="paid_from";
-
-
-
 
     private Preferences(Context context) {
         this._context = context;
@@ -1092,7 +1094,6 @@ public class Preferences {
 
 
 
-
     public void setVoucher_date(String voucherdate) {
         editor.putString(voucher_date, voucherdate);
         editor.commit();
@@ -1230,5 +1231,20 @@ public class Preferences {
 
 
 
+    public void setPurchase_type_name(String Saletypename) {
+        editor.putString(purchase_type_name, Saletypename);
+        editor.commit();
+    }
+    public String getPurchase_type_name() {
+        return pref.getString(purchase_type_name, "");
+    }
+
+    public void setPurchase_type_id(String Saletypeid) {
+        editor.putString(purchase_type_id, Saletypeid);
+        editor.commit();
+    }
+    public String getPurchase_type_id() {
+        return pref.getString(purchase_type_id, "");
+    }
 
 }
