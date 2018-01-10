@@ -208,7 +208,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
             if (fromLoginPage) {
               /*  if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), FirstPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -226,7 +226,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
             } else if (fromUpdateMobileNumber) {
               /*  if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), FirstPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -235,7 +235,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 }*/
             } else if (fromProfilePage) {
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), FirstPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
