@@ -232,4 +232,12 @@ public class PackageActivity extends RegisterAbstractActivity {
             startActivity(intent);
         }
     }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
+    }
 }

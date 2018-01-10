@@ -530,4 +530,5 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
         return -1;
     }
+
 }

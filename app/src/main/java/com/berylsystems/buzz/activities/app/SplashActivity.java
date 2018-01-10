@@ -214,8 +214,6 @@ public class SplashActivity extends Activity {
     @Subscribe
     public void timeout(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-
-
     }
     @Override
     protected void onResume() {

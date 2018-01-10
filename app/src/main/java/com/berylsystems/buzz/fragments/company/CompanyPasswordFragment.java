@@ -336,6 +336,13 @@ public class CompanyPasswordFragment extends Fragment {
 
         }
     }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
 
+    }
 
 }

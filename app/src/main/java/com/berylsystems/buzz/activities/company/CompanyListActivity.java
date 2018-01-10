@@ -426,4 +426,5 @@ public class CompanyListActivity extends BaseActivity {
         inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
 }

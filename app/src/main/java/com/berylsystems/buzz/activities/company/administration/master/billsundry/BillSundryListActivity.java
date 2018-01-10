@@ -136,6 +136,13 @@ public class BillSundryListActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        //mProgressDialog.dismiss();
+    }
     @Override
     protected void onStop() {
         EventBus.getDefault().unregister(this);

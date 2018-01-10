@@ -54,7 +54,6 @@ public class UnitConversionListActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
-
     public static Boolean isDirectForUnitConversionList = true;
     public static UnitConversion data;
 
@@ -244,5 +243,13 @@ public class UnitConversionListActivity extends AppCompatActivity {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 }
