@@ -928,8 +928,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autoCompleteTextView.setText("");
                 String id = idList.get(getPositionOfItem(adapter.getItem(i)));
                 Timber.i("IDD----"+id);
                 String[] arr = id.split(",");
@@ -967,6 +969,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String barcode=listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         intent.putExtra("fromitemlist", true);
                         intent.putExtra("fromSaleVoucherItemList", true);
                         mSaleVoucherItem.put("name", itemName);
@@ -1003,6 +1006,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         intent.putExtra("packaging_unit", packaging_unit);
                         intent.putExtra("mrp", mrp);
                         intent.putExtra("tax", tax);
+                        intent.putExtra("barcode", barcode);
                         intent.putExtra("frombillitemvoucherlist", false);
                         startActivity(intent);
                         finish();
@@ -1096,6 +1100,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String barcode=listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         intent.putExtra("fromitemlist", true);
                         intent.putExtra("fromSaleVoucherItemList", true);
 
@@ -1134,6 +1139,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         intent.putExtra("packaging_unit", packaging_unit);
                         intent.putExtra("mrp", mrp);
                         intent.putExtra("tax", tax);
+                        intent.putExtra("barcode", barcode);
                         intent.putExtra("frombillitemvoucherlist", false);
                         startActivity(intent);
                         finish();
