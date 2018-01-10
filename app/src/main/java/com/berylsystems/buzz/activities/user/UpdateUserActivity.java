@@ -208,5 +208,4 @@ public class UpdateUserActivity extends RegisterAbstractActivity {
         startActivity(intent);
         finish();
     }
-
 }

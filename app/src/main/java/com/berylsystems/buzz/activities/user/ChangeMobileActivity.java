@@ -165,6 +165,4 @@ public class ChangeMobileActivity extends RegisterAbstractActivity {
         startActivity(intent);
         finish();
     }
-
-
 }

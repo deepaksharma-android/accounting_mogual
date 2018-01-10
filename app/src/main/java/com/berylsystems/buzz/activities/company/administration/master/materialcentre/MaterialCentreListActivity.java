@@ -166,7 +166,14 @@ public class MaterialCentreListActivity extends AppCompatActivity {
             snackbar.show();
         }
     }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
 
+    }
     public void add(View v) {
         Intent intent = new Intent(getApplicationContext(), CreateMaterialCentreActivity.class);
         intent.putExtra("frommaterialcentrelist", false);

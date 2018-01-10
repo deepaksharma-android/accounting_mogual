@@ -40,12 +40,10 @@ public class AcountGroupActivity extends AppCompatActivity {
     LinearLayout mSaleReportLayout;
     @Bind(R.id.sale_report)
     TextView mSaleReport;
-
     @Bind(R.id.purchase_report_layout)
     LinearLayout mPurchaseReportLayout;
     @Bind(R.id.purchase_report)
     TextView mPurchaseReport;
-
     @Bind(R.id.ledger_txt)
     TextView ledger_txt;
     @Bind(R.id.cash_bank_txt)

@@ -72,6 +72,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  */
 
 public class CreatePurchaseReturnFragment extends Fragment {
+
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
@@ -609,5 +610,13 @@ public class CreatePurchaseReturnFragment extends Fragment {
         } else {
 //            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
     }
 }

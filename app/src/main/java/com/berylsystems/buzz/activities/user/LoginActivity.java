@@ -312,4 +312,6 @@ public class LoginActivity extends RegisterAbstractActivity {
         startActivity(intent);
         finish();
     }
+
+
 }

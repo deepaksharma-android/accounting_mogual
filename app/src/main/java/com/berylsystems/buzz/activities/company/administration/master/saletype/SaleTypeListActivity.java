@@ -220,5 +220,13 @@ public class SaleTypeListActivity extends AppCompatActivity {
         }
     }
 
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
+    }
 }
 

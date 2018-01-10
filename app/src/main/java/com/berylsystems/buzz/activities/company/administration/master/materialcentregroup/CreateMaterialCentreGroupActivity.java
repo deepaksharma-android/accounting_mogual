@@ -407,4 +407,12 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         startActivity(new Intent(getApplicationContext(),MaterialCentreGroupListActivity.class));
         finish();
     }
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
+    }
 }

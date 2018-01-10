@@ -476,4 +476,13 @@ public class PdcActivity extends RegisterAbstractActivity {
         return inputMonth;
     }
 
+    @Subscribe
+    public void timout(String msg) {
+        snackbar = Snackbar
+                .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+        mProgressDialog.dismiss();
+
+    }
+
 }

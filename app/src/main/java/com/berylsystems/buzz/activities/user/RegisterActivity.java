@@ -334,5 +334,4 @@ public class RegisterActivity extends RegisterAbstractActivity {
         finish();
     }
 
-
 }
