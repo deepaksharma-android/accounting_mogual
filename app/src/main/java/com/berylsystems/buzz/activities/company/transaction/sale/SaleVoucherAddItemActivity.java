@@ -328,24 +328,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                         pairs[l].setAdapter(spinnerAdapter);
                         pairs[l].setLayoutParams(lp);
                         pairs[l].setId(l);
-
-
-
-                           /* if(appUser.sale_item_serial_arr.size()>0) {
-                                String group_type = appUser.sale_item_serial_arr.get(l);
-                                Timber.i("GROUPTYPE"+group_type);
-                                // insert code here
-                                int groupindex = -1;
-                                for (int i = 0; i<appUser.sale_item_serial_arr.size(); i++) {
-                                    if (appUser.sale_item_serial_arr.get(i).equals(group_type)) {
-                                        groupindex = i;
-                                        break;
-                                    }
-                                }
-                                pairs[l].setSelection(groupindex);
-
-                            }*/
-                        //pairs[l].setText((l + 1) + ": something");
                         serialLayout.addView(pairs[l]);
                     }
                     if (appUser.sale_item_serial_arr.size() > 0) {
@@ -644,7 +626,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if(count==0){
-                        appUser.serial_arr.clear();
+                        appUser.sale_item_serial_arr.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     }
                     if (!mValue.getText().toString().isEmpty()) {
