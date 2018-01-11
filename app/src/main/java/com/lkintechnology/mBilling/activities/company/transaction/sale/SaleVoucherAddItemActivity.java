@@ -148,6 +148,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             String batch_wise=(String) map.get("batch_wise").toString();
             String serial_wise= (String) map.get("serial_wise").toString();
             String packagingunit=(String) map.get("packaging_unit");
+            String mainunit=(String) map.get("main_unit");
+            String alternateunit=(String) map.get("alternate_unit");
             String defaultunit=(String) map.get("default_unit");
             String salepricemain=(String) map.get("sales_price_main");
             String salepricealternate=(String) map.get("sales_price_alternate");
@@ -180,6 +182,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             alternate_unit_con_factor=alternateunitconfactoritem;
             packaging_unit_con_factor=packagingunitconfactoritem;
             sales_price_alternate=salepricealternate;
+            main_unit=mainunit;
+            alternate_unit=alternateunit;
             price_selected_unit=priceselectedunititem;
             serailwise=Boolean.valueOf(serial_wise);
             batchwise=Boolean.valueOf(batch_wise);
@@ -209,21 +213,28 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
             mSpinnerUnit.setAdapter(mUnitAdapter);
             if (!packaging_unit.equals("")) {
                 if (price_selected_unit.equals("main")) {
+                    sale_unit=main_unit;
                     mSpinnerUnit.setSelection(0);
                 } else if (price_selected_unit.equals("alternate")) {
                     mSpinnerUnit.setSelection(1);
+                    sale_unit=alternate_unit;
                 } else if (price_selected_unit.equals("packaging")) {
                     mSpinnerUnit.setSelection(2);
+                    sale_unit=packaging_unit;
                 } else {
                     mSpinnerUnit.setSelection(0);
+                    sale_unit=main_unit;
                 }
             } else {
                 if (price_selected_unit.equals("main")) {
                     mSpinnerUnit.setSelection(0);
+                    sale_unit=main_unit;
                 } else if (price_selected_unit.equals("alternate")) {
                     mSpinnerUnit.setSelection(1);
+                    sale_unit=alternate_unit;
                 } else {
                     mSpinnerUnit.setSelection(0);
+                    sale_unit=main_unit;
                 }
 
 

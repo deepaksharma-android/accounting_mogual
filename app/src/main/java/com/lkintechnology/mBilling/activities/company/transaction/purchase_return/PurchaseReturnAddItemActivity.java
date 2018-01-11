@@ -125,6 +125,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
+        appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
         if(frombillitemvoucherlist){
             pos=getIntent().getExtras().getInt("pos");
@@ -151,6 +153,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             String batch_wise=(String) map.get("batch_wise").toString();
             String serial_wise= (String) map.get("serial_wise").toString();
             String packagingunit=(String) map.get("packaging_unit");
+            String mainunit=(String) map.get("main_unit");
+            String alternateunit=(String) map.get("alternate_unit");
             String defaultunit=(String) map.get("default_unit");
             String purchasepricemain=(String) map.get("purchase_price_main");
             String purchasepricealternate=(String) map.get("purchase_price_alternate");
@@ -176,6 +180,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             mDescription.setText(description);
             default_unit=defaultunit;
             mrp=mrpitem;
+            main_unit=mainunit;
+            alternate_unit=alternateunit;
             purchase_unit=purchaseunit;
             purchase_price_applied_on=applieditem;
             purchase_price_main=purchasepricemain;
@@ -212,20 +218,27 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             if (!packaging_unit.equals("")) {
                 if (price_selected_unit.equals("main")) {
                     mSpinnerUnit.setSelection(0);
+                    purchase_unit=main_unit;
                 } else if (price_selected_unit.equals("alternate")) {
                     mSpinnerUnit.setSelection(1);
+                    purchase_unit=alternate_unit;
                 } else if (price_selected_unit.equals("packaging")) {
                     mSpinnerUnit.setSelection(2);
+                    purchase_unit=packaging_unit;
                 } else {
                     mSpinnerUnit.setSelection(0);
+                    purchase_unit=main_unit;
                 }
             } else {
                 if (price_selected_unit.equals("main")) {
                     mSpinnerUnit.setSelection(0);
+                    purchase_unit=main_unit;
                 } else if (price_selected_unit.equals("alternate")) {
                     mSpinnerUnit.setSelection(1);
+                    purchase_unit=alternate_unit;
                 } else {
                     mSpinnerUnit.setSelection(0);
+                    purchase_unit=main_unit;
                 }
 
 
