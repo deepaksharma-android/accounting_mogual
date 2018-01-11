@@ -107,7 +107,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
     String totalitemprice;
     String id;
     ArrayAdapter<String> spinnerAdapter;
-    ArrayList arr_barcode;
+    ArrayList<String> arr_barcode;
     String barcode;
 
     //activity_purchase_return_add_item
@@ -159,7 +159,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
             for(int i=0;i<myList.size();i++){
                 mUnitList.add(myList.get(i));
             }
-
+            barcode = (String) map.get("barcode");
+            arr_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
 
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
@@ -523,6 +524,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("main_unit",main_unit);
                 mMap.put("batch_wise",batchwise);
                 mMap.put("serial_wise",serailwise);
+                mMap.put("barcode",barcode);
+                mMap.put("purchase_unit",purchase_unit);
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");
