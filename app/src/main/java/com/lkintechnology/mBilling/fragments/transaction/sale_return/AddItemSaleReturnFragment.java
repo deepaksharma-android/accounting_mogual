@@ -73,7 +73,7 @@ public class AddItemSaleReturnFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Preferences.getInstance(getApplicationContext()).getSale_type_name().equals("")) {
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")) {
                     add_item_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 2;
                     ExpandableItemListActivity.isDirectForItem = false;
