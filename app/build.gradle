@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.lkintechnogy.mBilling"
+        applicationId "com.lkintechnology.mBilling"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
