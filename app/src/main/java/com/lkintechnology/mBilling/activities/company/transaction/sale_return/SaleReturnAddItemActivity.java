@@ -494,7 +494,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity {
                 mMap.put("batch_wise",batchwise);
                 mMap.put("serial_wise",serailwise);
                 mMap.put("sale_unit",sale_unit);
-                String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
+                String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
                 if(taxstring.startsWith("I")) {
                     String arrtaxstring[] = taxstring.split("-");
                     String taxname = arrtaxstring[0].trim();

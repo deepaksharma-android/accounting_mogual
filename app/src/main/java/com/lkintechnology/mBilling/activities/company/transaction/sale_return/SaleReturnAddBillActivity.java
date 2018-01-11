@@ -121,7 +121,7 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
         }
         courier_charges.setText(billSundryCharges);
 
-        String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
+        String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
 
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
             // mPercentageLayout.setVisibility(View.VISIBLE);

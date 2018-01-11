@@ -121,7 +121,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
 
-        String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
+        String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
         Timber.i("ID++++" + data.getAttributes().getBill_sundry_id());
         //Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){

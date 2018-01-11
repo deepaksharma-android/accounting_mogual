@@ -549,7 +549,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                 mMap.put("batch_wise",batchwise);
                 mMap.put("serial_wise",serailwise);
                 mMap.put("purchase_unit",purchase_unit);
-                String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
+                String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
                 if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");
                     String taxname = arrtaxstring[0].trim();

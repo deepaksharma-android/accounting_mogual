@@ -183,7 +183,7 @@ public class SplashActivity extends Activity {
                 alert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.berylsystems.buzz"));
+                        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.lkintechnology.mBilling"));
                         startActivity(i);
                     }
                 });
