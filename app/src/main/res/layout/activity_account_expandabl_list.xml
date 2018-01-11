@@ -14,6 +14,7 @@
     <AutoCompleteTextView
         android:layout_width="match_parent"
         android:id="@+id/search_view"
+        android:inputType="text"
         android:layout_height="wrap_content"></AutoCompleteTextView>
 
     <android.support.design.widget.FloatingActionButton
