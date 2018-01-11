@@ -133,6 +133,32 @@ public class CompanyDashboardActivity extends AppCompatActivity {
 
         //get a company details api
 
+        mSyncBusyCompanyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(CompanyDashboardActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+            }
+        });
+
+        mSyncTallyCompanyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(CompanyDashboardActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+            }
+        });
+
 
     }
 
