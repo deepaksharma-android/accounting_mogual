@@ -207,6 +207,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 ParameterConstant.checkStartActivityResultForAccount =4;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -220,6 +221,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 ParameterConstant.checkStartActivityResultForAccount =4;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -452,26 +454,40 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     }
             }
             if (requestCode == 2) {
-                boolForReceivedFrom = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.deposit_to_id = String.valueOf(id);
-                appUser.deposit_to_name =name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                deposit_to.setText(name[0]);
+                if (ParameterConstant.handleAutoCompleteTextView==1){
+                    boolForReceivedFrom = true;
+                    appUser.deposit_to_id = String.valueOf(ParameterConstant.id);
+                    appUser.deposit_to_name =ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    deposit_to.setText(ParameterConstant.name);
+                }else {
+                    boolForReceivedFrom = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.deposit_to_id = String.valueOf(id);
+                    appUser.deposit_to_name =name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    deposit_to.setText(name[0]);
+                }
             }
             if (requestCode == 3) {
-                boolForReceivedBy = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.deposit_by_id = String.valueOf(id);
-                appUser.deposit_by_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                deposit_by.setText(name[0]);
+               if (ParameterConstant.handleAutoCompleteTextView==1){
+                   boolForReceivedBy = true;
+                   appUser.deposit_by_id = String.valueOf(ParameterConstant.id);
+                   appUser.deposit_by_name = ParameterConstant.name;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   deposit_by.setText(ParameterConstant.name);
+               }else {
+                   boolForReceivedBy = true;
+                   String result = data.getStringExtra("name");
+                   String id = data.getStringExtra("id");
+                   String[] name = result.split(",");
+                   appUser.deposit_by_id = String.valueOf(id);
+                   appUser.deposit_by_name = name[0];
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   deposit_by.setText(name[0]);
+               }
             }
         }
     }

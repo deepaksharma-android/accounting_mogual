@@ -216,6 +216,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                ParameterConstant.handleAutoCompleteTextView=0;
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
         });
@@ -394,22 +395,38 @@ public class CreatePurchaseReturnFragment extends Fragment {
 
         if (requestCode == 33) {
             if (resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String mobile = data.getStringExtra("mobile");
-                String group = data.getStringExtra("group");
-                party_id=id;
-                appUser.sale_partyName = id;
-                appUser.sale_party_group=group;
-                appUser.purchase_account_master_id=id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr=result.split(",");
-                mPartyName.setText(strArr[0]);
-                mMobileNumber.setText(mobile);
-                boolForPartyName=true;
-                Preferences.getInstance(getContext()).setMobile(mobile);
-                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
-                Preferences.getInstance(getContext()).setParty_id(id);
+
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForPartyName = true;
+                    mPartyName.setText(ParameterConstant.name);
+                    mMobileNumber.setText(ParameterConstant.mobile);
+                    party_id=ParameterConstant.id;
+                    appUser.sale_partyName = ParameterConstant.id;
+                    appUser.purchase_account_master_id=ParameterConstant.id;
+                    Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
+                    Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
+                    Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
+
+                }
+                else {
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String mobile = data.getStringExtra("mobile");
+                    String group = data.getStringExtra("group");
+                    party_id=id;
+                    appUser.sale_partyName = id;
+                    appUser.sale_party_group=group;
+                    appUser.purchase_account_master_id=id;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    String[] strArr=result.split(",");
+                    mPartyName.setText(strArr[0]);
+                    mMobileNumber.setText(mobile);
+                    boolForPartyName=true;
+                    Preferences.getInstance(getContext()).setMobile(mobile);
+                    Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                    Preferences.getInstance(getContext()).setParty_id(id);
+                }
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

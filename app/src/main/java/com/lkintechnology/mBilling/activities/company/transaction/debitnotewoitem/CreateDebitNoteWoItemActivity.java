@@ -201,6 +201,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 ParameterConstant.checkStartActivityResultForAccount =11;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -462,13 +463,20 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     }
             }
             if (requestCode == 2) {
-                boolForGroupName=true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                appUser.account_name_debit_note_id =id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name = result.split(",");
-                account_name_debit.setText(name[0]);
+                if (ParameterConstant.handleAutoCompleteTextView==1) {
+                    boolForGroupName=true;
+                    appUser.account_name_debit_note_id =ParameterConstant.id;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    account_name_debit.setText(ParameterConstant.name);
+                }else {
+                    boolForGroupName=true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    appUser.account_name_debit_note_id =id;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    String[] name = result.split(",");
+                    account_name_debit.setText(name[0]);
+                }
             }
         }
     }

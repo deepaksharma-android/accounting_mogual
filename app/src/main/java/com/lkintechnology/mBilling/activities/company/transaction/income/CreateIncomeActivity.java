@@ -64,6 +64,10 @@ import java.util.List;
 import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.lkintechnology.mBilling.utils.ParameterConstant.id;
+import static com.lkintechnology.mBilling.utils.ParameterConstant.name;
+
 public class CreateIncomeActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.received_into)
@@ -209,6 +213,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -222,6 +227,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Income (Direct/Opr.),Income (Indirect),Profit & Loss";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -455,24 +461,40 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                     }
             }
             if (requestCode == 2) {
-                boolForReceivedFrom = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.received_into_id = id;
-                appUser.received_into_name=name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                received_into.setText(name[0]);
+              if (ParameterConstant.handleAutoCompleteTextView==1){
+                  boolForReceivedFrom = true;
+                  appUser.received_into_id = id;
+                  appUser.received_into_name= name;
+                  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                  received_into.setText(name);
+              }else {
+                  boolForReceivedFrom = true;
+                  String result = data.getStringExtra("name");
+                  String id = data.getStringExtra("id");
+                  String[] name = result.split(",");
+                  appUser.received_into_id = id;
+                  appUser.received_into_name=name[0];
+                  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                  received_into.setText(name[0]);
+              }
             }
             if (requestCode == 3) {
-                boolForReceivedBy = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.received_from_id =id;
-                appUser.received_from_name =name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                received_from.setText(name[0]);
+               if (ParameterConstant.handleAutoCompleteTextView==1){
+                   boolForReceivedBy = true;
+                   appUser.received_from_id =id;
+                   appUser.received_from_name =name;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   received_from.setText(name);
+               }else {
+                   boolForReceivedBy = true;
+                   String result = data.getStringExtra("name");
+                   String id = data.getStringExtra("id");
+                   String[] name = result.split(",");
+                   appUser.received_from_id =id;
+                   appUser.received_from_name =name[0];
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   received_from.setText(name[0]);
+               }
             }
         }
     }

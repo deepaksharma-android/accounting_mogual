@@ -228,6 +228,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent intent = new Intent(getContext(), ExpandableAccountListActivity.class);
                 //intent.putExtra("bool",true);
                 startActivityForResult(intent, 3);
@@ -288,8 +289,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                     .setMessage(R.string.btn_send_email)
                                                     .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="true";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        appUser.email_yes_no = "true";
+                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -298,7 +299,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        }else {
+                                                        } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View view) {
@@ -313,8 +314,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                     })
                                                     .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="false";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        appUser.email_yes_no = "false";
+                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -323,8 +324,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        }
-                                                        else {
+                                                        } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View view) {
@@ -429,24 +429,36 @@ public class CreateSaleVoucherFragment extends Fragment {
 
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
-                boolForPartyName = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String mobile = data.getStringExtra("mobile");
-                String group = data.getStringExtra("group");
-                appUser.sale_party_group=group;
-                party_id = id;
-                // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
-                appUser.sale_partyName = id;
-                appUser.sale_party_group=group;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr = result.split(",");
-                mPartyName.setText(strArr[0]);
-                mMobileNumber.setText(mobile);
-                Preferences.getInstance(getContext()).setMobile(mobile);
-                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
-                Preferences.getInstance(getContext()).setParty_id(id);
-                return;
+
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForPartyName = true;
+                    mPartyName.setText(ParameterConstant.name);
+                    mMobileNumber.setText(ParameterConstant.mobile);
+                    appUser.sale_partyName = ParameterConstant.id;
+                    Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
+                    Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
+                    Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
+
+                } else {
+                    boolForPartyName = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String mobile = data.getStringExtra("mobile");
+                    String group = data.getStringExtra("group");
+                    appUser.sale_party_group = group;
+                    party_id = id;
+                    // Toast.makeText(getContext(), "startActivityForResult 3", Toast.LENGTH_SHORT).show();
+                    appUser.sale_partyName = id;
+                    appUser.sale_party_group = group;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    String[] strArr = result.split(",");
+                    mPartyName.setText(strArr[0]);
+                    mMobileNumber.setText(mobile);
+                    Preferences.getInstance(getContext()).setMobile(mobile);
+                    Preferences.getInstance(getContext()).setParty_name(strArr[0]);
+                    Preferences.getInstance(getContext()).setParty_id(id);
+                    return;
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -463,7 +475,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
 
 
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -489,23 +500,23 @@ public class CreateSaleVoucherFragment extends Fragment {
                *//* }*//*
             }*/
           /*  else{*/
-                mPartyName.setText("");
-                mMobileNumber.setText("");
-                mNarration.setText("");
-                appUser.mListMapForItemSale.clear();
-                appUser.mListMapForBillSale.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
                /* startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));*/
-          //  }
+            //  }
 
             new AlertDialog.Builder(getActivity())
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
 
                        /* ProgressDialog progressDialog=new ProgressDialog(getActivity());
@@ -564,7 +575,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 String mobile = intent.getStringExtra("mobile");
                 String group = intent.getStringExtra("group");
                 appUser.sale_partyName = id;
-                appUser.sale_party_group=group;
+                appUser.sale_party_group = group;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] strArr = result.split(",");
                 mPartyName.setText(strArr[0]);
@@ -607,7 +618,6 @@ public class CreateSaleVoucherFragment extends Fragment {
 */
 
 
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createWebPrintJob(WebView webView) {
 
@@ -618,7 +628,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
 
-        if (path.exists()){
+        if (path.exists()) {
             path.delete();
             path.mkdir();
         }
@@ -644,6 +654,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 //            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar

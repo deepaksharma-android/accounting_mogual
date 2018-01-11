@@ -211,6 +211,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 appUser.account_master_group = "Bank Accounts";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 4);
             }
@@ -224,6 +225,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 5);
             }
@@ -459,28 +461,43 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             }
 
             if (requestCode == 4) {
-                boolForReceivedFrom = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                Timber.i("MY IDIDID" + id);
-                appUser.withdraw_from_id = id;
-                appUser.withdraw_from_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                withdraw_from.setText(name[0]);
+                if (ParameterConstant.handleAutoCompleteTextView==1){
+                    boolForReceivedFrom = true;
+                    appUser.withdraw_from_id = ParameterConstant.id;
+                    appUser.withdraw_from_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    withdraw_from.setText(ParameterConstant.name);
+                }else {
+                    boolForReceivedFrom = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    Timber.i("MY IDIDID" + id);
+                    appUser.withdraw_from_id = id;
+                    appUser.withdraw_from_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    withdraw_from.setText(name[0]);
+                }
             }
             if (requestCode == 5) {
-                boolForReceivedBy = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                Timber.i("MY IDIDID" + id);
-                appUser.withdraw_by_id = id;
-                appUser.withdraw_by_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if (ParameterConstant.handleAutoCompleteTextView==1){
+                    boolForReceivedBy = true;
+                    appUser.withdraw_by_id =ParameterConstant. id;
+                    appUser.withdraw_by_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    withdraw_by.setText(ParameterConstant.name);
+                }else {
+                    boolForReceivedBy = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    Timber.i("MY IDIDID" + id);
+                    appUser.withdraw_by_id = id;
+                    appUser.withdraw_by_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                withdraw_by.setText(name[0]);
+                    withdraw_by.setText(name[0]);
+                }
             }
         }
     }

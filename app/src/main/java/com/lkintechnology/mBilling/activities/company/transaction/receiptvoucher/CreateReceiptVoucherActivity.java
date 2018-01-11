@@ -288,6 +288,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -302,6 +303,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -610,25 +612,43 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
 
             if (requestCode == 2) {
-                boolForReceivedFrom = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.receipt_received_from_id = id;
-                appUser.receipt_received_from_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                received_from.setText(name[0]);
+
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForReceivedFrom = true;
+                    appUser.receipt_received_from_id = ParameterConstant.id;
+                    appUser.receipt_received_from_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    received_from.setText(ParameterConstant.name);
+                } else {
+                    boolForReceivedFrom = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.receipt_received_from_id = id;
+                    appUser.receipt_received_from_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    received_from.setText(name[0]);
+                }
+
             }
             if (requestCode == 3) {
-                boolForReceivedBy = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.receipt_received_by_id = id;
-                appUser.receipt_received_by_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if (ParameterConstant.handleAutoCompleteTextView==1){
+                    boolForReceivedBy = true;
+                    appUser.receipt_received_by_id = ParameterConstant.id;
+                    appUser.receipt_received_by_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    received_by.setText(ParameterConstant.name);
+                }else {
+                    boolForReceivedBy = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.receipt_received_by_id = id;
+                    appUser.receipt_received_by_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    received_by.setText(name[0]);
+                }
 
-                received_by.setText(name[0]);
             }
         }
     }
@@ -769,7 +789,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         .setMessage(R.string.print_preview_mesage)
                         .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                             Intent intent = new Intent(CreateReceiptVoucherActivity.this, TransactionPdfActivity.class);
-                            intent.putExtra("company_report",response.getHtml());
+                            intent.putExtra("company_report", response.getHtml());
                             startActivity(intent);
 
                            /* ProgressDialog progressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);

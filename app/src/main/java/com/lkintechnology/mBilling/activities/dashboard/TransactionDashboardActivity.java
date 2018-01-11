@@ -25,6 +25,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSal
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 
 import butterknife.Bind;
@@ -127,6 +128,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.account_name_debit_name = "";
         appUser.account_name_credit_name = "";
         LocalRepositories.saveAppUser(this, appUser);
+
+        ParameterConstant.handleAutoCompleteTextView=0;
+
+        ParameterConstant.name="";
+        ParameterConstant.mobile="";
+        ParameterConstant.id="";
       /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
         int[] colors = new int[ta.length()];

@@ -206,6 +206,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -220,6 +221,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -490,24 +492,40 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
 
             if (requestCode == 2) {
-                boolForReceivedFrom = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.account_name_debit_id = id;
-                appUser.account_name_debit_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                account_name_debit.setText(name[0]);
+               if (ParameterConstant.handleAutoCompleteTextView==1){
+                   boolForReceivedFrom = true;
+                   appUser.account_name_debit_id = ParameterConstant.id;
+                   appUser.account_name_debit_name = ParameterConstant.name;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   account_name_debit.setText(ParameterConstant.name);
+               }else {
+                   boolForReceivedFrom = true;
+                   String result = data.getStringExtra("name");
+                   String id = data.getStringExtra("id");
+                   String[] name = result.split(",");
+                   appUser.account_name_debit_id = id;
+                   appUser.account_name_debit_name = name[0];
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   account_name_debit.setText(name[0]);
+               }
             }
             if (requestCode == 3) {
-                boolForReceivedBy = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.account_name_credit_id =id;
-                appUser.account_name_credit_name =name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                account_name_credit.setText(name[0]);
+               if (ParameterConstant.handleAutoCompleteTextView==1){
+                   boolForReceivedBy = true;
+                   appUser.account_name_credit_id =ParameterConstant.id;
+                   appUser.account_name_credit_name =ParameterConstant.name;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   account_name_credit.setText(ParameterConstant.name);
+               }else {
+                   boolForReceivedBy = true;
+                   String result = data.getStringExtra("name");
+                   String id = data.getStringExtra("id");
+                   String[] name = result.split(",");
+                   appUser.account_name_credit_id =id;
+                   appUser.account_name_credit_name =name[0];
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   account_name_credit.setText(name[0]);
+               }
             }
         }
     }

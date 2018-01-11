@@ -42,6 +42,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSal
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.activities.dashboard.MasterDashboardActivity;
 import com.lkintechnology.mBilling.adapters.AccountExpandableListAdapter;
+import com.lkintechnology.mBilling.adapters.AutoCompleteAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.events.EventSelectBankCaseDeposit;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -49,6 +50,7 @@ import com.lkintechnology.mBilling.networks.api_response.account.DeleteAccountRe
 import com.lkintechnology.mBilling.networks.api_response.account.GetAccountResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventAccountChildClicked;
+import com.lkintechnology.mBilling.utils.EventClickForAutoCompleteTextView;
 import com.lkintechnology.mBilling.utils.EventDeleteAccount;
 import com.lkintechnology.mBilling.utils.EventEditAccount;
 import com.lkintechnology.mBilling.utils.EventSelectAccountPurchase;
@@ -491,13 +493,13 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
 
     private void autoCompleteTextView() {
         autoCompleteTextView.setThreshold(1);
-        mAdapter = new SimpleAdapter(this, mPeopleList, R.layout.account_row ,new String[] { "Name", "Phone" }, new int[] { R.id.ccontName, R.id.ccontNo });
-        autoCompleteTextView.setAdapter(mAdapter);
+        AutoCompleteAdapter mAdapter2 = new AutoCompleteAdapter(this, R.layout.account_row, R.id.ccontName, mPeopleList);
+        autoCompleteTextView.setAdapter(mAdapter2);
         /* AutoCompleteAdapter mAdapter2 = new AutoCompleteAdapter(this, R.id.ccontName, R.id.ccontNo ,mPeopleList);
         autoCompleteTextView.setAdapter(mAdapter);*/
 /*        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, nameList);
         autoCompleteTextView.setAdapter(adapter);*/
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 autoCompleteTextView.setText("");
@@ -515,7 +517,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        });
+        });*/
        /* if (isDirectForAccount){
             autoCompleteTextView.setVisibility(View.GONE);
         }*/
@@ -528,6 +530,36 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         }
 
         return -1;
+    }
+
+    @Subscribe
+    public void clickEventForAutoCompleteTextView(EventClickForAutoCompleteTextView pos) {
+        String data = pos.getPosition();
+        autoCompleteTextView.setText("");
+        if (!isDirectForAccount) {
+
+            ParameterConstant.handleAutoCompleteTextView = 1;
+            Intent returnIntent = new Intent();
+            for (int i = 0; i < mPeopleList.size(); i++) {
+                Map<String, String> map = mPeopleList.get(i);
+                String name = map.get("Name");
+                String phone = map.get("Phone");
+                if (data.equals(name)) {
+                    String id = idList.get(getPositionOfItem(name));
+                    ParameterConstant.name = name;
+                    ParameterConstant.mobile = phone;
+                    ParameterConstant.id = id;
+                } else if (data.equals(phone)) {
+                    String id = idList.get(getPositionOfItem(name));
+                    ParameterConstant.name = name;
+                    ParameterConstant.mobile = phone;
+                    ParameterConstant.id = id;
+                }
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        }
+
     }
 
 }

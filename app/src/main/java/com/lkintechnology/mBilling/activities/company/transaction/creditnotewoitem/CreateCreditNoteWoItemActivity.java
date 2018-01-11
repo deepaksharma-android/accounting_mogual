@@ -205,6 +205,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                 ParameterConstant.checkStartActivityResultForAccount =12;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -446,13 +447,20 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
 
 
             if (requestCode == 2) {
-                boolForGroupName=true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                appUser.account_name_credit_note_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name = result.split(",");
-                account_name_credit.setText(name[0]);
+               if (ParameterConstant.handleAutoCompleteTextView==1){
+                   boolForGroupName=true;
+                   appUser.account_name_credit_note_id = ParameterConstant.id;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   account_name_credit.setText(ParameterConstant.name);
+               }else {
+                   boolForGroupName=true;
+                   String result = data.getStringExtra("name");
+                   String id = data.getStringExtra("id");
+                   appUser.account_name_credit_note_id = id;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   String[] name = result.split(",");
+                   account_name_credit.setText(name[0]);
+               }
             }
         }
     }

@@ -208,6 +208,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -221,6 +222,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 appUser.account_master_group = "Expenses (Direct/Mfg.),Expenses (Indirect/Admn.)";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -455,25 +457,41 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             }*/
 
             if (requestCode == 2) {
-                boolForReceivedFrom = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.paid_from_id = id;
-                appUser.paid_from_name = name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                paid_from.setText(name[0]);
+               if (ParameterConstant.handleAutoCompleteTextView==1){
+                   boolForReceivedFrom = true;
+                   appUser.paid_from_id = ParameterConstant.id;
+                   appUser.paid_from_name = ParameterConstant.name;
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   paid_from.setText(ParameterConstant.name);
+               }else {
+                   boolForReceivedFrom = true;
+                   String result = data.getStringExtra("name");
+                   String id = data.getStringExtra("id");
+                   String[] name = result.split(",");
+                   appUser.paid_from_id = id;
+                   appUser.paid_from_name = name[0];
+                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   paid_from.setText(name[0]);
+               }
             }
             if (requestCode == 3) {
-                boolForReceivedBy = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                appUser.paid_to_id =id;
-                appUser.paid_to_name =name[0];
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if (ParameterConstant.handleAutoCompleteTextView==1){
+                    boolForReceivedBy = true;
+                    appUser.paid_to_id =ParameterConstant.id;
+                    appUser.paid_to_name =ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    paid_to.setText(ParameterConstant.name);
+                }else {
+                    boolForReceivedBy = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.paid_to_id =id;
+                    appUser.paid_to_name =name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                paid_to.setText(name[0]);
+                    paid_to.setText(name[0]);
+                }
             }
         }
     }
