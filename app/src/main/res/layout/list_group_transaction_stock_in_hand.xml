@@ -14,7 +14,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/lblListHeader1"
             android:layout_width="0dp"
             style="@style/Gotham_Medium"
@@ -25,7 +25,7 @@
             android:textSize="15sp"
             android:textColor="#000" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/lblListHeader3"
             android:layout_width="0dp"
             style="@style/Gotham_Medium"
@@ -36,7 +36,7 @@
             android:textSize="15sp"
             android:textColor="#000" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/lblListHeader2"
             android:layout_width="0dp"
             style="@style/Gotham_Medium"

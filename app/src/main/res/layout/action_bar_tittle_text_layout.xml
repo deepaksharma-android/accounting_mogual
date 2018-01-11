@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     >
 
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         android:id="@+id/actionbar_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -22,7 +22,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="5dp">
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/item_name"
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
@@ -50,7 +50,7 @@
                     android:layout_weight="0.5"
                     android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         style="@style/Gotham_Medium"
@@ -58,7 +58,7 @@
                         android:textColor="@color/black"
                         android:textSize="12sp"/>
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:id="@+id/discount"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:layout_weight="0.5"
                     android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         style="@style/Gotham_Medium"
@@ -82,7 +82,7 @@
                         android:textColor="@color/black"
                         android:textSize="12sp"/>
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:id="@+id/total"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"

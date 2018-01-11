@@ -26,7 +26,7 @@
 
 
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Book"
                 android:id="@+id/bill_sundry_name"
                 android:layout_width="0dp"

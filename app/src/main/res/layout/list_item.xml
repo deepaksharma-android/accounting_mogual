@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:orientation="vertical">
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/lblListItem"
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
                     android:text="PC"
                     android:textColor="#333333"
                     android:textSize="14sp" />
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/amount_qty"
                     style="@style/Gotham_Book"
                     android:layout_width="fill_parent"

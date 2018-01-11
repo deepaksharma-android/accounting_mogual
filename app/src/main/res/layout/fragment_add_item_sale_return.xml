@@ -20,7 +20,7 @@
                 android:background="@color/parent_list_item_color"
                 android:weightSum="1">
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:background="@color/parent_list_item_color"
                 android:weightSum="1">
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
         android:layout_weight="1"
         android:background="#000">
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/total"
             style="@style/Gotham_Medium"
             android:layout_width="match_parent"

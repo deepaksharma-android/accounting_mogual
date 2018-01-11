@@ -19,7 +19,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp" />
 
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         style="@style/Gotham_Medium"
@@ -33,7 +33,7 @@
         android:layout_alignLeft="@+id/profile_image"
         android:layout_alignStart="@+id/profile_image" />
 
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/email"

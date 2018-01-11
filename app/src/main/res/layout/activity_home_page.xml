@@ -94,7 +94,7 @@
                     android:gravity="center"
                     android:onClick="login">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     android:gravity="center"
                     android:onClick="signup">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"

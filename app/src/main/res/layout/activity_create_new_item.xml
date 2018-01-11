@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.berylsystems.buzz.activities.company.administration.master.item.CreateNewItemActivity"
+    tools:context="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
     tools:showIn="@layout/activity_create_new_item">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +31,7 @@
                     android:layout_marginTop="30dp"
                     android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzEditText
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
                             android:id="@+id/item_name"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
 
                     </LinearLayout>
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/item_group"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
@@ -98,7 +98,7 @@
                     </LinearLayout>
 
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/item_unit"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
@@ -134,7 +134,7 @@
                             android:layout_weight="0.1"
                             android:src="@drawable/right_carat" />
                     </LinearLayout>
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/tax_category"
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
@@ -195,7 +195,7 @@
                         android:visibility="gone"
                         android:layout_marginTop="10dp"
                         android:gravity="center">
-                        <com.berylsystems.buzz.utils.BuzzEditText
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
                             android:id="@+id/hsn_number"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -385,7 +385,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/solid_blue">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -407,7 +407,7 @@
                     android:background="@drawable/solid_blue"
                     android:visibility="gone">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

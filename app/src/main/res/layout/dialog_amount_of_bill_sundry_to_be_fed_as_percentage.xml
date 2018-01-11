@@ -30,7 +30,7 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:weightSum="1">
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                     android:gravity="center">
 
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Book"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"

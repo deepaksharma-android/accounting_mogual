@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:id="@+id/bank_edit_text3"
@@ -21,7 +21,7 @@
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".6"
             android:id="@+id/bank_edit_text4"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="12sp"
@@ -52,7 +52,7 @@
             style="@style/Gotham_Book"
             android:layout_height="wrap_content" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".6"
             android:id="@+id/bank_edit_text5"
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -97,7 +97,7 @@
 
 
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/bank_edit_text2"

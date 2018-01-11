@@ -33,7 +33,7 @@
 
 
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                         android:background="@drawable/bg_grey_stroke"
                         android:orientation="vertical"
                         >
-                        <com.berylsystems.buzz.utils.BuzzEditText
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
                             android:id="@+id/number_of_sundry"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                         android:visibility="gone"
                         android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                         android:background="@drawable/solid_blue"
                         android:gravity="center">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"

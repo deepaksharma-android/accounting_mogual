@@ -26,7 +26,7 @@
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/sales_price_main_unit_text"
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
@@ -76,7 +76,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/sales_price_edittext"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/sale_price_alt_unit_text"
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
@@ -114,7 +114,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/sale_price_alt_unit_edittext"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/min_sale_price_main_text"
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
@@ -152,7 +152,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/min_sale_price_main_edittext"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                         android:orientation="vertical">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/min_sale_price_alt_text"
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
@@ -190,7 +190,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/min_sale_price_alt_edittext"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -209,7 +209,7 @@
                         android:orientation="vertical">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -244,7 +244,7 @@
                         android:orientation="vertical">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/purchase_price_main_text"
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
@@ -262,7 +262,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <!-- android:entries="@array/state"-->
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/purchase_price_main_edittext"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -281,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/purchase_price_alt_text"
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
@@ -299,7 +299,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <!-- android:entries="@array/state"-->
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/purchase_price_alt_edittext"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -314,7 +314,7 @@
                     </LinearLayout>
 
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -331,7 +331,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzEditText
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
                             android:id="@+id/mrp"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -343,7 +343,7 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzEditText
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
                             android:id="@+id/self_val_price"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -385,7 +385,7 @@
                         android:gravity="center">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"

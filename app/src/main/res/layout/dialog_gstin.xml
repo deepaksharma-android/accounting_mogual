@@ -32,7 +32,7 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:weightSum="1">
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="GSTIN | UIN"
@@ -74,7 +74,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/gst"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
 
                 </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Aadhaar Number"
@@ -105,7 +105,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/aadhaar"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                         android:hint="eg.must be 12 digits"/>
 
                 </LinearLayout>
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="PAN Number"
@@ -135,7 +135,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/pan"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                 android:gravity="center">
 
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

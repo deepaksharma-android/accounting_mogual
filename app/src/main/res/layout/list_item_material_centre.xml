@@ -17,7 +17,7 @@
             android:weightSum="1"
             android:layout_weight="0.5"
             android:orientation="horizontal">
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/lblListItem"
             android:layout_width="0dp"
             style="@style/Gotham_Medium"

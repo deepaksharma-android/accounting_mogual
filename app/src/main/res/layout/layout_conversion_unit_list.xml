@@ -30,7 +30,7 @@
     android:layout_height="wrap_content"
     android:layout_weight="0.7"
     android:orientation="vertical">
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         style="@style/Gotham_Book"
         android:id="@+id/main_unit_name"
         android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
         android:layout_marginTop="5dp"
         android:textColor="#050505"
         android:textSize="14sp" />
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         style="@style/Gotham_Book"
         android:id="@+id/sub_unit_name"
         android:layout_width="fill_parent"
@@ -52,7 +52,7 @@
         android:layout_marginTop="5dp"
         android:textColor="#050505"
         android:textSize="14sp" />
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         style="@style/Gotham_Book"
         android:id="@+id/con_factor"
         android:layout_width="fill_parent"

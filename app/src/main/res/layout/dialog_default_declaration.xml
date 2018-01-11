@@ -16,7 +16,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/solid_blue"
             android:gravity="center">
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Book"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

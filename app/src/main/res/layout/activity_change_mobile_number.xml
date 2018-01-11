@@ -20,7 +20,7 @@
             android:layout_marginTop="50dp"
             android:orientation="vertical">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Mobile *"
@@ -36,7 +36,7 @@
                 android:background="@drawable/bg_grey_stroke"
                 android:orientation="vertical"
                 >
-                <com.berylsystems.buzz.utils.BuzzEditText
+                <com.lkintechnology.mBilling.utils.BuzzEditText
                     android:id="@+id/mobile_number"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:background="@drawable/solid_blue"
             android:onClick="submit">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content">
 
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/titletextbase"
                     style="@style/Gotham_Bold"
                     android:layout_width="fill_parent"
@@ -102,7 +102,7 @@
                             android:src="@drawable/drawer_company_dashboard" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                             android:src="@drawable/drawer_company_administration" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                             android:weightSum="1">
 
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 style="@style/Gotham_Book"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -232,7 +232,7 @@
                             android:src="@drawable/drawer_company_transaction" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -272,7 +272,7 @@
                             android:src="@drawable/drawer_company_reports" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -312,7 +312,7 @@
                             android:src="@drawable/drawer_company_settings" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -352,7 +352,7 @@
                             android:src="@drawable/drawer_company_help" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -392,7 +392,7 @@
                             android:src="@drawable/drawer_company_contact" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -432,7 +432,7 @@
                             android:src="@drawable/drawer_company_share" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -472,7 +472,7 @@
                             android:src="@drawable/drawer_company_about" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -511,7 +511,7 @@
                             android:src="@drawable/drawer_company_exit_company" />
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

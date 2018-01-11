@@ -27,7 +27,7 @@
                     android:layout_height="50dp"
                     android:orientation="vertical"
                     android:gravity="center">
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/add"
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"
@@ -44,7 +44,7 @@
                     android:layout_height="50dp"
                     android:orientation="vertical"
                     android:gravity="center">
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/modify"
                     style="@style/Gotham_Medium"
                     android:layout_width="fill_parent"

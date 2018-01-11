@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:src="@drawable/icn_open_company" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -37,7 +37,7 @@
             android:textSize="16sp" />
 
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:id="@+id/Amount"
             android:layout_width="0dp"

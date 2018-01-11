@@ -26,7 +26,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -37,7 +37,7 @@
             android:textColor="#000"
             style="@style/Gotham_Book"
             />
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".6"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="15sp"
@@ -65,7 +65,7 @@
             style="@style/Gotham_Book"
             android:layout_height="wrap_content" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".6"
             android:id="@+id/bank_edit_text2"
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="15sp"
@@ -92,7 +92,7 @@
             style="@style/Gotham_Book"
             android:layout_height="wrap_content" />
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".6"
             android:id="@+id/bank_edit_text4"
@@ -108,7 +108,7 @@
         android:layout_marginBottom="5dp"
         android:layout_gravity="center">
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="15sp"
@@ -118,7 +118,7 @@
             style="@style/Gotham_Book"
             android:text="Voucher no."
             android:layout_height="wrap_content" />
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".6"
             android:id="@+id/bank_edit_text5"
@@ -133,7 +133,7 @@
         android:weightSum="1"
         android:layout_marginBottom="5dp"
         android:layout_gravity="center">
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:textSize="15sp"
@@ -143,7 +143,7 @@
             style="@style/Gotham_Book"
             android:text="Date"
             android:layout_height="wrap_content" />
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             android:layout_width="0dp"
             android:layout_weight=".4"
             android:id="@+id/bank_edit_text3"

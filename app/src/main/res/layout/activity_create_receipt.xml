@@ -46,7 +46,7 @@
                             android:layout_marginTop="5dp"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 style="@style/Gotham_Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                                 android:layout_weight="0.5"
                                 android:orientation="vertical">
 
-                                <com.berylsystems.buzz.utils.BuzzTextView
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Medium"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                                     android:gravity="center"
                                     android:orientation="vertical">
 
-                                    <com.berylsystems.buzz.utils.BuzzTextView
+                                    <com.lkintechnology.mBilling.utils.BuzzTextView
                                         android:id="@+id/vouchar_no"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                                 android:layout_weight="0.5"
                                 android:orientation="vertical">
 
-                                <com.berylsystems.buzz.utils.BuzzTextView
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Medium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                                     android:gravity="center"
                                     android:orientation="horizontal">
 
-                                    <com.berylsystems.buzz.utils.BuzzTextView
+                                    <com.lkintechnology.mBilling.utils.BuzzTextView
                                         android:id="@+id/date"
                                         android:layout_width="0dp"
                                         android:layout_weight="0.9"
@@ -196,7 +196,7 @@
                                 android:layout_weight="0.5"
                                 android:orientation="vertical">
 
-                                <com.berylsystems.buzz.utils.BuzzTextView
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Medium"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                                 android:layout_marginRight="5dp"
                                 android:orientation="vertical">
 
-                                <com.berylsystems.buzz.utils.BuzzTextView
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
                                     android:id="@+id/date_pdc_textview"
                                     style="@style/Gotham_Medium"
                                     android:layout_width="wrap_content"
@@ -257,7 +257,7 @@
                                     android:gravity="center"
                                     android:orientation="horizontal">
 
-                                    <com.berylsystems.buzz.utils.BuzzTextView
+                                    <com.lkintechnology.mBilling.utils.BuzzTextView
                                         android:id="@+id/date_pdc"
                                         android:layout_width="0dp"
                                         android:layout_weight="0.9"
@@ -289,7 +289,7 @@
                             android:layout_marginRight="5dp"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 style="@style/Gotham_Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -330,7 +330,7 @@
                         android:layout_marginTop="5dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/payment_pay_to"
                             style="@style/Gotham_Medium"
                             android:layout_width="wrap_content"
@@ -353,7 +353,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 android:id="@+id/received_from"
                                 style="@style/Gotham_Book"
                                 android:layout_width="0dp"
@@ -373,7 +373,7 @@
                                 android:src="@drawable/right_chevron"/>
                         </LinearLayout>
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -395,7 +395,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 android:id="@+id/received_by"
                                 style="@style/Gotham_Book"
                                 android:layout_width="0dp"
@@ -425,7 +425,7 @@
                         android:orientation="vertical">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -446,7 +446,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/transaction_amount"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -468,7 +468,7 @@
                         android:layout_marginTop="5dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -489,7 +489,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/transaction_narration"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -509,7 +509,7 @@
                             android:layout_marginTop="5dp"
                             android:orientation="vertical">
 
-                            <com.berylsystems.buzz.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 style="@style/Gotham_Medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -540,7 +540,7 @@
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
-                                <com.berylsystems.buzz.utils.BuzzTextView
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Book"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -582,7 +582,7 @@
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/solid_blue">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -604,7 +604,7 @@
                         android:background="@drawable/solid_blue"
                         android:visibility="gone">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

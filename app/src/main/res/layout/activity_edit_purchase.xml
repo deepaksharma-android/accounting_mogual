@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.berylsystems.buzz.activities.company.transaction.purchase.EditPurchaseActivity">
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.purchase.EditPurchaseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/account_group_txt"
                 style="@style/Gotham_Book"
                 android:layout_width="0dp"
@@ -51,7 +51,7 @@
         </LinearLayout>
 
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/start_date_txt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         </LinearLayout>
 
 
-        <com.berylsystems.buzz.utils.BuzzTextView
+        <com.lkintechnology.mBilling.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/end_date_txt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             android:gravity="center">
 
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Book"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

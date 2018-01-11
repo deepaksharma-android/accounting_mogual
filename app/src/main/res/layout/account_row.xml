@@ -6,7 +6,7 @@
     android:background="#fff"
     android:orientation="vertical"
     >
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         style="@style/Gotham_Medium"
         android:id="@+id/ccontName"
         android:layout_marginTop="10dp"
@@ -16,7 +16,7 @@
         android:textSize="14sp"
         android:textColor="#000"/>
 
-    <com.berylsystems.buzz.utils.BuzzTextView
+    <com.lkintechnology.mBilling.utils.BuzzTextView
         style="@style/Gotham_Book"
         android:id="@+id/ccontNo"
         android:layout_width="wrap_content"

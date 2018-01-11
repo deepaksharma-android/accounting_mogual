@@ -20,7 +20,7 @@
             android:layout_weight="2"
             android:orientation="vertical">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/company_name"
                 style="@style/Gotham_Book"
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                         android:src="@drawable/loction_address" />
                 </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:id="@+id/company_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

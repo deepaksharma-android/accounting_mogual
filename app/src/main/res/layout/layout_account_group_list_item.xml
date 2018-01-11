@@ -19,7 +19,7 @@
             android:weightSum="1">
 
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/company_name"
                 style="@style/Gotham_Book"
                 android:layout_width="0dp"

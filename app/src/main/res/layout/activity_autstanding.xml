@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.berylsystems.buzz.activities.company.autstanding.OutstandingActivity">
+    tools:context="com.lkintechnology.mBilling.activities.company.autstanding.OutstandingActivity">
 
 
     <LinearLayout
@@ -45,7 +45,7 @@
             android:layout_height="40dp"
             android:orientation="vertical">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -64,7 +64,7 @@
             android:layout_height="40dp"
             android:orientation="vertical">
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

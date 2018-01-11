@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="1">
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Book"
                 android:id="@+id/company_name"
                 android:layout_width="0dp"

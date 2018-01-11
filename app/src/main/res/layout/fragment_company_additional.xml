@@ -36,7 +36,7 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Currency Symbol"
@@ -64,7 +64,7 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Currency String"
@@ -92,7 +92,7 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Currency Sub-String"
@@ -131,7 +131,7 @@
                         android:gravity="center">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"

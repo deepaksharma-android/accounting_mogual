@@ -37,7 +37,7 @@
                     android:layout_weight="0.2"
                     android:src="@drawable/icon_edit_grey" />
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                     android:layout_weight="0.2"
                     android:src="@drawable/icon_delete_grey" />
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                     android:layout_weight="0.2"
                     android:src="@drawable/icon_sync" />
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     android:layout_weight="0.2"
                     android:src="@drawable/icon_sync" />
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

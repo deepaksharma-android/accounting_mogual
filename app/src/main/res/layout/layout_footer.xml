@@ -36,7 +36,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/selector_edit_company"/>
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/editText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/selector_delete_company"/>
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/deleteText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/selector_open_company"/>
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/openText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/selector_backup_company"/>
 
-            <com.berylsystems.buzz.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="BACKUP"

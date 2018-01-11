@@ -46,7 +46,7 @@
                             android:theme="@style/TextLabel">
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/sales_discount"
                                 style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
@@ -84,7 +84,7 @@
                             android:theme="@style/TextLabel">
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/purchase_discount"
                                 style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
@@ -111,7 +111,7 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Specify Sales Disc. Structure"
@@ -140,7 +140,7 @@
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Specify Purchase Disc. Structure"
@@ -178,7 +178,7 @@
                             android:theme="@style/TextLabel">
 
 
-                            <com.berylsystems.buzz.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/purchase_price"
                                 style="@style/Gotham_Book"
                                 android:layout_width="fill_parent"
@@ -211,7 +211,7 @@
                         android:gravity="center">
 
 
-                        <com.berylsystems.buzz.utils.BuzzTextView
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Book"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"

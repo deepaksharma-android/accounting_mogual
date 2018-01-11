@@ -32,7 +32,7 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:weightSum="1">
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
 
                 </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Username *"
@@ -75,7 +75,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/cusername"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
 
                 </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Password *"
@@ -106,7 +106,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/cpassword"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                         android:gravity="center"
                         android:layout_height="wrap_content" />
 
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="wrap_content"
                         android:text="Remember Password"
                         android:textColor="#000"
@@ -160,7 +160,7 @@
                 android:gravity="center">
 
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

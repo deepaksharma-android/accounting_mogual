@@ -31,7 +31,7 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:weightSum="1">
-                    <com.berylsystems.buzz.utils.BuzzTextView
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Credit Limit"
@@ -73,7 +73,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/credit_limit"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
 
                 </LinearLayout>
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Credit Days For Sale"
@@ -103,7 +103,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/credit_sale"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                         android:hint="eg.7"/>
 
                 </LinearLayout>
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Credit Days For Purchase"
@@ -132,7 +132,7 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.berylsystems.buzz.utils.BuzzEditText
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/credit_purchase"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                 android:gravity="center">
 
 
-                <com.berylsystems.buzz.utils.BuzzTextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                     style="@style/Gotham_Book"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
