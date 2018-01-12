@@ -255,6 +255,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
+                appUser=LocalRepositories.getAppUser(getActivity());
                 if(appUser.mListMapForItemPurchaseReturn.size()>0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {

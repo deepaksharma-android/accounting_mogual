@@ -84,7 +84,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_first_page);
         appUser = LocalRepositories.getAppUser(this);
         setAddCompany(0);
-        setAppBarTitleCompany(1, appUser.company_name.toUpperCase());
+        setAppBarTitleCompany(1, appUser.company_name.toLowerCase());
         ButterKnife.bind(this);
         final Calendar newCalendar = Calendar.getInstance();
         String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));

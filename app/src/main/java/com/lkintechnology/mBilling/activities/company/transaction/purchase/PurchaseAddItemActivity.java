@@ -121,7 +121,9 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
         initActionbar();
-
+        appUser.serial_arr.clear();
+        appUser.purchase_item_serail_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
