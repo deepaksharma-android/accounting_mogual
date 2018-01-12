@@ -26,6 +26,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.ParameterConstant;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -88,6 +89,7 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -138,12 +140,18 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 2) {
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                String[] name = result.split(",");
-                mAccount_group_textview.setText(name[0]);
-                appUser.pdf_account_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (ParameterConstant.handleAutoCompleteTextView==1){
+                    mAccount_group_textview.setText(ParameterConstant.name);
+                    appUser.pdf_account_id = ParameterConstant.id;
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                }else {
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    mAccount_group_textview.setText(name[0]);
+                    appUser.pdf_account_id = id;
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                }
             }
         }
     }
