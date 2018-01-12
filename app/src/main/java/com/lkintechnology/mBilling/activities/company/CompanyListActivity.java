@@ -326,7 +326,11 @@ public class CompanyListActivity extends BaseActivity {
         super.onResume();
     }
 
-
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
 
     @Override
     protected void onStop() {

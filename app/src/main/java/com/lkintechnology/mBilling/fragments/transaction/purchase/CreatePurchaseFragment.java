@@ -234,6 +234,7 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
+                appUser=LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchase.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {

@@ -67,7 +67,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         View headercompany = navigationViewcompany.getHeaderView(0);
         ImageView company_logo=(ImageView)headercompany.findViewById(R.id.company_logo);
         TextView company_name=(TextView) headercompany.findViewById(R.id.company_name);
-        company_name.setText(appUser.company_name.toUpperCase());
+        company_name.setText(appUser.company_name.toLowerCase());
         if(!appUser.company_logo.equals("")){
             company_logo.setVisibility(View.VISIBLE);
             Glide.with(getApplicationContext())
