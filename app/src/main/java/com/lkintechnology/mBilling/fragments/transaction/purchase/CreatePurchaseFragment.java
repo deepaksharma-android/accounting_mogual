@@ -313,6 +313,7 @@ public class CreatePurchaseFragment extends Fragment {
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+
                             }
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
