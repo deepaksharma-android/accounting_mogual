@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,9 +45,11 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.dm7.barcodescanner.zbar.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import timber.log.Timber;
 
-public class PurchaseAddItemActivity extends AppCompatActivity {
+public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -112,6 +115,11 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
     String id;
     ArrayAdapter<String> spinnerAdapter;
     ArrayList arr_barcode;
+    private ZBarScannerView mScannerView;
+    @Bind(R.id.main_layout)
+    LinearLayout mMainLayout;
+    @Bind(R.id.scanning_content_frame)
+    FrameLayout scanning_content_frame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +134,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
+        mScannerView = new ZBarScannerView(this);
         mUnitList = new ArrayList<>();
         int pos = -1;
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
@@ -330,6 +339,8 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                    LinearLayout scan = (LinearLayout) dialogbal.findViewById(R.id.scan);
+                    LinearLayout serial_layout = (LinearLayout) dialogbal.findViewById(R.id.serial_layout);
                     int width=getWidth();
                     int height=getHeight();
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
@@ -382,7 +393,17 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                             }
                         });*/
                     }
-
+                    scan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            serial_layout.setVisibility(View.GONE);
+                            mMainLayout.setVisibility(View.GONE);
+                            scanning_content_frame.setVisibility(View.VISIBLE);
+                            mScannerView.setResultHandler(PurchaseAddItemActivity.this);
+                            scanning_content_frame.addView(mScannerView);
+                            mScannerView.startCamera();
+                        }
+                    });
 
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -830,6 +851,14 @@ public class PurchaseAddItemActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void handleResult(Result result) {
+        if (!result.getContents().equals("")){
+            mScannerView.stopCamera();
+
         }
     }
 }

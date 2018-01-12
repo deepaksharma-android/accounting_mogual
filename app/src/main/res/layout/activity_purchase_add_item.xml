@@ -8,11 +8,17 @@
     android:background="#e2e2e2"
     tools:context=".activities.company.transaction.purchase.PurchaseAddItemActivity">
 
+    <FrameLayout
+        android:id="@+id/scanning_content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="430dp"
+        android:visibility="gone"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"

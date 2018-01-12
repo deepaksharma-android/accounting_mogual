@@ -22,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,9 +43,11 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.dm7.barcodescanner.zbar.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import timber.log.Timber;
 
-public class SaleVoucherAddItemActivity extends AppCompatActivity {
+public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler{
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -72,6 +75,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     EditText mTotal;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
+    @Bind(R.id.main_layout)
+    LinearLayout mMainLayout;
+    @Bind(R.id.scanning_content_frame)
+    FrameLayout scanning_content_frame;
 
     AppUser appUser;
     List<Map<String, String>> mListMap;
@@ -107,6 +114,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
     String sale_unit;
     ArrayAdapter<String> spinnerAdapter;
     ArrayList arr_barcode;
+    private ZBarScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +125,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         mListMap = new ArrayList<>();
+        mScannerView = new ZBarScannerView(this);
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
@@ -323,6 +332,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                    LinearLayout scan = (LinearLayout) dialogbal.findViewById(R.id.scan);
+                    LinearLayout serial_layout = (LinearLayout) dialogbal.findViewById(R.id.serial_layout);
+                  //  FrameLayout scanning_content_frame = (FrameLayout) dialogbal.findViewById(R.id.scanning_content_frame);
                     int width = getWidth();
                     int height = getHeight();
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
@@ -353,6 +365,18 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
                             pairs[i].setSelection(groupindex);
                         }
                     }
+
+                    scan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            serial_layout.setVisibility(View.GONE);
+                            mMainLayout.setVisibility(View.GONE);
+                            scanning_content_frame.setVisibility(View.VISIBLE);
+                            mScannerView.setResultHandler(SaleVoucherAddItemActivity.this);
+                            scanning_content_frame.addView(mScannerView);
+                            mScannerView.startCamera();
+                        }
+                    });
 
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -816,4 +840,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void handleResult(Result result) {
+
+    }
 }
