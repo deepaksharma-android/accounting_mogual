@@ -699,7 +699,7 @@ public class AddItemPurchaseFragment extends Fragment {
 
                 }
                 billsundrymamounttotal = billsundrymamounttotal + billsundrymamount;
-                appUser.billsundrytotalPurchase.add(i, String.valueOf(billsundrymamount));
+                appUser.billsundrytotalPurchase.add(i,String.format("%.2f",billsundrymamount));
                 LocalRepositories.saveAppUser(getActivity(), appUser);
             }
 

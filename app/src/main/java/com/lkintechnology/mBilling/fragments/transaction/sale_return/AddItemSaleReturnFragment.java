@@ -665,7 +665,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                     }
                 }
                 billsundrymamounttotal = billsundrymamounttotal + billsundrymamount;
-                appUser.billsundrytotal.add(i, String.valueOf(billsundrymamount));
+                appUser.billsundrytotal.add(i, String.format("%.2f",billsundrymamount));
                 LocalRepositories.saveAppUser(getActivity(), appUser);
             }
         } else {

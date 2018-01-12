@@ -115,6 +115,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mItemUnit.setText(appUser.item_unit_name);
         mTaxCategory.setText(appUser.item_tax_category_name);
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        Preferences.getInstance(getApplicationContext()).setStockSerial("");
         Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
         Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
         Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
