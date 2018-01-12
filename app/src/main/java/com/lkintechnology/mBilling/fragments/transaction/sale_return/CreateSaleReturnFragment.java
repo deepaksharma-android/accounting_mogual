@@ -336,6 +336,27 @@ public class CreateSaleReturnFragment extends Fragment {
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                                if (isConnected) {
+                                    mProgressDialog = new ProgressDialog(getActivity());
+                                    mProgressDialog.setMessage("Info...");
+                                    mProgressDialog.setIndeterminate(false);
+                                    mProgressDialog.setCancelable(true);
+                                    mProgressDialog.show();
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                } else {
+                                    snackbar = Snackbar
+                                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                            .setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                }
+                                            });
+                                    snackbar.show();
+                                }
                             }
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();

@@ -305,7 +305,7 @@
                                 android:layout_weight="0.9"
                                 android:gravity="center"
                                 android:textStyle="bold"
-                                android:text="Debit Note"
+                                android:text="Credit Note"
                                 android:background="@android:color/transparent"
                                 android:textColor="#000"
                                 android:textSize="16sp" />

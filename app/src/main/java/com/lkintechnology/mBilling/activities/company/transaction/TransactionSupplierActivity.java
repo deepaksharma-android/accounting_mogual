@@ -150,10 +150,12 @@ public class TransactionSupplierActivity extends AppCompatActivity{
                 id = new ArrayList<>();
                 Double addAmount=0.0;
                 for (int j = 0; j < response.getOrdered_accounts().get(i).getData().size(); j++) {
-                    name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()) + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount())+ "," +response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
-                    id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
-                    Double addprize = response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount();
-                    addAmount = addAmount+addprize;
+                    if(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount()!=0.00) {
+                        name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName() + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined()) + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount()) + "," + response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
+                        id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
+                        Double addprize = response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount();
+                        addAmount = addAmount + addprize;
+                    }
                 }
                 amountList.add(addAmount);
                 listDataChild.put(listDataHeader.get(i), name);
