@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/header"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
     >
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/m_billing"
         android:textColor="#fff"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_centerVertical="true"
         android:gravity="center_horizontal"
         style="@style/Gotham_Bold"/>
