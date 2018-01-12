@@ -4,11 +4,9 @@ package com.lkintechnology.mBilling.utils;
 public interface Cv {
 
 
-    String BASE_URL = "https://mbilling.in/api/v1/";
-  //  String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-     //String BASE_URL = "http://192.168.1.11:3000/api/v1/";
-
-
+//    String BASE_URL = "https://mbilling.in/api/v1/";
+    String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+//     String BASE_URL = "http://192.168.1.11:3000/api/v1/";
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
