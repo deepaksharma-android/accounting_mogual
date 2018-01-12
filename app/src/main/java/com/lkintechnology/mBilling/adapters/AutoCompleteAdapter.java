@@ -22,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -33,9 +34,11 @@ public class AutoCompleteAdapter extends ArrayAdapter implements Filterable {
     Context context;
     int resource;
     int textViewResourceId;
-    ArrayList<String> newValues;
+    int textViewResourceId1;
+    ArrayList<Map<String,String>> newValues;
 
-    public AutoCompleteAdapter(Context context, int resource, int textViewResourceId, ArrayList objects) {
+
+    public AutoCompleteAdapter(Context context, int resource, int textViewResourceId,int textViewResourceId1, ArrayList objects) {
         super(context, resource, textViewResourceId, objects);
 
         fullList =  objects;
@@ -43,6 +46,7 @@ public class AutoCompleteAdapter extends ArrayAdapter implements Filterable {
         this.context=context;
         this.resource=resource;
         this.textViewResourceId=textViewResourceId;
+        this.textViewResourceId1=textViewResourceId1;
 
     }
 
@@ -65,8 +69,19 @@ public class AutoCompleteAdapter extends ArrayAdapter implements Filterable {
         convertView = LayoutInflater.from(context).
                 inflate(resource, parent, false);
         TextView nameTextView= (TextView) convertView.findViewById(textViewResourceId);
-        nameTextView.setText(newValues.get(position).toString());
+        TextView phoneTextView= (TextView) convertView.findViewById(textViewResourceId1);
+        Map<String,String> val=newValues.get(position);
+        String name=(String)val.get("Name");
+        String Phone=(String)val.get("Phone");
+        nameTextView.setText(name);
+        phoneTextView.setText(Phone);
         nameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventClickForAutoCompleteTextView(nameTextView.getText().toString()));
+            }
+        });
+        phoneTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new EventClickForAutoCompleteTextView(nameTextView.getText().toString()));
@@ -112,11 +127,11 @@ public class AutoCompleteAdapter extends ArrayAdapter implements Filterable {
                 for (int i = 0; i < count; i++) {
                     String name = values.get(i).get("Name");
                     if (name.toLowerCase().contains(prefixString)) {
-                        newValues.add(name);
+                        newValues.add(values.get(i));
                     }
                     String phone = values.get(i).get("Phone");
                     if (phone.toLowerCase().contains(prefixString)) {
-                        newValues.add(phone);
+                        newValues.add(values.get(i));
                     }
                 }
                 Timber.i("2222222222222222222222"+newValues);
