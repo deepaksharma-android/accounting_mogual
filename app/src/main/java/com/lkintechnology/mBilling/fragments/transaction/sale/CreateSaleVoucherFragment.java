@@ -44,6 +44,7 @@ import com.lkintechnology.mBilling.activities.company.administration.master.acco
 import com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -254,6 +255,15 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
 
+            }
+        });
+
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
+                intent.putExtra("encodedstring",encodedString);
+                startActivity(intent);
             }
         });
 
