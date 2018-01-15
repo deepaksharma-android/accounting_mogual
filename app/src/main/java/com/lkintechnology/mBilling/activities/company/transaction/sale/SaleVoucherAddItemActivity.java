@@ -75,7 +75,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     EditText mTotal;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
-    @Bind(R.id.main_layout)
+    @Bind(R.id.mainLayout)
     LinearLayout mMainLayout;
     @Bind(R.id.scanning_content_frame)
     FrameLayout scanning_content_frame;
@@ -332,7 +332,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                    LinearLayout scan = (LinearLayout) dialogbal.findViewById(R.id.scan);
                     LinearLayout serial_layout = (LinearLayout) dialogbal.findViewById(R.id.serial_layout);
                   //  FrameLayout scanning_content_frame = (FrameLayout) dialogbal.findViewById(R.id.scanning_content_frame);
                     int width = getWidth();
@@ -366,7 +365,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         }
                     }
 
-                    scan.setOnClickListener(new View.OnClickListener() {
+           /*         scan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             serial_layout.setVisibility(View.GONE);
@@ -376,7 +375,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                             scanning_content_frame.addView(mScannerView);
                             mScannerView.startCamera();
                         }
-                    });
+                    });*/
 
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override

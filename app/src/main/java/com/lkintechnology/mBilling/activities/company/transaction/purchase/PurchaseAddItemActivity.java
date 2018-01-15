@@ -24,7 +24,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
+import java.security.cert.PolicyQualifierInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -116,10 +119,18 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
     ArrayAdapter<String> spinnerAdapter;
     ArrayList arr_barcode;
     private ZBarScannerView mScannerView;
-    @Bind(R.id.main_layout)
+    @Bind(R.id.mainLayout)
     LinearLayout mMainLayout;
+    @Bind(R.id.add_item)
+    LinearLayout mAddItem;
+    @Bind(R.id.scan_item)
+    LinearLayout mScanItem;
+    @Bind(R.id.scanLayout)
+    RelativeLayout mScanLayout;
     @Bind(R.id.scanning_content_frame)
     FrameLayout scanning_content_frame;
+    @Bind(R.id.cancel)
+    ImageView mCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -314,7 +325,45 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
 
             }
         }
+        mAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+
+        mScanItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mQuantity.getText().toString().equals("")) {
+                    mMainLayout.setVisibility(View.GONE);
+                    mScanLayout.setVisibility(View.VISIBLE);
+                    mScannerView.setResultHandler(PurchaseAddItemActivity.this);
+                    scanning_content_frame.addView(mScannerView);
+                    mScannerView.startCamera();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mScannerView.stopCamera();
+                scanning_content_frame.removeView(mScannerView);
+                mMainLayout.setVisibility(View.VISIBLE);
+                mScanLayout.setVisibility(View.GONE);
+             /*   if (appUser.serial_arr.size() > 0) {
+                    String listString="";
+                for (String s : appUser.serial_arr) {
+                    listString += s + ",";
+                }
+                mSr_no.setText(listString);*/
+           // }
+        }
+        });
 
 
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +388,6 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
-                    LinearLayout scan = (LinearLayout) dialogbal.findViewById(R.id.scan);
                     LinearLayout serial_layout = (LinearLayout) dialogbal.findViewById(R.id.serial_layout);
                     int width=getWidth();
                     int height=getHeight();
@@ -393,17 +441,6 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                             }
                         });*/
                     }
-                    scan.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            serial_layout.setVisibility(View.GONE);
-                            mMainLayout.setVisibility(View.GONE);
-                            scanning_content_frame.setVisibility(View.VISIBLE);
-                            mScannerView.setResultHandler(PurchaseAddItemActivity.this);
-                            scanning_content_frame.addView(mScannerView);
-                            mScannerView.startCamera();
-                        }
-                    });
 
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -856,9 +893,41 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
 
     @Override
     public void handleResult(Result result) {
-        if (!result.getContents().equals("")){
-            mScannerView.stopCamera();
+        if (!result.getContents().equals("")) {
+            String listString="";
+            int qty=Integer.parseInt( mQuantity.getText().toString());
+            if (qty>appUser.serial_arr.size()) {
+                // mScannerView.stopCamera();
+                if (appUser.serial_arr.contains(result.getContents())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                    Toast.makeText(PurchaseAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                } else {
+                    appUser.serial_arr.add(result.getContents());
+                    appUser.purchase_item_serail_arr.add(result.getContents());
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    for (String s : appUser.serial_arr) {
+                        listString += s + ",";
+                    }
+                    mSr_no.setText(listString);
+                }
 
+                mScannerView.stopCamera();
+                scanning_content_frame.removeView(mScannerView);
+                mScannerView.setResultHandler(PurchaseAddItemActivity.this);
+                scanning_content_frame.addView(mScannerView);
+                mScannerView.startCamera();
+
+
+            }
+            else{
+                Toast.makeText(PurchaseAddItemActivity.this,"Item quantity is less", Toast.LENGTH_SHORT).show();
+                mScannerView.stopCamera();
+                scanning_content_frame.removeView(mScannerView);
+                mMainLayout.setVisibility(View.VISIBLE);
+                mScanLayout.setVisibility(View.GONE);
+            }
         }
+
     }
 }
