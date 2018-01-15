@@ -255,8 +255,8 @@ public class BankCaseWithdrawActivity extends AppCompatActivity {
     public void event_click_alert(EventClickAlertForBakCashWithDraw response) {
         mProgressDialog.dismiss();
         response.getPosition();
-        Intent intent = new Intent(BankCaseWithdrawActivity.this, CreateBankCaseDepositActivity.class);
-        intent.putExtra("fromBankCashDeposit", true);
+        Intent intent = new Intent(BankCaseWithdrawActivity.this, CreateBankCaseWithdrawActivity.class);
+        intent.putExtra("fromBankCashWithdraw", true);
         intent.putExtra("id", response.getPosition());
         startActivity(intent);
         finish();
