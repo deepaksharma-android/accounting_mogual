@@ -548,6 +548,8 @@ public class CreatePurchaseFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");
             mVchNumber.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

@@ -590,6 +590,8 @@ public class CreateSaleReturnFragment extends Fragment {
                mPartyName.setText("");
                mMobileNumber.setText("");
                mNarration.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
                appUser.mListMapForItemSaleReturn.clear();
                appUser.mListMapForBillSaleReturn.clear();
                LocalRepositories.saveAppUser(getApplicationContext(),appUser);

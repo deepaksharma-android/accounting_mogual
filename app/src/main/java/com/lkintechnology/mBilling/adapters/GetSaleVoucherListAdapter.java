@@ -86,10 +86,10 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent intent = new Intent(context, ImageOpenActivity.class);
-                intent.putExtra("attachment",data.get(position).getAttributes().getAttachment();
+                Intent intent = new Intent(context, ImageOpenActivity.class);
+                intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
                 intent.putExtra("booleAttachment",true);
-                context.startActivity(intent);*/
+                context.startActivity(intent);
             }
         });
 

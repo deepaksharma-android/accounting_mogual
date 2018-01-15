@@ -548,6 +548,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 mPartyName.setText("");
                 mMobileNumber.setText("");
                 mNarration.setText("");
+                 mSelectedImage.setImageResource(0);
+                 mSelectedImage.setVisibility(View.GONE);
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
