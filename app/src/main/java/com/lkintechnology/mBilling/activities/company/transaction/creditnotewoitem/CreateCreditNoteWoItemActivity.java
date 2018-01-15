@@ -216,7 +216,8 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedstring",encodedString);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
                 startActivity(intent);
             }
         });

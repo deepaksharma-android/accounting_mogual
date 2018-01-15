@@ -1,70 +1,68 @@
 package com.lkintechnology.mBilling.activities.company.transaction;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.util.Base64;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.utils.Helpers;
-import com.lkintechnology.mBilling.utils.TypefaceCache;
-
-import java.io.ByteArrayOutputStream;
-
+import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 public class ImageOpenActivity extends AppCompatActivity {
-
-   /* @Bind(R.id.image_open_layout)
-    LinearLayout mImageOpenLayout;*/
     @Bind(R.id.image_open)
     ImageView mImageOpen;
     String encodedString,title;
+    public Boolean boolAttachment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_open);
         ButterKnife.bind(this);
-        title ="Full Image";
-        initActionbar();
+       // initActionbar();
         Intent intent =getIntent();
-        encodedString=intent.getStringExtra("encodedstring");
-        mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
-    }
+        boolAttachment = getIntent().getBooleanExtra("booleAttachment",false);
+        if(boolAttachment==true){
+            encodedString=intent.getStringExtra("attachment");
+            /*Glide.with(this).load(Uri.parse(encodedString))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(mImageOpen);
+                     mImageOpen.setVisibility(View.VISIBLE);*/
+            Timber.i("aaaaaaaaaaaaaaaaaaa"+encodedString);
 
-    private void initActionbar() {
-        ActionBar actionBar = getSupportActionBar();
-        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.MATCH_PARENT,
-                Gravity.CENTER);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
-        //actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(viewActionBar, params);
-        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText(title);
-        actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+            Picasso.with(getApplicationContext())
+                    .load(encodedString)
+                    .into(mImageOpen);
+            mImageOpen.setVisibility(View.VISIBLE);
+                    /*.into(mImageOpen, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });*/
+        }else {
+            encodedString=intent.getStringExtra("encodedString");
+            mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
+        }
+
     }
 
     @Override

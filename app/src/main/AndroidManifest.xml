@@ -581,8 +581,10 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.company.transaction.ImageOpenActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:parentActivityName=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity">
+
+        </activity>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />

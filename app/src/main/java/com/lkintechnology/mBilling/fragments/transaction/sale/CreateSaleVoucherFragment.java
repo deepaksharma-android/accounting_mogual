@@ -262,7 +262,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedstring",encodedString);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
                 startActivity(intent);
             }
         });
@@ -583,8 +584,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
-
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            /* if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 *//*if(!appUser.sale_party_group.equals("Cash-in-hand")) {
@@ -611,6 +610,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
