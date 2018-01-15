@@ -90,10 +90,9 @@
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight=".2"
+                            android:layout_weight=".3"
                             android:src="@drawable/cash_in_hand" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -139,10 +138,9 @@
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight=".2"
+                            android:layout_weight=".3"
                             android:src="@drawable/bank" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -187,10 +185,10 @@
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight=".2"
+
+                            android:layout_weight=".3"
                             android:src="@drawable/customer" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -235,10 +233,9 @@
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight=".2"
+                            android:layout_weight=".3"
                             android:src="@drawable/supplier" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -284,10 +281,10 @@
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight=".2"
+
+                            android:layout_weight=".3"
                             android:src="@drawable/stock_in_hand" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -353,10 +350,10 @@
 
                     <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight=".2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight=".3"
                         android:src="@drawable/sale" />
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -404,10 +401,10 @@
 
                     <ImageView
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight=".2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight=".3"
                         android:src="@drawable/expence" />
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView

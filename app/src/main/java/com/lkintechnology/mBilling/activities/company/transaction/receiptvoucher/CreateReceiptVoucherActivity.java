@@ -543,6 +543,13 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action, menu);
+        if(fromReceiptVoucher==true){
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(false);
+        }else{
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(true);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -955,14 +962,14 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                if (iconHandlerVariable == 2) {
+                /*if (iconHandlerVariable == 2) {
                     String receipt_voucher_id = appUser.edit_receipt_id;
                     EventBus.getDefault().post(new EventDeleteReceipt(receipt_voucher_id));
-                } else {
+                } else {*/
                     Intent i = new Intent(getApplicationContext(), ReceiptVoucherActivity.class);
                     startActivity(i);
                     finish();
-                }
+              //  }
 
                 return true;
             case android.R.id.home:

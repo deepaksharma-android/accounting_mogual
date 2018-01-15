@@ -731,6 +731,13 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
+        if(fromIncome==true){
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(false);
+        }else{
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(true);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
