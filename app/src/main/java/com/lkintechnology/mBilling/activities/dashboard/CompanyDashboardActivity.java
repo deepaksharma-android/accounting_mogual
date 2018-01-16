@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
+import com.lkintechnology.mBilling.activities.company.DefaultItemsExpandableListActivity;
 import com.lkintechnology.mBilling.activities.company.EditCompanyActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -66,6 +67,8 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     LinearLayout mSyncTallyCompanyLayout;
     @Bind(R.id.syncBusyCompanyLayout)
     LinearLayout mSyncBusyCompanyLayout;
+    @Bind(R.id.syncItemsCompanyLayout)
+    LinearLayout mSyncItemsCompanyLayout;
    /* @Bind(R.id.layout_edit)
     LinearLayout mEdit;
     @Bind(R.id.layout_delete)
@@ -156,6 +159,14 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                         .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
+            }
+        });
+
+        mSyncItemsCompanyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DefaultItemsExpandableListActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -2,9 +2,9 @@ package com.lkintechnology.mBilling.utils;
 
 
 public interface Cv {
-    String BASE_URL = "https://mbilling.in/api/v1/";
-    //String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-   // String BASE_URL = "http://192.168.1.11:3000/api/v1/";
+    //String BASE_URL = "https://mbilling.in/api/v1/";
+    String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+    //String BASE_URL = "http://192.168.0.114:3000/api/v1/";
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
@@ -164,6 +164,7 @@ public interface Cv {
     String  ACTION_GET_PURCHASE_VOUCHER="action_get_purchase_report";
     String  ACTION_DELETE_PURCHASE_VOUCHER="action_delete_purchase_voucher";
     String  ACTION_GET_PDC="action_get_pdc";
+    String ACTION_GET_DEFAULT_ITEMS = "action_get_default_items";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;

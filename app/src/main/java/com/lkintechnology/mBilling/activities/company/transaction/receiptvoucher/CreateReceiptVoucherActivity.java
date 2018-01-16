@@ -42,6 +42,7 @@ import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.PdcActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
@@ -306,6 +307,16 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
+            }
+        });
+
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
+                startActivity(intent);
             }
         });
 

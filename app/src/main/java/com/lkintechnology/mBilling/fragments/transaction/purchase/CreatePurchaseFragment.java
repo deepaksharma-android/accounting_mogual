@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
+import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -27,6 +31,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,10 +43,12 @@ import com.lkintechnology.mBilling.activities.company.administration.master.mate
 import com.lkintechnology.mBilling.activities.company.administration.master.purchasetype.PurchaseTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -88,6 +95,10 @@ public class CreatePurchaseFragment extends Fragment {
     LinearLayout submit;
     @Bind(R.id.narration)
     EditText mNarration;
+    @Bind(R.id.browse_image)
+    LinearLayout mBrowseImage;
+    @Bind(R.id.selected_image)
+    ImageView mSelectedImage;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     ProgressDialog mProgressDialog;
@@ -99,6 +110,8 @@ public class CreatePurchaseFragment extends Fragment {
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
     Snackbar snackbar;
+    String encodedString;
+    Bitmap photo;
     WebView mPdf_webview;
 
     @Override
@@ -200,6 +213,27 @@ public class CreatePurchaseFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
             }
         });
+
+        mBrowseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
+                startDialog();
+
+            }
+        });
+
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
+                startActivity(intent);
+            }
+        });
+
         Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
         appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -247,6 +281,7 @@ public class CreatePurchaseFragment extends Fragment {
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                             appUser.purchase_narration = mNarration.getText().toString();
+                                            appUser.purchase_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())
@@ -334,6 +369,29 @@ public class CreatePurchaseFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        photo = null;
+        switch (requestCode) {
+            case Cv.REQUEST_CAMERA:
+                photo = (Bitmap) data.getExtras().get("data");
+                encodedString = Helpers.bitmapToBase64(photo);
+                mSelectedImage.setVisibility(View.VISIBLE);
+                mSelectedImage.setImageBitmap(photo);
+                break;
+
+            case Cv.REQUEST_GALLERY:
+
+                try {
+                    photo = MediaStore.Images.Thumbnails.getThumbnail(getActivity().getContentResolver(),
+                            ContentUris.parseId(data.getData()),
+                            MediaStore.Images.Thumbnails.MINI_KIND, null);
+                    encodedString = Helpers.bitmapToBase64(photo);
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(photo);
+                    break;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
 
         if (requestCode == 11) {
             if (resultCode == Activity.RESULT_OK) {
@@ -490,6 +548,8 @@ public class CreatePurchaseFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");
             mVchNumber.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -541,6 +601,35 @@ public class CreatePurchaseFragment extends Fragment {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void startDialog() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+        myAlertDialog.setTitle("Upload Pictures Option");
+        myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Intent intCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+
+                if (intCamera.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
+                }
+
+            }
+        });
+
+        myAlertDialog.setNegativeButton("Gallary",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent intGallery = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
+
+                    }
+                });
+        myAlertDialog.show();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

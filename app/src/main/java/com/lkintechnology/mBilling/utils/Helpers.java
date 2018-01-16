@@ -269,9 +269,4 @@ public class Helpers {
         }
         return string;
     }
-
-
-
-
-
 }

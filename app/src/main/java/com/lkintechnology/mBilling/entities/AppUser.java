@@ -277,6 +277,10 @@ public class AppUser {
     public String sale_mobileNumber = "";
     public String sale_cash_credit;
     public String sale_narration = "";
+    public String sale_attachment = "";
+    public String sale_return_attachment = "";
+    public String purchase_attachment = "";
+    public String purchase_return_attachment = "";
     public String sale_type_name="";
 
     public String purchase_type_name="";
@@ -513,5 +517,6 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String credit_note_duration_spinner;
 
     public String email_yes_no="";
+    //public List<String> listDataChildId = new ArrayList<String>();
 
 }

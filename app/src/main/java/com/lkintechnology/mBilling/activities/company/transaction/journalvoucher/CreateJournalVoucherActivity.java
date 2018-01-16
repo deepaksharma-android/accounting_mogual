@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -227,6 +228,15 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
         });
 
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
+                startActivity(intent);
+            }
+        });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

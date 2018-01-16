@@ -8,6 +8,15 @@ public class Attributes {
     public String account_master;
     public Double total_amount;
     public String invoice_html;
+    public String attachment;
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
 
     public String getInvoice_html() {
         return invoice_html;

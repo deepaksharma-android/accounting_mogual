@@ -136,9 +136,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:gravity="right"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="0.8">
-
 
         </LinearLayout>
 

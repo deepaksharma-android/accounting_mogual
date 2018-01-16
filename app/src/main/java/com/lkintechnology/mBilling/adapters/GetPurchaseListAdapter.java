@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.Data;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
 
@@ -81,6 +82,16 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
             }
         });
 
+        viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+        Intent intent = new Intent(context, ImageOpenActivity.class);
+        intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
+        intent.putExtra("booleAttachment",true);
+        context.startActivity(intent);
+            }
+        });
+
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +128,8 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
         LinearLayout icon_printing;
         @Bind(R.id.icon_share)
         LinearLayout icon_share;
+        @Bind(R.id.attachment_layout)
+        LinearLayout mAttachment;
        /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/

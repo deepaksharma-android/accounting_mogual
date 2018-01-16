@@ -34,11 +34,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -62,6 +64,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -105,7 +108,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     String title;
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
-    public static int intStartActivityForResult=0;
+    public static int intStartActivityForResult = 0;
     Bitmap photo;
     WebView mPdf_webview;
 
@@ -121,7 +124,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         appUser.voucher_type = "Bank Cash Deposit";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-        android.support.v7.app.ActionBar actionBar =getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
@@ -130,18 +133,18 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String dateString = dateFormatter.format(date);
         set_date.setText(dateString);
-        deposit_to.setText(""+appUser.deposit_to_name);
-        deposit_by.setText(""+appUser.deposit_by_name);
+        deposit_to.setText("" + appUser.deposit_to_name);
+        deposit_by.setText("" + appUser.deposit_by_name);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        title="CREATE BANK CASH DEPOSIT";
-        fromBankcashDeposit=getIntent().getBooleanExtra("fromBankCashDeposit",false);
-        if(fromBankcashDeposit==true){
-            title="EDIT BANK CASH DEPOSIT";
+        title = "CREATE BANK CASH DEPOSIT";
+        fromBankcashDeposit = getIntent().getBooleanExtra("fromBankCashDeposit", false);
+        if (fromBankcashDeposit == true) {
+            title = "EDIT BANK CASH DEPOSIT";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_bank_cash_deposit_id = getIntent().getExtras().getString("id");
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this, appUser);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -164,7 +167,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         });
                 snackbar.show();
             }
-        }else{
+        } else {
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -194,7 +197,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             public void onClick(View view) {
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
-               startDialog();
+                startDialog();
 
             }
         });
@@ -202,12 +205,12 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         deposit_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=1;
+                intStartActivityForResult = 1;
                 appUser.account_master_group = "Bank Accounts";
-                ParameterConstant.checkStartActivityResultForAccount =4;
+                ParameterConstant.checkStartActivityResultForAccount = 4;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -216,22 +219,31 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         deposit_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=2;
+                intStartActivityForResult = 2;
                 appUser.account_master_group = "Cash-in-hand";
-                ParameterConstant.checkStartActivityResultForAccount =4;
-                ExpandableAccountListActivity.isDirectForAccount=false;
+                ParameterConstant.checkStartActivityResultForAccount = 4;
+                ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
+            }
+        });
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
+                startActivity(intent);
             }
         });
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!deposit_to.getText().toString().equals("")) {
                             if (!deposit_by.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -245,26 +257,26 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                                     appUser.bank_cash_deposit_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
+                                        mProgressDialog.setMessage("Info...");
+                                        mProgressDialog.setIndeterminate(false);
+                                        mProgressDialog.setCancelable(true);
+                                        mProgressDialog.show();
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_BANK_CASH_DEPOSIT);
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                    } else {
+                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
                                                 if (isConnected) {
-                                                    mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
-                                                    mProgressDialog.setMessage("Info...");
-                                                    mProgressDialog.setIndeterminate(false);
-                                                    mProgressDialog.setCancelable(true);
-                                                    mProgressDialog.show();
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_BANK_CASH_DEPOSIT);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                } else {
-                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                snackbar.dismiss();
-                                                            }
-                                                        }
-                                                    });
-                                                    snackbar.show();
+                                                    snackbar.dismiss();
                                                 }
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
                                 } else {
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
@@ -274,10 +286,10 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select deposit to", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
@@ -307,8 +319,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!deposit_to.getText().toString().equals("")) {
                             if (!deposit_by.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -352,10 +364,10 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select deposit to", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
@@ -384,6 +396,24 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         });
     }
 
+    //Image open on popip
+
+   /* private void loadPhoto() {
+        AlertDialog.Builder imageDialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View view = getLayoutInflater().inflate(R.layout.activity_image_open, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.fullimage);
+        imageView.setImageResource(R.drawable.app_bg);
+        imageDialog.setPositiveButton(getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+
+        });
+        imageDialog.create();
+        imageDialog.show();
+    }
+*/
     private void startDialog() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(CreateBankCaseDepositActivity.this);
@@ -414,13 +444,12 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     }
 
 
-
     private void setDateField() {
         set_date.setOnClickListener(this);
 
         final Calendar newCalendar = Calendar.getInstance();
 
-       set_date.setText("22 Nov 2017");
+        set_date.setText("22 Nov 2017");
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -496,40 +525,40 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     }
             }
             if (requestCode == 2) {
-                if (ParameterConstant.handleAutoCompleteTextView==1){
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     boolForReceivedFrom = true;
                     appUser.deposit_to_id = String.valueOf(ParameterConstant.id);
-                    appUser.deposit_to_name =ParameterConstant.name;
+                    appUser.deposit_to_name = ParameterConstant.name;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     deposit_to.setText(ParameterConstant.name);
-                }else {
+                } else {
                     boolForReceivedFrom = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
                     String[] name = result.split(",");
                     appUser.deposit_to_id = String.valueOf(id);
-                    appUser.deposit_to_name =name[0];
+                    appUser.deposit_to_name = name[0];
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     deposit_to.setText(name[0]);
                 }
             }
             if (requestCode == 3) {
-               if (ParameterConstant.handleAutoCompleteTextView==1){
-                   boolForReceivedBy = true;
-                   appUser.deposit_by_id = String.valueOf(ParameterConstant.id);
-                   appUser.deposit_by_name = ParameterConstant.name;
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   deposit_by.setText(ParameterConstant.name);
-               }else {
-                   boolForReceivedBy = true;
-                   String result = data.getStringExtra("name");
-                   String id = data.getStringExtra("id");
-                   String[] name = result.split(",");
-                   appUser.deposit_by_id = String.valueOf(id);
-                   appUser.deposit_by_name = name[0];
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   deposit_by.setText(name[0]);
-               }
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForReceivedBy = true;
+                    appUser.deposit_by_id = String.valueOf(ParameterConstant.id);
+                    appUser.deposit_by_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    deposit_by.setText(ParameterConstant.name);
+                } else {
+                    boolForReceivedBy = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.deposit_by_id = String.valueOf(id);
+                    appUser.deposit_by_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    deposit_by.setText(name[0]);
+                }
             }
         }
     }
@@ -541,11 +570,11 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
-            if (intStartActivityForResult==1){
-                boolForReceivedBy=true;
+            if (intStartActivityForResult == 1) {
+                boolForReceivedBy = true;
 
-            }else if (intStartActivityForResult==2){
-                boolForReceivedFrom=true;
+            } else if (intStartActivityForResult == 2) {
+                boolForReceivedFrom = true;
             }
             if (!boolForReceivedFrom) {
 
@@ -553,7 +582,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 String id = intent.getStringExtra("id");
                 String[] name = result.split(",");
                 appUser.deposit_to_id = String.valueOf(id);
-                appUser.deposit_to_name=name[0];
+                appUser.deposit_to_name = name[0];
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 deposit_to.setText(name[0]);
             }
@@ -563,7 +592,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 String id = intent.getStringExtra("id");
                 String[] name = result.split(",");
                 appUser.deposit_by_id = String.valueOf(id);
-                appUser.deposit_by_name =name[0];
+                appUser.deposit_by_name = name[0];
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 deposit_by.setText(name[0]);
 
@@ -580,6 +609,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
+
     @Override
     protected int layoutId() {
         return R.layout.activity_create_bank_case_deposit;
@@ -607,12 +637,12 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     }
 
     @Subscribe
-    public void createbankcashdepositresponse(CreateBankCashDepositResponse response){
+    public void createbankcashdepositresponse(CreateBankCashDepositResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
-           // voucher_no.setText("");
+            // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             deposit_by.setText("");
@@ -626,7 +656,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(CreateBankCaseDepositActivity.this, TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
 
                       /*  ProgressDialog progressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
@@ -650,53 +680,49 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
 
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Subscribe
-    public void getBankCashDepositDetails(GetBankCashDepositDetailsResponse response){
+    public void getBankCashDepositDetails(GetBankCashDepositDetailsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             set_date.setText(response.getBank_cash_deposit().getData().getAttributes().getDate());
             voucher_no.setText(response.getBank_cash_deposit().getData().getAttributes().getVoucher_number());
             deposit_to.setText(response.getBank_cash_deposit().getData().getAttributes().getDeposit_to());
             deposit_by.setText(response.getBank_cash_deposit().getData().getAttributes().getDeposit_by());
             transaction_amount.setText(String.valueOf(response.getBank_cash_deposit().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getBank_cash_deposit().getData().getAttributes().getNarration());
-            if(!response.getBank_cash_deposit().getData().getAttributes().getAttachment().equals("")){
-               // Glide.with(this).load(response.getBank_cash_deposit().getData().getAttributes().getAttachment()).into(mSelectedImage);
+            if (!response.getBank_cash_deposit().getData().getAttributes().getAttachment().equals("")) {
+                // Glide.with(this).load(response.getBank_cash_deposit().getData().getAttributes().getAttachment()).into(mSelectedImage);
                 Glide.with(this).load(Uri.parse(response.getBank_cash_deposit().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void editBankCashDeposit(EditBankCashDepositResponse response){
+    public void editBankCashDeposit(EditBankCashDepositResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Intent intent = new Intent(this, BankCaseDepositListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(intent);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
@@ -709,7 +735,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-           // set_date.setOnClickListener(this);
+            // set_date.setOnClickListener(this);
         }
     }
 
@@ -725,11 +751,11 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
-        if(fromBankcashDeposit==true){
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
+        if (fromBankcashDeposit == true) {
             MenuItem item = menu.findItem(R.id.icon_id);
             item.setVisible(false);
-        }else{
+        } else {
             MenuItem item = menu.findItem(R.id.icon_id);
             item.setVisible(true);
         }
@@ -742,7 +768,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         switch (item.getItemId()) {
 
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),BankCaseDepositListActivity.class);
+                Intent i = new Intent(getApplicationContext(), BankCaseDepositListActivity.class);
                 startActivity(i);
                 finish();
                 return true;
@@ -771,7 +797,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         return bitmap;
     }*/
-
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

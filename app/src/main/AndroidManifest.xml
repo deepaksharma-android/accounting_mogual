@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="com.lkintechnology.mBilling.ThisApp"
+        android:name=".ThisApp"
         android:allowBackup="true"
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
@@ -26,7 +26,7 @@
             android:value="@string/FB_APP_ID" />
 
         <activity
-            android:name="com.lkintechnology.mBilling.activities.app.SplashActivity"
+            android:name=".activities.app.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden">
@@ -37,554 +37,560 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.lkintechnology.mBilling.activities.app.HomePageActivity"
+            android:name=".activities.app.HomePageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noAnimTheme" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.LoginActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.app.HomePageActivity"
+            android:name=".activities.user.LoginActivity"
+            android:parentActivityName=".activities.app.HomePageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.RegisterActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.app.HomePageActivity"
+            android:name=".activities.user.RegisterActivity"
+            android:parentActivityName=".activities.app.HomePageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.ForgotPasswordActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.user.LoginActivity"
+            android:name=".activities.user.ForgotPasswordActivity"
+            android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.VerificationActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.user.LoginActivity"
+            android:name=".activities.user.VerificationActivity"
+            android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.NewPasswordActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.user.LoginActivity"
+            android:name=".activities.user.NewPasswordActivity"
+            android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.ChangeMobileActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.user.LoginActivity"
+            android:name=".activities.user.ChangeMobileActivity"
+            android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.PackageActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.user.LoginActivity"
+            android:name=".activities.user.PackageActivity"
+            android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.dashboard.CompanyDashboardActivity"
+            android:name=".activities.dashboard.CompanyDashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.dashboard.AdministrationDashboardActivity"
+            android:name=".activities.dashboard.AdministrationDashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.FacebookHandlerActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.user.LoginActivity"
+            android:name=".activities.user.FacebookHandlerActivity"
+            android:parentActivityName=".activities.user.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.EditCompanyActivity"
+            android:name=".activities.company.EditCompanyActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.SignatureActivity"
+            android:name=".activities.company.SignatureActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.CreateCompanyActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
+            android:name=".activities.company.CreateCompanyActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.accountgroup.CreateAccountGroupActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.accountgroup.AccountGroupListActivity"
+            android:name=".activities.company.administration.master.accountgroup.CreateAccountGroupActivity"
+            android:parentActivityName=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryListActivity"
+            android:name=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.BillSundryListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.CreateMaterialCentreActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.MaterialCentreListActivity"
+            android:name=".activities.company.administration.master.materialcentre.CreateMaterialCentreActivity"
+            android:parentActivityName=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.unit.CreateUnitActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.unit.UnitListActivity"
+            android:name=".activities.company.administration.master.unit.CreateUnitActivity"
+            android:parentActivityName=".activities.company.administration.master.unit.UnitListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.unitconversion.CreateUnitConversionActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.unitconversion.UnitConversionListActivity"
+            android:name=".activities.company.administration.master.unitconversion.CreateUnitConversionActivity"
+            android:parentActivityName=".activities.company.administration.master.unitconversion.UnitConversionListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.materialcentregroup.CreateMaterialCentreGroupActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity"
+            android:name=".activities.company.administration.master.materialcentregroup.CreateMaterialCentreGroupActivity"
+            android:parentActivityName=".activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.account.AccountDetailsActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.account.ExpandableAccountListActivity"
+            android:name=".activities.company.administration.master.account.AccountDetailsActivity"
+            android:parentActivityName=".activities.company.administration.master.account.ExpandableAccountListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.dashboard.MasterDashboardActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.account.ExpandableAccountListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.MaterialCentreListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.unit.UnitListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.unitconversion.UnitConversionListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.accountgroup.AccountGroupListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
+            android:name=".activities.dashboard.MasterDashboardActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity"
+            android:name=".activities.company.administration.master.account.ExpandableAccountListActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity"
+            android:name=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item_group.ItemGroupListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
+            android:name=".activities.company.administration.master.materialcentregroup.MaterialCentreGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item_group.CreateItemGroupActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item_group.ItemGroupListActivity"
+            android:name=".activities.company.administration.master.unit.UnitListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.purchasetype.PurchaseTypeListActivity"
+            android:name=".activities.company.administration.master.unitconversion.UnitConversionListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity"
+            android:name=".activities.company.administration.master.billsundry.BillSundryListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.taxcategory.TaxCategoryeListActivity"
+            android:name=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
+            android:name=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity"
+            android:name=".activities.company.administration.master.item.CreateNewItemActivity"
+            android:parentActivityName=".activities.company.administration.master.item.ExpandableItemListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity"
+            android:name=".activities.company.administration.master.item.ExpandableItemListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity"
+            android:name=".activities.company.administration.master.item_group.ItemGroupListActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.AffectOfBillSundryActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.administration.master.item_group.CreateItemGroupActivity"
+            android:parentActivityName=".activities.company.administration.master.item_group.ItemGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.AccountingInSaleActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.administration.master.purchasetype.PurchaseTypeListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.AccountingInPurchaseActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.administration.master.saletype.SaleTypeListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryToBeFedAsActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.administration.master.taxcategory.TaxCategoryeListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryFedAsPercentageActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.dashboard.TransactionDashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.bankcasedeposit.BankCaseDepositListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.OtherBillSundryActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.transaction.bankcasewithdraw.BankCaseWithdrawActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.PreviousBillSundryActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.RoundOffActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity"
+            android:name=".activities.company.administration.master.billsundry.AffectOfBillSundryActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemOpeningStockActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.AccountingInSaleActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemAlternateUnitDetails"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.AccountingInPurchaseActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemPriceInfoActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.BillSundryToBeFedAsActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemPackagingUnitDetailsActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.BillSundryFedAsPercentageActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemSettingsActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.OtherBillSundryActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemSettingCriticalLevelActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.PreviousBillSundryActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.administration.master.item.ItemDescriptionActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+            android:name=".activities.company.administration.master.billsundry.RoundOffActivity"
+            android:parentActivityName=".activities.company.administration.master.billsundry.CreateBillSundryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.MaterialCentreListActivity"
+            android:name=".activities.company.administration.master.item.ItemOpeningStockActivity"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity"
+            android:name=".activities.company.administration.master.item.ItemAlternateUnitDetails"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity"
+            android:name=".activities.company.administration.master.item.ItemPriceInfoActivity"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
+            android:name=".activities.company.administration.master.item.ItemPackagingUnitDetailsActivity"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.payment.PaymentActivity"
+            android:name=".activities.company.administration.master.item.ItemSettingsActivity"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.payment.CreatePaymentActivity"
+            android:name=".activities.company.administration.master.item.ItemSettingCriticalLevelActivity"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.ReceiptVoucherActivity"
+            android:name=".activities.company.administration.master.item.ItemDescriptionActivity"
+            android:parentActivityName=".activities.company.administration.master.item.CreateNewItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity"
+            android:name=".activities.company.transaction.sale.CreateSaleActivity"
+            android:parentActivityName=".activities.company.administration.master.materialcentre.MaterialCentreListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.income.IncomeActivity"
+            android:name=".activities.company.transaction.sale.GetSaleVoucherListActivity"
+            android:parentActivityName=".activities.company.transaction.sale.CreateSaleActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.income.CreateIncomeActivity"
+            android:name=".activities.company.transaction.sale.SaleVoucherAddItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.expence.ExpenceActivity"
+            android:name=".activities.company.transaction.sale.SaleVoucherAddBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.expence.CreateExpenceActivity"
+            android:name=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.JournalVoucherActivity"
+            android:name=".activities.company.transaction.payment.PaymentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity"
+            android:name=".activities.company.transaction.payment.CreatePaymentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
+            android:name=".activities.company.transaction.receiptvoucher.ReceiptVoucherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity"
+            android:name=".activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity"
+            android:name=".activities.company.transaction.income.IncomeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.income.CreateIncomeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.expence.ExpenceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.expence.CreateExpenceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.journalvoucher.JournalVoucherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.journalvoucher.CreateJournalVoucherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.purchase.CreatePurchaseActivity"
             android:label="@string/title_activity_create_purchase"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity"
+            android:name=".activities.company.transaction.purchase.GetPurchaseListActivity"
+            android:parentActivityName=".activities.company.transaction.purchase.CreatePurchaseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddBillActivity"
+            android:name=".activities.company.transaction.purchase.PurchaseAddItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity"
+            android:name=".activities.company.transaction.purchase.PurchaseAddBillActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.sale_return.CreateSaleReturnActivity"
             android:label="@string/title_activity_create_sale_type"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity"
+            android:name=".activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity"
+            android:parentActivityName=".activities.company.transaction.sale_return.CreateSaleReturnActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity"
+            android:name=".activities.company.transaction.creditnotewoitem.CreditNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
+            android:name=".activities.company.transaction.debitnotewoitem.DebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase_return.GetPurchaseReturnListActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
+            android:name=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity"
+            android:name=".activities.company.transaction.purchase_return.GetPurchaseReturnListActivity"
+            android:parentActivityName=".activities.company.transaction.purchase_return.CreatePurchaseReturnActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase_return.PurchaseReturnAddItemActivity"
+            android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddBillActivity"
+            android:name=".activities.company.transaction.purchase_return.PurchaseReturnAddItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddItemActivity"
+            android:name=".activities.company.transaction.sale_return.SaleReturnAddBillActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.transaction.sale_return.SaleReturnAddItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionCashInHandActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.transaction.TransactionCashInHandActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionBankActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.transaction.TransactionBankActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionCustomerActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.transaction.TransactionCustomerActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionSupplierActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.transaction.TransactionSupplierActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionStockInHandActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.transaction.TransactionStockInHandActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale.EditSaleActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
+            android:name=".activities.company.transaction.sale.EditSaleActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.sale_return.EditSaleReturnActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
+            android:name=".activities.company.transaction.sale_return.EditSaleReturnActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase.EditPurchaseActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
+            android:name=".activities.company.transaction.purchase.EditPurchaseActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.purchase_return.EditPurchaseReturnActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity"
+            android:name=".activities.company.transaction.purchase_return.EditPurchaseReturnActivity"
+            android:parentActivityName=".activities.dashboard.TransactionDashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.user.UpdateUserActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.CompanyListActivity"
+            android:name=".activities.user.UpdateUserActivity"
+            android:parentActivityName=".activities.company.CompanyListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.LedgerActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigation.reports.account_group.LedgerActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.CashBankActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigation.reports.account_group.CashBankActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.FirstPageActivity"
+            android:name=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.PdcActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigation.reports.account_group.PdcActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.outstanding.AmountReceivableActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigation.reports.outstanding.AmountReceivableActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.outstanding.AmountPaybleActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigation.reports.outstanding.AmountPaybleActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.saleanalysis.AnalysisSaleReportActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigation.reports.saleanalysis.AnalysisSaleReportActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity"
+            android:name=".activities.company.navigation.reports.TransactionPdfActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionSalesActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.TransactionCashInHandActivity"
+            android:name=".activities.company.transaction.TransactionSalesActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.StocksReportsActivity"
+            android:name=".activities.company.navigation.reports.account_group.StocksReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.TransactionExpensesActivity"
+            android:name=".activities.company.transaction.TransactionExpensesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.outstanding.AmountReceivablesListActivity"
+            android:name=".activities.company.navigation.reports.outstanding.AmountReceivablesListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity"
+            android:name=".activities.company.navigation.reports.purchaseanalysis.AnalysisPurchaseReportActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.CashInHandReportActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.TransactionCashInHandActivity"
+            android:name=".activities.company.transaction.CashInHandReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.BankCashReportActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.TransactionBankActivity"
+            android:name=".activities.company.transaction.BankCashReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionBankActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.CustomerReportActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.TransactionCustomerActivity"
+            android:name=".activities.company.transaction.CustomerReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionCustomerActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.transaction.SupplierReportActivity"
-            android:parentActivityName="com.lkintechnology.mBilling.activities.company.transaction.TransactionSupplierActivity"
+            android:name=".activities.company.transaction.SupplierReportActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionSupplierActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.AboutActivity"
+            android:name=".activities.company.navigation.reports.AboutActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.CompanyAboutActivity"
+            android:name=".activities.company.navigation.reports.CompanyAboutActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.TermsActivity"
+            android:name=".activities.company.navigation.reports.TermsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.lkintechnology.mBilling.activities.company.navigation.reports.PrivacyPolicyActivity"
+            android:name=".activities.company.navigation.reports.PrivacyPolicyActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
+        <activity
+            android:name=".activities.company.transaction.ImageOpenActivity"
+            android:parentActivityName=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.company.DefaultItemsExpandableListActivity"
+            android:parentActivityName=".activities.dashboard.CompanyDashboardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
-        <service android:name="com.lkintechnology.mBilling.networks.ApiCallsService" />
-
+        <service android:name=".networks.ApiCallsService" />
 
     </application>
 

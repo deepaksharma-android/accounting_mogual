@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +18,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
+import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -29,6 +33,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,11 +44,13 @@ import com.lkintechnology.mBilling.activities.company.administration.master.acco
 import com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -89,11 +96,16 @@ public class CreateSaleVoucherFragment extends Fragment {
     LinearLayout submit;
     @Bind(R.id.narration)
     EditText mNarration;
+    @Bind(R.id.browse_image)
+    LinearLayout mBrowseImage;
+    @Bind(R.id.selected_image)
+    ImageView mSelectedImage;
     @Bind(R.id.sale_type_layout)
     LinearLayout mSaleTypeLayout;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     ProgressDialog mProgressDialog;
+    String encodedString;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
@@ -103,6 +115,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     Snackbar snackbar;
     public String party_id = "";
     WebView mPdf_webview;
+    Bitmap photo;
 
     @Override
     public void onStart() {
@@ -234,6 +247,27 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivityForResult(intent, 3);
             }
         });
+
+        mBrowseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
+                startDialog();
+
+            }
+        });
+
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
+                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("booleAttachment",false);
+                startActivity(intent);
+            }
+        });
+
         Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
         appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -281,6 +315,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                             appUser.sale_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_mobileNumber = mMobileNumber.getText().toString();
                                             appUser.sale_narration = mNarration.getText().toString();
+                                            appUser.sale_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
 
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -405,48 +440,101 @@ public class CreateSaleVoucherFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+    private void startDialog() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
+        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+        myAlertDialog.setTitle("Upload Pictures Option");
+        myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Intent intCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+
+                if (intCamera.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
+                }
+
+            }
+        });
+
+        myAlertDialog.setNegativeButton("Gallary",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent intGallery = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
+
+                    }
+                });
+        myAlertDialog.show();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                boolForStore = true;
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                appUser.sale_store = String.valueOf(id);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name = result.split(",");
-                // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
-                mStore.setText(name[0]);
-                Preferences.getInstance(getContext()).setStore(name[0]);
-                Preferences.getInstance(getContext()).setStoreId(id);
-                return;
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-                //mItemGroup.setText("");
-            }
-        }
-        if (requestCode == 2) {
-            if (resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra("name");
-                String id = data.getStringExtra("id");
-                appUser.sale_saleType = String.valueOf(id);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                mSaleType.setText(result);
+            photo = null;
+            switch (requestCode) {
+                case Cv.REQUEST_CAMERA:
+                    photo = (Bitmap) data.getExtras().get("data");
+                    encodedString = Helpers.bitmapToBase64(photo);
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(photo);
+                    break;
 
-                // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
-                Preferences.getInstance(getContext()).setSale_type_name(result);
-                Preferences.getInstance(getContext()).setSale_type_id(id);
-                appUser.sale_type_name = result;
-                LocalRepositories.saveAppUser(getActivity(), appUser);
+                case Cv.REQUEST_GALLERY:
+
+                    try {
+                        photo = MediaStore.Images.Thumbnails.getThumbnail(getActivity().getContentResolver(),
+                                ContentUris.parseId(data.getData()),
+                                MediaStore.Images.Thumbnails.MINI_KIND, null);
+                        encodedString = Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(photo);
+                        break;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-                //mItemGroup.setText("");
+
+            if (requestCode == 1) {
+                if (resultCode == Activity.RESULT_OK) {
+                    boolForStore = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    appUser.sale_store = String.valueOf(id);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    String[] name = result.split(",");
+                    // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
+                    mStore.setText(name[0]);
+                    Preferences.getInstance(getContext()).setStore(name[0]);
+                    Preferences.getInstance(getContext()).setStoreId(id);
+                    return;
+                }
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    //Write your code if there's no result
+                    //mItemGroup.setText("");
+                }
             }
-        }
+            if (requestCode == 2) {
+                if (resultCode == Activity.RESULT_OK) {
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    appUser.sale_saleType = String.valueOf(id);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    mSaleType.setText(result);
+
+                    // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
+                    Preferences.getInstance(getContext()).setSale_type_name(result);
+                    Preferences.getInstance(getContext()).setSale_type_id(id);
+                    appUser.sale_type_name = result;
+                    LocalRepositories.saveAppUser(getActivity(), appUser);
+                }
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    //Write your code if there's no result
+                    //mItemGroup.setText("");
+                }
+            }
 
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
@@ -496,8 +584,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
-
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            /* if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 *//*if(!appUser.sale_party_group.equals("Cash-in-hand")) {
@@ -524,6 +610,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
+            mSelectedImage.setImageResource(0);
+            mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

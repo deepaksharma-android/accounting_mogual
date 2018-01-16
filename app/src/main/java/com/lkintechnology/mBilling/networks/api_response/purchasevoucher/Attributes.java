@@ -7,6 +7,15 @@ public class Attributes {
     public int company_id;
     public String account_master;
     public String invoice_html;
+    public String attachment;
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
 
     public String getInvoice_html() {
         return invoice_html;
