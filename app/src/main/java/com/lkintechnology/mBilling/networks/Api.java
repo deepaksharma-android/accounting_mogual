@@ -140,6 +140,7 @@ import com.lkintechnology.mBilling.networks.api_response.sale_return.CreateSaleR
 import com.lkintechnology.mBilling.networks.api_response.saletype.GetSaleTypeResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -602,4 +603,7 @@ public interface Api {
 
     @GET("version")
     Call<VersionResponse> version(@Query("device_type") String device_type);
+
+    @GET("default_items")
+    Call<GetDefaultItemsResponse> getDefaultItems();
 }

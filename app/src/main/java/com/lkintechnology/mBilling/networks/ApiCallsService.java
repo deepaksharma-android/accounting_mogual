@@ -44,6 +44,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestResendOtp;
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumber;
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
+import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.account.CreateAccountResponse;
@@ -486,6 +487,8 @@ public class ApiCallsService extends IntentService {
             handleDeletePurchaseReturnVoucher();
         }else if (Cv.ACTION_VERSION.equals(action)) {
             handleVersion();
+        }else if(Cv.ACTION_GET_DEFAULT_ITEMS.equals(action)){
+            handleGetDefaultItems();
         }
     }
 
@@ -3891,5 +3894,27 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleGetDefaultItems(){
+        api.getDefaultItems().enqueue(new Callback<GetDefaultItemsResponse>() {
+            @Override
+            public void onResponse(Call<GetDefaultItemsResponse> call, Response<GetDefaultItemsResponse> r) {
+                if(r.code()==200){
+                    GetDefaultItemsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                }else{
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetDefaultItemsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
 
 }

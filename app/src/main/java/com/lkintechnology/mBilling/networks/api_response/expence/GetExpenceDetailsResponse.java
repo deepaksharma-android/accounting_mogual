@@ -12,7 +12,7 @@ public class GetExpenceDetailsResponse {
         this.expense = expense;
     }
 
-    ExpenceDeatails expense;
+    public ExpenceDeatails expense;
 
     public String getMessage() {
         return message;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#fff"
+        android:orientation="vertical">
+
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:groupIndicator="@null" />
+
+
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+            android:id="@+id/add_selected_item"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#067bc9"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            style="@style/Gotham_Bold"
+            android:text="Add Selected Items"
+            android:gravity="center"
+            android:textSize="16dp"/>
+
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

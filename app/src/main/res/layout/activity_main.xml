@@ -124,6 +124,32 @@
                     android:textColor="#000"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/syncItemsCompanyLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.2"
+                    android:src="@drawable/icon_sync" />
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Book"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:text="Sync With Items"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
