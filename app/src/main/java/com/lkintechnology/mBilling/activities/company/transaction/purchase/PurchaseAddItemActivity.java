@@ -357,9 +357,9 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                                         Toast.makeText(PurchaseAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         appUser.serial_arr.add(mSerialNumber.getText().toString());
-                                        appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
+                                       // appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        for (String s : appUser.purchase_item_serail_arr) {
+                                        for (String s : appUser.serial_arr) {
                                             listString += s + ",";
                                         }
                                         mSr_no.setText(listString);
@@ -500,31 +500,45 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                         @Override
                         public void onClick(View view) {
                             appUser.serial_arr.clear();
-                            appUser.purchase_item_serail_arr.clear();
+                          //  appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             for(int i=0;i<Integer.parseInt(serial);i++) {
-                                if (!pairs[i].getText().toString().equals("")) {
+
                                     if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
-                                       /* pairs[i].setText("");
+                                        pairs[i].setText("");
                                         appUser.serial_arr.add(i, "");
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        appUser.serial_arr.add(i, pairs[i].getText().toString());
-                                        appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        if(!pairs[i].getText().toString().equals("")) {
+                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
+                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
+                                        else{
+                                            appUser.serial_arr.add(i, "");
+                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
                                     }
-                                }
+
                             }
-                        /*    appUser.purchase_item_serail_arr.clear();
+                            appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             for(int i=0;i<appUser.serial_arr.size();i++){
                                 if(!appUser.serial_arr.get(i).equals("")){
-
+                                    appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                                 }
-                            }*/
+                            }
+                            appUser.serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            for(int i=0;i<appUser.purchase_item_serail_arr.size();i++){
+                                appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(i));
+                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            }
+
 
 
                             String listString = "";

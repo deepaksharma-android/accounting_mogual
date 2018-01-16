@@ -17,7 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +32,10 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.dm7.barcodescanner.zbar.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class ItemOpeningStockActivity extends AppCompatActivity {
+public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
     @Bind(R.id.stock_quantity)
     EditText mStockQuantity;
     @Bind(R.id.stock_price)
@@ -47,6 +52,19 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
     Double stockquantity, stockprice;
     String batchwise,serailwise;
     String serial;
+    private ZBarScannerView mScannerView;
+    @Bind(R.id.mainLayout)
+    LinearLayout mMainLayout;
+    @Bind(R.id.add_item)
+    LinearLayout mAddItem;
+    @Bind(R.id.scan_item)
+    LinearLayout mScanItem;
+    @Bind(R.id.scanLayout)
+    RelativeLayout mScanLayout;
+    @Bind(R.id.scanning_content_frame)
+    FrameLayout scanning_content_frame;
+    @Bind(R.id.cancel)
+    ImageView mCancel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +74,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
         appUser= LocalRepositories.getAppUser(this);
         String listString = "";
 
+        mScannerView = new ZBarScannerView(this);
         mStockQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -120,6 +139,100 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
         if(!Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("")) {
             batchwise =Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail();
         }
+        mAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mStockQuantity.getText().toString().equals("0")) {
+                    Dialog dialogbal = new Dialog(ItemOpeningStockActivity.this);
+                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                    dialogbal.setContentView(R.layout.dialog_add_item_code);
+                    dialogbal.setCancelable(true);
+                    LinearLayout mClose = (LinearLayout) dialogbal.findViewById(R.id.close);
+                    LinearLayout mSubmit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                    EditText mSerialNumber = (EditText) dialogbal.findViewById(R.id.serial);
+                    mClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogbal.dismiss();
+                        }
+                    });
+                    mSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (!mSerialNumber.getText().toString().equals("")) {
+                                String listString = "";
+                                int qty = Integer.parseInt(mStockQuantity.getText().toString());
+                                if (qty > appUser.stock_serial_arr.size()) {
+                                    // mScannerView.stopCamera();
+                                    if (appUser.stock_serial_arr.contains(mSerialNumber.getText().toString())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                                        Toast.makeText(ItemOpeningStockActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        appUser.stock_serial_arr.add(mSerialNumber.getText().toString());
+                                        appUser.stock_item_serail_arr.add(mSerialNumber.getText().toString());
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        for (String s : appUser.stock_item_serail_arr) {
+                                            listString += s + ",";
+                                        }
+                                        Preferences.getInstance(getApplication()).setStockSerial(listString);
+                                        mSr_no.setText(listString);
+                                        mSerialNumber.setText("");
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext()," Quantity is less.",Toast.LENGTH_LONG).show();
+                                    dialogbal.dismiss();
+                                }
+
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Enter Serial number",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    dialogbal.show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                }
+            }
+
+        });
+
+        mScanItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mStockQuantity.getText().toString().equals("0")) {
+                    mMainLayout.setVisibility(View.GONE);
+                    mScanLayout.setVisibility(View.VISIBLE);
+                    mScannerView.setResultHandler(ItemOpeningStockActivity.this);
+                    scanning_content_frame.addView(mScannerView);
+                    mScannerView.startCamera();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mScannerView.stopCamera();
+                scanning_content_frame.removeView(mScannerView);
+                mMainLayout.setVisibility(View.VISIBLE);
+                mScanLayout.setVisibility(View.GONE);
+             /*   if (appUser.serial_arr.size() > 0) {
+                    String listString="";
+                for (String s : appUser.serial_arr) {
+                    listString += s + ",";
+                }
+                mSr_no.setText(listString);*/
+                // }
+            }
+        });
+
         if(batchwise!=null||serailwise!=null) {
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,7 +270,12 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
                             pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                             pairs[l].setTextSize(18);
                             if (appUser.stock_serial_arr.size() > 0) {
-                                pairs[l].setText(appUser.stock_serial_arr.get(l));
+                                if(appUser.stock_serial_arr.size()>l) {
+                                    pairs[l].setText(appUser.stock_serial_arr.get(l));
+                                }
+                                else{
+                                    pairs[l].setText("");
+                                }
                             }
                             pairs[l].setHint("Enter Serial Number" + " " + (l + 1));
                             pairs[l].setHintTextColor(Color.GRAY);
@@ -203,16 +321,26 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
                               //  appUser.stock_serial_arr.add("3");
                                 Preferences.getInstance(getApplicationContext()).setSerial("");
                                 appUser.stock_serial_arr.clear();
+                               // appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
-                                    if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
-                                        pairs[i].setText("");
-                                        appUser.stock_serial_arr.add(i, "");
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    } else {
-                                        appUser.stock_serial_arr.add(i, pairs[i].getText().toString());
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    }
+                                        if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
+                                            pairs[i].setText("");
+                                            appUser.stock_serial_arr.add(i, "");
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            if (!pairs[i].getText().toString().equals("")) {
+                                                appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            } else {
+                                                appUser.stock_serial_arr.add(i, "");
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+
+                                            }
+                                        }
                                 }
                                 Preferences.getInstance(getApplicationContext()).setStockSerial("");
                                 appUser.stock_item_serail_arr.clear();
@@ -225,6 +353,13 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
 
 
                                     }
+                                }
+
+                                appUser.stock_serial_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                for(int i=0;i<appUser.stock_item_serail_arr.size();i++){
+                                    appUser.stock_serial_arr.add(appUser.stock_item_serail_arr.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 }
 
 
@@ -364,5 +499,46 @@ public class ItemOpeningStockActivity extends AppCompatActivity {
         }
 
         return height;
+    }
+
+    @Override
+    public void handleResult(Result result) {
+        if (!result.getContents().equals("")) {
+            String listString="";
+            int qty=Integer.parseInt( mStockQuantity.getText().toString());
+            if (qty>appUser.stock_serial_arr.size()) {
+                // mScannerView.stopCamera();
+                if (appUser.stock_serial_arr.contains(result.getContents())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                    Toast.makeText(ItemOpeningStockActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                } else {
+                    appUser.stock_serial_arr.add(result.getContents());
+                    appUser.stock_item_serail_arr.add(result.getContents());
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    for (String s : appUser.stock_item_serail_arr) {
+                        listString += s + ",";
+                    }
+                    Preferences.getInstance(getApplication()).setStockSerial(listString);
+                    mSr_no.setText(listString);
+                }
+
+                mScannerView.stopCamera();
+                scanning_content_frame.removeView(mScannerView);
+                mScannerView.setResultHandler(ItemOpeningStockActivity.this);
+                scanning_content_frame.addView(mScannerView);
+                mScannerView.startCamera();
+
+
+            }
+            else{
+                Toast.makeText(ItemOpeningStockActivity.this,"Item quantity is less", Toast.LENGTH_SHORT).show();
+                mScannerView.stopCamera();
+                scanning_content_frame.removeView(mScannerView);
+                mMainLayout.setVisibility(View.VISIBLE);
+                mScanLayout.setVisibility(View.GONE);
+            }
+        }
+
     }
 }

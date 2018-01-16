@@ -108,7 +108,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         context = this;
-
         mItemName.setText(appUser.item_name);
         mHsnNumber.setText(appUser.item_hsn_number);
         mItemGroup.setText(appUser.item_group_name);
