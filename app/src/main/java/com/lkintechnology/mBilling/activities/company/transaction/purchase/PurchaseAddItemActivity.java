@@ -457,7 +457,12 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                         pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                         pairs[l].setTextSize(18);
                         if(appUser.serial_arr.size()>0) {
-                            pairs[l].setText(appUser.serial_arr.get(l));
+                            if(appUser.serial_arr.size()>l) {
+                                pairs[l].setText(appUser.serial_arr.get(l));
+                            }
+                            else{
+                                pairs[l].setText("");
+                            }
                         }
                         pairs[l].setHint("Enter Serial Number"+" "+(l+1));
                         pairs[l].setHintTextColor(Color.GRAY);
