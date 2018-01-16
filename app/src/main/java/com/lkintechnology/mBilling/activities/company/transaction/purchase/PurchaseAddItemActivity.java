@@ -325,11 +325,65 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
 
             }
         }
+
         mAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!mQuantity.getText().toString().equals("")) {
+                    Dialog dialogbal = new Dialog(PurchaseAddItemActivity.this);
+                    dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                    dialogbal.setContentView(R.layout.dialog_add_item_code);
+                    dialogbal.setCancelable(true);
+                    LinearLayout mClose = (LinearLayout) dialogbal.findViewById(R.id.close);
+                    LinearLayout mSubmit = (LinearLayout) dialogbal.findViewById(R.id.submit);
+                    EditText mSerialNumber = (EditText) dialogbal.findViewById(R.id.serial);
+                    mClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogbal.dismiss();
+                        }
+                    });
+                    mSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (!mSerialNumber.getText().toString().equals("")) {
+                                String listString = "";
+                                int qty = Integer.parseInt(mQuantity.getText().toString());
+                                if (qty > appUser.serial_arr.size()) {
+                                    // mScannerView.stopCamera();
+                                    if (appUser.serial_arr.contains(mSerialNumber.getText().toString())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                                        Toast.makeText(PurchaseAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        appUser.serial_arr.add(mSerialNumber.getText().toString());
+                                        appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        for (String s : appUser.purchase_item_serail_arr) {
+                                            listString += s + ",";
+                                        }
+                                        mSr_no.setText(listString);
+                                        mSerialNumber.setText("");
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext()," Quantity is less.",Toast.LENGTH_LONG).show();
+                                    dialogbal.dismiss();
+                                }
 
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Enter Serial number",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    dialogbal.show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                }
             }
+
         });
 
         mScanItem.setOnClickListener(new View.OnClickListener() {
@@ -446,27 +500,31 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                         @Override
                         public void onClick(View view) {
                             appUser.serial_arr.clear();
+                            appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                            for(int i=0;i<Integer.parseInt(serial);i++){
-                                if(appUser.serial_arr.contains(pairs[i].getText().toString())){
-                                    pairs[i].setText("");
-                                    appUser.serial_arr.add(i,"");
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                }
-                                else{
-                                    appUser.serial_arr.add(i,pairs[i].getText().toString());
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            for(int i=0;i<Integer.parseInt(serial);i++) {
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
+                                       /* pairs[i].setText("");
+                                        appUser.serial_arr.add(i, "");
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+                                        Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        appUser.serial_arr.add(i, pairs[i].getText().toString());
+                                        appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    }
                                 }
                             }
-                            appUser.purchase_item_serail_arr.clear();
+                        /*    appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             for(int i=0;i<appUser.serial_arr.size();i++){
                                 if(!appUser.serial_arr.get(i).equals("")){
-                                    appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
+
                                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                                 }
-                            }
+                            }*/
 
 
                             String listString = "";
@@ -596,6 +654,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.i("ARRAY"+appUser.purchase_item_serail_arr);
                 mSubmit.startAnimation(blinkOnClick);
                 if (mQuantity.getText().toString().equals("0")|mQuantity.getText().toString().equals("")){
                     Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
@@ -734,6 +793,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(count==0){
+                    mSr_no.setText("");
                     appUser.serial_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 }
@@ -906,7 +966,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                     appUser.serial_arr.add(result.getContents());
                     appUser.purchase_item_serail_arr.add(result.getContents());
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    for (String s : appUser.serial_arr) {
+                    for (String s : appUser.purchase_item_serail_arr) {
                         listString += s + ",";
                     }
                     mSr_no.setText(listString);
