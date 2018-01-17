@@ -7,31 +7,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+
+import timber.log.Timber;
 
 public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
-    public static List<String> listDataChildId = new ArrayList<>();
+    public static List<String> listData ;
+//    public static List<String> listData2 = new ArrayList<>();
+
+    private HashMap<Integer, boolean[]> mChildCheckStates;
+    private ChildViewHolder childViewHolder;
+    private GroupViewHolder groupViewHolder;
+    private String groupText;
+    private String childText;
+
     AppUser appuser;
+    Boolean flag=true;
 
     public DefaultItemsExpandableListAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
         this._listDataChild=_listDataChild;
+        mChildCheckStates = new HashMap<Integer, boolean[]>();
+        listData = new ArrayList<>();
     }
 
     @Override
@@ -58,25 +73,27 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_group_sync_with_items, null);
+            convertView = infalInflater.inflate(R.layout.list_group_default_items, null);
+
+            groupViewHolder = new GroupViewHolder();
+
+            groupViewHolder.lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader1);
+
+            convertView.setTag(groupViewHolder);
+        }else {
+
+            groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
 
-        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader1);
+        groupViewHolder.lblListHeader.setTypeface(null, Typeface.BOLD);
+        groupViewHolder.lblListHeader.setText(headerTitle);
 
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
-
-       /* TextView lblListAmount = (TextView) convertView.findViewById(R.id.lblListHeader2);
-        TextView lblListQuantity = (TextView) convertView.findViewById(R.id.lblListHeader3);
-        lblListAmount.setText("₹ " + ""+String.format("%.2f",addAmount.get(groupPosition)));
-        lblListQuantity.setText("qty: " + ""+addQuantity.get(groupPosition));*/
-
-        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
+        groupViewHolder.imageview=(ImageView)convertView.findViewById(R.id.image);
         if(isExpanded){
-            imageview.setImageResource(R.drawable.up_arrow);
+            groupViewHolder.imageview.setImageResource(R.drawable.up_arrow);
         }
         else{
-            imageview.setImageResource(R.drawable.down_arrow);
+            groupViewHolder.imageview.setImageResource(R.drawable.down_arrow);
         }
 
         return convertView;
@@ -102,47 +119,84 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
+        final int mGroupPosition = groupPosition;
+        final int mChildPosition = childPosition;
+
         final String nameAmount = (String) getChild(groupPosition, childPosition);
         String[] strArr=nameAmount.split(",");
         String name = strArr[0];
-       // String undefined=strArr[1];
         String childId = strArr[1];
         appuser = LocalRepositories.getAppUser(context);
 
+        //childText = getChild(mGroupPosition, mChildPosition).getChildText();
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item_sync_with_items,null);
+            convertView = layoutInflater.inflate(R.layout.list_item_default_items,null);
+            childViewHolder = new ChildViewHolder();
+
+            childViewHolder.lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
+            childViewHolder.chkBox1 = (CheckBox) convertView.findViewById(R.id.checkbox1);
+
+            convertView.setTag(R.layout.list_item_default_items, childViewHolder);
+        } else {
+
+            childViewHolder = (ChildViewHolder) convertView
+                    .getTag(R.layout.list_item_default_items);
         }
-        TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
-        CheckBox chkBox1 = (CheckBox) convertView.findViewById(R.id.checkbox1);
+        childViewHolder.lblListItem1.setTypeface(null, Typeface.BOLD);
+        childViewHolder.lblListItem1.setText(name);
 
-        lblListItem1.setTypeface(null, Typeface.BOLD);
-        lblListItem1.setText(name);
 
-        chkBox1.setOnClickListener(new View.OnClickListener() {
+//        childViewHolder.chkBox1.setOnCheckedChangeListener(null);
+
+        if (mChildCheckStates.containsKey(mGroupPosition)) {
+            boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+            childViewHolder.chkBox1.setChecked(getChecked[mChildPosition]);
+
+        } else {
+
+            boolean getChecked[] = new boolean[getChildrenCount(mGroupPosition)];
+            mChildCheckStates.put(mGroupPosition, getChecked);
+            childViewHolder.chkBox1.setChecked(false);
+        }
+
+        childViewHolder.chkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
-            public void onClick(View v) {
-                //appuser.listDataChildId=new ArrayList<String>();
-                if(chkBox1.isChecked()){
-                    listDataChildId.add(childId);
-                }else {
-                    for(int i=0;i<listDataChildId.size();i++){
-                        if(listDataChildId.get(i)==childId){
-                            listDataChildId.remove(childId);
-                        }
-                    }
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = isChecked;
+                    mChildCheckStates.put(mGroupPosition, getChecked);
+                    listData.add(childId);
+                  //  Timber.i("ssssssssssssssssssssssssssssssssssssss"+listData);
+
+                } else {
+
+                    boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = isChecked;
+                    mChildCheckStates.put(mGroupPosition, getChecked);
+                    listData.remove(childId);
                 }
             }
         });
 
-       /* if (undefined.equals("true")) {
-            delete.setVisibility(View.VISIBLE);
-            edit.setVisibility(View.VISIBLE);
-        } else {
-            delete.setVisibility(View.GONE);
-            edit.setVisibility(View.GONE);
-        }*/
+       /* childViewHolder.chkBox1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(childViewHolder.chkBox1.isChecked()){
+                    listData.add(childId);
+                }else {
+                        listData.remove(childId);
+
+                    }
+                Timber.i("aaaaaaaa" +listData);
+            }
+        });*/
+
 
         return convertView;
     }
@@ -156,5 +210,17 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
     public boolean isChildSelectable(int groupPosition, int childPosition) {
 
         return true;
+    }
+
+    public final class GroupViewHolder {
+
+        TextView lblListHeader;
+        ImageView imageview;
+    }
+
+    public final class ChildViewHolder {
+
+        TextView lblListItem1;
+        CheckBox chkBox1;
     }
 }

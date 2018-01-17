@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreateBillSundry;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateCompany;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateCreditNote;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateDebitNote;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateDefaultItems;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateEXpence;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateIncome;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateJournalVoucher;
@@ -40,6 +41,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumbe
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 
+import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
@@ -611,6 +613,9 @@ public interface Api {
     @GET("default_items")
     Call<GetDefaultItemsResponse> getDefaultItems();
 
+    @POST("create_default_items")
+    Call<CreateDefaultItemsResponse> createDefaultItems(@Body RequestCreateDefaultItems payload);
+
     @GET("sale_voucher/{id}")
     Call<GetSaleVoucherDetails> getSaleVoucherDetails(@Path("id") String id);
 
@@ -622,4 +627,5 @@ public interface Api {
 
     @GET("sale_return_voucher/{id}")
     Call<GetSaleReturnVoucherDetails> getSaleReturnVoucherDetails(@Path("id") String id);
+
 }

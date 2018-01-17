@@ -19,6 +19,7 @@ import android.widget.Spinner;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.EditCompanyActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CreateCompanyResponse;
@@ -97,9 +98,9 @@ public class CompanyDetailsFragment extends Fragment {
                 R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.state));
         spinnerStateAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mStateSpinner.setAdapter(spinnerStateAdapter);
-        Timber.i("INDUSTRY"+appUser.industry_type);
+        //Timber.i("INDUSTRY"+appUser.industry_type);
         spinnerAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.layout_trademark_type_spinner_dropdown_item,appUser.industry_type);
+                R.layout.layout_trademark_type_spinner_dropdown_item,EditCompanyActivity.industry_type);
         spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mIndustrySpinner.setAdapter(spinnerAdapter);
 
@@ -112,8 +113,8 @@ public class CompanyDetailsFragment extends Fragment {
         if(!Preferences.getInstance(getActivity()).getCindustrytype().equals("")) {
             String industryname = Preferences.getInstance(getActivity()).getCindustrytype().trim();// insert code here
             int index = -1;
-            for (int i = 0; i < appUser.industry_type.size(); i++) {
-                if (appUser.industry_type.get(i).equals(industryname)) {
+            for (int i = 0; i </* appUser.industry_type*/EditCompanyActivity.industry_type.size(); i++) {
+                if (/*appUser.industry_type*/EditCompanyActivity.industry_type.get(i).equals(industryname)) {
                     index = i;
                     break;
                 }
@@ -170,7 +171,7 @@ public class CompanyDetailsFragment extends Fragment {
                             appUser.address=mAddress.getText().toString();
                            // appUser.country=mCountrySpinner.getSelectedItem().toString();
                             appUser.state=mStateSpinner.getSelectedItem().toString();
-                            appUser.industryId= String.valueOf(appUser.industry_id.get(pos));
+                            appUser.industryId= String.valueOf(EditCompanyActivity.industry_id.get(pos));
                             appUser.city=mCity.getText().toString();
                             appUser.ward=mWard.getText().toString();
                             LocalRepositories.saveAppUser(getActivity(),appUser);

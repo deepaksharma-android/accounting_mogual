@@ -1,12 +1,13 @@
 package com.lkintechnology.mBilling.activities.company;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -18,21 +19,19 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
+import com.lkintechnology.mBilling.activities.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.adapters.DefaultItemsExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
-
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -67,7 +66,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            //LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_DEFAULT_ITEMS);
         } else {
             snackbar = Snackbar
@@ -87,14 +86,33 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         addSelectedItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /// Toast.makeText(DefaultItemsExpandableListActivity.this, "Selected : "+ DefaultItemsExpandableListAdapter.listDataChildId.size(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DefaultItemsExpandableListActivity.this, "Selected : "+ DefaultItemsExpandableListAdapter.listData.size(), Toast.LENGTH_SHORT).show();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(DefaultItemsExpandableListActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_DEFAULT_ITEMS);
+                } else {
+                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+                    snackbar.show();
+                }
             }
         });
     }
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_sync_with_items_expandable_list;
+        return R.layout.activity_default_items_expandable_list;
     }
 
     private void initActionbar() {
@@ -118,29 +136,11 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         actionBar.setHomeButtonEnabled(true);
     }
 
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-
-        EventBus.getDefault().register(this);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                DefaultItemsExpandableListAdapter.listDataChildId.clear();
+                //DefaultItemsExpandableListAdapter.listData.clear();
                 finish();
                 return true;
             default:
@@ -150,7 +150,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
 
     @Override
     public void onBackPressed() {
-        DefaultItemsExpandableListAdapter.listDataChildId.clear();
+        //DefaultItemsExpandableListAdapter.listData.clear();
         finish();
     }
 
@@ -160,8 +160,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
-            // listDataChildAmount = new HashMap<Integer, List<String>>();
-            listDataChildId = new HashMap<Integer, List<Integer>>();
+           // listDataChildId = new HashMap<Integer, List<Integer>>();
             if (response.getDefault_item_group().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
@@ -184,6 +183,23 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void createDefaultItemsResponse(CreateDefaultItemsResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            DefaultItemsExpandableListAdapter.listData.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+            Intent intent = new Intent(DefaultItemsExpandableListActivity.this,CompanyDashboardActivity.class);
+            startActivity(intent);
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            mProgressDialog.dismiss();
         }
     }
 }

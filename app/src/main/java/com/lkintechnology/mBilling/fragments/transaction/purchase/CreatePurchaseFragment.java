@@ -576,7 +576,6 @@ public class CreatePurchaseFragment extends Fragment {
                     Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
-
                 }
                 else {
                     String result = data.getStringExtra("name");

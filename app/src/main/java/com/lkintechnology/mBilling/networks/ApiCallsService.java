@@ -22,6 +22,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreateBillSundry;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateCompany;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateCreditNote;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateDebitNote;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateDefaultItems;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateEXpence;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateIncome;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateJournalVoucher;
@@ -44,6 +45,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestResendOtp;
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumber;
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
+import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -493,15 +495,18 @@ public class ApiCallsService extends IntentService {
             handleVersion();
         }else if(Cv.ACTION_GET_DEFAULT_ITEMS.equals(action)){
             handleGetDefaultItems();
-        }else if(Cv.ACTION_GET_SALE_VOUCHER_DETAILS.equals(action)){
+        }else if(Cv.ACTION_CREATE_DEFAULT_ITEMS.equals(action)){
+            handleCreateDefaultItems();
+        } else if(Cv.ACTION_GET_SALE_VOUCHER_DETAILS.equals(action)){
             handleGetSaleVoucherDetails();
         }else if(Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS.equals(action)){
             handleGetSaleReturnVoucherDetails();
         }else if(Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS.equals(action)){
             handleGetPurchaseVoucherDetails();
-        }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)){
-            handleGetPurchaseReturnVoucherDetails();
-        }
+        }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
+        handleGetPurchaseReturnVoucherDetails();
+    }
+
     }
 
     private void handleGetItemGroupDetails() {
@@ -3941,9 +3946,30 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
-
             @Override
             public void onFailure(Call<GetSaleVoucherDetails> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleCreateDefaultItems() {
+        api.createDefaultItems(new RequestCreateDefaultItems(this)).enqueue(new Callback<CreateDefaultItemsResponse>() {
+            @Override
+            public void onResponse(Call<CreateDefaultItemsResponse> call, Response<CreateDefaultItemsResponse> r) {
+                if (r.code() == 200) {
+                    CreateDefaultItemsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateDefaultItemsResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

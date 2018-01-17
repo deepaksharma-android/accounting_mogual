@@ -23,9 +23,5 @@ public class RequestCompanyLogin {
         if(!appUser.companyUserPassword.equals("••••••••")) {
             company.put("password", appUser.companyUserPassword);
         }
-
-
-
-
     }
 }
