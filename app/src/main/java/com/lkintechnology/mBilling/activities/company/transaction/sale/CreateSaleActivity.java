@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.activities.company.transaction.sale;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,12 +28,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
+import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +60,8 @@ public class CreateSaleActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
+    String title;
+   public static boolean fromsalelist;
 
 
     @Override
@@ -59,7 +69,15 @@ public class CreateSaleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_sale);
         ButterKnife.bind(this);
+        fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         appUser= LocalRepositories.getAppUser(this);
+        title="CREATE SALE VOUCHER";
+        if(fromsalelist){
+            title="EDIT SALE VOUCHER";
+
+
+        }
+
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
@@ -74,28 +92,7 @@ public class CreateSaleActivity extends AppCompatActivity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
-        //Boolean isConnected = ConnectivityReceiver.isConnected();
-        /*if (isConnected) {
-            mProgressDialog = new ProgressDialog(CreateSaleActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }*/
+
 
     }
 
@@ -117,7 +114,7 @@ public class CreateSaleActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE SALE VOUCHER");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -208,6 +205,7 @@ public class CreateSaleActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
     }
+
 
 
 

@@ -186,7 +186,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.mListMapForItemSale.clear();
                 appUser.mListMapForBillSale.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                context.startActivity(new Intent(context, CreateSaleActivity.class));
+                Intent intent=new Intent(getApplicationContext(),CreateSaleActivity.class);
+                intent.putExtra("fromsalelist",false);
+                startActivity(intent);
+              //  context.startActivity(new Intent(context, CreateSaleActivity.class));
                /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 

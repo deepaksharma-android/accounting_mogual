@@ -139,6 +139,7 @@ import com.lkintechnology.mBilling.networks.api_response.purchasetype.GetPurchas
 import com.lkintechnology.mBilling.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.saletype.GetSaleTypeResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
@@ -606,4 +607,7 @@ public interface Api {
 
     @GET("default_items")
     Call<GetDefaultItemsResponse> getDefaultItems();
+
+    @GET("sale_voucher/{id}")
+    Call<GetSaleVoucherDetails> getSaleVoucherDetails(@Path("id") String id);
 }

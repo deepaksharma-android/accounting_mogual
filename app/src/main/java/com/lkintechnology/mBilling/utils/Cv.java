@@ -165,6 +165,7 @@ public interface Cv {
     String  ACTION_DELETE_PURCHASE_VOUCHER="action_delete_purchase_voucher";
     String  ACTION_GET_PDC="action_get_pdc";
     String ACTION_GET_DEFAULT_ITEMS = "action_get_default_items";
+    String ACTION_GET_SALE_VOUCHER_DETAILS = "action_get_sale_voucher_details";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;

@@ -45,10 +45,12 @@ import com.lkintechnology.mBilling.activities.company.administration.master.mate
 import com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -116,6 +118,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     public String party_id = "";
     WebView mPdf_webview;
     Bitmap photo;
+    Boolean fromsalelist;
 
     @Override
     public void onStart() {
@@ -133,29 +136,53 @@ public class CreateSaleVoucherFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Sales";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
+        if (CreateSaleActivity.fromsalelist) {
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getActivity(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
                             }
-                        }
-                    });
-            snackbar.show();
+                        });
+                snackbar.show();
+            }
+        } else {
+
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
         }
 
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -241,7 +268,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent intent = new Intent(getContext(), ExpandableAccountListActivity.class);
                 //intent.putExtra("bool",true);
                 startActivityForResult(intent, 3);
@@ -261,9 +288,9 @@ public class CreateSaleVoucherFragment extends Fragment {
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",encodedString);
-                intent.putExtra("booleAttachment",false);
+                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                intent.putExtra("encodedString", encodedString);
+                intent.putExtra("booleAttachment", false);
                 startActivity(intent);
             }
         });
@@ -302,7 +329,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                appUser=LocalRepositories.getAppUser(getActivity());
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemSale.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
@@ -389,6 +416,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
                                     mProgressDialog = new ProgressDialog(getActivity());
                                     mProgressDialog.setMessage("Info...");
@@ -440,6 +468,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
     private void startDialog() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
@@ -473,68 +502,68 @@ public class CreateSaleVoucherFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            photo = null;
-            switch (requestCode) {
-                case Cv.REQUEST_CAMERA:
-                    photo = (Bitmap) data.getExtras().get("data");
+        photo = null;
+        switch (requestCode) {
+            case Cv.REQUEST_CAMERA:
+                photo = (Bitmap) data.getExtras().get("data");
+                encodedString = Helpers.bitmapToBase64(photo);
+                mSelectedImage.setVisibility(View.VISIBLE);
+                mSelectedImage.setImageBitmap(photo);
+                break;
+
+            case Cv.REQUEST_GALLERY:
+
+                try {
+                    photo = MediaStore.Images.Thumbnails.getThumbnail(getActivity().getContentResolver(),
+                            ContentUris.parseId(data.getData()),
+                            MediaStore.Images.Thumbnails.MINI_KIND, null);
                     encodedString = Helpers.bitmapToBase64(photo);
                     mSelectedImage.setVisibility(View.VISIBLE);
                     mSelectedImage.setImageBitmap(photo);
                     break;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
 
-                case Cv.REQUEST_GALLERY:
-
-                    try {
-                        photo = MediaStore.Images.Thumbnails.getThumbnail(getActivity().getContentResolver(),
-                                ContentUris.parseId(data.getData()),
-                                MediaStore.Images.Thumbnails.MINI_KIND, null);
-                        encodedString = Helpers.bitmapToBase64(photo);
-                        mSelectedImage.setVisibility(View.VISIBLE);
-                        mSelectedImage.setImageBitmap(photo);
-                        break;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                boolForStore = true;
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.sale_store = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
+                mStore.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore(name[0]);
+                Preferences.getInstance(getContext()).setStoreId(id);
+                return;
             }
-
-            if (requestCode == 1) {
-                if (resultCode == Activity.RESULT_OK) {
-                    boolForStore = true;
-                    String result = data.getStringExtra("name");
-                    String id = data.getStringExtra("id");
-                    appUser.sale_store = String.valueOf(id);
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    String[] name = result.split(",");
-                    // Toast.makeText(getContext(), "startActivityForResult 2", Toast.LENGTH_SHORT).show();
-                    mStore.setText(name[0]);
-                    Preferences.getInstance(getContext()).setStore(name[0]);
-                    Preferences.getInstance(getContext()).setStoreId(id);
-                    return;
-                }
-                if (resultCode == Activity.RESULT_CANCELED) {
-                    //Write your code if there's no result
-                    //mItemGroup.setText("");
-                }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                //mItemGroup.setText("");
             }
-            if (requestCode == 2) {
-                if (resultCode == Activity.RESULT_OK) {
-                    String result = data.getStringExtra("name");
-                    String id = data.getStringExtra("id");
-                    appUser.sale_saleType = String.valueOf(id);
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    mSaleType.setText(result);
+        }
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.sale_saleType = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mSaleType.setText(result);
 
-                    // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
-                    Preferences.getInstance(getContext()).setSale_type_name(result);
-                    Preferences.getInstance(getContext()).setSale_type_id(id);
-                    appUser.sale_type_name = result;
-                    LocalRepositories.saveAppUser(getActivity(), appUser);
-                }
-                if (resultCode == Activity.RESULT_CANCELED) {
-                    //Write your code if there's no result
-                    //mItemGroup.setText("");
-                }
+                // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
+                Preferences.getInstance(getContext()).setSale_type_name(result);
+                Preferences.getInstance(getContext()).setSale_type_id(id);
+                appUser.sale_type_name = result;
+                LocalRepositories.saveAppUser(getActivity(), appUser);
             }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                //mItemGroup.setText("");
+            }
+        }
 
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
@@ -770,6 +799,20 @@ public class CreateSaleVoucherFragment extends Fragment {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
+
+    }
+
+    @Subscribe
+    public void getSaleVoucherDetails(GetSaleVoucherDetails response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+
+        }
+        else{
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
     }
 }

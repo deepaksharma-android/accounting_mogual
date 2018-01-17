@@ -148,6 +148,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleV
 import com.lkintechnology.mBilling.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.saletype.GetSaleTypeResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
@@ -489,6 +490,8 @@ public class ApiCallsService extends IntentService {
             handleVersion();
         }else if(Cv.ACTION_GET_DEFAULT_ITEMS.equals(action)){
             handleGetDefaultItems();
+        }else if(Cv.ACTION_GET_SALE_VOUCHER_DETAILS.equals(action)){
+            handleGetSaleVoucherDetails();
         }
     }
 
@@ -3908,6 +3911,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetDefaultItemsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetSaleVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getSaleVoucherDetails(appUser.edit_sale_voucher_id).enqueue(new Callback<GetSaleVoucherDetails>() {
+            @Override
+            public void onResponse(Call<GetSaleVoucherDetails> call, Response<GetSaleVoucherDetails> r) {
+                if (r.code() == 200) {
+                    GetSaleVoucherDetails body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleVoucherDetails> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
