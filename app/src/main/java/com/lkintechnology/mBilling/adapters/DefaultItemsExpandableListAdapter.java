@@ -9,7 +9,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -58,7 +57,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_group_sync_with_items, null);
+            convertView = infalInflater.inflate(R.layout.list_group_default_items, null);
         }
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader1);
@@ -112,7 +111,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item_sync_with_items,null);
+            convertView = layoutInflater.inflate(R.layout.list_item_default_items,null);
         }
         TextView lblListItem1 = (TextView) convertView.findViewById(R.id.lblListItem1);
         CheckBox chkBox1 = (CheckBox) convertView.findViewById(R.id.checkbox1);
