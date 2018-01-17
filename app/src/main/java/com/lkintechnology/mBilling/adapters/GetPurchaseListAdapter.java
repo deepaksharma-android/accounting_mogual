@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
@@ -85,10 +86,14 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
         viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        Intent intent = new Intent(context, ImageOpenActivity.class);
-        intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
-        intent.putExtra("booleAttachment",true);
-        context.startActivity(intent);
+                if(!data.get(position).getAttributes().getAttachment().equals("")){
+                    Intent intent = new Intent(context, ImageOpenActivity.class);
+                    intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
+                    intent.putExtra("booleAttachment",true);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

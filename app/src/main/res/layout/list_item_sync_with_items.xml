@@ -19,18 +19,6 @@
             android:layout_marginLeft="10dp"
             style="@style/Gotham_Book"
             android:layout_weight="0.9"/>
-
-        <!--<com.lkintechnology.mBilling.utils.BuzzTextView
-            android:id="@+id/lblListItem2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            style="@style/Gotham_Book"
-            android:layout_weight="0.2"
-            />-->
         <CheckBox
             android:id="@+id/checkbox1"
             android:layout_width="0dp"

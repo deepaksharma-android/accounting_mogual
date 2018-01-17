@@ -118,24 +118,6 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         actionBar.setHomeButtonEnabled(true);
     }
 
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-
-        EventBus.getDefault().register(this);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
