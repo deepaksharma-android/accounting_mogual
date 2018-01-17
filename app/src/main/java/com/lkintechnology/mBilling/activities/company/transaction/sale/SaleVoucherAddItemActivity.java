@@ -367,7 +367,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                             listString += s + ",";
                                         }
                                         mSr_no.setText(listString);
+                                        Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
                                         mSerialNumber.setText("");
+
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
@@ -992,6 +994,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         listString += s + ",";
                     }
                     mSr_no.setText(listString);
+                    Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                 }
 
                 mScannerView.stopCamera();

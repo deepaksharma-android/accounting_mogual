@@ -74,8 +74,6 @@ public class CreateSaleActivity extends AppCompatActivity {
         title="CREATE SALE VOUCHER";
         if(fromsalelist){
             title="EDIT SALE VOUCHER";
-
-
         }
 
         initActionbar();

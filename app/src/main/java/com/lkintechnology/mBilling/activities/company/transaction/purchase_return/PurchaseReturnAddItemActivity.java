@@ -377,6 +377,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                                             listString += s + ",";
                                         }
                                         mSr_no.setText(listString);
+                                        Toast.makeText(PurchaseReturnAddItemActivity.this, mSerialNumber.getText() + "added successfully", Toast.LENGTH_SHORT).show();
                                         mSerialNumber.setText("");
                                     }
                                 } else {
@@ -967,6 +968,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                         listString += s + ",";
                     }
                     mSr_no.setText(listString);
+                    Toast.makeText(PurchaseReturnAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                 }
 
                 mScannerView.stopCamera();

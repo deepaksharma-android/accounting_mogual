@@ -363,6 +363,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                                             listString += s + ",";
                                         }
                                         mSr_no.setText(listString);
+                                        Toast.makeText(PurchaseAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
                                         mSerialNumber.setText("");
                                     }
                                 }
@@ -989,6 +990,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                         listString += s + ",";
                     }
                     mSr_no.setText(listString);
+                    Toast.makeText(PurchaseAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                 }
 
                 mScannerView.stopCamera();

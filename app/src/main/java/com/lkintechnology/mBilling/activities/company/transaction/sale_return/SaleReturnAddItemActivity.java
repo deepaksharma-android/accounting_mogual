@@ -352,6 +352,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                                             listString += s + ",";
                                         }
                                         mSr_no.setText(listString);
+                                        Toast.makeText(SaleReturnAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
                                         mSerialNumber.setText("");
                                     }
                                 }
@@ -948,6 +949,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                         listString += s + ",";
                     }
                     mSr_no.setText(listString);
+                    Toast.makeText(SaleReturnAddItemActivity.this,result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                 }
 
                 mScannerView.stopCamera();
