@@ -82,7 +82,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         addSelectedItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DefaultItemsExpandableListActivity.this, "Selected : "+ DefaultItemsExpandableListAdapter.listDataChildId.size(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DefaultItemsExpandableListActivity.this, "Selected : "+ DefaultItemsExpandableListAdapter.listData.size(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -117,7 +117,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                DefaultItemsExpandableListAdapter.listDataChildId.clear();
+                DefaultItemsExpandableListAdapter.listData.clear();
                 finish();
                 return true;
             default:
@@ -127,7 +127,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
 
     @Override
     public void onBackPressed() {
-        DefaultItemsExpandableListAdapter.listDataChildId.clear();
+        DefaultItemsExpandableListAdapter.listData.clear();
         finish();
     }
 
