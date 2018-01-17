@@ -1,6 +1,8 @@
 package com.lkintechnology.mBilling.activities.company;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.CoordinatorLayout;
@@ -17,9 +19,11 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
+import com.lkintechnology.mBilling.activities.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.adapters.DefaultItemsExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -83,6 +87,25 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
             @Override
             public void onClick(View v) {
                 //Toast.makeText(DefaultItemsExpandableListActivity.this, "Selected : "+ DefaultItemsExpandableListAdapter.listData.size(), Toast.LENGTH_SHORT).show();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(DefaultItemsExpandableListActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_DEFAULT_ITEMS);
+                } else {
+                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+                    snackbar.show();
+                }
             }
         });
     }
@@ -117,7 +140,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                DefaultItemsExpandableListAdapter.listData.clear();
+                //DefaultItemsExpandableListAdapter.listData.clear();
                 finish();
                 return true;
             default:
@@ -127,7 +150,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
 
     @Override
     public void onBackPressed() {
-        DefaultItemsExpandableListAdapter.listData.clear();
+        //DefaultItemsExpandableListAdapter.listData.clear();
         finish();
     }
 
@@ -160,6 +183,23 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void createDefaultItemsResponse(CreateDefaultItemsResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            DefaultItemsExpandableListAdapter.listData.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+            Intent intent = new Intent(DefaultItemsExpandableListActivity.this,CompanyDashboardActivity.class);
+            startActivity(intent);
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            mProgressDialog.dismiss();
         }
     }
 }
