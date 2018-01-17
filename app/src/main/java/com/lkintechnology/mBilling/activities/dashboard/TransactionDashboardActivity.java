@@ -260,7 +260,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
                 LocalRepositories.saveAppUser(context, appUser);
-                context.startActivity(new Intent(context, CreatePurchaseActivity.class));
+                Intent intent=new Intent(getApplicationContext(),CreatePurchaseActivity.class);
+                intent.putExtra("fromsalelist",false);
+                startActivity(intent);
+               // context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -453,7 +456,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.mListMapForItemSaleReturn.clear();
                 appUser.mListMapForBillSaleReturn.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
+                Intent intent=new Intent(getApplicationContext(),CreateSaleReturnActivity.class);
+                intent.putExtra("fromsalelist",false);
+                startActivity(intent);
+                //context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
 
               /*  final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
@@ -495,7 +501,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+                Intent intent=new Intent(getApplicationContext(),CreatePurchaseReturnActivity.class);
+                intent.putExtra("fromsalelist",false);
+                startActivity(intent);
+              //  context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {

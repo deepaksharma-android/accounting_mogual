@@ -48,6 +48,8 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    String title;
+    public static boolean fromsalelist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,12 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
+        appUser= LocalRepositories.getAppUser(this);
+        title="CREATE SALE RETURN VOUCHER";
+        if(fromsalelist){
+            title="EDIT SALE RETURN VOUCHER";
+        }
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
@@ -90,7 +98,7 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE SALE RETURN VOUCHER");
+        actionbarTitle.setText(title);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

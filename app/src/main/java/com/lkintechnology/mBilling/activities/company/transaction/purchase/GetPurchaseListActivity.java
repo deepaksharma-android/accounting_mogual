@@ -205,6 +205,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity {
             case android.R.id.home:
                 Intent intent = new Intent(this, CreatePurchaseActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromsalelist",false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -217,6 +218,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, CreatePurchaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("fromsalelist",false);
         startActivity(intent);
         finish();
     }

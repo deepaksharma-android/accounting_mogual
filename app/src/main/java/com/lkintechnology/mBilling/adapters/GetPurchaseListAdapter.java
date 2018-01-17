@@ -12,8 +12,12 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.Data;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -92,6 +96,18 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
             }
         });
 
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppUser appUser= LocalRepositories.getAppUser(context);
+                appUser.edit_sale_voucher_id=data.get(position).getId();
+                LocalRepositories.saveAppUser(context,appUser);
+                Intent intent = new Intent(context, CreatePurchaseActivity.class);
+                intent.putExtra("fromsalelist",true);
+                context.startActivity(intent);
+            }
+        });
+
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +146,8 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
         LinearLayout icon_share;
         @Bind(R.id.attachment_layout)
         LinearLayout mAttachment;
+        @Bind(R.id.mainLayout)
+        LinearLayout mMainLayout;
        /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/

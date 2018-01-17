@@ -133,9 +133,11 @@ import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentRespo
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.CreateReceiptVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
@@ -143,6 +145,7 @@ import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.EditRece
 import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.GetReceiptVoucherDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.GetReceiptVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.CreateSaleReturnResponse;
@@ -492,6 +495,12 @@ public class ApiCallsService extends IntentService {
             handleGetDefaultItems();
         }else if(Cv.ACTION_GET_SALE_VOUCHER_DETAILS.equals(action)){
             handleGetSaleVoucherDetails();
+        }else if(Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS.equals(action)){
+            handleGetSaleReturnVoucherDetails();
+        }else if(Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS.equals(action)){
+            handleGetPurchaseVoucherDetails();
+        }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)){
+            handleGetPurchaseReturnVoucherDetails();
         }
     }
 
@@ -3935,6 +3944,78 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetSaleVoucherDetails> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetPurchaseReturnVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getPurchaseReturnVoucherDetails(appUser.edit_sale_voucher_id).enqueue(new Callback<GetPurchaseReturnVoucherDetails>() {
+            @Override
+            public void onResponse(Call<GetPurchaseReturnVoucherDetails> call, Response<GetPurchaseReturnVoucherDetails> r) {
+                if (r.code() == 200) {
+                    GetPurchaseReturnVoucherDetails body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPurchaseReturnVoucherDetails> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetPurchaseVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getPurchaseVoucherDetails(appUser.edit_sale_voucher_id).enqueue(new Callback<GetPurchaseVoucherDetails>() {
+            @Override
+            public void onResponse(Call<GetPurchaseVoucherDetails> call, Response<GetPurchaseVoucherDetails> r) {
+                if (r.code() == 200) {
+                    GetPurchaseVoucherDetails body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPurchaseVoucherDetails> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetSaleReturnVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getSaleReturnVoucherDetails(appUser.edit_sale_voucher_id).enqueue(new Callback<GetSaleReturnVoucherDetails>() {
+            @Override
+            public void onResponse(Call<GetSaleReturnVoucherDetails> call, Response<GetSaleReturnVoucherDetails> r) {
+                if (r.code() == 200) {
+                    GetSaleReturnVoucherDetails body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleReturnVoucherDetails> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.administration.master.account.ExpandableAccountListActivity;
@@ -43,10 +44,15 @@ import com.lkintechnology.mBilling.activities.company.administration.master.mate
 import com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -59,8 +65,10 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -93,6 +101,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
     Button credit;
     @Bind(R.id.submit)
     LinearLayout submit;
+    @Bind(R.id.update)
+    LinearLayout update;
     @Bind(R.id.narration)
     EditText mNarration;
     @Bind(R.id.browse_image)
@@ -128,27 +138,55 @@ public class CreatePurchaseReturnFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Purchase Return";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
+        if (CreatePurchaseReturnActivity.fromsalelist) {
+            submit.setVisibility(View.GONE);
+            update.setVisibility(View.VISIBLE);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getActivity(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
                             }
-                        }
-                    });
-            snackbar.show();
+                        });
+                snackbar.show();
+            }
+        }
+        else {
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
         }
 
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -372,6 +410,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
                                     mProgressDialog = new ProgressDialog(getActivity());
                                     mProgressDialog.setMessage("Info...");
@@ -407,6 +446,128 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 }
 
 
+            }
+        });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appUser=LocalRepositories.getAppUser(getActivity());
+                if(appUser.mListMapForItemPurchaseReturn.size()>0) {
+                    if (!mSeries.getSelectedItem().toString().equals("")) {
+                        if (!mDate.getText().toString().equals("")) {
+                            if (!mVchNumber.getText().toString().equals("")) {
+                                if (!mPurchaseType.getText().toString().equals("")) {
+                                    if (!mStore.getText().toString().equals("")) {
+                                        if (!mPartyName.getText().toString().equals("")) {
+                                          /*  if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
+                                            appUser.purchase_voucher_number = mVchNumber.getText().toString();
+                                            appUser.purchase_mobile_number = mMobileNumber.getText().toString();
+                                            appUser.purchase_narration = mNarration.getText().toString();
+                                            appUser.purchase_return_attachment = encodedString;
+                                            LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            new AlertDialog.Builder(getActivity())
+                                                    .setTitle("Email")
+                                                    .setMessage(R.string.btn_send_email)
+                                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                                        appUser.email_yes_no="true";
+                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        if (isConnected) {
+                                                            mProgressDialog = new ProgressDialog(getActivity());
+                                                            mProgressDialog.setMessage("Info...");
+                                                            mProgressDialog.setIndeterminate(false);
+                                                            mProgressDialog.setCancelable(true);
+                                                            mProgressDialog.show();
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                        }else {
+                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View view) {
+                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                    if (isConnected) {
+                                                                        snackbar.dismiss();
+                                                                    }
+                                                                }
+                                                            });
+                                                            snackbar.show();
+                                                        }
+                                                    })
+                                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+
+                                                        appUser.email_yes_no="false";
+                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        if (isConnected) {
+                                                            mProgressDialog = new ProgressDialog(getActivity());
+                                                            mProgressDialog.setMessage("Info...");
+                                                            mProgressDialog.setIndeterminate(false);
+                                                            mProgressDialog.setCancelable(true);
+                                                            mProgressDialog.show();
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                        }
+                                                        else {
+                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View view) {
+                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                    if (isConnected) {
+                                                                        snackbar.dismiss();
+                                                                    }
+                                                                }
+                                                            });
+                                                            snackbar.show();
+                                                        }
+
+                                                    })
+                                                    .show();
+                                        } else {
+                                            Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(coordinatorLayout, "Please select purchase return type", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    mProgressDialog = new ProgressDialog(getActivity());
+                                    mProgressDialog.setMessage("Info...");
+                                    mProgressDialog.setIndeterminate(false);
+                                    mProgressDialog.setCancelable(true);
+                                    mProgressDialog.show();
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                } else {
+                                    snackbar = Snackbar
+                                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                            .setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                }
+                                            });
+                                    snackbar.show();
+                                }
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
         return view;
@@ -738,6 +899,92 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
+
+    }
+
+    @Subscribe
+    public void getPurchaseReturnVoucherDetails(GetPurchaseReturnVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
+            mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
+            mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_number());
+            mPurchaseType.setText(response.getSale_voucher().getData().getAttributes().getPurchase_return_type());
+            mStore.setText(response.getSale_voucher().getData().getAttributes().getMaterial_center());
+            mPartyName.setText(response.getSale_voucher().getData().getAttributes().getAccount_master());
+            mMobileNumber.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
+            mNarration.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getNarration()));
+            if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
+                mSelectedImage.setVisibility(View.VISIBLE);
+                Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
+            } else {
+                mSelectedImage.setVisibility(View.GONE);
+            }
+            if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0){
+                Map mMap = new HashMap<>();
+                mMap.put("id", "1");
+                mMap.put("item_name","samsung");
+                mMap.put("description", "samsung j7pro");
+                mMap.put("quantity", "2");
+                mMap.put("unit", "sdad");
+                mMap.put("sr_no","dfads");
+                mMap.put("rate", "1200");
+                mMap.put("discount", "0.0");
+                mMap.put("value", "36000");
+                mMap.put("default_unit", "Main Unit");
+                mMap.put("packaging_unit", "");
+                mMap.put("sales_price_alternate", "17000");
+                mMap.put("sales_price_main", "18000");
+                mMap.put("alternate_unit", "Kg");
+                mMap.put("packaging_unit_sales_price", "");
+                mMap.put("main_unit", "Bag");
+                mMap.put("batch_wise", false);
+                mMap.put("serial_wise", true);
+                mMap.put("barcode", "fasfasd");
+                mMap.put("sale_unit", "Bag");
+
+                String taxstring = response.getSale_voucher().getData().getAttributes().getPurchase_return_type();
+                if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
+                    String arrtaxstring[] = taxstring.split("-");
+                    String taxname = arrtaxstring[0].trim();
+                    String taxvalue = arrtaxstring[1].trim();
+                    if (taxvalue.equals("ItemWise")) {
+                        String tax="GST 12%";
+                        String total = "12000";
+                        String arr[] = tax.split(" ");
+                        String itemtax = arr[1];
+                        String taxval[] = itemtax.split("%");
+                        String taxpercent = taxval[0];
+                        double totalamt = Double.parseDouble(total) * (Double.parseDouble(taxpercent) / 100);
+                        totalamt = Double.parseDouble(total) + totalamt;
+                        mMap.put("total", String.valueOf(totalamt));
+                        mMap.put("itemwiseprice", "24000");
+
+                    } else {
+                        mMap.put("total", "24000");
+                    }
+                } else {
+                    mMap.put("total", "24000");
+                }
+
+                mMap.put("applied", "Main Unit");
+                mMap.put("price_selected_unit", "main");
+                mMap.put("alternate_unit_con_factor", "5");
+                mMap.put("packaging_unit_con_factor", "");
+                mMap.put("mrp", "17000");
+                mMap.put("tax", "GST 12%");
+                //   mMap.put("serial_number", appUser.sale_item_serial_arr);
+                // mMap.put("unit_list", mUnitList);
+                appUser.mListMapForItemSale.add(mMap);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
     }
 }

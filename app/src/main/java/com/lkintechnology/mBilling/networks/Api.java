@@ -45,10 +45,13 @@ import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersRespon
 import com.lkintechnology.mBilling.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
@@ -610,4 +613,13 @@ public interface Api {
 
     @GET("sale_voucher/{id}")
     Call<GetSaleVoucherDetails> getSaleVoucherDetails(@Path("id") String id);
+
+    @GET("purchase_voucher/{id}")
+    Call<GetPurchaseVoucherDetails> getPurchaseVoucherDetails(@Path("id") String id);
+
+    @GET("purchase_return_voucher/{id}")
+    Call<GetPurchaseReturnVoucherDetails> getPurchaseReturnVoucherDetails(@Path("id") String id);
+
+    @GET("sale_return_voucher/{id}")
+    Call<GetSaleReturnVoucherDetails> getSaleReturnVoucherDetails(@Path("id") String id);
 }

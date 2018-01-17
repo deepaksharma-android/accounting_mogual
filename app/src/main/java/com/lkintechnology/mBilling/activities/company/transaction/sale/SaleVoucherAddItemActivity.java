@@ -730,6 +730,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                 Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
                 in.putExtra("is", true);
+                intent.putExtra("fromsalelist",false);
                 startActivity(in);
                 finish();
             }
