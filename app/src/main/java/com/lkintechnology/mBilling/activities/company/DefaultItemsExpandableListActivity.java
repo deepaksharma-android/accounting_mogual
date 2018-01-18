@@ -45,6 +45,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
     AppUser appUser;
     DefaultItemsExpandableListAdapter listAdapter;
     List<String> listDataHeader;
+    List<String> selectAll;
     HashMap<String, List<String>> listDataChild;
     HashMap<Integer, List<Integer>> listDataChildId;
     ProgressDialog mProgressDialog;
@@ -87,7 +88,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
             @Override
             public void onClick(View v) {
                 //Toast.makeText(DefaultItemsExpandableListActivity.this, "Selected : "+ DefaultItemsExpandableListAdapter.listData.size(), Toast.LENGTH_SHORT).show();
-                if (isConnected) {
+               /* if (isConnected) {
                     mProgressDialog = new ProgressDialog(DefaultItemsExpandableListActivity.this);
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
@@ -105,7 +106,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
                         }
                     });
                     snackbar.show();
-                }
+                }*/
             }
         });
     }
@@ -167,6 +168,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
             for (int i = 0; i < response.getDefault_item_group().getData().size(); i++) {
                 listDataHeader.add(response.getDefault_item_group().getData().get(i).getAttributes().getName());
                 name = new ArrayList<>();
+                name.add(0,"Select all"+","+0);
                 for (int j = 0; j < response.getDefault_item_group().getData().get(i).getAttributes().getItems().size(); j++) {
                     name.add(response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getName()
                     +","+response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getId());
