@@ -28,6 +28,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
+    private HashMap<Integer, List<Integer>> listDataChildId;
     public static List<String> listData ;
 //    public static List<String> listData2 = new ArrayList<>();
 
@@ -40,11 +41,12 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
     AppUser appuser;
     Boolean flag=true;
 
-    public DefaultItemsExpandableListAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild){
+    public DefaultItemsExpandableListAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild,HashMap<Integer, List<Integer>> listDataChildId){
 
         this.context=context;
         this._listDataHeader=_listDataHeader;
         this._listDataChild=_listDataChild;
+        this.listDataChildId=listDataChildId;
         mChildCheckStates = new HashMap<Integer, boolean[]>();
         listData = new ArrayList<>();
     }
@@ -97,8 +99,6 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
 
 
         childViewHolder.chkBox1.setOnCheckedChangeListener(null);
-
-
             if (mChildCheckStates.containsKey(mGroupPosition)) {
                 boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
                 childViewHolder.chkBox1.setChecked(getChecked[mChildPosition]);
@@ -109,7 +109,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
                 childViewHolder.chkBox1.setChecked(false);
             }
 
-    if(mChildPosition!=0){
+   // if(mChildPosition!=0){
         childViewHolder.chkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -133,7 +133,8 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
                 }
             }
         });
-    }/*else {
+   // }
+    /*else {
             childViewHolder.chkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
