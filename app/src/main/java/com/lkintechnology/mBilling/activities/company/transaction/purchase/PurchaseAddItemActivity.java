@@ -746,7 +746,6 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
                 in.putExtra("is", true);
-                intent.putExtra("fromsalelist",false);
                 startActivity(in);
                 finish();
             }

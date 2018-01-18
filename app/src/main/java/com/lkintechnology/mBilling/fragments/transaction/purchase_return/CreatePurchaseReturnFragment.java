@@ -922,62 +922,108 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 mSelectedImage.setVisibility(View.GONE);
             }
             if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0){
-                Map mMap = new HashMap<>();
-                mMap.put("id", "1");
-                mMap.put("item_name","samsung");
-                mMap.put("description", "samsung j7pro");
-                mMap.put("quantity", "2");
-                mMap.put("unit", "sdad");
-                mMap.put("sr_no","dfads");
-                mMap.put("rate", "1200");
-                mMap.put("discount", "0.0");
-                mMap.put("value", "36000");
-                mMap.put("default_unit", "Main Unit");
-                mMap.put("packaging_unit", "");
-                mMap.put("sales_price_alternate", "17000");
-                mMap.put("sales_price_main", "18000");
-                mMap.put("alternate_unit", "Kg");
-                mMap.put("packaging_unit_sales_price", "");
-                mMap.put("main_unit", "Bag");
-                mMap.put("batch_wise", false);
-                mMap.put("serial_wise", true);
-                mMap.put("barcode", "fasfasd");
-                mMap.put("sale_unit", "Bag");
+                for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
+                    Map mMap = new HashMap<>();
+                    mMap.put("id", "1");
+                    mMap.put("item_name", "samsung");
+                    mMap.put("description", "samsung j7pro");
+                    mMap.put("quantity", "2");
+                    mMap.put("unit", "sdad");
+                    mMap.put("sr_no", "dfads");
+                    mMap.put("rate", "1200");
+                    mMap.put("discount", "0.0");
+                    mMap.put("value", "36000");
+                    mMap.put("default_unit", "Main Unit");
+                    mMap.put("packaging_unit", "");
+                    mMap.put("sales_price_alternate", "17000");
+                    mMap.put("sales_price_main", "18000");
+                    mMap.put("alternate_unit", "Kg");
+                    mMap.put("packaging_unit_sales_price", "");
+                    mMap.put("main_unit", "Bag");
+                    mMap.put("batch_wise", false);
+                    mMap.put("serial_wise", true);
+                    mMap.put("barcode", "fasfasd");
+                    mMap.put("sale_unit", "Bag");
 
-                String taxstring = response.getSale_voucher().getData().getAttributes().getPurchase_return_type();
-                if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
-                    String arrtaxstring[] = taxstring.split("-");
-                    String taxname = arrtaxstring[0].trim();
-                    String taxvalue = arrtaxstring[1].trim();
-                    if (taxvalue.equals("ItemWise")) {
-                        String tax="GST 12%";
-                        String total = "12000";
-                        String arr[] = tax.split(" ");
-                        String itemtax = arr[1];
-                        String taxval[] = itemtax.split("%");
-                        String taxpercent = taxval[0];
-                        double totalamt = Double.parseDouble(total) * (Double.parseDouble(taxpercent) / 100);
-                        totalamt = Double.parseDouble(total) + totalamt;
-                        mMap.put("total", String.valueOf(totalamt));
-                        mMap.put("itemwiseprice", "24000");
+                    String taxstring = response.getSale_voucher().getData().getAttributes().getPurchase_return_type();
+                    if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
+                        String arrtaxstring[] = taxstring.split("-");
+                        String taxname = arrtaxstring[0].trim();
+                        String taxvalue = arrtaxstring[1].trim();
+                        if (taxvalue.equals("ItemWise")) {
+                            String tax = "GST 12%";
+                            String total = "12000";
+                            String arr[] = tax.split(" ");
+                            String itemtax = arr[1];
+                            String taxval[] = itemtax.split("%");
+                            String taxpercent = taxval[0];
+                            double totalamt = Double.parseDouble(total) * (Double.parseDouble(taxpercent) / 100);
+                            totalamt = Double.parseDouble(total) + totalamt;
+                            mMap.put("total", String.valueOf(totalamt));
+                            mMap.put("itemwiseprice", "24000");
 
+                        } else {
+                            mMap.put("total", "24000");
+                        }
                     } else {
                         mMap.put("total", "24000");
                     }
-                } else {
-                    mMap.put("total", "24000");
+
+                    mMap.put("applied", "Main Unit");
+                    mMap.put("price_selected_unit", "main");
+                    mMap.put("alternate_unit_con_factor", "5");
+                    mMap.put("packaging_unit_con_factor", "");
+                    mMap.put("mrp", "17000");
+                    mMap.put("tax", "GST 12%");
+                    //   mMap.put("serial_number", appUser.sale_item_serial_arr);
+                    // mMap.put("unit_list", mUnitList);
+                    appUser.mListMapForItemPurchaseReturn.add(mMap);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
 
-                mMap.put("applied", "Main Unit");
-                mMap.put("price_selected_unit", "main");
-                mMap.put("alternate_unit_con_factor", "5");
-                mMap.put("packaging_unit_con_factor", "");
-                mMap.put("mrp", "17000");
-                mMap.put("tax", "GST 12%");
-                //   mMap.put("serial_number", appUser.sale_item_serial_arr);
-                // mMap.put("unit_list", mUnitList);
-                appUser.mListMapForItemSale.add(mMap);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+
+            if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
+                for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
+                    Map mMap = new HashMap<>();
+                    mMap.put("id","2");
+                    mMap.put("courier_charges","per");
+                    mMap.put("bill_sundry_id",String.valueOf(2));
+                    mMap.put("percentage","100");
+                    mMap.put("percentage_value","100");
+                    mMap.put("default_unit",String.valueOf("10"));
+                    mMap.put("fed_as","percentage");
+                    mMap.put("fed_as_percentage","Taxable amount");
+                    mMap.put("type","Additive");
+                    mMap.put("amount","100");
+                    mMap.put("previous","");
+                      /*  if(String.valueOf(2)!=null) {*/
+                    mMap.put("number_of_bill", String.valueOf("1"));
+                    // }
+                      /*  if(String.valueOf(true)!=null) {*/
+                    mMap.put("consolidated", String.valueOf(true));
+                    // }
+                      /*  if(billSundryFedAsPercentage!=null){*/
+                    if("percentage".equals("valuechange")) {
+                        mMap.put("changeamount","100");
+                    }
+                    // }
+
+                  /*      if(data.getAttributes().getBill_sundry_id()String.valueOf(billSundryId)!=null) {
+                            int size=appUser.arr_billSundryId.size();
+                            for(int i=0;i<size;i++){
+                                String id=appUser.arr_billSundryId.get(i);
+                                if(id.equals(String.valueOf(data.getAttributes().getBill_sundry_id()billSundryId))){
+                                    billsundryothername=appUser.arr_billSundryName.get(i);
+                                    break;
+                                }
+                            }
+                            mMap.put("other", billsundryothername);
+                        }*/
+                    appUser.mListMapForBillSale.add(mMap);
+                    // appUser.mListMap = mListMap;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
             }
 
         } else {

@@ -67,7 +67,9 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
-
+        appUser.mListMapForItemSale.clear();
+        appUser.mListMapForBillSale.clear();
+        LocalRepositories.saveAppUser(this,appUser);
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();

@@ -142,4 +142,8 @@ public class SaleVoucherDetailsAttribute {
     public String date;
     public ArrayList<SaleVoucherDetailsItemList> voucher_items;
     public ArrayList<SaleVoucherDetailsBillSundry> voucher_bill_sundries;
+    public Double total_amount;
+    public Double items_amount;
+    public Double bill_sundries_amount;
+
 }

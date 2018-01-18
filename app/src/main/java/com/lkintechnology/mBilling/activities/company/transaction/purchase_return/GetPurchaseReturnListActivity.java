@@ -67,7 +67,9 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-
+        appUser.mListMapForItemPurchaseReturn.clear();
+        appUser.mListMapForBillPurchaseReturn.clear();
+        LocalRepositories.saveAppUser(this,appUser);
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();
