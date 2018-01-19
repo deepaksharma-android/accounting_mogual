@@ -195,12 +195,13 @@ public class FirstPageActivity extends BaseActivityCompany {
             mProfit_lose_textview1.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getProfit_loss()));
 
             if(response.getCompany_details().getData().getAttributes().getProfit_loss()<0){
-                mProfit_lose_layout.setBackgroundColor(Color.RED);
+                //mProfit_lose_layout.setBackgroundColor(Color.RED);
                 mProfit_lose_textview.setText("LOSE");
-
+                mProfit_lose_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
             }else {
                 mProfit_lose_textview.setText("PROFIT");
-                mProfit_lose_layout.setBackgroundColor(Color.GREEN);
+                mProfit_lose_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
+               // mProfit_lose_layout.setBackgroundColor(Color.GREEN);
             }
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
