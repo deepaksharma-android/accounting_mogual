@@ -22,6 +22,7 @@ import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -86,31 +87,31 @@ public class SaleRegisterActivity extends RegisterAbstractActivity implements Vi
             @Override
             public void onClick(View view) {
 
-                  /*  appUser.pdf_start_date = mStart_date.getText().toString();
-                    appUser.pdf_end_date = mEnd_date.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                appUser.pdf_start_date = mStart_date.getText().toString();
+                appUser.pdf_end_date = mEnd_date.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                /*    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(SaleRegisterActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
-                    } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                        }
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(SaleRegisterActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_GST_REPORT);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
                                     }
-                                });
-                        snackbar.show();
-                    }*/
+                                }
+                            });
+                    snackbar.show();
+                }
             }
         });
 
@@ -238,19 +239,19 @@ public class SaleRegisterActivity extends RegisterAbstractActivity implements Vi
         actionBar.setHomeButtonEnabled(true);
     }
 
- /*   @Subscribe
-    public void getTransactionPdf(GetTransactionPdfResponse response){
+    @Subscribe
+    public void getTransactionPdf(CompanyReportResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
-            String company_report = response.getCompany_report();
+            String company_report = response.getHtml();
             i.putExtra("company_report",company_report);
             startActivity(i);
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-    }*/
+    }
 
     @Subscribe
     public void timout(String msg) {
