@@ -944,6 +944,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
             mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_number());
+            Preferences.getInstance(getApplicationContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
             mSaleType.setText(response.getSale_voucher().getData().getAttributes().getSale_type());
             mStore.setText(response.getSale_voucher().getData().getAttributes().getMaterial_center());
             mPartyName.setText(response.getSale_voucher().getData().getAttributes().getAccount_master());
@@ -988,8 +989,6 @@ public class CreateSaleVoucherFragment extends Fragment {
                         mUnitList.add("Packaging Unit :" + Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
                     }
                     mMap.put("total",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
-
-                    mMap.put("applied", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied());
                     if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit()!=null) {
                         if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit())) {
                             mMap.put("rate",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
@@ -1008,6 +1007,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mMap.put("packaging_unit_con_factor",  String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_conversion_factor()));
                     mMap.put("mrp",  String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getMrp()));
                     mMap.put("tax", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getTax_category());
+                    mMap.put("applied",response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
                     //   mMap.put("serial_number", appUser.sale_item_serial_arr);
                      mMap.put("unit_list", mUnitList);
                     appUser.mListMapForItemSale.add(mMap);
@@ -1020,13 +1020,13 @@ public class CreateSaleVoucherFragment extends Fragment {
                         mMap.put("id",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
                         mMap.put("courier_charges",response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
                         mMap.put("bill_sundry_id",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
-                        mMap.put("percentage",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_percentage_value()));
-                        mMap.put("percentage_value",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_percentage_value()));
+                        mMap.put("percentage",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        mMap.put("percentage_value",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
                         mMap.put("default_unit",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getDefault_value()));
                         mMap.put("fed_as",response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getAmount_of_bill_sundry_fed_as());
                         mMap.put("fed_as_percentage",response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage());
                         mMap.put("type",response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_type());
-                        mMap.put("amount",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getAmount()));
+                        mMap.put("amount",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
                         mMap.put("previous",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                       /*  if(String.valueOf(2)!=null) {*/
                             mMap.put("number_of_bill", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
@@ -1035,8 +1035,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                             mMap.put("consolidated",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
                        // }
                       /*  if(billSundryFedAsPercentage!=null){*/
-                            if("percentage".equals("valuechange")) {
-                                mMap.put("changeamount","100");
+                            if(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
+                                mMap.put("changeamount",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                             }
                        // }
 

@@ -237,15 +237,16 @@ public class SaleVoucherDetailsItemList {
 
     public String packaging_unit;
 
-    public String getSale_price_applied() {
-        return sale_price_applied;
+
+    public String getSale_price_applied_on() {
+        return sale_price_applied_on;
     }
 
-    public void setSale_price_applied(String sale_price_applied) {
-        this.sale_price_applied = sale_price_applied;
+    public void setSale_price_applied_on(String sale_price_applied_on) {
+        this.sale_price_applied_on = sale_price_applied_on;
     }
 
-    public String sale_price_applied;
+    public String sale_price_applied_on;
 
     public Double getPackaging_conversion_factor() {
         return packaging_conversion_factor;
@@ -266,6 +267,16 @@ public class SaleVoucherDetailsItemList {
     }
 
     public Double mrp;
+
+    public String getPurchase_price_applied_on() {
+        return purchase_price_applied_on;
+    }
+
+    public void setPurchase_price_applied_on(String purchase_price_applied_on) {
+        this.purchase_price_applied_on = purchase_price_applied_on;
+    }
+
+    public String purchase_price_applied_on;
 
 
 
