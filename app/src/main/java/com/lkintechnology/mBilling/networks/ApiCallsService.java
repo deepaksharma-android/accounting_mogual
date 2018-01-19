@@ -45,6 +45,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestResendOtp;
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumber;
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
+import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
@@ -505,7 +506,9 @@ public class ApiCallsService extends IntentService {
             handleGetPurchaseVoucherDetails();
         }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
         handleGetPurchaseReturnVoucherDetails();
-    }
+        }else if(Cv.ACTION_GET_GST_REPORT.equals(action)){
+            handleGetGstReport();
+        }
 
     }
 
@@ -4051,4 +4054,26 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleGetGstReport() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getcompanyreport(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
 }

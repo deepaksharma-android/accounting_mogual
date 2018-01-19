@@ -41,6 +41,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumbe
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 
+import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -627,5 +628,9 @@ public interface Api {
 
     @GET("sale_return_voucher/{id}")
     Call<GetSaleReturnVoucherDetails> getSaleReturnVoucherDetails(@Path("id") String id);
+
+    @GET("company/gst_report/{id}")
+    Call<CompanyReportResponse> getcompanyreport(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
+
 
 }

@@ -6,6 +6,7 @@ public interface Cv {
    String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
     //String BASE_URL = "http://192.168.0.114:3000/api/v1/";
 
+
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
     String ACTION_LOGIN = "login_user";
@@ -170,6 +171,7 @@ public interface Cv {
     String ACTION_GET_PURCHASE_VOUCHER_DETAILS = "action_get_purchase_voucher_details";
     String ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS = "action_get_purchase_return_voucher_details";
     String ACTION_CREATE_DEFAULT_ITEMS = "action_create_default_items";
+    String ACTION_GET_GST_REPORT = "action_get_gst_report";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;

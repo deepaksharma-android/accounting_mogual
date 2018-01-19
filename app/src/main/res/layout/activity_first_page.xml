@@ -283,7 +283,6 @@
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-
                             android:layout_weight=".3"
                             android:src="@drawable/stock_in_hand" />
 
@@ -374,7 +373,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="15dp"
                         android:text="\u20B9 0.0"
 
                         android:textColor="@color/black"
@@ -386,7 +385,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="#20000000" />
 
 
@@ -425,14 +424,62 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="15dp"
                         android:text="\u20B9 0.0"
-
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:visibility="visible" />
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/profit_lose_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/curve_backgroung_green"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+
+
+                        android:orientation="horizontal">
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:id="@+id/profit_lose_textview"
+                        android:layout_marginLeft="5dp"
+                        android:text="PROFIT"
+                        android:textAlignment="center"
+                        android:textColor="#fff"
+                        android:textSize="14sp" />
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.50"
+                            android:id="@+id/profit_lose_textview1"
+                            android:layout_marginRight="15dp"
+                            android:textAlignment="textEnd"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#fff"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/transaction_button"
@@ -440,7 +487,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/curve_backgroung_blue"
                 android:gravity="center_horizontal">
 

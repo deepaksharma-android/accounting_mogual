@@ -50,6 +50,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     List<String> name;
+    List<Integer> id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +141,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                //DefaultItemsExpandableListAdapter.listData.clear();
+                DefaultItemsExpandableListAdapter.listData.clear();
                 finish();
                 return true;
             default:
@@ -150,7 +151,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
 
     @Override
     public void onBackPressed() {
-        //DefaultItemsExpandableListAdapter.listData.clear();
+        DefaultItemsExpandableListAdapter.listData.clear();
         finish();
     }
 
@@ -160,20 +161,25 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
         if (response.getStatus() == 200) {
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
-           // listDataChildId = new HashMap<Integer, List<Integer>>();
+            listDataChildId = new HashMap<Integer, List<Integer>>();
             if (response.getDefault_item_group().getData().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
             for (int i = 0; i < response.getDefault_item_group().getData().size(); i++) {
                 listDataHeader.add(response.getDefault_item_group().getData().get(i).getAttributes().getName());
                 name = new ArrayList<>();
+                id = new ArrayList<>();
+               // name.add(0,"Select all"+","+0);
                 for (int j = 0; j < response.getDefault_item_group().getData().get(i).getAttributes().getItems().size(); j++) {
                     name.add(response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getName()
                     +","+response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getId());
+
+                    id.add(response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getId());
                 }
                 listDataChild.put(listDataHeader.get(i), name);
+                listDataChildId.put(i, id);
             }
-            listAdapter = new DefaultItemsExpandableListAdapter(this, listDataHeader, listDataChild);
+            listAdapter = new DefaultItemsExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildId);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);

@@ -25,6 +25,15 @@
             android:textSize="15sp"
             android:textColor="#000" />
 
+        <CheckBox
+            android:id="@+id/groupCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.1"
+            android:visibility="gone"
+            android:layout_gravity="center"/>
+
         <ImageView
             android:id="@+id/image"
             android:layout_width="0dp"
