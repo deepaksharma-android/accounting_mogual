@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.activities.company;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -54,7 +55,6 @@ public class FirstPageActivity extends BaseActivityCompany {
     LinearLayout mSales_layout;
     @Bind(R.id.layout_expense)
     LinearLayout mExpenses_layout;
-
     @Bind(R.id.textview_cash_in_hand)
     TextView mtextview_cash_in_hand;
     @Bind(R.id.textview_bank)
@@ -71,6 +71,12 @@ public class FirstPageActivity extends BaseActivityCompany {
     TextView mtextview_expenses;
     @Bind(R.id.date)
     TextView mDate;
+    @Bind(R.id.profit_lose_layout)
+    LinearLayout mProfit_lose_layout;
+    @Bind(R.id.profit_lose_textview)
+    TextView mProfit_lose_textview;
+    @Bind(R.id.profit_lose_textview1)
+    TextView mProfit_lose_textview1;
     ProgressDialog mProgressDialog;
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
@@ -186,6 +192,16 @@ public class FirstPageActivity extends BaseActivityCompany {
             mtextview_stock_in_hand.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getStock_in_hand()));
             mtextview_sales.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getSales()));
             mtextview_expenses.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getExpenses()));
+            mProfit_lose_textview1.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getProfit_loss()));
+
+            if(response.getCompany_details().getData().getAttributes().getProfit_loss()<0){
+                mProfit_lose_layout.setBackgroundColor(Color.RED);
+                mProfit_lose_textview.setText("LOSE");
+
+            }else {
+                mProfit_lose_textview.setText("PROFIT");
+                mProfit_lose_layout.setBackgroundColor(Color.GREEN);
+            }
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

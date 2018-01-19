@@ -588,6 +588,14 @@
             android:parentActivityName=".activities.dashboard.CompanyDashboardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activities.company.navigation.reports.gstreturn.PurchaseRegisterActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activities.company.navigation.reports.gstreturn.SaleRegisterActivity"
+            android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />

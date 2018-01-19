@@ -8,6 +8,15 @@ public class CompanyDetailsAttributes {
     public Double supplier;
     public Double stock_in_hand;
     public Double sales;
+    public Double profit_loss;
+
+    public Double getProfit_loss() {
+        return profit_loss;
+    }
+
+    public void setProfit_loss(Double profit_loss) {
+        this.profit_loss = profit_loss;
+    }
 
     public Double getSales() {
         return sales;
