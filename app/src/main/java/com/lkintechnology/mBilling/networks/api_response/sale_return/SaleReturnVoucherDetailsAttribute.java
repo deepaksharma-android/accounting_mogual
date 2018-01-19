@@ -5,25 +5,25 @@ import java.util.ArrayList;
 public class SaleReturnVoucherDetailsAttribute {
     public String voucher_series;
     public int company_id;
-    public int sale_return_type_id;
+    public int purchase_type_id;
 
-    public String getSale_return_type() {
-        return sale_return_type;
+    public int getPurchase_type_id() {
+        return purchase_type_id;
     }
 
-    public void setSale_return_type(String sale_return_type) {
-        this.sale_return_type = sale_return_type;
+    public void setPurchase_type_id(int purchase_type_id) {
+        this.purchase_type_id = purchase_type_id;
     }
 
-    public int getSale_return_type_id() {
-        return sale_return_type_id;
+    public String getPurchase_type() {
+        return purchase_type;
     }
 
-    public void setSale_return_type_id(int sale_return_type_id) {
-        this.sale_return_type_id = sale_return_type_id;
+    public void setPurchase_type(String purchase_type) {
+        this.purchase_type = purchase_type;
     }
 
-    public String sale_return_type;
+    public String purchase_type;
 
     public String getVoucher_series() {
         return voucher_series;

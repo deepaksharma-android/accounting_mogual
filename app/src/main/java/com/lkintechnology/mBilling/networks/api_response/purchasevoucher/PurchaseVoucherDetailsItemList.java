@@ -217,15 +217,15 @@ public class PurchaseVoucherDetailsItemList {
 
     public Double price;
 
-    public String getSale_unit() {
-        return sale_unit;
+    public String getPurchase_unit() {
+        return purchase_unit;
     }
 
-    public void setSale_unit(String sale_unit) {
-        this.sale_unit = sale_unit;
+    public void setPurchase_unit(String purchase_unit) {
+        this.purchase_unit = purchase_unit;
     }
 
-    public String sale_unit;
+    public String purchase_unit;
 
     public String getPackaging_unit() {
         return packaging_unit;
@@ -278,5 +278,24 @@ public class PurchaseVoucherDetailsItemList {
 
     public String purchase_price_applied_on;
 
+    public Double purchase_price_main;
+
+    public Double getPurchase_price_main() {
+        return purchase_price_main;
+    }
+
+    public void setPurchase_price_main(Double purchase_price_main) {
+        this.purchase_price_main = purchase_price_main;
+    }
+
+    public Double getPurchase_price_alternate() {
+        return purchase_price_alternate;
+    }
+
+    public void setPurchase_price_alternate(Double purchase_price_alternate) {
+        this.purchase_price_alternate = purchase_price_alternate;
+    }
+
+    public Double purchase_price_alternate;
 
 }

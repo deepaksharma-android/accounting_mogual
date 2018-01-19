@@ -122,7 +122,6 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
         //percentage.setText(billSundaryPercentage);
 
         String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
-        Timber.i("ID++++" + data.getAttributes().getBill_sundry_id());
         //Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
             // mPercentageLayout.setVisibility(View.VISIBLE);
@@ -230,7 +229,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                     mMap.put("number_of_bill", String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber));
                 }
                 if(String.valueOf(/*data.getAttributes().isConsolidate_bill_sundry()*/billSundryConsolidated)!=null) {
-                    mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
+                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
                 if(billSundryFedAsPercentage!=null){
                     if(billSundryFedAsPercentage.equals("valuechange")) {

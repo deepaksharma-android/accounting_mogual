@@ -18,16 +18,18 @@ public class GetPurchaseReturnVoucherDetails {
         this.status = status;
     }
 
-    public PurchaseReturnVoucherDetails getSale_voucher() {
-        return sale_voucher;
-    }
-
-    public void setSale_voucher(PurchaseReturnVoucherDetails sale_voucher) {
-        this.sale_voucher = sale_voucher;
-    }
 
     public String message;
+
+    public PurchaseReturnVoucherDetails getPurchase_return_voucher() {
+        return purchase_return_voucher;
+    }
+
+    public void setPurchase_return_voucher(PurchaseReturnVoucherDetails purchase_return_voucher) {
+        this.purchase_return_voucher = purchase_return_voucher;
+    }
+
     public int status;
-    public PurchaseReturnVoucherDetails sale_voucher;
+    public PurchaseReturnVoucherDetails purchase_return_voucher;
 
 }

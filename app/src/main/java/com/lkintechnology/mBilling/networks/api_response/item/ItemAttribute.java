@@ -468,15 +468,6 @@ public class ItemAttribute {
 
     public ArrayList<String> barcode;
 
-    public ArrayList<String> getSerial_number() {
-        return serial_number;
-    }
-
-    public void setSerial_number(ArrayList<String> serial_number) {
-        this.serial_number = serial_number;
-    }
-
-    public ArrayList<String> serial_number;
 
 
 

@@ -619,7 +619,7 @@ public interface Api {
     @GET("sale_voucher/{id}")
     Call<GetSaleVoucherDetails> getSaleVoucherDetails(@Path("id") String id);
 
-    @GET("purchase_voucher/{id}")
+    @GET("purchase_vouchers/{id}")
     Call<GetPurchaseVoucherDetails> getPurchaseVoucherDetails(@Path("id") String id);
 
     @GET("purchase_return_voucher/{id}")

@@ -18,16 +18,19 @@ public class GetPurchaseVoucherDetails {
         this.status = status;
     }
 
-    public PurchaseVoucherDetails getSale_voucher() {
-        return sale_voucher;
-    }
 
-    public void setSale_voucher(PurchaseVoucherDetails sale_voucher) {
-        this.sale_voucher = sale_voucher;
-    }
 
     public String message;
     public int status;
-    public PurchaseVoucherDetails sale_voucher;
+
+    public PurchaseVoucherDetails getPurchase_voucher() {
+        return purchase_voucher;
+    }
+
+    public void setPurchase_voucher(PurchaseVoucherDetails purchase_voucher) {
+        this.purchase_voucher = purchase_voucher;
+    }
+
+    public PurchaseVoucherDetails purchase_voucher;
 
 }

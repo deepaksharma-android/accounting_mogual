@@ -61,6 +61,7 @@ public class CreatePurchaseReturnActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         title="CREATE PURCHASE RETURN VOUCHER";
         if(fromsalelist){
             title="EDIT PURCHASE RETURN VOUCHER";

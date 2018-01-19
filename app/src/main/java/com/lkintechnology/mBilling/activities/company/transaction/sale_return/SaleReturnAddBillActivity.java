@@ -211,7 +211,7 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
                         mMap.put("number_of_bill", String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber));
                     }
                     if(String.valueOf(/*data.getAttributes().isConsolidate_bill_sundry()*/billSundryConsolidated)!=null) {
-                        mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                     }
                     if(billSundryFedAsPercentage!=null){
                         if(billSundryFedAsPercentage.equals("valuechange")) {
