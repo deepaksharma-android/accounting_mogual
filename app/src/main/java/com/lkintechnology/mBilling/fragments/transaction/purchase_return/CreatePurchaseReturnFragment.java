@@ -481,7 +481,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS);
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                         }else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -506,7 +506,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS);
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                         }
                                                         else {

@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.networks;
 
+import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
@@ -628,6 +629,18 @@ public interface Api {
 
     @GET("sale_return_voucher/{id}")
     Call<GetSaleReturnVoucherDetails> getSaleReturnVoucherDetails(@Path("id") String id);
+
+    @PATCH("sale_voucher/{id}")
+    Call<CreateSaleVoucherResponse> updateSaleVoucherDetails(@Body RequestCreateSaleVoucher payload,@Path("id") String id);
+
+    @PATCH("purchase_vouchers/{id}")
+    Call<CreatePurchaseResponce> updatePurchaseVoucherDetails(@Body RequestCreatePurchase payload,@Path("id") String id);
+
+    @PATCH("purchase_return_voucher/{id}")
+    Call<CreatePurchaseReturnResponse> updatePurchaseReturnVoucherDetails(@Body RequestCreatePurchaseReturn payload,@Path("id") String id);
+
+    @PATCH("sale_return_voucher/{id}")
+    Call<CreateSaleReturnResponse> updateSaleReturnVoucherDetails(@Body RequestCreateSaleReturn payload,@Path("id") String id);
 
     @GET("company/gst_report/{id}")
     Call<CompanyReportResponse> getcompanyreport(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);

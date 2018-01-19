@@ -508,6 +508,14 @@ public class ApiCallsService extends IntentService {
         handleGetPurchaseReturnVoucherDetails();
         }else if(Cv.ACTION_GET_GST_REPORT.equals(action)){
             handleGetGstReport();
+        }else if(Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS.equals(action)){
+            handleUpdateSaleVoucherDetails();
+        }else if(Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS.equals(action)){
+            handleUpdateSaleReturnVoucherDetails();
+        }else if(Cv.ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS.equals(action)){
+            handleUpdatePurchaseVoucherDetails();
+        }else if(Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
+            handleUpdatePurchaseReturnVoucherDetails();
         }
 
     }
@@ -4045,6 +4053,101 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetSaleReturnVoucherDetails> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleUpdateSaleVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.updateSaleVoucherDetails(new RequestCreateSaleVoucher(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleVoucherResponse>() {
+            @Override
+            public void onResponse(Call<CreateSaleVoucherResponse> call, Response<CreateSaleVoucherResponse> r) {
+                if (r.code() == 200) {
+                    CreateSaleVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+            @Override
+            public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleUpdatePurchaseReturnVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.updatePurchaseReturnVoucherDetails(new RequestCreatePurchaseReturn(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseReturnResponse>() {
+            @Override
+            public void onResponse(Call<CreatePurchaseReturnResponse> call, Response<CreatePurchaseReturnResponse> r) {
+                if (r.code() == 200) {
+                    CreatePurchaseReturnResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePurchaseReturnResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleUpdatePurchaseVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseResponce>() {
+            @Override
+            public void onResponse(Call<CreatePurchaseResponce> call, Response<CreatePurchaseResponce> r) {
+                if (r.code() == 200) {
+                    CreatePurchaseResponce body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePurchaseResponce> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleUpdateSaleReturnVoucherDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.updateSaleReturnVoucherDetails(new RequestCreateSaleReturn(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleReturnResponse>() {
+            @Override
+            public void onResponse(Call<CreateSaleReturnResponse> call, Response<CreateSaleReturnResponse> r) {
+                if (r.code() == 200) {
+                    CreateSaleReturnResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateSaleReturnResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

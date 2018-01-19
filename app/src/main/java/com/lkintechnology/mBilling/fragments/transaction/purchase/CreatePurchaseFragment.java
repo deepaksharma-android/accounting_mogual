@@ -432,7 +432,7 @@ public class CreatePurchaseFragment extends Fragment {
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS);
                                                         } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
@@ -456,7 +456,7 @@ public class CreatePurchaseFragment extends Fragment {
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS);
                                                         } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
