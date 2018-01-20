@@ -19,6 +19,7 @@ import com.lkintechnology.mBilling.activities.company.administration.master.item
 import com.lkintechnology.mBilling.adapters.MasterDashboardAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +65,7 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         }
         ExpandableItemListActivity.isDirectForItem=true;
         BillSundryListActivity.isDirectForBill=true;
-
+        Preferences.getInstance(getApplicationContext()).setUpdate("");
         ta.recycle();
         setAddCompany(2);
         setAppBarTitleCompany(1,"MASTER");

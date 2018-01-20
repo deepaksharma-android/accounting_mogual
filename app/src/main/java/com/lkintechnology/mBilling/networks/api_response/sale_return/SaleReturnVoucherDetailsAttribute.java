@@ -82,13 +82,6 @@ public class SaleReturnVoucherDetailsAttribute {
         this.material_center = material_center;
     }
 
-    public String getMaterial_centre_id() {
-        return material_centre_id;
-    }
-
-    public void setMaterial_centre_id(String material_centre_id) {
-        this.material_centre_id = material_centre_id;
-    }
 
     public String getAccount_master_id() {
         return account_master_id;
@@ -117,7 +110,16 @@ public class SaleReturnVoucherDetailsAttribute {
 
     public String account_master;
     public String account_master_id;
-    public String material_centre_id;
+    public String material_center_id;
+
+    public String getMaterial_center_id() {
+        return material_center_id;
+    }
+
+    public void setMaterial_center_id(String material_center_id) {
+        this.material_center_id = material_center_id;
+    }
+
     public String material_center;
     public String mobile_number;
 
@@ -144,4 +146,31 @@ public class SaleReturnVoucherDetailsAttribute {
     public String date;
     public ArrayList<SaleReturnVoucherDetailsItemList> voucher_items;
     public ArrayList<SaleReturnVoucherDetailsBillSundry> voucher_bill_sundries;
+    public Double total_amount;
+    public Double items_amount;
+    public Double bill_sundries_amount;
+
+    public Double getTotal_amount() {
+        return total_amount;
+    }
+
+    public void setTotal_amount(Double total_amount) {
+        this.total_amount = total_amount;
+    }
+
+    public Double getItems_amount() {
+        return items_amount;
+    }
+
+    public void setItems_amount(Double items_amount) {
+        this.items_amount = items_amount;
+    }
+
+    public Double getBill_sundries_amount() {
+        return bill_sundries_amount;
+    }
+
+    public void setBill_sundries_amount(Double bill_sundries_amount) {
+        this.bill_sundries_amount = bill_sundries_amount;
+    }
 }

@@ -166,6 +166,15 @@ public class CreatePurchaseFragment extends Fragment {
             }
         }
 
+        if(!Preferences.getInstance(getActivity()).getUpdate().equals("")){
+            update.setVisibility(View.VISIBLE);
+            submit.setVisibility(View.GONE);
+        }
+        else{
+            submit.setVisibility(View.VISIBLE);
+            update.setVisibility(View.GONE);
+        }
+
             dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
@@ -655,6 +664,7 @@ public class CreatePurchaseFragment extends Fragment {
     public void createpurchase(CreatePurchaseResponce response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -829,12 +839,16 @@ public class CreatePurchaseFragment extends Fragment {
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getNarration()));
             Preferences.getInstance(getContext()).setStore(response.getPurchase_voucher().getData().getAttributes().getMaterial_center());
-            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getMaterial_centre_id()));
+            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setPurchase_type_name(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getContext()).setPurchase_type_id(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getPurchase_type_id()));
             Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getAccount_master_id()));
             Preferences.getInstance(getContext()).setParty_name(response.getPurchase_voucher().getData().getAttributes().getAccount_master());
             Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
+            appUser.totalamount=String.valueOf(response.getPurchase_voucher().getData().getAttributes().getTotal_amount());
+            appUser.items_amount=String.valueOf(response.getPurchase_voucher().getData().getAttributes().getItems_amount());
+            appUser.bill_sundries_amount=String.valueOf(response.getPurchase_voucher().getData().getAttributes().getBill_sundries_amount());
+            LocalRepositories.saveAppUser(getActivity(),appUser);
             if (!Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);

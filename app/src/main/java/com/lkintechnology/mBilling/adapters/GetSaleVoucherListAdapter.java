@@ -19,6 +19,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.Data;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -105,6 +106,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setUpdate("1");
                 AppUser appUser= LocalRepositories.getAppUser(context);
                 appUser.edit_sale_voucher_id=data.get(position).getId();
                 LocalRepositories.saveAppUser(context,appUser);

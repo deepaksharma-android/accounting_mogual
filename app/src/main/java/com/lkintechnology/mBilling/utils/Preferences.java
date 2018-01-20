@@ -46,6 +46,7 @@ public class Preferences {
     private static final String SERIAL = "serial";
     private static final String STOCK_SERIAL = "stock_serial";
     private static final String PURCHASE_TAX_TYPE = "purchase_tax_type";
+    private static final String UPDATE="update";
 
 
 
@@ -1245,6 +1246,14 @@ public class Preferences {
     }
     public String getPurchase_type_id() {
         return pref.getString(purchase_type_id, "");
+    }
+
+    public void setUpdate(String update) {
+        editor.putString(UPDATE, update);
+        editor.commit();
+    }
+    public String getUpdate() {
+        return pref.getString(UPDATE, "");
     }
 
 }

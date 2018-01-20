@@ -19,6 +19,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.Data;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -104,6 +105,7 @@ public class GetPurchaseReturnListAdapter extends RecyclerView.Adapter<GetPurcha
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setUpdate("1");
                 AppUser appUser= LocalRepositories.getAppUser(context);
                 appUser.edit_sale_voucher_id=data.get(position).getId();
                 LocalRepositories.saveAppUser(context,appUser);

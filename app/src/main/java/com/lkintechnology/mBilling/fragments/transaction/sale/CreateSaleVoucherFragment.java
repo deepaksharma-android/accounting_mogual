@@ -192,7 +192,14 @@ public class CreateSaleVoucherFragment extends Fragment {
                 snackbar.show();
             }
         }
-
+        if(!Preferences.getInstance(getActivity()).getUpdate().equals("")){
+            update.setVisibility(View.VISIBLE);
+            submit.setVisibility(View.GONE);
+        }
+        else{
+            submit.setVisibility(View.VISIBLE);
+            update.setVisibility(View.GONE);
+        }
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
@@ -748,6 +755,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -954,18 +962,23 @@ public class CreateSaleVoucherFragment extends Fragment {
             mMobileNumber.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getNarration()));
             Preferences.getInstance(getContext()).setStore(response.getSale_voucher().getData().getAttributes().getMaterial_center());
-            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_voucher().getData().getAttributes().getMaterial_centre_id()));
+            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
             Preferences.getInstance(getContext()).setSale_type_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getSale_type_id()));
             Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getAccount_master_id()));
             Preferences.getInstance(getContext()).setParty_name(response.getSale_voucher().getData().getAttributes().getAccount_master());
             Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
+            appUser.totalamount=String.valueOf(response.getSale_voucher().getData().getAttributes().getTotal_amount());
+            appUser.items_amount=String.valueOf(response.getSale_voucher().getData().getAttributes().getItems_amount());
+            appUser.bill_sundries_amount=String.valueOf(response.getSale_voucher().getData().getAttributes().getBill_sundries_amount());
+            LocalRepositories.saveAppUser(getActivity(),appUser);
             if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
+
             if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0){
                 for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                     Map mMap = new HashMap<>();
