@@ -116,7 +116,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-              /*  if(childPosition==0){
+                if(childPosition==0){
                     if(isChecked){
                         Toast.makeText(context,"Added",Toast.LENGTH_LONG).show();
 
@@ -125,7 +125,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
                         Toast.makeText(context,"Removed",Toast.LENGTH_LONG).show();
                     }
                 }
-                else {*/
+                else {
 
                     if (isChecked) {
 
@@ -143,7 +143,7 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
                         listData.remove(childId);
 
                     }
-              //  }
+                }
             }
         });
    // }

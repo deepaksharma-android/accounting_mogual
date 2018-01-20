@@ -121,10 +121,10 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
     private ZBarScannerView mScannerView;
     @Bind(R.id.mainLayout)
     LinearLayout mMainLayout;
-    @Bind(R.id.add_item)
-    LinearLayout mAddItem;
     @Bind(R.id.scan_item)
     LinearLayout mScanItem;
+    @Bind(R.id.add_item)
+    LinearLayout mAddItem;
     @Bind(R.id.scanLayout)
     RelativeLayout mScanLayout;
     @Bind(R.id.scanning_content_frame)
