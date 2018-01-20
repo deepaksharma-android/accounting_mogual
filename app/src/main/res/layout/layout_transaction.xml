@@ -544,25 +544,28 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_stock_transfer"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/grey_stroke_white_solid"
-                    android:visibility="invisible">
+                    android:background="@drawable/grey_stroke_white_solid">
 
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="150dp"
                         android:layout_margin="8dp"
                         android:background="@drawable/square_gradient"
-                        android:gravity="center"
+
                         android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/drawer_company_about" />
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/transaction_journal_voucher" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Medium"
@@ -572,7 +575,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginTop="10dp"
                             android:gravity="center"
-                            android:text="Journal Voucher"
+                            android:text="Stock Transfer"
                             android:textColor="#0366aa"
                             android:textSize="15sp" />
                     </LinearLayout>

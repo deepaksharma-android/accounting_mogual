@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase.Purch
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddBillActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.StockTransferAddBillActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
 import com.lkintechnology.mBilling.utils.EventDeleteBillSundry;
@@ -48,11 +49,10 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
     @Override
     public void onBindViewHolder(BillSundryListAdapter.ViewHolder viewHolder, int i) {
         viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
-        if(data.get(i).getAttributes().getUndefined()==true){
+        if (data.get(i).getAttributes().getUndefined() == true) {
             viewHolder.mDelete.setVisibility(View.VISIBLE);
             viewHolder.mEdit.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             viewHolder.mDelete.setVisibility(View.GONE);
             viewHolder.mEdit.setVisibility(View.GONE);
         }
@@ -65,9 +65,9 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, CreateBillSundryActivity.class);
-                intent.putExtra("frommbillsundrylist",true);
-                intent.putExtra("id",data.get(i).getId());
+                Intent intent = new Intent(context, CreateBillSundryActivity.class);
+                intent.putExtra("frommbillsundrylist", true);
+                intent.putExtra("id", data.get(i).getId());
                 context.startActivity(intent);
             }
         });
@@ -75,20 +75,20 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
             @Override
             public void onClick(View v) {
                 //String id=groupPosition+","+childPosition;
-                if (ExpandableItemListActivity.comingFrom==0){
-                    SaleVoucherAddBillActivity.data=data.get(i);
-                }else if(ExpandableItemListActivity.comingFrom==1){
-                    PurchaseAddBillActivity.data=data.get(i);
+                if (ExpandableItemListActivity.comingFrom == 0) {
+                    SaleVoucherAddBillActivity.data = data.get(i);
+                } else if (ExpandableItemListActivity.comingFrom == 1) {
+                    PurchaseAddBillActivity.data = data.get(i);
+                } else if (ExpandableItemListActivity.comingFrom == 3) {
+                    PurchaseReturnAddBillActivity.data = data.get(i);
+                    AppUser appUser = LocalRepositories.getAppUser(context);
+                    appUser.billSundryData = data;
+                    LocalRepositories.saveAppUser(context, appUser);
+                } else if (ExpandableItemListActivity.comingFrom == 2) {
+                    SaleReturnAddBillActivity.data = data.get(i);
+                } else if (ExpandableItemListActivity.comingFrom == 4) {
+                    StockTransferAddBillActivity.data = data.get(i);
                 }
-                else if(ExpandableItemListActivity.comingFrom==3){
-                    PurchaseReturnAddBillActivity.data=data.get(i);
-                    AppUser appUser= LocalRepositories.getAppUser(context);
-                    appUser.billSundryData=data;
-                    LocalRepositories.saveAppUser(context,appUser);
-                }else if(ExpandableItemListActivity.comingFrom==2){
-                    SaleReturnAddBillActivity.data=data.get(i);
-                }
-
                 EventBus.getDefault().post(new EventSaleAddBill(String.valueOf(i)));
             }
         });

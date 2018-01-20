@@ -3903,7 +3903,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetDefaultItems(){
-        api.getDefaultItems().enqueue(new Callback<GetDefaultItemsResponse>() {
+        api.getDefaultItems(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetDefaultItemsResponse>() {
             @Override
             public void onResponse(Call<GetDefaultItemsResponse> call, Response<GetDefaultItemsResponse> r) {
                 if(r.code()==200){
