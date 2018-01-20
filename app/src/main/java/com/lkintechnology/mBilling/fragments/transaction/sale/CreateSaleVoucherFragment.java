@@ -679,6 +679,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 //mItemGroup.setText("");
             }
         }
+
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
@@ -747,6 +748,8 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            submit.setVisibility(View.VISIBLE);
+            update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            /* if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 *//*if(!appUser.sale_party_group.equals("Cash-in-hand")) {
@@ -950,6 +953,13 @@ public class CreateSaleVoucherFragment extends Fragment {
             mPartyName.setText(response.getSale_voucher().getData().getAttributes().getAccount_master());
             mMobileNumber.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getNarration()));
+            Preferences.getInstance(getContext()).setStore(response.getSale_voucher().getData().getAttributes().getMaterial_center());
+            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_voucher().getData().getAttributes().getMaterial_centre_id()));
+            Preferences.getInstance(getContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
+            Preferences.getInstance(getContext()).setSale_type_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getSale_type_id()));
+            Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getAccount_master_id()));
+            Preferences.getInstance(getContext()).setParty_name(response.getSale_voucher().getData().getAttributes().getAccount_master());
+            Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
             if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);

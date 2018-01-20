@@ -723,6 +723,8 @@ public class CreateSaleReturnFragment extends Fragment {
     public void createSaleReturn(CreateSaleReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            submit.setVisibility(View.VISIBLE);
+            update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 /*            mPartyName.setText("");
             mMobileNumber.setText("");
@@ -917,6 +919,14 @@ public class CreateSaleReturnFragment extends Fragment {
             mPartyName.setText(response.getSale_return_voucher().getData().getAttributes().getAccount_master());
             mMobileNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getNarration()));
+            Preferences.getInstance(getContext()).setStore(response.getSale_return_voucher().getData().getAttributes().getMaterial_center());
+            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getMaterial_centre_id()));
+            Preferences.getInstance(getContext()).setPurchase_type_name(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
+            Preferences.getInstance(getContext()).setPurchase_type_id(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getPurchase_type_id()));
+            Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getAccount_master_id()));
+            Preferences.getInstance(getContext()).setParty_name(response.getSale_return_voucher().getData().getAttributes().getAccount_master());
+            Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
+
             if (!Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);

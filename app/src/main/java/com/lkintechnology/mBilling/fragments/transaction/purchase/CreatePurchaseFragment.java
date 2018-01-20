@@ -655,6 +655,8 @@ public class CreatePurchaseFragment extends Fragment {
     public void createpurchase(CreatePurchaseResponce response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            submit.setVisibility(View.VISIBLE);
+            update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            /* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 if(!appUser.sale_party_group.equals("Cash-in-hand")) {
@@ -826,6 +828,13 @@ public class CreatePurchaseFragment extends Fragment {
             mPartyName.setText(response.getPurchase_voucher().getData().getAttributes().getAccount_master());
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getNarration()));
+            Preferences.getInstance(getContext()).setStore(response.getPurchase_voucher().getData().getAttributes().getMaterial_center());
+            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getMaterial_centre_id()));
+            Preferences.getInstance(getContext()).setPurchase_type_name(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
+            Preferences.getInstance(getContext()).setPurchase_type_id(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getPurchase_type_id()));
+            Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getAccount_master_id()));
+            Preferences.getInstance(getContext()).setParty_name(response.getPurchase_voucher().getData().getAttributes().getAccount_master());
+            Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
             if (!Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
