@@ -613,7 +613,7 @@ public interface Api {
     Call<VersionResponse> version(@Query("device_type") String device_type);
 
     @GET("default_items")
-    Call<GetDefaultItemsResponse> getDefaultItems();
+    Call<GetDefaultItemsResponse> getDefaultItems(@Query("company_id") String company_id);
 
     @POST("create_default_items")
     Call<CreateDefaultItemsResponse> createDefaultItems(@Body RequestCreateDefaultItems payload);
@@ -642,8 +642,11 @@ public interface Api {
     @PATCH("sale_return_voucher/{id}")
     Call<CreateSaleReturnResponse> updateSaleReturnVoucherDetails(@Body RequestCreateSaleReturn payload,@Path("id") String id);
 
-    @GET("company/gst_report/{id}")
+    @GET("company/gst_report/sale/{id}")
     Call<CompanyReportResponse> getcompanyreport(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
+
+    @GET("company/gst_report/purchase/{id}")
+    Call<CompanyReportResponse> getgstreportpurchase(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
 
 }

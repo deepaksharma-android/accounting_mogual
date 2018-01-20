@@ -17,10 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
+import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -88,14 +92,14 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
                     appUser.pdf_end_date = mEnd_date.getText().toString();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                /*    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
-                        mProgressDialog = new ProgressDialog(SaleRegisterActivity.this);
+                        mProgressDialog = new ProgressDialog(PurchaseRegisterActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_GST_REPORT_PURCHASE);
                     } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -108,7 +112,7 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
                                     }
                                 });
                         snackbar.show();
-                    }*/
+                    }
             }
         });
 
@@ -236,19 +240,19 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
         actionBar.setHomeButtonEnabled(true);
     }
 
-  /*  @Subscribe
-    public void getTransactionPdf(GetTransactionPdfResponse response){
+    @Subscribe
+    public void getTransactionPdf(CompanyReportResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
-            String company_report = response.getCompany_report();
+            String company_report = response.getHtml();
             i.putExtra("company_report",company_report);
             startActivity(i);
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-    }*/
+    }
 
     @Subscribe
     public void timout(String msg) {

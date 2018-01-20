@@ -172,6 +172,7 @@ public interface Cv {
     String ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS = "action_get_purchase_return_voucher_details";
     String ACTION_CREATE_DEFAULT_ITEMS = "action_create_default_items";
     String ACTION_GET_GST_REPORT = "action_get_gst_report";
+    String ACTION_GET_GST_REPORT_PURCHASE= "action_get_gst_report_purchase";
     String ACTION_UPDATE_SALE_VOUCHER_DETAILS = "action_update_sale_voucher_details";
     String ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS = "action_update_sale_return_voucher_details";
     String ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS = "action_update_purchase_voucher_details";

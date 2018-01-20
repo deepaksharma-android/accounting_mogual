@@ -508,6 +508,8 @@ public class ApiCallsService extends IntentService {
         handleGetPurchaseReturnVoucherDetails();
         }else if(Cv.ACTION_GET_GST_REPORT.equals(action)){
             handleGetGstReport();
+        }else if(Cv.ACTION_GET_GST_REPORT_PURCHASE.equals(action)){
+            handleGetGstReportPurchase();
         }else if(Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS.equals(action)){
             handleUpdateSaleVoucherDetails();
         }else if(Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS.equals(action)){
@@ -3923,7 +3925,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetDefaultItems(){
-        api.getDefaultItems().enqueue(new Callback<GetDefaultItemsResponse>() {
+        api.getDefaultItems(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetDefaultItemsResponse>() {
             @Override
             public void onResponse(Call<GetDefaultItemsResponse> call, Response<GetDefaultItemsResponse> r) {
                 if(r.code()==200){
@@ -4168,6 +4170,29 @@ public class ApiCallsService extends IntentService {
                 } else
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetGstReportPurchase() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getgstreportpurchase(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
 
             @Override
             public void onFailure(Call<CompanyReportResponse> call, Throwable t) {

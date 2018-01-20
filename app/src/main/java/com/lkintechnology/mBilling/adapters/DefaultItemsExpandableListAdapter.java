@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -115,22 +116,34 @@ public class DefaultItemsExpandableListAdapter extends BaseExpandableListAdapter
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked) {
+              /*  if(childPosition==0){
+                    if(isChecked){
+                        Toast.makeText(context,"Added",Toast.LENGTH_LONG).show();
 
-                    boolean  getChecked[] = mChildCheckStates.get(mGroupPosition);
-                    getChecked[mChildPosition] = isChecked;
-                    mChildCheckStates.put(mGroupPosition, getChecked);
-                    listData.add(childId);
+                    }else{
 
-
-                } else {
-
-                    boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
-                    getChecked[mChildPosition] = isChecked;
-                    mChildCheckStates.put(mGroupPosition, getChecked);
-                    listData.remove(childId);
-
+                        Toast.makeText(context,"Removed",Toast.LENGTH_LONG).show();
+                    }
                 }
+                else {*/
+
+                    if (isChecked) {
+
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        mChildCheckStates.put(mGroupPosition, getChecked);
+                        listData.add(childId);
+
+
+                    } else {
+
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        mChildCheckStates.put(mGroupPosition, getChecked);
+                        listData.remove(childId);
+
+                    }
+              //  }
             }
         });
    // }
