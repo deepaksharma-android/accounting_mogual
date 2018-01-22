@@ -1,11 +1,11 @@
-package com.lkintechnology.mBilling.activities.company.transaction.purchase;
+package com.lkintechnology.mBilling.activities.company.transaction.stocktransfer;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -33,7 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class PurchaseAddBillActivity extends AppCompatActivity {
+public class StockTransferAddBillActivity extends AppCompatActivity {
 
     @Bind(R.id.bill_courier_charges)
     EditText courier_charges;
@@ -77,7 +78,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         frombillvoucherlist=getIntent().getExtras().getBoolean("frombillvoucherlist");
-        setContentView(R.layout.activity_sale_voucher_add_bill);
+        setContentView(R.layout.activity_stock_transfer_add_bill);
         ButterKnife.bind(this);
         initActionbar();
         courier_charges.setEnabled(false);
@@ -122,6 +123,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
         //percentage.setText(billSundaryPercentage);
 
         String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
+        Timber.i("ID++++" + data.getAttributes().getBill_sundry_id());
         //Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
             // mPercentageLayout.setVisibility(View.VISIBLE);
@@ -229,7 +231,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                     mMap.put("number_of_bill", String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber));
                 }
                 if(String.valueOf(/*data.getAttributes().isConsolidate_bill_sundry()*/billSundryConsolidated)!=null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    mMap.put("consolidated", String.valueOf(data.getAttributes().isConsolidate_bill_sundry()));
                 }
                 if(billSundryFedAsPercentage!=null){
                     if(billSundryFedAsPercentage.equals("valuechange")) {
@@ -258,10 +260,11 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                     appUser.mListMapForBillPurchase.add(finalPos, mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                Intent intent = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CreateStockTransferActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
+
             }
         });
     }
@@ -278,7 +281,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("PURCHASE ADD BILL SUNDRY");
+        actionbarTitle.setText("STOCK ADD BILL SUNDRY");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);

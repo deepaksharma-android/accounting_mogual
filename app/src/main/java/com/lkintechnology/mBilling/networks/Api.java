@@ -612,8 +612,10 @@ public interface Api {
     @GET("version")
     Call<VersionResponse> version(@Query("device_type") String device_type);
 
+
     @GET("default_items")
     Call<GetDefaultItemsResponse> getDefaultItems(@Query("company_id") String company_id);
+
 
     @POST("create_default_items")
     Call<CreateDefaultItemsResponse> createDefaultItems(@Body RequestCreateDefaultItems payload);

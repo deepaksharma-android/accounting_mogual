@@ -23,6 +23,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase_retur
 import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
@@ -59,6 +60,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     LinearLayout debitNote;
     @Bind(R.id.layout_credit_note)
     LinearLayout creditNote;
+    @Bind(R.id.layout_stock_transfer)
+    LinearLayout stockTransfer;
 
 
     Context context;
@@ -164,6 +167,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         journalVourcher();
         debitNote();
         creditNote();
+        stockTransfer();
 
     }
 
@@ -613,6 +617,15 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();*/
+            }
+        });
+    }
+    private void stockTransfer() {
+        stockTransfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent j = new Intent(context, CreateStockTransferActivity.class);
+                context.startActivity(j);
             }
         });
     }

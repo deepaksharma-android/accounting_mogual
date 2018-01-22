@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -71,12 +72,14 @@ public class FirstPageActivity extends BaseActivityCompany {
     TextView mtextview_expenses;
     @Bind(R.id.date)
     TextView mDate;
-    @Bind(R.id.profit_lose_layout)
-    LinearLayout mProfit_lose_layout;
-    @Bind(R.id.profit_lose_textview)
-    TextView mProfit_lose_textview;
-    @Bind(R.id.profit_lose_textview1)
-    TextView mProfit_lose_textview1;
+    @Bind(R.id.profit_loss_layout)
+    LinearLayout mProfit_loss_layout;
+    @Bind(R.id.profit_loss_textview)
+    TextView mProfit_loss_textview;
+    @Bind(R.id.profit_loss_textview1)
+    TextView mProfit_loss_textview1;
+    @Bind(R.id.profit_loss_image)
+    ImageView profit_loss_image;
     ProgressDialog mProgressDialog;
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
@@ -192,15 +195,17 @@ public class FirstPageActivity extends BaseActivityCompany {
             mtextview_stock_in_hand.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getStock_in_hand()));
             mtextview_sales.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getSales()));
             mtextview_expenses.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getExpenses()));
-            mProfit_lose_textview1.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getProfit_loss()));
+            mProfit_loss_textview1.setText("₹ " +String.format("%.2f",response.getCompany_details().getData().getAttributes().getProfit_loss()));
 
             if(response.getCompany_details().getData().getAttributes().getProfit_loss()<0){
                 //mProfit_lose_layout.setBackgroundColor(Color.RED);
-                mProfit_lose_textview.setText("LOSE");
-                mProfit_lose_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
+                mProfit_loss_textview.setText("LOSS");
+                mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
+                profit_loss_image.setImageResource(R.drawable.icon_loss);
             }else {
-                mProfit_lose_textview.setText("PROFIT");
-                mProfit_lose_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
+                mProfit_loss_textview.setText("PROFIT");
+                mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_green);
+                profit_loss_image.setImageResource(R.drawable.icon_loss);
                // mProfit_lose_layout.setBackgroundColor(Color.GREEN);
             }
         } else {

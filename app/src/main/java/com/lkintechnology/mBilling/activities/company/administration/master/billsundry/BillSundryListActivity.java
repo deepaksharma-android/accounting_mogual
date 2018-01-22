@@ -31,6 +31,8 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSal
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddBillActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.StockTransferAddBillActivity;
 import com.lkintechnology.mBilling.activities.dashboard.MasterDashboardActivity;
 import com.lkintechnology.mBilling.adapters.BillSundryListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -267,6 +269,11 @@ public class BillSundryListActivity extends AppCompatActivity {
                 intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
+            }else if (ExpandableItemListActivity.comingFrom == 4) {
+                Intent intent = new Intent(getApplicationContext(), StockTransferAddBillActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
             }
         }
 
@@ -294,6 +301,11 @@ public class BillSundryListActivity extends AppCompatActivity {
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 3) {
                 Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                intent.putExtra("is", true);
+                startActivity(intent);
+                finish();
+            }else if (ExpandableItemListActivity.comingFrom == 4) {
+                Intent intent = new Intent(this, CreateStockTransferActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
@@ -333,6 +345,11 @@ public class BillSundryListActivity extends AppCompatActivity {
                         finish();
                     } else if (ExpandableItemListActivity.comingFrom == 3) {
                         Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
+                        intent.putExtra("is", true);
+                        startActivity(intent);
+                        finish();
+                    }else if (ExpandableItemListActivity.comingFrom == 4) {
+                        Intent intent = new Intent(this, CreateStockTransferActivity.class);
                         intent.putExtra("is", true);
                         startActivity(intent);
                         finish();

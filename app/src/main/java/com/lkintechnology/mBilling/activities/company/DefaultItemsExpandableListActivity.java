@@ -141,7 +141,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                DefaultItemsExpandableListAdapter.listData.clear();
+                //DefaultItemsExpandableListAdapter.listData.clear();
                 finish();
                 return true;
             default:
@@ -151,7 +151,7 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
 
     @Override
     public void onBackPressed() {
-        DefaultItemsExpandableListAdapter.listData.clear();
+        //DefaultItemsExpandableListAdapter.listData.clear();
         finish();
     }
 
