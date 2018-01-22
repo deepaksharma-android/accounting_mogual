@@ -367,7 +367,7 @@ public interface Api {
     Call<GetUnitConversionDetailsResponse> getunitconversiondetails(@Path("id") String id);
 
     @GET("item/{id}")
-    Call<GetItemResponse> getitem(@Path("id") String id);
+    Call<GetItemResponse> getitem(@Path("id") String id,@Query("material_center_id") String material_center_id );
 
     @POST("item")
     Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);

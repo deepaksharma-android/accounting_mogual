@@ -2107,7 +2107,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetItem() {
-        api.getitem(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetItemResponse>() {
+        api.getitem(Preferences.getInstance(getApplicationContext()).getCid(),Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
             @Override
             public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
                 if (r.code() == 200) {

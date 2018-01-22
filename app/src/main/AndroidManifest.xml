@@ -116,6 +116,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.administration.master.item.ItemMaterialCentreListActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.administration.master.unit.CreateUnitActivity"
             android:parentActivityName=".activities.company.administration.master.unit.UnitListActivity"
             android:screenOrientation="portrait"

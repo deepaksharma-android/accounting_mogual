@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.BaseActivityCompany;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.administration.master.item.ItemMaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionBankActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionCashInHandActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionCustomerActivity;
@@ -149,8 +150,8 @@ public class FirstPageActivity extends BaseActivityCompany {
             public void onClick(View view) {
                 appUser.account_master_group ="";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent i = new Intent(getApplicationContext(), TransactionStockInHandActivity.class);
-                FirstPageActivity.isDirectForFirstPage=false;
+                Intent i = new Intent(getApplicationContext(), ItemMaterialCentreListActivity.class);
+              /*  FirstPageActivity.isDirectForFirstPage=false;*/
                 startActivity(i);
             }
         });
@@ -201,11 +202,11 @@ public class FirstPageActivity extends BaseActivityCompany {
                 //mProfit_lose_layout.setBackgroundColor(Color.RED);
                 mProfit_loss_textview.setText("LOSS");
                 mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
-                profit_loss_image.setImageResource(R.drawable.icon_loss);
+               // profit_loss_image.setImageResource(R.drawable.icon_loss);
             }else {
                 mProfit_loss_textview.setText("PROFIT");
                 mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_green);
-                profit_loss_image.setImageResource(R.drawable.icon_loss);
+              //  profit_loss_image.setImageResource(R.drawable.icon_loss);
                // mProfit_lose_layout.setBackgroundColor(Color.GREEN);
             }
         } else {
