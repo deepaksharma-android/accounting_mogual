@@ -486,7 +486,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS);
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                         }else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
@@ -511,7 +511,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS);
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                         }
                                                         else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {

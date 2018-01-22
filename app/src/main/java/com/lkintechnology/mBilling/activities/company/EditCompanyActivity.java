@@ -70,9 +70,30 @@ public class EditCompanyActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
-        setupViewPager(mHeaderViewPager);
-        mTabLayout.setupWithViewPager(mHeaderViewPager);
-        mHeaderViewPager.setOffscreenPageLimit(1);
+        EventBus.getDefault().register(this);
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(this, Cv.ACTION_GET_COMPANY);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
        /* Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
@@ -173,29 +194,7 @@ public class EditCompanyActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(this, Cv.ACTION_GET_COMPANY);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
         super.onResume();
     }
 
@@ -244,38 +243,40 @@ public class EditCompanyActivity extends AppCompatActivity {
             Preferences.getInstance(getApplicationContext()).setClogo(Helpers.mystring(response.getCompany().getData().getAttributes().getLogo()));
             Preferences.getInstance(getApplicationContext()).setCsign(Helpers.mystring(response.getCompany().getData().getAttributes().getSignature()));
             Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(response.getCompany().getData().getAttributes().getUsername()));
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
 
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(EditCompanyActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
     }
 
     @Subscribe
     public void getIndustryType(IndustryTypeResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
            /* new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -291,6 +292,9 @@ public class EditCompanyActivity extends AppCompatActivity {
                 industry_type.add(response.getIndustry().getData().get(i).getAttributes().getName());
                 industry_id.add(response.getIndustry().getData().get(i).getAttributes().getId());
 //                LocalRepositories.saveAppUser(this,appUser);
+                setupViewPager(mHeaderViewPager);
+                mTabLayout.setupWithViewPager(mHeaderViewPager);
+                mHeaderViewPager.setOffscreenPageLimit(1);
             }
         } else {
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

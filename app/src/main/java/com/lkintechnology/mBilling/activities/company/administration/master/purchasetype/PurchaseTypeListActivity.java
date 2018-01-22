@@ -113,6 +113,7 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+
                 if (ParameterConstant.checkForPurchaseTypeList == 0) {
                     Intent intent = new Intent(this, MasterDashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -121,12 +122,14 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
                 } else if (ParameterConstant.checkForPurchaseTypeList == 1) {
                     Intent intent = new Intent(this, CreatePurchaseActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("fromsalelist",false);
                     startActivity(intent);
                     finish();
 
                 } else if (ParameterConstant.checkForPurchaseTypeList == 2) {
                     Intent intent = new Intent(this, CreateSaleReturnActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("fromsalelist",false);
                     startActivity(intent);
                     finish();
                 }
@@ -139,6 +142,7 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        CreatePurchaseActivity.fromsalelist=false;
         if (ParameterConstant.checkForPurchaseTypeList == 0) {
             Intent intent = new Intent(this, MasterDashboardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -147,12 +151,14 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
         } else if (ParameterConstant.checkForPurchaseTypeList == 1) {
             Intent intent = new Intent(this, CreatePurchaseActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("fromsalelist",false);
             startActivity(intent);
             finish();
 
         } else if (ParameterConstant.checkForPurchaseTypeList == 2) {
             Intent intent = new Intent(this, CreateSaleReturnActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("fromsalelist",false);
             startActivity(intent);
             finish();
 

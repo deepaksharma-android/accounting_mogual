@@ -169,8 +169,8 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
                 listDataHeader.add(response.getDefault_item_group().getData().get(i).getAttributes().getName());
                 name = new ArrayList<>();
                 id = new ArrayList<>();
-                name.add(0,"Select all"+","+0);
-                for (int j = 1; j < response.getDefault_item_group().getData().get(i).getAttributes().getItems().size(); j++) {
+             //   name.add(0,"Select all"+","+0);
+                for (int j = 0; j < response.getDefault_item_group().getData().get(i).getAttributes().getItems().size(); j++) {
                     name.add(response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getName()
                     +","+response.getDefault_item_group().getData().get(i).getAttributes().getItems().get(j).getId());
 
