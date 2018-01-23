@@ -66,11 +66,11 @@ public class CompanyPasswordFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
     }
     @Override
     public void onStart() {
-        EventBus.getDefault().register(this);
         super.onStart();
     }
     @Override
@@ -175,12 +175,19 @@ public class CompanyPasswordFragment extends Fragment {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
            // mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getActivity());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter=new CompanyLoginAdapter(getActivity(),response.getCompany().getData().getAttributes().getUsername());
-            mRecyclerView.setAdapter(mAdapter);
+           // Toast.makeText(getActivity(), "Subscribe if", Toast.LENGTH_SHORT).show();
+            if(response.getCompany().getData().getAttributes().getUsername().size()!=0){
+                layoutManager = new LinearLayoutManager(getActivity());
+                mRecyclerView.setLayoutManager(layoutManager);
+                mAdapter=new CompanyLoginAdapter(getActivity(),response.getCompany().getData().getAttributes().getUsername());
+                mRecyclerView.setAdapter(mAdapter);
+            }else {
+                Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        } else {
+           // Toast.makeText(getActivity(), "Subscribe else", Toast.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-
     }
     @Override
     public void onPause() {
@@ -330,8 +337,7 @@ public class CompanyPasswordFragment extends Fragment {
         }
         else{
 
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
 
         }

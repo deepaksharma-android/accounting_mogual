@@ -527,4 +527,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     //public List<String> listDataChildId = new ArrayList<String>();
    // public List<String> listData =  new ArrayList<>();
 
+    public String enable_user="";
+    public String allow_user_to_delete_voucher="";
+    public String allow_user_to_edit_voucher="";
+
 }

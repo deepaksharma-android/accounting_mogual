@@ -1,6 +1,5 @@
 package com.lkintechnology.mBilling.networks;
 
-import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
@@ -11,6 +10,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCompanyLogo;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanySignature;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccount;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccountGroup;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateAuthorizationSettings;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashDeposit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashWithdraw;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBillSundry;
@@ -44,6 +44,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 
 import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -657,5 +658,8 @@ public interface Api {
 
     @POST("item")
     Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload);
+
+    @POST("authorization_settings/{id")
+    Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload, @Path("id") String id);
 
 }

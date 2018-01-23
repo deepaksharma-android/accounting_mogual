@@ -14,7 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,22 +34,40 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
     CheckBox checkbox_edit_voucher;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
+    AppUser appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_authrization);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
+        appUser= LocalRepositories.getAppUser(this);
         initActionbar();
+
+        if(checkbox_enable.isChecked()){
+            appUser.enable_user="true";
+        }else {
+            appUser.enable_user="false";
+        }
+
+        if(checkbox_delete_voucher.isChecked()){
+            appUser.allow_user_to_delete_voucher="true";
+        }else {
+            appUser.allow_user_to_delete_voucher="false";
+        }
+
+        if(checkbox_delete_voucher.isChecked()){
+            appUser.allow_user_to_edit_voucher="true";
+        }else {
+            appUser.allow_user_to_edit_voucher="false";
+        }
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkbox_enable.isChecked()){
-                    Toast.makeText(CompanyAuthrizationActivity.this, "True", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(CompanyAuthrizationActivity.this, "False", Toast.LENGTH_SHORT).show();
-                }
+               // Boolean isConnected = new
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS);
             }
         });
     }
@@ -61,7 +85,7 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("AUTHRIZATION SETTINGS");
+        actionbarTitle.setText("AUTHORIZATION SETTINGS");
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -72,16 +96,19 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+        EventBus.getDefault().register(this);
         super.onPause();
     }
 
     @Override
     protected void onStop() {
+        EventBus.getDefault().register(this);
         super.onStop();
     }
 

@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCompanyLogo;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanySignature;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccount;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccountGroup;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateAuthorizationSettings;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashDeposit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashWithdraw;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBillSundry;
@@ -47,6 +48,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumbe
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
@@ -524,8 +526,9 @@ public class ApiCallsService extends IntentService {
             handleGetProfitAndLoss();
         }else if(Cv.ACTION_CREATE_STOCK_TRANSFER.equals(action)){
             handleCreateStockTransfer();
+        }else if (Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS.equals(action)){
+            handleCreateAuhorizationSettings();
         }
-
     }
 
     private void handleGetItemGroupDetails() {
@@ -4255,6 +4258,28 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
+    }
+    private void handleCreateAuhorizationSettings(){
+        api.createAuthorizationSettings(new RequestCreateAuthorizationSettings(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateAuthorizationSettingsResponse>() {
+            @Override
+            public void onResponse(Call<CreateAuthorizationSettingsResponse> call, Response<CreateAuthorizationSettingsResponse> response) {
+                if(response.code()==200){
+                    CreateAuthorizationSettingsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                }else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<CreateAuthorizationSettingsResponse> call, Throwable t) {
+
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                }catch (Exception ex){
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 }
