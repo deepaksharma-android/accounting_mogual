@@ -4260,7 +4260,7 @@ public class ApiCallsService extends IntentService {
         });
     }
     private void handleCreateAuhorizationSettings(){
-        api.createAuthorizationSettings(new RequestCreateAuthorizationSettings(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateAuthorizationSettingsResponse>() {
+        api.createAuthorizationSettings(new RequestCreateAuthorizationSettings(this)/*Preferences.getInstance(getApplicationContext()).getCid()*/).enqueue(new Callback<CreateAuthorizationSettingsResponse>() {
             @Override
             public void onResponse(Call<CreateAuthorizationSettingsResponse> call, Response<CreateAuthorizationSettingsResponse> response) {
                 if(response.code()==200){

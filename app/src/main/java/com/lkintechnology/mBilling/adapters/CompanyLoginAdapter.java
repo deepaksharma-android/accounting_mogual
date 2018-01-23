@@ -55,6 +55,9 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, CompanyAuthrizationActivity.class);
+                Integer user_id=data.get(i).getId();
+                appUser.authorizations__setting_user_id=user_id;
+                LocalRepositories.saveAppUser(context,appUser);
                 context.startActivity(intent);
             }
         });

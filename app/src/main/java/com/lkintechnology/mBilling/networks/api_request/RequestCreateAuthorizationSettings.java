@@ -15,6 +15,7 @@ public class RequestCreateAuthorizationSettings {
         AppUser appUser = LocalRepositories.getAppUser(context);
         authorization_settings = new HashMap();
 
+        authorization_settings.put("authorization_user_id",appUser.authorizations__setting_user_id);
         authorization_settings.put("enable",appUser.enable_user);
         authorization_settings.put("allow_to_delete_voucher",appUser.allow_user_to_delete_voucher);
         authorization_settings.put("allow_to_edit_voucher",appUser.allow_user_to_edit_voucher);

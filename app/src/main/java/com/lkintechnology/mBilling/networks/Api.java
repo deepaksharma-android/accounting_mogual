@@ -659,7 +659,7 @@ public interface Api {
     @POST("item")
     Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload);
 
-    @POST("authorization_settings/{id")
-    Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload, @Path("id") String id);
+    @POST("authorization_settings")
+    Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload/*@Path("id") String id*/);
 
 }

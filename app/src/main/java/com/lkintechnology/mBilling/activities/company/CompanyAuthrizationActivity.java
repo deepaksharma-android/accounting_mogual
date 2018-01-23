@@ -1,7 +1,10 @@
 package com.lkintechnology.mBilling.activities.company;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +19,20 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 public class CompanyAuthrizationActivity extends AppCompatActivity {
 
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Bind(R.id.checkbox_enable)
     CheckBox checkbox_enable;
     @Bind(R.id.checkbox_delete_voucher)
@@ -34,6 +41,8 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
     CheckBox checkbox_edit_voucher;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
+    ProgressDialog mProgressDialog;
+    Snackbar snackbar;
     AppUser appUser;
 
     @Override
@@ -94,21 +103,31 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
     }
 
+    @Subscribe
+    public void createAuthorizationSettings(CreateAuthorizationSettingsResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+
+        }else {
+            snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        EventBus.getDefault().register(this);
+       // EventBus.getDefault().register(this);
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        EventBus.getDefault().register(this);
+      //  EventBus.getDefault().register(this);
         super.onStop();
     }
 

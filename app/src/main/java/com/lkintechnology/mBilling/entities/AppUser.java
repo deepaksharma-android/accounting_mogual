@@ -530,5 +530,6 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String enable_user="";
     public String allow_user_to_delete_voucher="";
     public String allow_user_to_edit_voucher="";
+    public Integer authorizations__setting_user_id;
 
 }

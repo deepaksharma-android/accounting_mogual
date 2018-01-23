@@ -464,7 +464,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:gravity="start"
-                        android:text="PROFIT"
+                        android:text="Profit"
                         android:textColor="#050505"
                         android:textSize="16sp" />
 

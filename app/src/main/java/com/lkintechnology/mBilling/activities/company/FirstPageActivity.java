@@ -200,12 +200,13 @@ public class FirstPageActivity extends BaseActivityCompany {
 
             if(response.getCompany_details().getData().getAttributes().getProfit_loss()<0){
                 //mProfit_lose_layout.setBackgroundColor(Color.RED);
-                mProfit_loss_textview.setText("LOSS");
+                mProfit_loss_textview.setText("Loss");
+                mProfit_loss_textview.setTextColor(Color.RED);
                 mProfit_loss_textview1.setTextColor(Color.RED);
                // mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
                 profit_loss_image.setImageResource(R.drawable.icon_loss);
             }else {
-                mProfit_loss_textview.setText("PROFIT");
+                mProfit_loss_textview.setText("Profit");
                 profit_loss_image.setImageResource(R.drawable.icon_profits);
                // mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_green);
                // mProfit_lose_layout.setBackgroundColor(Color.GREEN);
