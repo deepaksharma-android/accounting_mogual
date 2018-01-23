@@ -28,6 +28,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.item_group.ItemGroupListActivity;
+import com.lkintechnology.mBilling.activities.company.administration.master.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.taxcategory.TaxCategoryeListActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.unit.UnitListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -82,6 +83,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     LinearLayout mUpdateButton;
     @Bind(R.id.tax_category)
     TextView mTaxCategory;
+    @Bind(R.id.store_layout)
+    LinearLayout mStoreLayout;
+    @Bind(R.id.store)
+    TextView mStore;
     Snackbar snackbar;
     Animation blinkOnClick;
     AppUser appUser;
@@ -113,6 +118,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mItemGroup.setText(appUser.item_group_name);
         mItemUnit.setText(appUser.item_unit_name);
         mTaxCategory.setText(appUser.item_tax_category_name);
+        mStore.setText(appUser.stock_item_material_center);
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setStockSerial("");
         Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
@@ -239,6 +245,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_description("");
             Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
             Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
+            Preferences.getInstance(getApplicationContext()).setStore_for_item("");
+            Preferences.getInstance(getApplicationContext()).setStore_id_for_item("");
             mSubmitButton.setVisibility(View.GONE);
             mUpdateButton.setVisibility(View.VISIBLE);
            /* mTaxCategoryArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -332,6 +340,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemGroup.getText().toString().equals("")) {
                         if (!mItemUnit.getText().toString().equals("")) {
                             if (!mTaxCategory.getText().toString().equals("")) {
+                                if (!mStore.getText().toString().equals("")) {
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -370,6 +379,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                     snackbar.show();
                                 }
                             } else {
+                                    Snackbar.make(coordinatorLayout, "Select Store", Snackbar.LENGTH_LONG).show();
+                                }
+                            }else {
                                 Snackbar.make(coordinatorLayout, "Add Tax Catagory", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
@@ -392,6 +404,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
                             if (!mTaxCategory.getText().toString().equals("")) {
+                                if(!mStore.getText().toString().equals("")){
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -443,6 +456,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Add Tax Catagory", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Select Store", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
                             Snackbar.make(coordinatorLayout, "Select Unit Marker", Snackbar.LENGTH_LONG).show();
@@ -513,6 +529,15 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
         });
 
+        mStoreLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intStartActivityForResult = 1;
+                ParameterConstant.checkStartActivityResultForMaterialCenter=6;
+                MaterialCentreListActivity.isDirectForMaterialCentre = false;
+                startActivityForResult(new Intent(getApplicationContext(), MaterialCentreListActivity.class), 4);
+            }
+        });
 
     }
 
@@ -648,6 +673,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setitem_dont_maintain_stock_balance("");
             Preferences.getInstance(getApplicationContext()).setitem_settings_alternate_unit("");
             Preferences.getInstance(getApplicationContext()).setitem_description("");
+            Preferences.getInstance(getApplicationContext()).setStore_for_item("");
+            Preferences.getInstance(getApplicationContext()).setStore_id_for_item("");
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -711,6 +738,23 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 mItemUnit.setText("");
+            }
+        }
+        if (requestCode == 4) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.stock_item_material_center_id = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mStore.setText(name[0]);
+                appUser.stock_item_material_center=name[0];
+                Preferences.getInstance(getApplicationContext()).setStore_for_item(name[0]);
+                Preferences.getInstance(getApplicationContext()).setStore_id_for_item(id);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                //mItemGroup.setText("");
             }
         }
     }

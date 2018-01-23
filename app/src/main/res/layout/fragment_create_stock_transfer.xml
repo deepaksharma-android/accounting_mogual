@@ -163,7 +163,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.lkintechnology.mBilling.utils.BuzzEditText
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
                                 android:id="@+id/vch_number"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"

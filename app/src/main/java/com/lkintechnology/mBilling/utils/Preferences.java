@@ -143,6 +143,11 @@ public class Preferences {
     private static final String voucherstore="store";
 
     private static final String store_id="store_id";
+
+    private static final String store_to="store_to";
+    private static final String store_to_id="store_to_id";
+    private static final String store_id_for_item="store_id_for_item";
+    private static final String store_for_item="store_for_item";
     private static final String party_name="party_name";
     private static final String party_id="party_id";
     private static final String vouchermobile="mobile";
@@ -1125,7 +1130,14 @@ public class Preferences {
     }
 
 
+    public void setStore_for_item(String store_for_item) {
+        editor.putString(store_for_item, store_for_item);
+        editor.commit();
+    }
 
+    public String getStore_for_item() {
+        return pref.getString(store_for_item, "");
+    }
 
 
 
@@ -1136,13 +1148,32 @@ public class Preferences {
         editor.putString(store_id, storeid);
         editor.commit();
     }
+    public void setStore_to(String store_to){
+        editor.putString(store_to,store_to);
+        editor.commit();
+    }
+    public String getStore_to(){
+        return pref.getString(store_to,"");
+    }
 
     public String getStoreId() {
         return pref.getString(store_id, "");
     }
+    public void setStore_to_id(String store_to_id){
+        editor.putString(store_to_id,store_to_id);
+        editor.commit();
+    }
+    public String getStore_to_id(){
+        return pref.getString(store_to_id,"");
+    }
 
-
-
+    public void setStore_id_for_item(String store_id_for_item){
+        editor.putString(store_id_for_item,store_id_for_item);
+        editor.commit();
+    }
+    public String getStore_id_for_item(){
+        return pref.getString(store_id_for_item,"");
+    }
 
     public void setParty_name(String partyname) {
         editor.putString(party_name, partyname);

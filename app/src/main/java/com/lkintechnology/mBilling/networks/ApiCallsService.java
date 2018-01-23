@@ -518,6 +518,8 @@ public class ApiCallsService extends IntentService {
             handleUpdatePurchaseVoucherDetails();
         }else if(Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
             handleUpdatePurchaseReturnVoucherDetails();
+        }else if(Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)){
+            handleGetProfitAndLoss();
         }
 
     }
@@ -4185,6 +4187,29 @@ public class ApiCallsService extends IntentService {
     private void handleGetGstReportPurchase() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getgstreportpurchase(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetProfitAndLoss() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getprofitandloss(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
             @Override
             public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
                 if (r.code() == 200) {

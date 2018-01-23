@@ -650,5 +650,8 @@ public interface Api {
     @GET("company/gst_report/purchase/{id}")
     Call<CompanyReportResponse> getgstreportpurchase(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("company/gst_report/sale/{id}")
+    Call<CompanyReportResponse> getprofitandloss(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
+
 
 }

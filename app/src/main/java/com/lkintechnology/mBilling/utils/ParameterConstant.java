@@ -7,6 +7,7 @@ package com.lkintechnology.mBilling.utils;
 public class ParameterConstant {
 
     public static int checkStartActivityResultForAccount;
+    public static int checkStartActivityResultForMaterialCenter;
     public static int checkStartActivityResultForAccountGroup;
     public static int checkStartActivityResultForItemGroupOfItem;
     public static int checkStartActivityResultForUnitList;

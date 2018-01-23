@@ -252,6 +252,7 @@ public class CreateSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 intStartActivityForResult=1;
                 ParameterConstant.checkStartActivityResultForAccount =8;
+                ParameterConstant.checkStartActivityResultForMaterialCenter=3;
                 MaterialCentreListActivity.isDirectForMaterialCentre=false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }

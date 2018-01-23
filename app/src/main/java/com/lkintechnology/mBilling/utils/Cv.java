@@ -177,6 +177,7 @@ public interface Cv {
     String ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS = "action_update_sale_return_voucher_details";
     String ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS = "action_update_purchase_voucher_details";
     String ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS = "action_update_purchase_return_voucher_details";
+    String ACTION_GET_PROFIT_AND_LOSS = "action_get_profit_and_loss";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;

@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
@@ -32,10 +31,8 @@ import com.lkintechnology.mBilling.fragments.transaction.stock_transfer.AddItemS
 import com.lkintechnology.mBilling.fragments.transaction.stock_transfer.CreateStockTransferFragment;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -68,33 +65,10 @@ public class CreateStockTransferActivity extends AppCompatActivity {
             mHeaderViewPager.setCurrentItem(1, true);
         }
 
-        ActionBar actionBar = getSupportActionBar();
+       /* ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-
-        //Boolean isConnected = ConnectivityReceiver.isConnected();
-        /*if (isConnected) {
-            mProgressDialog = new ProgressDialog(CreateSaleActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(this, Cv.ACTION_GET_INDUSTRY);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }*/
+        actionBar.setDefaultDisplayHomeAsUpEnabled(true);*/
 
     }
 
@@ -171,23 +145,23 @@ public class CreateStockTransferActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
 
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.icon_id:
+           /* case R.id.icon_id:
                 Intent i = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
                 startActivity(i);
                 finish();
-                return true;
+                return true;*/
             case android.R.id.home:
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

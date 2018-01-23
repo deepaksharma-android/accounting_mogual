@@ -263,6 +263,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             public void onClick(View v) {
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 0;
+                ParameterConstant.checkStartActivityResultForMaterialCenter=1;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }

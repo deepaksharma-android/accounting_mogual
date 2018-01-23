@@ -21,7 +21,12 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
 import com.lkintechnology.mBilling.activities.dashboard.MasterDashboardActivity;
 import com.lkintechnology.mBilling.adapters.MaterialCentreListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -34,6 +39,7 @@ import com.lkintechnology.mBilling.utils.EventEditMaterialCentre;
 import com.lkintechnology.mBilling.utils.EventSelectPurchase;
 import com.lkintechnology.mBilling.utils.EventSelectSaleVoucher;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -323,7 +329,24 @@ public class MaterialCentreListActivity extends AppCompatActivity {
             String childid = arr[1];
             String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-            Intent intentForward = new Intent(getApplicationContext(), CreateSaleActivity.class);
+            Intent intentForward=null;
+            if (ParameterConstant.checkStartActivityResultForMaterialCenter==1){
+               intentForward = new Intent(getApplicationContext(), CreateSaleActivity.class);
+            }else if (ParameterConstant.checkStartActivityResultForMaterialCenter==2){
+                intentForward = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
+            }
+            else if (ParameterConstant.checkStartActivityResultForMaterialCenter==3){
+                intentForward = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
+            }
+            else if (ParameterConstant.checkStartActivityResultForMaterialCenter==4){
+                intentForward = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
+            }
+            else if (ParameterConstant.checkStartActivityResultForMaterialCenter==5){
+                intentForward = new Intent(getApplicationContext(), CreateStockTransferActivity.class);
+            } else if (ParameterConstant.checkStartActivityResultForMaterialCenter==6){
+                intentForward = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+            }
+
             intentForward.putExtra("bool", true);
             intentForward.putExtra("name", name);
             intentForward.putExtra("id", arrid);
