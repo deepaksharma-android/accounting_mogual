@@ -285,7 +285,8 @@ public class AppUser {
     public String sale_type_name="";
 
     public String purchase_type_name="";
-
+    public String stock_type_id="";
+    public String stock_type_name="";
     public String childId = "";
     public List<Map> mListMapForItemSale = new ArrayList();
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();

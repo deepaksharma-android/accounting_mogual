@@ -334,8 +334,7 @@ public class CreateStockTransferFragment extends Fragment {
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
                                                         } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
@@ -359,7 +358,7 @@ public class CreateStockTransferFragment extends Fragment {
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_STOCK_TRANSFER);
                                                         } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
@@ -493,14 +492,13 @@ public class CreateStockTransferFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("ID" + id);
-                appUser.purchase_puchase_type_id = String.valueOf(id);
+               // appUser.purchase_puchase_type_id = String.valueOf(id);
+                appUser.stock_type_id = String.valueOf(id);
+                appUser.stock_type_name = result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mStockType.setText(result);
                 Preferences.getInstance(getContext()).setPurchase_type_name(result);
                 Preferences.getInstance(getContext()).setPurchase_type_id(id);
-
-                appUser.purchase_type_name = result;
-                LocalRepositories.saveAppUser(getActivity(), appUser);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -618,11 +616,14 @@ public class CreateStockTransferFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");
             mVchNumber.setText("");
+            mStoreFrom.setText("");
+            mStoreTo.setText("");
             mSelectedImage.setImageResource(0);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
             // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));

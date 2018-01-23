@@ -4,7 +4,7 @@ package com.lkintechnology.mBilling.utils;
 public interface Cv {
     //String BASE_URL = "https://mbilling.in/api/v1/";
     String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-   // String BASE_URL = "http://192.168.1.11:3000/api/v1/";
+    //String BASE_URL = "http://192.168.1.11:3000/api/v1/";
 
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
@@ -178,6 +178,7 @@ public interface Cv {
     String ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS = "action_update_purchase_voucher_details";
     String ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS = "action_update_purchase_return_voucher_details";
     String ACTION_GET_PROFIT_AND_LOSS = "action_get_profit_and_loss";
+    String ACTION_CREATE_STOCK_TRANSFER = "action_create_stock_transfer";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;

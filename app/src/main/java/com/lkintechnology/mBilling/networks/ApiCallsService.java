@@ -33,6 +33,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchase;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateReceipt;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleReturn;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleVoucher;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateStockTransfer;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnitConversion;
 import com.lkintechnology.mBilling.networks.api_request.RequestEditLogin;
@@ -156,6 +157,7 @@ import com.lkintechnology.mBilling.networks.api_response.saletype.GetSaleTypeRes
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -520,6 +522,8 @@ public class ApiCallsService extends IntentService {
             handleUpdatePurchaseReturnVoucherDetails();
         }else if(Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)){
             handleGetProfitAndLoss();
+        }else if(Cv.ACTION_CREATE_STOCK_TRANSFER.equals(action)){
+            handleCreateStockTransfer();
         }
 
     }
@@ -4228,5 +4232,29 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
+    }
+
+    private void handleCreateStockTransfer() {
+        api.createStockTransfer(new RequestCreateStockTransfer(this)).enqueue(new Callback<CreateStockTransferResponse>() {
+            @Override
+            public void onResponse(Call<CreateStockTransferResponse> call, Response<CreateStockTransferResponse> r) {
+                if (r.code() == 200) {
+                    CreateStockTransferResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateStockTransferResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
     }
 }

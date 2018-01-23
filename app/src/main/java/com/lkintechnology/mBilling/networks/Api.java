@@ -29,6 +29,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchaseRet
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateReceipt;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleReturn;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleVoucher;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateStockTransfer;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnitConversion;
 import com.lkintechnology.mBilling.networks.api_request.RequestEditLogin;
@@ -149,6 +150,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -653,5 +655,7 @@ public interface Api {
     @GET("company/gst_report/sale/{id}")
     Call<CompanyReportResponse> getprofitandloss(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @POST("item")
+    Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload);
 
 }
