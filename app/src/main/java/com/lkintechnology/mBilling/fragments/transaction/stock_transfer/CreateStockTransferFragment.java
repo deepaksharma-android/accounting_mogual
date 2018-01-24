@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -49,6 +50,7 @@ import com.lkintechnology.mBilling.fragments.transaction.purchase.AddItemPurchas
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -304,6 +306,7 @@ public class CreateStockTransferFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.i("qqqqqqqqqqq"+Preferences.getInstance(getApplicationContext()).getStore_to_id());
                 submit.startAnimation(blinkOnClick);
                 appUser=LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchase.size() > 0) {
@@ -443,7 +446,7 @@ public class CreateStockTransferFragment extends Fragment {
                 boolForStore = true;
                 Preferences.getInstance(getContext()).setStore_to(name[0]);
                 Preferences.getInstance(getContext()).setStore_to_id(id);
-               // Toast.makeText(getActivity(), "result code 12", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "result code 12", Toast.LENGTH_SHORT).show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -535,7 +538,7 @@ public class CreateStockTransferFragment extends Fragment {
 
             }
             if (!boolForStore) {
-              //  Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.sale_store_to = String.valueOf(id);
@@ -550,11 +553,11 @@ public class CreateStockTransferFragment extends Fragment {
     }
 
     @Subscribe
-    public void createpurchase(CreatePurchaseResponce response) {
+    public void createpurchase(CreateStockTransferResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-           /* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+          /* *//* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 if(!appUser.sale_party_group.equals("Cash-in-hand")) {
                     Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                     intent.putExtra("account", mPartyName.getText().toString());
@@ -574,7 +577,7 @@ public class CreateStockTransferFragment extends Fragment {
                     // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
                 }
             }
-            else{*/
+            else{*//*
             //mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
@@ -595,11 +598,11 @@ public class CreateStockTransferFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
-                        startActivity(intent);
+                       // Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                       // intent.putExtra("company_report",response.getHtml());
+                     //   startActivity(intent);
 
-                       /* String htmlString = response.getHtml();
+                       *//* String htmlString = response.getHtml();
                         Spanned htmlAsSpanned = Html.fromHtml(htmlString);
                         mPdf_webview = new WebView(getApplicationContext());
                         mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
@@ -613,12 +616,12 @@ public class CreateStockTransferFragment extends Fragment {
                             public void run() {
                                 progressDialog.dismiss();
                             }
-                        }, 5 * 1000);*/
+                        }, 5 * 1000);*//*
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
 
-
+*/
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

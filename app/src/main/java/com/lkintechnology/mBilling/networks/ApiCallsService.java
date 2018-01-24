@@ -4241,7 +4241,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetProfitAndLoss() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getprofitandloss(Preferences.getInstance(getApplicationContext()).getCid() /*appUser.pdf_start_date, appUser.pdf_end_date*/).enqueue(new Callback<CompanyReportResponse>() {
+        api.getprofitandloss(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
             @Override
             public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
                 if (r.code() == 200) {

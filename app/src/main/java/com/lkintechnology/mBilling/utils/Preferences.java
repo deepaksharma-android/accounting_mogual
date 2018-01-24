@@ -1130,8 +1130,8 @@ public class Preferences {
     }
 
 
-    public void setStore_for_item(String store_for_item) {
-        editor.putString(store_for_item, store_for_item);
+    public void setStore_for_item(String storeforitem) {
+        editor.putString(store_for_item, storeforitem);
         editor.commit();
     }
 
@@ -1148,8 +1148,8 @@ public class Preferences {
         editor.putString(store_id, storeid);
         editor.commit();
     }
-    public void setStore_to(String store_to){
-        editor.putString(store_to,store_to);
+    public void setStore_to(String storeto){
+        editor.putString(store_to,storeto);
         editor.commit();
     }
     public String getStore_to(){
@@ -1159,16 +1159,16 @@ public class Preferences {
     public String getStoreId() {
         return pref.getString(store_id, "");
     }
-    public void setStore_to_id(String store_to_id){
-        editor.putString(store_to_id,store_to_id);
+    public void setStore_to_id(String storetoid){
+        editor.putString(store_to_id,storetoid);
         editor.commit();
     }
     public String getStore_to_id(){
         return pref.getString(store_to_id,"");
     }
 
-    public void setStore_id_for_item(String store_id_for_item){
-        editor.putString(store_id_for_item,store_id_for_item);
+    public void setStore_id_for_item(String storeidforitem){
+        editor.putString(store_id_for_item,storeidforitem);
         editor.commit();
     }
     public String getStore_id_for_item(){
