@@ -129,7 +129,7 @@ public class CreateStockTransferFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         appUser = LocalRepositories.getAppUser(getActivity());
-        appUser.voucher_type = "Sales";
+        appUser.voucher_type = "Stock Transfer";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();

@@ -185,27 +185,52 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.item_unit_name = "";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
+        if(isDirectForItem==true){
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
                             }
-                        }
-                    });
-            snackbar.show();
+                        });
+                snackbar.show();
+            }
+        }else{
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_MATERRIAL_CENTRE);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
         }
     }
 

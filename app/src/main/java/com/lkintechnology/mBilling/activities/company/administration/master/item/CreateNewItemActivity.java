@@ -104,6 +104,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     public Boolean boolForItemGroup = false;
     public Boolean boolForUnit = false;
+    public Boolean boolForStore = false;
+
     public static int intStartActivityForResult = 0;
 
 
@@ -532,7 +534,14 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mStoreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intStartActivityForResult = 1;
+                appUser.item_name = mItemName.getText().toString();
+                appUser.item_hsn_number = mHsnNumber.getText().toString();
+                appUser.item_group_name = mItemGroup.getText().toString();
+                appUser.item_unit_name = mItemUnit.getText().toString();
+                appUser.item_tax_category_name = mTaxCategory.getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                intStartActivityForResult = 3;
                 ParameterConstant.checkStartActivityResultForMaterialCenter=6;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getApplicationContext(), MaterialCentreListActivity.class), 4);
@@ -692,10 +701,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 boolForItemGroup = true;
                 String result = data.getStringExtra("name");
+                String[] name = result.split(",");
                 String id = data.getStringExtra("id");
                 appUser.item_group_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                mItemGroup.setText(result);
+                mItemGroup.setText(name[0]);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -724,6 +734,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
+                boolForStore=true;
                 if (result.equals("None")) {
                     mHsnLayout.setVisibility(View.GONE);
                     appUser.item_hsn_number = "";
@@ -744,10 +755,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
+                boolForStore=true;
                 appUser.stock_item_material_center_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
+                mItemGroup.setText(appUser.item_group_name);
                 appUser.stock_item_material_center=name[0];
                 Preferences.getInstance(getApplicationContext()).setStore_for_item(name[0]);
                 Preferences.getInstance(getApplicationContext()).setStore_id_for_item(id);
@@ -767,7 +780,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             if (intStartActivityForResult == 1) {
                 boolForUnit = true;
+                boolForStore = true;
             } else if (intStartActivityForResult == 2) {
+                boolForItemGroup = true;
+                boolForStore = true;
+            }else if (intStartActivityForResult == 3) {
+                boolForUnit = true;
                 boolForItemGroup = true;
             }
             if (!boolForItemGroup) {
@@ -783,6 +801,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 appUser.item_unit_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mItemUnit.setText(result);
+            }else if (!boolForStore) {
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.stock_item_material_center_id = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mStore.setText(name[0]);
+                appUser.stock_item_material_center=name[0];
+                Preferences.getInstance(getApplicationContext()).setStore_for_item(name[0]);
+                Preferences.getInstance(getApplicationContext()).setStore_id_for_item(id);
             }
         }
 

@@ -334,7 +334,9 @@ public class ApiCallsService extends IntentService {
             handleDeleteUnitConversion();
         } else if (Cv.ACTION_GET_UNIT_CONVERSION_DETAILS.equals(action)) {
             handleGetUnitConversionDetails();
-        } else if (Cv.ACTION_GET_ITEM.equals(action)) {
+        } else if (Cv.ACTION_GET_ITEM_MATERRIAL_CENTRE.equals(action)) {
+            handleGetItemmaterrialCentre();
+        }else if (Cv.ACTION_GET_ITEM.equals(action)) {
             handleGetItem();
         } else if (Cv.ACTION_CREATE_ITEM.equals(action)) {
             handleCreateItem();
@@ -2115,8 +2117,31 @@ public class ApiCallsService extends IntentService {
 
     }
 
+    private void handleGetItemmaterrialCentre() {
+        api.getitemmaterial_center(Preferences.getInstance(getApplicationContext()).getCid(),Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
+            @Override
+            public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
+                if (r.code() == 200) {
+                    GetItemResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetItemResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
     private void handleGetItem() {
-        api.getitem(Preferences.getInstance(getApplicationContext()).getCid(),Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
+        api.getitem(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetItemResponse>() {
             @Override
             public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
                 if (r.code() == 200) {

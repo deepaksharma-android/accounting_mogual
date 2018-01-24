@@ -4,8 +4,7 @@ package com.lkintechnology.mBilling.utils;
 public interface Cv {
     //String BASE_URL = "https://mbilling.in/api/v1/";
     String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-    //String BASE_URL = "http://192.168.1.11:3000/api/v1/";
-
+   // String BASE_URL = "http://192.168.1.8:4000/api/v1/";
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
@@ -66,6 +65,7 @@ public interface Cv {
     String ACTION_GET_STOCK = "get_stock";
     String ACTION_GET_UQC = "get_uqc";
     String ACTION_GET_ITEM = "action_get_item";
+    String ACTION_GET_ITEM_MATERRIAL_CENTRE = "action_get_item_material_centre";
     String ACTION_CREATE_ITEM = "action_create_item";
     String ACTION_EDIT_ITEM = "action_edit_account";
     String ACTION_DELETE_ITEM = "action_delete_item";
