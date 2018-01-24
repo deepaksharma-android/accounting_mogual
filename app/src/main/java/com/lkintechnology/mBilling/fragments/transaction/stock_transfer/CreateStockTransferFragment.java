@@ -321,37 +321,6 @@ public class CreateStockTransferFragment extends Fragment {
                                             appUser.purchase_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            new AlertDialog.Builder(getActivity())
-                                                    .setTitle("Email")
-                                                    .setMessage(R.string.btn_send_email)
-                                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-
-                                                        appUser.email_yes_no = "true";
-                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                                                        if (isConnected) {
-                                                            mProgressDialog = new ProgressDialog(getActivity());
-                                                            mProgressDialog.setMessage("Info...");
-                                                            mProgressDialog.setIndeterminate(false);
-                                                            mProgressDialog.setCancelable(true);
-                                                            mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
-                                                        } else {
-                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View view) {
-                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                    if (isConnected) {
-                                                                        snackbar.dismiss();
-                                                                    }
-                                                                }
-                                                            });
-                                                            snackbar.show();
-                                                        }
-                                                    })
-                                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
-
-                                                        appUser.email_yes_no = "false";
-                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -371,12 +340,6 @@ public class CreateStockTransferFragment extends Fragment {
                                                             });
                                                             snackbar.show();
                                                         }
-
-                                                    })
-                                                    .show();
-                                       /* } else {
-                                            Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                                        }*/
                                     } else {
                                         Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
                                     }

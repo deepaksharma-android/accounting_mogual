@@ -4238,7 +4238,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleCreateStockTransfer() {
-        api.createStockTransfer(new RequestCreateStockTransfer(this)).enqueue(new Callback<CreateStockTransferResponse>() {
+        api.createStockTransfer(new RequestCreateStockTransfer(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateStockTransferResponse>() {
             @Override
             public void onResponse(Call<CreateStockTransferResponse> call, Response<CreateStockTransferResponse> r) {
                 if (r.code() == 200) {

@@ -656,8 +656,8 @@ public interface Api {
     @GET("company/gst_report/sale/{id}")
     Call<CompanyReportResponse> getprofitandloss(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
-    @POST("item")
-    Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload);
+    @POST("stock_transfer_vouchers/{id}")
+    Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload,@Path("id") String id);
 
     @POST("authorization_settings")
     Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload/*@Path("id") String id*/);
