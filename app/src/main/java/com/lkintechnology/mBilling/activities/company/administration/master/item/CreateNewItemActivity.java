@@ -162,6 +162,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         Preferences.getInstance(getApplicationContext()).setitem_description("");
         Preferences.getInstance(getApplicationContext()).setitem_serial_number_wise_detail("Yes");
         Preferences.getInstance(getApplicationContext()).setitem_batch_wise_detail("No");
+        Preferences.getInstance(getApplicationContext()).setStore_for_item("");
+        Preferences.getInstance(getApplicationContext()).setStore_id_for_item("");
         title = "CREATE ITEM";
        /* fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
