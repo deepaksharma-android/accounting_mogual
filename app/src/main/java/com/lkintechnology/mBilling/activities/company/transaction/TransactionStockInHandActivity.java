@@ -137,7 +137,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_MATERRIAL_CENTRE);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)

@@ -59,6 +59,8 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    @Bind(R.id.total)
+    TextView mTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,6 +200,12 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new CreditNoteListAdapter(this,response.getCredit_notes().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getCredit_notes().getData().size();i++){
+                total=total+response.getCredit_notes().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

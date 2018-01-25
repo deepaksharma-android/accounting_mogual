@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class FirstPageActivity extends BaseActivityCompany {
 
@@ -100,7 +101,11 @@ public class FirstPageActivity extends BaseActivityCompany {
         String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));
         dateFormatter = new SimpleDateFormat(" d'" + dayNumberSuffix + "' MMM yy", Locale.US);
         String date1 = dateFormatter.format(newCalendar.getTime());
-        mDate.setText("As On "+date1);
+        Timber.i("DATE1"+date1);
+        String arr[]=date1.split(" ");
+        String apos=arr[2]+"\'";
+        String datenew=arr[1]+" "+apos+" "+arr[3];
+        mDate.setText("As On "+datenew);
 
         mlayout_cash_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -56,6 +56,8 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
     LinearLayout dashboardSpinnerLayout;
     @Bind(R.id.dashboard_spinner)
     Spinner dashboardSpinner;
+    @Bind(R.id.total)
+    TextView mTotal;
     ArrayList<String> cashInHand = new ArrayList<>();
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
@@ -200,7 +202,12 @@ public class ReceiptVoucherActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new ReceiptVoucherListAdapter(this, response.getReceipt_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getReceipt_vouchers().getData().size();i++){
+                total=total+response.getReceipt_vouchers().getData().get(i).getAttributes().getAmount();
 
+            }
+            mTotal.setText("Total: "+String.format("%.2f",total));
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

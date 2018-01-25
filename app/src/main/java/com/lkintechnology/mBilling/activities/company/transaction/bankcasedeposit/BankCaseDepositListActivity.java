@@ -58,6 +58,8 @@ public class BankCaseDepositListActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,6 +256,12 @@ public class BankCaseDepositListActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new BankCashDepositListAdapter(this,response.getBank_cash_deposits().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getBank_cash_deposits().getData().size();i++){
+                total=total+response.getBank_cash_deposits().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

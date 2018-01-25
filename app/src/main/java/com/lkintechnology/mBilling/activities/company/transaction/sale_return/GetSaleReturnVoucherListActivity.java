@@ -57,6 +57,8 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Snackbar snackbar;
     String title;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,8 +232,14 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new GetSaleReturnVoucherListAdapter(this,response.getSale_vouchers().data);
+            mAdapter = new GetSaleReturnVoucherListAdapter(this,response.getSale_vouchers().getData());
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getSale_vouchers().getData().size();i++){
+                total=total+response.getSale_vouchers().getData().get(i).getAttributes().getTotal_amount();
+
+            }
+            mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
