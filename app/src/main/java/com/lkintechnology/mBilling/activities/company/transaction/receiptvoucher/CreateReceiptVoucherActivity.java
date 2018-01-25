@@ -893,7 +893,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             received_by.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_by());
             transaction_amount.setText(String.valueOf(response.getReceipt_voucher().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getReceipt_voucher().getData().getAttributes().getNarration());
-            if (!response.getReceipt_voucher().getData().getAttributes().getAttachment().equals("")) {
+            if (!Helpers.mystring(response.getReceipt_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 Glide.with(this).load(Uri.parse(response.getReceipt_voucher().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)

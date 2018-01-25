@@ -843,7 +843,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             paid_to.setText(response.getPayment().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getPayment().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getPayment().getData().getAttributes().getNarration());
-            if (!response.getPayment().getData().getAttributes().getAttachment().equals("")) {
+            if (!Helpers.mystring(response.getPayment().getData().getAttributes().getAttachment()).equals("")) {
                 Glide.with(this).load(Uri.parse(response.getPayment().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)

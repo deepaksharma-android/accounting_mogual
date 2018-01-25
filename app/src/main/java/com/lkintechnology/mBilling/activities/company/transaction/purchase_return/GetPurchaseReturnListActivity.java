@@ -240,7 +240,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
                 total=total+response.getPurchase_vouchers().getData().get(i).getAttributes().getTotal_amount();
 
             }
-            mTotal.setText(""+String.format("%.2f",total));
+            mTotal.setText("Total: "+String.format("%.2f",total));
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

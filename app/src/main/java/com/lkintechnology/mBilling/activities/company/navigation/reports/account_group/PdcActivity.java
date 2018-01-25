@@ -20,6 +20,8 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.payment.CreatePaymentActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.lkintechnology.mBilling.adapters.PdcPaymentAdapter;
 import com.lkintechnology.mBilling.adapters.PdcReceiptAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -30,6 +32,8 @@ import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.DeleteReceiptVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.EventClickAlertForPayment;
+import com.lkintechnology.mBilling.utils.EventClickAlertForReceipt;
 import com.lkintechnology.mBilling.utils.EventDeletePaymentPdcDetails;
 import com.lkintechnology.mBilling.utils.EventDeleteReceiptPdcDetails;
 import com.lkintechnology.mBilling.utils.ListHeight;
@@ -346,6 +350,32 @@ public class PdcActivity extends RegisterAbstractActivity {
         }
     }
 
+    @Subscribe
+    public void event_click_alert(EventClickAlertForReceipt response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(PdcActivity.this, CreateReceiptVoucherActivity.class);
+        intent.putExtra("from", "receipt");
+        intent.putExtra("fromReceipt", true);
+        intent.putExtra("id", response.getPosition());
+        //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
+
+    }
+    @Subscribe
+    public void event_click_alert(EventClickAlertForPayment response) {
+        mProgressDialog.dismiss();
+        response.getPosition();
+        Intent intent = new Intent(PdcActivity.this, CreatePaymentActivity.class);
+        intent.putExtra("from", "payment");
+        intent.putExtra("fromPayment", true);
+        intent.putExtra("id", response.getPosition());
+        //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
+
+    }
 
 /*
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

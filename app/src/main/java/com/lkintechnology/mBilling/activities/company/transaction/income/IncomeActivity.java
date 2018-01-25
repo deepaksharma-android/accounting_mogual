@@ -206,7 +206,7 @@ public class IncomeActivity extends AppCompatActivity {
                 total=total+response.getIncomes().getData().get(i).getAttributes().getAmount();
 
             }
-            mTotal.setText(""+String.format("%.2f",total));
+            mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

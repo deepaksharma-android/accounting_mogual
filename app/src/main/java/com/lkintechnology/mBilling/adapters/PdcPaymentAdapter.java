@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.networks.api_response.pdc.Attribute;
+import com.lkintechnology.mBilling.utils.EventClickAlertForPayment;
 import com.lkintechnology.mBilling.utils.EventDeletePaymentPdcDetails;
 import org.greenrobot.eventbus.EventBus;
 import java.util.List;
@@ -98,6 +99,13 @@ public class PdcPaymentAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, TransactionPdfActivity.class);
                 intent.putExtra("company_report",list.get(position).getInvoice_html());
                 context.startActivity(intent);
+            }
+        });
+        holder.main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String receipt_voucher_id=list.get(position).getId();
+                EventBus.getDefault().post(new EventClickAlertForPayment(receipt_voucher_id));
             }
         });
         /*holder.editBtn1.setOnClickListener(new View.OnClickListener() {

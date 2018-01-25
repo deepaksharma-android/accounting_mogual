@@ -207,7 +207,7 @@ public class PaymentActivity extends AppCompatActivity {
                 total=total+response.getPayments().getData().get(i).getAttributes().getAmount();
 
             }
-            mTotal.setText(""+String.format("%.2f",total));
+            mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
