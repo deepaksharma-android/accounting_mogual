@@ -257,7 +257,6 @@ public class GetStockTransferListActivity extends RegisterAbstractActivity {
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_PURCHASE_VOUCHER);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_STOCK_TRANSFER);
                     }
                     else{

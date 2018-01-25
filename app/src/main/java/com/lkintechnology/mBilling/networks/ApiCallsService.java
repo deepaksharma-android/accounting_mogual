@@ -160,6 +160,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
@@ -533,9 +534,9 @@ public class ApiCallsService extends IntentService {
             handleCreateAuhorizationSettings();
         }else if(Cv.ACTION_GET_STOCK_TRANSFER.equals(action)){
             handleGetStockTransfer();
-        }/*else if(Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)){
+        }else if(Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)){
             handleDeleteStockTransfer();
-        }*/
+        }
     }
 
     private void handleGetItemGroupDetails() {
@@ -4328,6 +4329,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetStockTransferListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteStockTransfer() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deleteStockTransfer(appUser.delete_stock_transfer_id).enqueue(new Callback<DeleteStockTransferResponse>() {
+            @Override
+            public void onResponse(Call<DeleteStockTransferResponse> call, Response<DeleteStockTransferResponse> r) {
+                if (r.code() == 200) {
+                    DeleteStockTransferResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteStockTransferResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

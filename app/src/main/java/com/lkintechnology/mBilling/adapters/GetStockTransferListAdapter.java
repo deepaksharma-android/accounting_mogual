@@ -61,7 +61,7 @@ public class GetStockTransferListAdapter extends RecyclerView.Adapter<GetStockTr
         viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!data.get(position).getAttributes().getInvoice_html().equals("")) {
+                if(data.get(position).getAttributes().getInvoice_html()!=null) {
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report", data.get(position).getAttributes().getInvoice_html());
                     context.startActivity(intent);
@@ -73,7 +73,7 @@ public class GetStockTransferListAdapter extends RecyclerView.Adapter<GetStockTr
         viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!data.get(position).getAttributes().getInvoice_html().equals("")) {
+                if(data.get(position).getAttributes().getInvoice_html()!=null) {
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report", data.get(position).getAttributes().getInvoice_html());
                     context.startActivity(intent);
@@ -86,7 +86,7 @@ public class GetStockTransferListAdapter extends RecyclerView.Adapter<GetStockTr
         viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!data.get(position).getAttributes().getInvoice_html().equals("")) {
+                if(data.get(position).getAttributes().getInvoice_html()!=null) {
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report", data.get(position).getAttributes().getInvoice_html());
                     context.startActivity(intent);
@@ -96,7 +96,7 @@ public class GetStockTransferListAdapter extends RecyclerView.Adapter<GetStockTr
             }
         });
 
-        viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!data.get(position).getAttributes().getAttachment().equals("")){
@@ -108,7 +108,7 @@ public class GetStockTransferListAdapter extends RecyclerView.Adapter<GetStockTr
                     Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
         /*viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
