@@ -350,6 +350,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String delete_sale_voucher_id;
     public String delete_sale_return_voucher_id;
     public String delete_purchase_voucher_id;
+    public String delete_stock_transfer_id;
     public String delete_purchase_return_voucher_id;
     public String edit_bank_cash_deposit_id;
     public ArrayList<String> serial_arr=new ArrayList<>();

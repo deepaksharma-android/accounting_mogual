@@ -160,6 +160,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -530,7 +531,11 @@ public class ApiCallsService extends IntentService {
             handleCreateStockTransfer();
         }else if (Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS.equals(action)){
             handleCreateAuhorizationSettings();
-        }
+        }else if(Cv.ACTION_GET_STOCK_TRANSFER.equals(action)){
+            handleGetStockTransfer();
+        }/*else if(Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)){
+            handleDeleteStockTransfer();
+        }*/
     }
 
     private void handleGetItemGroupDetails() {
@@ -4302,6 +4307,30 @@ public class ApiCallsService extends IntentService {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 }catch (Exception ex){
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetStockTransfer() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getStockTransfer(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetStockTransferListResponse>() {
+            @Override
+            public void onResponse(Call<GetStockTransferListResponse> call, Response<GetStockTransferListResponse> r) {
+                if (r.code() == 200) {
+                    GetStockTransferListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetStockTransferListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }

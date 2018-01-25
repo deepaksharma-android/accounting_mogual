@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -65,10 +66,10 @@ public class CreateStockTransferActivity extends AppCompatActivity {
             mHeaderViewPager.setCurrentItem(1, true);
         }
 
-       /* ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDefaultDisplayHomeAsUpEnabled(true);*/
+        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -145,23 +146,23 @@ public class CreateStockTransferActivity extends AppCompatActivity {
         }
     }
 
-   /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action,menu);
 
         return super.onCreateOptionsMenu(menu);
-    }*/
+    }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-           /* case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
+            case R.id.icon_id:
+                Intent i = new Intent(getApplicationContext(),GetStockTransferListActivity.class);
                 startActivity(i);
                 finish();
-                return true;*/
+                return true;
             case android.R.id.home:
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);

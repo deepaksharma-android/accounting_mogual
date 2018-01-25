@@ -621,6 +621,12 @@
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.stocktransfer.GetStockTransferListActivity"
+            android:parentActivityName=".activities.company.transaction.stocktransfer.CreateStockTransferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />

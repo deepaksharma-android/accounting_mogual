@@ -315,7 +315,6 @@ public class CreateStockTransferFragment extends Fragment {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mStockType.getText().toString().equals("")) {
                                     if (!mStoreFrom.getText().toString().equals("")) {
-                                      //  if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
                                             appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
@@ -553,11 +552,14 @@ public class CreateStockTransferFragment extends Fragment {
     }
 
     @Subscribe
-    public void createpurchase(CreateStockTransferResponse response) {
+    public void createStockTransfer(CreateStockTransferResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getActivity()).setUpdate("");
+            submit.setVisibility(View.VISIBLE);
+           // update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-          /* *//* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
+           /* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 if(!appUser.sale_party_group.equals("Cash-in-hand")) {
                     Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                     intent.putExtra("account", mPartyName.getText().toString());
@@ -577,51 +579,35 @@ public class CreateStockTransferFragment extends Fragment {
                     // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
                 }
             }
-            else{*//*
+            else{*/
             //mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
             mVchNumber.setText("");
-            mStoreFrom.setText("");
             mStoreTo.setText("");
+            mStoreFrom.setText("");
             mSelectedImage.setImageResource(0);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            // }
-            new AlertDialog.Builder(getActivity())
+            ft.detach(AddItemStockTransferFragment.context).attach(AddItemStockTransferFragment.context).commit();
+
+            // For Generate PDF
+           /* new AlertDialog.Builder(getActivity())
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-                       // Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                       // intent.putExtra("company_report",response.getHtml());
-                     //   startActivity(intent);
+                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report",response.getHtml());
+                        startActivity(intent);
 
-                       *//* String htmlString = response.getHtml();
-                        Spanned htmlAsSpanned = Html.fromHtml(htmlString);
-                        mPdf_webview = new WebView(getApplicationContext());
-                        mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
-                        mPdf_webview.getSettings().setBuiltInZoomControls(true);
-                        ProgressDialog progressDialog=new ProgressDialog(getActivity());
-                        progressDialog.setMessage("Please wait...");
-                        progressDialog.show();
-                        createWebPrintJob(mPdf_webview);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDialog.dismiss();
-                            }
-                        }, 5 * 1000);*//*
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
-                    .show();
+                    .show();*/
 
-*/
+
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
