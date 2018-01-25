@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -47,7 +48,9 @@ import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActiv
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.purchase.AddItemPurchaseFragment;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -79,7 +82,7 @@ public class CreateStockTransferFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    EditText mVchNumber;
+    TextView mVchNumber;
     @Bind(R.id.stock_type)
     TextView mStockType;
     @Bind(R.id.store_from)
@@ -127,8 +130,33 @@ public class CreateStockTransferFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_stock_transfer, container, false);
         ButterKnife.bind(this, view);
 
-
         appUser = LocalRepositories.getAppUser(getActivity());
+        appUser.voucher_type = "Stock Transfer";
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
@@ -136,6 +164,7 @@ public class CreateStockTransferFragment extends Fragment {
         mStockType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStoreFrom.setText(Preferences.getInstance(getContext()).getStore());
+        mStoreTo.setText(Preferences.getInstance(getContext()).getStore_to());
         //mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
@@ -186,10 +215,19 @@ public class CreateStockTransferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult = 1;
-                ParameterConstant.checkStartActivityResultForAccount = 2;
+                ParameterConstant.checkStartActivityResultForMaterialCenter=5;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
 
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
+            }
+        });
+        mStoreTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intStartActivityForResult = 2;
+                MaterialCentreListActivity.isDirectForMaterialCentre = false;
+                ParameterConstant.checkStartActivityResultForMaterialCenter=5;
+                startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 12);
             }
         });
         mStockType.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +306,7 @@ public class CreateStockTransferFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.i("qqqqqqqqqqq"+Preferences.getInstance(getApplicationContext()).getStore_to_id());
                 submit.startAnimation(blinkOnClick);
                 appUser=LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchase.size() > 0) {
@@ -276,7 +315,6 @@ public class CreateStockTransferFragment extends Fragment {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mStockType.getText().toString().equals("")) {
                                     if (!mStoreFrom.getText().toString().equals("")) {
-                                      //  if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
                                             appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
@@ -285,20 +323,13 @@ public class CreateStockTransferFragment extends Fragment {
                                             appUser.purchase_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            new AlertDialog.Builder(getActivity())
-                                                    .setTitle("Email")
-                                                    .setMessage(R.string.btn_send_email)
-                                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-
-                                                        appUser.email_yes_no = "true";
-                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
                                                             mProgressDialog.setIndeterminate(false);
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
-                                                           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
+                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_STOCK_TRANSFER);
                                                         } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
@@ -311,36 +342,6 @@ public class CreateStockTransferFragment extends Fragment {
                                                             });
                                                             snackbar.show();
                                                         }
-                                                    })
-                                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
-
-                                                        appUser.email_yes_no = "false";
-                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                                                        if (isConnected) {
-                                                            mProgressDialog = new ProgressDialog(getActivity());
-                                                            mProgressDialog.setMessage("Info...");
-                                                            mProgressDialog.setIndeterminate(false);
-                                                            mProgressDialog.setCancelable(true);
-                                                            mProgressDialog.show();
-                                                          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE);
-                                                        } else {
-                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View view) {
-                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                    if (isConnected) {
-                                                                        snackbar.dismiss();
-                                                                    }
-                                                                }
-                                                            });
-                                                            snackbar.show();
-                                                        }
-
-                                                    })
-                                                    .show();
-                                       /* } else {
-                                            Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                                        }*/
                                     } else {
                                         Snackbar.make(coordinatorLayout, "Please select store ", Snackbar.LENGTH_LONG).show();
                                     }
@@ -349,6 +350,27 @@ public class CreateStockTransferFragment extends Fragment {
                                 }
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter vch number", Snackbar.LENGTH_LONG).show();
+                                if (isConnected) {
+                                    mProgressDialog = new ProgressDialog(getActivity());
+                                    mProgressDialog.setMessage("Info...");
+                                    mProgressDialog.setIndeterminate(false);
+                                    mProgressDialog.setCancelable(true);
+                                    mProgressDialog.show();
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                } else {
+                                    snackbar = Snackbar
+                                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                            .setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                }
+                                            });
+                                    snackbar.show();
+                                }
 
                             }
                         } else {
@@ -398,14 +420,32 @@ public class CreateStockTransferFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                appUser.purchase_material_center_id = String.valueOf(id);
+                appUser.stock_from_material_center_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStoreFrom.setText(name[0]);
                 boolForStore = true;
                 Preferences.getInstance(getContext()).setStore(name[0]);
                 Preferences.getInstance(getContext()).setStoreId(id);
-
+              //  Toast.makeText(getActivity(), "result code 11", Toast.LENGTH_SHORT).show();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                //mItemGroup.setText("");
+            }
+        }
+        if (requestCode == 12) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                appUser.stock_to_material_center_id = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mStoreTo.setText(name[0]);
+                boolForStore = true;
+                Preferences.getInstance(getContext()).setStore_to(name[0]);
+                Preferences.getInstance(getContext()).setStore_to_id(id);
+                Toast.makeText(getActivity(), "result code 12", Toast.LENGTH_SHORT).show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -417,14 +457,13 @@ public class CreateStockTransferFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("ID" + id);
-                appUser.purchase_puchase_type_id = String.valueOf(id);
+               // appUser.purchase_puchase_type_id = String.valueOf(id);
+                appUser.stock_type_id = String.valueOf(id);
+                appUser.stock_type_name = result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mStockType.setText(result);
                 Preferences.getInstance(getContext()).setPurchase_type_name(result);
                 Preferences.getInstance(getContext()).setPurchase_type_id(id);
-
-                appUser.purchase_type_name = result;
-                LocalRepositories.saveAppUser(getActivity(), appUser);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -486,25 +525,7 @@ public class CreateStockTransferFragment extends Fragment {
                 boolForStore = true;
             }
             if (!boolForPartyName) {
-                // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
-                String result = intent.getStringExtra("name");
-                String id = intent.getStringExtra("id");
-                String mobile = intent.getStringExtra("mobile");
-                String group = intent.getStringExtra("group");
-                appUser.sale_party_group = group;
-                appUser.sale_partyName = id;
-
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] strArr = result.split(",");
-               // mPartyName.setText(strArr[0]);
-                mMobileNumber.setText(mobile);
-                Preferences.getInstance(getContext()).setMobile(mobile);
-                Preferences.getInstance(getContext()).setParty_name(strArr[0]);
-                Preferences.getInstance(getContext()).setParty_id(id);
-
-            }
-            if (!boolForStore) {
-                //Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "resume party", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.sale_store = String.valueOf(id);
@@ -513,15 +534,30 @@ public class CreateStockTransferFragment extends Fragment {
                 mStoreFrom.setText(name[0]);
                 Preferences.getInstance(getContext()).setStore(name[0]);
                 Preferences.getInstance(getContext()).setStoreId(id);
+
+            }
+            if (!boolForStore) {
+                Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
+                String result = intent.getStringExtra("name");
+                String id = intent.getStringExtra("id");
+                appUser.sale_store_to = String.valueOf(id);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                mStoreTo.setText(name[0]);
+                Preferences.getInstance(getContext()).setStore_to(name[0]);
+                Preferences.getInstance(getContext()).setStore_to_id(id);
             }
         }
 
     }
 
     @Subscribe
-    public void createpurchase(CreatePurchaseResponce response) {
+    public void createStockTransfer(CreateStockTransferResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getActivity()).setUpdate("");
+            submit.setVisibility(View.VISIBLE);
+           // update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
            /* if(Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 if(!appUser.sale_party_group.equals("Cash-in-hand")) {
@@ -548,16 +584,18 @@ public class CreateStockTransferFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");
             mVchNumber.setText("");
+            mStoreTo.setText("");
+            mStoreFrom.setText("");
             mSelectedImage.setImageResource(0);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            // startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
-            // }
-            new AlertDialog.Builder(getActivity())
+            ft.detach(AddItemStockTransferFragment.context).attach(AddItemStockTransferFragment.context).commit();
+
+            // For Generate PDF
+           /* new AlertDialog.Builder(getActivity())
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
@@ -565,24 +603,9 @@ public class CreateStockTransferFragment extends Fragment {
                         intent.putExtra("company_report",response.getHtml());
                         startActivity(intent);
 
-                       /* String htmlString = response.getHtml();
-                        Spanned htmlAsSpanned = Html.fromHtml(htmlString);
-                        mPdf_webview = new WebView(getApplicationContext());
-                        mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
-                        mPdf_webview.getSettings().setBuiltInZoomControls(true);
-                        ProgressDialog progressDialog=new ProgressDialog(getActivity());
-                        progressDialog.setMessage("Please wait...");
-                        progressDialog.show();
-                        createWebPrintJob(mPdf_webview);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDialog.dismiss();
-                            }
-                        }, 5 * 1000);*/
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
-                    .show();
+                    .show();*/
 
 
         } else {
@@ -668,6 +691,18 @@ public class CreateStockTransferFragment extends Fragment {
             startActivity(intent);
         } else {
 //            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Subscribe
+    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            mVchNumber.setText(response.getVoucher_number());
+
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
         }
     }
     @Subscribe

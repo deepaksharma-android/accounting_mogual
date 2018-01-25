@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.networks.api_response.purchasevoucher;
+package com.lkintechnology.mBilling.networks.api_response.stocktransfer;
 
 public class Data {
     public String id;

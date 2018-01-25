@@ -126,8 +126,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_COMPANY);
                                                             } else {
-                                                                snackbar = Snackbar
-                                                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                                                         .setAction("RETRY", new View.OnClickListener() {
                                                                             @Override
                                                                             public void onClick(View view) {
@@ -279,8 +278,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
 
             Preferences.getInstance(getApplicationContext()).setCid(String.valueOf(response.getId()));
             startActivity(new Intent(getApplicationContext(), FirstPageActivity.class));
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
             finish();
         } else {

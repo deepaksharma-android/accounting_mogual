@@ -116,7 +116,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         setAddCompany(2);
         setAppBarTitleCompany(1, "TRANSACTION");
         Preferences.getInstance(getApplicationContext()).setUpdate("");
-        Preferences.getInstance(getApplicationContext()).setStoreId("");
+       // Preferences.getInstance(getApplicationContext()).setStoreId("");
         appUser.receipt_received_by_name = "";
         appUser.receipt_received_from_name = "";
         appUser.payment_paid_from_name = "";

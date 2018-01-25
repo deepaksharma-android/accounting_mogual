@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.navigation.reports.financialreports.ProfitAndLossActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.gstreturn.PurchaseRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.gstreturn.SaleRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.outstanding.AmountReceivablesListActivity;
@@ -211,14 +212,8 @@ public class AcountGroupActivity extends AppCompatActivity {
         mProfit_loss_report_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(AcountGroupActivity.this)
-                        .setTitle("m-Billing")
-                        .setMessage("Coming soon")
-                        .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok,null)
-                        .show();
-
-
+                Intent intent = new Intent(getApplicationContext(), ProfitAndLossActivity.class);
+                startActivity(intent);
             }
         });
 

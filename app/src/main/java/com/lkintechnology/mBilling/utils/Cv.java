@@ -3,9 +3,9 @@ package com.lkintechnology.mBilling.utils;
 
 public interface Cv {
     //String BASE_URL = "https://mbilling.in/api/v1/";
-    String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+    //String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+    String BASE_URL = "http://192.168.1.8:4000/api/v1/";
    // String BASE_URL = "http://192.168.1.11:3000/api/v1/";
-
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
@@ -66,6 +66,7 @@ public interface Cv {
     String ACTION_GET_STOCK = "get_stock";
     String ACTION_GET_UQC = "get_uqc";
     String ACTION_GET_ITEM = "action_get_item";
+    String ACTION_GET_ITEM_MATERRIAL_CENTRE = "action_get_item_material_centre";
     String ACTION_CREATE_ITEM = "action_create_item";
     String ACTION_EDIT_ITEM = "action_edit_account";
     String ACTION_DELETE_ITEM = "action_delete_item";
@@ -177,9 +178,13 @@ public interface Cv {
     String ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS = "action_update_sale_return_voucher_details";
     String ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS = "action_update_purchase_voucher_details";
     String ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS = "action_update_purchase_return_voucher_details";
+    String ACTION_GET_PROFIT_AND_LOSS = "action_get_profit_and_loss";
+    String ACTION_CREATE_STOCK_TRANSFER = "action_create_stock_transfer";
+    String ACTION_CREATE_AUTHORIZATION_SETTINGS = "action_create_authorization_settings";
+    String ACTION_GET_STOCK_TRANSFER = "action_get_stock_transfer";
+    String ACTION_DELETE_STOCK_TRANSFER = "action_delete_stock_transfer";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;
-
 
 }

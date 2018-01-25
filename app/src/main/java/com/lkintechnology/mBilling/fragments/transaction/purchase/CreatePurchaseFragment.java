@@ -234,7 +234,7 @@ public class CreatePurchaseFragment extends Fragment {
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 2;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
-
+                ParameterConstant.checkStartActivityResultForMaterialCenter=2;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
             }
         });

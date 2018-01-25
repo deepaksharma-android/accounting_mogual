@@ -1,6 +1,5 @@
 package com.lkintechnology.mBilling.networks;
 
-import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
@@ -11,6 +10,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCompanyLogo;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanySignature;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccount;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccountGroup;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateAuthorizationSettings;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashDeposit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashWithdraw;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBillSundry;
@@ -29,6 +29,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchaseRet
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateReceipt;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleReturn;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleVoucher;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateStockTransfer;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnitConversion;
 import com.lkintechnology.mBilling.networks.api_request.RequestEditLogin;
@@ -43,6 +44,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 
 import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -149,6 +151,9 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -367,7 +372,10 @@ public interface Api {
     Call<GetUnitConversionDetailsResponse> getunitconversiondetails(@Path("id") String id);
 
     @GET("item/{id}")
-    Call<GetItemResponse> getitem(@Path("id") String id,@Query("material_center_id") String material_center_id );
+    Call<GetItemResponse> getitem(@Path("id") String id);
+
+    @GET("item/{id}")
+    Call<GetItemResponse> getitemmaterial_center(@Path("id") String id,@Query("material_center_id") String material_center_id );
 
     @POST("item")
     Call<CreateItemResponse> createitem(@Body RequestCreateItem payload);
@@ -650,5 +658,18 @@ public interface Api {
     @GET("company/gst_report/purchase/{id}")
     Call<CompanyReportResponse> getgstreportpurchase(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("company/profit_loss/{id}")
+    Call<CompanyReportResponse> getprofitandloss(@Path("id") String id ,@Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @POST("stock_transfer_vouchers/{id}")
+    Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload,@Path("id") String id);
+
+    @POST("authorization_settings")
+    Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload/*@Path("id") String id*/);
+
+    @GET("company_stock_transfer_vouchers/{id}")
+    Call<GetStockTransferListResponse> getStockTransfer (@Path("id") String id, @Query("duration") String duration);
+
+    @DELETE("stock_transfer_vouchers/{id}")
+    Call<DeleteStockTransferResponse> deleteStockTransfer(@Path("id") String id);
 }

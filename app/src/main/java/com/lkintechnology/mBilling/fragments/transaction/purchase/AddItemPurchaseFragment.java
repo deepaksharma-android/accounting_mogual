@@ -74,15 +74,19 @@ public class AddItemPurchaseFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")){
-                    add_item_button.startAnimation(blinkOnClick);
-                Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
-                ExpandableItemListActivity.comingFrom = 1;
-                ExpandableItemListActivity.isDirectForItem = false;
-                intent.putExtra("bool", true);
-                startActivity(intent);
-                getActivity().finish();
-            }
+                if (!Preferences.getInstance(getApplicationContext()).getPurchase_type_name().equals("")) {
+                    if (!Preferences.getInstance(getContext()).getStore().equals("")) {
+                        add_item_button.startAnimation(blinkOnClick);
+                        Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                        ExpandableItemListActivity.comingFrom = 1;
+                        ExpandableItemListActivity.isDirectForItem = false;
+                        intent.putExtra("bool", true);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else {
+                        alertdialog1();
+                    }
+                }
                 else{
                     alertdialog();
                 }
@@ -745,7 +749,16 @@ public class AddItemPurchaseFragment extends Fragment {
                 })
                 .show();
     }
+    public void alertdialog1(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add store in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
 
+                })
+                .show();
+    }
 
 
 }

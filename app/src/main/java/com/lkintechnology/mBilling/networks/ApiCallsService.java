@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCompanyLogo;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanySignature;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccount;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateAccountGroup;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateAuthorizationSettings;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashDeposit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBankCashWithdraw;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateBillSundry;
@@ -33,6 +34,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchase;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateReceipt;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleReturn;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateSaleVoucher;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreateStockTransfer;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnitConversion;
 import com.lkintechnology.mBilling.networks.api_request.RequestEditLogin;
@@ -46,6 +48,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumbe
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
@@ -156,6 +159,9 @@ import com.lkintechnology.mBilling.networks.api_response.saletype.GetSaleTypeRes
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -330,7 +336,9 @@ public class ApiCallsService extends IntentService {
             handleDeleteUnitConversion();
         } else if (Cv.ACTION_GET_UNIT_CONVERSION_DETAILS.equals(action)) {
             handleGetUnitConversionDetails();
-        } else if (Cv.ACTION_GET_ITEM.equals(action)) {
+        } else if (Cv.ACTION_GET_ITEM_MATERRIAL_CENTRE.equals(action)) {
+            handleGetItemmaterrialCentre();
+        }else if (Cv.ACTION_GET_ITEM.equals(action)) {
             handleGetItem();
         } else if (Cv.ACTION_CREATE_ITEM.equals(action)) {
             handleCreateItem();
@@ -518,8 +526,17 @@ public class ApiCallsService extends IntentService {
             handleUpdatePurchaseVoucherDetails();
         }else if(Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
             handleUpdatePurchaseReturnVoucherDetails();
+        }else if(Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)){
+            handleGetProfitAndLoss();
+        }else if(Cv.ACTION_CREATE_STOCK_TRANSFER.equals(action)){
+            handleCreateStockTransfer();
+        }else if (Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS.equals(action)){
+            handleCreateAuhorizationSettings();
+        }else if(Cv.ACTION_GET_STOCK_TRANSFER.equals(action)){
+            handleGetStockTransfer();
+        }else if(Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)){
+            handleDeleteStockTransfer();
         }
-
     }
 
     private void handleGetItemGroupDetails() {
@@ -2106,8 +2123,31 @@ public class ApiCallsService extends IntentService {
 
     }
 
+    private void handleGetItemmaterrialCentre() {
+        api.getitemmaterial_center(Preferences.getInstance(getApplicationContext()).getCid(),Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
+            @Override
+            public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
+                if (r.code() == 200) {
+                    GetItemResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetItemResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
     private void handleGetItem() {
-        api.getitem(Preferences.getInstance(getApplicationContext()).getCid(),Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
+        api.getitem(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetItemResponse>() {
             @Override
             public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
                 if (r.code() == 200) {
@@ -4196,6 +4236,123 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetProfitAndLoss() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getprofitandloss(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleCreateStockTransfer() {
+        api.createStockTransfer(new RequestCreateStockTransfer(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateStockTransferResponse>() {
+            @Override
+            public void onResponse(Call<CreateStockTransferResponse> call, Response<CreateStockTransferResponse> r) {
+                if (r.code() == 200) {
+                    CreateStockTransferResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateStockTransferResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleCreateAuhorizationSettings(){
+        api.createAuthorizationSettings(new RequestCreateAuthorizationSettings(this)/*Preferences.getInstance(getApplicationContext()).getCid()*/).enqueue(new Callback<CreateAuthorizationSettingsResponse>() {
+            @Override
+            public void onResponse(Call<CreateAuthorizationSettingsResponse> call, Response<CreateAuthorizationSettingsResponse> response) {
+                if(response.code()==200){
+                    CreateAuthorizationSettingsResponse body = response.body();
+                    EventBus.getDefault().post(body);
+                }else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateAuthorizationSettingsResponse> call, Throwable t) {
+
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                }catch (Exception ex){
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetStockTransfer() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getStockTransfer(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetStockTransferListResponse>() {
+            @Override
+            public void onResponse(Call<GetStockTransferListResponse> call, Response<GetStockTransferListResponse> r) {
+                if (r.code() == 200) {
+                    GetStockTransferListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetStockTransferListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleDeleteStockTransfer() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.deleteStockTransfer(appUser.delete_stock_transfer_id).enqueue(new Callback<DeleteStockTransferResponse>() {
+            @Override
+            public void onResponse(Call<DeleteStockTransferResponse> call, Response<DeleteStockTransferResponse> r) {
+                if (r.code() == 200) {
+                    DeleteStockTransferResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteStockTransferResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

@@ -75,13 +75,17 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
-                    add_item_button.startAnimation(blinkOnClick);
-                    ExpandableItemListActivity.comingFrom = 0;
-                    ExpandableItemListActivity.isDirectForItem = false;
-                    Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
-                    intent.putExtra("bool", true);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (!Preferences.getInstance(getContext()).getStore().equals("")) {
+                        add_item_button.startAnimation(blinkOnClick);
+                        ExpandableItemListActivity.comingFrom = 0;
+                        ExpandableItemListActivity.isDirectForItem = false;
+                        Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                        intent.putExtra("bool", true);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else {
+                        alertdialog1();
+                    }
                 }
                 else{
                     alertdialog();
@@ -707,6 +711,16 @@ public class AddItemVoucherFragment extends Fragment {
         new AlertDialog.Builder(getContext())
                 .setTitle("Sale Voucher")
                 .setMessage("Please add sale type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+    public void alertdialog1(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Sale Voucher")
+                .setMessage("Please add store in create voucher")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     return;
 

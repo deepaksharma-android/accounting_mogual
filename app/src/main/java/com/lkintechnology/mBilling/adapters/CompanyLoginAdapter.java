@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.CompanyAuthrizationActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.UserName;
 import com.lkintechnology.mBilling.utils.EventEditLogin;
@@ -49,12 +51,16 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
         appUser=LocalRepositories.getAppUser(context);
         viewHolder.mCompanyUserName.setText(data.get(i).getName());
         appUser.company_user_id= String.valueOf(data.get(i).getId());
-       /* viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showpopup();
+                Intent intent = new Intent(context, CompanyAuthrizationActivity.class);
+                Integer user_id=data.get(i).getId();
+                appUser.authorizations__setting_user_id=user_id;
+                LocalRepositories.saveAppUser(context,appUser);
+                context.startActivity(intent);
             }
-        });*/
+        });
 
 
 

@@ -272,6 +272,7 @@ public class AppUser {
     public String sale_vchNo = "";
     public String sale_saleType = "";
     public String sale_store = "";
+    public String sale_store_to = "";
     public String sale_partyName = "";
     public String sale_party_group="";
     public String sale_mobileNumber = "";
@@ -284,7 +285,8 @@ public class AppUser {
     public String sale_type_name="";
 
     public String purchase_type_name="";
-
+    public String stock_type_id="";
+    public String stock_type_name="";
     public String childId = "";
     public List<Map> mListMapForItemSale = new ArrayList();
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
@@ -348,6 +350,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String delete_sale_voucher_id;
     public String delete_sale_return_voucher_id;
     public String delete_purchase_voucher_id;
+    public String delete_stock_transfer_id;
     public String delete_purchase_return_voucher_id;
     public String edit_bank_cash_deposit_id;
     public ArrayList<String> serial_arr=new ArrayList<>();
@@ -372,6 +375,10 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String purchase_mobile_number="";
     public String purchase_account_master_id="";
     public String purchase_material_center_id="";
+    public String stock_from_material_center_id="";
+    public String stock_item_material_center_id="";
+    public String stock_item_material_center="";
+    public String stock_to_material_center_id="";
     public String purchase_itc_eligibility="";
     public String purchase_narration = "";
     public String purchase_created_at="";
@@ -520,5 +527,10 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String edit_sale_voucher_id;
     //public List<String> listDataChildId = new ArrayList<String>();
    // public List<String> listData =  new ArrayList<>();
+
+    public String enable_user="";
+    public String allow_user_to_delete_voucher="";
+    public String allow_user_to_edit_voucher="";
+    public Integer authorizations__setting_user_id;
 
 }
