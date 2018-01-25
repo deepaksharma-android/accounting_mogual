@@ -61,6 +61,8 @@ public class ExpenceActivity extends AppCompatActivity {
     AppUser appUser;
     Snackbar snackbar;
     String title;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +207,12 @@ public class ExpenceActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new ExpenceListAdapter(this,response.getExpenses().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getExpenses().getData().size();i++){
+                total=total+response.getExpenses().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText(""+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

@@ -60,6 +60,8 @@ public class BankCaseWithdrawActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    @Bind(R.id.total)
+    TextView mTotal;
 
 
     @Override
@@ -245,6 +247,12 @@ public class BankCaseWithdrawActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new BankCashWithdrawListAdapter(this,response.getBank_cash_withdraws().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getBank_cash_withdraws().getData().size();i++){
+                total=total+response.getBank_cash_withdraws().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText(""+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

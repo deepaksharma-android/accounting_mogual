@@ -58,6 +58,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
     AppUser appUser;
     Snackbar snackbar;
     String title;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,6 +235,12 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new GetPurchaseReturnListAdapter(this, response.getPurchase_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getPurchase_vouchers().getData().size();i++){
+                total=total+response.getPurchase_vouchers().getData().get(i).getAttributes().getTotal_amount();
+
+            }
+            mTotal.setText(""+String.format("%.2f",total));
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

@@ -59,6 +59,8 @@ public class DebitNoteWoItemActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +202,12 @@ public class DebitNoteWoItemActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new DebitNoteListAdapter(this,response.getDebit_notes().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getDebit_notes().getData().size();i++){
+                total=total+response.getDebit_notes().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText(""+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

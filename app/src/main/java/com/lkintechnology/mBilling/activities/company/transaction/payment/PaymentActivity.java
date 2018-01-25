@@ -59,6 +59,8 @@ public class PaymentActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,8 +200,14 @@ public class PaymentActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new PaymentListAdapter(this,response.getPayments().data);
+            mAdapter = new PaymentListAdapter(this,response.getPayments().getData());
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getPayments().getData().size();i++){
+                total=total+response.getPayments().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText(""+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

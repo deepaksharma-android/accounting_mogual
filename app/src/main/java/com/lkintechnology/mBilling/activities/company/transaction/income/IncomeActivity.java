@@ -59,6 +59,8 @@ public class IncomeActivity extends AppCompatActivity {
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     AppUser appUser;
+    @Bind(R.id.total)
+    TextView mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +201,12 @@ public class IncomeActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new IncomeListAdapter(this,response.getIncomes().data);
             mRecyclerView.setAdapter(mAdapter);
+            Double total=0.0;
+            for(int i=0;i<response.getIncomes().getData().size();i++){
+                total=total+response.getIncomes().getData().get(i).getAttributes().getAmount();
+
+            }
+            mTotal.setText(""+String.format("%.2f",total));
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
