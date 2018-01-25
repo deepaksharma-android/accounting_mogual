@@ -170,6 +170,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_items().size() == 0) {
                 Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
+            }
             for (int i = 0; i < response.getOrdered_items().size(); i++) {
                 listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
                 name = new ArrayList<>();
