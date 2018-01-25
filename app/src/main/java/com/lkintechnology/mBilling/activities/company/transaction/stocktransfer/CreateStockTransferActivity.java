@@ -49,6 +49,8 @@ public class CreateStockTransferActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
+    public String title;
+    public static boolean fromstocklist;
 
 
     @Override
@@ -57,6 +59,11 @@ public class CreateStockTransferActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_stock_transfer);
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        fromstocklist=getIntent().getExtras().getBoolean("fromstocklist");
+        title="CREATE STOCK TRANSFER";
+        if(fromstocklist){
+            title="EDIT STOCK TRANSFER";
+        }
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
@@ -91,7 +98,7 @@ public class CreateStockTransferActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("CREATE STOCK TRANSFER");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);

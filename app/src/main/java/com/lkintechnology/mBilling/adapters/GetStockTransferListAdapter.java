@@ -13,9 +13,13 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.Data;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.utils.EventDeleteStockTransfer;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -110,30 +114,19 @@ public class GetStockTransferListAdapter extends RecyclerView.Adapter<GetStockTr
             }
         });*/
 
-        /*viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Preferences.getInstance(context).setUpdate("1");
                 AppUser appUser= LocalRepositories.getAppUser(context);
-                appUser.edit_sale_voucher_id=data.get(position).getId();
+                appUser.edit_stock_transfer_id=data.get(position).getId();
                 LocalRepositories.saveAppUser(context,appUser);
                 Intent intent = new Intent(context, CreateStockTransferActivity.class);
-                intent.putExtra("fromsalelist",true);
+                intent.putExtra("fromstocklist",true);
                 context.startActivity(intent);
             }
-        });*/
+        });
 
-      /*
-        viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i= new Intent(context, CreateExpenceActivity.class);
-                i.putExtra("fromExpense",true);
-                String expence_id=data.get(position).getId();
-                i.putExtra("id",expence_id);
-                context.startActivity(i);
-            }
-        });*/
     }
 
     @Override

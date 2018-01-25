@@ -153,6 +153,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVouc
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
@@ -672,4 +673,10 @@ public interface Api {
 
     @DELETE("stock_transfer_vouchers/{id}")
     Call<DeleteStockTransferResponse> deleteStockTransfer(@Path("id") String id);
+
+    @GET("stock_transfer_vouchers/{id}")
+    Call<GetStockTransferDetailsResponse> getStockTransferDetails(@Path("id") String id);
+
+    @PATCH("stock_transfer_vouchers/{id}")
+    Call<CreateStockTransferResponse> editStockTransfer(@Body RequestCreateStockTransfer payload,@Path("id") String id);
 }

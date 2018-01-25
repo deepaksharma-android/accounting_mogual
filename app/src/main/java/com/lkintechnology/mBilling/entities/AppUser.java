@@ -525,6 +525,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String email_yes_no="";
     public String edit_sale_voucher_id;
+    public String edit_stock_transfer_id;
     //public List<String> listDataChildId = new ArrayList<String>();
    // public List<String> listData =  new ArrayList<>();
 

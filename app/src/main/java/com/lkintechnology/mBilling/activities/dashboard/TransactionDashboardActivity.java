@@ -625,8 +625,21 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         stockTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent j = new Intent(context, CreateStockTransferActivity.class);
-                context.startActivity(j);
+                appUser.serial_arr.clear();
+                Preferences.getInstance(context).setVoucher_date("");
+                Preferences.getInstance(context).setVoucher_number("");
+                Preferences.getInstance(context).setStore("");
+                Preferences.getInstance(context).setStore_to("");
+                Preferences.getInstance(context).setMobile("");
+                Preferences.getInstance(context).setNarration("");
+                Preferences.getInstance(context).setCash_credit("");
+//                Preferences.getInstance(context).setPurchase_type_name("");
+                appUser.mListMapForItemPurchase.clear();
+                appUser.mListMapForBillPurchase.clear();
+                LocalRepositories.saveAppUser(context, appUser);
+                Intent intent=new Intent(getApplicationContext(),CreateStockTransferActivity.class);
+                intent.putExtra("fromstocklist",false);
+                startActivity(intent);
             }
         });
     }

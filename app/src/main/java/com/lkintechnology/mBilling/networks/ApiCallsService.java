@@ -161,6 +161,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVouc
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
@@ -536,6 +537,10 @@ public class ApiCallsService extends IntentService {
             handleGetStockTransfer();
         }else if(Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)){
             handleDeleteStockTransfer();
+        }else if(Cv.ACTION_GET_STOCK_TRANSFER_DETAILS.equals(action)){
+            handleGetStockTransferDetails();
+        }else if(Cv.ACTION_EDIT_STOCK_TRANSFER.equals(action));{
+            handleEditStockTransfer();
         }
     }
 
@@ -4353,6 +4358,54 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<DeleteStockTransferResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetStockTransferDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getStockTransferDetails(appUser.edit_stock_transfer_id).enqueue(new Callback<GetStockTransferDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetStockTransferDetailsResponse> call, Response<GetStockTransferDetailsResponse> r) {
+                if (r.code() == 200) {
+                    GetStockTransferDetailsResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetStockTransferDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleEditStockTransfer() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.editStockTransfer(new RequestCreateStockTransfer(this),appUser.edit_stock_transfer_id).enqueue(new Callback<CreateStockTransferResponse>() {
+            @Override
+            public void onResponse(Call<CreateStockTransferResponse> call, Response<CreateStockTransferResponse> r) {
+                if (r.code() == 200) {
+                    CreateStockTransferResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateStockTransferResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
