@@ -276,7 +276,7 @@ public class FirstPageActivity extends BaseActivityCompany {
     @Override
     public void onBackPressed() {
         new android.support.v7.app.AlertDialog.Builder(FirstPageActivity.this)
-                .setTitle("Exit Company")
+                .setTitle("Exit Users")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Intent intent=new Intent(getApplicationContext(),CompanyListActivity.class);

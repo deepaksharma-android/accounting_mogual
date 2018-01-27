@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.activities.company;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.Users;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -29,6 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 public class CompanyAuthrizationActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout)
@@ -43,6 +47,7 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
     LinearLayout mSubmit;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    public static Users data;
     AppUser appUser;
 
     @Override
@@ -51,31 +56,97 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_company_authrization);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
+        appUser.allow_user_to_delete_voucher = "";
+        appUser.enable_user = "";
+        appUser.allow_user_to_edit_voucher = "";
+        LocalRepositories.saveAppUser(this, appUser);
 
-        if(checkbox_enable.isChecked()){
-            appUser.enable_user="true";
-        }else {
-            appUser.enable_user="false";
+        if (data.getEnable() != null) {
+            if (data.getEnable()) {
+                checkbox_enable.setChecked(true);
+                appUser.enable_user = "true";
+                LocalRepositories.saveAppUser(this, appUser);
+            } else {
+                checkbox_enable.setChecked(false);
+                appUser.enable_user = "false";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
+        }
+        if (data.getEnable() != null) {
+            if (data.getAllow_delete_voucher()) {
+                checkbox_delete_voucher.setChecked(true);
+                appUser.allow_user_to_delete_voucher = "true";
+                LocalRepositories.saveAppUser(this, appUser);
+            } else {
+                checkbox_delete_voucher.setChecked(false);
+                appUser.allow_user_to_delete_voucher = "false";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
         }
 
-        if(checkbox_delete_voucher.isChecked()){
-            appUser.allow_user_to_delete_voucher="true";
-        }else {
-            appUser.allow_user_to_delete_voucher="false";
+        if (data.getAllow_edit_voucher() != null) {
+            if (data.getAllow_edit_voucher()) {
+                checkbox_edit_voucher.setChecked(true);
+                appUser.allow_user_to_edit_voucher = "true";
+                LocalRepositories.saveAppUser(this, appUser);
+            } else {
+                checkbox_edit_voucher.setChecked(false);
+                appUser.allow_user_to_edit_voucher = "false";
+                LocalRepositories.saveAppUser(this, appUser);
+            }
         }
 
-        if(checkbox_delete_voucher.isChecked()){
-            appUser.allow_user_to_edit_voucher="true";
-        }else {
-            appUser.allow_user_to_edit_voucher="false";
-        }
+        checkbox_enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    appUser.enable_user = "true";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                } else {
+
+                    appUser.enable_user = "false";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
+        });
+
+        checkbox_delete_voucher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    appUser.allow_user_to_delete_voucher = "true";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                } else {
+                    appUser.allow_user_to_delete_voucher = "false";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
+        });
+
+        checkbox_edit_voucher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    appUser.allow_user_to_edit_voucher = "true";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                } else {
+                    appUser.allow_user_to_edit_voucher = "false";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
+        });
+
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Boolean isConnected = new
+                mProgressDialog = new ProgressDialog(CompanyAuthrizationActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS);
             }
         });
@@ -104,12 +175,19 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void createAuthorizationSettings(CreateAuthorizationSettingsResponse response){
+    public void createAuthorizationSettings(CreateAuthorizationSettingsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-
-        }else {
-            snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
+        if (response.getStatus() == 200) {
+            appUser.allow_user_to_delete_voucher = "";
+            appUser.enable_user = "";
+            appUser.allow_user_to_edit_voucher = "";
+            LocalRepositories.saveAppUser(this, appUser);
+            Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
+            startActivity(intent);
+            finish();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -121,19 +199,19 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-       // EventBus.getDefault().register(this);
+        // EventBus.getDefault().register(this);
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-      //  EventBus.getDefault().register(this);
+        //  EventBus.getDefault().register(this);
         super.onStop();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;

@@ -200,7 +200,7 @@ public class BaseActivityCompany extends AppCompatActivity {
     }
     public void exit(View v){
         new AlertDialog.Builder(BaseActivityCompany.this)
-                .setTitle("Exit Company")
+                .setTitle("Exit Users")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
 

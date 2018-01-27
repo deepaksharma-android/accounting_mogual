@@ -29,11 +29,10 @@ public class RequestCreateStockTransfer {
         voucher.put("bill_sundry_amount",appUser.billsundrytotalPurchase);
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("attachment",appUser.purchase_attachment);
-
-      //  voucher.put("account_master_id",Preferences.getInstance(context).getParty_id());
-      //  voucher.put("itc_eligibility",appUser.purchase_itc_eligibility);
-     //   voucher.put("created_at",appUser.purchase_created_at);
-     //   voucher.put("update_at",appUser.purchase_update_at);
-     //   voucher.put("send_email",appUser.email_yes_no);
+        voucher.put("account_master_id",Preferences.getInstance(context).getParty_id());
+        voucher.put("itc_eligibility",appUser.purchase_itc_eligibility);
+        voucher.put("created_at",appUser.purchase_created_at);
+        voucher.put("update_at",appUser.purchase_update_at);
+       voucher.put("send_email",appUser.email_yes_no);
     }
 }

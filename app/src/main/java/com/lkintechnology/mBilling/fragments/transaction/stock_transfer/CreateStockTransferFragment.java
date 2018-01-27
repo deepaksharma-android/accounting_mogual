@@ -457,7 +457,7 @@ public class CreateStockTransferFragment extends Fragment {
                                             mProgressDialog.setIndeterminate(false);
                                             mProgressDialog.setCancelable(true);
                                             mProgressDialog.show();
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_STOCK_TRANSFER);
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_STOCK_TRANSFER);
                                         } else {
                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                 @Override

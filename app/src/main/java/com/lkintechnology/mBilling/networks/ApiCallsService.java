@@ -163,6 +163,7 @@ import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateSto
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.UpdateStockTrasferResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -339,7 +340,7 @@ public class ApiCallsService extends IntentService {
             handleGetUnitConversionDetails();
         } else if (Cv.ACTION_GET_ITEM_MATERRIAL_CENTRE.equals(action)) {
             handleGetItemmaterrialCentre();
-        }else if (Cv.ACTION_GET_ITEM.equals(action)) {
+        } else if (Cv.ACTION_GET_ITEM.equals(action)) {
             handleGetItem();
         } else if (Cv.ACTION_CREATE_ITEM.equals(action)) {
             handleCreateItem();
@@ -381,9 +382,9 @@ public class ApiCallsService extends IntentService {
             handleSaleVoucher();
         } else if (Cv.ACTION_GET_SALE_VOUCHER_LIST.equals(action)) {
             handleGetSaleVoucherList();
-        }else if(Cv.ACTION_DELETE_SALE_VOUCHER.equals(action)) {
+        } else if (Cv.ACTION_DELETE_SALE_VOUCHER.equals(action)) {
             handleDeleteSaleVoucher();
-        }else if (Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)) {
+        } else if (Cv.ACTION_GET_BANK_CASH_DEPOSIT.equals(action)) {
             handleGetBankCashDeposit();
         } else if (Cv.ACTION_DELETE_BANK_CASH_DEPOSIT.equals(action)) {
             handleDeleteBankCashDeposit();
@@ -487,61 +488,61 @@ public class ApiCallsService extends IntentService {
             handleGetVoucherNumbers();
         } else if (Cv.ACTION_GET_SALE_VOUCHER.equals(action)) {
             handleGetSaleVoucher();
-        }else if (Cv.ACTION_GET_PURCHASE_VOUCHER.equals(action)) {
+        } else if (Cv.ACTION_GET_PURCHASE_VOUCHER.equals(action)) {
             handleGetPurchaseVoucher();
         } else if (Cv.ACTION_GET_PDC.equals(action)) {
             handleGetPdc();
-        }else if(Cv.ACTION_GET_SALE_RETURN_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_GET_SALE_RETURN_VOUCHER.equals(action)) {
             handleGetSaleReturnVoucher();
-        }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER.equals(action)) {
             handleGetPurchaseReturnvoucher();
-        }else if(Cv.ACTION_DELETE_SALE_RETURN_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_DELETE_SALE_RETURN_VOUCHER.equals(action)) {
             handleDeleteSaleReturnVoucher();
-        }else if(Cv.ACTION_DELETE_PURCHASE_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_DELETE_PURCHASE_VOUCHER.equals(action)) {
             handleDeletePurchaseVoucher();
-        }else if(Cv.ACTION_DELETE_PURCHASE_RETURN_VOUCHER.equals(action)){
+        } else if (Cv.ACTION_DELETE_PURCHASE_RETURN_VOUCHER.equals(action)) {
             handleDeletePurchaseReturnVoucher();
-        }else if (Cv.ACTION_VERSION.equals(action)) {
+        } else if (Cv.ACTION_VERSION.equals(action)) {
             handleVersion();
-        }else if(Cv.ACTION_GET_DEFAULT_ITEMS.equals(action)){
+        } else if (Cv.ACTION_GET_DEFAULT_ITEMS.equals(action)) {
             handleGetDefaultItems();
-        }else if(Cv.ACTION_CREATE_DEFAULT_ITEMS.equals(action)){
+        } else if (Cv.ACTION_CREATE_DEFAULT_ITEMS.equals(action)) {
             handleCreateDefaultItems();
-        } else if(Cv.ACTION_GET_SALE_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_SALE_VOUCHER_DETAILS.equals(action)) {
             handleGetSaleVoucherDetails();
-        }else if(Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS.equals(action)) {
             handleGetSaleReturnVoucherDetails();
-        }else if(Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS.equals(action)) {
             handleGetPurchaseVoucherDetails();
-        }else if(Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
-        handleGetPurchaseReturnVoucherDetails();
-        }else if(Cv.ACTION_GET_GST_REPORT.equals(action)){
+        } else if (Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
+            handleGetPurchaseReturnVoucherDetails();
+        } else if (Cv.ACTION_GET_GST_REPORT.equals(action)) {
             handleGetGstReport();
-        }else if(Cv.ACTION_GET_GST_REPORT_PURCHASE.equals(action)){
+        } else if (Cv.ACTION_GET_GST_REPORT_PURCHASE.equals(action)) {
             handleGetGstReportPurchase();
-        }else if(Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS.equals(action)) {
             handleUpdateSaleVoucherDetails();
-        }else if(Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS.equals(action)) {
             handleUpdateSaleReturnVoucherDetails();
-        }else if(Cv.ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS.equals(action)) {
             handleUpdatePurchaseVoucherDetails();
-        }else if(Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
+        } else if (Cv.ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS.equals(action)) {
             handleUpdatePurchaseReturnVoucherDetails();
-        }else if(Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)){
+        } else if (Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)) {
             handleGetProfitAndLoss();
-        }else if(Cv.ACTION_CREATE_STOCK_TRANSFER.equals(action)){
-            handleCreateStockTransfer();
-        }else if (Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS.equals(action)){
-            handleCreateAuhorizationSettings();
-        }else if(Cv.ACTION_GET_STOCK_TRANSFER.equals(action)){
+        } else if (Cv.ACTION_GET_STOCK_TRANSFER.equals(action)) {
             handleGetStockTransfer();
-        }else if(Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)){
+        } else if (Cv.ACTION_CREATE_STOCK_TRANSFER.equals(action)) {
+            handleCreateStockTransfer();
+        } else if (Cv.ACTION_CREATE_AUTHORIZATION_SETTINGS.equals(action)) {
+            handleCreateAuhorizationSettings();
+        } else if (Cv.ACTION_DELETE_STOCK_TRANSFER.equals(action)) {
             handleDeleteStockTransfer();
-        }else if(Cv.ACTION_GET_STOCK_TRANSFER_DETAILS.equals(action)){
+        } else if (Cv.ACTION_GET_STOCK_TRANSFER_DETAILS.equals(action)) {
             handleGetStockTransferDetails();
-        }else if(Cv.ACTION_EDIT_STOCK_TRANSFER.equals(action));{
-            handleEditStockTransfer();
-        }
+        }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
+            handleUpdateStockTransfer();
+        }*/
     }
 
     private void handleGetItemGroupDetails() {
@@ -2129,7 +2130,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetItemmaterrialCentre() {
-        api.getitemmaterial_center(Preferences.getInstance(getApplicationContext()).getCid(),Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
+        api.getitemmaterial_center(Preferences.getInstance(getApplicationContext()).getCid(), Preferences.getInstance(getApplicationContext()).getStoreId()).enqueue(new Callback<GetItemResponse>() {
             @Override
             public void onResponse(Call<GetItemResponse> call, Response<GetItemResponse> r) {
                 if (r.code() == 200) {
@@ -2474,7 +2475,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleSearchCompany() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.searchcompany(appUser.search_company_id,appUser.mobile).enqueue(new Callback<CompanyResponse>() {
+        api.searchcompany(appUser.search_company_id, appUser.mobile).enqueue(new Callback<CompanyResponse>() {
             @Override
             public void onResponse(Call<CompanyResponse> call, Response<CompanyResponse> r) {
                 if (r.code() == 200) {
@@ -3776,9 +3777,9 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetSaleReturnVoucher(){
+    private void handleGetSaleReturnVoucher() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getsalereturnvoucher(Preferences.getInstance(getApplicationContext()).getCid(),appUser.sales_duration_spinner).enqueue(new Callback<GetSaleReturnVoucherListResponse>(){
+        api.getsalereturnvoucher(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetSaleReturnVoucherListResponse>() {
 
             @Override
             public void onResponse(Call<GetSaleReturnVoucherListResponse> call, Response<GetSaleReturnVoucherListResponse> r) {
@@ -3849,16 +3850,16 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetPurchaseReturnvoucher(){
+    private void handleGetPurchaseReturnvoucher() {
 
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getpurchasereturnvoucher(Preferences.getInstance(getApplicationContext()).getCid(),appUser.sales_duration_spinner).enqueue(new Callback<GetPurchaseReturnVoucherListResponse>() {
+        api.getpurchasereturnvoucher(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetPurchaseReturnVoucherListResponse>() {
             @Override
             public void onResponse(Call<GetPurchaseReturnVoucherListResponse> call, Response<GetPurchaseReturnVoucherListResponse> r) {
-                if(r.code()==200){
+                if (r.code() == 200) {
                     GetPurchaseReturnVoucherListResponse body = r.body();
                     EventBus.getDefault().post(body);
-                }else {
+                } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
@@ -3867,7 +3868,7 @@ public class ApiCallsService extends IntentService {
             public void onFailure(Call<GetPurchaseReturnVoucherListResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
@@ -3892,14 +3893,18 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<VersionResponse> call, Throwable t) {
-                EventBus.getDefault().post(t.getMessage());
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
             }
         });
     }
 
     private void handleGetPdc() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getPdc(Preferences.getInstance(getApplicationContext()).getCid(),appUser.receipt_duration_spinner).enqueue(new Callback<GetPdcResponse>() {
+        api.getPdc(Preferences.getInstance(getApplicationContext()).getCid(), appUser.receipt_duration_spinner).enqueue(new Callback<GetPdcResponse>() {
             @Override
             public void onResponse(Call<GetPdcResponse> call, Response<GetPdcResponse> r) {
                 if (r.code() == 200) {
@@ -3969,14 +3974,14 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetDefaultItems(){
+    private void handleGetDefaultItems() {
         api.getDefaultItems(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetDefaultItemsResponse>() {
             @Override
             public void onResponse(Call<GetDefaultItemsResponse> call, Response<GetDefaultItemsResponse> r) {
-                if(r.code()==200){
+                if (r.code() == 200) {
                     GetDefaultItemsResponse body = r.body();
                     EventBus.getDefault().post(body);
-                }else{
+                } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
@@ -4004,6 +4009,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<GetSaleVoucherDetails> call, Throwable t) {
                 try {
@@ -4014,6 +4020,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleCreateDefaultItems() {
         api.createDefaultItems(new RequestCreateDefaultItems(this)).enqueue(new Callback<CreateDefaultItemsResponse>() {
             @Override
@@ -4111,7 +4118,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdateSaleVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updateSaleVoucherDetails(new RequestCreateSaleVoucher(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleVoucherResponse>() {
+        api.updateSaleVoucherDetails(new RequestCreateSaleVoucher(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleVoucherResponse>() {
             @Override
             public void onResponse(Call<CreateSaleVoucherResponse> call, Response<CreateSaleVoucherResponse> r) {
                 if (r.code() == 200) {
@@ -4121,6 +4128,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(Cv.TIMEOUT);
                 }
             }
+
             @Override
             public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
                 try {
@@ -4134,7 +4142,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdatePurchaseReturnVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updatePurchaseReturnVoucherDetails(new RequestCreatePurchaseReturn(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseReturnResponse>() {
+        api.updatePurchaseReturnVoucherDetails(new RequestCreatePurchaseReturn(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseReturnResponse>() {
             @Override
             public void onResponse(Call<CreatePurchaseReturnResponse> call, Response<CreatePurchaseReturnResponse> r) {
                 if (r.code() == 200) {
@@ -4158,7 +4166,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdatePurchaseVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseResponce>() {
+        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseResponce>() {
             @Override
             public void onResponse(Call<CreatePurchaseResponce> call, Response<CreatePurchaseResponce> r) {
                 if (r.code() == 200) {
@@ -4182,7 +4190,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdateSaleReturnVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updateSaleReturnVoucherDetails(new RequestCreateSaleReturn(this),appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleReturnResponse>() {
+        api.updateSaleReturnVoucherDetails(new RequestCreateSaleReturn(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleReturnResponse>() {
             @Override
             public void onResponse(Call<CreateSaleReturnResponse> call, Response<CreateSaleReturnResponse> r) {
                 if (r.code() == 200) {
@@ -4214,7 +4222,7 @@ public class ApiCallsService extends IntentService {
                     EventBus.getDefault().post(body);
                 } else
                     EventBus.getDefault().post(Cv.TIMEOUT);
-                }
+            }
 
             @Override
             public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
@@ -4273,8 +4281,32 @@ public class ApiCallsService extends IntentService {
         });
     }
 
+    private void handleGetStockTransfer() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getStockTransfer(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetStockTransferListResponse>() {
+            @Override
+            public void onResponse(Call<GetStockTransferListResponse> call, Response<GetStockTransferListResponse> r) {
+                if (r.code() == 200) {
+                    GetStockTransferListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetStockTransferListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
     private void handleCreateStockTransfer() {
-        api.createStockTransfer(new RequestCreateStockTransfer(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateStockTransferResponse>() {
+        api.createStockTransfer(new RequestCreateStockTransfer(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateStockTransferResponse>() {
             @Override
             public void onResponse(Call<CreateStockTransferResponse> call, Response<CreateStockTransferResponse> r) {
                 if (r.code() == 200) {
@@ -4295,37 +4327,13 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
-    private void handleCreateAuhorizationSettings(){
-        api.createAuthorizationSettings(new RequestCreateAuthorizationSettings(this)/*Preferences.getInstance(getApplicationContext()).getCid()*/).enqueue(new Callback<CreateAuthorizationSettingsResponse>() {
+
+    private void handleCreateAuhorizationSettings() {
+        api.createAuthorizationSettings(new RequestCreateAuthorizationSettings(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateAuthorizationSettingsResponse>() {
             @Override
             public void onResponse(Call<CreateAuthorizationSettingsResponse> call, Response<CreateAuthorizationSettingsResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     CreateAuthorizationSettingsResponse body = response.body();
-                    EventBus.getDefault().post(body);
-                }else {
-                    EventBus.getDefault().post(Cv.TIMEOUT);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CreateAuthorizationSettingsResponse> call, Throwable t) {
-
-                try {
-                    EventBus.getDefault().post(t.getMessage());
-                }catch (Exception ex){
-                    EventBus.getDefault().post(Cv.TIMEOUT);
-                }
-            }
-        });
-    }
-
-    private void handleGetStockTransfer() {
-        AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getStockTransfer(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetStockTransferListResponse>() {
-            @Override
-            public void onResponse(Call<GetStockTransferListResponse> call, Response<GetStockTransferListResponse> r) {
-                if (r.code() == 200) {
-                    GetStockTransferListResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4333,7 +4341,8 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<GetStockTransferListResponse> call, Throwable t) {
+            public void onFailure(Call<CreateAuthorizationSettingsResponse> call, Throwable t) {
+
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
@@ -4391,13 +4400,14 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleEditStockTransfer() {
+
+   /* private void handleUpdateStockTransfer() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.editStockTransfer(new RequestCreateStockTransfer(this),appUser.edit_stock_transfer_id).enqueue(new Callback<CreateStockTransferResponse>() {
+        api.updateStockTransfer(new RequestCreateStockTransfer(this),*//*appUser.edit_stock_transfer_id*//*"2").enqueue(new Callback<UpdateStockTrasferResponse>() {
             @Override
-            public void onResponse(Call<CreateStockTransferResponse> call, Response<CreateStockTransferResponse> r) {
+            public void onResponse(Call<UpdateStockTrasferResponse> call, Response<UpdateStockTrasferResponse> r) {
                 if (r.code() == 200) {
-                    CreateStockTransferResponse body = r.body();
+                    UpdateStockTrasferResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4405,7 +4415,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreateStockTransferResponse> call, Throwable t) {
+            public void onFailure(Call<UpdateStockTrasferResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
@@ -4413,5 +4423,6 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
-    }
+    }*/
+
 }

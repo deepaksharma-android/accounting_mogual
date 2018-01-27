@@ -437,7 +437,7 @@
                                  android:layout_width="fill_parent"
                                  android:layout_height="wrap_content"
                                  android:background="@android:color/transparent"
-                                 android:hint="Company Name"
+                                 android:hint="Users Name"
                                  android:paddingTop="10dp"
                                  android:singleLine="true"
                                  android:textColor="#000"

@@ -364,7 +364,7 @@ public class CompanyListActivity extends BaseActivity {
                 mRecyclerView.setAdapter(mAdapter);
             }
             else{
-                Snackbar.make(coordinatorLayout,"No Company Found!",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinatorLayout,"No Users Found!",Snackbar.LENGTH_LONG).show();
             }
         }
         else{

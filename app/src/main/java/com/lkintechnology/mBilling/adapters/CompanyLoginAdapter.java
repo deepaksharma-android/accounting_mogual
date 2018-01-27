@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.CompanyAuthrizationActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.UserName;
+import com.lkintechnology.mBilling.networks.api_response.companylogin.Users;
 import com.lkintechnology.mBilling.utils.EventEditLogin;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
@@ -27,14 +28,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapter.ViewHolder> {
-    private ArrayList<UserName> data;
+    private ArrayList<Users> data;
     private Context context;
     int[] images;
     public Dialog dialog;
     AppUser appUser;
 
 
-    public CompanyLoginAdapter(Context context, ArrayList<UserName> data) {
+    public CompanyLoginAdapter(Context context, ArrayList<Users> data) {
         this.data = data;
         this.context = context;
         //this.images=images;
@@ -49,16 +50,19 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
     @Override
     public void onBindViewHolder(CompanyLoginAdapter.ViewHolder viewHolder, int i) {
         appUser=LocalRepositories.getAppUser(context);
-        viewHolder.mCompanyUserName.setText(data.get(i).getName());
+        viewHolder.mCompanyUserName.setText(data.get(i).getUsername());
         appUser.company_user_id= String.valueOf(data.get(i).getId());
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CompanyAuthrizationActivity.class);
-                Integer user_id=data.get(i).getId();
-                appUser.authorizations__setting_user_id=user_id;
-                LocalRepositories.saveAppUser(context,appUser);
-                context.startActivity(intent);
+                if(!data.get(i).getAdmin()) {
+                    Intent intent = new Intent(context, CompanyAuthrizationActivity.class);
+                    CompanyAuthrizationActivity.data=data.get(i);
+                    Integer user_id = data.get(i).getId();
+                    appUser.authorizations__setting_user_id = user_id;
+                    LocalRepositories.saveAppUser(context, appUser);
+                    context.startActivity(intent);
+                }
             }
         });
 
@@ -86,7 +90,7 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
     public void showpopup(){
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.layout_company_login_diolog);
-        dialog.setTitle("Company Login");
+        dialog.setTitle("Users Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText username = (EditText) dialog.findViewById(R.id.cusername);

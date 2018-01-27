@@ -254,7 +254,7 @@ public class ItemMaterialCentreListActivity extends AppCompatActivity {
         appUser.delete_material_centre_id = arrid;
         LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(ItemMaterialCentreListActivity.this)
-                .setTitle("Delete Company")
+                .setTitle("Delete Users")
                 .setMessage("Are you sure you want to delete this account ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();

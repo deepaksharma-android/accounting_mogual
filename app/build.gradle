@@ -30,7 +30,7 @@ android {
         }
     }
 }
-final RETROFIT_VERSION = '2.0.0'
+final RETROFIT_VERSION = '2.3.0'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -38,9 +38,9 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:4.1.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.greenrobot:eventbus:3.1.1'
     compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
-    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.google.code.gson:gson:2.5'
     compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     compile 'com.facebook.android:facebook-android-sdk:4.26.0'

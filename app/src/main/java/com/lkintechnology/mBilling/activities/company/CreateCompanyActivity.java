@@ -150,12 +150,12 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
                                                     }
                                                 } else {
                                                     snackbar = Snackbar
-                                                            .make(coordinatorLayout, "Enter Company password", Snackbar.LENGTH_LONG);
+                                                            .make(coordinatorLayout, "Enter Users password", Snackbar.LENGTH_LONG);
                                                     snackbar.show();
                                                 }
                                             } else {
                                                 snackbar = Snackbar
-                                                        .make(coordinatorLayout, "Enter Company Username", Snackbar.LENGTH_LONG);
+                                                        .make(coordinatorLayout, "Enter Users Username", Snackbar.LENGTH_LONG);
                                                 snackbar.show();
                                             }
                                         } else {

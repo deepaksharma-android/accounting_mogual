@@ -104,7 +104,6 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
@@ -196,26 +195,26 @@ public class CompanyDashboardActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
+        EventBus.getDefault().register(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        //EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-       // EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
    /* @Override
     public void onBackPressed() {
       /*  new AlertDialog.Builder(CompanyDashboardActivity.this)
-                .setTitle("Exit Company")
+                .setTitle("Exit Users")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
@@ -315,7 +314,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             new AlertDialog.Builder(CompanyDashboardActivity.this)
-                    .setTitle("Delete Company")
+                    .setTitle("Delete Users")
                     .setMessage("Are you sure you want to delete this company ?")
                     .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                         Boolean isConnected = ConnectivityReceiver.isConnected();

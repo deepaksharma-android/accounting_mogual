@@ -320,19 +320,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchaseReturn = new ArrayList();
 
 
-    public String purchase_return_date = "";
-    public String purchase_return_voucher_series="";
-    public String purchase_return_company_id="";
-    public String purchase_return_voucher_number="";
-    public String purchase_return_puchase_type_id="";
-    public String purchase_return_payment_type="";
-    public String purchase_return_mobile_number="";
-    public String purchase_return_account_master_id="";
-    public String purchase_return_material_center_id="";
-    public String purchase_return_itc_eligibility="";
-    public String purchase_return_narration = "";
-    public String purchase_return_created_at="";
-    public String purchase_return_update_at="";
+
 
     public Map map = new HashMap();
 
@@ -525,13 +513,11 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public String email_yes_no="";
     public String edit_sale_voucher_id;
-    public String edit_stock_transfer_id;
-    //public List<String> listDataChildId = new ArrayList<String>();
-   // public List<String> listData =  new ArrayList<>();
+    public String edit_stock_transfer_id="";
 
     public String enable_user="";
     public String allow_user_to_delete_voucher="";
     public String allow_user_to_edit_voucher="";
-    public Integer authorizations__setting_user_id;
+    public int authorizations__setting_user_id;
 
 }

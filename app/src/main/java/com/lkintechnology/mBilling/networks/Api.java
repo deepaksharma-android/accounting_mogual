@@ -155,6 +155,7 @@ import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateSto
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
+import com.lkintechnology.mBilling.networks.api_response.stocktransfer.UpdateStockTrasferResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -662,14 +663,14 @@ public interface Api {
     @GET("company/profit_loss/{id}")
     Call<CompanyReportResponse> getprofitandloss(@Path("id") String id ,@Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("company_stock_transfer_vouchers/{id}")
+    Call<GetStockTransferListResponse> getStockTransfer (@Path("id") String id, @Query("duration") String duration);
+
     @POST("stock_transfer_vouchers/{id}")
     Call<CreateStockTransferResponse> createStockTransfer(@Body RequestCreateStockTransfer payload,@Path("id") String id);
 
-    @POST("authorization_settings")
-    Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload/*@Path("id") String id*/);
-
-    @GET("company_stock_transfer_vouchers/{id}")
-    Call<GetStockTransferListResponse> getStockTransfer (@Path("id") String id, @Query("duration") String duration);
+    @PATCH("company/authorization_settings/{company_id}")
+    Call<CreateAuthorizationSettingsResponse> createAuthorizationSettings(@Body RequestCreateAuthorizationSettings payload,@Path("company_id") String company_id);
 
     @DELETE("stock_transfer_vouchers/{id}")
     Call<DeleteStockTransferResponse> deleteStockTransfer(@Path("id") String id);
@@ -677,6 +678,9 @@ public interface Api {
     @GET("stock_transfer_vouchers/{id}")
     Call<GetStockTransferDetailsResponse> getStockTransferDetails(@Path("id") String id);
 
-    @PATCH("stock_transfer_vouchers/{id}")
-    Call<CreateStockTransferResponse> editStockTransfer(@Body RequestCreateStockTransfer payload,@Path("id") String id);
+/*    @PATCH("stock_transfer_vouchers/{id}")
+    Call<UpdateStockTrasferResponse> updateStockTransfer(@Body RequestCreateStockTransfer payload, @Path("id") String id);*/
+
+
+
 }

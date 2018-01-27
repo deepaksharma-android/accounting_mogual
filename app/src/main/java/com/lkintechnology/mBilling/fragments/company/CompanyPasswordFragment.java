@@ -176,10 +176,10 @@ public class CompanyPasswordFragment extends Fragment {
         if(response.getStatus()==200){
            // mRecyclerView.setHasFixedSize(true);
            // Toast.makeText(getActivity(), "Subscribe if", Toast.LENGTH_SHORT).show();
-            if(response.getCompany().getData().getAttributes().getUsername().size()!=0){
+            if(response.getUsers().size()!=0){
                 layoutManager = new LinearLayoutManager(getActivity());
                 mRecyclerView.setLayoutManager(layoutManager);
-                mAdapter=new CompanyLoginAdapter(getActivity(),response.getCompany().getData().getAttributes().getUsername());
+                mAdapter=new CompanyLoginAdapter(getActivity(),response.getUsers());
                 mRecyclerView.setAdapter(mAdapter);
             }else {
                 Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -189,6 +189,7 @@ public class CompanyPasswordFragment extends Fragment {
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
@@ -212,7 +213,7 @@ public class CompanyPasswordFragment extends Fragment {
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_company_login_diolog);
-        dialog.setTitle("Company Login");
+        dialog.setTitle("Users Login");
         dialog.setCancelable(true);
         // set the custom dialog components - text, image and button
         EditText mobile = (EditText) dialog.findViewById(R.id.mobile);

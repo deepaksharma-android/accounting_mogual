@@ -1,17 +1,18 @@
 package com.lkintechnology.mBilling.networks.api_response.companylogin;
 
+import java.util.ArrayList;
+
 public class CompanyUserResponse {
 
-
-    public Company getCompany() {
-        return company;
+    public ArrayList<Users> getUsers() {
+        return users;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setUsers(ArrayList<Users> users) {
+        this.users = users;
     }
 
-    public Company company;
+    public ArrayList<Users> users;
     public String getMessage() {
         return message;
     }

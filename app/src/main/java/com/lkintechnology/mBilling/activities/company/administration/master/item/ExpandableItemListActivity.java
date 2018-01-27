@@ -185,7 +185,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.item_unit_name = "";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isDirectForItem==true){
+       /* if(isDirectForItem==true){*/
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
                 mProgressDialog.setMessage("Info...");
@@ -208,7 +208,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         });
                 snackbar.show();
             }
-        }else{
+ /*       }else{
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
                 mProgressDialog.setMessage("Info...");
@@ -231,7 +231,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         });
                 snackbar.show();
             }
-        }
+        }*/
     }
 
     @Override
