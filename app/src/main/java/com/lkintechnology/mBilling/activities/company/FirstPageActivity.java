@@ -155,7 +155,7 @@ public class FirstPageActivity extends BaseActivityCompany {
             public void onClick(View view) {
                 appUser.account_master_group ="";
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent i = new Intent(getApplicationContext(), ItemMaterialCentreListActivity.class);
+                Intent i = new Intent(getApplicationContext(), TransactionStockInHandActivity.class);
               /*  FirstPageActivity.isDirectForFirstPage=false;*/
                 startActivity(i);
             }
