@@ -344,7 +344,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemGroup.getText().toString().equals("")) {
                         if (!mItemUnit.getText().toString().equals("")) {
                             if (!mTaxCategory.getText().toString().equals("")) {
-                                if (!mStore.getText().toString().equals("")) {
+                               /* if (!mStore.getText().toString().equals("")) {*/
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -382,9 +382,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                             });
                                     snackbar.show();
                                 }
-                            } else {
+                           /* } else {
                                     Snackbar.make(coordinatorLayout, "Select Store", Snackbar.LENGTH_LONG).show();
-                                }
+                                }*/
                             }else {
                                 Snackbar.make(coordinatorLayout, "Add Tax Catagory", Snackbar.LENGTH_LONG).show();
                             }
@@ -408,7 +408,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
                             if (!mTaxCategory.getText().toString().equals("")) {
-                                if(!mStore.getText().toString().equals("")){
+                             /*   if(!mStore.getText().toString().equals("")){*/
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -458,9 +458,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                             });
                                     snackbar.show();
                                 }
-                            } else {
+                           /* } else {
                                 Snackbar.make(coordinatorLayout, "Add Tax Catagory", Snackbar.LENGTH_LONG).show();
-                                }
+                                }*/
                             } else {
                                 Snackbar.make(coordinatorLayout, "Select Store", Snackbar.LENGTH_LONG).show();
                             }

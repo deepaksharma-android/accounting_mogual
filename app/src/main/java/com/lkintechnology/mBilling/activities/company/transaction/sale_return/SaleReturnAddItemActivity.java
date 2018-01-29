@@ -179,6 +179,13 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                 mUnitList.add(myList.get(i));
             }
             Timber.i("UNIT_LIST"+myList);
+            String serialnumber=(String) map.get("serial_number").toString().replace("[","").replace("]","");
+            List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
+            for(int i=0;i<serialList.size();i++){
+                appUser.serial_arr.add(serialList.get(i));
+                LocalRepositories.saveAppUser(this,appUser);
+            }
+            Timber.i("MYSERAILNUMBER"+serialnumber);
 
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);

@@ -22,7 +22,6 @@
         android:gravity="center"
         android:layout_below="@+id/icon_image"
         android:textColor="@color/black"
-        android:layout_marginBottom="200dp"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         style="@style/Gotham_Medium"/>
