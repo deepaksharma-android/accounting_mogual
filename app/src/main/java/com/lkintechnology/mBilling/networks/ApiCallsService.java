@@ -3549,7 +3549,7 @@ public class ApiCallsService extends IntentService {
     }
 
     private void handleGetBillSundryNature() {
-        api.getbillsundrynature().enqueue(new Callback<GetBillSundryNatureResponse>() {
+        api.getbillsundrynature(Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<GetBillSundryNatureResponse>() {
             @Override
             public void onResponse(Call<GetBillSundryNatureResponse> call, Response<GetBillSundryNatureResponse> r) {
                 if (r.code() == 200) {

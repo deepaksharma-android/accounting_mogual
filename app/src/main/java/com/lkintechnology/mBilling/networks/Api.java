@@ -421,8 +421,8 @@ public interface Api {
     @PATCH("edit_bill_sundry/{id}")
     Call<EditBillSundryResponse> editbillsundry(@Body RequestCreateBillSundry payload, @Path("id") String id);
 
-    @GET("bill_sundry_nature")
-    Call<GetBillSundryNatureResponse> getbillsundrynature();
+    @GET("bill_sundry_nature/{id}")
+    Call<GetBillSundryNatureResponse> getbillsundrynature(@Path("id") String id);
 
     @GET("purchase_type")
     Call<GetPurchaseTypeResponse> getpurchasetype();
