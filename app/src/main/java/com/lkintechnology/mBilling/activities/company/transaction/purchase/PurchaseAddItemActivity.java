@@ -185,13 +185,16 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
             for(int i=0;i<myList.size();i++){
                 mUnitList.add(myList.get(i));
             }
-            String serialnumber=(String) map.get("serial_number").toString().replace("[","").replace("]","");
-            List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
-            for(int i=0;i<serialList.size();i++){
-                appUser.serial_arr.add(serialList.get(i));
-                LocalRepositories.saveAppUser(this,appUser);
+            if((String) map.get("serial_number")!=null) {
+                String serialnumber = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
+                List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
+                for (int i = 0; i < serialList.size(); i++) {
+                    appUser.serial_arr.add(serialList.get(i));
+                    LocalRepositories.saveAppUser(this, appUser);
+                }
+
+                Timber.i("MYSERAILNUMBER" + serialnumber);
             }
-            Timber.i("MYSERAILNUMBER"+serialnumber);
 
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);

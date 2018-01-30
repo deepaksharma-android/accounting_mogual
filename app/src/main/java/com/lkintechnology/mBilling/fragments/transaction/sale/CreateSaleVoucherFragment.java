@@ -1015,7 +1015,24 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mMap.put("total",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
                     if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit()!=null) {
                         if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit())) {
-                            mMap.put("rate",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
+                            if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()!=null) {
+                                if(!String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()).equals("")){
+                                    mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()));
+                                }
+                                else{
+
+                                    mMap.put("rate", "0.0");
+                                }
+                            }
+                            else {
+                                if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()!=null) {
+                                    mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
+                                }
+                                else{
+                                    mMap.put("rate", "0.0");
+                                }
+                            }
+
                             mMap.put("price_selected_unit", "main");
                         } else if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit())) {
                             mMap.put("price_selected_unit", "alternate");
@@ -1025,13 +1042,27 @@ public class CreateSaleVoucherFragment extends Fragment {
                             mMap.put("rate",String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
                             mMap.put("price_selected_unit", "packaging");
                         }
+                        else{
+                            if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()!=null) {
+                                mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()));
+                            }
+                            else{
+                                mMap.put("rate", "0.0");
+                            }
+                            mMap.put("price_selected_unit", "main");
+                        }
                     }
 
                     mMap.put("alternate_unit_con_factor", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getConversion_factor()));
                     mMap.put("packaging_unit_con_factor",  String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_conversion_factor()));
                     mMap.put("mrp",  String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getMrp()));
                     mMap.put("tax", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getTax_category());
-                    mMap.put("applied",response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
+                    if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_applied_on()!=null) {
+                        mMap.put("applied", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
+                    }
+                    else{
+                        mMap.put("applied","Main Unit");
+                    }
                     //   mMap.put("serial_number", appUser.sale_item_serial_arr);
                      mMap.put("unit_list", mUnitList);
                     appUser.mListMapForItemSale.add(mMap);
