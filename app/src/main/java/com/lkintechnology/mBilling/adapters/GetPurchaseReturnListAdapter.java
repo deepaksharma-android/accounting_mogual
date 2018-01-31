@@ -111,6 +111,7 @@ public class GetPurchaseReturnListAdapter extends RecyclerView.Adapter<GetPurcha
                 LocalRepositories.saveAppUser(context,appUser);
                 Intent intent = new Intent(context, CreatePurchaseReturnActivity.class);
                 intent.putExtra("fromsalelist",true);
+                intent.putExtra("fromdashboard",false);
                 context.startActivity(intent);
             }
         });

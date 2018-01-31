@@ -62,6 +62,7 @@ public class CreateSaleActivity extends AppCompatActivity {
     AppUser appUser;
     String title;
    public static boolean fromsalelist;
+    public static boolean fromdashboard;
 
 
     @Override
@@ -69,6 +70,7 @@ public class CreateSaleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_sale);
         ButterKnife.bind(this);
+        fromdashboard=getIntent().getExtras().getBoolean("fromdashboard");
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         appUser= LocalRepositories.getAppUser(this);
         title="CREATE SALE VOUCHER";

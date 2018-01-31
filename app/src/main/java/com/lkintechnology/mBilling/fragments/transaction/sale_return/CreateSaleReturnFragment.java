@@ -160,7 +160,8 @@ public class CreateSaleReturnFragment extends Fragment {
                         });
                 snackbar.show();
             }
-        } else {
+        }
+        if(CreateSaleReturnActivity.fromdashboard) {
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {

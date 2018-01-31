@@ -125,12 +125,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     FrameLayout scanning_content_frame;
     @Bind(R.id.cancel)
     ImageView mCancel;
+    Boolean fromsalelist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale_voucher_add_item);
         appUser = LocalRepositories.getAppUser(this);
+        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
         frombillitemvoucherlist = getIntent().getExtras().getBoolean("frombillitemvoucherlist");
         ButterKnife.bind(this);
         initActionbar();
@@ -729,6 +731,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 }
 
                 Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                in.putExtra("fromdashboard",false);
+              /*  if(fromsalelist){
+                    in.putExtra("fromsalelist", true);
+                }
+                else{
+                    in.putExtra("fromsalelist", false);
+                }*/
                 in.putExtra("is", true);
                 startActivity(in);
                 finish();

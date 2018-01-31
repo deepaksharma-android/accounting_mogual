@@ -193,6 +193,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent intent=new Intent(getApplicationContext(),CreateSaleActivity.class);
                 intent.putExtra("fromsalelist",false);
+                intent.putExtra("fromdashboard",true);
                 startActivity(intent);
               //  context.startActivity(new Intent(context, CreateSaleActivity.class));
                /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
@@ -267,6 +268,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 LocalRepositories.saveAppUser(context, appUser);
                 Intent intent=new Intent(getApplicationContext(),CreatePurchaseActivity.class);
                 intent.putExtra("fromsalelist",false);
+
                 startActivity(intent);
                // context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -463,6 +465,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent intent=new Intent(getApplicationContext(),CreateSaleReturnActivity.class);
                 intent.putExtra("fromsalelist",false);
+                intent.putExtra("fromdashboard",true);
                 startActivity(intent);
                 //context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
 
@@ -508,6 +511,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent intent=new Intent(getApplicationContext(),CreatePurchaseReturnActivity.class);
                 intent.putExtra("fromsalelist",false);
+                intent.putExtra("fromdashboard",true);
                 startActivity(intent);
               //  context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};

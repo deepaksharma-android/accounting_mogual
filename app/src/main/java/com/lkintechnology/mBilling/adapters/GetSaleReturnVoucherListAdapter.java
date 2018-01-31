@@ -111,6 +111,7 @@ public class GetSaleReturnVoucherListAdapter extends RecyclerView.Adapter<GetSal
                 LocalRepositories.saveAppUser(context,appUser);
                 Intent intent = new Intent(context, CreateSaleReturnActivity.class);
                 intent.putExtra("fromsalelist",true);
+                intent.putExtra("fromdashboard",false);
                 context.startActivity(intent);
             }
         });

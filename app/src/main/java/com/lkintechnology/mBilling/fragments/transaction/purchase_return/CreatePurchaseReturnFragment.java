@@ -165,7 +165,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 snackbar.show();
             }
         }
-        else {
+        if(CreatePurchaseReturnActivity.fromdashboard) {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
