@@ -50,6 +50,7 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
     Snackbar snackbar;
     String title;
     public static boolean fromsalelist;
+    public static boolean fromdashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        fromdashboard=getIntent().getExtras().getBoolean("fromdashboard");
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         appUser= LocalRepositories.getAppUser(this);
         title="CREATE SALE RETURN VOUCHER";

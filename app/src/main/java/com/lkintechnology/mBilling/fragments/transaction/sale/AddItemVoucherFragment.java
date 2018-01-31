@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.AddBillsVoucherAdapter;
@@ -80,6 +81,12 @@ public class AddItemVoucherFragment extends Fragment {
                         ExpandableItemListActivity.comingFrom = 0;
                         ExpandableItemListActivity.isDirectForItem = false;
                         Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
+                       /* if(CreateSaleActivity.fromsalelist){
+                            intent.putExtra("fromsalelist", true);
+                        }
+                        else{
+                            intent.putExtra("fromsalelist", false);
+                        }*/
                         intent.putExtra("bool", true);
                         startActivity(intent);
                         getActivity().finish();
@@ -113,6 +120,12 @@ public class AddItemVoucherFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), SaleVoucherAddItemActivity.class);
+               /* if(CreateSaleActivity.fromsalelist){
+                    intent.putExtra("fromsalelist", true);
+                }
+                else{
+                    intent.putExtra("fromsalelist", false);
+                }*/
                 intent.putExtra("frombillitemvoucherlist", true);
                 intent.putExtra("pos", i);
                 startActivity(intent);

@@ -85,6 +85,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(count==0){
                     appUser.stock_serial_arr.clear();
+                    appUser.stock_item_serail_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     mSr_no.setText("");
                 }

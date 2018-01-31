@@ -53,6 +53,7 @@ public class CreatePurchaseReturnActivity extends AppCompatActivity {
     Snackbar snackbar;
     String title;
     public static boolean fromsalelist;
+    public static boolean fromdashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class CreatePurchaseReturnActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        fromdashboard=getIntent().getExtras().getBoolean("fromdashboard");
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         title="CREATE PURCHASE RETURN VOUCHER";
         if(fromsalelist){

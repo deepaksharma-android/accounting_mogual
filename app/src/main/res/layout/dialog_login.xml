@@ -83,7 +83,6 @@
                         android:textColor="#000"
                         android:layout_marginLeft="5dp"
                         android:inputType="text"
-                        android:maxLength="10"
                         android:background="@android:color/transparent"
                         android:hint="eg.abc"/>
 

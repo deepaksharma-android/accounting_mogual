@@ -242,6 +242,7 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
                     }
                     Intent intent =new Intent(getApplicationContext(),CreateSaleReturnActivity.class);
                     intent.putExtra("is",true);
+                    intent.putExtra("fromdashboard",false);
                     startActivity(intent);
                     finish();
 

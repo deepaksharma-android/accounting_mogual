@@ -101,6 +101,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     public Map<String, String> mPurchaseReturnItem;
     public Map<String, String> mSaleReturnItem;
+   // Boolean fromsalelist;
 
 
     ProgressDialog mProgressDialog;
@@ -138,6 +139,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
         initActionbar();
+//        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
         appUser = LocalRepositories.getAppUser(this);
         floatingActionButton.bringToFront();
         appUser.item_name = "";
@@ -661,6 +663,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("tax", tax);
                 intent.putExtra("barcode", barcode);
                 intent.putExtra("frombillitemvoucherlist", false);
+              /*  if(fromsalelist){
+                    intent.putExtra("fromsalelist", true);
+                }
+                else{
+                    intent.putExtra("fromsalelist", false);
+                }*/
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 1) {
@@ -940,6 +948,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         if (!ExpandableItemListActivity.isDirectForItem) {
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(this, CreateSaleActivity.class);
+               /* if(fromsalelist){
+                    intent.putExtra("fromsalelist", true);
+                }
+                else{
+                    intent.putExtra("fromsalelist", false);
+                }*/
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
@@ -981,8 +995,15 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             case android.R.id.home:
                 if (!ExpandableItemListActivity.isDirectForItem) {
                     if (ExpandableItemListActivity.comingFrom == 0) {
+
                         Intent intent = new Intent(this, CreateSaleActivity.class);
                         intent.putExtra("is", true);
+                       /* if(fromsalelist){
+                            intent.putExtra("fromsalelist", true);
+                        }
+                        else{
+                            intent.putExtra("fromsalelist", false);
+                        }*/
                         startActivity(intent);
                         finish();
                     } else if (ExpandableItemListActivity.comingFrom == 1) {
@@ -1105,6 +1126,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         intent.putExtra("tax", tax);
                         intent.putExtra("barcode", barcode);
                         intent.putExtra("frombillitemvoucherlist", false);
+                     /*   if(fromsalelist){
+                            intent.putExtra("fromsalelist", true);
+                        }
+                        else{
+                            intent.putExtra("fromsalelist", false);
+                        }*/
                         startActivity(intent);
                         finish();
                     } else if (ExpandableItemListActivity.comingFrom == 1) {
