@@ -6,24 +6,24 @@ public class PurchaseReturnVoucherDetailsAttribute {
     public String voucher_series;
     public int company_id;
 
-    public int getPurchase_return_type_id() {
-        return purchase_return_type_id;
+    public int getSale_type_id() {
+        return sale_type_id;
     }
 
-    public void setPurchase_return_type_id(int purchase_return_type_id) {
-        this.purchase_return_type_id = purchase_return_type_id;
+    public void setSale_type_id(int sale_type_id) {
+        this.sale_type_id = sale_type_id;
     }
 
-    public String getPurchase_return_type() {
-        return purchase_return_type;
+    public String getSale_type() {
+        return sale_type;
     }
 
-    public void setPurchase_return_type(String purchase_return_type) {
-        this.purchase_return_type = purchase_return_type;
+    public void setSale_type(String sale_type) {
+        this.sale_type = sale_type;
     }
 
-    public int purchase_return_type_id;
-    public String purchase_return_type;
+    public int sale_type_id;
+    public String sale_type;
 
     public String getVoucher_series() {
         return voucher_series;

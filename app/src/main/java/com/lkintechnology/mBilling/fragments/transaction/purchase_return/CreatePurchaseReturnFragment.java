@@ -923,15 +923,15 @@ public class CreatePurchaseReturnFragment extends Fragment {
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
             mDate.setText(response.getPurchase_return_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_number());
-            mPurchaseType.setText(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_return_type());
+            mPurchaseType.setText(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());
             mStore.setText(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center());
             mPartyName.setText(response.getPurchase_return_voucher().getData().getAttributes().getAccount_master());
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getNarration()));
             Preferences.getInstance(getContext()).setStore(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center());
             Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center_id()));
-            Preferences.getInstance(getContext()).setSale_type_name(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_return_type());
-            Preferences.getInstance(getContext()).setSale_type_id(String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_return_type_id()));
+            Preferences.getInstance(getContext()).setSale_type_name(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());
+            Preferences.getInstance(getContext()).setSale_type_id(String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getSale_type_id()));
             Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getAccount_master_id()));
             Preferences.getInstance(getContext()).setParty_name(response.getPurchase_return_voucher().getData().getAttributes().getAccount_master());
             Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getMobile_number()));
@@ -1032,32 +1032,32 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 }
 
             }
-
-            if (response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
-                for (int i = 0; i < response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
-                    Map mMap = new HashMap<>();
-                    mMap.put("id",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
-                    mMap.put("courier_charges",response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
-                    mMap.put("bill_sundry_id",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
-                    mMap.put("percentage",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
-                    mMap.put("percentage_value",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
-                    mMap.put("default_unit",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getDefault_value()));
-                    mMap.put("fed_as",response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getAmount_of_bill_sundry_fed_as());
-                    mMap.put("fed_as_percentage",response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage());
-                    mMap.put("type",response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_type());
-                    mMap.put("amount",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
-                    mMap.put("previous",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
+            if(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries()!=null) {
+                if (response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
+                    for (int i = 0; i < response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
+                        Map mMap = new HashMap<>();
+                        mMap.put("id", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
+                        mMap.put("courier_charges", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
+                        mMap.put("bill_sundry_id", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
+                        mMap.put("percentage", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        mMap.put("percentage_value", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        mMap.put("default_unit", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getDefault_value()));
+                        mMap.put("fed_as", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getAmount_of_bill_sundry_fed_as());
+                        mMap.put("fed_as_percentage", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage());
+                        mMap.put("type", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_type());
+                        mMap.put("amount", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        mMap.put("previous", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                       /*  if(String.valueOf(2)!=null) {*/
-                    mMap.put("number_of_bill", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
-                    // }
+                        mMap.put("number_of_bill", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
+                        // }
                       /*  if(String.valueOf(true)!=null) {*/
-                    mMap.put("consolidated",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
-                    // }
+                        mMap.put("consolidated", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
+                        // }
                       /*  if(billSundryFedAsPercentage!=null){*/
-                    if(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
-                        mMap.put("changeamount",String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
-                    }
-                    // }
+                        if (response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
+                            mMap.put("changeamount", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
+                        }
+                        // }
 
                   /*      if(data.getAttributes().getBill_sundry_id()String.valueOf(billSundryId)!=null) {
                             int size=appUser.arr_billSundryId.size();
@@ -1070,9 +1070,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
                             }
                             mMap.put("other", billsundryothername);
                         }*/
-                    appUser.mListMapForBillSale.add(mMap);
-                    // appUser.mListMap = mListMap;
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        appUser.mListMapForBillSale.add(mMap);
+                        // appUser.mListMap = mListMap;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
                 }
             }
 

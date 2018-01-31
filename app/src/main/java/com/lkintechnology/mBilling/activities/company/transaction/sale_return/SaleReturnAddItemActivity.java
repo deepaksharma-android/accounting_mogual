@@ -700,6 +700,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 Intent in = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
                 in.putExtra("is", true);
+                in.putExtra("fromdashboard",false);
                 startActivity(in);
                 finish();
             }

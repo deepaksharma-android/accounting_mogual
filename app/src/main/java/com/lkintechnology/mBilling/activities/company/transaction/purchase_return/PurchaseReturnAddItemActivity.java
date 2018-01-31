@@ -728,7 +728,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 }
                 Intent in = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
                 in.putExtra("is", true);
-                intent.putExtra("fromdashboard",false);
+                in.putExtra("fromdashboard",false);
                 startActivity(in);
                 finish();
             }
