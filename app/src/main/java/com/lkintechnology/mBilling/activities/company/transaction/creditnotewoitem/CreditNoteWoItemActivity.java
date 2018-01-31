@@ -61,6 +61,7 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     AppUser appUser;
     @Bind(R.id.total)
     TextView mTotal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

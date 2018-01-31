@@ -201,7 +201,6 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
                 hideSoftKeyboard(view);
                 if (!mAccountName.getText().toString().equals("")) {
-                    if (!mMobileNumber.getText().toString().equals("")) {
                         if (!mGroupName.getText().toString().equals("")) {
                             appUser.account_name = mAccountName.getText().toString();
                             appUser.account_mobile_number = mMobileNumber.getText().toString();
@@ -232,9 +231,6 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                         } else {
                             Snackbar.make(coordinatorLayout, "Enter group name", Snackbar.LENGTH_LONG).show();
                         }
-                    } else {
-                        Snackbar.make(coordinatorLayout, "Enter mobile number", Snackbar.LENGTH_LONG).show();
-                    }
                 } else {
                     Snackbar.make(coordinatorLayout, "Enter account name", Snackbar.LENGTH_LONG).show();
                 }

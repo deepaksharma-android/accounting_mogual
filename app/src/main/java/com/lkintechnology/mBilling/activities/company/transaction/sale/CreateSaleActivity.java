@@ -69,9 +69,10 @@ public class CreateSaleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_sale);
         ButterKnife.bind(this);
+        title="CREATE SALE VOUCHER";
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         appUser= LocalRepositories.getAppUser(this);
-        title="CREATE SALE VOUCHER";
+
         if(fromsalelist){
             title="EDIT SALE VOUCHER";
         }

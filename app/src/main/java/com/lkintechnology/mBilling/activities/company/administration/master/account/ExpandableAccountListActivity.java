@@ -366,6 +366,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(this, appUser);
         Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
         intent.putExtra("fromaccountlist", true);
+        intent.putExtra("bool",true);
         startActivity(intent);
 
     }
@@ -410,6 +411,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             } else if (ParameterConstant.checkStartActivityResultForAccount == 11) {
                 intentForward = new Intent(getApplicationContext(), CreateDebitNoteWoItemActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForAccount == 12) {
+                intentForward.putExtra("fromCreditNote",true);
+                CreateCreditNoteWoItemActivity.creditNoteStatic=true;
                 intentForward = new Intent(getApplicationContext(), CreateCreditNoteWoItemActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForAccount == 13) {
                 intentForward = new Intent(getApplicationContext(), AccountingInSaleActivity.class);
@@ -537,7 +540,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         String data = pos.getPosition();
         autoCompleteTextView.setText("");
         if (!isDirectForAccount) {
-
             ParameterConstant.handleAutoCompleteTextView = 1;
             Intent returnIntent = new Intent();
             for (int i = 0; i < mPeopleList.size(); i++) {
