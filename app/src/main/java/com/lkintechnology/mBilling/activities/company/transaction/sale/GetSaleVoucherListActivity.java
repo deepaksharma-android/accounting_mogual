@@ -142,6 +142,14 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
     }
 
     @Override
+    protected void onResume() {
+        appUser.mListMapForItemSale.clear();
+        appUser.mListMapForBillSale.clear();
+        LocalRepositories.saveAppUser(this,appUser);
+        super.onResume();
+    }
+
+    @Override
     protected int layoutId() {
         return R.layout.activity_get_sale_voucher_list;
     }
