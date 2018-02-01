@@ -103,7 +103,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
             }
         });
 
-        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+    /*    viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Preferences.getInstance(context).setUpdate("1");
@@ -115,7 +115,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                 intent.putExtra("fromdashboard",false);
                 context.startActivity(intent);
             }
-        });
+        });*/
 
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {

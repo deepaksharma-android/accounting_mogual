@@ -102,7 +102,7 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
             }
         });
 
-        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Preferences.getInstance(context).setUpdate("1");
@@ -113,7 +113,7 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
                 intent.putExtra("fromsalelist",true);
                 context.startActivity(intent);
             }
-        });
+        });*/
 
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {

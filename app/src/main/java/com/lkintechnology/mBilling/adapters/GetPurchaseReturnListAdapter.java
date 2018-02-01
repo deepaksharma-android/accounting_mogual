@@ -102,7 +102,7 @@ public class GetPurchaseReturnListAdapter extends RecyclerView.Adapter<GetPurcha
             }
         });
 
-        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Preferences.getInstance(context).setUpdate("1");
@@ -114,7 +114,7 @@ public class GetPurchaseReturnListAdapter extends RecyclerView.Adapter<GetPurcha
                 intent.putExtra("fromdashboard",false);
                 context.startActivity(intent);
             }
-        });
+        });*/
 
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
