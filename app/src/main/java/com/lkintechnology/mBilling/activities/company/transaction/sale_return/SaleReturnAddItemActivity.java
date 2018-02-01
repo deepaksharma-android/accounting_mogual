@@ -720,7 +720,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                         second = Double.valueOf(mRate.getText().toString());
                         if (!mDiscount.getText().toString().isEmpty()) {
                             first = Double.valueOf(mDiscount.getText().toString());
-                            mValue.setText("" + (first * second));
+                            mValue.setText(String.format("%.2f",((first * second))));
                         }
                     } else {
                         mValue.setText("");
@@ -747,7 +747,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                     first = Double.valueOf(mDiscount.getText().toString());
                     if (!mRate.getText().toString().isEmpty()) {
                         second = Double.valueOf(mRate.getText().toString());
-                        mValue.setText("" + (first * second) / 100);
+                        mValue.setText(String.format("%.2f",((first * second) / 100)));
                     }
                 } else {
                     mValue.setText("");
@@ -780,7 +780,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
                             third = Double.valueOf(mRate.getText().toString());
-                            mTotal.setText("" + (third - first) * second);
+                            mTotal.setText(String.format("%.2f",((third - first) * second)));
                         }
                     } else {
                         mTotal.setText("");
@@ -810,7 +810,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                             first = Double.valueOf(mValue.getText().toString());
                             third = Double.valueOf(mRate.getText().toString());
                             if(((third*second)-first)>=0){
-                                mTotal.setText("" + ((third*second)-first));
+                                mTotal.setText(String.format("%.2f",(((third*second)-first))));
                             }
                             else{
                                 mValue.setText("0.0");
