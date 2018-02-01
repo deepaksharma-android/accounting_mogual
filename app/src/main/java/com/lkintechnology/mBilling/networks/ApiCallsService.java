@@ -137,6 +137,7 @@ import com.lkintechnology.mBilling.networks.api_response.payment.EditPaymentResp
 import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
+import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
@@ -4166,11 +4167,11 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdatePurchaseVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseResponce>() {
+        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this), appUser.edit_sale_voucher_id).enqueue(new Callback<UpdatePurchaseResponse>() {
             @Override
-            public void onResponse(Call<CreatePurchaseResponce> call, Response<CreatePurchaseResponce> r) {
+            public void onResponse(Call<UpdatePurchaseResponse> call, Response<UpdatePurchaseResponse> r) {
                 if (r.code() == 200) {
-                    CreatePurchaseResponce body = r.body();
+                    UpdatePurchaseResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4178,7 +4179,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreatePurchaseResponce> call, Throwable t) {
+            public void onFailure(Call<UpdatePurchaseResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

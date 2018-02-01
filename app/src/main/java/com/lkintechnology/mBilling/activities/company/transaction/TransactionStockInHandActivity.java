@@ -25,6 +25,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.item.GetItemResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -178,14 +179,40 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
                 id = new ArrayList<>();
                 Double addAmount=0.0;
                 int addQuantity=0;
+                Double totalstockprice;
+                int totalstockquantity;
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
+                    if(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price()!=null){
+                        totalstockprice=response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price();
+                    }
+                    else{
+                        totalstockprice=0.0;
+                    }
+                    if(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity())!=null){
+                        totalstockquantity=response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity();
+                    }
+                    else{
+                        totalstockquantity=0;
+                    }
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
                             /*+ "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getUndefined())*/
-                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price())
-                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()));
+                            + "," + String.valueOf(totalstockprice)
+                            + "," + String.valueOf(totalstockquantity));
                     id.add(response.getOrdered_items().get(i).getData().get(j).getId());
-                    Double addprize = response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price();
-                    int addquantity = response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity();
+                    Double addprize;
+                    int addquantity;
+                    if(!Helpers.mystring(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price())).equals("")){
+                     addprize = response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_price();
+                    }
+                    else{
+                        addprize =0.0;
+                    }
+                    if(!Helpers.mystring(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity())).equals("")) {
+                        addquantity = response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity();
+                    }
+                    else{
+                        addquantity=0;
+                    }
                     addAmount = addAmount+addprize;
                     addQuantity = addQuantity+addquantity;
                 }
