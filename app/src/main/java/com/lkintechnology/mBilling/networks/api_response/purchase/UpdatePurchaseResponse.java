@@ -1,6 +1,10 @@
-package com.lkintechnology.mBilling.networks.api_response.unitconversion;
+package com.lkintechnology.mBilling.networks.api_response.purchase;
 
-public class CreateUnitConversionResponse {
+public class UpdatePurchaseResponse {
+
+    public String message;
+    public int status;
+
     public String getMessage() {
         return message;
     }
@@ -16,8 +20,4 @@ public class CreateUnitConversionResponse {
     public void setStatus(int status) {
         this.status = status;
     }
-
-
-    public String message;
-    public int status;
 }

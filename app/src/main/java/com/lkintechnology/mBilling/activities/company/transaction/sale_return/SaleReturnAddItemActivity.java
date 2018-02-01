@@ -180,8 +180,8 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
             }
             Timber.i("UNIT_LIST"+myList);
             if((String) map.get("serial_number")!=null) {
-                String serialnumber = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
-                List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
+                String serialnumber = (String) map.get("serial_number");
+                List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(";")));
                 for (int i = 0; i < serialList.size(); i++) {
                     appUser.serial_arr.add(serialList.get(i));
                     LocalRepositories.saveAppUser(this, appUser);

@@ -141,6 +141,14 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
     }
 
     @Override
+    protected void onResume() {
+        appUser.mListMapForItemPurchaseReturn.clear();
+        appUser.mListMapForBillPurchaseReturn.clear();
+        LocalRepositories.saveAppUser(this,appUser);
+        super.onResume();
+    }
+
+    @Override
     protected int layoutId() {
         return R.layout.activity_get_purchase_return_list;
     }

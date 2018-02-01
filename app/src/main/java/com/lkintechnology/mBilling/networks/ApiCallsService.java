@@ -137,10 +137,12 @@ import com.lkintechnology.mBilling.networks.api_response.payment.EditPaymentResp
 import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
+import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.UpdatePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
@@ -153,12 +155,14 @@ import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.GetRecei
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.UpdateSaleReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.saletype.GetSaleTypeResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
@@ -4118,11 +4122,11 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdateSaleVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updateSaleVoucherDetails(new RequestCreateSaleVoucher(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleVoucherResponse>() {
+        api.updateSaleVoucherDetails(new RequestCreateSaleVoucher(this), appUser.edit_sale_voucher_id).enqueue(new Callback<UpdateSaleVoucherResponse>() {
             @Override
-            public void onResponse(Call<CreateSaleVoucherResponse> call, Response<CreateSaleVoucherResponse> r) {
+            public void onResponse(Call<UpdateSaleVoucherResponse> call, Response<UpdateSaleVoucherResponse> r) {
                 if (r.code() == 200) {
-                    CreateSaleVoucherResponse body = r.body();
+                    UpdateSaleVoucherResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4130,7 +4134,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
+            public void onFailure(Call<UpdateSaleVoucherResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
@@ -4142,11 +4146,11 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdatePurchaseReturnVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updatePurchaseReturnVoucherDetails(new RequestCreatePurchaseReturn(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseReturnResponse>() {
+        api.updatePurchaseReturnVoucherDetails(new RequestCreatePurchaseReturn(this), appUser.edit_sale_voucher_id).enqueue(new Callback<UpdatePurchaseReturnVoucher>() {
             @Override
-            public void onResponse(Call<CreatePurchaseReturnResponse> call, Response<CreatePurchaseReturnResponse> r) {
+            public void onResponse(Call<UpdatePurchaseReturnVoucher> call, Response<UpdatePurchaseReturnVoucher> r) {
                 if (r.code() == 200) {
-                    CreatePurchaseReturnResponse body = r.body();
+                    UpdatePurchaseReturnVoucher body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4154,7 +4158,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreatePurchaseReturnResponse> call, Throwable t) {
+            public void onFailure(Call<UpdatePurchaseReturnVoucher> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
@@ -4166,11 +4170,11 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdatePurchaseVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreatePurchaseResponce>() {
+        api.updatePurchaseVoucherDetails(new RequestCreatePurchase(this), appUser.edit_sale_voucher_id).enqueue(new Callback<UpdatePurchaseResponse>() {
             @Override
-            public void onResponse(Call<CreatePurchaseResponce> call, Response<CreatePurchaseResponce> r) {
+            public void onResponse(Call<UpdatePurchaseResponse> call, Response<UpdatePurchaseResponse> r) {
                 if (r.code() == 200) {
-                    CreatePurchaseResponce body = r.body();
+                    UpdatePurchaseResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4178,7 +4182,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreatePurchaseResponce> call, Throwable t) {
+            public void onFailure(Call<UpdatePurchaseResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
@@ -4190,11 +4194,11 @@ public class ApiCallsService extends IntentService {
 
     private void handleUpdateSaleReturnVoucherDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.updateSaleReturnVoucherDetails(new RequestCreateSaleReturn(this), appUser.edit_sale_voucher_id).enqueue(new Callback<CreateSaleReturnResponse>() {
+        api.updateSaleReturnVoucherDetails(new RequestCreateSaleReturn(this), appUser.edit_sale_voucher_id).enqueue(new Callback<UpdateSaleReturnResponse>() {
             @Override
-            public void onResponse(Call<CreateSaleReturnResponse> call, Response<CreateSaleReturnResponse> r) {
+            public void onResponse(Call<UpdateSaleReturnResponse> call, Response<UpdateSaleReturnResponse> r) {
                 if (r.code() == 200) {
-                    CreateSaleReturnResponse body = r.body();
+                    UpdateSaleReturnResponse body = r.body();
                     EventBus.getDefault().post(body);
                 } else {
                     EventBus.getDefault().post(Cv.TIMEOUT);
@@ -4202,7 +4206,7 @@ public class ApiCallsService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<CreateSaleReturnResponse> call, Throwable t) {
+            public void onFailure(Call<UpdateSaleReturnResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

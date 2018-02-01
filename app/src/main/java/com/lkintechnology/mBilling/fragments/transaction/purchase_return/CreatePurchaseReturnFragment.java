@@ -45,13 +45,17 @@ import com.lkintechnology.mBilling.activities.company.administration.master.sale
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.GetPurchaseReturnListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.UpdatePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
@@ -1083,5 +1087,21 @@ public class CreatePurchaseReturnFragment extends Fragment {
             snackbar.show();
         }
 
+    }
+
+    @Subscribe
+    public void updatepurchasereturnvoucher(UpdatePurchaseReturnVoucher response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            startActivity(new Intent(getApplicationContext(),GetPurchaseReturnListActivity.class));
+        }
+        else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 }

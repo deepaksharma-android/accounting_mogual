@@ -142,6 +142,14 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity {
     }
 
     @Override
+    protected void onResume() {
+        appUser.mListMapForItemPurchase.clear();
+        appUser.mListMapForBillPurchase.clear();
+        LocalRepositories.saveAppUser(this,appUser);
+        super.onResume();
+    }
+
+    @Override
     protected int layoutId() {
         return R.layout.activity_get_purchase_list;
     }

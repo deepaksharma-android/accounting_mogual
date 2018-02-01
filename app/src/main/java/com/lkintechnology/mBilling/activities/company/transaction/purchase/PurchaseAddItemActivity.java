@@ -186,7 +186,7 @@ public class PurchaseAddItemActivity extends AppCompatActivity implements ZBarSc
                 mUnitList.add(myList.get(i));
             }
             if((String) map.get("serial_number")!=null) {
-                String serialnumber = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
+                String serialnumber = (String) map.get("serial_number");
                 List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
                 for (int i = 0; i < serialList.size(); i++) {
                     appUser.serial_arr.add(serialList.get(i));

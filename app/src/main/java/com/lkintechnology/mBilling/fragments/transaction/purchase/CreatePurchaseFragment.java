@@ -46,11 +46,13 @@ import com.lkintechnology.mBilling.activities.company.administration.master.sale
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
+import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.utils.Cv;
@@ -876,10 +878,10 @@ public class CreatePurchaseFragment extends Fragment {
                     mMap.put("serial_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                     StringBuilder sb=new StringBuilder();
                     for(String str : response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
-                        sb.append(str).append(";"); //separating contents using semi colon
+                        sb.append(str).append(","); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();
-                    mMap.put("barcode",strfromArrayList);
+                    mMap.put("serial_number",strfromArrayList);
                     mMap.put("purchase_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList=new ArrayList<>();
                     mUnitList.add("Main Unit : " + response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
@@ -1016,5 +1018,22 @@ public class CreatePurchaseFragment extends Fragment {
             snackbar.show();
         }
 
+    }
+
+
+    @Subscribe
+    public void updatepurchasevoucher(UpdatePurchaseResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            startActivity(new Intent(getApplicationContext(),GetPurchaseListActivity.class));
+        }
+        else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 }

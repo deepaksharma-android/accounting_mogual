@@ -1,6 +1,9 @@
-package com.lkintechnology.mBilling.networks.api_response.unitconversion;
+package com.lkintechnology.mBilling.networks.api_response.purchase_return;
 
-public class CreateUnitConversionResponse {
+public class UpdatePurchaseReturnVoucher {
+    public String message;
+    public int status;
+
     public String getMessage() {
         return message;
     }
@@ -16,8 +19,4 @@ public class CreateUnitConversionResponse {
     public void setStatus(int status) {
         this.status = status;
     }
-
-
-    public String message;
-    public int status;
 }

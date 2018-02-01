@@ -49,16 +49,19 @@ import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefa
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.UpdatePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.UpdateSaleReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.bankcashwithdraw.CreateBankCashWithdrawResponse;
 import com.lkintechnology.mBilling.networks.api_response.bankcashwithdraw.DeleteBankCashWithdrawResponse;
@@ -151,6 +154,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
@@ -643,16 +647,16 @@ public interface Api {
     Call<GetSaleReturnVoucherDetails> getSaleReturnVoucherDetails(@Path("id") String id);
 
     @PATCH("sale_voucher/{id}")
-    Call<CreateSaleVoucherResponse> updateSaleVoucherDetails(@Body RequestCreateSaleVoucher payload,@Path("id") String id);
+    Call<UpdateSaleVoucherResponse> updateSaleVoucherDetails(@Body RequestCreateSaleVoucher payload, @Path("id") String id);
 
     @PATCH("purchase_vouchers/{id}")
-    Call<CreatePurchaseResponce> updatePurchaseVoucherDetails(@Body RequestCreatePurchase payload,@Path("id") String id);
+    Call<UpdatePurchaseResponse> updatePurchaseVoucherDetails(@Body RequestCreatePurchase payload, @Path("id") String id);
 
     @PATCH("purchase_return_voucher/{id}")
-    Call<CreatePurchaseReturnResponse> updatePurchaseReturnVoucherDetails(@Body RequestCreatePurchaseReturn payload,@Path("id") String id);
+    Call<UpdatePurchaseReturnVoucher> updatePurchaseReturnVoucherDetails(@Body RequestCreatePurchaseReturn payload, @Path("id") String id);
 
     @PATCH("sale_return_voucher/{id}")
-    Call<CreateSaleReturnResponse> updateSaleReturnVoucherDetails(@Body RequestCreateSaleReturn payload,@Path("id") String id);
+    Call<UpdateSaleReturnResponse> updateSaleReturnVoucherDetails(@Body RequestCreateSaleReturn payload, @Path("id") String id);
 
     @GET("company/gst_report/sale/{id}")
     Call<CompanyReportResponse> getcompanyreport(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);

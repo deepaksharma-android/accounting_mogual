@@ -46,12 +46,16 @@ import com.lkintechnology.mBilling.activities.company.administration.master.mate
 import com.lkintechnology.mBilling.activities.company.administration.master.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.UpdatePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -1121,5 +1125,21 @@ public class CreateSaleVoucherFragment extends Fragment {
             snackbar.show();
         }
 
+    }
+
+    @Subscribe
+    public void updatepurchasereturnvoucher(UpdateSaleVoucherResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            startActivity(new Intent(getApplicationContext(),GetSaleVoucherListActivity.class));
+        }
+        else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 }
