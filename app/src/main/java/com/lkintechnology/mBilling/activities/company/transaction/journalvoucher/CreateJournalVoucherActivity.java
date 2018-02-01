@@ -202,8 +202,12 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_debit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=1;
-                ParameterConstant.checkStartActivityResultForAccount =10;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=1;
+                //intStartActivityForResult=1;
+               // ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -217,8 +221,12 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=2;
-                ParameterConstant.checkStartActivityResultForAccount =10;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=2;
+               // intStartActivityForResult=2;
+              //  ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -492,31 +500,23 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       /* if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                mSelectedImage.setVisibility(View.VISIBLE);
-                mSelectedImage.setImageURI(selectedImageUri);
-                try {
-                    inputStream = new FileInputStream(selectedImagePath);
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    try {
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            output.write(buffer, 0, bytesRead);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    bytes = output.toByteArray();
-                    encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }*/
+
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.account_name_debit_id = ParameterConstant.forAccountIntentId;
+            appUser.account_name_debit_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            account_name_debit.setText(name[0]);
+        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.account_name_credit_id = ParameterConstant.forAccountIntentId;
+            appUser.account_name_credit_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            account_name_credit.setText(name[0]);
+        }
+
 
         if (resultCode == RESULT_OK) {
             photo = null;
@@ -588,7 +588,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
@@ -618,7 +618,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 account_name_credit.setText(name[0]);
             }
-        }
+        }*/
 
     }
 

@@ -198,6 +198,9 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         account_name_debit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 ParameterConstant.checkStartActivityResultForAccount =11;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -464,6 +467,17 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (ParameterConstant.forAccountIntentBool) {
+            String result = ParameterConstant.forAccountIntentName;
+            appUser.account_name_debit_note_id = ParameterConstant.forAccountIntentId;
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            String[] name = result.split(",");
+            account_name_debit.setText(name[0]);
+        }
+
+
+
        /* if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
@@ -538,7 +552,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+      /*  Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
             if (!boolForGroupName) {
@@ -549,7 +563,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 String[] name = result.split(",");
                 account_name_debit.setText(name[0]);
             }
-        }
+        }*/
     }
 
     public String getPath(Uri uri) {
