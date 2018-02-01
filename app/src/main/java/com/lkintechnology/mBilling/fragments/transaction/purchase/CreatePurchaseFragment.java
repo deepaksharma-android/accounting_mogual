@@ -878,10 +878,10 @@ public class CreatePurchaseFragment extends Fragment {
                     mMap.put("serial_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                     StringBuilder sb=new StringBuilder();
                     for(String str : response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
-                        sb.append(str).append(";"); //separating contents using semi colon
+                        sb.append(str).append(","); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();
-                    mMap.put("barcode",strfromArrayList);
+                    mMap.put("serial_number",strfromArrayList);
                     mMap.put("purchase_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList=new ArrayList<>();
                     mUnitList.add("Main Unit : " + response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
