@@ -284,8 +284,12 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         received_from_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult = 1;
-                ParameterConstant.checkStartActivityResultForAccount = 1;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=1;
+                //intStartActivityForResult = 1;
+               // ParameterConstant.checkStartActivityResultForAccount = 1;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
@@ -299,8 +303,12 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         received_by_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult = 2;
-                ParameterConstant.checkStartActivityResultForAccount = 1;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=2;
+                //intStartActivityForResult = 2;
+               // ParameterConstant.checkStartActivityResultForAccount = 1;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
@@ -619,6 +627,22 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.receipt_received_from_id = ParameterConstant.forAccountIntentId;
+            appUser.receipt_received_from_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            received_from.setText(name[0]);
+        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.receipt_received_by_id = ParameterConstant.forAccountIntentId;
+            appUser.receipt_received_by_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            received_by.setText(name[0]);
+        }
+
         if (resultCode == RESULT_OK) {
             photo = null;
             switch (requestCode) {
@@ -719,7 +743,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
@@ -750,7 +774,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 received_by.setText(name[0]);
 
             }
-        }
+        }*/
 
     }
 

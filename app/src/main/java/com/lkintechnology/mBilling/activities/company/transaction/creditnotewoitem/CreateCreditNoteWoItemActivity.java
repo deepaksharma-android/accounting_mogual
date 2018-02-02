@@ -109,7 +109,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     public Boolean boolForGroupName=false;
     Bitmap photo;
     WebView mPdf_webview;
-    public static boolean creditNoteStatic;
+   // public static boolean creditNoteStatic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,15 +203,16 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         account_name_credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                ParameterConstant.checkStartActivityResultForAccount =12;
+                //ParameterConstant.checkStartActivityResultForAccount =12;
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView=0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
-                creditNoteStatic=false;
             }
         });
 
@@ -447,6 +448,15 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (ParameterConstant.forAccountIntentBool) {
+                String result = ParameterConstant.forAccountIntentName;
+                appUser.account_name_credit_note_id = ParameterConstant.forAccountIntentId;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                String[] name = result.split(",");
+                account_name_credit.setText(name[0]);
+        }
+
        /* if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
@@ -527,11 +537,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     public void onResume() {
         super.onResume();
 
-        Intent intent = getIntent();
-        Boolean bool = intent.getBooleanExtra("bool", false);
-        //Toast.makeText(CreateCreditNoteWoItemActivity.this, ""+creditNoteStatic, Toast.LENGTH_SHORT).show();
-      //  Toast.makeText(CreateCreditNoteWoItemActivity.this, "boolForGroupName"+boolForGroupName, Toast.LENGTH_SHORT).show();
-        if (bool) {
+        /*if (bool) {
             if (!boolForGroupName) {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
@@ -540,18 +546,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                 String[] name = result.split(",");
                 account_name_credit.setText(name[0]);
             }
-        }
-        if(creditNoteStatic){
-            if (!boolForGroupName) {
-                String result = intent.getStringExtra("name");
-                String id = intent.getStringExtra("id");
-                appUser.account_name_credit_note_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name = result.split(",");
-                account_name_credit.setText(name[0]);
-            }
-        }
-
+        }*/
     }
 
     private void startDialog() {
@@ -565,7 +560,6 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
 
                 if (intCamera.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
-                    creditNoteStatic=false;
                 }
 
             }
@@ -578,7 +572,6 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                         Intent intGallery = new Intent(Intent.ACTION_PICK,
                                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
-                        creditNoteStatic=false;
 
                     }
                 });
@@ -705,9 +698,12 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     }
 
     @Subscribe
-    public void editExpence(EditCreditNoteResponse response){
+    public void editCreditNote(EditCreditNoteResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            //appUser.forAccountIntentBool=false;
+           // appUser.forAccountIntentId="";
+            //appUser.forAccountIntentName="";
             Intent intent = new Intent(this, CreditNoteWoItemActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

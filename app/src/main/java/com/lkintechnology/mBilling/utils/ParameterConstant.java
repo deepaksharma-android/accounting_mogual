@@ -16,6 +16,13 @@ public class ParameterConstant {
     public static String name;
     public static String id;
     public static String mobile;
+    public static boolean forAccountIntentBool;
+    public static String forAccountIntentName;
+    public static String forAccountIntentId;
+    public static String forAccountIntentMobile;
+    public static String forAccountIntentGroupId;
+    public static int accountSwitching;
+
 
 
 }

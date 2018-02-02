@@ -11,8 +11,6 @@ import java.util.Map;
 public class RequestCreateCompany {
     public Map<String, String> company;
 
-
-
     public RequestCreateCompany(Context ctx) {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
@@ -30,9 +28,5 @@ public class RequestCreateCompany {
         company.put("phone_number", appUser.comapny_phone_number);
         company.put("username", appUser.companyUserName);
         company.put("password", appUser.companyUserPassword);
-
-
-
-
     }
 }

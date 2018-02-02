@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
@@ -68,27 +69,39 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TransactionPdfActivity.class);
-                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
-                context.startActivity(intent);
+                if(data.get(position).getAttributes().getInvoice_html()!=null){
+                    Intent intent = new Intent(context, TransactionPdfActivity.class);
+                    intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "PDF not found!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TransactionPdfActivity.class);
-                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
-                context.startActivity(intent);
+                if(data.get(position).getAttributes().getInvoice_html()!=null){
+                    Intent intent = new Intent(context, TransactionPdfActivity.class);
+                    intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "PDF not found!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TransactionPdfActivity.class);
-                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
-                context.startActivity(intent);
+                if(data.get(position).getAttributes().getInvoice_html()!=null){
+                    Intent intent = new Intent(context, TransactionPdfActivity.class);
+                    intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "PDF not found!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

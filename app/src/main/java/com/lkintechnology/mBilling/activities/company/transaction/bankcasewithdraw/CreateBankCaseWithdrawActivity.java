@@ -207,8 +207,12 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         withdraw_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult = 1;
-                ParameterConstant.checkStartActivityResultForAccount = 5;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=1;
+                //intStartActivityForResult = 1;
+                //ParameterConstant.checkStartActivityResultForAccount = 5;
                 appUser.account_master_group = "Bank Accounts";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -221,8 +225,12 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         withdraw_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult = 2;
-                ParameterConstant.checkStartActivityResultForAccount = 5;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=2;
+                //intStartActivityForResult = 2;
+                //ParameterConstant.checkStartActivityResultForAccount = 5;
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
@@ -456,6 +464,23 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.withdraw_from_id = ParameterConstant.forAccountIntentId;
+            appUser.withdraw_from_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            withdraw_from.setText(name[0]);
+        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.withdraw_by_id = ParameterConstant.forAccountIntentId;
+            appUser.withdraw_by_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            withdraw_by.setText(name[0]);
+        }
+
        /* if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
@@ -560,7 +585,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
@@ -595,7 +620,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 withdraw_by.setText(name[0]);
 
             }
-        }
+        }*/
 
     }
 

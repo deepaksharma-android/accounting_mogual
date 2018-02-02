@@ -253,8 +253,12 @@ public class CreatePurchaseFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.forAccountIntentMobile="";
                 intStartActivityForResult = 2;
-                ParameterConstant.checkStartActivityResultForAccount = 2;
+                //ParameterConstant.checkStartActivityResultForAccount = 2;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -513,7 +517,20 @@ public class CreatePurchaseFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if (ParameterConstant.forAccountIntentBool) {
+            String result = ParameterConstant.forAccountIntentName;
+            party_id = ParameterConstant.forAccountIntentGroupId;;
+            appUser.sale_partyName = ParameterConstant.forAccountIntentId;
+            appUser.sale_party_group = ParameterConstant.forAccountIntentGroupId;
+            appUser.purchase_account_master_id=ParameterConstant.forAccountIntentGroupId;
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            String[] name = result.split(",");
+            mPartyName.setText(name[0]);
+            mMobileNumber.setText(ParameterConstant.forAccountIntentMobile);
+            Preferences.getInstance(getContext()).setMobile(ParameterConstant.forAccountIntentMobile);
+            Preferences.getInstance(getContext()).setParty_name(name[0]);
+            Preferences.getInstance(getContext()).setParty_id(ParameterConstant.forAccountIntentId);
+        }
         photo = null;
         switch (requestCode) {
             case Cv.REQUEST_CAMERA:
@@ -629,7 +646,7 @@ public class CreatePurchaseFragment extends Fragment {
             } else if (intStartActivityForResult == 2) {
                 boolForStore = true;
             }
-            if (!boolForPartyName) {
+            /*if (!boolForPartyName) {
                 // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
@@ -645,8 +662,7 @@ public class CreatePurchaseFragment extends Fragment {
                 Preferences.getInstance(getContext()).setMobile(mobile);
                 Preferences.getInstance(getContext()).setParty_name(strArr[0]);
                 Preferences.getInstance(getContext()).setParty_id(id);
-
-            }
+            }*/
             if (!boolForStore) {
                 //Toast.makeText(getContext(), "Resume Store", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");

@@ -22,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -375,7 +376,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     public void clickEvent(EventAccountChildClicked pos) {
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
-        if (!isDirectForAccount && bool) {
+        if (!isDirectForAccount && bool) { //PC
+
             autoCompleteTextView();
             String id = pos.getPosition();
             String[] arr = id.split(",");
@@ -385,7 +387,15 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
             String name = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
             String mobile = listDataChildMobile.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-            Intent intentForward = null;
+            ParameterConstant.forAccountIntentName=name;
+            ParameterConstant.forAccountIntentId=arrid;
+            ParameterConstant.forAccountIntentBool=true;
+            ParameterConstant.forAccountIntentGroupId=group;
+            ParameterConstant.forAccountIntentMobile=mobile;
+            LocalRepositories.saveAppUser(this,appUser);
+            finish();
+        }
+           /* Intent intentForward = null;
             if (ParameterConstant.checkStartActivityResultForAccount == 0) {
                 intentForward = new Intent(getApplicationContext(), CreateSaleActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForAccount == 1) {
@@ -411,23 +421,26 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             } else if (ParameterConstant.checkStartActivityResultForAccount == 11) {
                 intentForward = new Intent(getApplicationContext(), CreateDebitNoteWoItemActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForAccount == 12) {
-                intentForward.putExtra("fromCreditNote",true);
-                CreateCreditNoteWoItemActivity.creditNoteStatic=true;
-                intentForward = new Intent(getApplicationContext(), CreateCreditNoteWoItemActivity.class);
+                    intentForward.putExtra("fromCreditNote",true);
+                    intentForward = new Intent(getApplicationContext(), CreateCreditNoteWoItemActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForAccount == 13) {
                 intentForward = new Intent(getApplicationContext(), AccountingInSaleActivity.class);
             } else if (ParameterConstant.checkStartActivityResultForAccount == 14) {
                 intentForward = new Intent(getApplicationContext(), AccountingInPurchaseActivity.class);
-            }
-            intentForward.putExtra("bool", true);
+            }*/
+          /*  intentForward.putExtra("bool", true);
             intentForward.putExtra("name", name);
             intentForward.putExtra("id", arrid);
             intentForward.putExtra("mobile", mobile);
-            intentForward.putExtra("group",group);
-            startActivity(intentForward);
-            finish();
-        } else if (!isDirectForAccount) {
+            intentForward.putExtra("group",group);*/
 
+
+            //setResult(Activity.RESULT_OK, intentForward);
+            //startActivity(intentForward);
+
+         else if (!isDirectForAccount) {
+
+            //Toast.makeText(ExpandableAccountListActivity.this, "with in else", Toast.LENGTH_SHORT).show();
             autoCompleteTextView();
             String id = pos.getPosition();
             String[] arr = id.split(",");
@@ -446,7 +459,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
-
     }
 
     @Subscribe
