@@ -393,16 +393,36 @@
                             android:background="@drawable/bg_grey_stroke"
                             android:orientation="vertical"
                             >
-                            <com.lkintechnology.mBilling.utils.BuzzEditText
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/etPasswordLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:passwordToggleEnabled="true"
+                                app:hintEnabled="false"
+                                android:layout_marginLeft="5dp">
+
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/password"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="******"
+                                    android:textSize="16sp"
+                                    android:textColor="#000"
+                                    android:background="@android:color/transparent"
+                                    android:inputType="textPassword"/>
+                            </android.support.design.widget.TextInputLayout>
+                           <!-- <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/password"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="16sp"
                                 android:textColor="#000"
                                 android:layout_marginLeft="5dp"
+                                app:passwordToggleEnabled="true"
                                 android:inputType="textPassword"
                                 android:background="@android:color/transparent"
-                                android:hint="******"/>
+                                android:hint="******"/>-->
 
                         </LinearLayout>
 
@@ -423,7 +443,24 @@
                             android:background="@drawable/bg_grey_stroke"
                             android:orientation="vertical"
                             >
-                            <com.lkintechnology.mBilling.utils.BuzzEditText
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:passwordToggleEnabled="true"
+                                app:hintEnabled="false"
+                                android:layout_marginLeft="5dp">
+
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/confirm_password"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="******"
+                                    android:textSize="16sp"
+                                    android:textColor="#000"
+                                    android:background="@android:color/transparent"
+                                    android:inputType="textPassword"/>
+                            </android.support.design.widget.TextInputLayout>
+                         <!--   <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/confirm_password"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -432,7 +469,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:inputType="textPassword"
                                 android:background="@android:color/transparent"
-                                android:hint="******"/>
+                                android:hint="******"/>-->
 
                         </LinearLayout>
 
@@ -463,7 +500,7 @@
                                 android:inputType="number"
                                 android:maxLength="6"
                                 android:background="@android:color/transparent"
-                                android:hint="eg.51410"/>
+                                android:hint="enter your city pincode"/>
 
                         </LinearLayout>
 

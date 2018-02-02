@@ -142,6 +142,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
         mScannerView = new ZBarScannerView(this);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
+        mSpinnerUnit.setEnabled(false);
+        mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
         appUser.sale_item_serial_arr.clear();

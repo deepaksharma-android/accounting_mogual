@@ -147,6 +147,8 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         initActionbar();
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
+        mSpinnerUnit.setEnabled(false);
+        mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
 
         mScannerView = new ZBarScannerView(this);
