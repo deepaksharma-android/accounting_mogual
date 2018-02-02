@@ -203,8 +203,12 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         paid_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=1;
-                ParameterConstant.checkStartActivityResultForAccount =7;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=1;
+                //intStartActivityForResult=1;
+                //ParameterConstant.checkStartActivityResultForAccount =7;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -218,8 +222,12 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         paid_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=2;
-                ParameterConstant.checkStartActivityResultForAccount =7;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=2;
+                //intStartActivityForResult=2;
+                //ParameterConstant.checkStartActivityResultForAccount =7;
                 appUser.account_master_group = "Expenses (Direct/Mfg.),Expenses (Indirect/Admn.)";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -457,6 +465,22 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.paid_from_id = ParameterConstant.forAccountIntentId;
+            appUser.paid_from_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            paid_from.setText(name[0]);
+        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.paid_to_id = ParameterConstant.forAccountIntentId;
+            appUser.paid_to_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            paid_to.setText(name[0]);
+        }
+
         if (resultCode == RESULT_OK) {
             photo = null;
             switch (requestCode) {
@@ -555,7 +579,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+      /*  Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
@@ -587,7 +611,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
 
             }
         }
-
+*/
     }
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};

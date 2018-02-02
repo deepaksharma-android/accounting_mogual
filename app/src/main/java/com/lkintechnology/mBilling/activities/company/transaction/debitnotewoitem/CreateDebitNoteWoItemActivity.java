@@ -202,7 +202,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 ParameterConstant.forAccountIntentName="";
                 ParameterConstant.forAccountIntentId="";
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                ParameterConstant.checkStartActivityResultForAccount =11;
+                //ParameterConstant.checkStartActivityResultForAccount =11;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
                 ParameterConstant.handleAutoCompleteTextView=0;

@@ -390,6 +390,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             ParameterConstant.forAccountIntentName=name;
             ParameterConstant.forAccountIntentId=arrid;
             ParameterConstant.forAccountIntentBool=true;
+            ParameterConstant.forAccountIntentGroupId=group;
+            ParameterConstant.forAccountIntentMobile=mobile;
             LocalRepositories.saveAppUser(this,appUser);
             finish();
         }

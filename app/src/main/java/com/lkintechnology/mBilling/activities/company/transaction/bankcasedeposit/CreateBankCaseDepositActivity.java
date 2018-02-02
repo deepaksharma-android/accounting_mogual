@@ -205,9 +205,13 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         deposit_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult = 1;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=1;
+                //intStartActivityForResult = 1;
                 appUser.account_master_group = "Bank Accounts";
-                ParameterConstant.checkStartActivityResultForAccount = 4;
+                //ParameterConstant.checkStartActivityResultForAccount = 4;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -219,9 +223,13 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         deposit_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult = 2;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=2;
+                //intStartActivityForResult = 2;
                 appUser.account_master_group = "Cash-in-hand";
-                ParameterConstant.checkStartActivityResultForAccount = 4;
+                //ParameterConstant.checkStartActivityResultForAccount = 4;
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -472,6 +480,22 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.deposit_to_id = ParameterConstant.forAccountIntentId;
+            appUser.deposit_to_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            deposit_to.setText(name[0]);
+        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.deposit_by_id = ParameterConstant.forAccountIntentId;
+            appUser.deposit_by_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            deposit_by.setText(name[0]);
+        }
+
        /* if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
@@ -566,7 +590,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
@@ -597,7 +621,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 deposit_by.setText(name[0]);
 
             }
-        }
+        }*/
 
     }
 

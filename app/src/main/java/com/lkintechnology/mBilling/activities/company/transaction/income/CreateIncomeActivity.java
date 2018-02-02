@@ -208,8 +208,12 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         received_into.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=1;
-                ParameterConstant.checkStartActivityResultForAccount =6;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=1;
+                //intStartActivityForResult=1;
+               // ParameterConstant.checkStartActivityResultForAccount =6;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -223,8 +227,12 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         received_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intStartActivityForResult=2;
-                ParameterConstant.checkStartActivityResultForAccount =6;
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.accountSwitching=2;
+                //intStartActivityForResult=2;
+                //ParameterConstant.checkStartActivityResultForAccount =6;
                 appUser.account_master_group = "Income (Direct/Opr.),Income (Indirect)";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount=false;
@@ -461,6 +469,22 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.received_into_id = ParameterConstant.forAccountIntentId;
+            appUser.received_into_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            received_into.setText(name[0]);
+        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            appUser.received_from_id = ParameterConstant.forAccountIntentId;
+            appUser.received_from_name=name[0];
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            received_from.setText(name[0]);
+        }
         /*if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
@@ -557,7 +581,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
@@ -589,7 +613,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
 
             }
         }
-
+*/
     }
 
 
