@@ -180,6 +180,7 @@ public interface Cv {
     String ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS = "action_update_purchase_voucher_details";
     String ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS = "action_update_purchase_return_voucher_details";
     String ACTION_GET_PROFIT_AND_LOSS = "action_get_profit_and_loss";
+    String ACTION_GET_CHECK_BARCODE = "action_get_check_barcode";
     String ACTION_CREATE_STOCK_TRANSFER = "action_create_stock_transfer";
     String ACTION_CREATE_AUTHORIZATION_SETTINGS = "action_create_authorization_settings";
    // String ACTION_UPDATE_AUTHORIZATION_SETTINGS = "action_update_authorization_settings";

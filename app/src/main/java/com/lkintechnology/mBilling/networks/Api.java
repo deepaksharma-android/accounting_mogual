@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.networks;
 
 import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyDetails;
@@ -44,6 +45,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 
 import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
+import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
@@ -681,6 +683,9 @@ public interface Api {
 
     @GET("stock_transfer_vouchers/{id}")
     Call<GetStockTransferDetailsResponse> getStockTransferDetails(@Path("id") String id);
+
+    @POST("company_items_barcode/{id}")
+    Call<CheckBarcodeResponse> checkbarcode(@Body RequestCheckBarcode payload,@Path("id") String id);
 
 /*    @PATCH("stock_transfer_vouchers/{id}")
     Call<UpdateStockTrasferResponse> updateStockTransfer(@Body RequestCreateStockTransfer payload, @Path("id") String id);*/

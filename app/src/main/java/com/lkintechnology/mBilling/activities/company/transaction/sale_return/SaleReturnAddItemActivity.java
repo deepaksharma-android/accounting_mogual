@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.activities.company.transaction.sale_return;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -32,13 +33,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity;
 
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
+import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +60,7 @@ import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import timber.log.Timber;
 
-public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler{
+public class SaleReturnAddItemActivity extends RegisterAbstractActivity implements ZBarScannerView.ResultHandler{
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -82,6 +90,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
     LinearLayout mSubmit;
     String sale_unit;
     AppUser appUser;
+    Dialog dialogbal;
 
     List<Map<String, String>> mListMap;
     Map mMap;
@@ -125,10 +134,13 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
     FrameLayout scanning_content_frame;
     @Bind(R.id.cancel)
     ImageView mCancel;
+    ProgressDialog mProgressDialog;
+    Snackbar snackbar;
+    int pos = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sale_return_add_item);
+
         appUser = LocalRepositories.getAppUser(this);
         frombillitemvoucherlist=getIntent().getExtras().getBoolean("frombillitemvoucherlist");
         ButterKnife.bind(this);
@@ -136,7 +148,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mUnitList = new ArrayList<>();
-        int pos = -1;
+
         mScannerView = new ZBarScannerView(this);
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
@@ -329,7 +341,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
             @Override
             public void onClick(View view) {
                 if (!mQuantity.getText().toString().equals("")) {
-                    Dialog dialogbal = new Dialog(SaleReturnAddItemActivity.this);
+                     dialogbal = new Dialog(SaleReturnAddItemActivity.this);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogbal.setContentView(R.layout.dialog_add_item_code);
                     dialogbal.setCancelable(true);
@@ -356,7 +368,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                                         Toast.makeText(SaleReturnAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         appUser.serial_arr.add(mSerialNumber.getText().toString());
-                                        // appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
+                                         appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         for (String s : appUser.serial_arr) {
                                             listString += s + ",";
@@ -434,7 +446,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                         serial = "0";
                     }
                     if (!serial.equals("0")) {
-                        Dialog dialogbal = new Dialog(SaleReturnAddItemActivity.this);
+                         dialogbal = new Dialog(SaleReturnAddItemActivity.this);
                         dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                         dialogbal.setContentView(R.layout.dialog_serail);
                         dialogbal.setCancelable(true);
@@ -473,6 +485,7 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
                             @Override
                             public void onClick(View view) {
                                 appUser.serial_arr.clear();
+                                appUser.item_id=id;
                                 //  appUser.purchase_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                 for(int i=0;i<Integer.parseInt(serial);i++) {
@@ -625,84 +638,36 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
             });
         }
 
-        final int finalPos = pos;
-        final int finalPos1 = pos;
+
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
                 mSubmit.startAnimation(blinkOnClick);
-                if (mQuantity.getText().toString().equals("0")|mQuantity.getText().toString().equals("")){
-                    Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                mMap.put("id",id);
-                mMap.put("item_name", mItemName.getText().toString());
-                mMap.put("description", mDescription.getText().toString());
-                mMap.put("quantity", mQuantity.getText().toString());
-                mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
-                mMap.put("sr_no", mSr_no.getText().toString());
-                mMap.put("rate", mRate.getText().toString());
-                mMap.put("discount", mDiscount.getText().toString());
-                mMap.put("value", mValue.getText().toString());
-                mMap.put("default_unit",default_unit);
-                mMap.put("packaging_unit",packaging_unit);
-                mMap.put("sales_price_alternate",sales_price_alternate);
-                mMap.put("sales_price_main",sales_price_main);
-                mMap.put("alternate_unit",alternate_unit);
-                mMap.put("packaging_unit_sales_price",packaging_unit_sales_price);
-                mMap.put("main_unit",main_unit);
-                mMap.put("batch_wise",batchwise);
-                mMap.put("serial_wise",serailwise);
-                mMap.put("sale_unit",sale_unit);
-                String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
-                if(taxstring.startsWith("I")) {
-                    String arrtaxstring[] = taxstring.split("-");
-                    String taxname = arrtaxstring[0].trim();
-                    String taxvalue = arrtaxstring[1].trim();
-                    if(taxvalue.equals("ItemWise")) {
-                        String total=mTotal.getText().toString();
-                        String arr[]=tax.split(" ");
-                        String itemtax=arr[1];
-                        String taxval[]=itemtax.split("%");
-                        String taxpercent=taxval[0];
-                        double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
-                        totalamt=Double.parseDouble(total)+totalamt;
-                        mMap.put("total", String.valueOf(totalamt));
-                    }
-                    else {
-                        mMap.put("total", mTotal.getText().toString());
-                    }
-                }
-                else{
-                    mMap.put("total", mTotal.getText().toString());
-                }
-                mMap.put("applied", sales_price_applied_on);
-                mMap.put("price_selected_unit", price_selected_unit);
-                mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
-                mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
-                mMap.put("mrp", mrp);
-                mMap.put("tax", tax);
-                mMap.put("unit_list",mUnitList);
-                mMap.put("serial_number",appUser.purchase_item_serail_arr);
 
-                if(!frombillitemvoucherlist) {
-                    appUser.mListMapForItemSaleReturn.add(mMap);
-                    // appUser.mListMap = mListMap;
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                }
-                else{
-                    appUser.mListMapForItemSaleReturn.remove(finalPos);
-                    appUser.mListMapForItemSaleReturn.add(finalPos,mMap);
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                }
-                appUser.serial_arr.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent in = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
-                in.putExtra("is", true);
-                in.putExtra("fromdashboard",false);
-                startActivity(in);
-                finish();
             }
         });
 
@@ -829,6 +794,11 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
 
             }
         });
+    }
+
+    @Override
+    protected int layoutId() {
+        return R.layout.activity_sale_return_add_item;
     }
 
     private void initActionbar() {
@@ -980,6 +950,94 @@ public class SaleReturnAddItemActivity extends AppCompatActivity implements ZBar
             }
         }
 
+    }
+
+
+    @Subscribe
+    public void checkbarcode(CheckBarcodeResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            final int finalPos = pos;
+            final int finalPos1 = pos;
+            if (mQuantity.getText().toString().equals("0")|mQuantity.getText().toString().equals("")){
+                Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            mMap.put("id",id);
+            mMap.put("item_name", mItemName.getText().toString());
+            mMap.put("description", mDescription.getText().toString());
+            mMap.put("quantity", mQuantity.getText().toString());
+            mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
+            mMap.put("sr_no", mSr_no.getText().toString());
+            mMap.put("rate", mRate.getText().toString());
+            mMap.put("discount", mDiscount.getText().toString());
+            mMap.put("value", mValue.getText().toString());
+            mMap.put("default_unit",default_unit);
+            mMap.put("packaging_unit",packaging_unit);
+            mMap.put("sales_price_alternate",sales_price_alternate);
+            mMap.put("sales_price_main",sales_price_main);
+            mMap.put("alternate_unit",alternate_unit);
+            mMap.put("packaging_unit_sales_price",packaging_unit_sales_price);
+            mMap.put("main_unit",main_unit);
+            mMap.put("batch_wise",batchwise);
+            mMap.put("serial_wise",serailwise);
+            mMap.put("sale_unit",sale_unit);
+            String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
+            if(taxstring.startsWith("I")) {
+                String arrtaxstring[] = taxstring.split("-");
+                String taxname = arrtaxstring[0].trim();
+                String taxvalue = arrtaxstring[1].trim();
+                if(taxvalue.equals("ItemWise")) {
+                    String total=mTotal.getText().toString();
+                    String arr[]=tax.split(" ");
+                    String itemtax=arr[1];
+                    String taxval[]=itemtax.split("%");
+                    String taxpercent=taxval[0];
+                    double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
+                    totalamt=Double.parseDouble(total)+totalamt;
+                    mMap.put("total", String.valueOf(totalamt));
+                }
+                else {
+                    mMap.put("total", mTotal.getText().toString());
+                }
+            }
+            else{
+                mMap.put("total", mTotal.getText().toString());
+            }
+            mMap.put("applied", sales_price_applied_on);
+            mMap.put("price_selected_unit", price_selected_unit);
+            mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
+            mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
+            mMap.put("mrp", mrp);
+            mMap.put("tax", tax);
+            mMap.put("unit_list",mUnitList);
+            mMap.put("serial_number",appUser.purchase_item_serail_arr);
+
+            if(!frombillitemvoucherlist) {
+                appUser.mListMapForItemSaleReturn.add(mMap);
+                // appUser.mListMap = mListMap;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+            else{
+                appUser.mListMapForItemSaleReturn.remove(finalPos);
+                appUser.mListMapForItemSaleReturn.add(finalPos,mMap);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+            appUser.serial_arr.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            Intent in = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
+            in.putExtra("is", true);
+            in.putExtra("fromdashboard",false);
+            startActivity(in);
+            finish();
+            snackbar = Snackbar
+                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+        }
+        snackbar = Snackbar
+                .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
 }

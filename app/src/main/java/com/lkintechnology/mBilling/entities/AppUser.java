@@ -165,7 +165,7 @@ public class AppUser {
     public String unit_conversion_sub_unit;
     public String main_unit_id;
     public String sub_unit_id;
-	 public String item_id="";
+
     public String item_name;
     public String item_company_id="";
     public String item_item_group_id="";
@@ -353,7 +353,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public ArrayList<String> itemtotal=new ArrayList<>();
     public ArrayList<String> itemtotalPurchase=new ArrayList<>();
     public ArrayList<String> unitlist=new ArrayList<>();
-
+    public String item_id;
     public String purchase_date = "";
     public String purchase_voucher_series="";
     public String purchase_company_id="";

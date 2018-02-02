@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.lkintechnology.mBilling.ThisApp;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyDetails;
@@ -48,6 +49,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestUpdateMobileNumbe
 import com.lkintechnology.mBilling.networks.api_request.RequestUpdateUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestVerification;
 import com.lkintechnology.mBilling.networks.api_response.CompanyReportResponse;
+import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
@@ -534,6 +536,8 @@ public class ApiCallsService extends IntentService {
             handleUpdatePurchaseReturnVoucherDetails();
         } else if (Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)) {
             handleGetProfitAndLoss();
+        } else if (Cv.ACTION_GET_CHECK_BARCODE.equals(action)) {
+            handleGetCheckBarcode();
         } else if (Cv.ACTION_GET_STOCK_TRANSFER.equals(action)) {
             handleGetStockTransfer();
         } else if (Cv.ACTION_CREATE_STOCK_TRANSFER.equals(action)) {
@@ -4284,7 +4288,27 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+    private void handleGetCheckBarcode() {
+        api.checkbarcode(new RequestCheckBarcode(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CheckBarcodeResponse>() {
+            @Override
+            public void onResponse(Call<CheckBarcodeResponse> call, Response<CheckBarcodeResponse> r) {
+                if (r.code() == 200) {
+                    CheckBarcodeResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
 
+            @Override
+            public void onFailure(Call<CheckBarcodeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
     private void handleGetStockTransfer() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getStockTransfer(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sales_duration_spinner).enqueue(new Callback<GetStockTransferListResponse>() {
