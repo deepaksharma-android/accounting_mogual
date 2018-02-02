@@ -182,9 +182,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             for(int i=0;i<myList.size();i++){
                 mUnitList.add(myList.get(i));
             }
-            barcode = (String) map.get("barcode");
+            barcode = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
             arr_barcode = new ArrayList<String>();
-            arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
+            arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
             for (int i = 0; i < arr_new_barcode.size(); i++) {
                 arr_barcode.add(i + 1,arr_new_barcode.get(i));

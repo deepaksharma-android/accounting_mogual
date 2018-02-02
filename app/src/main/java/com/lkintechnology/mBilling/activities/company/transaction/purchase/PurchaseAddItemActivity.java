@@ -192,13 +192,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             String unit_list=(String) map.get("unit_list").toString().replace("[","").replace("]","");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
             for(int i=0;i<myList.size();i++){
-                mUnitList.add(myList.get(i));
+                mUnitList.add(myList.get(i).trim());
             }
             if((String) map.get("serial_number").toString()!=null) {
                 String serialnumber = (String) map.get("serial_number").toString().replace("[","").replace("]","");
                 List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
                 for (int i = 0; i < serialList.size(); i++) {
-                    appUser.serial_arr.add(serialList.get(i));
+                    appUser.serial_arr.add(serialList.get(i).trim());
                     LocalRepositories.saveAppUser(this, appUser);
                 }
 
