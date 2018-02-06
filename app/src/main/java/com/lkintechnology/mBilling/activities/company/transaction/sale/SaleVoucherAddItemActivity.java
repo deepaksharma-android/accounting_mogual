@@ -139,6 +139,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         mListMap = new ArrayList<>();
         mScannerView = new ZBarScannerView(this);
         mMap = new HashMap<>();
+        mSpinnerUnit.setEnabled(false);
+        mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
         appUser.sale_item_serial_arr.clear();

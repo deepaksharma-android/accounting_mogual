@@ -155,6 +155,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mScannerView = new ZBarScannerView(this);
+        mSpinnerUnit.setClickable(false);
+        mSpinnerUnit.setEnabled(false);
         mUnitList = new ArrayList<>();
 
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
@@ -255,6 +257,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);
+
             if (!packaging_unit.equals("")) {
                 if (price_selected_unit.equals("main")) {
                     mSpinnerUnit.setSelection(0);
