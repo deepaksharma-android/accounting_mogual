@@ -116,9 +116,11 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         appUser.account_amount_receivable = "";
         appUser.account_amount_payable = "";
         appUser.account_address = "";
+        appUser.account_pinCode = "";
         appUser.account_city = "";
         appUser.account_state = "";
         appUser.account_gst = "";
+        appUser.account_type_of_dealer = "";
         appUser.account_aadhaar = "";
         appUser.account_pan = "";
         appUser.account_credit_limit = "";

@@ -24,11 +24,13 @@ public class RequestCreateAccount {
         account.put("email", appUser.account_email);
         account.put("account_master_group_id", appUser.create_account_group_id);
         account.put("address", appUser.account_address);
+        account.put("pincode",appUser.account_pinCode);
         account.put("city", appUser.account_city);
         account.put("state", appUser.account_state);
         account.put("country","India");
         account.put("adhar_number", appUser.account_aadhaar);
         account.put("gstin_number",appUser.account_gst);
+        account.put("type_of_dealer",appUser.account_type_of_dealer);
         account.put("pan_number",appUser.account_pan);
         account.put("credit_limit", appUser.account_credit_limit);
         account.put("credit_days_for_sale", appUser.account_credit_sale);

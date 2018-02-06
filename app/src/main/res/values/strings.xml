@@ -79,6 +79,13 @@
         <item>Yes</item>
     </string-array>
 
+    <string-array name="type_of_dealer">
+        <item>Registered</item>
+        <item>Un-Registered</item>
+        <item>Composition</item>
+        <item>UIN Holder</item>
+    </string-array>
+
     <string-array name="array_more_option">
         <item>Main Unit</item>
         <item>Alternate Unit</item>
