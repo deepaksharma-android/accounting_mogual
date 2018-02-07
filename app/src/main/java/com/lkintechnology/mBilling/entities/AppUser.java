@@ -78,7 +78,6 @@ public class AppUser {
     public String item_group_id;
     public String item_group_name;
     public String account_name;
-    public String account_type_of_dealer;
     public String acount_opening_balance;
     public String acount_opening_balance_type;
     public String prev_year_balance;
@@ -100,7 +99,9 @@ public class AppUser {
     public String account_address="";
     public String account_city="";
     public String account_state="";
+    public String account_pinCode="";
     public String account_gst="";
+    public String account_type_of_dealer="";
     public String account_aadhaar="";
     public String account_pan="";
     public String account_credit_limit="";

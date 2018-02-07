@@ -18,6 +18,24 @@ public class AccountAttributes {
     public String amount_receivable;
     public String amount_payable;
     public Double amount;
+    public String pincode;
+    public String type_of_dealer;
+
+    public String getType_of_dealer() {
+        return type_of_dealer;
+    }
+
+    public void setType_of_dealer(String type_of_dealer) {
+        this.type_of_dealer = type_of_dealer;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
 
     public String getEmail() {
         return email;

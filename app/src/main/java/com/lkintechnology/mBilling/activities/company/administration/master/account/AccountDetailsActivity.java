@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.lkintechnology.mBilling.R;
@@ -45,6 +46,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class AccountDetailsActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
@@ -322,6 +324,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         // set the custom dialog components - text, image and button
         EditText account_address = (EditText) dialogaddress.findViewById(R.id.address);
         EditText account_city = (EditText) dialogaddress.findViewById(R.id.city);
+        EditText account_pinCode = (EditText) dialogaddress.findViewById(R.id.pincode);
         Spinner spinner_state = (Spinner) dialogaddress.findViewById(R.id.state_spinner);
         LinearLayout submit = (LinearLayout) dialogaddress.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialogaddress.findViewById(R.id.close);
@@ -334,6 +337,9 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         });
         if (!appUser.account_address.equals("")) {
             account_address.setText(appUser.account_address);
+        }
+        if (!appUser.account_pinCode.equals("")) {
+            account_pinCode.setText(appUser.account_pinCode);
         }
         if (!appUser.account_city.equals("")) {
             account_city.setText(appUser.account_city);
@@ -354,11 +360,18 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard(view);
-                appUser.account_address = account_address.getText().toString();
-                appUser.account_city = account_city.getText().toString();
-                appUser.account_state = spinner_state.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                dialogaddress.dismiss();
+                String pin = account_pinCode.getText().toString();
+                int counter = pin.length();
+                if(counter>=6){
+                    appUser.account_pinCode = account_pinCode.getText().toString();
+                    appUser.account_address = account_address.getText().toString();
+                    appUser.account_city = account_city.getText().toString();
+                    appUser.account_state = spinner_state.getSelectedItem().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    dialogaddress.dismiss();
+                }else {
+                    Toast.makeText(AccountDetailsActivity.this, "Enter minimum 6 digit pin code", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialogaddress.show();
@@ -370,6 +383,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         dialoggst.setContentView(R.layout.dialog_gstin);
         dialoggst.setCancelable(true);
         // set the custom dialog components - text, image and button
+        Spinner account_type_of_dealer = (Spinner) dialoggst.findViewById(R.id.type_of_dealer_spinner);
         EditText account_gst = (EditText) dialoggst.findViewById(R.id.gst);
         EditText account_aadhaar = (EditText) dialoggst.findViewById(R.id.aadhaar);
         EditText account_pan = (EditText) dialoggst.findViewById(R.id.pan);
@@ -382,6 +396,17 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 dialoggst.dismiss();
             }
         });
+        if (!appUser.account_type_of_dealer.equals("")) {
+            String state = appUser.account_type_of_dealer.trim();// insert code here
+            int stateindex = -1;
+            for (int i = 0; i < getResources().getStringArray(R.array.type_of_dealer).length; i++) {
+                if (getResources().getStringArray(R.array.type_of_dealer)[i].equals(state)) {
+                    stateindex = i;
+                    break;
+                }
+            }
+            account_type_of_dealer.setSelection(stateindex);
+        }
 
         if (!appUser.account_gst.equals("")) {
             account_gst.setText(appUser.account_gst);
@@ -397,6 +422,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard(view);
+                appUser.account_type_of_dealer = account_type_of_dealer.getSelectedItem().toString();
                 appUser.account_gst = account_gst.getText().toString();
                 appUser.account_aadhaar = account_aadhaar.getText().toString();
                 appUser.account_pan = account_pan.getText().toString();
@@ -591,8 +617,10 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             appUser.account_amount_receivable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_receivable());
             appUser.account_amount_payable= Helpers.mystring(response.getAccount().getData().getAttributes().getAmount_payable());
             appUser.account_address= Helpers.mystring(response.getAccount().getData().getAttributes().getAddress());
+            appUser.account_pinCode= Helpers.mystring(response.getAccount().getData().getAttributes().getPincode());
             appUser.account_city= Helpers.mystring(response.getAccount().getData().getAttributes().getCity());
             appUser.account_state= Helpers.mystring(response.getAccount().getData().getAttributes().getState());
+            appUser.account_type_of_dealer= Helpers.mystring(response.getAccount().getData().getAttributes().getType_of_dealer());
             appUser.account_gst= Helpers.mystring(response.getAccount().getData().getAttributes().getGstin_number());
             appUser.account_aadhaar= Helpers.mystring(response.getAccount().getData().getAttributes().getAdhar_number());
             appUser.account_pan= Helpers.mystring(response.getAccount().getData().getAttributes().getPan_number());
