@@ -122,7 +122,6 @@ public class SerialNumberReferenceActivity extends RegisterAbstractActivity {
             mRecyclerView.setLayoutManager(layoutManager);
             mAdapter = new SerialNumberReferenceAdapter(this,response.getItem().data);
             mRecyclerView.setAdapter(mAdapter);
-            Snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(),Snackbar.LENGTH_LONG).show();

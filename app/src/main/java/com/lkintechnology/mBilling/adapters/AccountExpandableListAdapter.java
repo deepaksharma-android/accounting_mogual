@@ -60,6 +60,9 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
         TextView txtListAmount = (TextView) convertView.findViewById(R.id.amount_qty);
         txtListChild.setText(acc_name);
+        if(amount.equals("null")){
+            amount="0.0";
+        }
         txtListAmount.setText("₹ " +String.format("%.2f", Double.valueOf(amount)));
 
         LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
