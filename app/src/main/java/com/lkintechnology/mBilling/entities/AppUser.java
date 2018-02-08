@@ -87,6 +87,8 @@ public class AppUser {
     public String bank_account_number;
     public String bank_ifsc_code;
     public String bank_name;
+    public String serial_voucher_type;
+    public String serial_voucher_id;
     public String account_id;
     public String delete_group_id;
     public String delete_account_id;

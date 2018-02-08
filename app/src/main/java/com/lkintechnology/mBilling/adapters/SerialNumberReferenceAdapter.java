@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.networks.api_response.serialnumber.Data;
+import com.lkintechnology.mBilling.utils.EventDeleteSerialNumber;
+import com.lkintechnology.mBilling.utils.EventItemMaterialCenterClick;
+import com.lkintechnology.mBilling.utils.EventShowPdf;
 
+import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -42,6 +46,32 @@ public class SerialNumberReferenceAdapter extends RecyclerView.Adapter<SerialNum
         viewHolder.amount.setText(String.valueOf(data.get(position).getAttributes().getAmount()));
         viewHolder.mName.setText(data.get(position).getAttributes().getName());
         viewHolder.mVoucher_no.setText(data.get(position).getAttributes().getVoucher_number());
+        viewHolder.mDeleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventDeleteSerialNumber(data.get(position).getAttributes().getType()+","+String.valueOf(data.get(position).getAttributes().getId()) ));
+            }
+        });
+        viewHolder.mIconEye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getAttributes().getType()+","+String.valueOf(data.get(position).getAttributes().getId())));
+            }
+        });
+
+        viewHolder.mIconPrinting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getAttributes().getType()+","+String.valueOf(data.get(position).getAttributes().getId())));
+            }
+        });
+
+        viewHolder.mIconShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getAttributes().getType()+","+String.valueOf(data.get(position).getAttributes().getId())));
+            }
+        });
 
     }
 
@@ -62,6 +92,15 @@ public class SerialNumberReferenceAdapter extends RecyclerView.Adapter<SerialNum
         TextView mVoucher_no;
         @Bind(R.id.name)
         TextView mName;
+        @Bind(R.id.icon_delete)
+        LinearLayout mDeleteIcon;
+        @Bind(R.id.icon_eye)
+        LinearLayout mIconEye;
+        @Bind(R.id.icon_printing)
+        LinearLayout mIconPrinting;
+        @Bind(R.id.icon_share)
+        LinearLayout mIconShare;
+
 
 
 

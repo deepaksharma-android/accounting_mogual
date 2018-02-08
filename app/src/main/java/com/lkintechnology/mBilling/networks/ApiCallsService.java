@@ -138,6 +138,7 @@ import com.lkintechnology.mBilling.networks.api_response.payment.DeletePaymentRe
 import com.lkintechnology.mBilling.networks.api_response.payment.EditPaymentResponse;
 import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentResponse;
+import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
 import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
@@ -550,6 +551,8 @@ public class ApiCallsService extends IntentService {
             handleGetStockTransferDetails();
         }else if (Cv.ACTION_GET_SERIAL_NUMBER_REFERENCE.equals(action)) {
             handleGetSerialNumberReference();
+        }else if (Cv.ACTION_GET_PDF.equals(action)) {
+            handleGetPdf();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
@@ -4325,6 +4328,28 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<SerialNumberReferenceResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleGetPdf() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getpdf(appUser.serial_voucher_type,appUser.serial_voucher_id).enqueue(new Callback<PdfResponse>() {
+            @Override
+            public void onResponse(Call<PdfResponse> call, Response<PdfResponse> r) {
+                if (r.code() == 200) {
+                    PdfResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<PdfResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
