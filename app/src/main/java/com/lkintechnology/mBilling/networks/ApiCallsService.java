@@ -4338,7 +4338,7 @@ public class ApiCallsService extends IntentService {
     }
     private void handleGetPdf() {
         AppUser appUser=LocalRepositories.getAppUser(this);
-        api.getpdf("sale",appUser.serial_voucher_id).enqueue(new Callback<PdfResponse>() {
+        api.getpdf(appUser.serial_voucher_type,appUser.serial_voucher_id).enqueue(new Callback<PdfResponse>() {
             @Override
             public void onResponse(Call<PdfResponse> call, Response<PdfResponse> r) {
                 if (r.code() == 200) {
