@@ -145,8 +145,13 @@ public class CreateSaleVoucherFragment extends Fragment {
         StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Sales";
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        final Calendar newCalendar = Calendar.getInstance();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         if (CreateSaleActivity.fromsalelist) {
+            if(!Preferences.getInstance(getContext()).getVoucher_date().equals("")){
+                mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+            }
             submit.setVisibility(View.GONE);
             update.setVisibility(View.VISIBLE);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -173,6 +178,10 @@ public class CreateSaleVoucherFragment extends Fragment {
             }
         }
         if(CreateSaleActivity.fromdashboard){
+
+
+            String date1 = dateFormatter.format(newCalendar.getTime());
+            Preferences.getInstance(getContext()).setVoucher_date(date1);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
@@ -204,10 +213,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
         }
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        final Calendar newCalendar = Calendar.getInstance();
-        String date1 = dateFormatter.format(newCalendar.getTime());
-        Preferences.getInstance(getContext()).setVoucher_date(date1);
+
        /* if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")){
             mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
         }*/

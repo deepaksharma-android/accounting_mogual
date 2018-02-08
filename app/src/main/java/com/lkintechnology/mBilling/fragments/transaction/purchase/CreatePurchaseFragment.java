@@ -141,7 +141,12 @@ public class CreatePurchaseFragment extends Fragment {
 
 
         appUser = LocalRepositories.getAppUser(getActivity());
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        final Calendar newCalendar = Calendar.getInstance();
         if (CreatePurchaseActivity.fromsalelist) {
+            if(!Preferences.getInstance(getContext()).getVoucher_date().equals("")){
+                mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+            }
             submit.setVisibility(View.GONE);
             update.setVisibility(View.VISIBLE);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -167,6 +172,8 @@ public class CreatePurchaseFragment extends Fragment {
                 snackbar.show();
             }
         }
+        String date1 = dateFormatter.format(newCalendar.getTime());
+        Preferences.getInstance(getContext()).setVoucher_date(date1);
 
         if(!Preferences.getInstance(getActivity()).getUpdate().equals("")){
             update.setVisibility(View.VISIBLE);
@@ -177,10 +184,7 @@ public class CreatePurchaseFragment extends Fragment {
             update.setVisibility(View.GONE);
         }
 
-            dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        final Calendar newCalendar = Calendar.getInstance();
-        String date1 = dateFormatter.format(newCalendar.getTime());
-        Preferences.getInstance(getContext()).setVoucher_date(date1);
+
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
