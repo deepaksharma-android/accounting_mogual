@@ -33,6 +33,8 @@ public class AcountGroupActivity extends AppCompatActivity {
     LinearLayout casgBank;
     @Bind(R.id.opening_stock_group)
     LinearLayout openingStockGroup;
+    @Bind(R.id.serial_number_reference)
+    LinearLayout mSerialNumberReference;
     @Bind(R.id.pdc_detail)
     LinearLayout pdcDetails;
     @Bind(R.id.amount_receivable)
@@ -113,6 +115,12 @@ public class AcountGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 pcd_detail_txt.setTextColor(Color.WHITE);
                 startActivity(new Intent(getApplicationContext(), PdcActivity.class));
+            }
+        });
+        mSerialNumberReference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),SerialNumberReferenceActivity.class));
             }
         });
         amountReceivable.setOnClickListener(new View.OnClickListener() {

@@ -157,11 +157,11 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVouc
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.serialnumber.SerialNumberReferenceResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
-import com.lkintechnology.mBilling.networks.api_response.stocktransfer.UpdateStockTrasferResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -686,6 +686,9 @@ public interface Api {
 
     @POST("company_items_barcode/{id}")
     Call<CheckBarcodeResponse> checkbarcode(@Body RequestCheckBarcode payload,@Path("id") String id);
+
+    @GET("item/search_by_imei/{id}")
+    Call<SerialNumberReferenceResponse> getserialnumberreference(@Path("id") String id, @Query("serial_number") String serial_number);
 
 /*    @PATCH("stock_transfer_vouchers/{id}")
     Call<UpdateStockTrasferResponse> updateStockTransfer(@Body RequestCreateStockTransfer payload, @Path("id") String id);*/

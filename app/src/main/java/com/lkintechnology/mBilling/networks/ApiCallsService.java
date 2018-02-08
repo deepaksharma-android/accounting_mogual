@@ -165,11 +165,11 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.serialnumber.SerialNumberReferenceResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.GetStockTransferListResponse;
-import com.lkintechnology.mBilling.networks.api_response.stocktransfer.UpdateStockTrasferResponse;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUqcResponse;
@@ -548,6 +548,8 @@ public class ApiCallsService extends IntentService {
             handleDeleteStockTransfer();
         } else if (Cv.ACTION_GET_STOCK_TRANSFER_DETAILS.equals(action)) {
             handleGetStockTransferDetails();
+        }else if (Cv.ACTION_GET_SERIAL_NUMBER_REFERENCE.equals(action)) {
+            handleGetSerialNumberReference();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
@@ -4301,6 +4303,28 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CheckBarcodeResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleGetSerialNumberReference() {
+        AppUser appUser=LocalRepositories.getAppUser(this);
+        api.getserialnumberreference(Preferences.getInstance(getApplicationContext()).getCid(),appUser.serial_ref_no).enqueue(new Callback<SerialNumberReferenceResponse>() {
+            @Override
+            public void onResponse(Call<SerialNumberReferenceResponse> call, Response<SerialNumberReferenceResponse> r) {
+                if (r.code() == 200) {
+                    SerialNumberReferenceResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<SerialNumberReferenceResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

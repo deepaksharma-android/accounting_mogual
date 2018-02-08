@@ -627,6 +627,11 @@
             android:parentActivityName=".activities.company.transaction.stocktransfer.CreateStockTransferActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.account_group.SerialNumberReferenceActivity"
+            android:parentActivityName=".activities.company.administration.master.accountgroup.AccountGroupListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->

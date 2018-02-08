@@ -217,6 +217,23 @@
                         android:textColor="@color/black" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/serial_number_reference"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Book"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:text="Serial Number Reference"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
             </LinearLayout>
 
 
