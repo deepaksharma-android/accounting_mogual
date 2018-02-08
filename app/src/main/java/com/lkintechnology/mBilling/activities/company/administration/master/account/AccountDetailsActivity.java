@@ -362,7 +362,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 hideSoftKeyboard(view);
                 String pin = account_pinCode.getText().toString();
                 int counter = pin.length();
-                if(counter>=6){
+                if(counter>=6 || account_pinCode.getText().toString().equals("")){
                     appUser.account_pinCode = account_pinCode.getText().toString();
                     appUser.account_address = account_address.getText().toString();
                     appUser.account_city = account_city.getText().toString();
