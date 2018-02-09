@@ -94,6 +94,86 @@
                 android:textColor="#050505"
                 android:textSize="12sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:id="@+id/icon_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.05">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_delete1"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:layout_weight="0.8">
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icon_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:layout_weight="0.05">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="1dp"
+                    android:src="@drawable/icon_eye"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/icon_printing"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:layout_weight="0.1">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_printing"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icon_share"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="0.05">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_share"
+                    android:layout_marginRight="10dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

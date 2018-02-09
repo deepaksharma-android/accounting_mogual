@@ -142,8 +142,13 @@ public class CreatePurchaseReturnFragment extends Fragment {
         ButterKnife.bind(this, view);
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Purchase Return";
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        final Calendar newCalendar = Calendar.getInstance();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         if (CreatePurchaseReturnActivity.fromsalelist) {
+            if(!Preferences.getInstance(getContext()).getVoucher_date().equals("")){
+                mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+            }
             submit.setVisibility(View.GONE);
             update.setVisibility(View.VISIBLE);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -170,6 +175,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
             }
         }
         if(CreatePurchaseReturnActivity.fromdashboard) {
+            String date1 = dateFormatter.format(newCalendar.getTime());
+            Preferences.getInstance(getContext()).setVoucher_date(date1);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
@@ -201,11 +208,6 @@ public class CreatePurchaseReturnFragment extends Fragment {
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
         }
-
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        final Calendar newCalendar = Calendar.getInstance();
-        String date1 = dateFormatter.format(newCalendar.getTime());
-        Preferences.getInstance(getContext()).setVoucher_date(date1);
         mPurchaseType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());

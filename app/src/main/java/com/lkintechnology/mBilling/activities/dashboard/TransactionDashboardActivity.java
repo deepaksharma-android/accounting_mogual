@@ -131,6 +131,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.paid_to_name = "";
         appUser.account_name_debit_name = "";
         appUser.account_name_credit_name = "";
+        Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
 
         ParameterConstant.handleAutoCompleteTextView=0;

@@ -138,8 +138,13 @@ public class CreateSaleReturnFragment extends Fragment {
         ButterKnife.bind(this, view);
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Sale Return";
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        final Calendar newCalendar = Calendar.getInstance();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         if (CreateSaleReturnActivity.fromsalelist) {
+            if(!Preferences.getInstance(getContext()).getVoucher_date().equals("")){
+                mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+            }
             submit.setVisibility(View.GONE);
             update.setVisibility(View.VISIBLE);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -166,7 +171,8 @@ public class CreateSaleReturnFragment extends Fragment {
             }
         }
         if(CreateSaleReturnActivity.fromdashboard) {
-
+            String date1 = dateFormatter.format(newCalendar.getTime());
+            Preferences.getInstance(getContext()).setVoucher_date(date1);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(getActivity());
@@ -199,10 +205,7 @@ public class CreateSaleReturnFragment extends Fragment {
             update.setVisibility(View.GONE);
         }
 
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        final Calendar newCalendar = Calendar.getInstance();
-        String date1 = dateFormatter.format(newCalendar.getTime());
-        Preferences.getInstance(getContext()).setVoucher_date(date1);
+
         mSaleType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());

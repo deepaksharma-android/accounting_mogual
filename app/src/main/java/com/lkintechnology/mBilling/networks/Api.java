@@ -51,6 +51,7 @@ import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefa
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.companydashboardinfo.GetCompanyDashboardInfoResponse;
+import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
@@ -689,6 +690,9 @@ public interface Api {
 
     @GET("item/search_by_imei/{id}")
     Call<SerialNumberReferenceResponse> getserialnumberreference(@Path("id") String id, @Query("serial_number") String serial_number);
+
+    @GET("generate_invoice/{type}/{id}")
+    Call<PdfResponse> getpdf(@Path("type") String type,@Path("id") String id);
 
 /*    @PATCH("stock_transfer_vouchers/{id}")
     Call<UpdateStockTrasferResponse> updateStockTransfer(@Body RequestCreateStockTransfer payload, @Path("id") String id);*/

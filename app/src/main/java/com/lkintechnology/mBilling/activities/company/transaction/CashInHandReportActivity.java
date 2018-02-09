@@ -26,6 +26,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.transactionpdfresponse.GetTransactionPdfResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -270,6 +271,8 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("CASH IN HAND");
+        actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

@@ -138,9 +138,8 @@ public class CreatePurchaseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_purchase_create, container, false);
         ButterKnife.bind(this, view);
-
-
         appUser = LocalRepositories.getAppUser(getActivity());
+
         if (CreatePurchaseActivity.fromsalelist) {
             submit.setVisibility(View.GONE);
             update.setVisibility(View.VISIBLE);
@@ -177,10 +176,17 @@ public class CreatePurchaseFragment extends Fragment {
             update.setVisibility(View.GONE);
         }
 
-            dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
-        Preferences.getInstance(getContext()).setVoucher_date(date1);
+        if(!Preferences.getInstance(getContext()).getVoucher_date().equals("")){
+            mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        }
+        else{
+            Preferences.getInstance(getContext()).setVoucher_date(date1);
+            mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        }
+
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
