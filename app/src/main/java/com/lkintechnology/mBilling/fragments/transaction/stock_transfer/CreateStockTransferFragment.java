@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.provider.MediaStore;
@@ -125,6 +126,7 @@ public class CreateStockTransferFragment extends Fragment {
     Bitmap photo;
     WebView mPdf_webview;
 
+
     @Override
     public void onStart() {
         EventBus.getDefault().register(this);
@@ -136,7 +138,8 @@ public class CreateStockTransferFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_stock_transfer, container, false);
         ButterKnife.bind(this, view);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Stock Transfer";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);

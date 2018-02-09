@@ -59,8 +59,10 @@ public class ImageOpenActivity extends AppCompatActivity {
                         }
                     });*/
         }else {
+
             encodedString=intent.getStringExtra("encodedString");
-            mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
+            mImageOpen.setImageURI(Uri.parse(encodedString));
+            //mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
         }
 
     }

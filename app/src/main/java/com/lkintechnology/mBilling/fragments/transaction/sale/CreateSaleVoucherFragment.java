@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -66,6 +67,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -129,6 +131,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     WebView mPdf_webview;
     Bitmap photo;
     Boolean fromsalelist;
+    private Uri imageToUploadUri;;
 
     @Override
     public void onStart() {
@@ -319,7 +322,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
-                intent.putExtra("encodedString", encodedString);
+                intent.putExtra("encodedString", imageToUploadUri.toString());
                 intent.putExtra("booleAttachment", false);
                 startActivity(intent);
             }
@@ -631,11 +634,10 @@ public class CreateSaleVoucherFragment extends Fragment {
         myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 Intent intCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
-
-                if (intCamera.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
-                }
+                File f = new File(Environment.getExternalStorageDirectory(), "POST_IMAGE.jpg");
+                intCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                imageToUploadUri = Uri.fromFile(f);
+                startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
 
             }
         });
@@ -671,15 +673,22 @@ public class CreateSaleVoucherFragment extends Fragment {
         photo = null;
         switch (requestCode) {
             case Cv.REQUEST_CAMERA:
-                photo = (Bitmap) data.getExtras().get("data");
-                encodedString = Helpers.bitmapToBase64(photo);
-                mSelectedImage.setVisibility(View.VISIBLE);
-                mSelectedImage.setImageBitmap(photo);
+                try {
+                    photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageToUploadUri);
+                    Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
+                    mSelectedImage.setVisibility(View.VISIBLE);
+                    mSelectedImage.setImageBitmap(im);
+                    mSelectedImage.setRotation(-90);
+                    encodedString = Helpers.bitmapToBase64(im);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case Cv.REQUEST_GALLERY:
 
                 try {
+                    imageToUploadUri= data.getData();
                     photo = MediaStore.Images.Thumbnails.getThumbnail(getActivity().getContentResolver(),
                             ContentUris.parseId(data.getData()),
                             MediaStore.Images.Thumbnails.MINI_KIND, null);
@@ -1163,5 +1172,17 @@ public class CreateSaleVoucherFragment extends Fragment {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+    }
+
+    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
     }
 }

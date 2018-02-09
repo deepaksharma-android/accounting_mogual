@@ -5,16 +5,21 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.print.PdfPrint;
 import android.print.PrintAttributes;
 import android.provider.MediaStore;
@@ -22,6 +27,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -69,6 +76,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -138,6 +147,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     Bitmap photo;
     public static int iconHandlerVariable = 0;
     WebView mPdf_webview;
+    private Uri imageToUploadUri;;
 
 
     @Override
@@ -147,6 +157,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         ButterKnife.bind(this);
         iconHandlerVariable = 0;
         initActionbar();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(this);
         bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -321,8 +333,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",encodedString);
+                intent.putExtra("encodedString",imageToUploadUri.toString());
                 intent.putExtra("booleAttachment",false);
                 startActivity(intent);
             }
@@ -535,11 +548,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 Intent intCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intCamera.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                File f = new File(Environment.getExternalStorageDirectory(), "POST_IMAGE.jpg");
+                intCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                imageToUploadUri = Uri.fromFile(f);
+                startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
 
-                if (intCamera.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
-                }
 
             }
         });
@@ -648,16 +661,21 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             switch (requestCode) {
 
                 case Cv.REQUEST_CAMERA:
-
-                    photo = (Bitmap) data.getExtras().get("data");
-                    encodedString = Helpers.bitmapToBase64(photo);
-                    mSelectedImage.setVisibility(View.VISIBLE);
-                    mSelectedImage.setImageBitmap(photo);
+                    try {
+                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageToUploadUri);
+                        Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(im);
+                        encodedString = Helpers.bitmapToBase64(im);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case Cv.REQUEST_GALLERY:
 
                     try {
+                        imageToUploadUri= data.getData();
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
@@ -1201,5 +1219,19 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         } else {
 //            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+
+    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
     }
 }
