@@ -671,9 +671,9 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             transaction_narration.setText("");
             deposit_by.setText("");
             deposit_to.setText("");
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
-            //mSelectedImage.setImageDrawable(null);
 
             new AlertDialog.Builder(CreateBankCaseDepositActivity.this)
                     .setTitle("Print/Preview")

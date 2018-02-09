@@ -10,6 +10,15 @@ public class Attributes {
     public String withdraw_from;
     public String withdraw_by;
     public String invoice_html;
+    public String attachment;
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
 
     public String getInvoice_html() {
         return invoice_html;

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -660,7 +661,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             transaction_narration.setText("");
             received_into.setText("");
             received_from.setText("");
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 

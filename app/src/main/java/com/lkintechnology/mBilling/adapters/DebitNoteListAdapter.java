@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.debitnotewoitem.Data;
 import com.lkintechnology.mBilling.utils.EventClickAlertForDebitNote;
 import com.lkintechnology.mBilling.utils.EventDeleteDebitNote;
@@ -118,6 +119,20 @@ public class DebitNoteListAdapter extends RecyclerView.Adapter<DebitNoteListAdap
                 }
             }
         });
+
+        viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!data.get(position).getAttributes().getAttachment().equals("")){
+                    Intent intent = new Intent(context, ImageOpenActivity.class);
+                    intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
+                    intent.putExtra("booleAttachment",true);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -147,6 +162,8 @@ public class DebitNoteListAdapter extends RecyclerView.Adapter<DebitNoteListAdap
         LinearLayout icon_printing;
         @Bind(R.id.icon_share)
         LinearLayout icon_share;
+        @Bind(R.id.attachment_layout)
+        LinearLayout mAttachment;
       /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/

@@ -804,7 +804,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
