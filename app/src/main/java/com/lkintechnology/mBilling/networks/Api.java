@@ -694,6 +694,9 @@ public interface Api {
     @GET("generate_invoice/{type}/{id}")
     Call<PdfResponse> getpdf(@Path("type") String type,@Path("id") String id);
 
+    @GET("company/balance_sheet/{id}")
+    Call<GetTransactionPdfResponse> getBalanceSheetpdf(@Path("id") String id,@Query("start_date") String start_date, @Query("end_date") String end_date);
+
 /*    @PATCH("stock_transfer_vouchers/{id}")
     Call<UpdateStockTrasferResponse> updateStockTransfer(@Body RequestCreateStockTransfer payload, @Path("id") String id);*/
 

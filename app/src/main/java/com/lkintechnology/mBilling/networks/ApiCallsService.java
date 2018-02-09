@@ -553,9 +553,12 @@ public class ApiCallsService extends IntentService {
             handleGetSerialNumberReference();
         }else if (Cv.ACTION_GET_PDF.equals(action)) {
             handleGetPdf();
+        }else if (Cv.ACTION_GET_BALANCE_SHEET_PDF.equals(action)) {
+            handleGetBalanceSheetPdf();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
+
     }
 
     private void handleGetItemGroupDetails() {
@@ -4468,6 +4471,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetStockTransferDetailsResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetBalanceSheetPdf() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getBalanceSheetpdf(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<GetTransactionPdfResponse>() {
+            @Override
+            public void onResponse(Call<GetTransactionPdfResponse> call, Response<GetTransactionPdfResponse> r) {
+                if (r.code() == 200) {
+                    GetTransactionPdfResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetTransactionPdfResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

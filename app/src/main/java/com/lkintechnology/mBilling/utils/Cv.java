@@ -190,6 +190,7 @@ public interface Cv {
     String ACTION_UPDATE_STOCK_TRANSFER = "action_update_stock_transfer";
     String ACTION_GET_SERIAL_NUMBER_REFERENCE= "action_get_serial_number_reference";
     String ACTION_GET_PDF= "action_get_pdf";
+    String ACTION_GET_BALANCE_SHEET_PDF = "action_get_balance_sheet_pdf";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;
