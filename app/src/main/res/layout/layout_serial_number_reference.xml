@@ -8,12 +8,59 @@
         android:id="@+id/opening_stock_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:background="@drawable/stoke_grey"
         android:orientation="vertical">
+
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+            android:id="@+id/item_opening_stock"
+            style="@style/Gotham_Bold"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="dfsdf"
+            android:layout_marginTop="10dp"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:gravity="center"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Book"
+                android:id="@+id/itemname"
+                android:layout_width="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.5"
+                android:text="fsdfg"
+                android:textColor="#050505"
+                android:textSize="12sp" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Book"
+                android:id="@+id/itemdate"
+                android:layout_width="0dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:text="dfgfdgd"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.5"
+                android:textColor="#050505"
+                android:textSize="12sp" />
+
+
+
+
+
+
+
 
 
         </LinearLayout>

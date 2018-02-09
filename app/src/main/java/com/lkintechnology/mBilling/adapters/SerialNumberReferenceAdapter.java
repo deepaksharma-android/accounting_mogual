@@ -41,11 +41,30 @@ public class SerialNumberReferenceAdapter extends RecyclerView.Adapter<SerialNum
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.mVoucherType.setText(data.get(position).getAttributes().getType());
-        viewHolder.mDate.setText(data.get(position).getAttributes().getDate());
-        viewHolder.amount.setText(String.valueOf(data.get(position).getAttributes().getAmount()));
-        viewHolder.mName.setText(data.get(position).getAttributes().getName());
-        viewHolder.mVoucher_no.setText(data.get(position).getAttributes().getVoucher_number());
+        if(data.get(position).getAttributes().getType().equals("Item Opening Stock")){
+            viewHolder.mMainLayout.setVisibility(View.GONE);
+            viewHolder.mOpeningStockLayout.setVisibility(View.VISIBLE);
+            viewHolder.mItemName.setText(data.get(position).getAttributes().getName());
+            viewHolder.mItemDate.setText(data.get(position).getAttributes().getDate());
+            viewHolder.mOpeningStockType.setText(data.get(position).getAttributes().getType());
+            viewHolder.mDeleteIcon.setVisibility(View.GONE);
+            viewHolder.mIconEye.setVisibility(View.GONE);
+            viewHolder.mIconPrinting.setVisibility(View.GONE);
+            viewHolder.mIconShare.setVisibility(View.GONE);
+
+        }
+        else{
+            viewHolder.mMainLayout.setVisibility(View.VISIBLE);
+            viewHolder.mOpeningStockLayout.setVisibility(View.GONE);
+            viewHolder.mVoucherType.setText(data.get(position).getAttributes().getType());
+            viewHolder.mDate.setText(data.get(position).getAttributes().getDate());
+            viewHolder.amount.setText(String.valueOf(data.get(position).getAttributes().getAmount()));
+            viewHolder.mName.setText(data.get(position).getAttributes().getName());
+            viewHolder.mVoucher_no.setText(data.get(position).getAttributes().getVoucher_number());
+        }
+
+
+
         viewHolder.mDeleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +91,8 @@ public class SerialNumberReferenceAdapter extends RecyclerView.Adapter<SerialNum
                 EventBus.getDefault().post(new EventShowPdf(data.get(position).getAttributes().getType()+","+String.valueOf(data.get(position).getAttributes().getId())));
             }
         });
+
+
 
     }
 
@@ -100,7 +121,16 @@ public class SerialNumberReferenceAdapter extends RecyclerView.Adapter<SerialNum
         LinearLayout mIconPrinting;
         @Bind(R.id.icon_share)
         LinearLayout mIconShare;
-
+        @Bind(R.id.opening_stock_layout)
+        LinearLayout mOpeningStockLayout;
+        @Bind(R.id.mainLayout)
+        LinearLayout mMainLayout;
+        @Bind(R.id.itemname)
+        TextView mItemName;
+        @Bind(R.id.itemdate)
+        TextView mItemDate;
+        @Bind(R.id.item_opening_stock)
+        TextView mOpeningStockType;
 
 
 
