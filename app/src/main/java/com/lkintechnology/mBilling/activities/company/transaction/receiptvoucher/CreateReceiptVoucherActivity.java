@@ -885,9 +885,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 received_from.setText("");
                 type_spinner.setSelection(0);
                 gst_nature_spinner.setSelection(0);
-                mSelectedImage.setImageResource(0);
+                encodedString="";
+                mSelectedImage.setImageDrawable(null);
                 mSelectedImage.setVisibility(View.GONE);
-                //mSelectedImage.setImageDrawable(null);
                 new AlertDialog.Builder(CreateReceiptVoucherActivity.this)
                         .setTitle("Print/Preview").setMessage("")
                         .setMessage(R.string.print_preview_mesage)

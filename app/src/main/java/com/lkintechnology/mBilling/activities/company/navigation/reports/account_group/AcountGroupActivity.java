@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.navigation.reports.financialreports.BalanceSheetActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.financialreports.ProfitAndLossActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.gstreturn.PurchaseRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.gstreturn.SaleRegisterActivity;
@@ -206,13 +207,7 @@ public class AcountGroupActivity extends AppCompatActivity {
         mBalance_sheet_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(AcountGroupActivity.this)
-                        .setTitle("m-Billing")
-                        .setMessage("Coming soon")
-                        .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok,null)
-                        .show();
-
+                startActivity(new Intent(getApplicationContext(), BalanceSheetActivity.class));
 
             }
         });

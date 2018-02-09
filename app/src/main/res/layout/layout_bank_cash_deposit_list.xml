@@ -139,7 +139,17 @@
             android:gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_weight="0.8">
+            android:layout_weight="0.6">
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/attachment_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attachment"
+                android:textColor="#065f9d"
+                android:gravity="center"
+                style="@style/Gotham_Bold"
+                android:textSize="16dp"/>
 
         </LinearLayout>
 

@@ -116,6 +116,20 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
                 }
             }
         });
+
+        viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!data.get(position).getAttributes().getAttachment().equals("")){
+                    Intent intent = new Intent(context, ImageOpenActivity.class);
+                    intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
+                    intent.putExtra("booleAttachment",true);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -145,6 +159,8 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
         LinearLayout icon_printing;
         @Bind(R.id.icon_share)
         LinearLayout icon_share;
+        @Bind(R.id.attachment_layout)
+        TextView mAttachment;
        /* @Bind(R.id.delete)
         LinearLayout mDelete;
         @Bind(R.id.edit1)

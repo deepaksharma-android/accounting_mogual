@@ -666,7 +666,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             transaction_narration.setText("");
             paid_from.setText("");
             paid_to.setText("");
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 

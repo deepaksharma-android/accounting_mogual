@@ -810,7 +810,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             paid_to.setText("");
             type_spinner.setSelection(0);
             gst_nature_spinner.setSelection(0);
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 

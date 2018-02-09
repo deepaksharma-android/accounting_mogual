@@ -676,7 +676,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             withdraw_from.setText("");
             withdraw_by.setText("");
             //set_date.setText( appUser.bank_cash_withdraw_date);
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
 
             new AlertDialog.Builder(CreateBankCaseWithdrawActivity.this)

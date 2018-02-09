@@ -1,14 +1,14 @@
-package com.lkintechnology.mBilling.activities.company.navigation.reports.account_group;
+package com.lkintechnology.mBilling.activities.company.navigation.reports.financialreports;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
@@ -37,18 +37,14 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LedgerActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class BalanceSheetActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.account_group_layout)
-    LinearLayout mAccount_group_layout;
     @Bind(R.id.start_date_layout)
     LinearLayout mStart_date_layout;
     @Bind(R.id.end_date_layout)
     LinearLayout mEnd_date_layout;
-    @Bind(R.id.account_group_textview)
-    TextView mAccount_group_textview;
     @Bind(R.id.start_date)
     TextView mStart_date;
     @Bind(R.id.end_date)
@@ -79,17 +75,6 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
         setDateField();
-        mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                appUser.account_master_group = "";
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                ParameterConstant.handleAutoCompleteTextView=0;
-                Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                startActivityForResult(i, 2);
-            }
-        });
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +83,6 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
 
-                if(!mAccount_group_textview.getText().toString().equals("")){
-                    if (end.compareTo(start) >= 0 ){
 
                     appUser.pdf_start_date = mStart_date.getText().toString();
                     appUser.pdf_end_date = mEnd_date.getText().toString();
@@ -107,12 +90,12 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
 
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
-                        mProgressDialog = new ProgressDialog(LedgerActivity.this);
+                        mProgressDialog = new ProgressDialog(BalanceSheetActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BALANCE_SHEET_PDF);
                     } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -126,25 +109,18 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                                 });
                         snackbar.show();
                     }
-                }else{
-                        Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                        mEnd_date.setText(start);
-                    }
-                }else {
-                    Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();
-                }
             }
         });
     }
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_ledger;
+        return R.layout.activity_balance_sheet;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == 2) {
+            /*if (requestCode == 2) {
                if (ParameterConstant.handleAutoCompleteTextView==1){
                    mAccount_group_textview.setText(ParameterConstant.name);
                    appUser.pdf_account_id = ParameterConstant.id;
@@ -157,7 +133,7 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                    appUser.pdf_account_id = id;
                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                }
-            }
+            }*/
         }
     }
 
@@ -176,7 +152,7 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
 
         //String start_date1="2017-Apr-04";
 
-        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year,  int monthOfYear, int dayOfMonth) {
 
@@ -184,46 +160,21 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
                 String endDate = mEnd_date.getText().toString();
-                String startDate = mStart_date.getText().toString();
                 mStart_date.setText(date1);
-                    if (date1.compareTo(endDate) <= 0){
-                        //System.out.println("Date1 is before endDate");
-                        mStart_date.setText(date1);
-                    }else{
-                        Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                    }
 
-               // Or
-
-               /* if(monthOfYear>=03 && year==2017){
-                    mStart_date.setText(date1);
-                }
-                else if((current_month == "Jan" || current_month == "Feb" || current_month == "Mar") && current_year>2017){
-                    mStart_date.setText(date1);
-                }
-                else{
-                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }*/
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 //view.setMaxDate(System.currentTimeMillis());
-                String start_date = mStart_date.getText().toString();
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
                 mEnd_date.setText(date1);
 
-                if (date1.compareTo(start_date) >= 0 )/*&& date1.compareTo(dateString) <= 0)*/{
-                    //System.out.println("Date1 is after Date2");
-                    mEnd_date.setText(date1);
-                }else{
-                    Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -251,7 +202,7 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Ledger");
+        actionbarTitle.setText("Balance Sheet");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);

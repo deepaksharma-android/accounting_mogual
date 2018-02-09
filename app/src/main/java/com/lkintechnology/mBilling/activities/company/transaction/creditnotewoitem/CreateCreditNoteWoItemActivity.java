@@ -633,9 +633,9 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             account_name_credit.setText("");
             // account_name_debit.setText("");
             gst_nature_spinner.setSelection(0);
-            mSelectedImage.setImageResource(0);
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
-            // mSelectedImage.setImageDrawable(null);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 
             new AlertDialog.Builder(CreateCreditNoteWoItemActivity.this)

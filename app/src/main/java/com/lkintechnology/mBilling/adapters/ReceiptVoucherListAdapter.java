@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.receiptvoucher.Data;
 import com.lkintechnology.mBilling.utils.EventClickAlertForReceipt;
 import com.lkintechnology.mBilling.utils.EventDeleteReceiptVoucher;
@@ -105,6 +106,20 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
             }
         });
 
+        viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!data.get(position).getAttributes().getAttachment().equals("")){
+                    Intent intent = new Intent(context, ImageOpenActivity.class);
+                    intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
+                    intent.putExtra("booleAttachment",true);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
        /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +159,8 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         LinearLayout icon_printing;
         @Bind(R.id.icon_share)
         LinearLayout icon_share;
+        @Bind(R.id.attachment_layout)
+        LinearLayout mAttachment;
         @Bind(R.id.main_layout)
         LinearLayout main_layout;
 

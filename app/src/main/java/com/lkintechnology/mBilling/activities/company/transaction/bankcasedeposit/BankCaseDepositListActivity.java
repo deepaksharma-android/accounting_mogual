@@ -254,7 +254,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new BankCashDepositListAdapter(this,response.getBank_cash_deposits().data);
+            mAdapter = new BankCashDepositListAdapter(this,response.getBank_cash_deposits().getData());
             mRecyclerView.setAdapter(mAdapter);
             Double total=0.0;
             for(int i=0;i<response.getBank_cash_deposits().getData().size();i++){
