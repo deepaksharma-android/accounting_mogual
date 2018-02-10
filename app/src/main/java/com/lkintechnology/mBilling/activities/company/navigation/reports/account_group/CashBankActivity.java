@@ -101,7 +101,6 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
                 if(!mAccount_group_textview.getText().toString().equals("")){
-                    if (end.compareTo(start) >= 0 && start.compareTo(end)<=0){
                     appUser.pdf_start_date = mStart_date.getText().toString();
                     appUser.pdf_end_date = mEnd_date.getText().toString();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -126,10 +125,6 @@ public class CashBankActivity extends RegisterAbstractActivity implements View.O
                                     }
                                 });
                         snackbar.show();
-                    }
-                    }else{
-                        Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                        mEnd_date.setText(start);
                     }
                 }else {
                     Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();

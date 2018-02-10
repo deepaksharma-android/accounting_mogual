@@ -89,7 +89,6 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
             public void onClick(View view) {
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
-                if (end.compareTo(start) >= 0 && start.compareTo(end)<=0){
                     appUser.pdf_start_date = start;
                     appUser.pdf_end_date = end;
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -115,10 +114,6 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
                                 });
                         snackbar.show();
                     }
-            }else{
-                Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                mEnd_date.setText(start);
-            }
             }
         });
 
