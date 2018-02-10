@@ -973,7 +973,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             if (from != null) {
-                if (from.equals("pdcdetail")) {
+                if (from.equals("receipt")) {
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
