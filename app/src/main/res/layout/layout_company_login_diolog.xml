@@ -136,16 +136,23 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.lkintechnology.mBilling.utils.BuzzEditText
-                        android:id="@+id/cpassword"
-                        android:layout_width="fill_parent"
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#000"
-                        android:inputType="textPassword"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="*******"/>
+                        app:passwordToggleEnabled="true"
+                        app:hintEnabled="false"
+                        android:layout_marginLeft="5dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/cpassword"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="******"
+                            android:textSize="16sp"
+                            android:textColor="#000"
+                            android:background="@android:color/transparent"
+                            android:inputType="textPassword"/>
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
                 <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -165,16 +172,24 @@
                     android:background="@drawable/bg_grey_stroke"
                     android:orientation="vertical"
                     >
-                    <com.lkintechnology.mBilling.utils.BuzzEditText
-                        android:id="@+id/cconfirmpassword"
-                        android:layout_width="fill_parent"
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#000"
-                        android:inputType="textPassword"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:hint="*******"/>
+                        app:passwordToggleEnabled="true"
+                        app:hintEnabled="false"
+                        android:layout_marginLeft="5dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/cconfirmpassword"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="******"
+                            android:textSize="16sp"
+                            android:textColor="#000"
+                            android:background="@android:color/transparent"
+                            android:inputType="textPassword"/>
+                    </android.support.design.widget.TextInputLayout>
+
 
                 </LinearLayout>
 
