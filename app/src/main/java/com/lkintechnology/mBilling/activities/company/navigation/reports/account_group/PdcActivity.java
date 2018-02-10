@@ -374,7 +374,6 @@ public class PdcActivity extends RegisterAbstractActivity {
         //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
         startActivity(intent);
         finish();
-
     }
 
 /*

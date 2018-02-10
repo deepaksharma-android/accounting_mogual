@@ -914,7 +914,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             if (from != null) {
-                if (from.equals("pdcdetail")) {
+                if (from.equals("payment")) {
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -959,10 +959,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 return true;
             case android.R.id.home:
                 if (from != null) {
-                    if (from.equals("pdcdetail")) {
+                     if (from.equals("pdcdetail")) {
                         Intent intent = new Intent(this, PdcActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        finish();
+                    } else if (from.equals("payment")) {
                         finish();
                     }
                 }
