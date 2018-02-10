@@ -99,7 +99,7 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                 String end = mEnd_date.getText().toString();
 
                 if(!mAccount_group_textview.getText().toString().equals("")){
-                    if (end.compareTo(start) >= 0 ){
+                    if (end.compareTo(start) >= 0 && start.compareTo(end)<=0){
 
                     appUser.pdf_start_date = mStart_date.getText().toString();
                     appUser.pdf_end_date = mEnd_date.getText().toString();
@@ -172,9 +172,6 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
         long date = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         String dateString = sdf.format(date);
-        //String[] datesplit = dateString.split("-");
-
-        //String start_date1="2017-Apr-04";
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -186,12 +183,12 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                 String endDate = mEnd_date.getText().toString();
                 String startDate = mStart_date.getText().toString();
                 mStart_date.setText(date1);
-                    if (date1.compareTo(endDate) <= 0){
+                  /*  if (date1.compareTo(endDate) <= 0){
                         //System.out.println("Date1 is before endDate");
                         mStart_date.setText(date1);
                     }else{
                         Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                    }
+                    }*/
 
                // Or
 
@@ -218,12 +215,12 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
                 String date1 = dateFormatter.format(newDate.getTime());
                 mEnd_date.setText(date1);
 
-                if (date1.compareTo(start_date) >= 0 )/*&& date1.compareTo(dateString) <= 0)*/{
+             /*   if (date1.compareTo(start_date) >= 0 )*//*&& date1.compareTo(dateString) <= 0)*//*{
                     //System.out.println("Date1 is after Date2");
                     mEnd_date.setText(date1);
                 }else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
