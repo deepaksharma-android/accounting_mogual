@@ -85,11 +85,13 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String start = mStart_date.getText().toString();
+                String end = mEnd_date.getText().toString();
 
-                appUser.pdf_start_date = mStart_date.getText().toString();
-                appUser.pdf_end_date = mEnd_date.getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
+            if (end.compareTo(start) >= 0 && start.compareTo(end)<=0) {
+                appUser.pdf_start_date = start;
+                appUser.pdf_end_date = end;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
                     mProgressDialog = new ProgressDialog(ProfitAndLossActivity.this);
@@ -111,6 +113,10 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
                             });
                     snackbar.show();
                 }
+            }else{
+                Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
+                mEnd_date.setText(start);
+            }
             }
         });
 
@@ -133,9 +139,6 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
         long date = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         String dateString = sdf.format(date);
-        //String[] datesplit = dateString.split("-");
-
-        // String start_date1="2017-Apr-04";
 
         DatePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -144,7 +147,6 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
-
                 mStart_date.setText(date1);
 
               /*  if(date1.compareTo(start_date1)>=0 && date1.compareTo(dateString)<=0){
@@ -170,17 +172,12 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
         DatePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                view.setMaxDate(System.currentTimeMillis());
+               // view.setMaxDate(System.currentTimeMillis());
                 String start_date = mStart_date.getText().toString();
-               /* String[] datesplit = start_date.split("-");
-                int start_year = Integer.valueOf(datesplit[0]);
-                String start_month = datesplit[1];
-                int start_day = Integer.valueOf(datesplit[2]);*/
-
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
-
+                mEnd_date.setText(date1);
                /* int j=-1,k=-1;
                 for(int i=0;i<monthArr.length;i++){
                    if((monthArr[i]==String.valueOf(monthOfYear))){
@@ -197,12 +194,12 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
                             Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
                         }*/
 
-                if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
+              /*  if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
                     //System.out.println("Date1 is after Date2");
                     mEnd_date.setText(date1);
                 }else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
