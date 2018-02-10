@@ -62,9 +62,9 @@ public class CreatePurchaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
-        title="CREATE PURCHASE VOUCHER";
+        title="CREATE PURCHASE RETURN VOUCHER";
         if(fromsalelist){
-            title="EDIT PURCHASE VOUCHER";
+            title="EDIT PURCHASE RETURN VOUCHER";
         }
         initActionbar();
         setupViewPager(mHeaderViewPager);
@@ -85,8 +85,8 @@ public class CreatePurchaseActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreatePurchaseFragment(), "CREATE PURCHASE VOUCHER");
-        adapter.addFragment(new AddItemPurchaseFragment(), "ADD ITEM PURCHASE");
+        adapter.addFragment(new CreatePurchaseFragment(), "CREATE PURCHASE RETURN VOUCHER");
+        adapter.addFragment(new AddItemPurchaseFragment(), "ADD ITEM PURCHASE RETURN");
         viewPager.setAdapter(adapter);
     }
     private void initActionbar() {
