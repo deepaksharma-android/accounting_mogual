@@ -30,8 +30,7 @@ public class ImageOpenActivity extends AppCompatActivity {
     String encodedString, title;
     public Boolean boolAttachment;
     private static final String TAG = "Touch";
-    @SuppressWarnings("unused")
-    private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
+    private static final float MIN_ZOOM = 1.0f, MAX_ZOOM = 1f;
 
     // These matrices will be used to scale points of the image
     Matrix matrix = new Matrix();
@@ -130,15 +129,25 @@ public class ImageOpenActivity extends AppCompatActivity {
                             matrix.postTranslate(event.getX() - start.x, event.getY() - start.y); // create the transformation in the matrix  of points
                         } else if (mode == ZOOM) {
                             // pinch zooming
+                            float[] f = new float[9];
                             float newDist = spacing(event);
                             Log.d(TAG, "newDist=" + newDist);
-                            if (newDist > 5f) {
+                            if (newDist > 10f) {
                                 matrix.set(savedMatrix);
                                 scale = newDist / oldDist; // setting the scaling of the
                                 // matrix...if scale > 1 means
                                 // zoom in...if scale < 1 means
                                 // zoom out
                                 matrix.postScale(scale, scale, mid.x, mid.y);
+                            }
+                            matrix.getValues(f);
+                            float scaleX = f[Matrix.MSCALE_X];
+                            float scaleY = f[Matrix.MSCALE_Y];
+
+                            if(scaleX <= 0.3f) {
+                                matrix.postScale((0.3f)/scaleX, (0.3f)/scaleY, mid.x, mid.y);
+                            } else if(scaleX >= 2.5f) {
+                                matrix.postScale((2.5f)/scaleX, (2.5f)/scaleY, mid.x, mid.y);
                             }
                         }
                         break;
