@@ -147,7 +147,8 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
     Bitmap photo;
     public static int iconHandlerVariable = 0;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+    String attachemnt;
 
 
     @Override
@@ -336,11 +337,27 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
+                if(!fromReceiptVoucher){
+                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                intent.putExtra("encodedString", imageToUploadUri.toString());
+                intent.putExtra("booleAttachment", false);
                 startActivity(intent);
+            }
+
+                else{
+                    if(attachemnt.equals("")){
+                        Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                        intent.putExtra("encodedString", imageToUploadUri.toString());
+                        intent.putExtra("booleAttachment", false);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                        intent.putExtra("attachment", attachemnt);
+                        intent.putExtra("booleAttachment", true);
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -670,6 +687,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
+                        if(fromReceiptVoucher){
+                            fromReceiptVoucher=false;
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -685,6 +705,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         encodedString = Helpers.bitmapToBase64(photo);
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(photo);
+                        if(fromReceiptVoucher){
+                            fromReceiptVoucher=false;
+                        }
                         break;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -943,6 +966,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
 
             transaction_narration.setText(response.getReceipt_voucher().getData().getAttributes().getNarration());
             if (!Helpers.mystring(response.getReceipt_voucher().getData().getAttributes().getAttachment()).equals("")) {
+                attachemnt=response.getReceipt_voucher().getData().getAttributes().getAttachment();
                 Glide.with(this).load(Uri.parse(response.getReceipt_voucher().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
@@ -950,6 +974,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 mSelectedImage.setVisibility(View.VISIBLE);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
+                attachemnt="";
             }
             String type_pdc_regular = response.getReceipt_voucher().getData().getAttributes().getPayment_type().trim();
             if (type_pdc_regular.equals("PDC")) {

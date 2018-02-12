@@ -54,7 +54,7 @@ public class ImageOpenActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         // initActionbar();
         Intent intent = getIntent();
-        boolAttachment = getIntent().getBooleanExtra("booleAttachment", false);
+        boolAttachment = getIntent().getExtras().getBoolean("booleAttachment");
         if (boolAttachment == true) {
             encodedString = intent.getStringExtra("attachment");
             /*Glide.with(this).load(Uri.parse(encodedString))

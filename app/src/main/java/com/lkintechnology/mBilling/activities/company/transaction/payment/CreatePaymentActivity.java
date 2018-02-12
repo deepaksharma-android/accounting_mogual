@@ -131,6 +131,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public static int intStartActivityForResult = 0;
     public Bundle bundle;
     Bitmap photo;
+    String attachemnt;
     private Uri imageToUploadUri;;
 
     public static int iconHandlerVariable = 0;
@@ -309,10 +310,26 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
-                startActivity(intent);
+                if (!fromPayment) {
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("encodedString", imageToUploadUri.toString());
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                }
+                else{
+                    if(attachemnt.equals("")){
+                        Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                        intent.putExtra("encodedString", imageToUploadUri.toString());
+                        intent.putExtra("booleAttachment", false);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                        intent.putExtra("attachment", attachemnt);
+                        intent.putExtra("booleAttachment", true);
+                        startActivity(intent);
+                    }
+                }
             }
         });
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -646,6 +663,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
+                        if(fromPayment){
+                            fromPayment=false;
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -661,6 +681,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         encodedString = Helpers.bitmapToBase64(photo);
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(photo);
+                        if(fromPayment){
+                            fromPayment=false;
+                        }
                         break;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -879,15 +902,19 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             transaction_narration.setText(response.getPayment().getData().getAttributes().getNarration());
             appUser.payment_paid_from_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_from_id());
             appUser.payment_paid_to_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_to_id());
+            appUser.payment_attachment=response.getPayment().getData().getAttributes().getAttachment();
             LocalRepositories.saveAppUser(this,appUser);
             if (!Helpers.mystring(response.getPayment().getData().getAttributes().getAttachment()).equals("")) {
+                attachemnt=response.getPayment().getData().getAttributes().getAttachment();
                 Glide.with(this).load(Uri.parse(response.getPayment().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
+
             } else {
                 mSelectedImage.setVisibility(View.GONE);
+                attachemnt="";
             }
 
             String type_pdc_regular = response.getPayment().getData().getAttributes().getPayment_type().trim();
