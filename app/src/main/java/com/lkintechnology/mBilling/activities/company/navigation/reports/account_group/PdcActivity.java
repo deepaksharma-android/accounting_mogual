@@ -355,7 +355,7 @@ public class PdcActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         response.getPosition();
         Intent intent = new Intent(PdcActivity.this, CreateReceiptVoucherActivity.class);
-        intent.putExtra("from", "receipt");
+        intent.putExtra("from", "pdcDetailsReceipt");
         intent.putExtra("fromReceipt", true);
         intent.putExtra("id", response.getPosition());
         //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();
@@ -368,7 +368,7 @@ public class PdcActivity extends RegisterAbstractActivity {
         mProgressDialog.dismiss();
         response.getPosition();
         Intent intent = new Intent(PdcActivity.this, CreatePaymentActivity.class);
-        intent.putExtra("from", "payment");
+        intent.putExtra("from", "pdcDetailsPayment");
         intent.putExtra("fromPayment", true);
         intent.putExtra("id", response.getPosition());
         //Toast.makeText(this, "" + response.getPosition(), Toast.LENGTH_SHORT).show();

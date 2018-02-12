@@ -179,12 +179,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         iconHandlerVariable = 1;
         fromPayment = getIntent().getBooleanExtra("fromPayment", false);
         if (fromPayment == true) {
-            if (from.equals("pdcdetail")) {
+            /*if (from.equals("pdcdetail")) {
                 from = "pdcdetail";
                 // Toast.makeText(CreateReceiptVoucherActivity.this, "i am here", Toast.LENGTH_SHORT).show();
             } else {
                 from = "payment";
-            }
+            }*/
             title = "EDIT PAYMENT";
             iconHandlerVariable = 2;
             mSubmit.setVisibility(View.GONE);
@@ -947,20 +947,19 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             if (from != null) {
-                if (from.equals("payment")) {
+                if (from.equals("pdcDetailsPayment")) {
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     startActivity(intent);
-                    Snackbar
-                            .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    finish();
                 } else {
                     Intent intent = new Intent(this, PaymentActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     startActivity(intent);
-                    Snackbar
-                            .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    finish();
                 }
             }
         } else {
@@ -992,7 +991,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 return true;
             case android.R.id.home:
                 if (from != null) {
-                     if (from.equals("pdcdetail")) {
+                     if (from.equals("pdcDetailsPayment")) {
                         Intent intent = new Intent(this, PdcActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -1016,7 +1015,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     @Override
     public void onBackPressed() {
         if (from != null) {
-            if (from.equals("pdcdetail")) {
+            if (from.equals("pdcDetailsPayment")) {
                 Intent intent = new Intent(this, PdcActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
