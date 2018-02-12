@@ -188,6 +188,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             iconHandlerVariable = 2;
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
+            paid_from_layout.setEnabled(false);
+            paid_to_layout.setEnabled(false);
+            transaction_amount.setEnabled(false);
             appUser.edit_payment_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
             if (isConnected) {
@@ -874,6 +877,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             paid_to.setText(response.getPayment().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getPayment().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getPayment().getData().getAttributes().getNarration());
+            appUser.payment_paid_from_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_from_id());
+            appUser.payment_paid_to_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_to_id());
+            LocalRepositories.saveAppUser(this,appUser);
             if (!Helpers.mystring(response.getPayment().getData().getAttributes().getAttachment()).equals("")) {
                 Glide.with(this).load(Uri.parse(response.getPayment().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)

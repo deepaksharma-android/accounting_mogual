@@ -118,4 +118,24 @@ public class ReceiptVouchersDetailsAttributes {
     public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
+
+    public int received_by_id;
+
+    public int getReceived_by_id() {
+        return received_by_id;
+    }
+
+    public void setReceived_by_id(int received_by_id) {
+        this.received_by_id = received_by_id;
+    }
+
+    public int getReceived_from_id() {
+        return received_from_id;
+    }
+
+    public void setReceived_from_id(int received_from_id) {
+        this.received_from_id = received_from_id;
+    }
+
+    public int received_from_id;
 }

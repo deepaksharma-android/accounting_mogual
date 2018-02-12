@@ -2,7 +2,6 @@ package com.lkintechnology.mBilling.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
-import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.Data;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
-import com.lkintechnology.mBilling.utils.LocalRepositories;
-import com.lkintechnology.mBilling.utils.Preferences;
+import com.lkintechnology.mBilling.utils.EventShowPdf;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -65,39 +60,44 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(data.get(position).getAttributes().getInvoice_html()!=null){
+                String sale_voucher_id=data.get(position).getType()+","+data.get(position).getId();
+                EventBus.getDefault().post(new EventShowPdf(sale_voucher_id));
+               /* if(data.get(position).getAttributes().getInvoice_html()!=null){
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
                     context.startActivity(intent);
                 }else {
                     Toast.makeText(context, "PDF not found!", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
 
         viewHolder.icon_printing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(data.get(position).getAttributes().getInvoice_html()!=null){
+
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getType()+","+data.get(position).getId()));
+               /* if(data.get(position).getAttributes().getInvoice_html()!=null){
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
                     context.startActivity(intent);
                 }else {
                     Toast.makeText(context, "PDF not found!", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
 
         viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(data.get(position).getAttributes().getInvoice_html()!=null){
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getType()+","+data.get(position).getId()));
+               /* if(data.get(position).getAttributes().getInvoice_html()!=null){
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
                     context.startActivity(intent);
                 }else {
                     Toast.makeText(context, "PDF not found!", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
 
