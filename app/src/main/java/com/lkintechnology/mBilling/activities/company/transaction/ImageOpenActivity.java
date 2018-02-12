@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.utils.Helpers;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,6 +68,8 @@ public class ImageOpenActivity extends AppCompatActivity {
 
             Picasso.with(getApplicationContext())
                     .load(encodedString)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
                     .into(mImageOpen);
             mImageOpen.setVisibility(View.VISIBLE);
                     /*.into(mImageOpen, new Callback() {
