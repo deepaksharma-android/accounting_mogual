@@ -22,13 +22,16 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
+import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.adapters.GetSaleReturnVoucherListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleReturnVoucher;
+import com.lkintechnology.mBilling.utils.EventShowPdf;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -302,6 +305,54 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity {
         else{
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @Subscribe
+    public void getpdf(EventShowPdf pos){
+        String arr[]=pos.getPosition().split(",");
+        String type=arr[0];
+        if(type.equals("sale-return-vouchers")){
+            type="Sale Return";
+        }
+        String id=arr[1];
+        appUser.serial_voucher_id=id;
+        appUser.serial_voucher_type=type;
+        LocalRepositories.saveAppUser(this,appUser);
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(GetSaleReturnVoucherListActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+
+
+    @Subscribe
+    public void showpdf(PdfResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
+            intent.putExtra("company_report", response.getHtml());
+            startActivity(intent);
         }
     }
 }

@@ -127,4 +127,24 @@ public class PaymentDetailsAttributes {
     public void setNarration(String narration) {
         this.narration = narration;
     }
+
+    public int paid_to_id;
+
+    public int getPaid_to_id() {
+        return paid_to_id;
+    }
+
+    public void setPaid_to_id(int paid_to_id) {
+        this.paid_to_id = paid_to_id;
+    }
+
+    public int getPaid_from_id() {
+        return paid_from_id;
+    }
+
+    public void setPaid_from_id(int paid_from_id) {
+        this.paid_from_id = paid_from_id;
+    }
+
+    public int paid_from_id;
 }

@@ -209,6 +209,9 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             getIntent().getExtras().getString("id");
             appUser.edit_receipt_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
+            received_from_layout.setEnabled(false);
+            received_by_layout.setEnabled(false);
+            transaction_amount.setEnabled(false);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -933,7 +936,11 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
             //set_date_pdc.setText(response.getReceipt_voucher().getData().getAttributes().getPdc_date());
             received_from.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_from());
             received_by.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_by());
+            appUser.receipt_received_from_id = String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_by_id());
+            appUser.receipt_received_from_id=String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_from_id());
+            LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getReceipt_voucher().getData().getAttributes().getAmount()));
+
             transaction_narration.setText(response.getReceipt_voucher().getData().getAttributes().getNarration());
             if (!Helpers.mystring(response.getReceipt_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 Glide.with(this).load(Uri.parse(response.getReceipt_voucher().getData().getAttributes().getAttachment()))
