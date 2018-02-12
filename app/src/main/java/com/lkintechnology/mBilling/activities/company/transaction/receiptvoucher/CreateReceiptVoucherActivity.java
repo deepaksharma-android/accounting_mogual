@@ -86,6 +86,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
@@ -196,12 +197,12 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         // fromPdcReceiptVoucher = getIntent().getBooleanExtra("fromPdcReceipt",false);
         if (fromReceiptVoucher == true) {
 
-            if (from.equals("pdcdetail")) {
+          /*  if (from.equals("pdcDetailsReceipt")) {
                 from = "pdcdetail";
                 // Toast.makeText(CreateReceiptVoucherActivity.this, "i am here", Toast.LENGTH_SHORT).show();
             } else {
                 from = "receipt";
-            }
+            }*/
             title = "EDIT RECEIPT VOUCHER";
             iconHandlerVariable = 2;
             mSubmit.setVisibility(View.GONE);
@@ -973,18 +974,21 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             if (from != null) {
-                if (from.equals("receipt")) {
+                if (from.equals("pdcDetailsReceipt")) {
+                    Timber.i("ooooo pdcDetailsReceipt"+from);
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     startActivity(intent);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    finish();
                 } else {
+                    Timber.i("ooooo Receipt"+from);
                     Intent intent = new Intent(this, ReceiptVoucherActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     startActivity(intent);
                     Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    finish();
                 }
             }
         } else {
@@ -1061,7 +1065,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
-                    } else if (from.equals("pdcdetail")) {
+                    } else if (from.equals("pdcDetailsReceipt")) {
                         Intent intent = new Intent(this, PdcActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -1118,7 +1122,7 @@ public class CreateReceiptVoucherActivity extends RegisterAbstractActivity imple
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            } else if (from.equals("pdcdetail")) {
+            } else if (from.equals("pdcDetailsReceipt")) {
                 Intent intent = new Intent(this, PdcActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
