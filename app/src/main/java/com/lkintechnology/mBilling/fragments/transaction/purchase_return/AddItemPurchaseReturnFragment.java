@@ -551,6 +551,12 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                                             multi = itemprice * (taxpercentagevalue / 100);
                                             subtot = subtot + multi;
                                         }
+                                        else{
+                                            if(billsundryname.equals("CGST")||billsundryname.equals("SGST")){
+                                                multi = itemprice * (Double.parseDouble(amount) / 100);
+                                                subtot = subtot + multi;
+                                            }
+                                        }
 
                                     } else if (taxvalue.equals("TaxIncl.")) {
                                         double per_val = Double.parseDouble(percentage_value);
