@@ -763,7 +763,7 @@ public class Preferences {
     }
 
     public String getItem_stock_quantity() {
-        return pref.getString(item_stock_quantity, "0");
+        return pref.getString(item_stock_quantity, "");
     }
 
     public void setItem_stock_amount(String itemstockamount) {
@@ -772,7 +772,7 @@ public class Preferences {
     }
 
     public String getItem_stock_amount() {
-        return pref.getString(item_stock_amount, "0");
+        return pref.getString(item_stock_amount, "");
     }
 
     public void setItem_stock_value(String itemstockvalue) {

@@ -663,6 +663,11 @@ public class CreateSaleReturnFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.sale_return_saleType = String.valueOf(id);
+                appUser.mListMapForItemSaleReturn.clear();
+                appUser.mListMapForBillSaleReturn.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
                 Preferences.getInstance(getContext()).setPurchase_type_name(result);
                 Preferences.getInstance(getContext()).setPurchase_type_id(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

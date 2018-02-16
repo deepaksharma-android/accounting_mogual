@@ -670,6 +670,11 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 appUser.purchase_puchase_type_id=String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPurchaseType.setText(result);
+                appUser.mListMapForItemPurchaseReturn.clear();
+                appUser.mListMapForBillPurchaseReturn.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
                 Preferences.getInstance(getContext()).setSale_type_name(result);
                 Preferences.getInstance(getContext()).setSale_type_id(id);
             }

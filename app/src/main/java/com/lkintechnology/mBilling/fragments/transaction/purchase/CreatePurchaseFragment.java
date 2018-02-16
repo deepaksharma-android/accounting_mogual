@@ -598,6 +598,11 @@ public class CreatePurchaseFragment extends Fragment {
                 appUser.purchase_puchase_type_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mPurchaseType.setText(result);
+                appUser.mListMapForItemPurchase.clear();
+                appUser.mListMapForBillPurchase.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
                 Preferences.getInstance(getContext()).setPurchase_type_name(result);
                 Preferences.getInstance(getContext()).setPurchase_type_id(id);
 

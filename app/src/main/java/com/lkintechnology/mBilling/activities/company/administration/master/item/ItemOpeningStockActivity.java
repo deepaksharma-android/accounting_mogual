@@ -402,13 +402,23 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-                Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
+                if(!mStockQuantity.getText().toString().equals("")) {
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                }
+                else{
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+                }
+                if(!mStockPrice.getText().toString().equals("")) {
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
+                }
+                else{
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+                }
                 if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
                 Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
                 }
                 else{
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
                 }
 
                 finish();

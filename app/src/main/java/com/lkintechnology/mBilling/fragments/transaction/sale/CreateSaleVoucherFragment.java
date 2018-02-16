@@ -728,7 +728,11 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser.sale_saleType = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mSaleType.setText(result);
-
+                appUser.mListMapForItemSale.clear();
+                appUser.mListMapForBillSale.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
                 // mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
                 Preferences.getInstance(getContext()).setSale_type_name(result);
                 Preferences.getInstance(getContext()).setSale_type_id(id);

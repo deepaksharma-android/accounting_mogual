@@ -77,7 +77,7 @@ public class CreateSaleActivity extends AppCompatActivity {
 
         if(fromsalelist){
             if(fromdashboard){
-                title="CREATE SALE VOUCHER";;
+                title="CREATE SALE VOUCHER";
             }
             else{
                 title="EDIT SALE VOUCHER";
