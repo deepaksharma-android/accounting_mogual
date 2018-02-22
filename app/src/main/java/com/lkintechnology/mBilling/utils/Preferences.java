@@ -137,6 +137,7 @@ public class Preferences {
 
     private static final String purchase_type_name="purchase_type_name";
     private static final String purchase_type_id="purchase_type_id";
+    private static final String purchase_gst_nature="purchase_gst_nature";
 
     private static final String voucher_date="voucher_date";
     private static final String voucher_number="voucher_number";
@@ -1269,6 +1270,14 @@ public class Preferences {
     }
     public String getPurchase_type_name() {
         return pref.getString(purchase_type_name, "");
+    }
+
+    public void setPurchase_gst_nature(String gstnature) {
+        editor.putString(purchase_gst_nature, gstnature);
+        editor.commit();
+    }
+    public String getPurchase_gst_nature() {
+        return pref.getString(purchase_gst_nature, "");
     }
 
     public void setPurchase_type_id(String Saletypeid) {

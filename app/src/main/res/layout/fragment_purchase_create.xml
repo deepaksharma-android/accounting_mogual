@@ -250,10 +250,10 @@
                         android:orientation="horizontal">
 
                         <Spinner
-                            android:id="@+id/transaction_spinner2"
+                            android:id="@+id/gst_nature_purchase"
                             android:layout_width="fill_parent"
                             android:layout_height="40dp"
-                            android:entries="@array/gst_nature_receipt"
+                            android:entries="@array/gst_nature_purchase"
                             android:spinnerMode="dialog">
                         </Spinner>
 
@@ -511,6 +511,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:orientation="vertical"
                 android:background="@color/white">
 
                 <LinearLayout

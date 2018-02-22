@@ -284,6 +284,7 @@ public class AppUser {
     public String sale_attachment = "";
     public String sale_return_attachment = "";
     public String purchase_attachment = "";
+    public String gst_nature_purchase = "";
     public String purchase_return_attachment = "";
     public String sale_type_name="";
 

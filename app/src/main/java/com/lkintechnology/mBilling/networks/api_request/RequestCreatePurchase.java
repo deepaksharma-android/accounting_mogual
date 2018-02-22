@@ -39,5 +39,7 @@ public class RequestCreatePurchase {
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);
         voucher.put("attachment",appUser.purchase_attachment);
+        voucher.put("itc_eligibility",Preferences.getInstance(context).getPurchase_gst_nature());
+
     }
 }

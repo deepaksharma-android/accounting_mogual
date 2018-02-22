@@ -102,7 +102,7 @@
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
                 android:hint="e.ge 10000 "
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:id="@+id/bill_amount"
                 android:textColor="#000"
                 android:textSize="16sp" />
@@ -139,7 +139,7 @@
                     android:layout_marginLeft="5dp"
                     android:background="@android:color/transparent"
                     android:hint="e.ge 1000000 "
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:textColor="#000"
                     android:textSize="16sp" />
             </LinearLayout>

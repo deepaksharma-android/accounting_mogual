@@ -88,7 +88,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:hint="0"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textColor="#000"
                             android:textSize="16sp" />
 
@@ -118,7 +118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="0"
                             android:textColor="#000"
                             android:textSize="16sp" />
@@ -148,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="0"
                             android:textColor="#000"
                             android:textSize="16sp" />

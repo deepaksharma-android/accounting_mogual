@@ -163,6 +163,12 @@
         <item>Regular</item>
         <item>PDC</item>
     </string-array>
+    <string-array name="gst_nature_purchase">
+        <item>Input Goods/Services</item>
+        <item>Input Services</item>
+        <item>Capital Goods/Services</item>
+        <item>None</item>
+    </string-array>
     <string-array name="gst_nature_payment">
         <item>Not Applicable non Gst</item>
         <item>Rcm/Unreg. Expense</item>

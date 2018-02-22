@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -117,6 +118,8 @@ public class CreatePurchaseFragment extends Fragment {
     ImageView mSelectedImage;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.gst_nature_purchase)
+    Spinner mGSTNature;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
@@ -191,6 +194,32 @@ public class CreatePurchaseFragment extends Fragment {
             Preferences.getInstance(getContext()).setVoucher_date(date1);
             mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         }
+        if(!Preferences.getInstance(getContext()).getPurchase_gst_nature().equals("")){
+            String group_type =Preferences.getInstance(getContext()).getPurchase_gst_nature().trim();
+            Timber.i("GROUPINDEX"+group_type);
+            // insert code here
+            int groupindex = -1;
+            int symbolindex = -1;
+            for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_purchase).length; i++) {
+                if (getResources().getStringArray(R.array.gst_nature_purchase)[i].equals(group_type)) {
+                    symbolindex = i;
+                    break;
+                }
+            }
+            Timber.i("INDEX" + symbolindex);
+            mGSTNature.setSelection(symbolindex);
+        }
+        mGSTNature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
@@ -346,6 +375,7 @@ public class CreatePurchaseFragment extends Fragment {
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                             appUser.purchase_narration = mNarration.getText().toString();
                                             appUser.purchase_attachment = encodedString;
+                                           // Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())
@@ -443,6 +473,7 @@ public class CreatePurchaseFragment extends Fragment {
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                             appUser.purchase_narration = mNarration.getText().toString();
                                             appUser.purchase_attachment = encodedString;
+                                          //  Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())

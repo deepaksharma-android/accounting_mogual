@@ -193,7 +193,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:background="@android:color/transparent"
                                 android:hint="eg. minimum 1 qty"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:textColor="#000"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -310,7 +310,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:background="@android:color/transparent"
                                 android:textColor="#000"
                                 android:text="0.0"
