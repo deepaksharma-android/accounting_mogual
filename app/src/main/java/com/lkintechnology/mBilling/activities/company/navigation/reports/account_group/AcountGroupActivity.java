@@ -62,6 +62,8 @@ public class AcountGroupActivity extends AppCompatActivity {
     TextView amount_payble_txt;
     @Bind(R.id.gstr1)
     LinearLayout mGstr1;
+    @Bind(R.id.gstrb3)
+    LinearLayout mGstr3B;
     @Bind(R.id.gstr2)
     LinearLayout mGstr2;
     @Bind(R.id.gstr_e1)
@@ -174,6 +176,20 @@ public class AcountGroupActivity extends AppCompatActivity {
         });
 
         mGstr2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(AcountGroupActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Coming soon")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+
+            }
+        });
+
+        mGstr3B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(AcountGroupActivity.this)

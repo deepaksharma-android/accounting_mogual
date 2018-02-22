@@ -305,13 +305,14 @@
                         android:background="?android:attr/listDivider" />
                 </LinearLayout>
 
+
                 <LinearLayout
-                    android:id="@+id/gstr2_b3"
+                    android:id="@+id/gstrb3"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/background"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Book"
@@ -319,7 +320,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:text="GSTR-B3"
+                        android:text="GSTR-3B"
                         android:textColor="@color/black" />
 
                     <View
