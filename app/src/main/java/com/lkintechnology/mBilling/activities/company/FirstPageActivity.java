@@ -59,7 +59,6 @@ public class FirstPageActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_dashboard);
 
         appUser = LocalRepositories.getAppUser(this);
-
         setAddCompany(0);
         setAppBarTitleCompany(1, appUser.company_name);
         ButterKnife.bind(this);

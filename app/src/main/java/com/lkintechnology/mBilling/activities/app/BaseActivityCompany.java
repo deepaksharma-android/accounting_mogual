@@ -44,6 +44,7 @@ public class BaseActivityCompany extends AppCompatActivity {
     LinearLayout mMasterLayout;
     ImageView mArrow;
     int count;
+    View headercompany;
 
 
     @Override
@@ -64,7 +65,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_container);
 
         navigationViewcompany = (NavigationView) findViewById(R.id.navigationViewCompany);
-        View headercompany = navigationViewcompany.getHeaderView(0);
+         headercompany = navigationViewcompany.getHeaderView(0);
         ImageView company_logo=(ImageView)headercompany.findViewById(R.id.company_logo);
         TextView company_name=(TextView) headercompany.findViewById(R.id.company_name);
         company_name.setText(appUser.company_name);
@@ -235,4 +236,6 @@ public class BaseActivityCompany extends AppCompatActivity {
             mTitleText.setVisibility(View.GONE);
         }
     }
+
+
 }
