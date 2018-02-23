@@ -48,6 +48,7 @@ import com.lkintechnology.mBilling.activities.company.administration.master.sale
 import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity;
@@ -336,6 +337,20 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), TransportActivity.class));
+            }
+        }); mReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {
+                    if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
+                        startActivity(new Intent(getActivity(), ReceiptActivity.class));
+                    }else {
+                        alertDialog();
+                    }
+                }else {
+                    alertDialog();
+                }
+
             }
         });
         Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
@@ -1199,5 +1214,16 @@ public class CreateSaleVoucherFragment extends Fragment {
         photo=Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
+    }
+
+    public void alertDialog(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Sale Voucher")
+                .setMessage("Please add store in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
     }
 }

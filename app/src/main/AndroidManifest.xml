@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-
     <application
         android:name=".ThisApp"
         android:allowBackup="true"
@@ -591,18 +590,21 @@
             android:parentActivityName=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.company.DefaultItemsExpandableListActivity"
+        <activity
+            android:name=".activities.company.DefaultItemsExpandableListActivity"
             android:parentActivityName=".activities.dashboard.CompanyDashboardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".activities.company.navigation.reports.gstreturn.PurchaseRegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.gstreturn.PurchaseRegisterActivity"
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".activities.company.navigation.reports.gstreturn.SaleRegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigation.reports.gstreturn.SaleRegisterActivity"
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.stocktransfer.CreateStockTransferActivity"
             android:parentActivityName=".activities.company.transaction.stocktransfer.CreateStockTransferActivity"
@@ -616,10 +618,12 @@
             android:name=".activities.company.transaction.stocktransfer.StockTransferAddItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.CompanyAuthrizationActivity"
+        <activity
+            android:name=".activities.company.CompanyAuthrizationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.navigation.reports.financialreports.ProfitAndLossActivity"
+        <activity
+            android:name=".activities.company.navigation.reports.financialreports.ProfitAndLossActivity"
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -638,13 +642,14 @@
             android:parentActivityName=".activities.company.navigation.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
-        <activity android:name=".activities.company.transaction.sale.TransportActivity"
+        <activity
+            android:name=".activities.company.transaction.sale.TransportActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
+        <activity android:name=".activities.company.transaction.receiptvoucher.ReceiptActivity"></activity>
     </application>
 
 </manifest>
