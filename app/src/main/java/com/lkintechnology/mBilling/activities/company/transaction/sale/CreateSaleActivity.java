@@ -53,7 +53,7 @@ public class CreateSaleActivity extends AppCompatActivity {
     Snackbar snackbar;
     AppUser appUser;
     String title;
-   public static boolean fromsalelist;
+    public static boolean fromsalelist;
     public static boolean fromdashboard;
 
 
@@ -63,29 +63,27 @@ public class CreateSaleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_sale);
         ButterKnife.bind(this);
 
-        fromdashboard=getIntent().getExtras().getBoolean("fromdashboard");
-        fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
-        appUser= LocalRepositories.getAppUser(this);
+        fromdashboard = getIntent().getExtras().getBoolean("fromdashboard");
+        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
+        appUser = LocalRepositories.getAppUser(this);
 
-        if(fromsalelist){
-            if(fromdashboard){
-                title="CREATE SALE VOUCHER";
+        if (fromsalelist) {
+            if (fromdashboard) {
+                title = "CREATE SALE VOUCHER";
+            } else {
+                title = "EDIT SALE VOUCHER";
             }
-            else{
-                title="EDIT SALE VOUCHER";
-            }
-        }
-        else{
-            title="CREATE SALE VOUCHER";
+        } else {
+            title = "CREATE SALE VOUCHER";
         }
 
 
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
-        Intent intent=getIntent();
-        boolean b=intent.getBooleanExtra("is",false);
-        if (b){
+        Intent intent = getIntent();
+        boolean b = intent.getBooleanExtra("is", false);
+        if (b) {
             mHeaderViewPager.setCurrentItem(1, true);
         }
 
@@ -93,7 +91,6 @@ public class CreateSaleActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-
 
 
     }
@@ -104,6 +101,7 @@ public class CreateSaleActivity extends AppCompatActivity {
         adapter.addFragment(new AddItemVoucherFragment(), "ADD ITEM VOUCHER");
         viewPager.setAdapter(adapter);
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -174,7 +172,7 @@ public class CreateSaleActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -184,11 +182,13 @@ public class CreateSaleActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
+                Intent i = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
                 startActivity(i);
                 finish();
                 return true;
             case android.R.id.home:
+                appUser.transportMap.clear();
+                LocalRepositories.saveAppUser(this,appUser);
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -201,14 +201,13 @@ public class CreateSaleActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-            Intent intent = new Intent(this, TransactionDashboardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+        appUser.transportMap.clear();
+        LocalRepositories.saveAppUser(this,appUser);
+        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
-
-
 
 
 }

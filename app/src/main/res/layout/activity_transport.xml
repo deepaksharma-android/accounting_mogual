@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Transport"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
+                            android:id="@+id/transport"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GR/RR No."
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
+                            android:id="@+id/gr_rr"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:inputType="numberDecimal"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/date"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textAlignment="textStart"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vehicle No."
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
+                            android:id="@+id/vehicle_no"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Station/To Place"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
+                            android:id="@+id/station"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PIN"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
+                            android:id="@+id/pin"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:inputType="numberDecimal"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text="E-Way Bill Reqd."
+                        android:textColor="@color/textColorPrimaryDark"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/spinner_e_way_bill"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:entries="@array/primary_group"
+                            android:spinnerMode="dialog"></Spinner>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/show_hide_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Distance in KM. (approx.)"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
+                                android:id="@+id/distance"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:textColor="#000"
+                                android:inputType="numberDecimal"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mode of Transport"
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                            <Spinner
+                                android:id="@+id/spinner_transport"
+                                android:layout_width="fill_parent"
+                                android:layout_height="40dp"
+                                android:entries="@array/vehicle"
+                                android:spinnerMode="dialog"></Spinner>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="E-Way Bill No."
+                            android:textColor="#000"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
+                                android:id="@+id/e_way"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/submit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/solid_purple"
+                    android:gravity="center">
+
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Book"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Ok"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
