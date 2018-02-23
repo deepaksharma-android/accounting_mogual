@@ -16,7 +16,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.AboutActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.AboutActivity;
 import com.lkintechnology.mBilling.activities.user.UpdateUserActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;

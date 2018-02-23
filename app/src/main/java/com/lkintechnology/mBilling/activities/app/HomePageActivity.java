@@ -16,8 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.PrivacyPolicyActivity;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.TermsActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.PrivacyPolicyActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.TermsActivity;
 import com.lkintechnology.mBilling.activities.user.LoginActivity;
 import com.lkintechnology.mBilling.activities.user.RegisterActivity;
 import com.lkintechnology.mBilling.adapters.MyPagerAdapter;

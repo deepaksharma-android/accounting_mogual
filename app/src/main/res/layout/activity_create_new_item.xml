@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.lkintechnology.mBilling.activities.company.administration.master.item.CreateNewItemActivity"
+    tools:context=".activities.company.navigations.administration.masters.item.CreateNewItemActivity"
     tools:showIn="@layout/activity_create_new_item">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

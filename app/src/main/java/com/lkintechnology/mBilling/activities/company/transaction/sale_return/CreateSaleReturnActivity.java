@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.sale_return.AddItemSaleReturnFragment;
 import com.lkintechnology.mBilling.fragments.transaction.sale_return.CreateSaleReturnFragment;

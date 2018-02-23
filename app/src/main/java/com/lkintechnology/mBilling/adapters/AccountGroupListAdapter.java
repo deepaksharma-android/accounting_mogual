@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.administration.master.accountgroup.CreateAccountGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.accountgroup.CreateAccountGroupActivity;
 import com.lkintechnology.mBilling.networks.api_response.accountgroup.Data;
 import com.lkintechnology.mBilling.utils.EventDeleteGroup;
 import com.lkintechnology.mBilling.utils.EventGroupClicked;

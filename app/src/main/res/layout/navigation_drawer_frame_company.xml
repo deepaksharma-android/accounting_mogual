@@ -210,6 +210,40 @@
                             android:layout_height="1dp"
                             android:background="#e2e2e2" />
 
+                        <LinearLayout
+                            android:id="@+id/config_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:onClick="configuration"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
+                                style="@style/Gotham_Book"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:gravity="center_vertical"
+                                android:onClick="configuration"
+                                android:text="Configuration"
+                                android:textColor="#cc000000"
+                                android:textSize="16sp" />
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:background="#e2e2e2" />
+
                     </LinearLayout>
 
                     <LinearLayout

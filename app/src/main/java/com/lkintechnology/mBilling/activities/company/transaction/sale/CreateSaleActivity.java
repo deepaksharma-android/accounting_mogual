@@ -2,7 +2,6 @@ package com.lkintechnology.mBilling.activities.company.transaction.sale;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,19 +27,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
-import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
-import com.lkintechnology.mBilling.networks.ApiCallsService;
-import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
-import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;

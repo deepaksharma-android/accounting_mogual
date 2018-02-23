@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.administration.master.item_group.CreateItemGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item_group.CreateItemGroupActivity;
 import com.lkintechnology.mBilling.networks.api_response.itemgroup.Data;
 import com.lkintechnology.mBilling.utils.EventDeleteItemGroup;
 import com.lkintechnology.mBilling.utils.EventItemClicked;

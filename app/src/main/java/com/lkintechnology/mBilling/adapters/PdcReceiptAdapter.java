@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.networks.api_response.pdc.Attribute;
 import com.lkintechnology.mBilling.utils.EventClickAlertForReceipt;
 import com.lkintechnology.mBilling.utils.EventDeleteReceiptPdcDetails;

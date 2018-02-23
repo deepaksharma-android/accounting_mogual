@@ -11,10 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.debitnotewoitem.Data;
-import com.lkintechnology.mBilling.utils.EventClickAlertForDebitNote;
 import com.lkintechnology.mBilling.utils.EventDeleteDebitNote;
 
 import org.greenrobot.eventbus.EventBus;
