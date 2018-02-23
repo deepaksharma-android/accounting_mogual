@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.fragments.dashboard;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -57,11 +58,11 @@ public class DashBoardReportsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard_reports, container, false);
         ButterKnife.bind(this, view);
         appUser= LocalRepositories.getAppUser(getActivity());
-     /*   mtextview_sales.setText("₹ " +String.format("%.2f",data.getData().getAttributes().getSales()));
-        mtextview_expenses.setText("₹ " +String.format("%.2f",data.getData().getAttributes().getExpenses()));
-        mProfit_loss_textview1.setText("₹ " +String.format("%.2f",data.getData().getAttributes().getProfit_loss()));
+        mtextview_sales.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getSales()));
+        mtextview_expenses.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getExpenses()));
+        mProfit_loss_textview1.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getProfit_loss()));
 
-        if(data.getData().getAttributes().getProfit_loss()<0){
+        if(DashboardAccountFragment.data.getData().getAttributes().getProfit_loss()<0){
             //mProfit_lose_layout.setBackgroundColor(Color.RED);
             mProfit_loss_textview.setText("Loss");
             mProfit_loss_textview.setTextColor(Color.RED);
@@ -73,7 +74,7 @@ public class DashBoardReportsFragment extends Fragment {
             profit_loss_image.setImageResource(R.drawable.icon_profits);
             // mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_green);
             // mProfit_lose_layout.setBackgroundColor(Color.GREEN);
-        }*/
+        }
         transactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
