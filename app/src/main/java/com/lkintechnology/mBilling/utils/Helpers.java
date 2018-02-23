@@ -269,4 +269,9 @@ public class Helpers {
         }
         return string;
     }
+
+    public static String  getMonth(int month){
+        String[] ar={"Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"};
+        return ar[month];
+    }
 }

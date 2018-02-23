@@ -385,22 +385,137 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/browse_image"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/grey_stroke_white_solid">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="80dp"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/square_gradient"
+                                android:orientation="vertical">
+
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="20dp"
+                                    android:src="@drawable/transaction_sale" />
+
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
+                                    style="@style/Gotham_Medium"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center"
+                                    android:text="Attachment"
+                                    android:textColor="#67309c"
+                                    android:textSize="10sp" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/transport"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/grey_stroke_white_solid">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="80dp"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/square_gradient"
+                                android:orientation="vertical">
+
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="20dp"
+                                    android:src="@drawable/transaction_sale" />
+
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
+                                    style="@style/Gotham_Medium"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center"
+                                    android:text="Transport"
+                                    android:textColor="#67309c"
+                                    android:textSize="10sp" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/receipt"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/grey_stroke_white_solid">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="80dp"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/square_gradient"
+                                android:orientation="vertical">
+
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="20dp"
+                                    android:src="@drawable/transaction_sale" />
+
+                                <com.lkintechnology.mBilling.utils.BuzzTextView
+                                    style="@style/Gotham_Medium"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center"
+                                    android:text="Receipt"
+                                    android:textColor="#67309c"
+                                    android:textSize="10sp" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:orientation="vertical">
 
-                        <com.lkintechnology.mBilling.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="3dp"
-                            android:layout_marginRight="5dp"
-                            android:text="Attachment"
-                            android:textColor="#000"
-                            android:textSize="15sp" />
 
                         <ImageView
                             android:id="@+id/selected_image"
@@ -409,38 +524,8 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="30dp"
                             android:visibility="gone"/>
-
-                        <LinearLayout
-                            android:id="@+id/browse_image"
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="3dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <com.lkintechnology.mBilling.utils.BuzzTextView
-                                style="@style/Gotham_Book"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_weight="0.9"
-                                android:background="@android:color/transparent"
-                                android:hint="Attachment"
-                                android:textColor="#000"
-                                android:textSize="16sp" />
-
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="20dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="0.1"
-                                android:src="@drawable/icon_attachment"/>
-                        </LinearLayout>
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

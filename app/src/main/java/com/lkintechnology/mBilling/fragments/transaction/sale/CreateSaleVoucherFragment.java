@@ -50,6 +50,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActiv
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -112,6 +113,10 @@ public class CreateSaleVoucherFragment extends Fragment {
     EditText mNarration;
     @Bind(R.id.browse_image)
     LinearLayout mBrowseImage;
+    @Bind(R.id.transport)
+    LinearLayout mTransport;
+    @Bind(R.id.receipt)
+    LinearLayout mReceipt;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
     @Bind(R.id.sale_type_layout)
@@ -327,7 +332,12 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        mTransport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), TransportActivity.class));
+            }
+        });
         Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
         appUser.sale_cash_credit = cash.getText().toString();
         LocalRepositories.saveAppUser(getActivity(), appUser);
