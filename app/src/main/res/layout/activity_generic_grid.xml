@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:background="#E6E6E6"
         android:layout_height="match_parent"
-        tools:context=".activities.dashboard.CompanyDashboardActivity">
+        tools:context=".activities.company.navigations.dashboard.CompanyDashboardActivity">
 
 
         <LinearLayout

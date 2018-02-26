@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
-import com.lkintechnology.mBilling.activities.company.administration.master.account.AccountDetailsActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.AccountDetailsActivity;
 import com.lkintechnology.mBilling.adapters.TransactionCustomerAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;

@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -35,7 +34,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
-import com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -682,15 +681,22 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(mDiscount.getText().toString().equals("")){
+                    mDiscount.setText("0.0");
+                }
+
                 if (!mDiscount.getText().toString().isEmpty()) {
                     if (!mRate.getText().toString().isEmpty()) {
                         second = Double.valueOf(mRate.getText().toString());
                         if (!mDiscount.getText().toString().isEmpty()) {
                             first = Double.valueOf(mDiscount.getText().toString());
-                            mValue.setText(String.format("%.2f",((first * second))));
+                            mValue.setText(String.format("%.2f",(first * second)));
+
                         }
                     } else {
-                        mValue.setText("");
+                        mValue.setText("0.0");
+                        mDiscount.setText("0.0");
+                        mTotal.setText("0.0");
                     }
                 }
 
@@ -714,10 +720,18 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     first = Double.valueOf(mDiscount.getText().toString());
                     if (!mRate.getText().toString().isEmpty()) {
                         second = Double.valueOf(mRate.getText().toString());
-                        mValue.setText(String.format("%.2f",((first * second) / 100)));
+                        if(!mQuantity.getText().toString().equals("")){
+                            third=Double.valueOf(mQuantity.getText().toString());
+                        }
+                        else{
+                            third=0.0;
+                        }
+
+                        mValue.setText(String.format("%.2f",((first * second*third) / 100)));
                     }
                 } else {
-                    mValue.setText("");
+                    mValue.setText("0.0");
+
                 }
 
             }
@@ -736,21 +750,29 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count==0){
+                if (count == 0) {
+                    mTotal.setText(String.format("%.2f",0.0));
+                    mValue.setText("0.0");
+                    mDiscount.setText("0.0");
                     mSr_no.setText("");
-                    appUser.serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    appUser.sale_item_serial_arr.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            third = Double.valueOf(mRate.getText().toString());
+                            if(!mRate.getText().toString().equals("")) {
+                                third = Double.valueOf(mRate.getText().toString());
+                            }
+                            else{
+                                third=0.0;
+                            }
                             mTotal.setText(String.format("%.2f",((third - first) * second)));
                         }
                     } else {
-                        mTotal.setText("");
+                        mTotal.setText("0.0");
                     }
                 }
 
@@ -770,32 +792,56 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+         /*       if(count==0){
+                    mDiscount.setText("");
+                }*/
+
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            third = Double.valueOf(mRate.getText().toString());
-                            if(((third*second)-first)>=0){
-                                mTotal.setText(String.format("%.2f",(((third*second)-first))));
+                            if(!mRate.getText().toString().equals("")) {
+                                third = Double.valueOf(mRate.getText().toString());
                             }
                             else{
-                                mValue.setText("0.0");
-                                Toast.makeText(getApplicationContext(),"Value can not be more than total price",Toast.LENGTH_LONG).show();
+                                third=0.0;
                             }
+                            if (((third * second) - first) >= 0) {
+                                mTotal.setText(String.format("%.2f",((third * second) - first)));
+                            } else {
+                                mValue.setText("0.0");
+                                Toast.makeText(getApplicationContext(), "Value can not be more than total price", Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     } else {
-                        mTotal.setText("");
+                        mTotal.setText("0.0");
+
+
                     }
                 }
+                else {
+                    third = Double.valueOf(mRate.getText().toString());
+                    if(!mQuantity.getText().toString().equals("")) {
+                        second = Double.valueOf(mQuantity.getText().toString());
+                    }
+                    else{
+                        second=0.0;
+                    }
+
+                    mTotal.setText(String.format("%.2f",((third * second))));
+                }
+
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //  mDiscount.setText("0.0");
             }
         });
+
     }
 
     @Override

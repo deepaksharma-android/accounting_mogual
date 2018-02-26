@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.administration.master.materialcentregroup.CreateMaterialCentreGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentregroup.CreateMaterialCentreGroupActivity;
 import com.lkintechnology.mBilling.networks.api_response.materialcentregroup.MaterialCentreGroupListData;
 import com.lkintechnology.mBilling.utils.EventDeleteMaterailCentreGroup;
 import com.lkintechnology.mBilling.utils.EventMaterialCentreGroupClicked;

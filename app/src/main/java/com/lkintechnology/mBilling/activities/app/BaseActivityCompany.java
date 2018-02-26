@@ -19,12 +19,12 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.CompanyAboutActivity;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.account_group.AcountGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.CompanyAboutActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.AcountGroupActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
-import com.lkintechnology.mBilling.activities.dashboard.CompanyDashboardActivity;
-import com.lkintechnology.mBilling.activities.dashboard.MasterDashboardActivity;
-import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.MasterDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.bumptech.glide.Glide;
@@ -198,6 +198,10 @@ public class BaseActivityCompany extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();
+    }
+
+    public void configuration(View v){
+
     }
     public void exit(View v){
         new AlertDialog.Builder(BaseActivityCompany.this)

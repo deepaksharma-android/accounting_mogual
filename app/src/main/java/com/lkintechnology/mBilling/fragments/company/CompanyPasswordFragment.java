@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
-import com.lkintechnology.mBilling.activities.dashboard.CompanyDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.adapters.CompanyLoginAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;

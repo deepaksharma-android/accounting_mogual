@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.administration.master.billsundry.CreateBillSundryActivity;
-import com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.CreateBillSundryActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;

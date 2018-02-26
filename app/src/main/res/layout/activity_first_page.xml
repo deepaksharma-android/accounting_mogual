@@ -16,7 +16,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        tools:context=".activities.dashboard.CompanyDashboardActivity">
+        tools:context=".activities.company.navigations.dashboard.CompanyDashboardActivity">
 
         <ScrollView
             android:layout_width="fill_parent"

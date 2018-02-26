@@ -29,8 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.administration.master.item.ExpandableItemListActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;

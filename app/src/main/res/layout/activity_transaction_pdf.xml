@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="top|fill_vertical"
     android:orientation="vertical"
-    tools:context=".activities.company.navigation.reports.TransactionPdfActivity">
+    tools:context=".activities.company.navigations.TransactionPdfActivity">
 
 
     <WebView

@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.administration.master.billsundry.BillSundryListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -112,7 +112,12 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             billSundryCharges = data.getAttributes().getName();
             billSundryFedAs = data.getAttributes().getAmount_of_bill_sundry_fed_as();
             billSundryDefaultValue = data.getAttributes().getDefault_value();
-            billSundryFedAsPercentage = data.getAttributes().getBill_sundry_of_percentage();
+            if(data.getAttributes().getBill_sundry_of_percentage()!=null) {
+                billSundryFedAsPercentage = data.getAttributes().getBill_sundry_of_percentage();
+            }
+            else{
+                billSundryFedAsPercentage="";
+            }
             billSundryType = data.getAttributes().getBill_sundry_type();
             billSundryNumber = data.getAttributes().getNumber_of_bill_sundry();
             billSundryConsolidated = data.getAttributes().isConsolidate_bill_sundry();

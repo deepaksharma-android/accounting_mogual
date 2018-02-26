@@ -19,7 +19,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.TransactionCas
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionCustomerActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionStockInHandActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionSupplierActivity;
-import com.lkintechnology.mBilling.activities.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.companydashboardinfo.CompanyDetails;
 import com.lkintechnology.mBilling.utils.LocalRepositories;

@@ -11,16 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.navigation.reports.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
-import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.Data;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
-import com.lkintechnology.mBilling.utils.LocalRepositories;
-import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 

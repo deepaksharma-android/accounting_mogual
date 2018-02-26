@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.dashboard.MasterDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.MasterDashboardActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

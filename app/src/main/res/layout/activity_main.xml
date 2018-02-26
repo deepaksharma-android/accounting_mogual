@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="#e2e2e2"
         android:orientation="vertical"
-        tools:context=".activities.dashboard.CompanyDashboardActivity">
+        tools:context=".activities.company.navigations.dashboard.CompanyDashboardActivity">
 
         <LinearLayout
             android:layout_width="fill_parent"
