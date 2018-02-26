@@ -332,7 +332,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), TransportActivity.class));
             }
-        }); mReceipt.setOnClickListener(new View.OnClickListener() {
+        });
+        mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {

@@ -187,8 +187,7 @@ public class CreateSaleActivity extends AppCompatActivity {
                 finish();
                 return true;
             case android.R.id.home:
-                appUser.transportMap.clear();
-                LocalRepositories.saveAppUser(this,appUser);
+
                 Intent intent = new Intent(this, TransactionDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -201,8 +200,6 @@ public class CreateSaleActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        appUser.transportMap.clear();
-        LocalRepositories.saveAppUser(this,appUser);
         Intent intent = new Intent(this, TransactionDashboardActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

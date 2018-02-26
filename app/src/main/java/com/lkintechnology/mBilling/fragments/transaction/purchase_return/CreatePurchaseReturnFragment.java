@@ -48,6 +48,8 @@ import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdf
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.GetPurchaseReturnListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.ReceiptActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -110,6 +112,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
     EditText mNarration;
     @Bind(R.id.browse_image)
     LinearLayout mBrowseImage;
+    @Bind(R.id.transport)
+    LinearLayout mTransport;
+    @Bind(R.id.receipt)
+    LinearLayout mReceipt;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
     @Bind(R.id.coordinatorLayout)
@@ -310,6 +316,28 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 intent.putExtra("encodedString",imageToUploadUri.toString());
                 intent.putExtra("booleAttachment",false);
                 startActivity(intent);
+            }
+        });
+
+        mTransport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), TransportActivity.class));
+            }
+        });
+        mReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {
+                    if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
+                        startActivity(new Intent(getActivity(), ReceiptActivity.class));
+                    }else {
+                        alertDialog();
+                    }
+                }else {
+                    alertDialog();
+                }
+
             }
         });
 
@@ -1146,5 +1174,15 @@ public class CreatePurchaseReturnFragment extends Fragment {
         photo=Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
+    }
+    public void alertDialog(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Sale Voucher")
+                .setMessage("Please add store in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
     }
 }
