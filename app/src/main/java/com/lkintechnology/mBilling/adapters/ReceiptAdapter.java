@@ -42,7 +42,8 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 20;
+//        return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

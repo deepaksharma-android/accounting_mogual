@@ -35,26 +35,13 @@ public class ReceiptActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         total_ammount.setText(appUser.totalamount);
-
-
+        
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         List<String> list=new ArrayList();
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
+
+
         ReceiptAdapter mAdapter = new ReceiptAdapter(this,list);
         mRecyclerView.setAdapter(mAdapter);
     }
