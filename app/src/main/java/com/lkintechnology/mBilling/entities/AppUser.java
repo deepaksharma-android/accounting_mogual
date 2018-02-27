@@ -524,7 +524,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String allow_user_to_edit_voucher="";
     public int authorizations__setting_user_id;
     public String serial_ref_no;
-    public Map<String,String> transportMap=new HashMap<>();
+    public Map<String,String> transport_details =new HashMap<>();
    // public String forAccountIntentName="";
    // public String forAccountIntentId="";
     //public boolean forAccountIntentBool;

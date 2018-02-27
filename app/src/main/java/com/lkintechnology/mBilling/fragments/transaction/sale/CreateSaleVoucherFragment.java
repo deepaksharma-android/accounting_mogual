@@ -330,6 +330,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TransportActivity.voucher_type="sale";
                 startActivity(new Intent(getActivity(), TransportActivity.class));
             }
         });

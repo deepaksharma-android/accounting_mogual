@@ -311,6 +311,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TransportActivity.voucher_type="sale_return";
                 startActivity(new Intent(getActivity(), TransportActivity.class));
             }
         });

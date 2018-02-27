@@ -214,17 +214,10 @@
     </string-array>
 
     <string-array name="vehicle">
-        <item>Car</item>
-        <item>Bus</item>
-        <item>Bike</item>
-        <item>Truck</item>
-        <item>Jeep</item>
-        <item>Scooter</item>
-        <item>Tractor</item>
-        <item>Van</item>
-        <item>Ambulance</item>
-
-
+        <item>Road</item>
+        <item>Air</item>
+        <item>Rail</item>
+        <item>Ship</item>
     </string-array>
 
     <string name="err_invalid_pwd_format">Password Minimum 6 Alphanumeric Characters</string>

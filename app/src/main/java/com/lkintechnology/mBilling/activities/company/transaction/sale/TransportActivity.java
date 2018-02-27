@@ -56,6 +56,9 @@ public class TransportActivity extends AppCompatActivity {
     AppUser appUser;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
+    public static String voucher_type="";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +69,24 @@ public class TransportActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
 
 
-        if (appUser.transportMap.size() > 0) {
-            spinner_transport.setSelection(getIndex(spinner_transport, appUser.transportMap.get("spinner_transport")));
-            spinner_e_way_bill.setSelection(getIndex(spinner_e_way_bill, appUser.transportMap.get("spinner_e_way_bill")));
-            mDate.setText(appUser.transportMap.get("mDate"));
-            transport.setText(appUser.transportMap.get("transport"));
-            gr_rr.setText(appUser.transportMap.get("gr_rr"));
-            vehicle_no.setText(appUser.transportMap.get("vehicle_no"));
-            station.setText(appUser.transportMap.get("station"));
-            pin.setText(appUser.transportMap.get("pin"));
-            distance.setText(appUser.transportMap.get("distance"));
-            e_way.setText(appUser.transportMap.get("e_way"));
+        if (appUser.transport_details.size() > 0) {
+
+            spinner_transport.setSelection(getIndex(spinner_transport, appUser.transport_details.get("mode_of_transport").toString()));
+            transport.setText(appUser.transport_details.get("transport").toString());
+            gr_rr.setText(appUser.transport_details.get("gr_no").toString());
+            mDate.setText(appUser.transport_details.get("date").toString());
+            vehicle_no.setText(appUser.transport_details.get("vehicle_number").toString());
+            station.setText(appUser.transport_details.get("station").toString());
+            pin.setText(appUser.transport_details.get("pincode").toString());
+            if (appUser.transport_details.get("eway_bill_required").toString().equals("true")) {
+                spinner_e_way_bill.setSelection(0);
+            } else {
+                spinner_e_way_bill.setSelection(1);
+            }
+//            spinner_e_way_bill.setSelection(getIndex(spinner_e_way_bill, appUser.transport_details.get("eway_bill_required").toString()));
+            distance.setText(appUser.transport_details.get("distance").toString());
+
+            e_way.setText(appUser.transport_details.get("eway_bill_number").toString());
         } else {
             final Calendar c = Calendar.getInstance();
             mDate.setText(" " + c.get(Calendar.DAY_OF_MONTH) + " " + Helpers.getMonth(c.get(Calendar.MONTH)) + " " + c.get(Calendar.YEAR));
@@ -107,16 +117,22 @@ public class TransportActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.transportMap.put("spinner_transport", (String) spinner_transport.getSelectedItem());
-                appUser.transportMap.put("spinner_e_way_bill", (String) spinner_e_way_bill.getSelectedItem());
-                appUser.transportMap.put("mDate", mDate.getText().toString());
-                appUser.transportMap.put("transport", transport.getText().toString());
-                appUser.transportMap.put("gr_rr", gr_rr.getText().toString());
-                appUser.transportMap.put("vehicle_no", vehicle_no.getText().toString());
-                appUser.transportMap.put("station", station.getText().toString());
-                appUser.transportMap.put("pin", pin.getText().toString());
-                appUser.transportMap.put("distance", distance.getText().toString());
-                appUser.transportMap.put("e_way", e_way.getText().toString());
+                appUser.transport_details.put("voucher_type", voucher_type);
+                appUser.transport_details.put("mode_of_transport", (String) spinner_transport.getSelectedItem());
+                if (spinner_e_way_bill.getSelectedItem().toString().equals("Yes")) {
+                    appUser.transport_details.put("eway_bill_required", "true");
+                } else {
+                    appUser.transport_details.put("eway_bill_required", "false");
+                }
+//                appUser.transport_details.put("eway_bill_required", (String) spinner_e_way_bill.getSelectedItem());
+                appUser.transport_details.put("date", mDate.getText().toString());
+                appUser.transport_details.put("transport", transport.getText().toString());
+                appUser.transport_details.put("gr_no", gr_rr.getText().toString());
+                appUser.transport_details.put("vehicle_number", vehicle_no.getText().toString());
+                appUser.transport_details.put("station", station.getText().toString());
+                appUser.transport_details.put("pincode", pin.getText().toString());
+                appUser.transport_details.put("distance", distance.getText().toString());
+                appUser.transport_details.put("eway_bill_number", e_way.getText().toString());
                 LocalRepositories.saveAppUser(TransportActivity.this, appUser);
                 finish();
             }
@@ -125,26 +141,26 @@ public class TransportActivity extends AppCompatActivity {
 
     }
 
-        private void initActionbar() {
-            ActionBar actionBar = getSupportActionBar();
-            View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
-            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER);
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
-            //actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setCustomView(viewActionBar, params);
-            TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-            actionbarTitle.setText("TRANSPORT ACTIVITY");
-            actionbarTitle.setTextSize(16);
-            actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
+    private void initActionbar() {
+        ActionBar actionBar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#067bc9")));
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(viewActionBar, params);
+        TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+        actionbarTitle.setText("TRANSPORT ACTIVITY");
+        actionbarTitle.setTextSize(16);
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+    }
 
 
     private void datePickerDialog() {

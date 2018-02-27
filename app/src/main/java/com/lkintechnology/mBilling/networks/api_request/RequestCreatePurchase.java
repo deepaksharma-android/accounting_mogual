@@ -40,6 +40,6 @@ public class RequestCreatePurchase {
         voucher.put("send_email",appUser.email_yes_no);
         voucher.put("attachment",appUser.purchase_attachment);
         voucher.put("itc_eligibility",Preferences.getInstance(context).getPurchase_gst_nature());
-
+        voucher.put("transport_details",appUser.transport_details);
     }
 }

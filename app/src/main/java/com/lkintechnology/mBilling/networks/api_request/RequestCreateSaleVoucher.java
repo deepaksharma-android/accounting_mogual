@@ -36,5 +36,6 @@ public class RequestCreateSaleVoucher {
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);
         voucher.put("attachment",appUser.sale_attachment);
+        voucher.put("transport_details",appUser.transport_details);
    }
 }

@@ -331,6 +331,7 @@ public class CreatePurchaseFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TransportActivity.voucher_type="purchase";
                 startActivity(new Intent(getActivity(), TransportActivity.class));
             }
         });
