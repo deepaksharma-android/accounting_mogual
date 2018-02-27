@@ -832,6 +832,7 @@ public class CreateSaleReturnFragment extends Fragment {
                mSelectedImage.setVisibility(View.GONE);
                appUser.mListMapForItemSaleReturn.clear();
                appUser.mListMapForBillSaleReturn.clear();
+               appUser.transport_details.clear();
                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                FragmentTransaction ft = getFragmentManager().beginTransaction();
                ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();

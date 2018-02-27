@@ -849,6 +849,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
+            appUser.transport_details.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();

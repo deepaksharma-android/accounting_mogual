@@ -409,7 +409,7 @@
                                     android:layout_height="25dp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20dp"
-                                    android:src="@drawable/transaction_sale" />
+                                    android:src="@drawable/icon_attachment" />
 
                                 <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Medium"
@@ -448,7 +448,7 @@
                                     android:layout_height="25dp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20dp"
-                                    android:src="@drawable/transaction_sale" />
+                                    android:src="@drawable/transport_icon" />
 
                                 <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Medium"
@@ -487,7 +487,7 @@
                                     android:layout_height="25dp"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20dp"
-                                    android:src="@drawable/transaction_sale" />
+                                    android:src="@drawable/transaction_reciept" />
 
                                 <com.lkintechnology.mBilling.utils.BuzzTextView
                                     style="@style/Gotham_Medium"

@@ -792,6 +792,7 @@ public class CreatePurchaseFragment extends Fragment {
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
+            appUser.transport_details.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();

@@ -54,7 +54,6 @@ public class TransportActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout submit;
     AppUser appUser;
-
     private int mYear, mMonth, mDay, mHour, mMinute;
     public static String voucher_type="";
 
@@ -67,10 +66,9 @@ public class TransportActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-
+        spinner_e_way_bill.setSelection(1);
 
         if (appUser.transport_details.size() > 0) {
-
             spinner_transport.setSelection(getIndex(spinner_transport, appUser.transport_details.get("mode_of_transport").toString()));
             transport.setText(appUser.transport_details.get("transport").toString());
             gr_rr.setText(appUser.transport_details.get("gr_no").toString());
@@ -137,8 +135,6 @@ public class TransportActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
     private void initActionbar() {

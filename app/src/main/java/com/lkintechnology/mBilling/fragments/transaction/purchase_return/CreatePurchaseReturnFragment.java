@@ -791,6 +791,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 mSelectedImage.setVisibility(View.GONE);
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();
+                appUser.transport_details.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
