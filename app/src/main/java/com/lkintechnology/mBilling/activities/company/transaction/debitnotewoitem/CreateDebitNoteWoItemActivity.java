@@ -425,6 +425,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     if (!account_name_credit.getText().toString().equals("")){
                         if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,CreditNoteItemDetailActivity.class);
+                              intent.putExtra("amount",transaction_amount.getText().toString());
                             startActivity(intent);
                         }else{
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();

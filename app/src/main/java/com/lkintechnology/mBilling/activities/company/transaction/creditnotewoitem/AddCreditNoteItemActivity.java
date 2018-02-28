@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.activities.company.transaction.creditnotewoi
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -39,6 +40,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         initActionBar();
         appUser= LocalRepositories.getAppUser(this);
         amount=getIntent().getExtras().getString("amount");
+        etDifferenceAmount.setText(amount);
         initView();
         initialpageSetup();
         mMap=new HashMap();
@@ -86,9 +88,16 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         switch (v.getId()){
             case R.id.tv_submit:
                 mMap.put("inv_num",etIVNNo.getText().toString());
+                mMap.put("difference_amount",etDifferenceAmount.getText().toString());
+                mMap.put("gst",etGST.getText().toString());
+                mMap.put("igst",etIGST.getText().toString());
+                mMap.put("cgst",etCGST.getText().toString());
+                mMap.put("sgst",etSGST.getText().toString());
+                mMap.put("date",tvDate.getText().toString());
                 appUser.mListMapForItemCreditNote.add(mMap);
                 LocalRepositories.saveAppUser(this,appUser);
-                Inte
+                Intent intent=new Intent(AddCreditNoteItemActivity.this,CreditNoteItemDetailActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_date_select:
                 calendar = Calendar.getInstance();

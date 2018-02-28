@@ -15,18 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
    private EditText etIVNNo,etDifferenceAmount,etGST,etIGST,etCGST,etSGST;
    private TextView tvSubmit,tvDate;
-    private DatePicker datePicker;
+     DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day;
+     Map mMap;
+     AppUser appUser;
+    String amount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +42,8 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         initialpageSetup();
         tvDate.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
-
+        amount=getIntent().getStringExtra("amount");
+        etDifferenceAmount.setText(amount);
     }
 
 
@@ -80,6 +87,16 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_submit:
+                mMap.put("inv_num",etIVNNo.getText().toString());
+                mMap.put("difference_amount",etDifferenceAmount.getText().toString());
+                mMap.put("gst",etGST.getText().toString());
+                mMap.put("igst",etIGST.getText().toString());
+                mMap.put("cgst",etCGST.getText().toString());
+                mMap.put("sgst",etSGST.getText().toString());
+                mMap.put("date",tvDate.getText().toString());
+                appUser.mListMapForItemDebitNote.add(mMap);
+                LocalRepositories.saveAppUser(this,appUser);
+
                 break;
             case R.id.tv_date_select:
                 calendar = Calendar.getInstance();
