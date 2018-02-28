@@ -322,10 +322,10 @@ public class CreateSaleReturnFragment extends Fragment {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
                     }else {
-                        alertDialog();
+                        alertdialogstore();
                     }
                 }else {
-                    alertDialog();
+                    alertdialogtype();
                 }
 
             }
@@ -1177,9 +1177,19 @@ public class CreateSaleReturnFragment extends Fragment {
 
         return photo;
     }
-    public void alertDialog(){
+    public void alertdialogtype(){
         new android.support.v7.app.AlertDialog.Builder(getContext())
-                .setTitle("Sale Voucher")
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add purchase type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+    public void alertdialogstore(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
                 .setMessage("Please add store in create voucher")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     return;
