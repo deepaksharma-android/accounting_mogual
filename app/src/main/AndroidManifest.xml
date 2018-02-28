@@ -590,17 +590,18 @@
             android:parentActivityName=".activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
-        <activity android:name=".activities.company.DefaultItemsExpandableListActivity"
+        <activity
+            android:name=".activities.company.DefaultItemsExpandableListActivity"
             android:parentActivityName=".activities.company.navigations.dashboard.CompanyDashboardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".activities.company.navigations.reports.gstreturn.PurchaseRegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigations.reports.gstreturn.PurchaseRegisterActivity"
             android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".activities.company.navigations.reports.gstreturn.SaleRegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigations.reports.gstreturn.SaleRegisterActivity"
             android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -621,10 +622,8 @@
             android:name=".activities.company.CompanyAuthrizationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
-
-
-        <activity android:name=".activities.company.navigations.reports.financialreports.ProfitAndLossActivity"
+        <activity
+            android:name=".activities.company.navigations.reports.financialreports.ProfitAndLossActivity"
             android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
@@ -647,13 +646,17 @@
             android:name=".activities.company.transaction.TransportActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.ReceiptActivity"
+        <activity
+            android:name=".activities.company.transaction.ReceiptActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-
+        <activity android:name=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity" />
+        <activity android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity" />
+        <activity android:name=".activities.company.transaction.creditnotewoitem.CreditNoteItemDetailActivity" />
+        <activity android:name=".activities.company.transaction.debitnotewoitem.DebitNoteItemDetailActivity"></activity>
     </application>
 
 </manifest>

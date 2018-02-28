@@ -293,6 +293,8 @@ public class AppUser {
     public String stock_type_name="";
     public String childId = "";
     public List<Map> mListMapForItemSale = new ArrayList();
+    public List<Map> mListMapForItemCreditNote = new ArrayList();
+
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
     public Map<String,String> mMapSaleVoucherBill=new HashMap<>();
     public Map<String,String> mMapSaleVoucherItem=new HashMap<>();
