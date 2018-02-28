@@ -338,7 +338,7 @@ public class CreatePurchaseFragment extends Fragment {
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {
+                if (!Preferences.getInstance(getActivity()).getPurchase_type_name().equals("")) {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
                     } else {
