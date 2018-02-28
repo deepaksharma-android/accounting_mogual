@@ -42,12 +42,11 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.ReceiptActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;

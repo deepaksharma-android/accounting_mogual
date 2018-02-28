@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.transaction.sale;
+package com.lkintechnology.mBilling.activities.company.transaction;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;

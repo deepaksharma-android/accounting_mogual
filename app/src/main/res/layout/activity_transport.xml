@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity">
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.TransportActivity">
 
     <ScrollView
         android:layout_width="match_parent"

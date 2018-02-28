@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher;
+package com.lkintechnology.mBilling.activities.company.transaction;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

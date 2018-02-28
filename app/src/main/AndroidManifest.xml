@@ -644,13 +644,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transaction.sale.TransportActivity"
+            android:name=".activities.company.transaction.TransportActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-        <activity android:name=".activities.company.transaction.receiptvoucher.ReceiptActivity"></activity>
+        <activity android:name=".activities.company.transaction.ReceiptActivity"></activity>
     </application>
 
 </manifest>
