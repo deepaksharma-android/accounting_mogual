@@ -42,9 +42,11 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
+
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -327,7 +329,23 @@ public class CreateSaleVoucherFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TransportActivity.voucher_type="sale";
                 startActivity(new Intent(getActivity(), TransportActivity.class));
+            }
+        });
+        mReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {
+                    if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
+                        startActivity(new Intent(getActivity(), ReceiptActivity.class));
+                    }else {
+                        alertdialogstore();
+                    }
+                }else {
+                    alertdialogtype();
+                }
+
             }
         });
         Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
@@ -830,6 +848,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
+            appUser.transport_details.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
@@ -1191,5 +1210,26 @@ public class CreateSaleVoucherFragment extends Fragment {
         photo=Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
+    }
+
+    public void alertdialogtype(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add sale type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+    public void alertdialogstore(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add store in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
     }
 }

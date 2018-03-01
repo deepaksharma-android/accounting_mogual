@@ -30,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -118,6 +119,28 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
+       gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               if (position==1){
+                   if (!account_name_credit.getText().toString().equals("")){
+                       if (!transaction_amount.getText().toString().equals("")){
+                           Intent intent=new Intent(CreateCreditNoteWoItemActivity.this,AddCreditNoteItemActivity.class);
+                           intent.putExtra("amount",transaction_amount.getText().toString());
+                           startActivity(intent);
+                       }else{
+                           Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                       }
+                   }
+
+               }
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(this);

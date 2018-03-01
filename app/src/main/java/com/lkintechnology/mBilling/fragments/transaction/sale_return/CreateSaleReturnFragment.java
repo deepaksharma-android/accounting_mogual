@@ -48,6 +48,8 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -111,6 +113,10 @@ public class CreateSaleReturnFragment extends Fragment {
     EditText mNarration;
     @Bind(R.id.browse_image)
     LinearLayout mBrowseImage;
+    @Bind(R.id.transport)
+    LinearLayout mTransport;
+    @Bind(R.id.receipt)
+    LinearLayout mReceipt;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
     @Bind(R.id.coordinatorLayout)
@@ -299,6 +305,29 @@ public class CreateSaleReturnFragment extends Fragment {
                 intent.putExtra("encodedString",imageToUploadUri.toString());
                 intent.putExtra("booleAttachment",false);
                 startActivity(intent);
+            }
+        });
+
+        mTransport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TransportActivity.voucher_type="sale_return";
+                startActivity(new Intent(getActivity(), TransportActivity.class));
+            }
+        });
+        mReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Preferences.getInstance(getActivity()).getPurchase_type_name().equals("")) {
+                    if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
+                        startActivity(new Intent(getActivity(), ReceiptActivity.class));
+                    }else {
+                        alertdialogstore();
+                    }
+                }else {
+                    alertdialogtype();
+                }
+
             }
         });
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
@@ -803,6 +832,7 @@ public class CreateSaleReturnFragment extends Fragment {
                mSelectedImage.setVisibility(View.GONE);
                appUser.mListMapForItemSaleReturn.clear();
                appUser.mListMapForBillSaleReturn.clear();
+               appUser.transport_details.clear();
                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                FragmentTransaction ft = getFragmentManager().beginTransaction();
                ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
@@ -1146,5 +1176,25 @@ public class CreateSaleReturnFragment extends Fragment {
         photo=Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
+    }
+    public void alertdialogtype(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add purchase type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
+    }
+    public void alertdialogstore(){
+        new android.support.v7.app.AlertDialog.Builder(getContext())
+                .setTitle("Purchase Voucher")
+                .setMessage("Please add store in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
     }
 }

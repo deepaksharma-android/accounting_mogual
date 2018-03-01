@@ -30,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +45,8 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreditNoteItemDetailActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -412,6 +415,29 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                         snackbar.show();
                     }
                 }
+            }
+        });
+        // click on spinner item
+        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==1){
+                    if (!account_name_credit.getText().toString().equals("")){
+                        if (!transaction_amount.getText().toString().equals("")){
+                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,CreditNoteItemDetailActivity.class);
+                              intent.putExtra("amount",transaction_amount.getText().toString());
+                            startActivity(intent);
+                        }else{
+                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }

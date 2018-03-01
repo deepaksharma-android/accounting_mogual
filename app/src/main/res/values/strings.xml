@@ -214,17 +214,10 @@
     </string-array>
 
     <string-array name="vehicle">
-        <item>Car</item>
-        <item>Bus</item>
-        <item>Bike</item>
-        <item>Truck</item>
-        <item>Jeep</item>
-        <item>Scooter</item>
-        <item>Tractor</item>
-        <item>Van</item>
-        <item>Ambulance</item>
-
-
+        <item>Road</item>
+        <item>Air</item>
+        <item>Rail</item>
+        <item>Ship</item>
     </string-array>
 
     <string name="err_invalid_pwd_format">Password Minimum 6 Alphanumeric Characters</string>
@@ -269,6 +262,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_create_purchase_return">CreatePurchaseReturnActivity</string>
+    <string name="s_Inv_no">Inv No</string>
+    <string name="s_invoice_no">Invoice No</string>
+    <string name="s_date">Date</string>
+    <string name="s_difference_amount">Difference Amount</string>
+    <string name="s_gst">GST %</string>
+    <string name="s_enter_gst">GST %</string>
+    <string name="s_sgst">SGST</string>
+    <string name="s_enter_sgst">SGST</string>
+    <string name="s_cgst">CGST</string>
+    <string name="s_enter_cgst">CGST</string>
+    <string name="s_igst">IGST</string>
+    <string name="s_enter_igst">IGST</string>
+    <string name="s_submit">SUBMIT</string>
 
 
 </resources>

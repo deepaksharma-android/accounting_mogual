@@ -113,6 +113,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         context = TransactionDashboardActivity.this;
 
         appUser = LocalRepositories.getAppUser(context);
+        appUser.transport_details.clear();
+        LocalRepositories.saveAppUser(this,appUser);
         setAddCompany(2);
         setAppBarTitleCompany(1, "TRANSACTION");
         Preferences.getInstance(getApplicationContext()).setUpdate("");

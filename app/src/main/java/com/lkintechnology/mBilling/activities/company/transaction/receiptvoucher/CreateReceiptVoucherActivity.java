@@ -81,7 +81,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class
+CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.date_pdc_textview)
     TextView date_pdc_textview;
