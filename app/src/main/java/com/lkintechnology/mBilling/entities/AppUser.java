@@ -514,7 +514,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String journal_voucher_duration_spinner;
     public String debit_note_duration_spinner;
     public String credit_note_duration_spinner;
-
+    public List<Map> mListMapForItemReceipt = new ArrayList();
     public String email_yes_no="";
     public String edit_sale_voucher_id;
     public String edit_stock_transfer_id="";
