@@ -5,13 +5,19 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +31,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
-    private EditText etIVNNo,etDifferenceAmount,etGST,etIGST,etCGST,etSGST;
+    private EditText etIVNNo,etGST,etIGST,etCGST,etSGST;
+    private EditText etDiff;
     private TextView tvSubmit,tvDate;
     private DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day;
     AppUser appUser;
     Map mMap;
-    String amount;
+    private RelativeLayout rootLayout;
+    private LinearLayout ll_submit,rootSP;
+  private String amount,position;
+    private Spinner spChooseGoods;
+       private String chooseGoods[]={"ITC Eligibility"," Input Goods","Input Services","Capital Goods","None"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,27 +52,40 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         initActionBar();
         appUser= LocalRepositories.getAppUser(this);
         amount=getIntent().getExtras().getString("amount");
-        etDifferenceAmount.setText(amount);
+        position=getIntent().getExtras().getString("sp_position");
         initView();
         initialpageSetup();
         mMap=new HashMap();
         tvDate.setOnClickListener(this);
-        tvSubmit.setOnClickListener(this);
+        ll_submit.setOnClickListener(this);
+        etDiff.setText(amount);
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        showDate(year, month+1, day);
+        if (position.equals("2")){
+            spChooseGoods.setVisibility(View.VISIBLE);
+            rootSP.setVisibility(View.VISIBLE);
+        }
     }
     private void initView() {
+        rootLayout= (RelativeLayout) findViewById(R.id.rl_add_credit_note_item);
         etIVNNo= (EditText) findViewById(R.id.et_invoice);
         etCGST= (EditText) findViewById(R.id.et_cgst);
         etGST= (EditText) findViewById(R.id.et_gst);
+        etDiff= (EditText) findViewById(R.id.et_difference_amount);
         etSGST= (EditText) findViewById(R.id.et_sgst);
         etIGST= (EditText) findViewById(R.id.et_igst);
-
+        spChooseGoods= (Spinner) findViewById(R.id.sp_choose_goods);
         tvDate= (TextView) findViewById(R.id.tv_date_select);
-        tvSubmit= (TextView) findViewById(R.id.tv_submit);
+        ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
+        rootSP= (LinearLayout) findViewById(R.id.root_sp);
     }
     private void initialpageSetup() {
-
+        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,chooseGoods);
+        spChooseGoods.setAdapter(arrayAdapter);
     }
-
     // set action bar title and layout here
     private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -85,38 +110,88 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.tv_submit:
-                mMap.put("inv_num",etIVNNo.getText().toString());
-                mMap.put("difference_amount",etDifferenceAmount.getText().toString());
-                mMap.put("gst",etGST.getText().toString());
-                mMap.put("igst",etIGST.getText().toString());
-                mMap.put("cgst",etCGST.getText().toString());
-                mMap.put("sgst",etSGST.getText().toString());
-                mMap.put("date",tvDate.getText().toString());
-                appUser.mListMapForItemCreditNote.add(mMap);
-                LocalRepositories.saveAppUser(this,appUser);
-                Intent intent=new Intent(AddCreditNoteItemActivity.this,CreditNoteItemDetailActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.tv_date_select:
-                calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
 
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                showDate(year, month+1, day);
+                if (position.equals("1")) {
+                    spChooseGoods.setVisibility(View.INVISIBLE);
+                  if (!etIVNNo.getText().toString().equals("")){
+                      if (!etGST.getText().toString().equals("")){
+                          if (!tvDate.getText().toString().equals("")){
+                              mMap.put("inv_num", etIVNNo.getText().toString());
+                              mMap.put("difference_amount", etDiff.getText().toString());
+                              mMap.put("gst", etGST.getText().toString());
+                              mMap.put("igst", etIGST.getText().toString());
+                              mMap.put("cgst", etCGST.getText().toString());
+                              mMap.put("sgst", etSGST.getText().toString());
+                              mMap.put("date", tvDate.getText().toString());
+                              mMap.put("goodsItem", "");
+                              appUser.mListMapForItemCreditNote.add(mMap);
+                              LocalRepositories.saveAppUser(this, appUser);
+                              // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
+                              setResult(RESULT_OK);
+                              finish();
+                          }else {
+                              Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+
+                          }
+                      }else {
+                          Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
+
+                      }
+                  }else {
+                      Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+
+                  }
+
+
+                }else if (position.equals("2")){
+                    spChooseGoods.setVisibility(View.VISIBLE);
+                    if (!etIVNNo.getText().toString().equals("")){
+                        if (!etGST.getText().toString().equals("")){
+                            if (!tvDate.getText().toString().equals("")){
+                             if (!spChooseGoods.getSelectedItem().toString().equals("")){
+                                 mMap.put("inv_num", etIVNNo.getText().toString());
+                                 mMap.put("difference_amount", etDiff.getText().toString());
+                                 mMap.put("gst", etGST.getText().toString());
+                                 mMap.put("igst", etIGST.getText().toString());
+                                 mMap.put("cgst", etCGST.getText().toString());
+                                 mMap.put("sgst", etSGST.getText().toString());
+                                 mMap.put("date", tvDate.getText().toString());
+                                 mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                 appUser.mListMapForItemCreditNote.add(mMap);
+                                 LocalRepositories.saveAppUser(this, appUser);
+
+                                 setResult(RESULT_OK);
+                                 finish();
+
+
+                             }else {
+                                 Snackbar.make(rootLayout, "please select goods", Snackbar.LENGTH_LONG).show();
+                             }
+                            }else {
+                                Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+                            }
+                        }else {
+                            Snackbar.make(rootLayout, "please enter gst", Snackbar.LENGTH_LONG).show();
+
+                        }
+                    }else {
+                        Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+
+                    }
+
+                }
+                    break;
+
+            case R.id.tv_date_select:
+                showDialog(999);
 
                 break;
         }
     }
-    @SuppressWarnings("deprecation")
-    public void setDate(View view) {
-        showDialog(999);
-        Toast.makeText(getApplicationContext(), "ca",
-                Toast.LENGTH_SHORT)
-                .show();
-    }
+
     @Override
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub

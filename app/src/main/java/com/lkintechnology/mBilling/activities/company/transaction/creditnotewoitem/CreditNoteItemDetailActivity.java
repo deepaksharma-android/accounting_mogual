@@ -9,21 +9,41 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.adapters.AddItemsVoucherAdapter;
+import com.lkintechnology.mBilling.adapters.CreditNoteItemDetailAdapter;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class CreditNoteItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout llSelectItem;
+    private ListView listItem;
+    AppUser appUser;
+   private String amount,position;
+    private CreditNoteItemDetailAdapter creditNoteItemDetailAdapter;
+    private LinearLayout ll_submit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit_note_item_detail);
+        appUser = LocalRepositories.getAppUser(this);
         initView();
         initActionBarSetup();
         initialpageSetup();
         llSelectItem.setOnClickListener(this);
+        ll_submit.setOnClickListener(this);
+
+        amount=getIntent().getStringExtra("amount");
+        position=getIntent().getStringExtra("fromsp2");
+
     }
   //  to setup action bar layout
     private void initActionBarSetup() {
@@ -48,10 +68,16 @@ public class CreditNoteItemDetailActivity extends AppCompatActivity implements V
     }
 
     private void initialpageSetup() {
+        creditNoteItemDetailAdapter= new CreditNoteItemDetailAdapter(this, appUser.mListMapForItemCreditNote);
+        listItem.setAdapter(creditNoteItemDetailAdapter);
+      //  notifyAll();
+
     }
   //  to defined id
     private void initView() {
         llSelectItem= (LinearLayout) findViewById(R.id.ll_select_item);
+        listItem= (ListView) findViewById(R.id.listViewItems);
+        ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
     }
 
         @Override
@@ -59,13 +85,25 @@ public class CreditNoteItemDetailActivity extends AppCompatActivity implements V
         switch (v.getId()){
             case R.id.ll_select_item:
                 Intent intent=new Intent(this,AddCreditNoteItemActivity.class);
-                startActivity(intent);
+                intent.putExtra("amount",amount);
+                intent.putExtra("sp_position",position);
+                startActivityForResult(intent,2);
+                break;
+            case R.id.tv_submit:
+                finish();
                 break;
         }
 
         }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==2){
+            if (resultCode==RESULT_OK){
+                creditNoteItemDetailAdapter.notifyDataSetChanged();
+            }
+        }
+    }
 }
 

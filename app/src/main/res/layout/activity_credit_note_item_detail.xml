@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -52,13 +52,35 @@
                 android:id="@+id/listViewItems"
                 android:layout_width="fill_parent"
                 android:divider="@null"
-                android:layout_height="fill_parent"></ListView>
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="@dimen/dp_52">
+
+            </ListView>
 
 
 
 
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:id="@+id/tv_submit"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/button_list"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
 
 
-</LinearLayout>
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+
+            style="@style/Gotham_Book"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Submit"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

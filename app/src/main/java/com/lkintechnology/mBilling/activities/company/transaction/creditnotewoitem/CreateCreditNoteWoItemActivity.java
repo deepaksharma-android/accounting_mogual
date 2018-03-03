@@ -120,19 +120,34 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               appUser.mListMapForItemCreditNote.clear();
+               LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                if (position==1){
                    if (!account_name_credit.getText().toString().equals("")){
                        if (!transaction_amount.getText().toString().equals("")){
-                           Intent intent=new Intent(CreateCreditNoteWoItemActivity.this,AddCreditNoteItemActivity.class);
+                           Intent intent=new Intent(CreateCreditNoteWoItemActivity.this,CreditNoteItemDetailActivity.class);
                            intent.putExtra("amount",transaction_amount.getText().toString());
+                           intent.putExtra("fromsp2",String.valueOf(position));
                            startActivity(intent);
                        }else{
                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                        }
                    }
 
+               }else if(position==2) {
+                   if (!account_name_credit.getText().toString().equals("")){
+                       if (!transaction_amount.getText().toString().equals("")){
+                           Intent intent=new Intent(CreateCreditNoteWoItemActivity.this,CreditNoteItemDetailActivity.class);
+                           intent.putExtra("fromsp2",String.valueOf(position));
+                           intent.putExtra("amount",transaction_amount.getText().toString());
+                           startActivity(intent);
+                       }else{
+                           Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                       }
+                   }
                }
            }
 

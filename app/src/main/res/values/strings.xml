@@ -275,6 +275,12 @@
     <string name="s_igst">IGST</string>
     <string name="s_enter_igst">IGST</string>
     <string name="s_submit">SUBMIT</string>
+    <string name="s_itc_eligibility">ITC Eligibility</string>
 
-
+    <string-array name="choose_goods">
+        <item>Input Goods</item>
+        <item>Input Services</item>
+        <item>Capital Goods</item>
+        <item>None</item>
+    </string-array>
 </resources>
