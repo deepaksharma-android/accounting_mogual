@@ -645,18 +645,36 @@
         <activity
             android:name=".activities.company.transaction.TransportActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.receiptvoucher.AddReceiptItemActivity"
+            android:parentActivityName=".activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.receiptvoucher.CreateReceiptItemActivity"
+            android:parentActivityName=".activities.company.transaction.receiptvoucher.AddReceiptItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activities.company.transaction.ReceiptActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.creditnotewoitem.CreditNoteItemDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.debitnotewoitem.DebitNoteItemDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-        <activity android:name=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity" />
-        <activity android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity" />
-        <activity android:name=".activities.company.transaction.creditnotewoitem.CreditNoteItemDetailActivity" />
-        <activity android:name=".activities.company.transaction.debitnotewoitem.DebitNoteItemDetailActivity"></activity>
+
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.print.PdfPrint;
@@ -23,7 +24,6 @@ import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,18 +38,20 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.PdcActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -64,8 +66,6 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -172,7 +172,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
 
        /* received_from.setText(appUser.receipt_received_from_name);
         received_by.setText(appUser.receipt_received_by_name);*/
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         //actionBar.setLogo(R.drawable.icon_delete);
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -259,7 +259,30 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             }
         }
         initActionbar();
+        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==1){
+                    if(!transaction_amount.getText().toString().equals("")) {
+                        appUser.mListMapForItemReceipt.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        Intent intent=new Intent(getApplicationContext(),AddReceiptItemActivity.class);
+                        intent.putExtra("amount",transaction_amount.getText().toString());
+                        startActivity(intent);
+                    }
+                    else{
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar
+                                .make(coordinatorLayout, "Enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -577,7 +600,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                     public void onClick(DialogInterface arg0, int arg1) {
 
                         Intent intGallery = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
 
                     }
@@ -620,7 +643,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
 
         //set_date.setText("22 Nov 2017");
         // set_date_pdc.setText("22 Nov 2017");
-        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 Calendar newDate = Calendar.getInstance();
@@ -631,7 +654,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 Calendar newDate = Calendar.getInstance();
@@ -782,6 +805,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     @Override
     public void onResume() {
         super.onResume();
+        appUser=LocalRepositories.getAppUser(this);
        /* Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
