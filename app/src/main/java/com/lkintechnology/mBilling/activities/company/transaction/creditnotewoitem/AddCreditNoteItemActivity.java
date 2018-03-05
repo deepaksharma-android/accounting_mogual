@@ -38,7 +38,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         appUser = LocalRepositories.getAppUser(this);
         initView();
         initActionBarSetup();
-        initialpageSetup();
+
         llSelectItem.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
 
@@ -48,7 +48,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         journalDiffAmount=getIntent().getStringExtra("diff_amount");
         state=getIntent().getStringExtra("state");
         Timber.i("mystate"+state);
-
+        initialpageSetup();
         Timber.i("state"+appUser.company_state);
 
     }
@@ -75,7 +75,15 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
     }
 
     private void initialpageSetup() {
-        creditNoteItemDetailAdapter= new CreditNoteItemDetailAdapter(this, appUser.mListMapForItemCreditNote);
+        if(positionJournalVoucher!=null) {
+            if (positionJournalVoucher.equals("6")) {
+                creditNoteItemDetailAdapter = new CreditNoteItemDetailAdapter(this, appUser.mListMapForItemJournalVoucherNote);
+            }
+        }
+        else{
+            creditNoteItemDetailAdapter= new CreditNoteItemDetailAdapter(this, appUser.mListMapForItemCreditNote);
+        }
+
         listItem.setAdapter(creditNoteItemDetailAdapter);
       //  notifyAll();
 
@@ -95,7 +103,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                 if (positionJournalVoucher!=null){
                 if (positionJournalVoucher.equals("6")) {
                     Intent intent = new Intent(this, CreateCreditNoteItemActivity.class);
-                    intent.putExtra("gst_position6", positionJournalVoucher);
+                    intent.putExtra("gst_pos6", positionJournalVoucher);
                     intent.putExtra("jDiff_amount", journalDiffAmount);
                     startActivity(intent);
                     finish();
@@ -111,8 +119,16 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
 
                 break;
             case R.id.tv_submit:
-                appUser.creditreason=reason.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(this,appUser);
+                if (positionJournalVoucher!=null) {
+                    if (positionJournalVoucher.equals("6")) {
+                        appUser.journalreason = reason.getSelectedItem().toString();
+                        LocalRepositories.saveAppUser(this, appUser);
+                    }
+                }
+                    else {
+                        appUser.creditreason = reason.getSelectedItem().toString();
+                        LocalRepositories.saveAppUser(this, appUser);
+                    }
                 finish();
                 break;
         }

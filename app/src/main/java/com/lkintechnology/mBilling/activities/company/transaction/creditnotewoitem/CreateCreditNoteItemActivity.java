@@ -59,7 +59,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         amount=getIntent().getExtras().getString("amount");
         position=getIntent().getExtras().getString("sp_position");
         state=getIntent().getExtras().getString("state");
-        journalVoucherPosition=getIntent().getExtras().getString("gst_position6");
+        journalVoucherPosition=getIntent().getExtras().getString("gst_pos6");
 
 
         if(state==null){
@@ -82,6 +82,9 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                 spChooseGoods.setVisibility(View.VISIBLE);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
+            }
+            else{
+                tvITC.setVisibility(View.GONE);
             }
         }
          else if (journalVoucherPosition.equals("6")){
@@ -289,11 +292,11 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemCreditNote.add(mMap);
+                                        appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                         LocalRepositories.saveAppUser(this, appUser);
                                         Intent intent = new Intent(CreateCreditNoteItemActivity.this, AddCreditNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
-                                        intent.putExtra("sp_position", position);
+                                        intent.putExtra("gst_pos6", journalVoucherPosition);
                                         intent.putExtra("state", state);
                                         startActivity(intent);
                                         finish();

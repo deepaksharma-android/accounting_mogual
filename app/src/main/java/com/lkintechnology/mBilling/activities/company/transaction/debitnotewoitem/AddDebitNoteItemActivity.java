@@ -36,7 +36,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         appUser= LocalRepositories.getAppUser(this);
         initView();
         initActionBarSet();
-        initialPageSetup();
+
         llSelectItemList.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
         amount=getIntent().getStringExtra("amount");
@@ -44,11 +44,18 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         state=getIntent().getStringExtra("state");
         journalVoucherPosition=getIntent().getStringExtra("gst_pos7");
         journalVoucherDiffAmount=getIntent().getStringExtra("diff_amount");
-
+        initialPageSetup();
     }
 
     private void initialPageSetup() {
-        debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemDebitNote);
+        if(journalVoucherPosition!=null){
+        if(journalVoucherPosition.equals("7")){
+            debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemJournalVoucherNote);
+        }
+        }
+        else {
+            debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemDebitNote);
+        }
         itemList.setAdapter(debitNoteItemDetailAdapter);
        // notifyAll();
     }
@@ -89,7 +96,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                     if (journalVoucherPosition.equals("7")){
                         Intent intent=new Intent(this,CreateDebitNoteItemActivity.class);
                         intent.putExtra("jDiff_amount",journalVoucherDiffAmount);
-                        intent.putExtra("journalVoucher_position",journalVoucherPosition);
+                        intent.putExtra("gst_pos7",journalVoucherPosition);
                         startActivity(intent);
                         finish();
                     }
@@ -103,8 +110,16 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                 }
                 break;
             case R.id.tv_submit:
-                appUser.debitreason=reason.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(this,appUser);
+                if(journalVoucherPosition!=null) {
+                    if (journalVoucherPosition.equals("7")) {
+                        appUser.journalreason = reason.getSelectedItem().toString();
+                        LocalRepositories.saveAppUser(this, appUser);
+                    }
+                }
+                else {
+                    appUser.debitreason = reason.getSelectedItem().toString();
+                    LocalRepositories.saveAppUser(this, appUser);
+                }
                 finish();
                 break;
         }

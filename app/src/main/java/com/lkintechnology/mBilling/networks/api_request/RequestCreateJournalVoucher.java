@@ -29,5 +29,8 @@ public class RequestCreateJournalVoucher {
         journal_voucher.put("narration", appUser.journal_voucher_narration);
         journal_voucher.put("attachment", appUser.journal_voucher_attachment);
         journal_voucher.put("send_email",appUser.email_yes_no);
+        journal_voucher.put("journal_item",appUser.mListMapForItemJournalVoucherNote);
+        journal_voucher.put("reason",appUser.journalreason);
+
     }
 }

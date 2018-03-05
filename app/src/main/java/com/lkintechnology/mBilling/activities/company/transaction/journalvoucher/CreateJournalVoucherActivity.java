@@ -37,6 +37,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -69,8 +71,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 public class CreateJournalVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.account_name_credit)
@@ -101,8 +105,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
-    private static final int SELECT_PICTURE=1;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
+    private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
     InputStream inputStream = null;
     ProgressDialog mProgressDialog;
@@ -112,7 +116,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     AppUser appUser;
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
-    public static int intStartActivityForResult=0;
+    public static int intStartActivityForResult = 0;
     Bitmap photo;
     WebView mPdf_webview;
     private Uri imageToUploadUri;
@@ -143,10 +147,10 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_credit.setText(appUser.account_name_credit_name);
         account_name_debit.setText(appUser.account_name_debit_name);
         Boolean isConnected = ConnectivityReceiver.isConnected();
-       title="CREATE JOURNAL VOUCHER";
-        fromJournalVoucher = getIntent().getBooleanExtra("fromJournalVoucher",false);
+        title = "CREATE JOURNAL VOUCHER";
+        fromJournalVoucher = getIntent().getBooleanExtra("fromJournalVoucher", false);
         if (fromJournalVoucher == true) {
-            title="EDIT JOURNAL VOUCHER";
+            title = "EDIT JOURNAL VOUCHER";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_journal_voucher_id = getIntent().getExtras().getString("id");
@@ -173,7 +177,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                         });
                 snackbar.show();
             }
-        }else{
+        } else {
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -211,16 +215,16 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_debit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.accountSwitching=1;
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.accountSwitching = 1;
                 //intStartActivityForResult=1;
-               // ParameterConstant.checkStartActivityResultForAccount =10;
+                // ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -230,16 +234,16 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         account_name_credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.accountSwitching=2;
-               // intStartActivityForResult=2;
-              //  ParameterConstant.checkStartActivityResultForAccount =10;
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.accountSwitching = 2;
+                // intStartActivityForResult=2;
+                //  ParameterConstant.checkStartActivityResultForAccount =10;
                 appUser.account_master_group = "";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -248,17 +252,17 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
+                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                intent.putExtra("encodedString", imageToUploadUri.toString());
+                intent.putExtra("booleAttachment", false);
                 startActivity(intent);
             }
         });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!account_name_debit.getText().toString().equals("")) {
                             if (!account_name_credit.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -329,7 +333,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
                                             })
                                             .show();
-                                }else {
+                                } else {
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
@@ -338,10 +342,10 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select account name debit", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
@@ -372,8 +376,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!account_name_debit.getText().toString().equals("")) {
                             if (!account_name_credit.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -408,7 +412,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                         });
                                         snackbar.show();
                                     }
-                                }else {
+                                } else {
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
@@ -417,10 +421,10 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select account name debit", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
@@ -450,27 +454,55 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                /*appUser.mListMapForItemJournalVoucherNote.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                if (position==1){
-                    Intent intent1=new Intent(CreateJournalVoucherActivity.this,AddJournalItemActivity.class);
-                    intent1.putExtra("gst_pos1",String.valueOf(position));
-                    startActivity(intent1);
-                }else if (position==2){
-                    Intent intent2=new Intent(CreateJournalVoucherActivity.this,AddJournalItemActivity.class);
-                    intent2.putExtra("gst_pos2",String.valueOf(position));
-                    startActivity(intent2);
-                }else if (position==6){
-                    Intent intent3=new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
-                    intent3.putExtra("gst_pos6",String.valueOf(position));
-                    intent3.putExtra("diff_amount",transaction_amount.getText().toString());
-                    startActivity(intent3);
-                }else if (position==7){
-                    Intent intent4=new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
-                    intent4.putExtra("gst_pos7",String.valueOf(position));
-                    intent4.putExtra("diff_amount",transaction_amount.getText().toString());
-                    startActivity(intent4);
+                appUser.mListMapForItemJournalVoucherNote.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                if (position == 1) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        appUser.journalreason="";
+                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                        Intent intent1 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
+                        intent1.putExtra("diff_amount", transaction_amount.getText().toString());
+                        intent1.putExtra("gst_pos1", String.valueOf(position));
+                        startActivity(intent1);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else if (position == 2) {
+                    appUser.journalreason="";
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        Intent intent2 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
+                        intent2.putExtra("diff_amount", transaction_amount.getText().toString());
+                        intent2.putExtra("gst_pos2", String.valueOf(position));
+                        startActivity(intent2);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else if (position == 6) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
+                        intent3.putExtra("gst_pos6", String.valueOf(position));
+                        intent3.putExtra("diff_amount", transaction_amount.getText().toString());
+                        startActivity(intent3);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else if (position == 7) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        Intent intent4 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
+                        intent4.putExtra("gst_pos7", String.valueOf(position));
+                        intent4.putExtra("diff_amount", transaction_amount.getText().toString());
+                        startActivity(intent4);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
                 }
+
             }
 
             @Override
@@ -510,7 +542,6 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     }
 
 
-
     private void setDateField() {
         set_date.setOnClickListener(this);
 
@@ -540,18 +571,18 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching == 1) {
             String result = ParameterConstant.forAccountIntentName;
             String[] name = result.split(",");
             appUser.account_name_debit_id = ParameterConstant.forAccountIntentId;
-            appUser.account_name_debit_name=name[0];
+            appUser.account_name_debit_name = name[0];
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             account_name_debit.setText(name[0]);
-        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+        } else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching == 2) {
             String result = ParameterConstant.forAccountIntentName;
             String[] name = result.split(",");
             appUser.account_name_credit_id = ParameterConstant.forAccountIntentId;
-            appUser.account_name_credit_name=name[0];
+            appUser.account_name_credit_name = name[0];
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             account_name_credit.setText(name[0]);
         }
@@ -565,7 +596,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
                     try {
                         photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageToUploadUri);
-                        Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
+                        Bitmap im = scaleDownBitmap(photo, 100, getApplicationContext());
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
@@ -577,7 +608,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 case Cv.REQUEST_GALLERY:
 
                     try {
-                        imageToUploadUri= data.getData();
+                        imageToUploadUri = data.getData();
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
@@ -591,40 +622,40 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
 
             if (requestCode == 2) {
-               if (ParameterConstant.handleAutoCompleteTextView==1){
-                   boolForReceivedFrom = true;
-                   appUser.account_name_debit_id = ParameterConstant.id;
-                   appUser.account_name_debit_name = ParameterConstant.name;
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   account_name_debit.setText(ParameterConstant.name);
-               }else {
-                   boolForReceivedFrom = true;
-                   String result = data.getStringExtra("name");
-                   String id = data.getStringExtra("id");
-                   String[] name = result.split(",");
-                   appUser.account_name_debit_id = id;
-                   appUser.account_name_debit_name = name[0];
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   account_name_debit.setText(name[0]);
-               }
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForReceivedFrom = true;
+                    appUser.account_name_debit_id = ParameterConstant.id;
+                    appUser.account_name_debit_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    account_name_debit.setText(ParameterConstant.name);
+                } else {
+                    boolForReceivedFrom = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.account_name_debit_id = id;
+                    appUser.account_name_debit_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    account_name_debit.setText(name[0]);
+                }
             }
             if (requestCode == 3) {
-               if (ParameterConstant.handleAutoCompleteTextView==1){
-                   boolForReceivedBy = true;
-                   appUser.account_name_credit_id =ParameterConstant.id;
-                   appUser.account_name_credit_name =ParameterConstant.name;
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   account_name_credit.setText(ParameterConstant.name);
-               }else {
-                   boolForReceivedBy = true;
-                   String result = data.getStringExtra("name");
-                   String id = data.getStringExtra("id");
-                   String[] name = result.split(",");
-                   appUser.account_name_credit_id =id;
-                   appUser.account_name_credit_name =name[0];
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   account_name_credit.setText(name[0]);
-               }
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForReceivedBy = true;
+                    appUser.account_name_credit_id = ParameterConstant.id;
+                    appUser.account_name_credit_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    account_name_credit.setText(ParameterConstant.name);
+                } else {
+                    boolForReceivedBy = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.account_name_credit_id = id;
+                    appUser.account_name_credit_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    account_name_credit.setText(name[0]);
+                }
             }
         }
     }
@@ -633,6 +664,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     @Override
     public void onResume() {
         super.onResume();
+        appUser=LocalRepositories.getAppUser(this);
         /*Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
@@ -695,7 +727,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -703,16 +735,16 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     }
 
     @Subscribe
-    public void createjournalvoucherresponse(CreateJournalVoucherResponse response){
+    public void createjournalvoucherresponse(CreateJournalVoucherResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             //voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             account_name_credit.setText("");
             account_name_debit.setText("");
             gst_nature_spinner.setSelection(0);
-            encodedString="";
+            encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -722,7 +754,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(CreateJournalVoucherActivity.this, TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
 
                        /* ProgressDialog progressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
@@ -745,36 +777,34 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
 
     @Subscribe
-    public void getJournalVoucherDetails(GetJournalVoucherDetailsResponse response){
+    public void getJournalVoucherDetails(GetJournalVoucherDetailsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             set_date.setText(response.getJournal_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getJournal_voucher().getData().getAttributes().getVoucher_number());
             account_name_debit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_debit());
             account_name_credit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_credit());
             transaction_amount.setText(String.valueOf(response.getJournal_voucher().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getJournal_voucher().getData().getAttributes().getNarration());
-            if(!response.getJournal_voucher().getData().getAttributes().getAttachment().equals("")){
+            if (!response.getJournal_voucher().getData().getAttributes().getAttachment().equals("")) {
                 Glide.with(this).load(Uri.parse(response.getJournal_voucher().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getJournal_voucher().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_journal_voucher).length; i++) {
+            for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_journal_voucher).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_journal_voucher)[i].equals(group_type)) {
                     groupindex = i;
                     break;
@@ -783,11 +813,11 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
             gst_nature_spinner.setSelection(groupindex);
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
@@ -801,17 +831,16 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     }
 
     @Subscribe
-    public void editExpence(EditJournalVoucherResponse response){
+    public void editExpence(EditJournalVoucherResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Intent intent = new Intent(this, JournalVoucherActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(intent);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
@@ -823,36 +852,36 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         snackbar.show();
     }
 
-     @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-      MenuInflater menuInflater = getMenuInflater();
-      menuInflater.inflate(R.menu.activity_list_button_action,menu);
-         if(fromJournalVoucher==true){
-             MenuItem item = menu.findItem(R.id.icon_id);
-             item.setVisible(false);
-         }else{
-             MenuItem item = menu.findItem(R.id.icon_id);
-             item.setVisible(true);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
+        if (fromJournalVoucher == true) {
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(false);
+        } else {
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(true);
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /* @Override
+     public boolean onOptionsItemSelected(MenuItem item) {
+         switch (item.getItemId())
+         {
+             case R.id.icon_id:
+                 Intent i = new Intent(getApplicationContext(),JournalVoucherActivity.class);
+                 startActivity(i);
          }
-
-      return super.onCreateOptionsMenu(menu);
-  }
-
- /* @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId())
-      {
-          case R.id.icon_id:
-              Intent i = new Intent(getApplicationContext(),JournalVoucherActivity.class);
-              startActivity(i);
-      }
-      return super.onOptionsItemSelected(item);
-  }*/
+         return super.onOptionsItemSelected(item);
+     }*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),JournalVoucherActivity.class);
+                Intent i = new Intent(getApplicationContext(), JournalVoucherActivity.class);
                 startActivity(i);
                 finish();
                 return true;
@@ -912,14 +941,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         }
     }
 
-    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+    public Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
 
         final float densityMultiplier = context.getResources().getDisplayMetrics().density;
 
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+        int h = (int) (newHeight * densityMultiplier);
+        int w = (int) (h * photo.getWidth() / ((double) photo.getHeight()));
 
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+        photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
     }

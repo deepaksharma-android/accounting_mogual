@@ -49,6 +49,7 @@ public class AppUser {
     public String cid;
     public String creditreason;
     public String debitreason;
+    public String journalreason;
     public String account_master_group;
     public ArrayList<String> cname=new ArrayList<>();
     public ArrayList<String> industry_type=new ArrayList<>();

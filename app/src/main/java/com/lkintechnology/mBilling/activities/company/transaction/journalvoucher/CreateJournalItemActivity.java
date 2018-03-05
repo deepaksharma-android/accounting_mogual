@@ -74,8 +74,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         appUser = LocalRepositories.getAppUser(getApplicationContext());
         setActionBarLayout();
         initialpageSetup();
-        spPos1 = getIntent().getStringExtra("pos1");
-        spPos2 = getIntent().getStringExtra("pos2");
+        spPos1 = getIntent().getStringExtra("gst_pos1");
+        spPos2 = getIntent().getStringExtra("gst_pos2");
         llSubmit.setOnClickListener(this);
         etRate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,9 +85,9 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()>0){
-                    double percentage=((Double.parseDouble(etDiffAmount.getText().toString())*Double.parseDouble(etRate.getText().toString()))/100);
-                    double halfPer=percentage/2.0;
+                if (s.length() > 0) {
+                    double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
+                    double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
                     tvCGST.setText(String.valueOf(halfPer));
                 }
@@ -132,130 +132,111 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_submit:
-                if (spPos1.equals("1")) {
-                   /* if (!etIVNNo.getText().toString().equals("")) {
-                        if (!tvAccountName.getText().toString().equals("")) {
-                            if (!tvPartyName.getText().toString().equals("")) {
-                                if (!etDiffAmount.getText().toString().equals("")) {
-                                    if (!etRate.getText().toString().equals("")) {
-                                        if (!spRCNNature.getSelectedItem().toString().equals("")) {
-                                            if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                                mMap.put("inv_num", etIVNNo.getText().toString());
-                                                mMap.put("acount_name", tvAccountName.getText().toString());
-                                                mMap.put("party_name", tvPartyName.getText().toString());
-                                                mMap.put("difference_amount", etDiffAmount.getText().toString());
-                                                mMap.put("rate", etRate.getText().toString());
-                                                mMap.put("igst", tvIGST.getText().toString());
-                                                mMap.put("cgst", tvCGST.getText().toString());
-                                                mMap.put("sgst", tvSgst.getText().toString());
-                                                mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
-                                                mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
-                                                appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                                                LocalRepositories.saveAppUser(this, appUser);
-                                                // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
-                                                setResult(RESULT_OK);
-                                                finish();
+                if (spPos1 != null) {
+                    if (spPos1.equals("1")) {
+                        if (!etIVNNo.getText().toString().equals("")) {
+                           /* if (!tvAccountName.getText().toString().equals("")) {
+                                if (!tvPartyName.getText().toString().equals("")) {*/
+                                    if (!etDiffAmount.getText().toString().equals("")) {
+                                        if (!etRate.getText().toString().equals("")) {
+                                            if (!spRCNNature.getSelectedItem().toString().equals("")) {
+                                                if (!spITCEligibility.getSelectedItem().toString().equals("")) {
+                                                    mMap.put("inv_num", etIVNNo.getText().toString());
+                                                    mMap.put("acount_name", tvAccountName.getText().toString());
+                                                    mMap.put("party_name", tvPartyName.getText().toString());
+                                                    mMap.put("difference_amount", etDiffAmount.getText().toString());
+                                                    mMap.put("rate", etRate.getText().toString());
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                    mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
+                                                    mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
+                                                    appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                                                    LocalRepositories.saveAppUser(this, appUser);
+                                                    Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
+                                                    intent.putExtra("gst_pos1", spPos1);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Snackbar.make(rootLayout, "please select ITC Eligibility", Snackbar.LENGTH_LONG).show();
+
+                                                }
                                             } else {
-                                                Snackbar.make(rootLayout, "please select ITC Eligibility", Snackbar.LENGTH_LONG).show();
+                                                Snackbar.make(rootLayout, "please select RCN  Nature", Snackbar.LENGTH_LONG).show();
 
                                             }
                                         } else {
-                                            Snackbar.make(rootLayout, "please select RCN  Nature", Snackbar.LENGTH_LONG).show();
-
+                                            Snackbar.make(rootLayout, "please enter rate", Snackbar.LENGTH_LONG).show();
                                         }
                                     } else {
-                                        Snackbar.make(rootLayout, "please enter rate", Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(rootLayout, "please enter difference amount", Snackbar.LENGTH_LONG).show();
                                     }
-                                } else {
-                                    Snackbar.make(rootLayout, "please enter difference amount", Snackbar.LENGTH_LONG).show();
+                          /*      } else {
+                                    Snackbar.make(rootLayout, "please select party name", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
-                                Snackbar.make(rootLayout, "please select party name", Snackbar.LENGTH_LONG).show();
-                            }
+                                Snackbar.make(rootLayout, "please select account name", Snackbar.LENGTH_LONG).show();
+                            }*/
                         } else {
-                            Snackbar.make(rootLayout, "please select account name", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+
                         }
-                    } else {
-                        Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
 
-                    }*/
-                    mMap.put("inv_num", etIVNNo.getText().toString());
-                    mMap.put("acount_name", tvAccountName.getText().toString());
-                    mMap.put("party_name", tvPartyName.getText().toString());
-                    mMap.put("difference_amount", etDiffAmount.getText().toString());
-                    mMap.put("rate", etRate.getText().toString());
-                    mMap.put("igst", tvIGST.getText().toString());
-                    mMap.put("cgst", tvCGST.getText().toString());
-                    mMap.put("sgst", tvSgst.getText().toString());
-                    mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
-                    mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
-                    appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                    LocalRepositories.saveAppUser(this, appUser);
-                    setResult(RESULT_OK);
-                    finish();
+                    }
 
-                } else if (spPos2.equals("2")) {
-                    /*if (!etIVNNo.getText().toString().equals("")) {
-                        if (!tvAccountName.getText().toString().equals("")) {
-                            if (!tvPartyName.getText().toString().equals("")) {
-                                if (!etDiffAmount.getText().toString().equals("")) {
-                                    if (!etRate.getText().toString().equals("")) {
-                                        if (!spRCNNature.getSelectedItem().toString().equals("")) {
-                                            if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                                mMap.put("inv_num", etIVNNo.getText().toString());
-                                                mMap.put("acount_name", tvAccountName.getText().toString());
-                                                mMap.put("party_name", tvPartyName.getText().toString());
-                                                mMap.put("difference_amount", etDiffAmount.getText().toString());
-                                                mMap.put("rate", etRate.getText().toString());
-                                                mMap.put("igst", tvIGST.getText().toString());
-                                                mMap.put("cgst", tvCGST.getText().toString());
-                                                mMap.put("sgst", tvSgst.getText().toString());
-                                                mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
-                                                mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
-                                                appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                                                LocalRepositories.saveAppUser(this, appUser);
-                                                // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
-                                                setResult(RESULT_OK);
-                                                finish();
+                }
+                if (spPos2 != null) {
+                    if (spPos2.equals("2")) {
+                        if (!etIVNNo.getText().toString().equals("")) {
+                          /*  if (!tvAccountName.getText().toString().equals("")) {
+                                if (!tvPartyName.getText().toString().equals("")) {*/
+                                    if (!etDiffAmount.getText().toString().equals("")) {
+                                        if (!etRate.getText().toString().equals("")) {
+                                            if (!spRCNNature.getSelectedItem().toString().equals("")) {
+                                                if (!spITCEligibility.getSelectedItem().toString().equals("")) {
+                                                    mMap.put("inv_num", etIVNNo.getText().toString());
+                                                    mMap.put("acount_name", tvAccountName.getText().toString());
+                                                    mMap.put("party_name", tvPartyName.getText().toString());
+                                                    mMap.put("difference_amount", etDiffAmount.getText().toString());
+                                                    mMap.put("rate", etRate.getText().toString());
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                    mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
+                                                    mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
+                                                    appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                                                    LocalRepositories.saveAppUser(this, appUser);
+                                                    // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
+                                                    Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
+                                                    intent.putExtra("gst_pos2", spPos2);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Snackbar.make(rootLayout, "please select ITC Eligibility", Snackbar.LENGTH_LONG).show();
+
+                                                }
                                             } else {
-                                                Snackbar.make(rootLayout, "please select ITC Eligibility", Snackbar.LENGTH_LONG).show();
+                                                Snackbar.make(rootLayout, "please select RCN  Nature", Snackbar.LENGTH_LONG).show();
 
                                             }
                                         } else {
-                                            Snackbar.make(rootLayout, "please select RCN  Nature", Snackbar.LENGTH_LONG).show();
-
+                                            Snackbar.make(rootLayout, "please enter rate", Snackbar.LENGTH_LONG).show();
                                         }
                                     } else {
-                                        Snackbar.make(rootLayout, "please enter rate", Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(rootLayout, "please enter difference amount", Snackbar.LENGTH_LONG).show();
                                     }
-                                } else {
-                                    Snackbar.make(rootLayout, "please enter difference amount", Snackbar.LENGTH_LONG).show();
+                             /*   } else {
+                                    Snackbar.make(rootLayout, "please select party name", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
-                                Snackbar.make(rootLayout, "please select party name", Snackbar.LENGTH_LONG).show();
-                            }
+                                Snackbar.make(rootLayout, "please select account name", Snackbar.LENGTH_LONG).show();
+                            }*/
                         } else {
-                            Snackbar.make(rootLayout, "please select account name", Snackbar.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
 
-                    }*/
-                    mMap.put("inv_num", etIVNNo.getText().toString());
-                    mMap.put("acount_name", tvAccountName.getText().toString());
-                    mMap.put("party_name", tvPartyName.getText().toString());
-                    mMap.put("difference_amount", etDiffAmount.getText().toString());
-                    mMap.put("rate", etRate.getText().toString());
-                    mMap.put("igst", tvIGST.getText().toString());
-                    mMap.put("cgst", tvCGST.getText().toString());
-                    mMap.put("sgst", tvSgst.getText().toString());
-                    mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
-                    mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
-                    appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                    LocalRepositories.saveAppUser(this, appUser);
-                    // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
-                    setResult(RESULT_OK);
-                    finish();
+                        }
+
+                    }
                 }
                 break;
             case R.id.et_rate:

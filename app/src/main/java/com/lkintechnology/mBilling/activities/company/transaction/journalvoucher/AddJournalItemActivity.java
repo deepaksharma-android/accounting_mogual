@@ -78,9 +78,10 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
         switch (v.getId()){
             case R.id.ll_select_item:
                 Intent intent=new Intent(AddJournalItemActivity.this,CreateJournalItemActivity.class);
-                intent.putExtra("pos1",pos1);
-                intent.putExtra("pos2",pos2);
-                startActivityForResult(intent,3);
+                intent.putExtra("gst_pos1",pos1);
+                intent.putExtra("gst_pos2",pos2);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.tv_submit:
                 finish();

@@ -61,7 +61,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         amount=getIntent().getStringExtra("amount");
         spGoodsKey1=getIntent().getStringExtra("sp_position");
         state=getIntent().getExtras().getString("state");
-        journalVoucherPosition=getIntent().getExtras().getString("journalVoucher_position");
+        journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
         journalVoucherDiffAmount=getIntent().getExtras().getString("jDiff_amount");
         if(state==null){
             state="Haryana";
@@ -297,11 +297,11 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemDebitNote.add(mMap);
+                                        appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                         LocalRepositories.saveAppUser(this, appUser);
                                         Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
-                                        intent.putExtra("sp_position", spGoodsKey1);
+                                        intent.putExtra("gst_pos7", journalVoucherPosition);
                                         intent.putExtra("state", state);
                                         startActivity(intent);
                                         finish();
