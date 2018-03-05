@@ -44,6 +44,8 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -448,8 +450,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                appUser.mListMapForItemJournalVoucherNote.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                /*appUser.mListMapForItemJournalVoucherNote.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
                 if (position==1){
                     Intent intent1=new Intent(CreateJournalVoucherActivity.this,AddJournalItemActivity.class);
                     intent1.putExtra("gst_pos1",String.valueOf(position));
@@ -458,6 +460,13 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     Intent intent2=new Intent(CreateJournalVoucherActivity.this,AddJournalItemActivity.class);
                     intent2.putExtra("gst_pos2",String.valueOf(position));
                     startActivity(intent2);
+                }else if (position==6){
+                    Intent intent3=new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
+                    intent3.putExtra("gst_pos6",String.valueOf(position));
+                    startActivity(intent3);
+                }else if (position==7){
+                    Intent intent4=new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivityy.class);
+                    intent4.putExtra("gst_pos7",String.valueOf(position));
                 }
             }
 
