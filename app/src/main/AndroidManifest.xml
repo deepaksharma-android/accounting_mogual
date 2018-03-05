@@ -645,31 +645,45 @@
         <activity
             android:name=".activities.company.transaction.TransportActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.receiptvoucher.AddReceiptItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.receiptvoucher.AddReceiptItemActivity"
             android:parentActivityName=".activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.receiptvoucher.CreateReceiptItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.receiptvoucher.CreateReceiptItemActivity"
             android:parentActivityName=".activities.company.transaction.receiptvoucher.AddReceiptItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.ReceiptActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.creditnotewoitem.CreateCreditNoteItemActivity"
+        <activity
+            android:name=".activities.company.transaction.creditnotewoitem.CreateCreditNoteItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.journalvoucher.CreateJournalItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.journalvoucher.AddJournalItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
