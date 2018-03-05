@@ -23,7 +23,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -209,7 +208,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                 mMap.put("goodsItem", "");
                                 appUser.mListMapForItemDebitNote.add(mMap);
                                 LocalRepositories.saveAppUser(this, appUser);
-                                Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivityy.class);
+                                Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                 intent.putExtra("amount",amount);
                                 intent.putExtra("sp_position",spGoodsKey1);
                                 intent.putExtra("state",state);
@@ -246,7 +245,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
                                     appUser.mListMapForItemDebitNote.add(mMap);
                                     LocalRepositories.saveAppUser(this, appUser);
-                                    Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddCreditNoteItemActivity.class);
+                                    Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                     intent.putExtra("amount",amount);
                                     intent.putExtra("sp_position",spGoodsKey1);
                                     intent.putExtra("state",state);

@@ -19,7 +19,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
-public class AddDebitNoteItemActivityy extends AppCompatActivity implements View.OnClickListener {
+public class AddDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
   private LinearLayout llSelectItemList;
   private ListView itemList;
    private String amount,spGoodsKey;
