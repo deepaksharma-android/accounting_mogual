@@ -41,7 +41,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
 
      Map mMap;
      AppUser appUser;
-     String amount,spGoodsKey1,state;
+     String amount,spGoodsKey1,state,journalVoucherPosition,journalVoucherDiffAmount;
     private Spinner spChooseGoods;
     private LinearLayout ll_submit,rootSP;
     private double percentage,halfIC;
@@ -61,6 +61,8 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         amount=getIntent().getStringExtra("amount");
         spGoodsKey1=getIntent().getStringExtra("sp_position");
         state=getIntent().getExtras().getString("state");
+        journalVoucherPosition=getIntent().getExtras().getString("journalVoucher_position");
+        journalVoucherDiffAmount=getIntent().getExtras().getString("jDiff_amount");
         if(state==null){
             state="Haryana";
         }
@@ -71,12 +73,23 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year, month+1, day);
-        if (spGoodsKey1.equals("2")){
-            spChooseGoods.setVisibility(View.VISIBLE);
-            rootSP.setVisibility(View.VISIBLE);
-            tvITC.setVisibility(View.VISIBLE);
+        if (spGoodsKey1!=null) {
+            if (spGoodsKey1.equals("2")) {
+                spChooseGoods.setVisibility(View.VISIBLE);
+                rootSP.setVisibility(View.VISIBLE);
+                tvITC.setVisibility(View.VISIBLE);
+            } else {
+                tvITC.setVisibility(View.GONE);
+            }
         }
-        else{
+        if (journalVoucherPosition!=null) {
+            if (journalVoucherPosition.equals("7")) {
+                spChooseGoods.setVisibility(View.VISIBLE);
+                etDifferenceAmount.setText(journalVoucherDiffAmount);
+                rootSP.setVisibility(View.VISIBLE);
+                tvITC.setVisibility(View.VISIBLE);
+            }
+        }else {
             tvITC.setVisibility(View.GONE);
         }
         if(state.equals(appUser.company_state)){
@@ -189,60 +202,24 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
 
         switch (v.getId()){
             case R.id.tv_submit:
-                if (spGoodsKey1.equals("1")){
-                    spChooseGoods.setVisibility(View.INVISIBLE);
-                    if (!etIVNNo.getText().toString().equals("")){
-                        if (!etGST.getText().toString().equals("")){
-                            if (!tvDate.getText().toString().equals("")){
-                                mMap.put("inv_num", etIVNNo.getText().toString());
-                                mMap.put("difference_amount", etDifferenceAmount.getText().toString());
-                                mMap.put("gst", etGST.getText().toString());
-                                if(state.equals(appUser.company_state)) {
-                                    mMap.put("cgst", etCGST.getText().toString());
-                                    mMap.put("sgst", etSGST.getText().toString());
-                                }
-                                else{
-                                    mMap.put("igst", etIGST.getText().toString());
-                                }
-                                mMap.put("date", tvDate.getText().toString());
-                                mMap.put("goodsItem", "");
-                                appUser.mListMapForItemDebitNote.add(mMap);
-                                LocalRepositories.saveAppUser(this, appUser);
-                                Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
-                                intent.putExtra("amount",amount);
-                                intent.putExtra("sp_position",spGoodsKey1);
-                                intent.putExtra("state",state);
-                                startActivity(intent);
-                                finish();
-                            }else {
-                                Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
-                            }
-                        }else {
-                            Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
-                        }
-                    }else {
-                        Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
-                    }
+                if (spGoodsKey1!=null) {
+                    if (spGoodsKey1.equals("1")) {
+                        spChooseGoods.setVisibility(View.INVISIBLE);
+                        if (!etIVNNo.getText().toString().equals("")) {
+                            if (!etGST.getText().toString().equals("")) {
+                                if (!tvDate.getText().toString().equals("")) {
 
-
-                   }else if (spGoodsKey1.equals("2")){
-                    spChooseGoods.setVisibility(View.VISIBLE);
-                    if (!etIVNNo.getText().toString().equals("")){
-                        if (!etGST.getText().toString().equals("")){
-                            if (!tvDate.getText().toString().equals("")){
-                                if (!spChooseGoods.getSelectedItem().toString().equals("")){
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", etDifferenceAmount.getText().toString());
                                     mMap.put("gst", etGST.getText().toString());
-                                    if(state.equals(appUser.company_state)) {
+                                    if (state.equals(appUser.company_state)) {
                                         mMap.put("cgst", etCGST.getText().toString());
                                         mMap.put("sgst", etSGST.getText().toString());
-                                    }
-                                    else{
+                                    } else {
                                         mMap.put("igst", etIGST.getText().toString());
                                     }
                                     mMap.put("date", tvDate.getText().toString());
-                                    mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                    mMap.put("goodsItem", "");
                                     appUser.mListMapForItemDebitNote.add(mMap);
                                     LocalRepositories.saveAppUser(this, appUser);
                                     Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
@@ -251,22 +228,98 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     intent.putExtra("state",state);
                                     startActivity(intent);
                                     finish();
-                                }else {
-                                    Snackbar.make(rootLayout, "please choose goods item", Snackbar.LENGTH_LONG).show();
+                                } else {
+                                    Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
                                 }
-                            }else {
-                                Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+                            } else {
+                                Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
                             }
-                        }else {
-                            Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
-                        Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+
+
+                    } else if (spGoodsKey1.equals("2")) {
+                        spChooseGoods.setVisibility(View.VISIBLE);
+                        if (!etIVNNo.getText().toString().equals("")) {
+                            if (!etGST.getText().toString().equals("")) {
+                                if (!tvDate.getText().toString().equals("")) {
+                                    if (!spChooseGoods.getSelectedItem().toString().equals("")) {
+                                        mMap.put("inv_num", etIVNNo.getText().toString());
+                                        mMap.put("difference_amount", etDifferenceAmount.getText().toString());
+                                        mMap.put("gst", etGST.getText().toString());
+                                        if (state.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        } else {
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                        mMap.put("date", tvDate.getText().toString());
+                                        mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                        appUser.mListMapForItemDebitNote.add(mMap);
+                                        LocalRepositories.saveAppUser(this, appUser);
+                                        Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
+                                        intent.putExtra("amount", amount);
+                                        intent.putExtra("sp_position", spGoodsKey1);
+                                        intent.putExtra("state", state);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Snackbar.make(rootLayout, "please choose goods item", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+                        }
+
+
                     }
+                }else if (journalVoucherPosition!=null){
+                    if (journalVoucherPosition.equals("7")){
+                        spChooseGoods.setVisibility(View.VISIBLE);
+                        if (!etIVNNo.getText().toString().equals("")) {
+                            if (!etGST.getText().toString().equals("")) {
+                                if (!tvDate.getText().toString().equals("")) {
+                                    if (!spChooseGoods.getSelectedItem().toString().equals("")) {
+                                        mMap.put("inv_num", etIVNNo.getText().toString());
+                                        mMap.put("difference_amount", etDifferenceAmount.getText().toString());
+                                        mMap.put("gst", etGST.getText().toString());
+                                        if (state.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        } else {
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                        mMap.put("date", tvDate.getText().toString());
+                                        mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                        appUser.mListMapForItemDebitNote.add(mMap);
+                                        LocalRepositories.saveAppUser(this, appUser);
+                                        Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
+                                        intent.putExtra("amount", amount);
+                                        intent.putExtra("sp_position", spGoodsKey1);
+                                        intent.putExtra("state", state);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Snackbar.make(rootLayout, "please choose goods item", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
+                        }
 
-
-                   }
-
+                    }
+                }
 
 
 

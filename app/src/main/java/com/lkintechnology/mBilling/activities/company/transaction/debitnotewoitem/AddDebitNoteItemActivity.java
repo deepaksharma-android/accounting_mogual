@@ -22,7 +22,7 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 public class AddDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
   private LinearLayout llSelectItemList;
   private ListView itemList;
-   private String amount,spGoodsKey;
+   private String amount,spGoodsKey,journalVoucherPosition,journalVoucherDiffAmount;
     AppUser appUser;
     private DebitNoteItemDetailAdapter debitNoteItemDetailAdapter;
     private LinearLayout ll_submit;
@@ -42,6 +42,9 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         amount=getIntent().getStringExtra("amount");
         spGoodsKey=getIntent().getStringExtra("sp_position");
         state=getIntent().getStringExtra("state");
+        journalVoucherPosition=getIntent().getStringExtra("gst_pos7");
+        journalVoucherDiffAmount=getIntent().getStringExtra("diff_amount");
+
     }
 
     private void initialPageSetup() {
@@ -82,12 +85,22 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_select_item:
-                Intent intent=new Intent(this,CreateDebitNoteItemActivity.class);
-                intent.putExtra("amount",amount);
-                intent.putExtra("sp_position",spGoodsKey);
-                intent.putExtra("state",state);
-                startActivity(intent);
-                finish();
+                if (journalVoucherPosition!=null){
+                    if (journalVoucherPosition.equals("7")){
+                        Intent intent=new Intent(this,CreateDebitNoteItemActivity.class);
+                        intent.putExtra("jDiff_amount",journalVoucherDiffAmount);
+                        intent.putExtra("journalVoucher_position",journalVoucherPosition);
+                        startActivity(intent);
+                        finish();
+                    }
+                }else {
+                    Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);
+                    intent.putExtra("amount", amount);
+                    intent.putExtra("sp_position", spGoodsKey);
+                    intent.putExtra("state", state);
+                    startActivity(intent);
+                    finish();
+                }
                 break;
             case R.id.tv_submit:
                 appUser.debitreason=reason.getSelectedItem().toString();

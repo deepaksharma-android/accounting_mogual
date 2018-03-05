@@ -25,7 +25,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
     private LinearLayout llSelectItem;
     private ListView listItem;
     AppUser appUser;
-   private String amount,position,state,positionJournalVoucher;
+   private String amount,position,state,positionJournalVoucher,journalDiffAmount;
     private CreditNoteItemDetailAdapter creditNoteItemDetailAdapter;
     private LinearLayout ll_submit;
     private Spinner reason;
@@ -45,6 +45,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         amount=getIntent().getStringExtra("amount");
         position=getIntent().getStringExtra("sp_position");
         positionJournalVoucher=getIntent().getStringExtra("gst_pos6");
+        journalDiffAmount=getIntent().getStringExtra("diff_amount");
         state=getIntent().getStringExtra("state");
         Timber.i("mystate"+state);
 
@@ -91,11 +92,14 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_select_item:
-                if (positionJournalVoucher.equals("6")){
-                    Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
-                    intent.putExtra("gst_position6",positionJournalVoucher);
+                if (positionJournalVoucher!=null){
+                if (positionJournalVoucher.equals("6")) {
+                    Intent intent = new Intent(this, CreateCreditNoteItemActivity.class);
+                    intent.putExtra("gst_position6", positionJournalVoucher);
+                    intent.putExtra("jDiff_amount", journalDiffAmount);
                     startActivity(intent);
                     finish();
+                }
                 }else {
                     Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
                     intent.putExtra("amount",amount);
