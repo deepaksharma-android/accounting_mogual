@@ -30,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -112,7 +113,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     public static int intStartActivityForResult=0;
     Bitmap photo;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -441,6 +443,27 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                         snackbar.show();
                     }
                 }
+            }
+        });
+        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                appUser.mListMapForItemJournalVoucherNote.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (position==1){
+                    Intent intent1=new Intent(CreateJournalVoucherActivity.this,AddJournalItemActivity.class);
+                    intent1.putExtra("gst_pos1",String.valueOf(position));
+                    startActivity(intent1);
+                }else if (position==2){
+                    Intent intent2=new Intent(CreateJournalVoucherActivity.this,AddJournalItemActivity.class);
+                    intent2.putExtra("gst_pos2",String.valueOf(position));
+                    startActivity(intent2);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
