@@ -299,6 +299,7 @@ public class AppUser {
     public List<Map> mListMapForItemSale = new ArrayList();
     public List<Map> mListMapForItemCreditNote = new ArrayList();
     public List<Map> mListMapForItemDebitNote=new ArrayList<>();
+    public List<Map> mListMapForItemPaymentList=new ArrayList<>();
     public List<Map> mListMapForItemJournalVoucherNote = new ArrayList();
     public List<Map<String, String>> mListMapForBillSale = new ArrayList();
     public Map<String,String> mMapSaleVoucherBill=new HashMap<>();
