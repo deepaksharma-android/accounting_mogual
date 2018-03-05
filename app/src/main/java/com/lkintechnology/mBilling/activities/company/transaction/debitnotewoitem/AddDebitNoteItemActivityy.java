@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem;
+package com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,40 +13,42 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.adapters.AddItemsVoucherAdapter;
-import com.lkintechnology.mBilling.adapters.CreditNoteItemDetailAdapter;
+import com.lkintechnology.mBilling.adapters.DebitNoteItemDetailAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-public class CreditNoteItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
-    private LinearLayout llSelectItem;
-    private ListView listItem;
+public class AddDebitNoteItemActivityy extends AppCompatActivity implements View.OnClickListener {
+  private LinearLayout llSelectItemList;
+  private ListView itemList;
+   private String amount,spGoodsKey;
     AppUser appUser;
-   private String amount,position;
-    private CreditNoteItemDetailAdapter creditNoteItemDetailAdapter;
+    private DebitNoteItemDetailAdapter debitNoteItemDetailAdapter;
     private LinearLayout ll_submit;
+    String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_credit_note_item_detail);
-        appUser = LocalRepositories.getAppUser(this);
+        setContentView(R.layout.activity_debit_note_item_detail);
+        appUser= LocalRepositories.getAppUser(this);
         initView();
-        initActionBarSetup();
-        initialpageSetup();
-        llSelectItem.setOnClickListener(this);
+        initActionBarSet();
+        initialPageSetup();
+        llSelectItemList.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
-
         amount=getIntent().getStringExtra("amount");
-        position=getIntent().getStringExtra("fromsp2");
-
+        spGoodsKey=getIntent().getStringExtra("sp_position");
+        state=getIntent().getStringExtra("state");
     }
-  //  to setup action bar layout
-    private void initActionBarSetup() {
+
+    private void initialPageSetup() {
+        debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemDebitNote);
+        itemList.setAdapter(debitNoteItemDetailAdapter);
+       // notifyAll();
+    }
+
+    private void initActionBarSet() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
@@ -58,7 +60,7 @@ public class CreditNoteItemDetailActivity extends AppCompatActivity implements V
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Add Credit Note Item");
+        actionbarTitle.setText("Add Debit Note Item");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -66,44 +68,39 @@ public class CreditNoteItemDetailActivity extends AppCompatActivity implements V
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
-
-    private void initialpageSetup() {
-        creditNoteItemDetailAdapter= new CreditNoteItemDetailAdapter(this, appUser.mListMapForItemCreditNote);
-        listItem.setAdapter(creditNoteItemDetailAdapter);
-      //  notifyAll();
-
-    }
-  //  to defined id
+  // define id here
     private void initView() {
-        llSelectItem= (LinearLayout) findViewById(R.id.ll_select_item);
-        listItem= (ListView) findViewById(R.id.listViewItems);
+        llSelectItemList= (LinearLayout) findViewById(R.id.ll_select_item);
+        itemList= (ListView) findViewById(R.id.listViewItems);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
     }
 
-        @Override
-        public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_select_item:
-                Intent intent=new Intent(this,AddCreditNoteItemActivity.class);
+                Intent intent=new Intent(this,CreateDebitNoteItemActivity.class);
                 intent.putExtra("amount",amount);
-                intent.putExtra("sp_position",position);
-                startActivityForResult(intent,2);
+                intent.putExtra("sp_position",spGoodsKey);
+                intent.putExtra("state",state);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.tv_submit:
                 finish();
                 break;
         }
+    }
 
-        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==2){
-            if (resultCode==RESULT_OK){
-                creditNoteItemDetailAdapter.notifyDataSetChanged();
-            }
-        }
+               if (requestCode==1){
+                   if (resultCode==RESULT_OK){
+                       debitNoteItemDetailAdapter.notifyDataSetChanged();
+                   }
+               }
+
     }
 }
-

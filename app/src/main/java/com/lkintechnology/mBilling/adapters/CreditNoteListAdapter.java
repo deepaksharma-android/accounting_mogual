@@ -62,7 +62,7 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i= new Intent(context, CreateCreditNoteWoItemActivity.class);
+                Intent i= new Intent(context, CreateCreditNoteWoActivity.class);
                 i.putExtra("fromCreditNote",true);
                 String credit_note_id=data.get(position).getId();
                 i.putExtra("id",credit_note_id);

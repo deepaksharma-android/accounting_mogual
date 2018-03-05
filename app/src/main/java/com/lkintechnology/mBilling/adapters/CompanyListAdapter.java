@@ -119,6 +119,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 appUser.boolSetOrAddtoMap=false;
                 appUser.company_logo=data.get(pos).getAttributes().getLogo();
+                appUser.company_state=data.get(pos).getAttributes().getState();
                 LocalRepositories.saveAppUser(context,appUser);
                 Map mapAdd= new HashMap();
                 if (!username.getText().toString().equals("")) {

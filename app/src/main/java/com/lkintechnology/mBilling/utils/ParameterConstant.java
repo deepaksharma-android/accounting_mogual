@@ -20,6 +20,7 @@ public class ParameterConstant {
     public static String forAccountIntentName;
     public static String forAccountIntentId;
     public static String forAccountIntentMobile;
+    public static String forAccountIntentState;
     public static String forAccountIntentGroupId;
     public static int accountSwitching;
 

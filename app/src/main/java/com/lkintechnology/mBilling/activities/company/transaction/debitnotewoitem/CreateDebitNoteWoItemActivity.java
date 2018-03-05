@@ -45,8 +45,6 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreditNoteItemDetailActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -111,6 +109,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     String encodedString;
     String title;
     AppUser appUser;
+    String state;
     public Boolean boolForGroupName=false;
     Bitmap photo;
     WebView mPdf_webview;
@@ -129,26 +128,38 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 if (position==1){
                     if (!account_name_credit.getText().toString().equals("")){
                         if (!transaction_amount.getText().toString().equals("")){
-                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,DebitNoteItemDetailActivity.class);
+                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivityy.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("fromsp2",String.valueOf(position));
+                            intent.putExtra("sp_position",String.valueOf(position));
+                            intent.putExtra("state",state);
                             startActivity(intent);
                         }else{
+                            gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                         }
+                    }
+                    else{
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                     }
 
                 }else if(position==2) {
                     if (!account_name_credit.getText().toString().equals("")){
                         if (!transaction_amount.getText().toString().equals("")){
-                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,DebitNoteItemDetailActivity.class);
+                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivityy.class);
 
                             intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("fromsp2",String.valueOf(position));
+                            intent.putExtra("sp_position",String.valueOf(position));
+                            intent.putExtra("state",state);
                             startActivity(intent);
                         }else{
+                            gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                         }
+                    }
+                    else{
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                     }
                 }
 
@@ -522,6 +533,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             String[] name = result.split(",");
             account_name_debit.setText(name[0]);
+            state=ParameterConstant.forAccountIntentState;
         }
 
 
@@ -594,6 +606,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     boolForGroupName=true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
+                    state = data.getStringExtra("state");
                     appUser.account_name_debit_note_id =id;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     String[] name = result.split(",");
@@ -605,6 +618,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     @Override
     public void onResume() {
         super.onResume();
+        appUser=LocalRepositories.getAppUser(this);
       /*  Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {

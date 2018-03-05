@@ -43,7 +43,7 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreditNoteWoItemActivity extends AppCompatActivity {
+public class CreditNoteWoItemListActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -110,7 +110,7 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    mProgressDialog = new ProgressDialog(CreditNoteWoItemActivity.this);
+                    mProgressDialog = new ProgressDialog(CreditNoteWoItemListActivity.this);
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
@@ -217,7 +217,7 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     public void event_click_alert(EventClickAlertForCreditNote response) {
         mProgressDialog.dismiss();
         response.getPosition();
-        Intent intent = new Intent(CreditNoteWoItemActivity.this, CreateCreditNoteWoItemActivity.class);
+        Intent intent = new Intent(CreditNoteWoItemListActivity.this, CreateCreditNoteWoActivity.class);
         intent.putExtra("fromCreditNote", true);
         intent.putExtra("id", response.getPosition());
         startActivity(intent);
@@ -228,13 +228,13 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     public void deletecreditnote(EventDeleteCreditNote pos){
         appUser.delete_credit_note_id= pos.getPosition();
         LocalRepositories.saveAppUser(this,appUser);
-        new AlertDialog.Builder(CreditNoteWoItemActivity.this)
+        new AlertDialog.Builder(CreditNoteWoItemListActivity.this)
                 .setTitle("Delete Credit Note Item")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if(isConnected) {
-                        mProgressDialog = new ProgressDialog(CreditNoteWoItemActivity.this);
+                        mProgressDialog = new ProgressDialog(CreditNoteWoItemListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
@@ -304,7 +304,7 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, CreateCreditNoteWoItemActivity.class);
+                Intent intent = new Intent(this, CreateCreditNoteWoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromCreditNote",false);
                 startActivity(intent);
@@ -318,7 +318,7 @@ public class CreditNoteWoItemActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, CreateCreditNoteWoItemActivity.class);
+        Intent intent = new Intent(this, CreateCreditNoteWoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromCreditNote",false);
         startActivity(intent);

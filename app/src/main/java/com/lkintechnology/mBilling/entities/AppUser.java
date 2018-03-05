@@ -73,6 +73,7 @@ public class AppUser {
     public String search_company_id;
     public String company_user_id;
     public String company_logo="";
+    public String company_state;
 
     public String account_group_id;
     public String item_group_id;

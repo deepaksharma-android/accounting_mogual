@@ -21,24 +21,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreditNoteItemDetailActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-public class AddDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
-   private EditText etIVNNo,etDifferenceAmount,etGST,etIGST,etCGST,etSGST;
-   private TextView tvDate;
+public class CreateDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
+   private EditText etIVNNo;
+    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,etDifferenceAmount,tvITC;
     private DatePicker datePicker;
     private Calendar calendar;
     private RelativeLayout rootLayout;
@@ -46,11 +42,11 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
 
      Map mMap;
      AppUser appUser;
-     String amount,spGoodsKey1;
+     String amount,spGoodsKey1,state;
     private Spinner spChooseGoods;
     private LinearLayout ll_submit,rootSP;
     private double percentage,halfIC;
-    private String chooseGoods[]={"ITC Eligibility"," Input Goods","Input Services","Capital Goods","None"};
+    private String chooseGoods[]={" Input Goods","Input Services","Capital Goods","None"};
 
 
     @Override
@@ -64,7 +60,8 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
         amount=getIntent().getStringExtra("amount");
-        spGoodsKey1=getIntent().getStringExtra("spKey");
+        spGoodsKey1=getIntent().getStringExtra("sp_position");
+        state=getIntent().getExtras().getString("state");
         etDifferenceAmount.setText(amount);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -75,7 +72,53 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         if (spGoodsKey1.equals("2")){
             spChooseGoods.setVisibility(View.VISIBLE);
             rootSP.setVisibility(View.VISIBLE);
+            tvITC.setVisibility(View.VISIBLE);
         }
+        else{
+            tvITC.setVisibility(View.GONE);
+        }
+        if(state.equals(appUser.company_state)){
+            tvCGST.setVisibility(View.VISIBLE);
+            etCGST.setVisibility(View.VISIBLE);
+            tvSGST.setVisibility(View.VISIBLE);
+            etCGST.setVisibility(View.VISIBLE);
+            etSGST.setVisibility(View.VISIBLE);
+            tvIGST.setVisibility(View.GONE);
+            etIGST.setVisibility(View.GONE);
+
+        }
+        else{
+            tvCGST.setVisibility(View.GONE);
+            etCGST.setVisibility(View.GONE);
+            tvSGST.setVisibility(View.GONE);
+            etCGST.setVisibility(View.GONE);
+            etSGST.setVisibility(View.GONE);
+            tvIGST.setVisibility(View.VISIBLE);
+            etIGST.setVisibility(View.VISIBLE);
+        }
+
+        etGST.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length()>0){
+                    percentage= (Double.parseDouble(etDifferenceAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
+                    etIGST.setText(String.valueOf(percentage));
+                    halfIC= (float) (percentage/2.0);
+                    etCGST.setText(String.valueOf(halfIC));
+                    etSGST.setText(String.valueOf(halfIC));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
@@ -94,38 +137,21 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
 
             }
         });
-        etGST.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-              if (s.length()>0){
-                percentage= (Double.parseDouble(etDifferenceAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
-                halfIC= (float) (percentage/2.0);
-                etCGST.setText(String.valueOf(halfIC));
-                  etSGST.setText(String.valueOf(halfIC));
-              }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
   // to define id here
     private void initView() {
-        rootLayout= (RelativeLayout) findViewById(R.id.rl_root_add_debit_note_item);
+        rootLayout= (RelativeLayout) findViewById(R.id.rl_add_credit_note_item);
         etIVNNo= (EditText) findViewById(R.id.et_invoice);
-        etCGST= (EditText) findViewById(R.id.et_cgst);
+        etCGST= (TextView) findViewById(R.id.et_cgst);
         etGST= (EditText) findViewById(R.id.et_gst);
-        etDifferenceAmount= (EditText) findViewById(R.id.et_difference_amount);
-        etSGST= (EditText) findViewById(R.id.et_sgst);
-        etIGST= (EditText) findViewById(R.id.et_igst);
-       spChooseGoods= (Spinner) findViewById(R.id.sp_choose_goods);
+        etDifferenceAmount= (TextView) findViewById(R.id.et_difference_amount);
+        tvSGST= (TextView) findViewById(R.id.tv_sgst);
+        tvCGST= (TextView) findViewById(R.id.tv_cgst);
+        tvIGST= (TextView) findViewById(R.id.tv_igst);
+        etSGST= (TextView) findViewById(R.id.et_sgst);
+        tvITC= (TextView) findViewById(R.id.tv_itc);
+        etIGST= (TextView) findViewById(R.id.et_igst);
+        spChooseGoods= (Spinner) findViewById(R.id.sp_choose_goods);
         tvDate= (TextView) findViewById(R.id.tv_date_select);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
         rootSP= (LinearLayout) findViewById(R.id.root_sp);
@@ -166,14 +192,22 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                                 mMap.put("inv_num", etIVNNo.getText().toString());
                                 mMap.put("difference_amount", etDifferenceAmount.getText().toString());
                                 mMap.put("gst", etGST.getText().toString());
-                                mMap.put("igst", etIGST.getText().toString());
-                                mMap.put("cgst", etCGST.getText().toString());
-                                mMap.put("sgst", etSGST.getText().toString());
+                                if(state.equals(appUser.company_state)) {
+                                    mMap.put("cgst", etCGST.getText().toString());
+                                    mMap.put("sgst", etSGST.getText().toString());
+                                }
+                                else{
+                                    mMap.put("igst", etIGST.getText().toString());
+                                }
                                 mMap.put("date", tvDate.getText().toString());
                                 mMap.put("goodsItem", "");
                                 appUser.mListMapForItemDebitNote.add(mMap);
                                 LocalRepositories.saveAppUser(this, appUser);
-                                setResult(RESULT_OK);
+                                Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivityy.class);
+                                intent.putExtra("amount",amount);
+                                intent.putExtra("sp_position",spGoodsKey1);
+                                intent.putExtra("state",state);
+                                startActivity(intent);
                                 finish();
                             }else {
                                 Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
@@ -195,14 +229,22 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", etDifferenceAmount.getText().toString());
                                     mMap.put("gst", etGST.getText().toString());
-                                    mMap.put("igst", etIGST.getText().toString());
-                                    mMap.put("cgst", etCGST.getText().toString());
-                                    mMap.put("sgst", etSGST.getText().toString());
+                                    if(state.equals(appUser.company_state)) {
+                                        mMap.put("cgst", etCGST.getText().toString());
+                                        mMap.put("sgst", etSGST.getText().toString());
+                                    }
+                                    else{
+                                        mMap.put("igst", etIGST.getText().toString());
+                                    }
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
                                     appUser.mListMapForItemDebitNote.add(mMap);
                                     LocalRepositories.saveAppUser(this, appUser);
-                                    setResult(RESULT_OK);
+                                    Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddCreditNoteItemActivity.class);
+                                    intent.putExtra("amount",amount);
+                                    intent.putExtra("sp_position",spGoodsKey1);
+                                    intent.putExtra("state",state);
+                                    startActivity(intent);
                                     finish();
                                 }else {
                                     Snackbar.make(rootLayout, "please choose goods item", Snackbar.LENGTH_LONG).show();

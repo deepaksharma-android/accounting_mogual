@@ -70,7 +70,7 @@ import java.util.List;
 import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class CreateCreditNoteWoActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.account_name_credit)
     TextView account_name_credit;
@@ -111,6 +111,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     AppUser appUser;
     public Boolean boolForGroupName=false;
     Bitmap photo;
+    String state;
     WebView mPdf_webview;
     private Uri imageToUploadUri;;
    // public static boolean creditNoteStatic;
@@ -128,25 +129,37 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                if (position==1){
                    if (!account_name_credit.getText().toString().equals("")){
                        if (!transaction_amount.getText().toString().equals("")){
-                           Intent intent=new Intent(CreateCreditNoteWoItemActivity.this,CreditNoteItemDetailActivity.class);
+                           Intent intent=new Intent(CreateCreditNoteWoActivity.this,AddCreditNoteItemActivity.class);
                            intent.putExtra("amount",transaction_amount.getText().toString());
-                           intent.putExtra("fromsp2",String.valueOf(position));
+                           intent.putExtra("sp_position",String.valueOf(position));
+                           intent.putExtra("state",state);
                            startActivity(intent);
                        }else{
-                           Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                           gst_nature_spinner.setSelection(0);
+                           Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
                        }
+                   }
+                   else{
+                       gst_nature_spinner.setSelection(0);
+                       Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                    }
 
                }else if(position==2) {
                    if (!account_name_credit.getText().toString().equals("")){
                        if (!transaction_amount.getText().toString().equals("")){
-                           Intent intent=new Intent(CreateCreditNoteWoItemActivity.this,CreditNoteItemDetailActivity.class);
-                           intent.putExtra("fromsp2",String.valueOf(position));
+                           Intent intent=new Intent(CreateCreditNoteWoActivity.this,AddCreditNoteItemActivity.class);
+                           intent.putExtra("sp_position",String.valueOf(position));
                            intent.putExtra("amount",transaction_amount.getText().toString());
+                           intent.putExtra("state",state);
                            startActivity(intent);
                        }else{
-                           Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                           gst_nature_spinner.setSelection(0);
+                           Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
                        }
+                   }
+                   else{
+                       gst_nature_spinner.setSelection(0);
+                       Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                    }
                }
            }
@@ -186,7 +199,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             appUser.edit_credit_note_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
             if (isConnected) {
-                mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
@@ -209,7 +222,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             }
         }else {
             if (isConnected) {
-                mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
@@ -289,15 +302,15 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                             appUser.credit_note_attachment = encodedString;
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            new AlertDialog.Builder(CreateCreditNoteWoItemActivity.this)
+                            new AlertDialog.Builder(CreateCreditNoteWoActivity.this)
                                     .setTitle("Email")
                                     .setMessage(R.string.btn_send_email)
                                     .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
                                         appUser.email_yes_no = "true";
-                                        LocalRepositories.saveAppUser(CreateCreditNoteWoItemActivity.this, appUser);
+                                        LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
                                         if (isConnected) {
-                                            mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                                            mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                                             mProgressDialog.setMessage("Info...");
                                             mProgressDialog.setIndeterminate(false);
                                             mProgressDialog.setCancelable(true);
@@ -320,9 +333,9 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                                     .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
                                         appUser.email_yes_no = "false";
-                                        LocalRepositories.saveAppUser(CreateCreditNoteWoItemActivity.this, appUser);
+                                        LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
                                         if (isConnected) {
-                                            mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                                            mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                                             mProgressDialog.setMessage("Info...");
                                             mProgressDialog.setIndeterminate(false);
                                             mProgressDialog.setCancelable(true);
@@ -357,7 +370,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             }else {
                 Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                        mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
@@ -403,7 +416,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
-                                    mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                                    mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                                     mProgressDialog.setMessage("Info...");
                                     mProgressDialog.setIndeterminate(false);
                                     mProgressDialog.setCancelable(true);
@@ -434,7 +447,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                 }else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
-                        mProgressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                        mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
@@ -498,6 +511,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 account_name_credit.setText(name[0]);
+                state=ParameterConstant.forAccountIntentState;
         }
 
        /* if (resultCode == RESULT_OK) {
@@ -573,6 +587,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
                    boolForGroupName=true;
                    String result = data.getStringExtra("name");
                    String id = data.getStringExtra("id");
+                   state = data.getStringExtra("state");
                    appUser.account_name_credit_note_id = id;
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    String[] name = result.split(",");
@@ -585,7 +600,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     @Override
     public void onResume() {
         super.onResume();
-
+        appUser=LocalRepositories.getAppUser(this);
         /*if (bool) {
             if (!boolForGroupName) {
                 String result = intent.getStringExtra("name");
@@ -600,7 +615,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
 
     private void startDialog() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
-        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(CreateCreditNoteWoItemActivity.this);
+        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(CreateCreditNoteWoActivity.this);
         myAlertDialog.setTitle("Upload Pictures Option");
         myAlertDialog.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
@@ -675,15 +690,15 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 
-            new AlertDialog.Builder(CreateCreditNoteWoItemActivity.this)
+            new AlertDialog.Builder(CreateCreditNoteWoActivity.this)
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-                        Intent intent = new Intent(CreateCreditNoteWoItemActivity.this, TransactionPdfActivity.class);
+                        Intent intent = new Intent(CreateCreditNoteWoActivity.this, TransactionPdfActivity.class);
                         intent.putExtra("company_report",response.getHtml());
                         startActivity(intent);
 
-                       /* ProgressDialog progressDialog = new ProgressDialog(CreateCreditNoteWoItemActivity.this);
+                       /* ProgressDialog progressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
                         String htmlString = response.getHtml();
@@ -752,7 +767,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
             //appUser.forAccountIntentBool=false;
            // appUser.forAccountIntentId="";
             //appUser.forAccountIntentName="";
-            Intent intent = new Intent(this, CreditNoteWoItemActivity.class);
+            Intent intent = new Intent(this, CreditNoteWoItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(intent);
@@ -801,7 +816,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
        switch (item.getItemId())
        {
            case R.id.icon_id:
-               Intent i = new Intent(getApplicationContext(),CreditNoteWoItemActivity.class);
+               Intent i = new Intent(getApplicationContext(),CreditNoteWoItemListActivity.class);
                startActivity(i);
        }
        return super.onOptionsItemSelected(item);
@@ -811,7 +826,7 @@ public class CreateCreditNoteWoItemActivity extends RegisterAbstractActivity imp
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),CreditNoteWoItemActivity.class);
+                Intent i = new Intent(getApplicationContext(),CreditNoteWoItemListActivity.class);
                 startActivity(i);
                 finish();
                 return true;

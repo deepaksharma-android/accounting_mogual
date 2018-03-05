@@ -12,7 +12,7 @@ import com.lkintechnology.mBilling.activities.app.BaseActivityCompany;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoItemActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.expence.CreateExpenceActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.income.CreateIncomeActivity;
@@ -604,7 +604,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         creditNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent j = new Intent(context, CreateCreditNoteWoItemActivity.class);
+                Intent j = new Intent(context, CreateCreditNoteWoActivity.class);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
@@ -612,12 +612,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                     public void onClick(DialogInterface dialog, int item) {
                         if (item == 0) {
-                            Intent j = new Intent(context, CreateCreditNoteWoItemActivity.class);
+                            Intent j = new Intent(context, CreateCreditNoteWoActivity.class);
                             j.putExtra("fromCreditNote", false);
                             context.startActivity(j);
 
                         } else if (item == 1) {
-                            Intent j = new Intent(context, CreditNoteWoItemActivity.class);
+                            Intent j = new Intent(context, CreditNoteWoItemListActivity.class);
                             j.putExtra("fromPayment", false);
                             context.startActivity(j);
                         }
