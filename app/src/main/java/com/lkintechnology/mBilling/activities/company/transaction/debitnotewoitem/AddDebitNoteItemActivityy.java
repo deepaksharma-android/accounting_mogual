@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -26,6 +27,7 @@ public class AddDebitNoteItemActivityy extends AppCompatActivity implements View
     private DebitNoteItemDetailAdapter debitNoteItemDetailAdapter;
     private LinearLayout ll_submit;
     String state;
+    private Spinner reason;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class AddDebitNoteItemActivityy extends AppCompatActivity implements View
         llSelectItemList= (LinearLayout) findViewById(R.id.ll_select_item);
         itemList= (ListView) findViewById(R.id.listViewItems);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
+        reason= (Spinner) findViewById(R.id.reason);
     }
 
     @Override
@@ -87,6 +90,8 @@ public class AddDebitNoteItemActivityy extends AppCompatActivity implements View
                 finish();
                 break;
             case R.id.tv_submit:
+                appUser.debitreason=reason.getSelectedItem().toString();
+                LocalRepositories.saveAppUser(this,appUser);
                 finish();
                 break;
         }

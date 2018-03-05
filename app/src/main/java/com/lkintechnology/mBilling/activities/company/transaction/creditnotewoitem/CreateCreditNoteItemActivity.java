@@ -37,7 +37,7 @@ import java.util.Map;
 public class CreateCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText etIVNNo;
     private TextView etDiff;
-    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,tvITC;
+    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,tvITC,tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day;
@@ -59,6 +59,9 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         amount=getIntent().getExtras().getString("amount");
         position=getIntent().getExtras().getString("sp_position");
         state=getIntent().getExtras().getString("state");
+        if(state==null){
+            state="Haryana";
+        }
         initView();
         initialpageSetup();
         mMap=new HashMap();
@@ -87,6 +90,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etSGST.setVisibility(View.VISIBLE);
             tvIGST.setVisibility(View.GONE);
             etIGST.setVisibility(View.GONE);
+            tv_gst.setText("GST %");
 
         }
         else{
@@ -97,6 +101,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etSGST.setVisibility(View.GONE);
             tvIGST.setVisibility(View.VISIBLE);
             etIGST.setVisibility(View.VISIBLE);
+            tv_gst.setText("IGST %");
         }
 
         etGST.addTextChangedListener(new TextWatcher() {
@@ -134,6 +139,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         etSGST= (TextView) findViewById(R.id.et_sgst);
         etIGST= (TextView) findViewById(R.id.et_igst);
         tvITC= (TextView) findViewById(R.id.tv_itc);
+        tv_gst= (TextView) findViewById(R.id.tv_gst);
         spChooseGoods= (Spinner) findViewById(R.id.sp_choose_goods);
         tvDate= (TextView) findViewById(R.id.tv_date_select);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);

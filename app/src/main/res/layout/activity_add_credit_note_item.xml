@@ -112,7 +112,6 @@
                 android:background="@drawable/bg_grey_stroke"
                 android:maxLength="13"
                 android:inputType="numberDecimal"
-                android:hint="@string/s_enter_gst"
                 android:textColor="#000"
                 android:textSize="16sp"
                 android:padding="@dimen/dp_5"
