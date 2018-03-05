@@ -25,7 +25,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
     private LinearLayout llSelectItem;
     private ListView listItem;
     AppUser appUser;
-   private String amount,position,state;
+   private String amount,position,state,positionJournalVoucher;
     private CreditNoteItemDetailAdapter creditNoteItemDetailAdapter;
     private LinearLayout ll_submit;
     private Spinner reason;
@@ -44,6 +44,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
 
         amount=getIntent().getStringExtra("amount");
         position=getIntent().getStringExtra("sp_position");
+        positionJournalVoucher=getIntent().getStringExtra("gst_pos6");
         state=getIntent().getStringExtra("state");
         Timber.i("mystate"+state);
 
@@ -90,12 +91,20 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_select_item:
-                Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
-                intent.putExtra("amount",amount);
-                intent.putExtra("sp_position",position);
-                intent.putExtra("state",state);
-                startActivity(intent);
-                finish();
+                if (positionJournalVoucher.equals("6")){
+                    Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
+                    intent.putExtra("gst_position6",positionJournalVoucher);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
+                    intent.putExtra("amount",amount);
+                    intent.putExtra("sp_position",position);
+                    intent.putExtra("state",state);
+                    startActivity(intent);
+                    finish();
+                }
+
                 break;
             case R.id.tv_submit:
                 appUser.creditreason=reason.getSelectedItem().toString();
