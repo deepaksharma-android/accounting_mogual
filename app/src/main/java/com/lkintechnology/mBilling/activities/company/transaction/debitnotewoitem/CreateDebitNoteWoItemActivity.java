@@ -126,7 +126,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                 if (position==1){
-                    if (!account_name_credit.getText().toString().equals("")){
+                    if (!account_name_debit.getText().toString().equals("")){
                         if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivityy.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());

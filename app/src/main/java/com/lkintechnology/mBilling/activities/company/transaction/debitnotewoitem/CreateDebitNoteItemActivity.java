@@ -99,7 +99,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etSGST.setVisibility(View.GONE);
             tvIGST.setVisibility(View.VISIBLE);
             etIGST.setVisibility(View.VISIBLE);
-            tv_gst.setText("GST %");
+            tv_gst.setText("IGST %");
         }
 
         etGST.addTextChangedListener(new TextWatcher() {
