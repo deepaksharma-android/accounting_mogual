@@ -662,18 +662,22 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.creditnotewoitem.CreateCreditNoteItemActivity"
+            android:parentActivityName=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity"
+            android:parentActivityName=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity"
+            android:parentActivityName=".activities.company.transaction.creditnotewoitem.CreateCreditNoteWoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
+           android:parentActivityName=".activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

@@ -130,6 +130,15 @@
         <item>Additive</item>
         <item>Subtractive</item>
     </string-array>
+    <string-array name="reasons">
+        <item>01-Sales/Purc. Return</item>
+        <item>02-Post Sale/Purc. Discount</item>
+        <item>03-Deficiency in services</item>
+        <item>04-Correction in Invoice</item>
+        <item>05-Change in POS</item>
+        <item>06-Finalization of Provisional assessment</item>
+        <item>07-Others</item>
+    </string-array>
     <string-array name="bill_sundry_nature">
         <item>CGST</item>
         <item>SGST</item>
@@ -268,11 +277,11 @@
     <string name="s_difference_amount">Difference Amount</string>
     <string name="s_gst">GST %</string>
     <string name="s_enter_gst">GST %</string>
-    <string name="s_sgst">SGST</string>
+    <string name="s_sgst">SGST Amount</string>
     <string name="s_enter_sgst">SGST</string>
-    <string name="s_cgst">CGST</string>
+    <string name="s_cgst">CGST Amount</string>
     <string name="s_enter_cgst">CGST</string>
-    <string name="s_igst">IGST</string>
+    <string name="s_igst">IGST Amount</string>
     <string name="s_enter_igst">IGST</string>
     <string name="s_submit">SUBMIT</string>
     <string name="s_itc_eligibility">ITC Eligibility</string>

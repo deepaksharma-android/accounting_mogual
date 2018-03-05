@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class CreateDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
    private EditText etIVNNo;
-    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,etDifferenceAmount,tvITC;
+    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,etDifferenceAmount,tvITC,tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
     private RelativeLayout rootLayout;
@@ -62,6 +62,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         amount=getIntent().getStringExtra("amount");
         spGoodsKey1=getIntent().getStringExtra("sp_position");
         state=getIntent().getExtras().getString("state");
+        if(state==null){
+            state="Haryana";
+        }
         etDifferenceAmount.setText(amount);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -85,6 +88,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etSGST.setVisibility(View.VISIBLE);
             tvIGST.setVisibility(View.GONE);
             etIGST.setVisibility(View.GONE);
+            tv_gst.setText("GST %");
 
         }
         else{
@@ -95,6 +99,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etSGST.setVisibility(View.GONE);
             tvIGST.setVisibility(View.VISIBLE);
             etIGST.setVisibility(View.VISIBLE);
+            tv_gst.setText("GST %");
         }
 
         etGST.addTextChangedListener(new TextWatcher() {
@@ -150,6 +155,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         tvIGST= (TextView) findViewById(R.id.tv_igst);
         etSGST= (TextView) findViewById(R.id.et_sgst);
         tvITC= (TextView) findViewById(R.id.tv_itc);
+        tv_gst= (TextView) findViewById(R.id.tv_gst);
         etIGST= (TextView) findViewById(R.id.et_igst);
         spChooseGoods= (Spinner) findViewById(R.id.sp_choose_goods);
         tvDate= (TextView) findViewById(R.id.tv_date_select);

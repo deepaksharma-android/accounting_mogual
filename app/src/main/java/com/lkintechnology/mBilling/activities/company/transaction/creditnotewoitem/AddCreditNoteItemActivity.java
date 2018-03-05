@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -27,6 +28,8 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
    private String amount,position,state,positionJournalVoucher;
     private CreditNoteItemDetailAdapter creditNoteItemDetailAdapter;
     private LinearLayout ll_submit;
+    private Spinner reason;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         llSelectItem= (LinearLayout) findViewById(R.id.ll_select_item);
         listItem= (ListView) findViewById(R.id.listViewItems);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
+        reason= (Spinner) findViewById(R.id.reason);
     }
 
         @Override
@@ -103,6 +107,8 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
 
                 break;
             case R.id.tv_submit:
+                appUser.creditreason=reason.getSelectedItem().toString();
+                LocalRepositories.saveAppUser(this,appUser);
                 finish();
                 break;
         }
