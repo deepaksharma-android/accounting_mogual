@@ -45,7 +45,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdf
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy;
+import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -466,7 +466,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     intent3.putExtra("diff_amount",transaction_amount.getText().toString());
                     startActivity(intent3);
                 }else if (position==7){
-                    Intent intent4=new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivityy.class);
+                    Intent intent4=new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
                     intent4.putExtra("gst_pos7",String.valueOf(position));
                     intent4.putExtra("diff_amount",transaction_amount.getText().toString());
                     startActivity(intent4);

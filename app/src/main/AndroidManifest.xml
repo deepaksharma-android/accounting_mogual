@@ -667,7 +667,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity"
-            android:parentActivityName=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
+            android:parentActivityName=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -676,7 +676,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
+            android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity"
             android:parentActivityName=".activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
