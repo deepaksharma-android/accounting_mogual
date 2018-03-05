@@ -677,7 +677,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivityy"
-           android:parentActivityName=".activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
+            android:parentActivityName=".activities.company.transaction.debitnotewoitem.CreateDebitNoteWoItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -688,6 +688,12 @@
             android:name=".activities.company.transaction.journalvoucher.AddJournalItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.company.transaction.payment.ShowPaymentListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.payment.CreatePaymentListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
