@@ -803,6 +803,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     @Override
     public void onResume() {
         super.onResume();
+        appUser=LocalRepositories.getAppUser(this);
       /*  Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
