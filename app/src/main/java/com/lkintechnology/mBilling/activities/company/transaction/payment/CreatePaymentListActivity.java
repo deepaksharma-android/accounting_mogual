@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.AddDebitNoteItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.AddJournalItemActivity;
@@ -66,6 +67,8 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     TextView tvSgst;
     @Bind(R.id.sp_itc_eligibility)
     Spinner spITCEligibility;
+    String account_id;
+    String party_id;
 
 
     private String chooseGoods[] = {"ITC Eligibility", " Input Goods", "Input Services", "Capital Goods", "None"};
@@ -107,6 +110,22 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        llAccountName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
+                ExpandableAccountListActivity.isDirectForAccount=false;
+                startActivityForResult(intent, 1);
+            }
+        });
+        llPartyName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
+                ExpandableAccountListActivity.isDirectForAccount=false;
+                startActivityForResult(intent, 2);
             }
         });
     }
@@ -152,6 +171,8 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
+                                            mMap.put("account_id", account_id);
+                                            mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
                                             mMap.put("acount_name", tvAccountName.getText().toString());
                                             mMap.put("party_name", tvPartyName.getText().toString());
@@ -205,6 +226,8 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
+                                            mMap.put("account_id", account_id);
+                                            mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
                                             mMap.put("acount_name", tvAccountName.getText().toString());
                                             mMap.put("party_name", tvPartyName.getText().toString());
@@ -255,5 +278,24 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                 break;
         }
 
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                String[] name = result.split(",");
+                tvAccountName.setText(name[0]);
+                account_id=id;
+
+            }
+            else if(requestCode == 2){
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                String[] name = result.split(",");
+                tvPartyName.setText(name[0]);
+                party_id=id;
+            }
+        }
     }
 }
