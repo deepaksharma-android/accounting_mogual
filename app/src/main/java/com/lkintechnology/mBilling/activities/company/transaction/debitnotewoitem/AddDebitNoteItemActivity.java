@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.adapters.DebitNoteItemDetailAdapter;
@@ -20,9 +21,9 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 public class AddDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
-  private LinearLayout llSelectItemList;
-  private ListView itemList;
-   private String amount,spGoodsKey,journalVoucherPosition,journalVoucherDiffAmount;
+    private LinearLayout llSelectItemList;
+    private ListView itemList;
+    private String amount, spGoodsKey, journalVoucherPosition, journalVoucherDiffAmount;
 
     AppUser appUser;
     private DebitNoteItemDetailAdapter debitNoteItemDetailAdapter;
@@ -34,7 +35,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debit_note_item_detail);
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initView();
         initActionBarSet();
 
@@ -42,28 +43,27 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         ll_submit.setOnClickListener(this);
 
         // get position and amount from debit note
-        amount=getIntent().getStringExtra("amount");
-        spGoodsKey=getIntent().getStringExtra("sp_position");
-        state=getIntent().getStringExtra("state");
+        amount = getIntent().getStringExtra("amount");
+        spGoodsKey = getIntent().getStringExtra("sp_position");
+        state = getIntent().getStringExtra("state");
 
         // get position and amount from journal voucher
-        journalVoucherPosition=getIntent().getStringExtra("gst_pos7");
-        journalVoucherDiffAmount=getIntent().getStringExtra("diff_amount");
+        journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
+        journalVoucherDiffAmount = getIntent().getStringExtra("diff_amount");
         initialPageSetup();
 
     }
 
     private void initialPageSetup() {
-        if(journalVoucherPosition!=null){
-        if(journalVoucherPosition.equals("7")){
-            debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemJournalVoucherNote);
-        }
-        }
-        else {
+        if (journalVoucherPosition != null) {
+            if (journalVoucherPosition.equals("7")) {
+                debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemJournalVoucherNote);
+            }
+        } else {
             debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemDebitNote);
         }
         itemList.setAdapter(debitNoteItemDetailAdapter);
-       // notifyAll();
+        // notifyAll();
     }
 
     private void initActionBarSet() {
@@ -80,33 +80,34 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("Add Debit Note Item");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
-  // define id here
+
+    // define id here
     private void initView() {
-        llSelectItemList= (LinearLayout) findViewById(R.id.ll_select_item);
-        itemList= (ListView) findViewById(R.id.listViewItems);
-        ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
-        reason= (Spinner) findViewById(R.id.reason);
+        llSelectItemList = (LinearLayout) findViewById(R.id.ll_select_item);
+        itemList = (ListView) findViewById(R.id.listViewItems);
+        ll_submit = (LinearLayout) findViewById(R.id.tv_submit);
+        reason = (Spinner) findViewById(R.id.reason);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_select_item:
-                if (journalVoucherPosition!=null){
-                    if (journalVoucherPosition.equals("7")){
-                        Intent intent=new Intent(this,CreateDebitNoteItemActivity.class);
-                        intent.putExtra("jDiff_amount",journalVoucherDiffAmount);
-                        intent.putExtra("gst_pos7",journalVoucherPosition);
+                if (journalVoucherPosition != null) {
+                    if (journalVoucherPosition.equals("7")) {
+                        Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);
+                        intent.putExtra("jDiff_amount", journalVoucherDiffAmount);
+                        intent.putExtra("gst_pos7", journalVoucherPosition);
                         startActivity(intent);
                         finish();
                     }
-                }else {
+                } else {
                     Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);
                     intent.putExtra("amount", amount);
                     intent.putExtra("sp_position", spGoodsKey);
@@ -116,19 +117,26 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                 }
                 break;
             case R.id.tv_submit:
-                if(journalVoucherPosition!=null) {
+                if (journalVoucherPosition != null) {
                     if (journalVoucherPosition.equals("7")) {
-                        if (appUser.mListMapForItemDebitNote.size() > 0) {
+                        if (appUser.mListMapForItemJournalVoucherNote.size() > 0) {
                             appUser.journalreason = reason.getSelectedItem().toString();
                             LocalRepositories.saveAppUser(this, appUser);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please select atleast one item", Toast.LENGTH_LONG).show();
                         }
                     }
+                } else {
+                    if (appUser.mListMapForItemDebitNote.size() > 0) {
+                        appUser.debitreason = reason.getSelectedItem().toString();
+                        LocalRepositories.saveAppUser(this, appUser);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please select atleast one item", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else {
-                    appUser.debitreason = reason.getSelectedItem().toString();
-                    LocalRepositories.saveAppUser(this, appUser);
-                }
-                finish();
+
                 break;
         }
     }
@@ -137,11 +145,11 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-               if (requestCode==1){
-                   if (resultCode==RESULT_OK){
-                       debitNoteItemDetailAdapter.notifyDataSetChanged();
-                   }
-               }
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                debitNoteItemDetailAdapter.notifyDataSetChanged();
+            }
+        }
 
     }
 }

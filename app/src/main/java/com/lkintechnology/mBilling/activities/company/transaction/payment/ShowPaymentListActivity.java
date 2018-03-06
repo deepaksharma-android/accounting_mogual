@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity;
@@ -92,6 +93,9 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
             case R.id.tv_submit:
                 if (appUser.mListMapForItemPaymentList.size()>0) {
                     finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Please select atleast one item", Toast.LENGTH_LONG).show();
                 }
                 break;
         }

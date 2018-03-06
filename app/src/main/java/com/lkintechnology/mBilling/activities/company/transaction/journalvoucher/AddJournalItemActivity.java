@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.adapters.AddJournalVoucherItemAdapter;
@@ -86,6 +87,9 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
             case R.id.tv_submit:
                 if (appUser.mListMapForItemJournalVoucherNote.size()>0) {
                     finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Please select atleast one item", Toast.LENGTH_LONG).show();
                 }
 
                 break;

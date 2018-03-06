@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.adapters.CreditNoteItemDetailAdapter;
@@ -121,18 +122,23 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
             case R.id.tv_submit:
                 if (positionJournalVoucher!=null) {
                     if (positionJournalVoucher.equals("6")) {
-                        if (appUser.mListMapForItemCreditNote.size()>0){
+                        if (appUser.mListMapForItemJournalVoucherNote.size() > 0) {
                             appUser.journalreason = reason.getSelectedItem().toString();
                             LocalRepositories.saveAppUser(this, appUser);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please select atleast one item", Toast.LENGTH_LONG).show();
                         }
-
                     }
-                }
-                    else {
+                } else {
+                    if (appUser.mListMapForItemCreditNote.size() > 0) {
                         appUser.creditreason = reason.getSelectedItem().toString();
                         LocalRepositories.saveAppUser(this, appUser);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please select atleast one item", Toast.LENGTH_LONG).show();
                     }
-                finish();
+                }
                 break;
         }
 
