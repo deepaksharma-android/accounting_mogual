@@ -15,48 +15,49 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.CreateJournalItemActivity;
+import com.lkintechnology.mBilling.adapters.AddJournalVoucherItemAdapter;
 import com.lkintechnology.mBilling.adapters.DebitNoteItemDetailAdapter;
 import com.lkintechnology.mBilling.adapters.PaymentShowListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
-public class ShowPaymentListActivity extends AppCompatActivity implements View.OnClickListener {
-    private LinearLayout llSelectItemList;
-    private ListView itemList;
-    private String amount,spGoodsKey;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-    AppUser appUser;
+public class ShowPaymentListActivity extends AppCompatActivity implements View.OnClickListener{
+    @Bind(R.id.ll_select_item)
+    LinearLayout createJournalList;
+    @Bind(R.id.tv_submit)
+    LinearLayout llSubmit;
+    @Bind(R.id.listViewjournal_Items)
+    ListView paymentItemList;
+    private String pos1,pos2,amount;
     private PaymentShowListAdapter paymentShowListAdapter;
-    private LinearLayout ll_submit;
-    String state;
-    private Spinner reason;
+    AppUser appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_payment_list);
-        appUser= LocalRepositories.getAppUser(this);
-        initView();
-        initActionBarSet();
-        initialPageSetup();
-        llSelectItemList.setOnClickListener(this);
-        ll_submit.setOnClickListener(this);
-
-        // get position and amount from debit note
+        ButterKnife.bind(this);
+        actionBarSetup();
+        initialpageSetup();
+        pos1=getIntent().getStringExtra("sp_position1");
         amount=getIntent().getStringExtra("amount");
-        spGoodsKey=getIntent().getStringExtra("sp_position");
-        state=getIntent().getStringExtra("state");
-
+        pos2=getIntent().getStringExtra("sp_position2");
+        createJournalList.setOnClickListener(this);
+        llSubmit.setOnClickListener(this);
     }
 
-    private void initialPageSetup() {
+    private void initialpageSetup() {
+        appUser= LocalRepositories.getAppUser(this) ;
         paymentShowListAdapter = new PaymentShowListAdapter(this, appUser.mListMapForItemPaymentList);
-        itemList.setAdapter(paymentShowListAdapter);
-        // notifyAll();
+        paymentItemList.setAdapter(paymentShowListAdapter);
     }
 
-    private void initActionBarSet() {
+    private void actionBarSetup() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
@@ -68,7 +69,7 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Add Payment List Item");
+        actionbarTitle.setText("Add Payment Item");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -76,58 +77,32 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
-    // define id here
-    private void initView() {
-        llSelectItemList= (LinearLayout) findViewById(R.id.ll_select_item);
-        itemList= (ListView) findViewById(R.id.listViewItems);
-        ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
-        reason= (Spinner) findViewById(R.id.reason);
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_select_item:
-                /*if (spGoodsKey!=null){
-                    if (spGoodsKey.equals("1")){
-                        Intent intent=new Intent(this,CreatePaymentListActivity.class);
-                        intent.putExtra("Diff_amount",amount);
-                        intent.putExtra("gst_nature_position",spGoodsKey);
-                        startActivity(intent);
-                        finish();
-                    }
-                }else {
-                    Intent intent = new Intent(this, CreatePaymentListActivity.class);
-                    intent.putExtra("amount", amount);
-                    intent.putExtra("sp_position", spGoodsKey);
-                    intent.putExtra("state", state);
-                    startActivity(intent);
-                    finish();
-                }*/
-                Intent intent = new Intent(this, CreatePaymentListActivity.class);
-                intent.putExtra("amount", amount);
-                intent.putExtra("sp_position", spGoodsKey);
-                intent.putExtra("state", state);
+                Intent intent=new Intent(ShowPaymentListActivity.this,CreatePaymentListActivity.class);
+                intent.putExtra("gst_pos1",pos1);
+                intent.putExtra("gst_pos2",pos2);
+                intent.putExtra("amount",amount);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.tv_submit:
-                appUser.debitreason=reason.getSelectedItem().toString();
-                LocalRepositories.saveAppUser(this,appUser);
                 finish();
                 break;
         }
+
     }
-
-
-   /* @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1){
+        if (requestCode==3){
             if (resultCode==RESULT_OK){
                 paymentShowListAdapter.notifyDataSetChanged();
             }
         }
 
-    }*/
+    }
 }

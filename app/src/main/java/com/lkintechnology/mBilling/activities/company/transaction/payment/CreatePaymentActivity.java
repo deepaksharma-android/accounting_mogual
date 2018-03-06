@@ -545,7 +545,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("sp_position",String.valueOf(position));
+                            intent.putExtra("sp_position1",String.valueOf(position));
                             //intent.putExtra("state",state);
                             startActivity(intent);
                         }else{
@@ -560,7 +560,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("sp_position",String.valueOf(position));
+                            intent.putExtra("sp_position2",String.valueOf(position));
                          //   intent.putExtra("state",state);
                             startActivity(intent);
                         }else{

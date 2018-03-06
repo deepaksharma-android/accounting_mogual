@@ -1,233 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.company.transaction.creditnotewoitem.CreateCreditNoteItemActivity"
-    android:id="@+id/rl_root_add_debit_note_item">
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.CreateJournalItemActivity"
+    android:orientation="vertical"
+    android:id="@+id/rl_journal_voucher_root"
+    android:background="#fff">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_ivn"
-                style="@style/Gotham_Medium"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/s_invoice_no"
-                android:textColor="#000"
-                android:textSize="15sp"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/dp_12"/>
-            <com.lkintechnology.mBilling.utils.BuzzEditText
-                android:id="@+id/et_invoice"
-                android:layout_below="@+id/tv_ivn"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:hint="Invoice no"
-                android:maxLength="13"
-                android:inputType="number"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5" />
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                style="@style/Gotham_Medium"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_invoice"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="@string/s_date"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_date_select"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/tv_date"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"
-                android:background="@drawable/bg_grey_stroke"
-                android:drawableRight="@drawable/ic_date_range_black_24dp"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_difference_amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Gotham_Medium"
-                android:layout_below="@+id/tv_date_select"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="@string/s_difference_amount"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/et_difference_amount"
-                android:layout_below="@+id/tv_difference_amount"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:maxLength="13"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"  />
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_gst"
-                style="@style/Gotham_Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_difference_amount"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="@string/s_gst"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"/>
-            <com.lkintechnology.mBilling.utils.BuzzEditText
-                android:id="@+id/et_gst"
-                android:layout_below="@+id/tv_gst"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:maxLength="13"
-                android:hint="@string/s_enter_gst"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"
-                android:inputType="numberDecimal"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_sgst"
-                style="@style/Gotham_Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_gst"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="@string/s_sgst"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/et_sgst"
-                android:layout_below="@+id/tv_sgst"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:maxLength="13"
-                android:hint="@string/s_enter_sgst"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"  />
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_cgst"
-                style="@style/Gotham_Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_sgst"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="@string/s_cgst"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/et_cgst"
-                android:layout_below="@+id/tv_cgst"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:maxLength="13"
-                android:hint="@string/s_enter_cgst"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"  />
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_igst"
-                style="@style/Gotham_Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_cgst"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="@string/s_igst"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"
-                android:visibility="gone"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/et_igst"
-                android:layout_below="@+id/tv_igst"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:maxLength="13"
-                android:hint="@string/s_enter_igst"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5"
-                android:visibility="gone"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_itc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/et_cgst"
-                android:layout_marginTop="@dimen/dp_3"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:text="ITC Eligibility"
-                android:textSize="@dimen/sp_15"
-                android:textColor="#000"
-                android:visibility="visible"
-                style="@style/Gotham_Medium"/>
-        <LinearLayout
-            android:id="@+id/root_sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/bg_grey_stroke"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_3"
-            android:padding="@dimen/dp_10"
-            android:visibility="gone"
-            >
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_5">
+            <com.lkintechnology.mBilling.utils.BuzzTextView
 
-        <Spinner
-                android:id="@+id/sp_choose_goods"
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="RCN Nature *"
+                android:textColor="#000"
+                android:textSize="15sp" />
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/et_igst"
-                android:spinnerMode="dialog"
-               android:visibility="gone"
-                >
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_grey_stroke"
+                android:layout_marginTop="@dimen/dp_5">
 
-            </Spinner>
-        </LinearLayout>
+                <Spinner
+                    android:id="@+id/sp_rcn_nature"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+
+                    >
+
+                </Spinner>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                android:background="#fff"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    android:id="@+id/payment_pay_to"
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Party Name *"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_party_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/tv_party_name"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Party Name "
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron"/>
+                </LinearLayout>
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Account Name  *"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_account_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/tv_account_name"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Account Name"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Invoice Number  *"
+                android:textColor="#000"
+                android:textSize="15sp" />
+            <com.lkintechnology.mBilling.utils.BuzzEditText
+                android:id="@+id/et_ivn_no"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/bg_grey_stroke"/>
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Difference Amount *"
+                android:textColor="#000"
+                android:textSize="15sp" />
+            <com.lkintechnology.mBilling.utils.BuzzEditText
+                android:id="@+id/et_diff_amount"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/bg_grey_stroke"
+                android:inputType="number"/>
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Rate %  *"
+                android:textColor="#000"
+                android:textSize="15sp" />
+            <com.lkintechnology.mBilling.utils.BuzzEditText
+                android:id="@+id/et_rate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/bg_grey_stroke"
+                android:inputType="number"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="SGST  *"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="CGST *"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_5"
+                android:weightSum="2">
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    android:id="@+id/tv_sgst"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:hint="SGST"
+                    android:gravity="center"/>
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    android:id="@+id/tv_cgst"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:hint="CGST"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="IGST  *"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="ITC Eligibility *"
+                    android:textColor="#000"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_5"
+                android:weightSum="2">
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    android:id="@+id/tv_igst"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:hint="IGST"
+                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_weight="1">
+                    <Spinner
+                        android:id="@+id/sp_itc_eligibility"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_40"
+                        />
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/tv_submit"
                 android:layout_width="fill_parent"
@@ -253,7 +341,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-
-
-</RelativeLayout>
+</LinearLayout>
