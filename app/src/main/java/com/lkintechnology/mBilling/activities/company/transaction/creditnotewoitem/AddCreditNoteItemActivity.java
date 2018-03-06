@@ -121,8 +121,11 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
             case R.id.tv_submit:
                 if (positionJournalVoucher!=null) {
                     if (positionJournalVoucher.equals("6")) {
-                        appUser.journalreason = reason.getSelectedItem().toString();
-                        LocalRepositories.saveAppUser(this, appUser);
+                        if (appUser.mListMapForItemCreditNote.size()>0){
+                            appUser.journalreason = reason.getSelectedItem().toString();
+                            LocalRepositories.saveAppUser(this, appUser);
+                        }
+
                     }
                 }
                     else {

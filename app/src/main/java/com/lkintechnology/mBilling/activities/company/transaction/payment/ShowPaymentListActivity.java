@@ -90,7 +90,9 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
             case R.id.tv_submit:
-                finish();
+                if (appUser.mListMapForItemPaymentList.size()>0) {
+                    finish();
+                }
                 break;
         }
 
