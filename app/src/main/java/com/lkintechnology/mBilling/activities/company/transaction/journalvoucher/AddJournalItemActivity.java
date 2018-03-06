@@ -84,7 +84,10 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
                 finish();
                 break;
             case R.id.tv_submit:
-                finish();
+                if (appUser.mListMapForItemJournalVoucherNote.size()>0) {
+                    finish();
+                }
+
                 break;
         }
 

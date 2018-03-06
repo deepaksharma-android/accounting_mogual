@@ -118,8 +118,10 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
             case R.id.tv_submit:
                 if(journalVoucherPosition!=null) {
                     if (journalVoucherPosition.equals("7")) {
-                        appUser.journalreason = reason.getSelectedItem().toString();
-                        LocalRepositories.saveAppUser(this, appUser);
+                        if (appUser.mListMapForItemDebitNote.size() > 0) {
+                            appUser.journalreason = reason.getSelectedItem().toString();
+                            LocalRepositories.saveAppUser(this, appUser);
+                        }
                     }
                 }
                 else {

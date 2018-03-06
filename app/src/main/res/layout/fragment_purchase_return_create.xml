@@ -478,14 +478,16 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:background="@drawable/grey_stroke_white_solid">
+                                android:background="@drawable/grey_stroke_white_solid"
+                                android:visibility="gone">
 
                                 <LinearLayout
                                     android:layout_width="fill_parent"
                                     android:layout_height="80dp"
                                     android:layout_margin="8dp"
                                     android:background="@drawable/square_gradient"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
 
 
                                     <ImageView
@@ -493,7 +495,8 @@
                                         android:layout_height="25dp"
                                         android:layout_gravity="center"
                                         android:layout_marginTop="20dp"
-                                        android:src="@drawable/transaction_reciept" />
+                                        android:src="@drawable/transaction_reciept"
+                                        android:visibility="gone"/>
 
                                     <com.lkintechnology.mBilling.utils.BuzzTextView
                                         style="@style/Gotham_Medium"
@@ -505,7 +508,8 @@
                                         android:gravity="center"
                                         android:text="Receipt"
                                         android:textColor="#67309c"
-                                        android:textSize="10sp" />
+                                        android:textSize="10sp"
+                                        android:visibility="gone"/>
 
 
                                 </LinearLayout>
