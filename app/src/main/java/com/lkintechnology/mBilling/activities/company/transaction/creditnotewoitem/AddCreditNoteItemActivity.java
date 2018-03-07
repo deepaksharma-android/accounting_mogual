@@ -1,13 +1,16 @@
 package com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,12 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.CreditNoteItemDetailAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import timber.log.Timber;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AddCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout llSelectItem;
@@ -51,6 +57,42 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         Timber.i("mystate"+state);
         initialpageSetup();
         Timber.i("state"+appUser.company_state);
+
+        listItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), CreateCreditNoteItemActivity.class);
+                intent.putExtra("state", state);
+                intent.putExtra("fromcredit", true);
+                intent.putExtra("pos", i);
+                startActivity(intent);
+                finish();
+            }
+        });
+        listItem.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                alertDialog.setMessage("Are you sure to delete?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForItemCreditNote.remove(position);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+
+            }
+        });
 
     }
   //  to setup action bar layout
@@ -106,6 +148,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     Intent intent = new Intent(this, CreateCreditNoteItemActivity.class);
                     intent.putExtra("gst_pos6", positionJournalVoucher);
                     intent.putExtra("jDiff_amount", journalDiffAmount);
+                    intent.putExtra("fromcredit", false);
                     startActivity(intent);
                     finish();
                 }
@@ -113,6 +156,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
                     intent.putExtra("amount",amount);
                     intent.putExtra("sp_position",position);
+                    intent.putExtra("fromcredit", false);
                     intent.putExtra("state",state);
                     startActivity(intent);
                     finish();

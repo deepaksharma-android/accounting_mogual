@@ -49,6 +49,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     private Spinner spChooseGoods;
     private double percentage,halfIC;
        private String chooseGoods[]={"Input Goods","Input Services","Capital Goods","None"};
+    public String itempos;
+    public Boolean fromcredit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,27 +58,40 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         setContentView(R.layout.activity_add_credit_note_item);
         initActionBar();
         appUser= LocalRepositories.getAppUser(this);
-        amount=getIntent().getExtras().getString("amount");
-        position=getIntent().getExtras().getString("sp_position");
         state=getIntent().getExtras().getString("state");
-        journalVoucherPosition=getIntent().getExtras().getString("gst_pos6");
-
-
-        if(state==null){
-            state="Haryana";
-        }
-
         initView();
         initialpageSetup();
         mMap=new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
-        tvDiffAmount.setText(amount);
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month+1, day);
+        fromcredit=getIntent().getExtras().getBoolean("fromcredit");
+
+        if(fromcredit){
+            itempos=getIntent().getExtras().getString("pos");
+            Map map=appUser.mListMapForItemCreditNote.get(Integer.parseInt(itempos));
+
+        }
+        else{
+            amount=getIntent().getExtras().getString("amount");
+            position=getIntent().getExtras().getString("sp_position");
+            journalVoucherPosition=getIntent().getExtras().getString("gst_pos6");
+            tvDiffAmount.setText(amount);
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            showDate(year, month+1, day);
+        }
+
+
+        if(state==null){
+            state="Haryana";
+
+        }
+
+
+
+
         if (position !=null){
             if (position.equals("2")){
                 spChooseGoods.setVisibility(View.VISIBLE);
@@ -209,6 +224,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     }
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("goodsItem", "");
+                                    mMap.put("state",state);
+                                    mMap.put("sp_pos",position);
+                                    mMap.put("amount",amount);
+                                    mMap.put("journal_pos",journalVoucherPosition);
                                     appUser.mListMapForItemCreditNote.add(mMap);
                                     LocalRepositories.saveAppUser(this, appUser);
                                     Intent intent = new Intent(CreateCreditNoteItemActivity.this, AddCreditNoteItemActivity.class);
