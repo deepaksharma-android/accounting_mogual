@@ -50,13 +50,13 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     @Bind(R.id.et_rate)
     EditText etRate;
     @Bind(R.id.tv_cgst)
-    TextView tvCGST;
+    EditText tvCGST;
     @Bind(R.id.tv_igst)
-    TextView tvIGST;
+    EditText tvIGST;
     @Bind(R.id.rl_journal_voucher_root)
     LinearLayout rootLayout;
     @Bind(R.id.tv_sgst)
-    TextView tvSgst;
+    EditText tvSgst;
     @Bind(R.id.sp_itc_eligibility)
     Spinner spITCEligibility;
     String account_id;
@@ -81,7 +81,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
         llSubmit.setOnClickListener(this);
-        etRate.addTextChangedListener(new TextWatcher() {
+        /*etRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -101,7 +101,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
 
         llAccountName.setOnClickListener(new View.OnClickListener() {
             @Override
