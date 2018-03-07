@@ -80,9 +80,18 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForItemCreditNote.remove(position);
+                        if (positionJournalVoucher != null) {
+                            if (positionJournalVoucher.equals("6")) {
+                                appUser.mListMapForItemJournalVoucherNote.remove(position);
+                            }
+                        }
+                        else {
+                            appUser.mListMapForItemDebitNote.remove(position);
+                        }
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
+
+                        initialpageSetup();
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -120,6 +129,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
     }
 
     private void initialpageSetup() {
+        appUser=LocalRepositories.getAppUser(this);
         if(positionJournalVoucher!=null) {
             if (positionJournalVoucher.equals("6")) {
                 creditNoteItemDetailAdapter = new CreditNoteItemDetailAdapter(this, appUser.mListMapForItemJournalVoucherNote);

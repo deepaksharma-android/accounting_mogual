@@ -50,7 +50,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private String chooseGoods[]={" Input Goods","Input Services","Capital Goods","None"};
 
     public String itempos;
-    public Boolean fromcredit;
+    public Boolean fromdebit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +70,26 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         if(state==null){
             state="Haryana";
         }
-        fromcredit=getIntent().getExtras().getBoolean("fromcredit");
+        fromdebit=getIntent().getExtras().getBoolean("fromdebit");
 
-        if(fromcredit){
+        if(fromdebit){
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
+            etIVNNo.setText((String)map.get("inv_num"));
+            tvDate.setText((String)map.get("date"));
+            etDifferenceAmount.setText((String)map.get("difference_amount"));
+            etGST.setText((String)map.get("gst"));
+             etCGST.setText((String)map.get("cgst"));
+            etIGST.setText((String)map.get("igst"));
+            etSGST.setText((String)map.get("sgst"));
+            amount=(String) map.get("difference_amount");
+            state=(String) map.get("state");
+            journalVoucherPosition=((String)map.get("gst_pos7"));
+            spGoodsKey1=((String)map.get("sp_position"));
+            tvDate.setText((String)map.get("date"));
+
+
+
 
         }else {
             spGoodsKey1=getIntent().getStringExtra("sp_position");
@@ -242,8 +257,17 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     }
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("goodsItem", "");
-                                    appUser.mListMapForItemDebitNote.add(mMap);
-                                    LocalRepositories.saveAppUser(this, appUser);
+                                    mMap.put("sp_position",spGoodsKey1);
+                                    mMap.put("date",tvDate.getText().toString());
+                                    mMap.put("state",state);
+                                    if (!fromdebit) {
+                                        appUser.mListMapForItemDebitNote.add(mMap);
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    } else {
+                                        appUser.mListMapForItemDebitNote.remove(Integer.parseInt(itempos));
+                                        appUser.mListMapForItemDebitNote.add(Integer.parseInt(itempos), mMap);
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    }
                                     Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                     intent.putExtra("amount",amount);
                                     intent.putExtra("sp_position",spGoodsKey1);
@@ -278,8 +302,17 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemDebitNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        mMap.put("sp_position",spGoodsKey1);
+                                        mMap.put("date",tvDate.getText().toString());
+                                        mMap.put("state",state);
+                                        if (!fromdebit) {
+                                            appUser.mListMapForItemDebitNote.add(mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        } else {
+                                            appUser.mListMapForItemDebitNote.remove(Integer.parseInt(itempos));
+                                            appUser.mListMapForItemDebitNote.add(Integer.parseInt(itempos), mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
                                         Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
                                         intent.putExtra("sp_position", spGoodsKey1);
@@ -319,8 +352,17 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        mMap.put("gst_pos7", journalVoucherPosition);
+                                        mMap.put("date",tvDate.getText().toString());
+                                        mMap.put("state",state);
+                                        if (!fromdebit) {
+                                            appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        } else {
+                                            appUser.mListMapForItemJournalVoucherNote.remove(Integer.parseInt(itempos));
+                                            appUser.mListMapForItemJournalVoucherNote.add(Integer.parseInt(itempos), mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
                                         Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
                                         intent.putExtra("gst_pos7", journalVoucherPosition);

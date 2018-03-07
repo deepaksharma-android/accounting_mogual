@@ -474,6 +474,10 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                    llSpiner.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
+                           appUser.journalreason="";
+                           LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                           appUser.mListMapForItemJournalVoucherNote.clear();
+                           LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                            if (!transaction_amount.getText().toString().equals("")) {
                                appUser.journalreason="";
                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -530,6 +534,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     llSpiner.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            appUser.mListMapForItemJournalVoucherNote.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             if (!transaction_amount.getText().toString().equals("")) {
                                 Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
                                 intent3.putExtra("gst_pos6", String.valueOf(position));
@@ -551,20 +557,23 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                         gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }*/
-                    llSpiner.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!transaction_amount.getText().toString().equals("")) {
-                                Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
-                                intent3.putExtra("gst_pos7", String.valueOf(position));
-                                intent3.putExtra("diff_amount", transaction_amount.getText().toString());
-                                startActivity(intent3);
-                            } else {
-                                gst_nature_spinner.setSelection(0);
-                                Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+
+                   llSpiner.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           appUser.mListMapForItemJournalVoucherNote.clear();
+                           LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                           if (!transaction_amount.getText().toString().equals("")) {
+                               Intent intent4 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
+                               intent4.putExtra("gst_pos7", String.valueOf(position));
+                               intent4.putExtra("diff_amount", transaction_amount.getText().toString());
+                               startActivity(intent4);
+                           } else {
+                               gst_nature_spinner.setSelection(0);
+                               Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                           }
+                       }
+                   });
 
                 }
 

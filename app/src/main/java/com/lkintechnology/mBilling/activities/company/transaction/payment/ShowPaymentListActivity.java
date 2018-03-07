@@ -1,13 +1,16 @@
 package com.lkintechnology.mBilling.activities.company.transaction.payment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem.CreateDebitNoteItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.CreateJournalItemActivity;
 import com.lkintechnology.mBilling.adapters.AddJournalVoucherItemAdapter;
@@ -50,6 +54,43 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
         pos2=getIntent().getStringExtra("sp_position2");
         createJournalList.setOnClickListener(this);
         llSubmit.setOnClickListener(this);
+
+        paymentItemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), CreatePaymentListActivity.class);
+                intent.putExtra("frompayment", true);
+                intent.putExtra("pos",String.valueOf(i) );
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        paymentItemList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ShowPaymentListActivity.this);
+                alertDialog.setMessage("Are you sure to delete?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForItemPaymentList.remove(position);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        dialog.cancel();
+                        initialpageSetup();
+                    }
+                });
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+
+            }
+        });
     }
 
     private void initialpageSetup() {

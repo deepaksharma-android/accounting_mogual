@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -35,6 +36,8 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
     LinearLayout mSubmitButton;
     Map mMap;
     AppUser appUser;
+    public Boolean fromreceipt;
+    public String itempos;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,22 +46,47 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        fromreceipt=getIntent().getExtras().getBoolean("fromreceipt");
         mTransactionAmount.setText(getIntent().getExtras().getString("amount"));
         mMap = new HashMap<>();
+        if(fromreceipt){
+            itempos=getIntent().getExtras().getString("pos");
+            Map map=appUser.mListMapForItemReceipt.get(Integer.parseInt(itempos));
+             mReferenceNumber.setText((String)map.get("ref_num"));
+             mTransactionAmount.setText((String)map.get("amount"));
+             mTaxRate.setText((String)map.get("taxrate"));
+        }
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String total=String.format("%.2f",((((Double.parseDouble(mTransactionAmount.getText().toString()))*(Double.parseDouble(mTaxRate.getText().toString())))/100)+(Double.parseDouble(mTransactionAmount.getText().toString()))));
-                mMap.put("ref_num", mReferenceNumber.getText().toString());
-                mMap.put("amount", mTransactionAmount.getText().toString());
-                mMap.put("taxrate", mTaxRate.getText().toString());
-                mMap.put("total",total);
-                appUser.mListMapForItemReceipt.add(mMap);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                Intent in = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
-                in.putExtra("amount",mTransactionAmount.getText().toString());
-                startActivity(in);
-                finish();
+                if( !mReferenceNumber.getText().toString().equals("")){
+                        if(!mTaxRate.getText().toString().equals("")){
+                            String total=String.format("%.2f",((((Double.parseDouble(mTransactionAmount.getText().toString()))*(Double.parseDouble(mTaxRate.getText().toString())))/100)+(Double.parseDouble(mTransactionAmount.getText().toString()))));
+                            mMap.put("ref_num", mReferenceNumber.getText().toString());
+                            mMap.put("amount", mTransactionAmount.getText().toString());
+                            mMap.put("taxrate", mTaxRate.getText().toString());
+                            mMap.put("total",total);
+                            if (!fromreceipt) {
+                                appUser.mListMapForItemReceipt.add(mMap);
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            } else {
+                                appUser.mListMapForItemReceipt.remove(Integer.parseInt(itempos));
+                                appUser.mListMapForItemReceipt.add(Integer.parseInt(itempos), mMap);
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            }
+                            Intent in = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
+                            in.putExtra("amount",mTransactionAmount.getText().toString());
+                            startActivity(in);
+                            finish();
+                        }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Please enter the tax rate",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please enter the reference number",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
