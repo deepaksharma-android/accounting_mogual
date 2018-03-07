@@ -34,6 +34,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.media.CamcorderProfile.get;
+
 public class CreateCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText etIVNNo;
     private TextView tvDiffAmount;
@@ -66,10 +68,11 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         ll_submit.setOnClickListener(this);
         fromcredit=getIntent().getExtras().getBoolean("fromcredit");
 
+        journalVoucherPosition=getIntent().getExtras().getString("gst_pos6");
+        position=getIntent().getExtras().getString("sp_position");
         if(fromcredit){
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemCreditNote.get(Integer.parseInt(itempos));
-           // String date= (String) map.get("date");
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
             tvDiffAmount.setText((String)map.get("difference_amount"));
@@ -79,6 +82,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etSGST.setText((String)map.get("sgst"));
             amount=(String) map.get("difference_amount");
             state=(String) map.get("state");
+
 
         }
         else{
@@ -228,8 +232,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
         switch (v.getId()){
             case R.id.tv_submit:
-                if (position!=null || itempos!=null) {
-                    if (position.equals("1")|| itempos.equals("0")) {
+                if (position!=null) {
+                    if (position.equals("1")) {
                         spChooseGoods.setVisibility(View.INVISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
@@ -250,11 +254,23 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     mMap.put("sp_pos",position);
                                     mMap.put("amount",amount);
                                     mMap.put("journal_pos",journalVoucherPosition);
-                                    appUser.mListMapForItemCreditNote.add(mMap);
-                                    LocalRepositories.saveAppUser(this, appUser);
-                                    Intent intent = new Intent(CreateCreditNoteItemActivity.this, AddCreditNoteItemActivity.class);
+                                    if (!fromcredit){
+                                        appUser.mListMapForItemCreditNote.add(mMap);
+                                        LocalRepositories.saveAppUser(this, appUser);
+                                    }else {
+                                        appUser.mListMapForItemCreditNote.remove(Integer.parseInt(itempos));
+                                        appUser.mListMapForItemCreditNote.add(mMap);
+
+                                        LocalRepositories.saveAppUser(this, appUser);
+                                    }
+                                   /* appUser.mListMapForItemCreditNote.add(mMap);
+                                    LocalRepositories.saveAppUser(this, appUser);*/
+                                    Intent intent = new Intent(this, AddCreditNoteItemActivity.class);
                                     intent.putExtra("amount", amount);
-                                    intent.putExtra("sp_position", position);
+                                    if (position!=null){
+                                        intent.putExtra("sp_position", position);
+                                    }
+                                   // intent.putExtra("sp_position", position);
                                     intent.putExtra("state", state);
                                     startActivity(intent);
                                     finish();
@@ -289,8 +305,20 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemCreditNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                       /* appUser.mListMapForItemCreditNote.add(mMap);
+                                        LocalRepositories.saveAppUser(this, appUser);*/
+                                        if (!fromcredit){
+                                            appUser.mListMapForItemCreditNote.add(mMap);
+                                            LocalRepositories.saveAppUser(this, appUser);
+
+                                        }else {
+                                            appUser.mListMapForItemCreditNote.remove(Integer.parseInt(itempos));
+
+                                            appUser.mListMapForItemCreditNote.add(mMap);
+
+                                            LocalRepositories.saveAppUser(this, appUser);
+
+                                        }
                                         Intent intent = new Intent(CreateCreditNoteItemActivity.this, AddCreditNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
                                         intent.putExtra("sp_position", position);
@@ -315,7 +343,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                         }
 
                     }
-                }else if (journalVoucherPosition !=null) {
+                }else if (journalVoucherPosition !=null ) {
                     if (journalVoucherPosition.equals("6")) {
                         spChooseGoods.setVisibility(View.VISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
@@ -333,8 +361,20 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        /*appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                                        LocalRepositories.saveAppUser(this, appUser);*/
+                                        if (!fromcredit){
+                                            appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                                            LocalRepositories.saveAppUser(this, appUser);
+
+                                        }else {
+                                            appUser.mListMapForItemJournalVoucherNote.remove(Integer.parseInt(itempos));
+
+                                            appUser.mListMapForItemJournalVoucherNote.add(mMap);
+
+                                            LocalRepositories.saveAppUser(this, appUser);
+
+                                        }
                                         Intent intent = new Intent(CreateCreditNoteItemActivity.this, AddCreditNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
                                         intent.putExtra("gst_pos6", journalVoucherPosition);

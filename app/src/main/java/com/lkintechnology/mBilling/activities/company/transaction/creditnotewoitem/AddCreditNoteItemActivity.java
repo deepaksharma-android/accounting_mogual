@@ -65,6 +65,8 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                 intent.putExtra("state", state);
                 intent.putExtra("fromcredit", true);
                 intent.putExtra("pos",String.valueOf(i) );
+                intent.putExtra("gst_pos6",positionJournalVoucher );
+                intent.putExtra("sp_position",position );
                 startActivity(intent);
                 finish();
             }
