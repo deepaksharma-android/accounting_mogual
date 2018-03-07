@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -39,6 +40,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private RelativeLayout rootLayout;
     private int year, month, day;
 
+
      Map mMap;
      AppUser appUser;
      String amount,spGoodsKey1,state,journalVoucherPosition,journalVoucherDiffAmount;
@@ -47,32 +49,51 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private double percentage,halfIC;
     private String chooseGoods[]={" Input Goods","Input Services","Capital Goods","None"};
 
-
+    public String itempos;
+    public Boolean fromcredit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_debit_note_item);
-        initActionbarSetup();
+        setContentView(R.layout.activity_add_credit_note_item);
         initView();
+        initActionbarSetup();
+
         initialpageSetup();
         mMap=new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
-        amount=getIntent().getStringExtra("amount");
-        spGoodsKey1=getIntent().getStringExtra("sp_position");
+      //  amount=getIntent().getStringExtra("amount");
+        //spGoodsKey1=getIntent().getStringExtra("sp_position");
         state=getIntent().getExtras().getString("state");
-        journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
+      //  journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
         journalVoucherDiffAmount=getIntent().getExtras().getString("jDiff_amount");
         if(state==null){
             state="Haryana";
         }
-        etDifferenceAmount.setText(amount);
+        fromcredit=getIntent().getExtras().getBoolean("fromcredit");
+
+        if(fromcredit){
+            itempos=getIntent().getExtras().getString("pos");
+            Map map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
+
+        }else {
+            spGoodsKey1=getIntent().getStringExtra("sp_position");
+            journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
+            amount=getIntent().getStringExtra("amount");
+            etDifferenceAmount.setText(amount);
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            showDate(year, month+1, day);
+        }
+       /* etDifferenceAmount.setText(amount);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month+1, day);
+        showDate(year, month+1, day);*/
         if (spGoodsKey1!=null) {
             if (spGoodsKey1.equals("2")) {
                 spChooseGoods.setVisibility(View.VISIBLE);
@@ -173,6 +194,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         tvDate= (TextView) findViewById(R.id.tv_date_select);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
         rootSP= (LinearLayout) findViewById(R.id.root_sp);
+
     }
 
     //  add action bar title here

@@ -49,7 +49,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     private Spinner spChooseGoods;
     private double percentage,halfIC;
        private String chooseGoods[]={"Input Goods","Input Services","Capital Goods","None"};
-    public String itempos;
+    private String itempos;
     public Boolean fromcredit;
 
     @Override
@@ -69,6 +69,16 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         if(fromcredit){
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemCreditNote.get(Integer.parseInt(itempos));
+           // String date= (String) map.get("date");
+            etIVNNo.setText((String)map.get("inv_num"));
+            tvDate.setText((String)map.get("date"));
+            tvDiffAmount.setText((String)map.get("difference_amount"));
+            etGST.setText((String)map.get("gst"));
+           // etCGST.setText((String)map.get("cgst"));
+            etIGST.setText((String)map.get("igst"));
+            etSGST.setText((String)map.get("sgst"));
+            amount=(String) map.get("difference_amount");
+            state=(String) map.get("state");
 
         }
         else{
@@ -101,8 +111,19 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             else{
                 tvITC.setVisibility(View.GONE);
             }
+        }else if (journalVoucherPosition!=null){
+            if (journalVoucherPosition.equals("6")){
+                journalDiffAmount=getIntent().getExtras().getString("jDiff_amount");
+                spChooseGoods.setVisibility(View.VISIBLE);
+                tvDiffAmount.setText(journalDiffAmount);
+                rootSP.setVisibility(View.VISIBLE);
+                tvITC.setVisibility(View.VISIBLE);
+            }
+            else{
+                tvITC.setVisibility(View.GONE);
+            }
         }
-         else if (journalVoucherPosition.equals("6")){
+         /*else if (journalVoucherPosition.equals("6")){
             journalDiffAmount=getIntent().getExtras().getString("jDiff_amount");
             spChooseGoods.setVisibility(View.VISIBLE);
             tvDiffAmount.setText(journalDiffAmount);
@@ -111,7 +132,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         }
         else{
             tvITC.setVisibility(View.GONE);
-        }
+        }*/
+
         if(state.equals(appUser.company_state)){
             tvCGST.setVisibility(View.VISIBLE);
             etCGST.setVisibility(View.VISIBLE);
@@ -206,8 +228,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
         switch (v.getId()){
             case R.id.tv_submit:
-                if (position!=null) {
-                    if (position.equals("1")) {
+                if (position!=null || itempos!=null) {
+                    if (position.equals("1")|| itempos.equals("0")) {
                         spChooseGoods.setVisibility(View.INVISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {

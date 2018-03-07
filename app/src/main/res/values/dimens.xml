@@ -82,5 +82,6 @@
     <dimen name="dp_18">18dp</dimen>
     <dimen name="dp_98">98dp</dimen>
     <dimen name="dp_52">52dp</dimen>
+    <dimen name="dp_130">130dp</dimen>
 
 </resources>

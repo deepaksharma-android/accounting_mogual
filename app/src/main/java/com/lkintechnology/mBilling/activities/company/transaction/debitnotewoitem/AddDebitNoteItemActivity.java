@@ -1,13 +1,16 @@
 package com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteItemActivity;
 import com.lkintechnology.mBilling.adapters.DebitNoteItemDetailAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -51,6 +55,42 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
         journalVoucherDiffAmount = getIntent().getStringExtra("diff_amount");
         initialPageSetup();
+        itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), CreateDebitNoteItemActivity.class);
+                intent.putExtra("state", state);
+                intent.putExtra("fromcredit", true);
+                intent.putExtra("pos", String.valueOf(i));
+                startActivity(intent);
+                finish();
+            }
+        });
+        itemList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                alertDialog.setMessage("Are you sure to delete?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForItemDebitNote.remove(position);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+
+            }
+        });
+
 
     }
 

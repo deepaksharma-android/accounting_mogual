@@ -64,7 +64,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                 Intent intent = new Intent(getApplicationContext(), CreateCreditNoteItemActivity.class);
                 intent.putExtra("state", state);
                 intent.putExtra("fromcredit", true);
-                intent.putExtra("pos", i);
+                intent.putExtra("pos",String.valueOf(i) );
                 startActivity(intent);
                 finish();
             }
@@ -73,7 +73,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddCreditNoteItemActivity.this);
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

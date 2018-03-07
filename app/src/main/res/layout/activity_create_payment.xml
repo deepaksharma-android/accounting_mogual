@@ -301,23 +301,48 @@
                                 android:textSize="15sp" />
 
                             <LinearLayout
-                                android:layout_width="fill_parent"
+                                android:layout_width="match_parent"
                                 android:layout_height="40dp"
+                                android:orientation="horizontal"
+                                android:layout_weight="2"
+                                android:background="@drawable/bg_grey_stroke"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginLeft="5dp"
-                                android:background="@drawable/bg_grey_stroke"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
+                                android:layout_marginRight="5dp">
                                 <Spinner
                                     android:id="@+id/transaction_spinner2"
-                                    android:layout_width="fill_parent"
+                                    android:layout_width="match_parent"
                                     android:layout_height="40dp"
                                     android:entries="@array/gst_nature_payment"
-                                    android:spinnerMode="dialog">
-                                </Spinner>
+                                    android:spinnerMode="dialog"
+                                    android:layout_weight=".40"
+                                    >
 
+                                </Spinner>
+                                <LinearLayout
+                                    android:id="@+id/ll_spinerItem"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="01.50"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="center">
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="25dp"
+                                        android:background="@color/black"
+                                        android:layout_gravity="center"
+                                        />
+                                    <ImageView
+                                        android:id="@+id/sp_image"
+                                        android:layout_width="15dp"
+                                        android:layout_height="25dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/right_chevron"
+                                        android:layout_marginLeft="@dimen/dp_45"/>
+                                </LinearLayout>
                             </LinearLayout>
+
 
                         </LinearLayout>
 
