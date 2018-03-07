@@ -52,15 +52,14 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         state = getIntent().getStringExtra("state");
 
         // get position and amount from journal voucher
-        journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
+        // journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
         journalVoucherDiffAmount = getIntent().getStringExtra("diff_amount");
         initialPageSetup();
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), CreateDebitNoteItemActivity.class);
-                intent.putExtra("state", state);
-                intent.putExtra("fromcredit", true);
+                intent.putExtra("fromdebit", true);
                 intent.putExtra("pos", String.valueOf(i));
                 startActivity(intent);
                 finish();
@@ -70,14 +69,24 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddDebitNoteItemActivity.this);
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
-                        appUser.mListMapForItemDebitNote.remove(position);
+                        if (journalVoucherPosition != null) {
+                            if (journalVoucherPosition.equals("7")) {
+                                appUser.mListMapForItemJournalVoucherNote.remove(position);
+                            }
+                        }
+                            else {
+
+                                appUser.mListMapForItemDebitNote.remove(position);
+                            }
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
+
+                        initialPageSetup();
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -90,6 +99,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
 
             }
         });
+
 
 
     }
