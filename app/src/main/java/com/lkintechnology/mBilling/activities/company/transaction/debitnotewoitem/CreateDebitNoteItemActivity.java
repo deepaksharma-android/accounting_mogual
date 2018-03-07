@@ -70,7 +70,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         if(state==null){
             state="Haryana";
         }
-        fromdebit=getIntent().getExtras().getBoolean("fromcredit");
+        fromdebit=getIntent().getExtras().getBoolean("fromdebit");
 
         if(fromdebit){
             itempos=getIntent().getExtras().getString("pos");
@@ -259,7 +259,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     mMap.put("goodsItem", "");
                                     mMap.put("sp_position",spGoodsKey1);
                                     mMap.put("date",tvDate.getText().toString());
-
+                                    mMap.put("state",state);
                                     if (!fromdebit) {
                                         appUser.mListMapForItemDebitNote.add(mMap);
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -304,6 +304,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
                                         mMap.put("sp_position",spGoodsKey1);
                                         mMap.put("date",tvDate.getText().toString());
+                                        mMap.put("state",state);
                                         if (!fromdebit) {
                                             appUser.mListMapForItemDebitNote.add(mMap);
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -353,6 +354,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
                                         mMap.put("gst_pos7", journalVoucherPosition);
                                         mMap.put("date",tvDate.getText().toString());
+                                        mMap.put("state",state);
                                         if (!fromdebit) {
                                             appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
