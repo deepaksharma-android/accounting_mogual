@@ -487,8 +487,6 @@ public class AddItemVoucherFragment extends Fragment {
                                 int qty = Integer.parseInt(quantity);
                                 double itemtot = Double.parseDouble(total);
                                 subtot = subtot + (itemtot * qty);
-
-
                             }
 
                             double per_val = Double.parseDouble(percentage_value);
@@ -499,8 +497,6 @@ public class AddItemVoucherFragment extends Fragment {
                             } else {
                                 billsundrymamount = billsundrymamount - percentagebillsundry;
                             }
-
-
                         }
 
                     } else if (fed_as_percentage.equals("Taxable Amount")) {
