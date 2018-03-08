@@ -86,7 +86,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         llSubmit.setOnClickListener(this);
         if(fromjournal){
             itempos=getIntent().getExtras().getString("pos");
-            Map map=appUser.mListMapForItemPaymentList.get(Integer.parseInt(itempos));
+            Map map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
             String voucher_number= (String)map.get("inv_num");
             String acount_name=(String)map.get("acount_name");
             String party_name= (String)map.get("party_name");
