@@ -74,6 +74,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
     @Bind(R.id.account_name_credit)
     TextView account_name_credit;
+    @Bind(R.id.ll_spiner_item)
+    LinearLayout llSpItem;
     @Bind(R.id.account_name_debit)
     TextView account_name_debit;
     @Bind(R.id.date)
@@ -117,7 +119,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_create_bank_case_deposit);
+
         ButterKnife.bind(this);
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -126,7 +128,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                 if (position==1){
-                    if (!account_name_debit.getText().toString().equals("")){
+                   /* if (!account_name_debit.getText().toString().equals("")){
                         if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
@@ -141,10 +143,31 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     else{
                         gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    }
+                    }*/
+                   llSpItem.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           if (!account_name_debit.getText().toString().equals("")){
+                               if (!transaction_amount.getText().toString().equals("")){
+                                   Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
+                                   intent.putExtra("amount",transaction_amount.getText().toString());
+                                   intent.putExtra("sp_position",String.valueOf(position));
+                                   intent.putExtra("state",state);
+                                   startActivity(intent);
+                               }else{
+                                   gst_nature_spinner.setSelection(0);
+                                   Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                               }
+                           }
+                           else{
+                               gst_nature_spinner.setSelection(0);
+                               Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                           }
+                       }
+                   });
 
                 }else if(position==2) {
-                    if (!account_name_debit.getText().toString().equals("")){
+                    /*if (!account_name_debit.getText().toString().equals("")){
                         if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
@@ -159,7 +182,28 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     else{
                         gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    }
+                    }*/
+                    llSpItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!account_name_debit.getText().toString().equals("")){
+                                if (!transaction_amount.getText().toString().equals("")){
+                                    Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
+                                    intent.putExtra("amount",transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position",String.valueOf(position));
+                                    intent.putExtra("state",state);
+                                    startActivity(intent);
+                                }else{
+                                    gst_nature_spinner.setSelection(0);
+                                    Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+                                gst_nature_spinner.setSelection(0);
+                                Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
 
             }

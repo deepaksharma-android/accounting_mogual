@@ -81,6 +81,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
     @Bind(R.id.date_pdc_textview)
     TextView date_pdc_textview;
+    @Bind(R.id.ll_spinerItem)
+    LinearLayout llSpinerItemSelect;
     @Bind(R.id.date_pdc_layout)
     LinearLayout date_pdc_layout;
     @Bind(R.id.date_pdc)
@@ -142,7 +144,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_create_bank_case_deposit);
+
         ButterKnife.bind(this);
         iconHandlerVariable = 0;
         initActionbar();
@@ -542,7 +544,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 if (position==1){
 
-                        if (!transaction_amount.getText().toString().equals("")){
+                        /*if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
                             intent.putExtra("sp_position1",String.valueOf(position));
@@ -551,13 +553,28 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         }else{
                             gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                        }
+                        }*/
+                        llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (!transaction_amount.getText().toString().equals("")){
+                                    Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
+                                    intent.putExtra("amount",transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position1",String.valueOf(position));
+                                    //intent.putExtra("state",state);
+                                    startActivity(intent);
+                                }else{
+                                    gst_nature_spinner.setSelection(0);
+                                    Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                }
+                            }
+                        });
 
 
 
                 }else if(position==2) {
 
-                        if (!transaction_amount.getText().toString().equals("")){
+                       /* if (!transaction_amount.getText().toString().equals("")){
                             Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
                             intent.putExtra("amount",transaction_amount.getText().toString());
                             intent.putExtra("sp_position2",String.valueOf(position));
@@ -566,7 +583,22 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         }else{
                             gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                        }
+                        }*/
+                       llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View v) {
+                               if (!transaction_amount.getText().toString().equals("")){
+                                   Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
+                                   intent.putExtra("amount",transaction_amount.getText().toString());
+                                   intent.putExtra("sp_position2",String.valueOf(position));
+                                   //   intent.putExtra("state",state);
+                                   startActivity(intent);
+                               }else{
+                                   gst_nature_spinner.setSelection(0);
+                                   Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                               }
+                           }
+                       });
 
 
                 }

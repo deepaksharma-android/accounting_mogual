@@ -1,19 +1,23 @@
 package com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.payment.CreatePaymentListActivity;
 import com.lkintechnology.mBilling.adapters.AddReceiptItemAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -41,8 +45,45 @@ public class AddReceiptItemActivity extends AppCompatActivity {
         initActionbar();
         appUser= LocalRepositories.getAppUser(this);
         amount=getIntent().getExtras().getString("amount");
+        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), CreateReceiptItemActivity.class);
+                intent.putExtra("fromreceipt", true);
+                intent.putExtra("pos",String.valueOf(i) );
+                startActivity(intent);
+                finish();
+            }
+        });
 
+        listViewItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddReceiptItemActivity.this);
+                alertDialog.setMessage("Are you sure to delete?");
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        appUser.mListMapForItemReceipt.remove(position);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        dialog.cancel();
+                        appUser=LocalRepositories.getAppUser(getApplicationContext());
+                        listViewItems.setAdapter(new AddReceiptItemAdapter(getApplicationContext(), appUser.mListMapForItemReceipt));
+                    }
+                });
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                return true;
+
+            }
+        });
         listViewItems.setAdapter(new AddReceiptItemAdapter(getApplicationContext(), appUser.mListMapForItemReceipt));
+
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -58,13 +58,13 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     @Bind(R.id.et_rate)
     EditText etRate;
     @Bind(R.id.tv_cgst)
-    TextView tvCGST;
+    EditText tvCGST;
     @Bind(R.id.tv_igst)
-    TextView tvIGST;
+    EditText tvIGST;
     @Bind(R.id.rl_journal_voucher_root)
     LinearLayout rootLayout;
     @Bind(R.id.tv_sgst)
-    TextView tvSgst;
+    EditText tvSgst;
     @Bind(R.id.sp_itc_eligibility)
     Spinner spITCEligibility;
     String account_id;
@@ -76,12 +76,15 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     AppUser appUser;
     Map mMap;
     private String spPos1, spPos2,amount;
+    public Boolean frompayment;
+    private String itempos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_payment_list);
         ButterKnife.bind(this);
+        frompayment=getIntent().getExtras().getBoolean("frompayment");
         mMap = new HashMap();
         appUser = LocalRepositories.getAppUser(getApplicationContext());
         setActionBarLayout();
@@ -91,7 +94,61 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
         amount = getIntent().getStringExtra("amount");
         etDiffAmount.setText(amount);
         llSubmit.setOnClickListener(this);
-        etRate.addTextChangedListener(new TextWatcher() {
+
+        if(frompayment){
+            itempos=getIntent().getExtras().getString("pos");
+            Map map=appUser.mListMapForItemPaymentList.get(Integer.parseInt(itempos));
+             String voucher_number= (String)map.get("inv_num");
+            String acount_name=(String)map.get("acount_name");
+            String party_name= (String)map.get("party_name");
+            String difference_amount=(String)map.get("difference_amount");
+            String sp1= (String)map.get("gst_pos1");
+            String sp2= (String)map.get("gst_pos2");
+            String rate= (String)map.get("rate");
+            String igst=(String)map.get("igst");
+            String cgst= (String)map.get("cgst");
+            String sgst=(String)map.get("sgst");
+            String spRCNItem= (String)map.get("spRCNItem");
+            String ITCEligibility=(String)map.get("spITCEligibility");
+            etIVNNo.setText(voucher_number);
+            tvAccountName.setText(acount_name);
+            account_id=(String)map.get("account_id");
+            tvPartyName.setText(party_name);
+            party_id=(String)map.get("party_id");
+            etDiffAmount.setText(difference_amount);
+            etRate.setText(rate);
+            tvIGST.setText(igst);
+            tvCGST.setText(cgst);
+            tvSgst.setText(sgst);
+            String group_type = spRCNItem.trim();
+            int groupindex = -1;
+            for (int i = 0; i<chooseRCN.length; i++) {
+                if (chooseRCN[i].equals(group_type)) {
+                    groupindex = i;
+                    break;
+                }
+            }
+            spRCNNature.setSelection(groupindex);
+
+            String group_type_spITCEligibility = ITCEligibility.trim();
+            int groupindexspITCEligibility = -1;
+            for (int i = 0; i<chooseGoods.length; i++) {
+                if (chooseGoods[i].equals(group_type_spITCEligibility)) {
+                    groupindexspITCEligibility = i;
+                    break;
+                }
+            }
+            spITCEligibility.setSelection(groupindexspITCEligibility);
+
+            amount=difference_amount;
+            spPos1=sp1;
+            spPos2=sp2;
+
+
+
+        }
+
+       /* etRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -111,7 +168,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
+        appUser.account_master_group="";
+        LocalRepositories.saveAppUser(this,appUser);
         llAccountName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,7 +208,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("Create Journal Item");
+        actionbarTitle.setText("CREATE PAYMENT ITEM");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -181,10 +240,17 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                             mMap.put("igst", tvIGST.getText().toString());
                                             mMap.put("cgst", tvCGST.getText().toString());
                                             mMap.put("sgst", tvSgst.getText().toString());
+                                            mMap.put("gst_pos1", spPos1);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
-                                            appUser.mListMapForItemPaymentList.add(mMap);
-                                            LocalRepositories.saveAppUser(this, appUser);
+                                            if (!frompayment) {
+                                                appUser.mListMapForItemPaymentList.add(mMap);
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            } else {
+                                                appUser.mListMapForItemPaymentList.remove(Integer.parseInt(itempos));
+                                                appUser.mListMapForItemPaymentList.add(Integer.parseInt(itempos), mMap);
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            }
                                             Intent intent = new Intent(getApplicationContext(), ShowPaymentListActivity.class);
                                             intent.putExtra("gst_pos1", spPos1);
                                             startActivity(intent);
@@ -236,10 +302,18 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                             mMap.put("igst", tvIGST.getText().toString());
                                             mMap.put("cgst", tvCGST.getText().toString());
                                             mMap.put("sgst", tvSgst.getText().toString());
+                                            mMap.put("gst_pos2", spPos2);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
-                                            appUser.mListMapForItemPaymentList.add(mMap);
-                                            LocalRepositories.saveAppUser(this, appUser);
+                                            if (!frompayment) {
+                                                appUser.mListMapForItemPaymentList.add(mMap);
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            } else {
+                                                appUser.mListMapForItemPaymentList.remove(Integer.parseInt(itempos));
+                                                appUser.mListMapForItemPaymentList.add(Integer.parseInt(itempos), mMap);
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            }
+
                                             // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
                                             Intent intent = new Intent(getApplicationContext(), ShowPaymentListActivity.class);
                                             intent.putExtra("gst_pos2", spPos2);

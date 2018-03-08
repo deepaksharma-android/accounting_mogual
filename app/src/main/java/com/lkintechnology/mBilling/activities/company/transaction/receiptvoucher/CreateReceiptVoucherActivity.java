@@ -123,6 +123,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     Snackbar snackbar;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.arrow)
+    LinearLayout arrow;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
     private static final int SELECT_PICTURE = 1;
@@ -259,30 +261,27 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             }
         }
         initActionbar();
-        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        arrow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
-                    if(!transaction_amount.getText().toString().equals("")) {
+            public void onClick(View view) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+
                         appUser.mListMapForItemReceipt.clear();
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                        Intent intent=new Intent(getApplicationContext(),AddReceiptItemActivity.class);
-                        intent.putExtra("amount",transaction_amount.getText().toString());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
+                        intent.putExtra("amount", transaction_amount.getText().toString());
                         startActivity(intent);
-                    }
-                    else{
+                    } else {
                         gst_nature_spinner.setSelection(0);
                         Snackbar
                                 .make(coordinatorLayout, "Enter the amount", Snackbar.LENGTH_LONG).show();
                     }
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
+
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

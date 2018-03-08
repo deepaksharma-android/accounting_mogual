@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -39,6 +40,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private RelativeLayout rootLayout;
     private int year, month, day;
 
+
      Map mMap;
      AppUser appUser;
      String amount,spGoodsKey1,state,journalVoucherPosition,journalVoucherDiffAmount;
@@ -47,32 +49,93 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private double percentage,halfIC;
     private String chooseGoods[]={" Input Goods","Input Services","Capital Goods","None"};
 
-
+    public String itempos;
+    public Boolean fromdebit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_debit_note_item);
-        initActionbarSetup();
+        setContentView(R.layout.activity_add_credit_note_item);
         initView();
+        initActionbarSetup();
+
         initialpageSetup();
         mMap=new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
-        amount=getIntent().getStringExtra("amount");
-        spGoodsKey1=getIntent().getStringExtra("sp_position");
-        state=getIntent().getExtras().getString("state");
-        journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
-        journalVoucherDiffAmount=getIntent().getExtras().getString("jDiff_amount");
+        fromdebit=getIntent().getExtras().getBoolean("fromdebit");
+        if(fromdebit){
+            itempos=getIntent().getExtras().getString("pos");
+            Boolean journal=getIntent().getExtras().getBoolean("journal");
+            Map map;
+            if(journal){
+                map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
+            }
+            else{
+                map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
+            }
+
+            etIVNNo.setText((String)map.get("inv_num"));
+            tvDate.setText((String)map.get("date"));
+            etDifferenceAmount.setText((String)map.get("difference_amount"));
+            etGST.setText((String)map.get("gst"));
+             etCGST.setText((String)map.get("cgst"));
+            etIGST.setText((String)map.get("igst"));
+            etSGST.setText((String)map.get("sgst"));
+            amount=(String) map.get("difference_amount");
+            journalVoucherDiffAmount=(String) map.get("diff_amount");
+            state=(String) map.get("state");
+            journalVoucherPosition=((String)map.get("gst_pos7"));
+            spGoodsKey1=((String)map.get("sp_position"));
+            String goods=((String)map.get("goodsItem"));
+            tvDate.setText((String)map.get("date"));
+            if(spGoodsKey1!=null) {
+                if (spGoodsKey1.equals("2")) {
+                    tvITC.setVisibility(View.VISIBLE);
+                    String group_type = goods.trim();
+                    int groupindex = -1;
+                    for (int i = 0; i < chooseGoods.length; i++) {
+                        if (chooseGoods[i].equals(group_type)) {
+                            groupindex = i;
+                            break;
+                        }
+                    }
+                    spChooseGoods.setSelection(groupindex);
+                }
+                else{
+                    tvITC.setVisibility(View.GONE);
+                }
+            }
+            else {
+                tvITC.setVisibility(View.VISIBLE);
+                String group_type = goods.trim();
+                int groupindex = -1;
+                for (int i = 0; i < chooseGoods.length; i++) {
+                    if (chooseGoods[i].equals(group_type)) {
+                        groupindex = i;
+                        break;
+                    }
+                }
+                spChooseGoods.setSelection(groupindex);
+
+            }
+
+        }else {
+            spGoodsKey1=getIntent().getStringExtra("sp_position");
+            journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
+            amount=getIntent().getStringExtra("amount");
+            etDifferenceAmount.setText(amount);
+            journalVoucherDiffAmount=getIntent().getExtras().getString("diff_amount");
+            state=getIntent().getExtras().getString("state");
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            showDate(year, month+1, day);
+        }
         if(state==null){
             state="Haryana";
         }
-        etDifferenceAmount.setText(amount);
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month+1, day);
         if (spGoodsKey1!=null) {
             if (spGoodsKey1.equals("2")) {
                 spChooseGoods.setVisibility(View.VISIBLE);
@@ -89,8 +152,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
             }
-        }else {
-            tvITC.setVisibility(View.GONE);
+            else{
+                tvITC.setVisibility(View.GONE);
+            }
         }
         if(state.equals(appUser.company_state)){
             tvCGST.setVisibility(View.VISIBLE);
@@ -173,6 +237,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         tvDate= (TextView) findViewById(R.id.tv_date_select);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
         rootSP= (LinearLayout) findViewById(R.id.root_sp);
+
     }
 
     //  add action bar title here
@@ -215,13 +280,24 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     if (state.equals(appUser.company_state)) {
                                         mMap.put("cgst", etCGST.getText().toString());
                                         mMap.put("sgst", etSGST.getText().toString());
+                                        mMap.put("state", state);
                                     } else {
                                         mMap.put("igst", etIGST.getText().toString());
+                                        mMap.put("state", state);
                                     }
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("goodsItem", "");
-                                    appUser.mListMapForItemDebitNote.add(mMap);
-                                    LocalRepositories.saveAppUser(this, appUser);
+                                    mMap.put("sp_position",spGoodsKey1);
+                                    mMap.put("date",tvDate.getText().toString());
+                                    mMap.put("state",state);
+                                    if (!fromdebit) {
+                                        appUser.mListMapForItemDebitNote.add(mMap);
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    } else {
+                                        appUser.mListMapForItemDebitNote.remove(Integer.parseInt(itempos));
+                                        appUser.mListMapForItemDebitNote.add(Integer.parseInt(itempos), mMap);
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    }
                                     Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                     intent.putExtra("amount",amount);
                                     intent.putExtra("sp_position",spGoodsKey1);
@@ -251,13 +327,24 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
+                                            mMap.put("state", state);
                                         } else {
                                             mMap.put("igst", etIGST.getText().toString());
+                                            mMap.put("state", state);
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemDebitNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        mMap.put("sp_position",spGoodsKey1);
+                                        mMap.put("date",tvDate.getText().toString());
+                                        mMap.put("state",state);
+                                        if (!fromdebit) {
+                                            appUser.mListMapForItemDebitNote.add(mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        } else {
+                                            appUser.mListMapForItemDebitNote.remove(Integer.parseInt(itempos));
+                                            appUser.mListMapForItemDebitNote.add(Integer.parseInt(itempos), mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
                                         Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
                                         intent.putExtra("amount", amount);
                                         intent.putExtra("sp_position", spGoodsKey1);
@@ -287,20 +374,31 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
                                         mMap.put("inv_num", etIVNNo.getText().toString());
-                                        mMap.put("difference_amount", etDifferenceAmount.getText().toString());
+                                        mMap.put("diff_amount", etDifferenceAmount.getText().toString());
                                         mMap.put("gst", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
+                                            mMap.put("state", state);
                                         } else {
                                             mMap.put("igst", etIGST.getText().toString());
+                                            mMap.put("state", state);
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
-                                        appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        mMap.put("gst_pos7", journalVoucherPosition);
+                                        mMap.put("date",tvDate.getText().toString());
+                                        mMap.put("state",state);
+                                        if (!fromdebit) {
+                                            appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        } else {
+                                            appUser.mListMapForItemJournalVoucherNote.remove(Integer.parseInt(itempos));
+                                            appUser.mListMapForItemJournalVoucherNote.add(Integer.parseInt(itempos), mMap);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
                                         Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
-                                        intent.putExtra("amount", amount);
+                                        intent.putExtra("diff_amount", journalVoucherDiffAmount);
                                         intent.putExtra("gst_pos7", journalVoucherPosition);
                                         intent.putExtra("state", state);
                                         startActivity(intent);

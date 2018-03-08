@@ -74,6 +74,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
     @Bind(R.id.account_name_credit)
     TextView account_name_credit;
+    @Bind(R.id.sp_image)
+    ImageView iv_gstSpiner;
     @Bind(R.id.account_name_debit)
     TextView account_name_debit;
     @Bind(R.id.date)
@@ -115,19 +117,21 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     WebView mPdf_webview;
     private Uri imageToUploadUri;;
    // public static boolean creditNoteStatic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
+           private  String sp_position;
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               sp_position=String.valueOf(position);
                appUser.mListMapForItemCreditNote.clear();
                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                if (position==1){
-                   if (!account_name_credit.getText().toString().equals("")){
+                   /*if (!account_name_credit.getText().toString().equals("")){
                        if (!transaction_amount.getText().toString().equals("")){
                            Intent intent=new Intent(CreateCreditNoteWoActivity.this,AddCreditNoteItemActivity.class);
                            intent.putExtra("amount",transaction_amount.getText().toString());
@@ -142,10 +146,31 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                    else{
                        gst_nature_spinner.setSelection(0);
                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                   }
+                   }*/
+                   iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           if (!account_name_credit.getText().toString().equals("")){
+                               if (!transaction_amount.getText().toString().equals("")){
+                                   Intent intent=new Intent(CreateCreditNoteWoActivity.this,AddCreditNoteItemActivity.class);
+                                   intent.putExtra("amount",transaction_amount.getText().toString());
+                                   intent.putExtra("sp_position",String.valueOf(position));
+                                   intent.putExtra("state",state);
+                                   startActivity(intent);
+                               }else{
+                                   gst_nature_spinner.setSelection(0);
+                                   Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                               }
+                           }
+                           else{
+                               gst_nature_spinner.setSelection(0);
+                               Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                           }
+                       }
+                   });
 
                }else if(position==2) {
-                   if (!account_name_credit.getText().toString().equals("")){
+                  /* if (!account_name_credit.getText().toString().equals("")){
                        if (!transaction_amount.getText().toString().equals("")){
                            Intent intent=new Intent(CreateCreditNoteWoActivity.this,AddCreditNoteItemActivity.class);
                            intent.putExtra("sp_position",String.valueOf(position));
@@ -160,7 +185,28 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                    else{
                        gst_nature_spinner.setSelection(0);
                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                   }
+                   }*/
+                  iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                          if (!account_name_credit.getText().toString().equals("")){
+                              if (!transaction_amount.getText().toString().equals("")){
+                                  Intent intent=new Intent(CreateCreditNoteWoActivity.this,AddCreditNoteItemActivity.class);
+                                  intent.putExtra("sp_position",String.valueOf(position));
+                                  intent.putExtra("amount",transaction_amount.getText().toString());
+                                  intent.putExtra("state",state);
+                                  startActivity(intent);
+                              }else{
+                                  gst_nature_spinner.setSelection(0);
+                                  Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                              }
+                          }
+                          else{
+                              gst_nature_spinner.setSelection(0);
+                              Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                          }
+                      }
+                  });
                }
            }
 
@@ -469,6 +515,12 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                         snackbar.show();
                     }
                 }
+            }
+        });
+        iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
