@@ -618,7 +618,20 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                             Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                             mRate.setText(String.valueOf(main_unit_price));
                         } else {
-                            mRate.setText(sales_price_main);
+                            if (frombillitemvoucherlist) {
+                                Timber.i("frombillitemvoucherlist true");
+                                int pos = getIntent().getExtras().getInt("pos");
+                                Map map = new HashMap<>();
+                                map = appUser.mListMapForItemSaleReturn.get(pos);
+                                String rate = (String) map.get("rate");
+                                String discount = (String) map.get("discount");
+                                String value = (String) map.get("value");
+                                mRate.setText(rate);
+                                mDiscount.setText(discount);
+                                mValue.setText(value);
+                            }else {
+                                mRate.setText(sales_price_main);
+                            }
                         }
                     } else if (i == 1) {
                         sale_unit=alternate_unit;

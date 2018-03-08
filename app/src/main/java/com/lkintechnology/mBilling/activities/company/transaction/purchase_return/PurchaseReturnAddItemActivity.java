@@ -626,11 +626,20 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                             Double main_unit_price = Double.parseDouble(purchase_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                             mRate.setText(String.valueOf(main_unit_price));
                         } else {
-                           /* if (!purchase_price_main.equals("null")) {*/
+                            if (frombillitemvoucherlist) {
+                                Timber.i("frombillitemvoucherlist true");
+                                int pos = getIntent().getExtras().getInt("pos");
+                                Map map = new HashMap<>();
+                                map = appUser.mListMapForItemPurchaseReturn.get(pos);
+                                String rate = (String) map.get("rate");
+                                String discount = (String) map.get("discount");
+                                String value = (String) map.get("value");
+                                mRate.setText(rate);
+                                mDiscount.setText(discount);
+                                mValue.setText(value);
+                            }else {
                                 mRate.setText(purchase_price_main);
-                          /*  } else {
-                                mRate.setText("");
-                            }*/
+                            }
                         }
                     } else if (i == 1) {
                         purchase_unit=alternate_unit;

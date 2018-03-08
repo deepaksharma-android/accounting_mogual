@@ -167,8 +167,7 @@
                             android:layout_marginTop="5dp"
                             android:gravity="center"
                             android:background="@drawable/bg_grey_stroke"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical">
 
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"

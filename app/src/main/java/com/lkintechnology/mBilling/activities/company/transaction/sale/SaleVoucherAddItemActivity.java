@@ -148,6 +148,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if (frombillitemvoucherlist) {
+            Timber.i("frombillitemvoucherlist true");
             pos = getIntent().getExtras().getInt("pos");
             Map map = new HashMap<>();
             map = appUser.mListMapForItemSale.get(pos);
@@ -269,6 +270,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             }
         } else {
+            Timber.i("frombillitemvoucherlist false");
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
             id = intent.getStringExtra("id");
@@ -572,6 +574,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                     if (i == 2) {
+                        Timber.i("pcccc 2");
                         sale_unit = packaging_unit;
                         price_selected_unit = "packaging";
                         if (default_unit.equals("Pckg. Unit")) {
@@ -590,6 +593,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                     }
                     if (i == 0) {
+                        Timber.i("pcccc 0");
                         sale_unit = main_unit;
                         price_selected_unit = "main";
                         if (default_unit.equals("Pckg. Unit")) {
@@ -600,10 +604,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(main_unit_price));
                             } else {
-                                mRate.setText(sales_price_main);
+                                    mRate.setText(sales_price_main);
                             }
                         }
                     } else if (i == 1) {
+                        Timber.i("pcccc 1");
                         sale_unit = alternate_unit;
                         price_selected_unit = "alternate";
                         if (default_unit.equals("Pckg. Unit")) {
@@ -631,15 +636,30 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (i == 0) {
+                        Timber.i("pcccc else 0");
                         sale_unit = main_unit;
                         price_selected_unit = "main";
                         if (sales_price_applied_on.equals("Alternate Unit")) {
                             Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                             mRate.setText(String.valueOf(main_unit_price));
                         } else {
-                            mRate.setText(sales_price_main);
+                            if (frombillitemvoucherlist) {
+                                Timber.i("frombillitemvoucherlist true");
+                                int pos = getIntent().getExtras().getInt("pos");
+                                Map map = new HashMap<>();
+                                map = appUser.mListMapForItemSale.get(pos);
+                                String rate = (String) map.get("rate");
+                                String discount = (String) map.get("discount");
+                                String value = (String) map.get("value");
+                                mRate.setText(rate);
+                                mDiscount.setText(discount);
+                                mValue.setText(value);
+                            }else {
+                                mRate.setText(sales_price_main);
+                            }
                         }
                     } else if (i == 1) {
+                        Timber.i("pcccc else 1");
                         sale_unit = alternate_unit;
                         price_selected_unit = "alternate";
                         if (sales_price_applied_on.equals("Main Unit")) {
@@ -722,6 +742,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("serial_number", appUser.sale_item_serial_arr);
                 mMap.put("unit_list", mUnitList);
                 // mListMap.add(mMap);
+
                 if (!frombillitemvoucherlist) {
                     appUser.mListMapForItemSale.add(mMap);
                     // appUser.mListMap = mListMap;
@@ -731,7 +752,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     appUser.mListMapForItemSale.add(finalPos, mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-
                 Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
                 in.putExtra("fromdashboard",false);
               /*  if(fromsalelist){
@@ -886,7 +906,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 mValue.setText("0.0");
                                 Toast.makeText(getApplicationContext(), "Value can not be more than total price", Toast.LENGTH_LONG).show();
                             }
-
                         }
                     } else {
                         mTotal.setText("0.0");
