@@ -69,7 +69,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     Spinner spITCEligibility;
     String account_id;
     String party_id;
-
+    private double percentage;
 
     private String chooseGoods[] = {"ITC Eligibility", " Input Goods", "Input Services", "Capital Goods", "None"};
     private String chooseRCN[] = {"Choose RCN", "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
@@ -148,7 +148,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
 
         }
 
-       /* etRate.addTextChangedListener(new TextWatcher() {
+        etRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -168,7 +168,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             public void afterTextChanged(Editable s) {
 
             }
-        });*/
+        });
         appUser.account_master_group="";
         LocalRepositories.saveAppUser(this,appUser);
         llAccountName.setOnClickListener(new View.OnClickListener() {
