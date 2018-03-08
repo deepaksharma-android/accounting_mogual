@@ -245,8 +245,11 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     if (state.equals(appUser.company_state)) {
                                         mMap.put("cgst", etCGST.getText().toString());
                                         mMap.put("sgst", etSGST.getText().toString());
+                                        mMap.put("state", state);
                                     } else {
                                         mMap.put("igst", etIGST.getText().toString());
+                                        mMap.put("state", state);
+                                      //  mMap.put("state", state);
                                     }
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("goodsItem", "");
@@ -300,8 +303,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
+                                            mMap.put("state", state);
                                         } else {
                                             mMap.put("igst", etIGST.getText().toString());
+                                            mMap.put("state", state);
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
@@ -356,8 +361,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
+                                            mMap.put("state", state);
                                         } else {
                                             mMap.put("igst", etIGST.getText().toString());
+                                            mMap.put("state", state);
                                         }
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());

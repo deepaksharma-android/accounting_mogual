@@ -169,10 +169,11 @@
                         android:orientation="vertical">
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/cgst"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             style="@style/Gotham_Medium"
-                            android:text="CCST"
+                            android:text="CGST"
                             android:textColor="@color/black"
                             android:textSize="12sp"/>
 
@@ -192,6 +193,7 @@
                         android:orientation="vertical">
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/sgst"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             style="@style/Gotham_Medium"
@@ -225,6 +227,7 @@
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:visibility="gone"
+                        style="@style/Gotham_Medium"
                         />
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:id="@+id/tv_igst"
@@ -251,6 +254,7 @@
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:visibility="gone"
+                        style="@style/Gotham_Medium"
                         />
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:id="@+id/tv_itceligibility"
