@@ -52,15 +52,26 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         state = getIntent().getStringExtra("state");
 
         // get position and amount from journal voucher
-        // journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
+         journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
         journalVoucherDiffAmount = getIntent().getStringExtra("diff_amount");
         initialPageSetup();
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), CreateDebitNoteItemActivity.class);
-                intent.putExtra("fromdebit", true);
-                intent.putExtra("pos", String.valueOf(i));
+                if(journalVoucherPosition!=null){
+                    if(journalVoucherPosition.equals("7")){
+                        intent.putExtra("fromdebit", true);
+                        intent.putExtra("pos", String.valueOf(i));
+                        intent.putExtra("journal",true);
+                    }
+                }
+                else{
+                    intent.putExtra("journal",false);
+                    intent.putExtra("fromdebit", true);
+                    intent.putExtra("pos", String.valueOf(i));
+                }
+
                 startActivity(intent);
                 finish();
             }
@@ -105,6 +116,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     }
 
     private void initialPageSetup() {
+        appUser=LocalRepositories.getAppUser(this);
         if (journalVoucherPosition != null) {
             if (journalVoucherPosition.equals("7")) {
                 debitNoteItemDetailAdapter = new DebitNoteItemDetailAdapter(this, appUser.mListMapForItemJournalVoucherNote);
@@ -152,7 +164,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                 if (journalVoucherPosition != null) {
                     if (journalVoucherPosition.equals("7")) {
                         Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);
-                        intent.putExtra("jDiff_amount", journalVoucherDiffAmount);
+                        intent.putExtra("diff_amount", journalVoucherDiffAmount);
                         intent.putExtra("gst_pos7", journalVoucherPosition);
                         startActivity(intent);
                         finish();

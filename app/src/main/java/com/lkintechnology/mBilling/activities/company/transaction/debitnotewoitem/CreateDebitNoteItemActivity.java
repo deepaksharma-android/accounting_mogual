@@ -62,19 +62,18 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         mMap=new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
-      //  amount=getIntent().getStringExtra("amount");
-        //spGoodsKey1=getIntent().getStringExtra("sp_position");
-        state=getIntent().getExtras().getString("state");
-      //  journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
-        journalVoucherDiffAmount=getIntent().getExtras().getString("jDiff_amount");
-        if(state==null){
-            state="Haryana";
-        }
         fromdebit=getIntent().getExtras().getBoolean("fromdebit");
-
         if(fromdebit){
             itempos=getIntent().getExtras().getString("pos");
-            Map map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
+            Boolean journal=getIntent().getExtras().getBoolean("journal");
+            Map map;
+            if(journal){
+                map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
+            }
+            else{
+                map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
+            }
+
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
             etDifferenceAmount.setText((String)map.get("difference_amount"));
@@ -83,32 +82,60 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etIGST.setText((String)map.get("igst"));
             etSGST.setText((String)map.get("sgst"));
             amount=(String) map.get("difference_amount");
+            journalVoucherDiffAmount=(String) map.get("diff_amount");
             state=(String) map.get("state");
             journalVoucherPosition=((String)map.get("gst_pos7"));
             spGoodsKey1=((String)map.get("sp_position"));
+            String goods=((String)map.get("goodsItem"));
             tvDate.setText((String)map.get("date"));
+            if(spGoodsKey1!=null) {
+                if (spGoodsKey1.equals("2")) {
+                    tvITC.setVisibility(View.VISIBLE);
+                    String group_type = goods.trim();
+                    int groupindex = -1;
+                    for (int i = 0; i < chooseGoods.length; i++) {
+                        if (chooseGoods[i].equals(group_type)) {
+                            groupindex = i;
+                            break;
+                        }
+                    }
+                    spChooseGoods.setSelection(groupindex);
+                }
+                else{
+                    tvITC.setVisibility(View.GONE);
+                }
+            }
+            else {
+                tvITC.setVisibility(View.VISIBLE);
+                String group_type = goods.trim();
+                int groupindex = -1;
+                for (int i = 0; i < chooseGoods.length; i++) {
+                    if (chooseGoods[i].equals(group_type)) {
+                        groupindex = i;
+                        break;
+                    }
+                }
+                spChooseGoods.setSelection(groupindex);
 
-
-
+            }
 
         }else {
             spGoodsKey1=getIntent().getStringExtra("sp_position");
             journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
             amount=getIntent().getStringExtra("amount");
             etDifferenceAmount.setText(amount);
+            journalVoucherDiffAmount=getIntent().getExtras().getString("diff_amount");
+            state=getIntent().getExtras().getString("state");
             calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
             showDate(year, month+1, day);
         }
-       /* etDifferenceAmount.setText(amount);
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        if(state==null){
+            state="Haryana";
+        }
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        showDate(year, month+1, day);*/
         if (spGoodsKey1!=null) {
             if (spGoodsKey1.equals("2")) {
                 spChooseGoods.setVisibility(View.VISIBLE);
@@ -125,8 +152,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
             }
-        }else {
-            tvITC.setVisibility(View.GONE);
+            else{
+                tvITC.setVisibility(View.GONE);
+            }
         }
         if(state.equals(appUser.company_state)){
             tvCGST.setVisibility(View.VISIBLE);
@@ -346,7 +374,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
                                         mMap.put("inv_num", etIVNNo.getText().toString());
-                                        mMap.put("difference_amount", etDifferenceAmount.getText().toString());
+                                        mMap.put("diff_amount", etDifferenceAmount.getText().toString());
                                         mMap.put("gst", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
@@ -370,7 +398,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         }
                                         Intent intent = new Intent(CreateDebitNoteItemActivity.this, AddDebitNoteItemActivity.class);
-                                        intent.putExtra("amount", amount);
+                                        intent.putExtra("diff_amount", journalVoucherDiffAmount);
                                         intent.putExtra("gst_pos7", journalVoucherPosition);
                                         intent.putExtra("state", state);
                                         startActivity(intent);

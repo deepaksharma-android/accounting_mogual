@@ -536,6 +536,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                         public void onClick(View v) {
                             appUser.mListMapForItemJournalVoucherNote.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            appUser.mListMapForItemCreditNote.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             if (!transaction_amount.getText().toString().equals("")) {
                                 Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
                                 intent3.putExtra("gst_pos6", String.valueOf(position));
@@ -562,6 +564,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                        @Override
                        public void onClick(View v) {
                            appUser.mListMapForItemJournalVoucherNote.clear();
+                           appUser.mListMapForItemDebitNote.clear();
                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                            if (!transaction_amount.getText().toString().equals("")) {
                                Intent intent4 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);

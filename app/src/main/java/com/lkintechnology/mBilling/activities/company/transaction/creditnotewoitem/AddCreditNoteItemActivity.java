@@ -62,14 +62,23 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), CreateCreditNoteItemActivity.class);
-                intent.putExtra("state", state);
-                intent.putExtra("fromcredit", true);
-                intent.putExtra("pos",String.valueOf(i) );
-                intent.putExtra("gst_pos6",positionJournalVoucher );
-                intent.putExtra("sp_position",position );
+                if(positionJournalVoucher!=null){
+                    if(positionJournalVoucher.equals("6")){
+                        intent.putExtra("fromcredit", true);
+                        intent.putExtra("pos", String.valueOf(i));
+                        intent.putExtra("journal",true);
+                    }
+                }
+                else{
+                    intent.putExtra("fromcredit",true);
+                    intent.putExtra("journal", false);
+                    intent.putExtra("pos", String.valueOf(i));
+                }
+
                 startActivity(intent);
                 finish();
             }
+
         });
         listItem.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -86,7 +95,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                             }
                         }
                         else {
-                            appUser.mListMapForItemDebitNote.remove(position);
+                            appUser.mListMapForItemCreditNote.remove(position);
                         }
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         dialog.cancel();
@@ -159,8 +168,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                 if (positionJournalVoucher.equals("6")) {
                     Intent intent = new Intent(this, CreateCreditNoteItemActivity.class);
                     intent.putExtra("gst_pos6", positionJournalVoucher);
-                    intent.putExtra("jDiff_amount", journalDiffAmount);
-                    intent.putExtra("fromcredit", false);
+                    intent.putExtra("diff_amount", journalDiffAmount);
                     startActivity(intent);
                     finish();
                 }
@@ -168,8 +176,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     Intent intent=new Intent(this,CreateCreditNoteItemActivity.class);
                     intent.putExtra("amount",amount);
                     intent.putExtra("sp_position",position);
-                    intent.putExtra("fromcredit", false);
-                    intent.putExtra("state",state);
+                    intent.putExtra("state", state);
                     startActivity(intent);
                     finish();
                 }
