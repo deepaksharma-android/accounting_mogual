@@ -173,6 +173,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
             Timber.i("MEEEEEEEEEE" + mListMap.get(position));
             String invoicedetail = (String) map.get("inv_num");
             String date = (String) map.get("date");
+
             String gst = (String) map.get("gst");
             String cgst = (String) map.get("cgst");
             String sgst = (String) map.get("sgst");
