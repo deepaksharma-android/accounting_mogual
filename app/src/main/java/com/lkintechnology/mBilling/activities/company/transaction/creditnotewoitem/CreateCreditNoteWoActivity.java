@@ -76,7 +76,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     @Bind(R.id.account_name_credit)
     TextView account_name_credit;
     @Bind(R.id.llSpinerItem)
-    RelativeLayout iv_gstSpiner;
+    LinearLayout llSelectItem;
     @Bind(R.id.account_name_debit)
     TextView account_name_debit;
     @Bind(R.id.date)
@@ -134,7 +134,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                if (position==1){
 
-                   iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+                   llSelectItem.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
@@ -162,7 +162,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
                }else if(position==2) {
 
-                  iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+                   llSelectItem.setOnClickListener(new View.OnClickListener() {
                       @Override
                       public void onClick(View v) {
                           if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
@@ -281,7 +281,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 startDialog();
             }
         });
-        iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+        llSelectItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (transaction_amount.getText().toString().equals("")){
@@ -510,13 +510,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 }
             }
         });
-        iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+        
     }
 
 

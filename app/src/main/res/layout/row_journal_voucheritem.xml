@@ -98,6 +98,7 @@
                         android:visibility="gone"
                         android:orientation="vertical">
 
+
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -105,7 +106,8 @@
                             android:text="Account name"
                             android:gravity="right"
                             android:textColor="@color/black"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:visibility="gone"/>
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/tv_account_name"
@@ -113,7 +115,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:textColor="#000"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
 
@@ -152,6 +155,9 @@
                             android:textColor="#000"
                             android:textSize="12sp" />
                     </LinearLayout>
+=======
+
+>>>>>>> 7962e8537d4e5cd3bf26e8308aad750b19127903
 
 
 

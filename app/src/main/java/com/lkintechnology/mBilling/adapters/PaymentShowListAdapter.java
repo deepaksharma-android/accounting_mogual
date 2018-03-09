@@ -85,8 +85,8 @@ public class PaymentShowListAdapter extends BaseAdapter {
         String total= (String) map.get("total");
         String mrp= (String) map.get("mrp");*/
         holder.tvInvoiceDetail.setText(invoicedetail);
-        holder.tvPartyName.setText(partyName);
-        holder.tvAccountName.setText(accountName);
+        //holder.tvPartyName.setText(partyName);
+       // holder.tvAccountName.setText(accountName);
         holder.tvSGST.setText(sgst);
         holder.tvRate.setText(rate);
         holder.tvCGST.setText(cgst);
@@ -156,10 +156,10 @@ public class PaymentShowListAdapter extends BaseAdapter {
     class ViewHolder {
         @Bind(R.id.tv_invoice_detail)
         TextView tvInvoiceDetail;
-        @Bind(R.id.tv_account_name)
+      /*  @Bind(R.id.tv_account_name)
         TextView tvAccountName;
         @Bind(R.id.tv_party_name)
-        TextView tvPartyName;
+        TextView tvPartyName;*/
         @Bind(R.id.tv_difference_amount)
         TextView tvDifferencAmount;
         @Bind(R.id.tv_rate)
