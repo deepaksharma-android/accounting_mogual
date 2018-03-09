@@ -112,7 +112,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             style="@style/Gotham_Medium"
-                            android:text="Differenciate item"
+                            android:text="Differenciate amount"
                             android:textColor="@color/black"
                             android:textSize="12sp"/>
 
