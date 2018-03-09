@@ -344,7 +344,6 @@
                                         android:gravity="center"
                                         android:background="@drawable/go_button_background"
                                         android:textColor="@color/white"
-
                                         android:textStyle="bold"
                                         android:layout_marginRight="@dimen/dp_5"/>
 

@@ -71,6 +71,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -272,7 +273,11 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                     appUser.journal_voucher_date = set_date.getText().toString();
                                     appUser.journal_voucher_voucher_no = voucher_no.getText().toString();
                                     appUser.journal_voucher_gst_nature = gst_nature_spinner.getSelectedItem().toString();
-
+                                    for(int i=0;i<appUser.mListMapForItemJournalVoucherNote.size();i++){
+                                        Map map=appUser.mListMapForItemJournalVoucherNote.get((i));
+                                        map.put("account_id",appUser.account_name_credit_id);
+                                        map.put("party_id",appUser.account_name_debit_id );
+                                    }
                                     if (!transaction_amount.getText().toString().equals("")) {
                                         appUser.journal_voucher_amount = Double.parseDouble(transaction_amount.getText().toString());
                                     }
