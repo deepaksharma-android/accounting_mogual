@@ -215,11 +215,11 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                            mMap.put("account_id", account_id);
-                                            mMap.put("party_id", party_id);
+                                            //mMap.put("account_id", account_id);
+                                           // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                            mMap.put("acount_name", tvAccountName.getText().toString());
-                                            mMap.put("party_name", tvPartyName.getText().toString());
+                                           // mMap.put("acount_name", tvAccountName.getText().toString());
+                                           // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
                                             mMap.put("igst", tvIGST.getText().toString());
@@ -278,11 +278,11 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                            mMap.put("account_id", account_id);
-                                            mMap.put("party_id", party_id);
+                                           // mMap.put("account_id", account_id);
+                                           // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                            mMap.put("acount_name", tvAccountName.getText().toString());
-                                            mMap.put("party_name", tvPartyName.getText().toString());
+                                          //  mMap.put("acount_name", tvAccountName.getText().toString());
+                                           // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
                                             mMap.put("igst", tvIGST.getText().toString());

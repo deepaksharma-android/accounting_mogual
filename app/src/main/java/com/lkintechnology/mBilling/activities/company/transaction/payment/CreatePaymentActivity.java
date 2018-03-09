@@ -71,11 +71,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreatePaymentActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
@@ -350,13 +353,22 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     appUser.payment_type = type_spinner.getSelectedItem().toString();
                                     appUser.payment_date_pdc = set_date_pdc.getText().toString();
                                     appUser.payment_gst_nature = gst_nature_spinner.getSelectedItem().toString();
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    for(int i=0;i<appUser.mListMapForItemPaymentList.size();i++){
+                                            Map map=appUser.mListMapForItemPaymentList.get((i));
+                                            map.put("account_id",appUser.payment_paid_from_id);
+                                            map.put("party_id",appUser.payment_paid_to_id);
+                                    }
+                                    //CreatePaymentListActivity.mMap.put("party_id",appUser.payment_paid_to_id );
+                                   // CreatePaymentListActivity.mMap.put("account_id",appUser.payment_paid_from_id );
                                     if (!transaction_amount.getText().toString().equals("")) {
                                         appUser.payment_amount = Double.parseDouble(transaction_amount.getText().toString());
                                     }
                                     appUser.payment_narration = transaction_narration.getText().toString();
                                     appUser.payment_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                                    Timber.i("yyyyyyy  "+appUser.mListMapForItemPaymentList);
+
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
                                     new AlertDialog.Builder(CreatePaymentActivity.this)
                                             .setTitle("Email")
@@ -559,20 +571,32 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                         llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
-                                    if (!transaction_amount.getText().toString().equals("")) {
-                                        Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
-                                        intent.putExtra("amount", transaction_amount.getText().toString());
-                                        intent.putExtra("sp_position1", String.valueOf(position));
-                                        //intent.putExtra("state",state);
-                                        startActivity(intent);
-                                    } else {
-                                        gst_nature_spinner.setSelection(0);
-                                        Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                                    }
-                                }else {
-                                    Snackbar.make(coordinatorLayout, "please select GST Nature", Snackbar.LENGTH_LONG).show();
 
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                    intent.putExtra("amount", transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position1", String.valueOf(position));
+                                    //intent.putExtra("state",state);
+                                    startActivity(intent);
+                                } else {
+                                    //gst_nature_spinner.setSelection(0);
+                                    Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                    if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
+                                        if (!transaction_amount.getText().toString().equals("")) {
+                                            Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                            intent.putExtra("amount", transaction_amount.getText().toString());
+                                            intent.putExtra("sp_position1", String.valueOf(position));
+                                            //intent.putExtra("state",state);
+                                            startActivity(intent);
+                                        } else {
+                                            gst_nature_spinner.setSelection(0);
+                                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(coordinatorLayout, "please select GST Nature", Snackbar.LENGTH_LONG).show();
+
+
+                                    }
                                 }
                             }
                         });

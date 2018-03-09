@@ -112,9 +112,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             String ITCEligibility=(String)map.get("spITCEligibility");
             etIVNNo.setText(voucher_number);
             tvAccountName.setText(acount_name);
-            account_id=(String)map.get("account_id");
+            //account_id=(String)map.get("account_id");
             tvPartyName.setText(party_name);
-            party_id=(String)map.get("party_id");
+           // party_id=(String)map.get("party_id");
             etDiffAmount.setText(difference_amount);
             etRate.setText(rate);
             tvIGST.setText(igst);
@@ -230,11 +230,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                            mMap.put("account_id", account_id);
-                                            mMap.put("party_id", party_id);
+                                            //mMap.put("account_id", account_id);
+                                           // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                            mMap.put("acount_name", tvAccountName.getText().toString());
-                                            mMap.put("party_name", tvPartyName.getText().toString());
+                                            //mMap.put("acount_name", tvAccountName.getText().toString());
+                                          //  mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
                                             mMap.put("igst", tvIGST.getText().toString());
@@ -292,11 +292,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                            mMap.put("account_id", account_id);
-                                            mMap.put("party_id", party_id);
+                                            //mMap.put("account_id", account_id);
+                                           // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                            mMap.put("acount_name", tvAccountName.getText().toString());
-                                            mMap.put("party_name", tvPartyName.getText().toString());
+                                           // mMap.put("acount_name", tvAccountName.getText().toString());
+                                           // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
                                             mMap.put("igst", tvIGST.getText().toString());
