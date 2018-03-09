@@ -64,9 +64,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
    public Boolean fromjournal;
     private String itempos;
 
-
-    private String chooseGoods[] = {"ITC Eligibility", " Input Goods", "Input Services", "Capital Goods", "None"};
-    private String chooseRCN[] = {"Choose RCM", "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
+    private String chooseGoods[] = {" Input Goods", "Input Services", "Capital Goods", "None"};
+    private String chooseRCN[] = { "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
     AppUser appUser;
     Map mMap;
     private String spPos1, spPos2;
@@ -144,13 +143,16 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                     double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
                     double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
-                    tvCGST.setText(String.valueOf(halfPer));
+                        tvCGST.setText(String.valueOf(halfPer));
+
+                }else if (s.length()<=0){
+                    tvSgst.setText("");
+                    tvCGST.setText("");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
 
             }
         });

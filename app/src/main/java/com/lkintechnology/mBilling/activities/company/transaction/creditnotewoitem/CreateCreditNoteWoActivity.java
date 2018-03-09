@@ -124,19 +124,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
-        iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (transaction_amount.getText().toString().equals("")){
-                    if (account_name_credit.getText().toString().equals("")){
-                        Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Credit", Snackbar.LENGTH_LONG).show();
 
-                    }
-                }else {
-                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
            private  String sp_position;
            @Override
@@ -291,6 +279,19 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
+            }
+        });
+        iv_gstSpiner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (transaction_amount.getText().toString().equals("")){
+                    if (account_name_credit.getText().toString().equals("")){
+                        Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Credit", Snackbar.LENGTH_LONG).show();
+
+                    }
+                }else {
+                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 

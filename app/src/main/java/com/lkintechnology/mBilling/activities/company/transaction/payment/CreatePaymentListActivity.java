@@ -161,6 +161,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                     double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
                     tvCGST.setText(String.valueOf(halfPer));
+                }else if (s.length()<=0){
+                    tvSgst.setText("");
+                    tvCGST.setText("");
                 }
             }
 
