@@ -61,7 +61,7 @@ public class PaymentShowListAdapter extends BaseAdapter {
         Timber.i("MEEEEEEEEEE"+mListMap.get(position));
         String invoicedetail= (String) map.get("inv_num");
         String partyName= (String) map.get("party_name");
-        String accountName= (String) map.get("account_name");
+        String accountName= (String) map.get("acount_name");
         String rate= (String) map.get("rate");
         String cgst= (String) map.get("cgst");
         String sgst= (String) map.get("sgst");

@@ -121,6 +121,13 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);
+        llSpItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
+
+            }
+        });
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -128,79 +135,57 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                 if (position==1){
-                   /* if (!account_name_debit.getText().toString().equals("")){
-                        if (!transaction_amount.getText().toString().equals("")){
-                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
-                            intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("sp_position",String.valueOf(position));
-                            intent.putExtra("state",state);
-                            startActivity(intent);
-                        }else{
-                            gst_nature_spinner.setSelection(0);
-                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                    else{
-                        gst_nature_spinner.setSelection(0);
-                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    }*/
+
                    llSpItem.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
-                           if (!account_name_debit.getText().toString().equals("")){
-                               if (!transaction_amount.getText().toString().equals("")){
-                                   Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
-                                   intent.putExtra("amount",transaction_amount.getText().toString());
-                                   intent.putExtra("sp_position",String.valueOf(position));
-                                   intent.putExtra("state",state);
-                                   startActivity(intent);
-                               }else{
+                           if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
+                               if (!account_name_debit.getText().toString().equals("")) {
+                                   if (!transaction_amount.getText().toString().equals("")) {
+                                       Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
+                                       intent.putExtra("amount", transaction_amount.getText().toString());
+                                       intent.putExtra("sp_position", String.valueOf(position));
+                                       intent.putExtra("state", state);
+                                       startActivity(intent);
+                                   } else {
+                                       gst_nature_spinner.setSelection(0);
+                                       Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                   }
+                               } else {
                                    gst_nature_spinner.setSelection(0);
-                                   Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                   Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                }
-                           }
-                           else{
-                               gst_nature_spinner.setSelection(0);
-                               Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                           }else {
+                               Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
                            }
                        }
                    });
 
                 }else if(position==2) {
-                    /*if (!account_name_debit.getText().toString().equals("")){
-                        if (!transaction_amount.getText().toString().equals("")){
-                            Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
-                            intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("sp_position",String.valueOf(position));
-                            intent.putExtra("state",state);
-                            startActivity(intent);
-                        }else{
-                            gst_nature_spinner.setSelection(0);
-                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                    else{
-                        gst_nature_spinner.setSelection(0);
-                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    }*/
+
                     llSpItem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (!account_name_debit.getText().toString().equals("")){
-                                if (!transaction_amount.getText().toString().equals("")){
-                                    Intent intent=new Intent(CreateDebitNoteWoItemActivity.this,AddDebitNoteItemActivity.class);
-                                    intent.putExtra("amount",transaction_amount.getText().toString());
-                                    intent.putExtra("sp_position",String.valueOf(position));
-                                    intent.putExtra("state",state);
-                                    startActivity(intent);
-                                }else{
+                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
+                                if (!account_name_debit.getText().toString().equals("")) {
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
+                                        intent.putExtra("amount", transaction_amount.getText().toString());
+                                        intent.putExtra("sp_position", String.valueOf(position));
+                                        intent.putExtra("state", state);
+                                        startActivity(intent);
+                                    } else {
+                                        gst_nature_spinner.setSelection(0);
+                                        Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
                                     gst_nature_spinner.setSelection(0);
-                                    Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                 }
-                            }
-                            else{
-                                gst_nature_spinner.setSelection(0);
-                                Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
                             }
                         }
                     });

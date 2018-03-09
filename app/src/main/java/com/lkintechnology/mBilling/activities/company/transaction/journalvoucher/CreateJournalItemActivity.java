@@ -66,7 +66,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
 
     private String chooseGoods[] = {"ITC Eligibility", " Input Goods", "Input Services", "Capital Goods", "None"};
-    private String chooseRCN[] = {"Choose RCN", "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
+    private String chooseRCN[] = {"Choose RCM", "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
     AppUser appUser;
     Map mMap;
     private String spPos1, spPos2;
@@ -150,6 +150,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             @Override
             public void afterTextChanged(Editable s) {
+
 
             }
         });
