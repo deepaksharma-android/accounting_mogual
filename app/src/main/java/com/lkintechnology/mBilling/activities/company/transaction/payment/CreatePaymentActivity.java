@@ -549,6 +549,13 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
 
         });
+        llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
+
+            }
+        });
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -556,28 +563,35 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 if (position==1){
 
-                        /*if (!transaction_amount.getText().toString().equals("")){
-                            Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
-                            intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("sp_position1",String.valueOf(position));
-                            //intent.putExtra("state",state);
-                            startActivity(intent);
-                        }else{
-                            gst_nature_spinner.setSelection(0);
-                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                        }*/
                         llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (!transaction_amount.getText().toString().equals("")){
-                                            Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
-                                            intent.putExtra("amount",transaction_amount.getText().toString());
-                                            intent.putExtra("sp_position1",String.valueOf(position));
-                                            //intent.putExtra("state",state);
-                                            startActivity(intent);
-                                    }else{
+
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                    intent.putExtra("amount", transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position1", String.valueOf(position));
+                                    //intent.putExtra("state",state);
+                                    startActivity(intent);
+                                } else {
                                     //gst_nature_spinner.setSelection(0);
                                     Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                    if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
+                                        if (!transaction_amount.getText().toString().equals("")) {
+                                            Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                            intent.putExtra("amount", transaction_amount.getText().toString());
+                                            intent.putExtra("sp_position1", String.valueOf(position));
+                                            //intent.putExtra("state",state);
+                                            startActivity(intent);
+                                        } else {
+                                            gst_nature_spinner.setSelection(0);
+                                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Snackbar.make(coordinatorLayout, "please select GST Nature", Snackbar.LENGTH_LONG).show();
+
+
+                                    }
                                 }
                             }
                         });
@@ -586,28 +600,23 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
                 }else if(position==2) {
 
-                       /* if (!transaction_amount.getText().toString().equals("")){
-                            Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
-                            intent.putExtra("amount",transaction_amount.getText().toString());
-                            intent.putExtra("sp_position2",String.valueOf(position));
-                         //   intent.putExtra("state",state);
-                            startActivity(intent);
-                        }else{
-                            gst_nature_spinner.setSelection(0);
-                            Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                        }*/
                        llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
                            @Override
                            public void onClick(View v) {
-                               if (!transaction_amount.getText().toString().equals("")){
-                                   Intent intent=new Intent(CreatePaymentActivity.this,ShowPaymentListActivity.class);
-                                   intent.putExtra("amount",transaction_amount.getText().toString());
-                                   intent.putExtra("sp_position2",String.valueOf(position));
-                                   //   intent.putExtra("state",state);
-                                   startActivity(intent);
-                               }else{
-                                   gst_nature_spinner.setSelection(0);
-                                   Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                               if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
+                                   if (!transaction_amount.getText().toString().equals("")) {
+                                       Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                       intent.putExtra("amount", transaction_amount.getText().toString());
+                                       intent.putExtra("sp_position2", String.valueOf(position));
+                                       //   intent.putExtra("state",state);
+                                       startActivity(intent);
+                                   } else {
+                                       gst_nature_spinner.setSelection(0);
+                                       Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
+                                   }
+                               }else {
+                                   Snackbar.make(coordinatorLayout, "please select GST Nature", Snackbar.LENGTH_LONG).show();
+
                                }
                            }
                        });

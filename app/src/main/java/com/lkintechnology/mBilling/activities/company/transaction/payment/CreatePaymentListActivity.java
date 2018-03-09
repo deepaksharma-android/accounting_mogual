@@ -71,8 +71,8 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     String party_id;
     private double percentage;
 
-    private String chooseGoods[] = {"ITC Eligibility", " Input Goods", "Input Services", "Capital Goods", "None"};
-    private String chooseRCN[] = {"Choose RCN", "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
+    private String chooseGoods[] = {" Input Goods", "Input Services", "Capital Goods", "None"};
+    private String chooseRCN[] = { "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
     AppUser appUser;
     Map mMap;
     private String spPos1, spPos2,amount;
