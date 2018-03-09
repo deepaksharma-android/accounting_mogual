@@ -193,9 +193,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             iconHandlerVariable = 2;
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
-            paid_from_layout.setEnabled(false);
+/*            paid_from_layout.setEnabled(false);
             paid_to_layout.setEnabled(false);
-            transaction_amount.setEnabled(false);
+            transaction_amount.setEnabled(false);*/
             appUser.edit_payment_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
             if (isConnected) {

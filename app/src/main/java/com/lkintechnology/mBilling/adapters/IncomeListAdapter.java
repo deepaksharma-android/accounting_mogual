@@ -14,6 +14,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.income.Data;
+import com.lkintechnology.mBilling.utils.EventClickAlertForIncome;
 import com.lkintechnology.mBilling.utils.EventDeleteIncome;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,13 +62,13 @@ public class IncomeListAdapter extends RecyclerView.Adapter<IncomeListAdapter.Vi
                 context.startActivity(i);
             }
         });*/
-  /*      viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String bankCashDepositeId=data.get(position).getId();
                 EventBus.getDefault().post(new EventClickAlertForIncome(bankCashDepositeId));
             }
-        });*/
+        });
 
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override

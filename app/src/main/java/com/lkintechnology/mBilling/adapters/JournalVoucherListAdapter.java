@@ -14,6 +14,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.journalvoucher.Data;
+import com.lkintechnology.mBilling.utils.EventClickAlertForJournalVoucher;
 import com.lkintechnology.mBilling.utils.EventDeleteJournalVoucher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,13 +64,13 @@ public class JournalVoucherListAdapter extends RecyclerView.Adapter<JournalVouch
             }
         });*/
 
-/*        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String bankCashDepositeId=data.get(position).getId();
                 EventBus.getDefault().post(new EventClickAlertForJournalVoucher(bankCashDepositeId));
             }
-        });*/
+        });
 
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override

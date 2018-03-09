@@ -103,7 +103,7 @@ public class AddReceiptItemActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"Please selct atleast one item",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Please select atleast one item",Toast.LENGTH_LONG).show();
                 }
             }
         });
