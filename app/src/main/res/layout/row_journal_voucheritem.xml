@@ -75,19 +75,20 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             style="@style/Gotham_Medium"
-                            android:text="Account name"
+                            android:text="Differenciate amount"
                             android:layout_marginTop="5dp"
                             android:gravity="right"
                             android:textColor="@color/black"
                             android:textSize="12sp"/>
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
-                            android:id="@+id/tv_account_name"
+                            android:id="@+id/tv_difference_amount"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:textColor="#000"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:layout_marginTop="@dimen/dp_5"/>
                     </LinearLayout>
 
 
@@ -106,7 +107,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
@@ -114,7 +116,8 @@
                             style="@style/Gotham_Medium"
                             android:text="Party name"
                             android:textColor="@color/black"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:visibility="gone"/>
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:id="@+id/tv_party_name"
@@ -122,34 +125,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:textColor="#000"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:orientation="vertical">
-
-                        <com.lkintechnology.mBilling.utils.BuzzTextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/Gotham_Medium"
-                            android:text="Differenciate amount"
-                            android:layout_marginTop="5dp"
-                            android:gravity="right"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"/>
-
-                        <com.lkintechnology.mBilling.utils.BuzzTextView
-                            android:id="@+id/tv_difference_amount"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:textColor="#000"
                             android:textSize="12sp"
-                            android:layout_marginTop="@dimen/dp_5"/>
+                            android:visibility="gone"/>
                     </LinearLayout>
+
+
 
 
                 </LinearLayout>
