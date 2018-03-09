@@ -132,7 +132,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             spPos2=sp2;
 
         }
-        /*etRate.addTextChangedListener(new TextWatcher() {
+        etRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -152,7 +152,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             public void afterTextChanged(Editable s) {
 
             }
-        });*/
+        });
         appUser.account_master_group="";
         LocalRepositories.saveAppUser(this,appUser);
         llAccountName.setOnClickListener(new View.OnClickListener() {

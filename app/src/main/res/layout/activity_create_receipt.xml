@@ -325,7 +325,7 @@
                                     </Spinner>
 
                                     <View
-                                        android:layout_width="1dp"
+                                        android:layout_width="0.5dp"
                                         android:layout_height="fill_parent"
                                         android:layout_marginTop="2dp"
                                         android:layout_marginBottom="2dp"
@@ -338,10 +338,19 @@
                                         android:gravity="center"
                                         android:orientation="horizontal">
 
-                                        <ImageView
-                                            android:layout_width="15dp"
-                                            android:layout_height="15dp"
-                                            android:src="@drawable/right_chevron"/>
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_toRightOf="@+id/view"
+                                            android:text="Go"
+                                            android:textSize="@dimen/dp_16"
+                                            style="@style/Gotham_Medium"
+                                            android:layout_marginLeft="@dimen/dp_5"
+                                            android:gravity="center"
+                                            android:background="@drawable/go_button_background"
+                                            android:textColor="@color/white"
+                                            android:textStyle="bold"
+                                            android:layout_marginRight="@dimen/dp_3"/>
 
                                     </LinearLayout>
                                 </LinearLayout>

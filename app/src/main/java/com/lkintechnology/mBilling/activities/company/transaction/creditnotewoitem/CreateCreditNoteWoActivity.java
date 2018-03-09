@@ -35,6 +35,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -74,8 +75,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
     @Bind(R.id.account_name_credit)
     TextView account_name_credit;
-    @Bind(R.id.sp_image)
-    ImageView iv_gstSpiner;
+    @Bind(R.id.llSpinerItem)
+    RelativeLayout iv_gstSpiner;
     @Bind(R.id.account_name_debit)
     TextView account_name_debit;
     @Bind(R.id.date)
