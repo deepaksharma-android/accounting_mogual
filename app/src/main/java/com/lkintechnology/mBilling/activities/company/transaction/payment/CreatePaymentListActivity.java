@@ -71,8 +71,8 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     String party_id;
     private double percentage;
 
-    private String chooseGoods[] = {"ITC Eligibility", " Input Goods", "Input Services", "Capital Goods", "None"};
-    private String chooseRCN[] = {"Choose RCN", "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
+    private String chooseGoods[] = {" Input Goods", "Input Services", "Capital Goods", "None"};
+    private String chooseRCN[] = { "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
     AppUser appUser;
     Map mMap;
     private String spPos1, spPos2,amount;
@@ -112,9 +112,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             String ITCEligibility=(String)map.get("spITCEligibility");
             etIVNNo.setText(voucher_number);
             tvAccountName.setText(acount_name);
-            account_id=(String)map.get("account_id");
+            //account_id=(String)map.get("account_id");
             tvPartyName.setText(party_name);
-            party_id=(String)map.get("party_id");
+           // party_id=(String)map.get("party_id");
             etDiffAmount.setText(difference_amount);
             etRate.setText(rate);
             tvIGST.setText(igst);
@@ -161,6 +161,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                     double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
                     tvCGST.setText(String.valueOf(halfPer));
+                }else if (s.length()<=0){
+                    tvSgst.setText("");
+                    tvCGST.setText("");
                 }
             }
 
@@ -230,11 +233,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                            mMap.put("account_id", account_id);
-                                            mMap.put("party_id", party_id);
+                                            //mMap.put("account_id", account_id);
+                                           // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                            mMap.put("acount_name", tvAccountName.getText().toString());
-                                            mMap.put("party_name", tvPartyName.getText().toString());
+                                            //mMap.put("acount_name", tvAccountName.getText().toString());
+                                          //  mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
                                             mMap.put("igst", tvIGST.getText().toString());
@@ -292,11 +295,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                            mMap.put("account_id", account_id);
-                                            mMap.put("party_id", party_id);
+                                            //mMap.put("account_id", account_id);
+                                           // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                            mMap.put("acount_name", tvAccountName.getText().toString());
-                                            mMap.put("party_name", tvPartyName.getText().toString());
+                                           // mMap.put("acount_name", tvAccountName.getText().toString());
+                                           // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
                                             mMap.put("igst", tvIGST.getText().toString());

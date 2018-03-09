@@ -49,7 +49,6 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     private LinearLayout ll_submit,rootSP;
   private String amount,position,state,journalVoucherPosition,journalDiffAmount;
     private Spinner spChooseGoods;
-    private double percentage,halfIC;
        private String chooseGoods[]={"Input Goods","Input Services","Capital Goods","None"};
     private String itempos;
     public Boolean fromcredit;
@@ -198,11 +197,14 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length()>0){
-                    percentage= (Double.parseDouble(tvDiffAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
+                  double  percentage= (Double.parseDouble(tvDiffAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
                     etIGST.setText(String.valueOf(percentage));
-                    halfIC= (float) (percentage/2.0);
+                 double halfIC= (float) (percentage/2.0);
                     etCGST.setText(String.valueOf(halfIC));
                     etSGST.setText(String.valueOf(halfIC));
+                }else if (s.length()<=0){
+                    etSGST.setText("");
+                    etCGST.setText("");
                 }
             }
 

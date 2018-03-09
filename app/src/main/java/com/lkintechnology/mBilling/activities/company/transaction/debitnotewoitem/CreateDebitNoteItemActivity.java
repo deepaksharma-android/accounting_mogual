@@ -192,6 +192,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                     halfIC= (float) (percentage/2.0);
                     etCGST.setText(String.valueOf(halfIC));
                     etSGST.setText(String.valueOf(halfIC));
+                }else if (s.length()<=0){
+                    etSGST.setText("");
+                    etCGST.setText("");
                 }
             }
 
