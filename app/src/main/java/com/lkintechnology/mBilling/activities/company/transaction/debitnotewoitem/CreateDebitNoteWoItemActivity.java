@@ -124,8 +124,14 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         llSpItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
+                if (transaction_amount.getText().toString().equals("")){
+                    if (account_name_debit.getText().toString().equals("")){
+                        Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
 
+                    }
+                }else {
+                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -455,13 +455,17 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
         });
 
-                llSpiner.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
+        llSpiner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (transaction_amount.getText().toString().equals("")){
 
-                    }
-                });
+                        Snackbar.make(coordinatorLayout, "Please enter the amount ", Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
 

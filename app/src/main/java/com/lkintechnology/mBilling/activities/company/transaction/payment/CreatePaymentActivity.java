@@ -540,10 +540,15 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
+                if (transaction_amount.getText().toString().equals("")){
 
+                        Snackbar.make(coordinatorLayout, "Please enter the amount ", Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
+
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
