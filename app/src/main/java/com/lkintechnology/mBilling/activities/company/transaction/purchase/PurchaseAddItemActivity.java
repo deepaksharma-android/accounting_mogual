@@ -196,7 +196,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             }
             if((String) map.get("serial_number").toString()!=null) {
                 String serialnumber = (String) map.get("serial_number").toString().replace("[","").replace("]","");
-                List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
+                List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(";")));
                 for (int i = 0; i < serialList.size(); i++) {
                     appUser.serial_arr.add(serialList.get(i).trim());
                     LocalRepositories.saveAppUser(this, appUser);
@@ -380,7 +380,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                         appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         for (String s : appUser.serial_arr) {
-                                            listString += s + ",";
+                                            listString += s + ";";
                                         }
                                         mSr_no.setText(listString);
                                         Toast.makeText(PurchaseAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
@@ -570,7 +570,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                             for (String s : appUser.purchase_item_serail_arr)
                             {
-                                listString += s + ",";
+                                listString += s + ";";
                             }
                             mSr_no.setText(listString);
                             dialogbal.dismiss();
@@ -1020,7 +1020,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     appUser.purchase_item_serail_arr.add(result.getContents());
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     for (String s : appUser.purchase_item_serail_arr) {
-                        listString += s + ",";
+                        listString += s + ";";
                     }
                     mSr_no.setText(listString);
                     Toast.makeText(PurchaseAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -69,7 +70,16 @@ public class AddJournalVoucherItemAdapter extends BaseAdapter {
             String igst= (String) map.get("igst");
             String rcnItem= (String) map.get("spRCNItem");
             String itcEligibility= (String) map.get("spITCEligibility");
-
+        if(igst.equals("")){
+            holder.mIgstLayout.setVisibility(View.GONE);
+            holder.mCgstLayout.setVisibility(View.VISIBLE);
+            holder.mSgstLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.mIgstLayout.setVisibility(View.VISIBLE);
+            holder.mCgstLayout.setVisibility(View.GONE);
+            holder.mSgstLayout.setVisibility(View.GONE);
+        }
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
@@ -165,6 +175,12 @@ public class AddJournalVoucherItemAdapter extends BaseAdapter {
         TextView tvITCEligibility;
         @Bind(R.id.tv_rcn_item)
         TextView tvRCNItem;
+        @Bind(R.id.igst_layout)
+        LinearLayout mIgstLayout;
+        @Bind(R.id.cgst_layout)
+        LinearLayout mCgstLayout;
+        @Bind(R.id.sgst_layout)
+        LinearLayout mSgstLayout;
 
 
 

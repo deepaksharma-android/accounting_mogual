@@ -147,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Invoice Number  *"
                 android:textColor="#000"
                 android:textSize="15sp" />
@@ -228,8 +229,16 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginLeft="@dimen/dp_5"
                 android:background="@android:color/transparent"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/igst_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Medium"
@@ -263,6 +272,13 @@
                 android:inputType="numberDecimal" />
             </LinearLayout>
 
+            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/cgst_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Medium"
                 android:layout_width="wrap_content"
@@ -292,6 +308,12 @@
                 android:background="@android:color/transparent"
                 android:inputType="numberDecimal" />
             </LinearLayout>
+            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sgst_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Medium"
@@ -322,6 +344,7 @@
                 android:layout_marginLeft="@dimen/dp_5"
                 android:background="@android:color/transparent"
                 android:inputType="numberDecimal"/>
+            </LinearLayout>
             </LinearLayout>
 
 

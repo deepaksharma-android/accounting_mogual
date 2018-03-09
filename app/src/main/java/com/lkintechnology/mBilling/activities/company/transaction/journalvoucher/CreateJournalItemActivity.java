@@ -57,6 +57,12 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     LinearLayout rootLayout;
     @Bind(R.id.tv_sgst)
     EditText tvSgst;
+    @Bind(R.id.igst_layout)
+    LinearLayout mIgstLayout;
+    @Bind(R.id.sgst_layout)
+    LinearLayout mSgstLayout;
+    @Bind(R.id.cgst_layout)
+    LinearLayout mCgstLayout;
     @Bind(R.id.sp_itc_eligibility)
     Spinner spITCEligibility;
     String account_id;
@@ -69,6 +75,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     AppUser appUser;
     Map mMap;
     private String spPos1, spPos2;
+    String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         initialpageSetup();
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
+        state = getIntent().getStringExtra("state");
         fromjournal=getIntent().getExtras().getBoolean("fromjournal");
         llSubmit.setOnClickListener(this);
         if(fromjournal){
@@ -95,6 +103,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             String rate= (String)map.get("rate");
             String igst=(String)map.get("igst");
             String cgst= (String)map.get("cgst");
+            state=(String)map.get("state");
             String sgst=(String)map.get("sgst");
             String spRCNItem= (String)map.get("spRCNItem");
             String ITCEligibility=(String)map.get("spITCEligibility");
@@ -130,6 +139,20 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             spPos1=sp1;
             spPos2=sp2;
 
+        }
+        if(state==null){
+            state="Haryana";
+        }
+
+        if(state.equals(appUser.company_state)){
+            mIgstLayout.setVisibility(View.GONE);
+            mCgstLayout.setVisibility(View.VISIBLE);
+            mSgstLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            mIgstLayout.setVisibility(View.VISIBLE);
+            mCgstLayout.setVisibility(View.GONE);
+            mSgstLayout.setVisibility(View.GONE);
         }
         etRate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -224,11 +247,17 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                            // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            mMap.put("igst", tvIGST.getText().toString());
-                                            mMap.put("cgst", tvCGST.getText().toString());
-                                            mMap.put("sgst", tvSgst.getText().toString());
+                                            if(state.equals(appUser.company_state)){
+                                                mMap.put("cgst", tvCGST.getText().toString());
+                                                mMap.put("sgst", tvSgst.getText().toString());
+                                            }
+                                            else{
+                                                mMap.put("igst", tvIGST.getText().toString());
+                                            }
+
                                             mMap.put("gst_pos1", spPos1);
                                             mMap.put("gst_pos2", spPos1);
+                                            mMap.put("state",state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!fromjournal) {
@@ -241,6 +270,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             }
                                             Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
                                             intent.putExtra("gst_pos1", spPos1);
+                                            intent.putExtra("state", state);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -287,11 +317,17 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                            // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            mMap.put("igst", tvIGST.getText().toString());
-                                            mMap.put("cgst", tvCGST.getText().toString());
-                                            mMap.put("sgst", tvSgst.getText().toString());
+                                            if(state.equals(appUser.company_state)){
+                                                mMap.put("cgst", tvCGST.getText().toString());
+                                                mMap.put("sgst", tvSgst.getText().toString());
+                                            }
+                                            else{
+                                                mMap.put("igst", tvIGST.getText().toString());
+                                            }
+
                                             mMap.put("gst_pos1", spPos1);
                                             mMap.put("gst_pos2", spPos1);
+                                            mMap.put("state",state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!fromjournal) {
@@ -305,6 +341,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
                                             Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
                                             intent.putExtra("gst_pos2", spPos2);
+                                            intent.putExtra("state", state);
                                             startActivity(intent);
                                             finish();
                                         } else {

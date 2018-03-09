@@ -124,6 +124,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private String gst_nature_position;
+    String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -500,6 +501,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                        Intent intent1 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
                                        intent1.putExtra("diff_amount", transaction_amount.getText().toString());
                                        intent1.putExtra("gst_pos1", String.valueOf(position));
+                                       intent1.putExtra("state", state);
                                        startActivity(intent1);
                                    } else {
                                        gst_nature_spinner.setSelection(0);
@@ -525,6 +527,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                        Intent intent2 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
                                        intent2.putExtra("diff_amount", transaction_amount.getText().toString());
                                        intent2.putExtra("gst_pos2", String.valueOf(position));
+                                       intent2.putExtra("state", state);
                                        startActivity(intent2);
                                    } else {
                                        gst_nature_spinner.setSelection(0);
@@ -550,6 +553,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                        Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
                                        intent3.putExtra("gst_pos6", String.valueOf(position));
                                        intent3.putExtra("diff_amount", transaction_amount.getText().toString());
+                                       intent3.putExtra("state", state);
                                        startActivity(intent3);
                                    } else {
                                        gst_nature_spinner.setSelection(0);
@@ -574,6 +578,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                        Intent intent4 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
                                        intent4.putExtra("gst_pos7", String.valueOf(position));
                                        intent4.putExtra("diff_amount", transaction_amount.getText().toString());
+                                       intent4.putExtra("state", state);
                                        startActivity(intent4);
                                    } else {
                                        gst_nature_spinner.setSelection(0);
@@ -716,6 +721,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     boolForReceivedFrom = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
+                     state=data.getStringExtra("state");
                     String[] name = result.split(",");
                     appUser.account_name_debit_id = id;
                     appUser.account_name_debit_name = name[0];

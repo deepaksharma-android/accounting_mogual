@@ -55,6 +55,12 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     TextView tvPartyName;
     @Bind(R.id.et_diff_amount)
     EditText etDiffAmount;
+    @Bind(R.id.igst_layout)
+    LinearLayout mIgstLayout;
+    @Bind(R.id.sgst_layout)
+    LinearLayout mSgstLayout;
+    @Bind(R.id.cgst_layout)
+    LinearLayout mCgstLayout;
     @Bind(R.id.et_rate)
     EditText etRate;
     @Bind(R.id.tv_cgst)
@@ -78,6 +84,8 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     private String spPos1, spPos2,amount;
     public Boolean frompayment;
     private String itempos;
+    public String state;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +100,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
         amount = getIntent().getStringExtra("amount");
+        state=getIntent().getStringExtra("state");
         etDiffAmount.setText(amount);
         llSubmit.setOnClickListener(this);
 
@@ -108,6 +117,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             String igst=(String)map.get("igst");
             String cgst= (String)map.get("cgst");
             String sgst=(String)map.get("sgst");
+            state=(String)map.get("state");
             String spRCNItem= (String)map.get("spRCNItem");
             String ITCEligibility=(String)map.get("spITCEligibility");
             etIVNNo.setText(voucher_number);
@@ -148,6 +158,21 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
 
         }
 
+        if(state==null){
+            state="Haryana";
+        }
+
+        if(state.equals(appUser.company_state)){
+            mIgstLayout.setVisibility(View.GONE);
+            mCgstLayout.setVisibility(View.VISIBLE);
+            mSgstLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            mIgstLayout.setVisibility(View.VISIBLE);
+            mCgstLayout.setVisibility(View.GONE);
+            mSgstLayout.setVisibility(View.GONE);
+        }
+
         etRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,6 +186,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                     double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
                     tvCGST.setText(String.valueOf(halfPer));
+                    tvIGST.setText(String.valueOf(percentage));
                 }else if (s.length()<=0){
                     tvSgst.setText("");
                     tvCGST.setText("");
@@ -240,10 +266,17 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                           //  mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            mMap.put("igst", tvIGST.getText().toString());
-                                            mMap.put("cgst", tvCGST.getText().toString());
-                                            mMap.put("sgst", tvSgst.getText().toString());
+                                            if(state.equals(appUser.company_state)){
+                                                mMap.put("cgst", tvCGST.getText().toString());
+                                                mMap.put("sgst", tvSgst.getText().toString());
+                                            }
+                                            else{
+                                                mMap.put("igst", tvIGST.getText().toString());
+                                            }
+
+
                                             mMap.put("gst_pos1", spPos1);
+                                            mMap.put("state", state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!frompayment) {
@@ -256,6 +289,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                             }
                                             Intent intent = new Intent(getApplicationContext(), ShowPaymentListActivity.class);
                                             intent.putExtra("gst_pos1", spPos1);
+                                            intent.putExtra("state",state);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -302,10 +336,15 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                            // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            mMap.put("igst", tvIGST.getText().toString());
-                                            mMap.put("cgst", tvCGST.getText().toString());
-                                            mMap.put("sgst", tvSgst.getText().toString());
+                                            if(state.equals(appUser.company_state)){
+                                                mMap.put("cgst", tvCGST.getText().toString());
+                                                mMap.put("sgst", tvSgst.getText().toString());
+                                            }
+                                            else{
+                                                mMap.put("igst", tvIGST.getText().toString());
+                                            }
                                             mMap.put("gst_pos2", spPos2);
+                                            mMap.put("state", state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!frompayment) {
@@ -320,6 +359,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                             // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
                                             Intent intent = new Intent(getApplicationContext(), ShowPaymentListActivity.class);
                                             intent.putExtra("gst_pos2", spPos2);
+                                            intent.putExtra("state",state);
                                             startActivity(intent);
                                             finish();
                                         } else {

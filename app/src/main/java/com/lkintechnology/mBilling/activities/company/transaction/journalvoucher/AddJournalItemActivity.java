@@ -37,6 +37,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
     private String pos1,pos2;
     private AddJournalVoucherItemAdapter addJournalItemAdapter;
     AppUser appUser;
+    String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
         initialpageSetup();
         pos1=getIntent().getStringExtra("gst_pos1");
         pos2=getIntent().getStringExtra("gst_pos2");
+        state=getIntent().getStringExtra("state");
         createJournalList.setOnClickListener(this);
         llSubmit.setOnClickListener(this);
 
@@ -123,6 +125,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
                 Intent intent=new Intent(AddJournalItemActivity.this,CreateJournalItemActivity.class);
                 intent.putExtra("gst_pos1",pos1);
                 intent.putExtra("gst_pos2",pos2);
+                intent.putExtra("state",state);
                 startActivity(intent);
                 finish();
                 break;

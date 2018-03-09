@@ -132,6 +132,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     Boolean fromPayment;
     String encodedString;
     String title, from;
+    String state;
     AppUser appUser;
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
@@ -556,7 +557,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
                         Snackbar.make(coordinatorLayout, "Please enter the amount ", Snackbar.LENGTH_LONG).show();
                 }else {
-                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Please select other GST nature", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -576,6 +577,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
                                     intent.putExtra("amount", transaction_amount.getText().toString());
                                     intent.putExtra("sp_position1", String.valueOf(position));
+                                    intent.putExtra("state",state);
                                     //intent.putExtra("state",state);
                                     startActivity(intent);
                                 } else {
@@ -586,6 +588,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                             Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
                                             intent.putExtra("amount", transaction_amount.getText().toString());
                                             intent.putExtra("sp_position1", String.valueOf(position));
+                                            intent.putExtra("state",state);
                                             //intent.putExtra("state",state);
                                             startActivity(intent);
                                         } else {
@@ -613,6 +616,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                        Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
                                        intent.putExtra("amount", transaction_amount.getText().toString());
                                        intent.putExtra("sp_position2", String.valueOf(position));
+                                       intent.putExtra("state",state);
                                        //   intent.putExtra("state",state);
                                        startActivity(intent);
                                    } else {
@@ -742,6 +746,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             String[] name = result.split(",");
             appUser.payment_paid_to_id = ParameterConstant.forAccountIntentId;
             appUser.payment_paid_to_name=name[0];
+
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             paid_to.setText(name[0]);
         }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
@@ -830,6 +835,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    boolForReceivedFrom = true;
                    String result = data.getStringExtra("name");
                    String id = data.getStringExtra("id");
+                    state=data.getStringExtra("state");
                    String[] name = result.split(",");
                    appUser.payment_paid_to_id = id;
                    appUser.payment_paid_to_name = name[0];

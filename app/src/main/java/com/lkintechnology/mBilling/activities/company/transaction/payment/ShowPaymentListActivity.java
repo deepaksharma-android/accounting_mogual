@@ -41,6 +41,7 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
     private String pos1,pos2,amount;
     private PaymentShowListAdapter paymentShowListAdapter;
     AppUser appUser;
+    String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,8 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
         pos1=getIntent().getStringExtra("sp_position1");
         amount=getIntent().getStringExtra("amount");
         pos2=getIntent().getStringExtra("sp_position2");
+        state=getIntent().getStringExtra("state");
+
         createJournalList.setOnClickListener(this);
         llSubmit.setOnClickListener(this);
 
@@ -60,7 +63,7 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), CreatePaymentListActivity.class);
                 intent.putExtra("frompayment", true);
-                intent.putExtra("pos",String.valueOf(i) );
+                intent.putExtra("pos",String.valueOf(i));
                 startActivity(intent);
                 finish();
             }
@@ -128,6 +131,7 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
                 intent.putExtra("gst_pos1",pos1);
                 intent.putExtra("gst_pos2",pos2);
                 intent.putExtra("amount",amount);
+                intent.putExtra("state",state);
                 startActivity(intent);
                 finish();
                 break;
