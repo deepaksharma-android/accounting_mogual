@@ -1035,6 +1035,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     }
                     String strfromArrayList = sb.toString();
                     mMap.put("barcode",strfromArrayList);
+                    mMap.put("serial_number",strfromArrayList);
                     mMap.put("purchase_unit", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList=new ArrayList<>();
                     mUnitList.add("Main Unit : " + response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());

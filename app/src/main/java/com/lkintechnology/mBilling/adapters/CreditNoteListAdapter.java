@@ -14,6 +14,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.creditnotewoitem.Data;
+import com.lkintechnology.mBilling.utils.EventClickAlertForCreditNote;
 import com.lkintechnology.mBilling.utils.EventDeleteCreditNote;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,13 +71,13 @@ public class CreditNoteListAdapter extends RecyclerView.Adapter<CreditNoteListAd
             }
         });*/
 
-/*        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String bankCashDepositeId=data.get(position).getId();
                 EventBus.getDefault().post(new EventClickAlertForCreditNote(bankCashDepositeId));
             }
-        });*/
+        });
 
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override

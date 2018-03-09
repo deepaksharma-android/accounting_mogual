@@ -12,9 +12,13 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.Data;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleReturnVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -112,7 +116,7 @@ public class GetSaleReturnVoucherListAdapter extends RecyclerView.Adapter<GetSal
             }
         });
 
-       /* viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Preferences.getInstance(context).setUpdate("1");
@@ -124,7 +128,7 @@ public class GetSaleReturnVoucherListAdapter extends RecyclerView.Adapter<GetSal
                 intent.putExtra("fromdashboard",false);
                 context.startActivity(intent);
             }
-        });*/
+        });
 
       /*
         viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {

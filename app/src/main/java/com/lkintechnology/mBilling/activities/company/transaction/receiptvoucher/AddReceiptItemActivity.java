@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.payment.CreatePaymentListActivity;
@@ -96,7 +98,13 @@ public class AddReceiptItemActivity extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                appUser=LocalRepositories.getAppUser(getApplicationContext());
+                if(appUser.mListMapForItemReceipt.size()>0) {
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please select atleast one item",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

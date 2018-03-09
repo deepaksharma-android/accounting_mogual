@@ -1066,6 +1066,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     }
                     String strfromArrayList = sb.toString();
                     mMap.put("barcode",strfromArrayList);
+                    mMap.put("serial_number",strfromArrayList);
                     mMap.put("sale_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit());
                     ArrayList<String> mUnitList=new ArrayList<>();
                     mUnitList.add("Main Unit : " + response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());

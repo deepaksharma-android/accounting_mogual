@@ -14,6 +14,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.networks.api_response.bankcashwithdraw.Data;
+import com.lkintechnology.mBilling.utils.EventClickAlertForBakCashWithDraw;
 import com.lkintechnology.mBilling.utils.EventDeleteBankCashWithdraw;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,13 +62,13 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
             }
         });*/
 
- /*       viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String receipt_voucher_id=data.get(position).getId();
                 EventBus.getDefault().post(new EventClickAlertForBakCashWithDraw(receipt_voucher_id));
             }
-        });*/
+        });
 
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
