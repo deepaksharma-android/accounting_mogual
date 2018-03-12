@@ -140,6 +140,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     Snackbar snackbar;
     Dialog dialogbal;
     int pos = -1;
+    String itemid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,8 +164,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             Map map=new HashMap<>();
             map=appUser.mListMapForItemPurchase.get(pos);
             String itemName= (String) map.get("item_name");
-            String iid=(String)map.get("id");
-
+            String iid=(String)map.get("item_id");
+            String item_id=(String) map.get("id");
             String description= (String) map.get("description");
             String quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
@@ -204,7 +205,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                 Timber.i("MYSERAILNUMBER" + serialnumber);
             }
-
+            itemid=item_id;
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1057,7 +1058,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
                 return;
             }
-            mMap.put("id", id);
+            mMap.put("id", itemid);
+            mMap.put("item_id",id);
             mMap.put("item_name", mItemName.getText().toString());
             mMap.put("description", mDescription.getText().toString());
             mMap.put("quantity", mQuantity.getText().toString());

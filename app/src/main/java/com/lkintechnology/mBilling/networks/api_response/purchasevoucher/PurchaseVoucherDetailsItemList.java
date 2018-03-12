@@ -8,6 +8,15 @@ public class PurchaseVoucherDetailsItemList {
     public int quantity;
     public Double total_amount;
     public Double rate_item;
+    public int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Double getDiscount() {
         return discount;

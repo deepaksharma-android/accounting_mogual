@@ -9,6 +9,16 @@ public class PurchaseReturnVoucherDetailsItemList {
     public Double total_amount;
     public Double rate_item;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int id;
+
     public Double getDiscount() {
         return discount;
     }

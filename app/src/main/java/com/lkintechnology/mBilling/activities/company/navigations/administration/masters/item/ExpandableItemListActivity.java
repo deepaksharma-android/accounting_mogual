@@ -644,7 +644,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 mSaleVoucherItem.put("tax", tax);
                 appUser.mMapSaleVoucherItem = mSaleVoucherItem;
                 LocalRepositories.saveAppUser(this, appUser);
-                intent.putExtra("id", itemid);
+                intent.putExtra("item_id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -715,7 +715,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 mPurchaseVoucherItem.put("mrp", mrp);
                 appUser.mMapPurchaseVoucherItem = mPurchaseVoucherItem;
                 LocalRepositories.saveAppUser(this, appUser);
-                intent.putExtra("id", itemid);
+                intent.putExtra("item_id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -782,7 +782,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 mSaleReturnItem.put("tax", tax);
                 appUser.mMapSaleReturnItem = mSaleReturnItem;
                 LocalRepositories.saveAppUser(this, appUser);
-                intent.putExtra("id", itemid);
+                intent.putExtra("item_id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -854,7 +854,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 appUser.mMapPurchaseReturnItem = mPurchaseReturnItem;
                 LocalRepositories.saveAppUser(this, appUser);
 
-                intent.putExtra("id", itemid);
+                intent.putExtra("item_id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);

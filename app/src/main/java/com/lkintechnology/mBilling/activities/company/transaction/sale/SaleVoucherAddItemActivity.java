@@ -126,7 +126,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     @Bind(R.id.cancel)
     ImageView mCancel;
     Boolean fromsalelist;
-    String itemid;
+    String itemid="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,16 +193,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 arr_barcode.add(i + 1, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
-
+            itemid=item_id;
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
-            if(item_id!=null){
-                itemid=item_id;
-            }else{
-                itemid="";
-            }
+
             id = iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -280,7 +276,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             Timber.i("frombillitemvoucherlist false");
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
-
             id = intent.getStringExtra("item_id");
             name = intent.getStringExtra("name");
             desc = intent.getStringExtra("desc");

@@ -136,6 +136,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     int pos = -1;
+    String itemid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,8 +161,8 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
             map=appUser.mListMapForItemSaleReturn.get(pos);
-            String iid=(String)map.get("id");
-
+            String iid=(String)map.get("item_id");
+            String item_id=(String) map.get("id");
             String itemName= (String) map.get("item_name");
             String description= (String) map.get("description");
             String quantity= (String) map.get("quantity");
@@ -202,7 +203,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
                 Timber.i("MYSERAILNUMBER" + serialnumber);
             }
-
+            itemid=item_id;
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1024,7 +1025,8 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
                 return;
             }
-            mMap.put("id",id);
+            mMap.put("id", itemid);
+            mMap.put("item_id",id);
             mMap.put("item_name", mItemName.getText().toString());
             mMap.put("description", mDescription.getText().toString());
             mMap.put("quantity", mQuantity.getText().toString());

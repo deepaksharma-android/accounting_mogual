@@ -953,7 +953,8 @@ public class CreatePurchaseFragment extends Fragment {
             if (response.getPurchase_voucher().getData().getAttributes().getVoucher_items().size() > 0) {
                 for (int i = 0; i < response.getPurchase_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                     Map mMap = new HashMap<>();
-                    mMap.put("id", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
+                    mMap.put("id", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getId()));
+                    mMap.put("item_id", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
                     mMap.put("item_name", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem());
                     mMap.put("description", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
                     mMap.put("quantity", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));
