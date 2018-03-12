@@ -7,7 +7,17 @@ public class SaleVoucherDetailsItemList {
     public  String item;
     public int quantity;
     public Double total_amount;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Double rate_item;
+    public int id;
 
     public Double getDiscount() {
         return discount;

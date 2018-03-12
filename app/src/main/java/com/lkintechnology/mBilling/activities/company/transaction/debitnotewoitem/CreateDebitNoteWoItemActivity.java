@@ -45,6 +45,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.AddCreditNoteItemActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -118,7 +119,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     public Boolean boolForGroupName=false;
     Bitmap photo;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+     String spinnergstnature;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,11 +139,78 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 }
             }
         });
+        llSpItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Issued Against Sale")) {
+                    if (!account_name_credit.getText().toString().equals("")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            intent.putExtra("sp_position", "1");
+                            intent.putExtra("state", state);
+                            startActivity(intent);
+                        } else {
+                            gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                    }
+                }else if(gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Received Against Purchase")){
+                    if (!account_name_credit.getText().toString().equals("")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
+                            intent.putExtra("sp_position", "2");
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            intent.putExtra("state", state);
+                            startActivity(intent);
+                        } else {
+                            gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
+                }
+            }
+        });
+
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                appUser.mListMapForItemDebitNote.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if(fromDebitNote){
+                    if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
+                        appUser.mListMapForItemDebitNote.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+                else{
+                    appUser.mListMapForItemDebitNote.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        /*gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!fromDebitNote){
+                    appUser.mListMapForItemDebitNote.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
 
                 if (position==1){
 
@@ -206,7 +275,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(this);
@@ -758,8 +827,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             set_date.setText(response.getDebit_note().getData().getAttributes().getDate());
             voucher_no.setText(response.getDebit_note().getData().getAttributes().getVoucher_number());
             //account_name_credit.setText(response.getDebit_note().getData().getAttributes().getAccount_name_credit());
-            account_name_debit.setText(response.getDebit_note().getData().getAttributes().getDebit_account().getName());
-            appUser.account_name_debit_note_id=response.getDebit_note().getData().getAttributes().getDebit_account().getId();
+            account_name_debit.setText(response.getDebit_note().getData().getAttributes().getAccount_dedit().getName());
+            appUser.account_name_debit_note_id=String.valueOf(response.getDebit_note().getData().getAttributes().getAccount_dedit().getId());
             LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getDebit_note().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getDebit_note().getData().getAttributes().getNarration());
@@ -774,6 +843,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getDebit_note().getData().getAttributes().getGst_nature().trim();
+             spinnergstnature=group_type;
             int groupindex = -1;
             for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_debit).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_debit)[i].equals(group_type)) {
@@ -783,26 +853,34 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             }
             gst_nature_spinner.setSelection(groupindex);
             Map mMap = new HashMap<>();
-            for (int i = 0; i < response.getDebit_note().getData().getAttributes().getDebit_note_items().size(); i++) {
-                mMap.put("inv_num", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getInvoice_no());
-                mMap.put("difference_amount", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getAmount());
-                mMap.put("gst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getTax_rate());
+            for (int i = 0; i < response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().size(); i++) {
+                mMap.put("id",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getId());
+                mMap.put("inv_num", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getInvoice_no());
+                mMap.put("difference_amount", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getAmount()));
+                mMap.put("gst",String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getTax_rate()));
+                if(groupindex==1){
+                    mMap.put("sp_position","1");
+                }
+                else if(groupindex==2){
+                    mMap.put("sp_position","2");
+                }
 
-                if (response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getCgst_amount()!=null) {
-                    mMap.put("cgst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getCgst_amount());
-                    mMap.put("sgst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getSgst_amount());
+                if (response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getCgst_amount()!=null) {
+                    mMap.put("cgst", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getCgst_amount()));
+                    mMap.put("sgst", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getSgst_amount()));
 
                 } else {
-                    mMap.put("igst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getIgst_amount());
+                    mMap.put("igst", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getIgst_amount()));
 
                 }
-                mMap.put("date", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getDate());
-                mMap.put("goodsItem", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getItc_eligibility());
-                mMap.put("state",response.getDebit_note().getData().getAttributes().getDebit_account().getState());
-                appUser.mListMapForItemCreditNote.add(mMap);
+                mMap.put("date", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getDate());
+                mMap.put("goodsItem", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getItc_eligibility());
+
+                mMap.put("state",response.getDebit_note().getData().getAttributes().getAccount_dedit().getState());
+                appUser.mListMapForItemDebitNote.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             }
-            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

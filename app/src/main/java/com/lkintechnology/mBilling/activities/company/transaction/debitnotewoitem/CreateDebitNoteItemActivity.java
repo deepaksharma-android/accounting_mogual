@@ -39,6 +39,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private Calendar calendar;
     private RelativeLayout rootLayout;
     private int year, month, day;
+    String id="";
 
 
      Map mMap;
@@ -73,7 +74,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             else{
                 map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
             }
-
+            id=(String)map.get("id");
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
             etDifferenceAmount.setText((String)map.get("difference_amount"));
@@ -276,7 +277,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                         if (!etIVNNo.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
-
+                                    mMap.put("id",id);
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", etDifferenceAmount.getText().toString());
                                     mMap.put("gst", etGST.getText().toString());
@@ -324,6 +325,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
+                                        mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", etDifferenceAmount.getText().toString());
                                         mMap.put("gst", etGST.getText().toString());
@@ -376,6 +378,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
+                                        mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("diff_amount", etDifferenceAmount.getText().toString());
                                         mMap.put("gst", etGST.getText().toString());

@@ -1,7 +1,7 @@
 package com.lkintechnology.mBilling.networks.api_response.debitnotewoitem;
 
 public class DebitAccount {
-    public String id;
+    public int id;
 
     public String getName() {
         return name;
@@ -19,11 +19,11 @@ public class DebitAccount {
         this.state = state;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -52,6 +52,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
        private String chooseGoods[]={"Input Goods","Input Services","Capital Goods","None"};
     private String itempos;
     public Boolean fromcredit;
+    String id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             else{
                 map=appUser.mListMapForItemCreditNote.get(Integer.parseInt(itempos));
             }
-
+            id=(String)map.get("id");
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
             tvDiffAmount.setText((String)map.get("difference_amount"));
@@ -269,6 +270,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                         if (!etIVNNo.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
+                                    mMap.put("id",id);
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", tvDiffAmount.getText().toString());
                                     mMap.put("gst", etGST.getText().toString());
@@ -322,6 +324,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
+                                        mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", tvDiffAmount.getText().toString());
                                         mMap.put("gst", etGST.getText().toString());
@@ -378,6 +381,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
+                                        mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("diff_amount", journalDiffAmount);
                                         mMap.put("gst", etGST.getText().toString());

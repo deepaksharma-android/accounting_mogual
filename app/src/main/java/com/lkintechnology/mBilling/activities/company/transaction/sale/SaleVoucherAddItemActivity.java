@@ -126,6 +126,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     @Bind(R.id.cancel)
     ImageView mCancel;
     Boolean fromsalelist;
+    String itemid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +153,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             pos = getIntent().getExtras().getInt("pos");
             Map map = new HashMap<>();
             map = appUser.mListMapForItemSale.get(pos);
-            String iid = (String) map.get("id");
+            String item_id=(String) map.get("id");
+            String iid = (String) map.get("item_id");
             String itemName = (String) map.get("item_name");
             String description = (String) map.get("description");
             String quantity = (String) map.get("quantity");
@@ -196,6 +198,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
+            if(item_id!=null){
+                itemid=item_id;
+            }else{
+                itemid="";
+            }
             id = iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -273,7 +280,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             Timber.i("frombillitemvoucherlist false");
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
-            id = intent.getStringExtra("id");
+
+            id = intent.getStringExtra("item_id");
             name = intent.getStringExtra("name");
             desc = intent.getStringExtra("desc");
             main_unit = intent.getStringExtra("main_unit");
@@ -688,8 +696,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     return;
                 }
 
-
-                mMap.put("id", id);
+                mMap.put("id", itemid);
+                mMap.put("item_id", id);
                 mMap.put("item_name", mItemName.getText().toString());
                 mMap.put("description", mDescription.getText().toString());
                 mMap.put("quantity", mQuantity.getText().toString());

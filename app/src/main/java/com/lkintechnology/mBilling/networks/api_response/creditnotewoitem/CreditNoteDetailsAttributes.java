@@ -3,15 +3,18 @@ package com.lkintechnology.mBilling.networks.api_response.creditnotewoitem;
 import java.util.ArrayList;
 
 public class CreditNoteDetailsAttributes {
-    public CreditAccount getCredit_account() {
-        return credit_account;
-    }
 
-    public void setCredit_account(CreditAccount credit_account) {
-        this.credit_account = credit_account;
-    }
 
     public String company_name;
+
+    public CreditAccount getAccount_credit() {
+        return account_credit;
+    }
+
+    public void setAccount_credit(CreditAccount account_credit) {
+        this.account_credit = account_credit;
+    }
+
     public String company_id;
     public String voucher_series;
     public String date;
@@ -27,22 +30,23 @@ public class CreditNoteDetailsAttributes {
     }
 
     public String account_name_credit;
-    public CreditAccount credit_account;
+    public CreditAccount account_credit;
     public String account_name_debit_id;
     public String account_name_debit;
     public Double amount;
 
-    public ArrayList<CreditNoteItems> getCredit_items() {
-        return credit_items;
+
+    public CreditNoteItems getCredit_note_item() {
+        return credit_note_item;
     }
 
-    public void setCredit_items(ArrayList<CreditNoteItems> credit_items) {
-        this.credit_items = credit_items;
+    public void setCredit_note_item(CreditNoteItems credit_note_item) {
+        this.credit_note_item = credit_note_item;
     }
 
     public String narration;
     public String attachment;
-    public ArrayList<CreditNoteItems> credit_items;
+    public CreditNoteItems credit_note_item;
 
     public String getCompany_name() {
         return company_name;

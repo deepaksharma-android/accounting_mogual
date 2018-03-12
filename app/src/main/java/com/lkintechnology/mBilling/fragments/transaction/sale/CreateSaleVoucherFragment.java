@@ -1044,7 +1044,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0){
                 for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                     Map mMap = new HashMap<>();
-                    mMap.put("id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
+                    mMap.put("id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getId()));
+                    mMap.put("item_id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
                     mMap.put("item_name", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem());
                     mMap.put("description", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
                     mMap.put("quantity", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));

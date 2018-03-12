@@ -121,6 +121,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     String state;
     WebView mPdf_webview;
     private Uri imageToUploadUri;
+    String spinnergstnature;
     ;
     // public static boolean creditNoteStatic;
 
@@ -134,7 +135,6 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         StrictMode.setVmPolicy(builder.build());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
-
         appUser.voucher_type = "Credit Note";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
@@ -215,84 +215,65 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 startDialog();
             }
         });
+
         llSelectItem.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (transaction_amount.getText().toString().equals("")) {
-                    if (account_name_credit.getText().toString().equals("")) {
-                        Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Credit", Snackbar.LENGTH_LONG).show();
-
+            public void onClick(View v) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Issued Against Sale")) {
+                    if (!account_name_credit.getText().toString().equals("")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            intent.putExtra("sp_position", "1");
+                            intent.putExtra("state", state);
+                            startActivity(intent);
+                        } else {
+                            gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                     }
-                } else {
-                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                }else if(gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Received Against Purchase")){
+                    if (!account_name_credit.getText().toString().equals("")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
+                            intent.putExtra("sp_position", "2");
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            intent.putExtra("state", state);
+                            startActivity(intent);
+                        } else {
+                            gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
                 }
             }
         });
 
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            private String sp_position;
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sp_position = String.valueOf(position);
-                appUser.mListMapForItemCreditNote.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                if (position == 1) {
-
-                    llSelectItem.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                                if (!account_name_credit.getText().toString().equals("")) {
-                                    if (!transaction_amount.getText().toString().equals("")) {
-                                        Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
-                                        intent.putExtra("amount", transaction_amount.getText().toString());
-                                        intent.putExtra("sp_position", String.valueOf(position));
-                                        intent.putExtra("state", state);
-                                        startActivity(intent);
-                                    } else {
-                                        gst_nature_spinner.setSelection(0);
-                                        Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    gst_nature_spinner.setSelection(0);
-                                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                            }
-                        }
-                    });
-
-                } else if (position == 2) {
-
-                    llSelectItem.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                                if (!account_name_credit.getText().toString().equals("")) {
-                                    if (!transaction_amount.getText().toString().equals("")) {
-                                        Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
-                                        intent.putExtra("sp_position", String.valueOf(position));
-                                        intent.putExtra("amount", transaction_amount.getText().toString());
-                                        intent.putExtra("state", state);
-                                        startActivity(intent);
-                                    } else {
-                                        gst_nature_spinner.setSelection(0);
-                                        Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    gst_nature_spinner.setSelection(0);
-                                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                            }
-                        }
-                    });
+                if(fromCreditNote){
+                    if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
+                        appUser.mListMapForItemCreditNote.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
                 }
+                else{
+                    appUser.mListMapForItemCreditNote.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+
             }
 
             @Override
@@ -774,7 +755,10 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             set_date.setText(response.getCredit_note().getData().getAttributes().getDate());
             voucher_no.setText(response.getCredit_note().getData().getAttributes().getVoucher_number());
             //account_name_debit.setText(response.getCredit_note().getData().getAttributes().getAccount_name_debit());
-            account_name_credit.setText(response.getCredit_note().getData().getAttributes().getAccount_name_credit());
+            account_name_credit.setText(response.getCredit_note().getData().getAttributes().getAccount_credit().getName());
+            appUser.account_name_credit_note_id=String.valueOf(response.getCredit_note().getData().getAttributes().getAccount_credit().getId());
+            state=response.getCredit_note().getData().getAttributes().getAccount_credit().getState();
+            LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getCredit_note().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getCredit_note().getData().getAttributes().getNarration());
             if (!response.getCredit_note().getData().getAttributes().getAttachment().equals("")) {
@@ -787,6 +771,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getCredit_note().getData().getAttributes().getGst_nature().trim();
+            spinnergstnature=group_type;
             int groupindex = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_credit).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_credit)[i].equals(group_type)) {
@@ -796,22 +781,30 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             }
             gst_nature_spinner.setSelection(groupindex);
             Map mMap = new HashMap<>();
-            for (int i = 0; i < response.getCredit_note().getData().getAttributes().getCredit_items().size(); i++) {
-                mMap.put("inv_num", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getInvoice_no());
-                mMap.put("difference_amount", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getAmount());
-                mMap.put("gst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getTax_rate());
+            for (int i = 0; i < response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().size(); i++) {
+                mMap.put("id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getId());
+                mMap.put("inv_num", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getInvoice_no());
+                mMap.put("difference_amount", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getAmount()));
+                mMap.put("gst",String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getTax_rate()));
+                if(groupindex==1){
+                    mMap.put("sp_position","1");
+                }
+                else if(groupindex==2){
+                    mMap.put("sp_position","2");
+                }
 
-                if (response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getCgst_amount()!=null) {
-                    mMap.put("cgst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getCgst_amount());
-                    mMap.put("sgst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getSgst_amount());
+                if (response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getCgst_amount()!=null) {
+                    mMap.put("cgst", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getCgst_amount()));
+                    mMap.put("sgst", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSgst_amount()));
 
                 } else {
-                    mMap.put("igst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getIgst_amount());
+                    mMap.put("igst", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getIgst_amount()));
 
                 }
-                mMap.put("date", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getDate());
-                mMap.put("goodsItem", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getItc_eligibility());
-                mMap.put("state",response.getCredit_note().getData().getAttributes().getCredit_account().getState());
+                mMap.put("date", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getDate());
+                mMap.put("goodsItem", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getItc_eligibility());
+
+                mMap.put("state",response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
                 appUser.mListMapForItemCreditNote.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             }

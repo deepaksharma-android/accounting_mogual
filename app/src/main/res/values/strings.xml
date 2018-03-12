@@ -208,12 +208,12 @@
     <string-array name="gst_nature_credit">
         <item>Not Applicable</item>
         <item>Dr. Note Issued Against Sale</item>
-        <item>Cr. Note received against purchase</item>
+        <item>Cr. Note Received Against Purchase</item>
     </string-array>
     <string-array name="gst_nature_debit">
         <item>Not Applicable</item>
         <item>Cr. Note Issued Against Sale</item>
-        <item>Dr. Note received against purchase</item>
+        <item>Dr. Note Received Against Purchase</item>
     </string-array>
     <string-array name="main">
         <item>Main</item>
