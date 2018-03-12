@@ -271,20 +271,24 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
-                    if (!transaction_amount.getText().toString().equals("")) {
-                        if(!fromReceiptVoucher){
-                            appUser.mListMapForItemReceipt.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
+                    if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            if (!fromReceiptVoucher) {
+                                appUser.mListMapForItemReceipt.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            }
+                            Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            startActivity(intent);
+                        } else {
+                         //   gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Enter the amount", Snackbar.LENGTH_LONG).show();
                         }
-                        Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
-                        intent.putExtra("amount", transaction_amount.getText().toString());
-                        startActivity(intent);
-                    } else {
-                        gst_nature_spinner.setSelection(0);
-                        Snackbar
-                                .make(coordinatorLayout, "Enter the amount", Snackbar.LENGTH_LONG).show();
                     }
+                }else {
+                    Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
                 }
             }
         });

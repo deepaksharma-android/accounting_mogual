@@ -1006,11 +1006,11 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             voucher_no.setText(response.getPayment().getData().getAttributes().getVoucher_number());
             //set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
             paid_from.setText(response.getPayment().getData().getAttributes().getPaid_from());
-            paid_to.setText(response.getPayment().getData().getAttributes().getPaid_to());
+            paid_to.setText(response.getPayment().getData().getAttributes().getPaid_to().getName());
             transaction_amount.setText(String.valueOf(response.getPayment().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getPayment().getData().getAttributes().getNarration());
             appUser.payment_paid_from_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_from_id());
-            appUser.payment_paid_to_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_to_id());
+            appUser.payment_paid_to_id = String.valueOf(response.getPayment().getData().getAttributes().getPaid_to().getId());
             appUser.payment_attachment=response.getPayment().getData().getAttributes().getAttachment();
             LocalRepositories.saveAppUser(this,appUser);
             if (!Helpers.mystring(response.getPayment().getData().getAttributes().getAttachment()).equals("")) {
@@ -1046,6 +1046,27 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
             gst_nature_spinner.setSelection(groupindex);
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           /* Map mMap = new HashMap();
+            for(int i =0;i<response.getPayment().getData().getAttributes().getPayment_item().getData().size();i++){
+                mMap.put("account_id","");
+                mMap.put("party_id","");
+                mMap.put("inv_num","");
+                mMap.put("difference_amount","");
+                mMap.put("rate","");
+                mMap.put("cgst","");
+                mMap.put("sgst","");
+                mMap.put("igst","");
+                mMap.put("gst_pos1","");
+                mMap.put("state","");
+                mMap.put("spRCNItem","");
+                mMap.put("spITCEligibility","");
+
+                appUser.mListMapForItemPaymentList.add(mMap);
+                LocalRepositories.saveAppUser(this,appUser);
+            }*/
+
+
+
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

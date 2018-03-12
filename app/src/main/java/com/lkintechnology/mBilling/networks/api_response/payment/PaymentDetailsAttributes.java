@@ -6,12 +6,31 @@ public class PaymentDetailsAttributes {
     public String company_id;
     public String voucher_series;
     public String date;
+
+    public DetailsPaymentItem getPayment_item() {
+        return payment_item;
+    }
+
+    public void setPayment_item(DetailsPaymentItem payment_item) {
+        this.payment_item = payment_item;
+    }
+
     public String pdc_date;
     public String gst_nature;
     public String gst_nature_description;
     public String voucher_number;
     public String paid_from;
-    public String paid_to;
+    public DetailsPaidTo paid_to;
+    public DetailsPaymentItem payment_item;
+
+    public DetailsPaidTo getPaid_to() {
+        return paid_to;
+    }
+
+    public void setPaid_to(DetailsPaidTo paid_to) {
+        this.paid_to = paid_to;
+    }
+
     public Double amount;
     public String narration;
     public String attachment;
@@ -104,14 +123,6 @@ public class PaymentDetailsAttributes {
         this.paid_from = paid_from;
     }
 
-    public String getPaid_to() {
-        return paid_to;
-    }
-
-    public void setPaid_to(String paid_to) {
-        this.paid_to = paid_to;
-    }
-
     public Double getAmount() {
         return amount;
     }
@@ -126,16 +137,6 @@ public class PaymentDetailsAttributes {
 
     public void setNarration(String narration) {
         this.narration = narration;
-    }
-
-    public int paid_to_id;
-
-    public int getPaid_to_id() {
-        return paid_to_id;
-    }
-
-    public void setPaid_to_id(int paid_to_id) {
-        this.paid_to_id = paid_to_id;
     }
 
     public int getPaid_from_id() {

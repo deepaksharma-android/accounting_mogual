@@ -71,7 +71,7 @@ public class PaymentShowListAdapter extends BaseAdapter {
         String rcnItem= (String) map.get("spRCNItem");
         String itcEligibility= (String) map.get("spITCEligibility");
         if(igst.equals("")){
-           holder.mIgstLayout.setVisibility(View.GONE);
+           holder.mIgstLayout.setVisibility(View.INVISIBLE);
             holder.mCgstLayout.setVisibility(View.VISIBLE);
             holder.mSgstLayout.setVisibility(View.VISIBLE);
         }

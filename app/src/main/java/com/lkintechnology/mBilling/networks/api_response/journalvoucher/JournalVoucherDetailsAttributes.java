@@ -9,10 +9,37 @@ public class JournalVoucherDetailsAttributes {
     public String gst_nature;
     public String voucher_number;
     public String account_name_credit;
-    public String account_name_debit;
+    public DetailsAccountDebit account_debit;
+    public DetailsJournalItem journal_item;
+
+    public DetailsJournalItem getJournal_item() {
+        return journal_item;
+    }
+
+    public void setJournal_item(DetailsJournalItem journal_item) {
+        this.journal_item = journal_item;
+    }
+
+    public DetailsAccountDebit getAccount_debit() {
+        return account_debit;
+    }
+
+    public void setAccount_debit(DetailsAccountDebit account_debit) {
+        this.account_debit = account_debit;
+    }
+
+    public int getAccount_name_credit_id() {
+        return account_name_credit_id;
+    }
+
+    public void setAccount_name_credit_id(int account_name_credit_id) {
+        this.account_name_credit_id = account_name_credit_id;
+    }
+
     public Double amount;
     public String narration;
     public String attachment;
+    public int account_name_credit_id;
 
     public String getCompany_name() {
         return company_name;
@@ -68,14 +95,6 @@ public class JournalVoucherDetailsAttributes {
 
     public void setAccount_name_credit(String account_name_credit) {
         this.account_name_credit = account_name_credit;
-    }
-
-    public String getAccount_name_debit() {
-        return account_name_debit;
-    }
-
-    public void setAccount_name_debit(String account_name_debit) {
-        this.account_name_debit = account_name_debit;
     }
 
     public Double getAmount() {

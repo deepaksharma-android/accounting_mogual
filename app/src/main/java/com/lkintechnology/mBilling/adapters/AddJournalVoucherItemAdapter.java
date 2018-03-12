@@ -70,16 +70,17 @@ public class AddJournalVoucherItemAdapter extends BaseAdapter {
             String igst= (String) map.get("igst");
             String rcnItem= (String) map.get("spRCNItem");
             String itcEligibility= (String) map.get("spITCEligibility");
-        if(igst.equals("")){
-            holder.mIgstLayout.setVisibility(View.GONE);
-            holder.mCgstLayout.setVisibility(View.VISIBLE);
-            holder.mSgstLayout.setVisibility(View.VISIBLE);
-        }
-        else{
-            holder.mIgstLayout.setVisibility(View.VISIBLE);
-            holder.mCgstLayout.setVisibility(View.GONE);
-            holder.mSgstLayout.setVisibility(View.GONE);
-        }
+
+             if (igst.equals("")) {
+                 holder.mIgstLayout.setVisibility(View.INVISIBLE);
+                 holder.mCgstLayout.setVisibility(View.VISIBLE);
+                 holder.mSgstLayout.setVisibility(View.VISIBLE);
+             } else {
+                 holder.mIgstLayout.setVisibility(View.VISIBLE);
+                 holder.mCgstLayout.setVisibility(View.GONE);
+                 holder.mSgstLayout.setVisibility(View.GONE);
+             }
+
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
