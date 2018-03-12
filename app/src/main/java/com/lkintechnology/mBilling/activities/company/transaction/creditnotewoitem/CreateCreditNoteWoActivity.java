@@ -67,10 +67,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 public class CreateCreditNoteWoActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.account_name_credit)
@@ -103,8 +107,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
-    private static final int SELECT_PICTURE=1;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
+    private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
     InputStream inputStream = null;
     ProgressDialog mProgressDialog;
@@ -112,92 +116,22 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     String encodedString;
     String title;
     AppUser appUser;
-    public Boolean boolForGroupName=false;
+    public Boolean boolForGroupName = false;
     Bitmap photo;
     String state;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
-   // public static boolean creditNoteStatic;
+    private Uri imageToUploadUri;
+    ;
+    // public static boolean creditNoteStatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
-
-       gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-           private  String sp_position;
-           @Override
-           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               sp_position=String.valueOf(position);
-               appUser.mListMapForItemCreditNote.clear();
-               LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-               if (position==1){
-
-                   llSelectItem.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                               if (!account_name_credit.getText().toString().equals("")) {
-                                   if (!transaction_amount.getText().toString().equals("")) {
-                                       Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
-                                       intent.putExtra("amount", transaction_amount.getText().toString());
-                                       intent.putExtra("sp_position", String.valueOf(position));
-                                       intent.putExtra("state", state);
-                                       startActivity(intent);
-                                   } else {
-                                       gst_nature_spinner.setSelection(0);
-                                       Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
-                                   }
-                               } else {
-                                   gst_nature_spinner.setSelection(0);
-                                   Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                               }
-                           }else {
-                               Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                           }
-                       }
-                   });
-
-               }else if(position==2) {
-
-                   llSelectItem.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                          if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                              if (!account_name_credit.getText().toString().equals("")) {
-                                  if (!transaction_amount.getText().toString().equals("")) {
-                                      Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
-                                      intent.putExtra("sp_position", String.valueOf(position));
-                                      intent.putExtra("amount", transaction_amount.getText().toString());
-                                      intent.putExtra("state", state);
-                                      startActivity(intent);
-                                  } else {
-                                      gst_nature_spinner.setSelection(0);
-                                      Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
-                                  }
-                              } else {
-                                  gst_nature_spinner.setSelection(0);
-                                  Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                              }
-                          }else {
-                              Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                          }
-                      }
-                  });
-               }
-           }
-
-           @Override
-           public void onNothingSelected(AdapterView<?> parent) {
-
-           }
-       });
+        appUser = LocalRepositories.getAppUser(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
 
@@ -216,10 +150,10 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
-        title="CREATE CREDIT NOTE";
-        fromCreditNote = getIntent().getBooleanExtra("fromCreditNote",false);
+        title = "CREATE CREDIT NOTE";
+        fromCreditNote = getIntent().getBooleanExtra("fromCreditNote", false);
         if (fromCreditNote == true) {
-            title="EDIT CREDIT NOTE";
+            title = "EDIT CREDIT NOTE";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
             appUser.edit_credit_note_id = getIntent().getExtras().getString("id");
@@ -246,7 +180,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                         });
                 snackbar.show();
             }
-        }else {
+        } else {
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -284,28 +218,100 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         llSelectItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (transaction_amount.getText().toString().equals("")){
-                    if (account_name_credit.getText().toString().equals("")){
+                if (transaction_amount.getText().toString().equals("")) {
+                    if (account_name_credit.getText().toString().equals("")) {
                         Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Credit", Snackbar.LENGTH_LONG).show();
 
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private String sp_position;
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sp_position = String.valueOf(position);
+                appUser.mListMapForItemCreditNote.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if (position == 1) {
+
+                    llSelectItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
+                                if (!account_name_credit.getText().toString().equals("")) {
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
+                                        intent.putExtra("amount", transaction_amount.getText().toString());
+                                        intent.putExtra("sp_position", String.valueOf(position));
+                                        intent.putExtra("state", state);
+                                        startActivity(intent);
+                                    } else {
+                                        gst_nature_spinner.setSelection(0);
+                                        Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    gst_nature_spinner.setSelection(0);
+                                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+
+                } else if (position == 2) {
+
+                    llSelectItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
+                                if (!account_name_credit.getText().toString().equals("")) {
+                                    if (!transaction_amount.getText().toString().equals("")) {
+                                        Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
+                                        intent.putExtra("sp_position", String.valueOf(position));
+                                        intent.putExtra("amount", transaction_amount.getText().toString());
+                                        intent.putExtra("state", state);
+                                        startActivity(intent);
+                                    } else {
+                                        gst_nature_spinner.setSelection(0);
+                                        Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    gst_nature_spinner.setSelection(0);
+                                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
         account_name_credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
                 //ParameterConstant.checkStartActivityResultForAccount =12;
-                ExpandableAccountListActivity.isDirectForAccount=false;
+                ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -314,9 +320,9 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
+                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                intent.putExtra("encodedString", imageToUploadUri.toString());
+                intent.putExtra("booleAttachment", false);
                 startActivity(intent);
             }
         });
@@ -324,90 +330,90 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
+                if (!voucher_no.getText().toString().equals("")) {
                     if (!set_date.getText().toString().equals("")) {
-                    if (!account_name_credit.getText().toString().equals("")) {
-                        if (!transaction_amount.getText().toString().equals("")) {
-                            appUser.credit_note_voucher_series = voucher_series_spinner.getSelectedItem().toString();
-                            appUser.credit_note_date = set_date.getText().toString();
-                            appUser.credit_note_voucher_no = voucher_no.getText().toString();
-                            appUser.credit_note_gst_nature = gst_nature_spinner.getSelectedItem().toString();
-                            appUser.account_name_debit_note = account_name_debit.getText().toString();
-
+                        if (!account_name_credit.getText().toString().equals("")) {
                             if (!transaction_amount.getText().toString().equals("")) {
-                                appUser.credit_note_amount = Double.parseDouble(transaction_amount.getText().toString());
+                                appUser.credit_note_voucher_series = voucher_series_spinner.getSelectedItem().toString();
+                                appUser.credit_note_date = set_date.getText().toString();
+                                appUser.credit_note_voucher_no = voucher_no.getText().toString();
+                                appUser.credit_note_gst_nature = gst_nature_spinner.getSelectedItem().toString();
+                                appUser.account_name_debit_note = account_name_debit.getText().toString();
+
+                                if (!transaction_amount.getText().toString().equals("")) {
+                                    appUser.credit_note_amount = Double.parseDouble(transaction_amount.getText().toString());
+                                }
+                                appUser.credit_note_narration = transaction_narration.getText().toString();
+                                appUser.credit_note_attachment = encodedString;
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                new AlertDialog.Builder(CreateCreditNoteWoActivity.this)
+                                        .setTitle("Email")
+                                        .setMessage(R.string.btn_send_email)
+                                        .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                            appUser.email_yes_no = "true";
+                                            LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
+                                            if (isConnected) {
+                                                mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                            } else {
+                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                        if (isConnected) {
+                                                            snackbar.dismiss();
+                                                        }
+                                                    }
+                                                });
+                                                snackbar.show();
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+
+                                            appUser.email_yes_no = "false";
+                                            LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
+                                            if (isConnected) {
+                                                mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                            } else {
+                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                        if (isConnected) {
+                                                            snackbar.dismiss();
+                                                        }
+                                                    }
+                                                });
+                                                snackbar.show();
+                                            }
+
+                                        })
+                                        .show();
+
+                            } else {
+                                Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                             }
-                            appUser.credit_note_narration = transaction_narration.getText().toString();
-                            appUser.credit_note_attachment = encodedString;
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            new AlertDialog.Builder(CreateCreditNoteWoActivity.this)
-                                    .setTitle("Email")
-                                    .setMessage(R.string.btn_send_email)
-                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-
-                                        appUser.email_yes_no = "true";
-                                        LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
-                                        if (isConnected) {
-                                            mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
-                                            mProgressDialog.setMessage("Info...");
-                                            mProgressDialog.setIndeterminate(false);
-                                            mProgressDialog.setCancelable(true);
-                                            mProgressDialog.show();
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                        } else {
-                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                    if (isConnected) {
-                                                        snackbar.dismiss();
-                                                    }
-                                                }
-                                            });
-                                            snackbar.show();
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
-
-                                        appUser.email_yes_no = "false";
-                                        LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
-                                        if (isConnected) {
-                                            mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
-                                            mProgressDialog.setMessage("Info...");
-                                            mProgressDialog.setIndeterminate(false);
-                                            mProgressDialog.setCancelable(true);
-                                            mProgressDialog.show();
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                        } else {
-                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                    if (isConnected) {
-                                                        snackbar.dismiss();
-                                                    }
-                                                }
-                                            });
-                                            snackbar.show();
-                                        }
-
-                                    })
-                                    .show();
-
                         } else {
-                            Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(coordinatorLayout, "Please select account name credit", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(coordinatorLayout, "Please select account name credit", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
-                }
-            }else {
-                Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
                         mProgressDialog.setMessage("Info...");
@@ -430,14 +436,14 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                                 });
                         snackbar.show();
                     }
-            }
+                }
             }
         });
 
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
+                if (!voucher_no.getText().toString().equals("")) {
                     if (!set_date.getText().toString().equals("")) {
                         if (!account_name_credit.getText().toString().equals("")) {
                             if (!transaction_amount.getText().toString().equals("")) {
@@ -483,7 +489,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
@@ -510,9 +516,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 }
             }
         });
-        
-    }
 
+    }
 
 
     private void setDateField() {
@@ -545,12 +550,12 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (ParameterConstant.forAccountIntentBool) {
-                String result = ParameterConstant.forAccountIntentName;
-                appUser.account_name_credit_note_id = ParameterConstant.forAccountIntentId;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                String[] name = result.split(",");
-                account_name_credit.setText(name[0]);
-                state=ParameterConstant.forAccountIntentState;
+            String result = ParameterConstant.forAccountIntentName;
+            appUser.account_name_credit_note_id = ParameterConstant.forAccountIntentId;
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            String[] name = result.split(",");
+            account_name_credit.setText(name[0]);
+            state = ParameterConstant.forAccountIntentState;
         }
 
        /* if (resultCode == RESULT_OK) {
@@ -589,7 +594,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
                     try {
                         photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageToUploadUri);
-                        Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
+                        Bitmap im = scaleDownBitmap(photo, 100, getApplicationContext());
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
@@ -601,7 +606,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 case Cv.REQUEST_GALLERY:
 
                     try {
-                        imageToUploadUri= data.getData();
+                        imageToUploadUri = data.getData();
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
@@ -617,21 +622,21 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
 
             if (requestCode == 2) {
-               if (ParameterConstant.handleAutoCompleteTextView==1){
-                   boolForGroupName=true;
-                   appUser.account_name_credit_note_id = ParameterConstant.id;
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   account_name_credit.setText(ParameterConstant.name);
-               }else {
-                   boolForGroupName=true;
-                   String result = data.getStringExtra("name");
-                   String id = data.getStringExtra("id");
-                   state = data.getStringExtra("state");
-                   appUser.account_name_credit_note_id = id;
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   String[] name = result.split(",");
-                   account_name_credit.setText(name[0]);
-               }
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForGroupName = true;
+                    appUser.account_name_credit_note_id = ParameterConstant.id;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    account_name_credit.setText(ParameterConstant.name);
+                } else {
+                    boolForGroupName = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    state = data.getStringExtra("state");
+                    appUser.account_name_credit_note_id = id;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    String[] name = result.split(",");
+                    account_name_credit.setText(name[0]);
+                }
             }
         }
     }
@@ -639,7 +644,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     @Override
     public void onResume() {
         super.onResume();
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         /*if (bool) {
             if (!boolForGroupName) {
                 String result = intent.getStringExtra("name");
@@ -707,7 +712,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -715,16 +720,16 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     }
 
     @Subscribe
-    public void createcreditnoteresponse(CreateCreditNoteResponse response){
+    public void createcreditnoteresponse(CreateCreditNoteResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-           // voucher_no.setText("");
+        if (response.getStatus() == 200) {
+            // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             account_name_credit.setText("");
             // account_name_debit.setText("");
             gst_nature_spinner.setSelection(0);
-            encodedString="";
+            encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -734,7 +739,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(CreateCreditNoteWoActivity.this, TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
 
                        /* ProgressDialog progressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
@@ -757,54 +762,71 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void getCreditNoteDetails(GetCreditNoteDetailsResponse response){
+    public void getCreditNoteDetails(GetCreditNoteDetailsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             set_date.setText(response.getCredit_note().getData().getAttributes().getDate());
             voucher_no.setText(response.getCredit_note().getData().getAttributes().getVoucher_number());
             //account_name_debit.setText(response.getCredit_note().getData().getAttributes().getAccount_name_debit());
             account_name_credit.setText(response.getCredit_note().getData().getAttributes().getAccount_name_credit());
             transaction_amount.setText(String.valueOf(response.getCredit_note().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getCredit_note().getData().getAttributes().getNarration());
-            if(!response.getCredit_note().getData().getAttributes().getAttachment().equals("")){
+            if (!response.getCredit_note().getData().getAttributes().getAttachment().equals("")) {
                 Glide.with(this).load(Uri.parse(response.getCredit_note().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getCredit_note().getData().getAttributes().getGst_nature().trim();
             int groupindex = -1;
-            for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_credit).length; i++) {
+            for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_credit).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_credit)[i].equals(group_type)) {
                     groupindex = i;
                     break;
                 }
             }
             gst_nature_spinner.setSelection(groupindex);
+            Map mMap = new HashMap<>();
+            for (int i = 0; i < response.getCredit_note().getData().getAttributes().getCredit_items().size(); i++) {
+                mMap.put("inv_num", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getInvoice_no());
+                mMap.put("difference_amount", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getAmount());
+                mMap.put("gst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getTax_rate());
+
+                if (response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getCgst_amount()!=null) {
+                    mMap.put("cgst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getCgst_amount());
+                    mMap.put("sgst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getSgst_amount());
+
+                } else {
+                    mMap.put("igst", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getIgst_amount());
+
+                }
+                mMap.put("date", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getDate());
+                mMap.put("goodsItem", response.getCredit_note().getData().getAttributes().getCredit_items().get(i).getItc_eligibility());
+                mMap.put("state",response.getCredit_note().getData().getAttributes().getCredit_account().getState());
+                appUser.mListMapForItemCreditNote.add(mMap);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void editCreditNote(EditCreditNoteResponse response){
+    public void editCreditNote(EditCreditNoteResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             //appUser.forAccountIntentBool=false;
-           // appUser.forAccountIntentId="";
+            // appUser.forAccountIntentId="";
             //appUser.forAccountIntentName="";
             Intent intent = new Intent(this, CreditNoteWoItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -812,11 +834,11 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             startActivity(intent);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
@@ -828,6 +850,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             // set_date.setOnClickListener(this);
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
@@ -835,20 +858,20 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         snackbar.show();
     }
 
-     @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-       MenuInflater menuInflater = getMenuInflater();
-       menuInflater.inflate(R.menu.activity_list_button_action,menu);
-         if(fromCreditNote==true){
-             MenuItem item = menu.findItem(R.id.icon_id);
-             item.setVisible(false);
-         }else{
-             MenuItem item = menu.findItem(R.id.icon_id);
-             item.setVisible(true);
-         }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
+        if (fromCreditNote == true) {
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(false);
+        } else {
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(true);
+        }
 
-       return super.onCreateOptionsMenu(menu);
-   }
+        return super.onCreateOptionsMenu(menu);
+    }
 
   /* @Override
    public boolean onOptionsItemSelected(MenuItem item) {
@@ -865,7 +888,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),CreditNoteWoItemListActivity.class);
+                Intent i = new Intent(getApplicationContext(), CreditNoteWoItemListActivity.class);
                 startActivity(i);
                 finish();
                 return true;
@@ -926,14 +949,14 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         }
     }
 
-    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+    public Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
 
         final float densityMultiplier = context.getResources().getDisplayMetrics().density;
 
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+        int h = (int) (newHeight * densityMultiplier);
+        int w = (int) (h * photo.getWidth() / ((double) photo.getHeight()));
 
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+        photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
     }

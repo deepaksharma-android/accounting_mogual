@@ -1,5 +1,7 @@
 package com.lkintechnology.mBilling.networks.api_response.receiptvoucher;
 
+import java.util.ArrayList;
+
 public class ReceiptVouchersDetailsAttributes {
     public String company_name;
     public String company_id;
@@ -11,9 +13,19 @@ public class ReceiptVouchersDetailsAttributes {
     public String voucher_number;
     public String received_from;
     public String received_by;
+
+    public ArrayList<ReceiptItems> getReceipt_item() {
+        return receipt_item;
+    }
+
+    public void setReceipt_item(ArrayList<ReceiptItems> receipt_item) {
+        this.receipt_item = receipt_item;
+    }
+
     public Double amount;
     public String narration;
     public String attachment;
+    public ArrayList<ReceiptItems> receipt_item;
 
     public String getCompany_name() {
         return company_name;

@@ -74,12 +74,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class
 CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
@@ -158,6 +162,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(this);
+        appUser.mListMapForItemReceipt.clear();
+        LocalRepositories.saveAppUser(this,appUser);
         bundle = getIntent().getExtras();
         if (bundle != null) {
             account = bundle.getString("account");
@@ -207,9 +213,9 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             getIntent().getExtras().getString("id");
             appUser.edit_receipt_id = getIntent().getExtras().getString("id");
             LocalRepositories.saveAppUser(this, appUser);
-            received_from_layout.setEnabled(false);
-            received_by_layout.setEnabled(false);
-            transaction_amount.setEnabled(false);
+            //received_from_layout.setEnabled(false);
+           // received_by_layout.setEnabled(false);
+            //transaction_amount.setEnabled(false);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -267,9 +273,10 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             public void onClick(View view) {
                 if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
                     if (!transaction_amount.getText().toString().equals("")) {
-
-                        appUser.mListMapForItemReceipt.clear();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        if(!fromReceiptVoucher){
+                            appUser.mListMapForItemReceipt.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        }
                         Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
                         intent.putExtra("amount", transaction_amount.getText().toString());
                         startActivity(intent);
@@ -1012,6 +1019,15 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
 
             }
             gst_nature_spinner.setSelection(groupindex);
+            Map mMap=new HashMap<>();
+           for(int i=0; i<response.getReceipt_voucher().getData().getAttributes().getReceipt_item().size();i++){
+               mMap.put("ref_num", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getReference_no());
+               mMap.put("amount", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getAmount()));
+               mMap.put("taxrate", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTax_rate()));
+               mMap.put("total", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTotal_amount()));
+               appUser.mListMapForItemReceipt.add(mMap);
+               LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+           }
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

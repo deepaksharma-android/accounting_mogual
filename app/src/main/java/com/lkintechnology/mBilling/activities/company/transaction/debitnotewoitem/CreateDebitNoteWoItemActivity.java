@@ -66,8 +66,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity implements View.OnClickListener {
@@ -755,7 +758,9 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             set_date.setText(response.getDebit_note().getData().getAttributes().getDate());
             voucher_no.setText(response.getDebit_note().getData().getAttributes().getVoucher_number());
             //account_name_credit.setText(response.getDebit_note().getData().getAttributes().getAccount_name_credit());
-            account_name_debit.setText(response.getDebit_note().getData().getAttributes().getAccount_name_debit());
+            account_name_debit.setText(response.getDebit_note().getData().getAttributes().getDebit_account().getName());
+            appUser.account_name_debit_note_id=response.getDebit_note().getData().getAttributes().getDebit_account().getId();
+            LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getDebit_note().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getDebit_note().getData().getAttributes().getNarration());
             if(!response.getDebit_note().getData().getAttributes().getAttachment().equals("")){
@@ -777,6 +782,26 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 }
             }
             gst_nature_spinner.setSelection(groupindex);
+            Map mMap = new HashMap<>();
+            for (int i = 0; i < response.getDebit_note().getData().getAttributes().getDebit_note_items().size(); i++) {
+                mMap.put("inv_num", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getInvoice_no());
+                mMap.put("difference_amount", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getAmount());
+                mMap.put("gst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getTax_rate());
+
+                if (response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getCgst_amount()!=null) {
+                    mMap.put("cgst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getCgst_amount());
+                    mMap.put("sgst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getSgst_amount());
+
+                } else {
+                    mMap.put("igst", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getIgst_amount());
+
+                }
+                mMap.put("date", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getDate());
+                mMap.put("goodsItem", response.getDebit_note().getData().getAttributes().getDebit_note_items().get(i).getItc_eligibility());
+                mMap.put("state",response.getDebit_note().getData().getAttributes().getDebit_account().getState());
+                appUser.mListMapForItemCreditNote.add(mMap);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{

@@ -56,10 +56,12 @@ public class AddReceiptItemAdapter extends BaseAdapter {
         Timber.i("MEEEEEEEEEE"+mListMap.get(position));
         String ref_num= (String) map.get("ref_num");
         String amount= (String) map.get("amount");
+        String total= (String) map.get("total");
         String taxrate= (String) map.get("taxrate");
         holder.mRefNum.setText(ref_num);
         holder.mTaxRate.setText(taxrate);
         holder.mAmount.setText(amount);
+        holder.mTotalAmount.setText(total);
 
 
 
@@ -73,6 +75,8 @@ public class AddReceiptItemAdapter extends BaseAdapter {
         TextView mTaxRate;
         @Bind(R.id.amount)
         TextView mAmount;
+        @Bind(R.id.total)
+        TextView mTotalAmount;
 
 
 

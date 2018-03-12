@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -28,6 +30,8 @@ import butterknife.ButterKnife;
 public class CreateReceiptItemActivity extends AppCompatActivity {
     @Bind(R.id.reference_number)
     EditText mReferenceNumber;
+    @Bind(R.id.total_amount)
+    TextView mTotalAmount;
     @Bind(R.id.transaction_amount)
     TextView mTransactionAmount;
     @Bind(R.id.tax_rate)
@@ -55,17 +59,39 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
              mReferenceNumber.setText((String)map.get("ref_num"));
              mTransactionAmount.setText((String)map.get("amount"));
              mTaxRate.setText((String)map.get("taxrate"));
+            mTotalAmount.setText((String)map.get("total"));
         }
+        mTaxRate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i2==0){
+                    mTotalAmount.setText("");
+                }
+                else {
+                    String total = String.format("%.2f", ((((Double.parseDouble(mTransactionAmount.getText().toString())) * (Double.parseDouble(mTaxRate.getText().toString()))) / 100) + (Double.parseDouble(mTransactionAmount.getText().toString()))));
+                    mTotalAmount.setText(total);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( !mReferenceNumber.getText().toString().equals("")){
                         if(!mTaxRate.getText().toString().equals("")){
-                            String total=String.format("%.2f",((((Double.parseDouble(mTransactionAmount.getText().toString()))*(Double.parseDouble(mTaxRate.getText().toString())))/100)+(Double.parseDouble(mTransactionAmount.getText().toString()))));
                             mMap.put("ref_num", mReferenceNumber.getText().toString());
                             mMap.put("amount", mTransactionAmount.getText().toString());
                             mMap.put("taxrate", mTaxRate.getText().toString());
-                            mMap.put("total",total);
+                            mMap.put("total",mTotalAmount.getText().toString());
                             if (!fromreceipt) {
                                 appUser.mListMapForItemReceipt.add(mMap);
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

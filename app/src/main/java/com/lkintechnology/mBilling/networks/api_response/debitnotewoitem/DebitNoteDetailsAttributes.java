@@ -1,5 +1,7 @@
 package com.lkintechnology.mBilling.networks.api_response.debitnotewoitem;
 
+import java.util.ArrayList;
+
 public class DebitNoteDetailsAttributes {
 
     public String company_name;
@@ -9,7 +11,34 @@ public class DebitNoteDetailsAttributes {
     public String gst_nature;
     public String voucher_number;
     public String account_name_credit;
+
+    public String getAccount_name_credit_id() {
+        return account_name_credit_id;
+    }
+
+    public void setAccount_name_credit_id(String account_name_credit_id) {
+        this.account_name_credit_id = account_name_credit_id;
+    }
+
+    public DebitAccount getDebit_account() {
+        return debit_account;
+    }
+
+    public void setDebit_account(DebitAccount debit_account) {
+        this.debit_account = debit_account;
+    }
+
+    public ArrayList<DebitNoteItems> getDebit_note_items() {
+        return debit_note_items;
+    }
+
+    public void setDebit_note_items(ArrayList<DebitNoteItems> debit_note_items) {
+        this.debit_note_items = debit_note_items;
+    }
+
+    public String account_name_credit_id;
     public String account_name_debit;
+    public DebitAccount debit_account;
     public Double amount;
     public String narration;
     public String attachment;
@@ -101,4 +130,6 @@ public class DebitNoteDetailsAttributes {
     public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
+
+    public ArrayList<DebitNoteItems> debit_note_items;
 }

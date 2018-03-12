@@ -93,24 +93,68 @@
 
                 </LinearLayout>
 
-
-                <com.lkintechnology.mBilling.utils.BuzzTextView
-                    style="@style/Gotham_Medium"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="AMOUNT"
-                    android:gravity="center"
-                    android:textColor="#000"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
 
-                <com.lkintechnology.mBilling.utils.BuzzTextView
-                    android:id="@+id/amount"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="#000"
-                    android:textSize="12sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="AMOUNT"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/amount"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="TOTAL AMOUNT"
+                            android:gravity="right"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/total"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000"
+                            android:gravity="right"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
