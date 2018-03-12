@@ -124,158 +124,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ButterKnife.bind(this);
-        llSpItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (transaction_amount.getText().toString().equals("")){
-                    if (account_name_debit.getText().toString().equals("")){
-                        Snackbar.make(coordinatorLayout, "Please enter the amount & Account name Debit", Snackbar.LENGTH_LONG).show();
-
-                    }
-                }else {
-                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
-        llSpItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Issued Against Sale")) {
-                    if (!account_name_credit.getText().toString().equals("")) {
-                        if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            intent.putExtra("sp_position", "1");
-                            intent.putExtra("state", state);
-                            startActivity(intent);
-                        } else {
-                            gst_nature_spinner.setSelection(0);
-                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
-                        }
-                    } else {
-                        gst_nature_spinner.setSelection(0);
-                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    }
-                }else if(gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Received Against Purchase")){
-                    if (!account_name_credit.getText().toString().equals("")) {
-                        if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
-                            intent.putExtra("sp_position", "2");
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            intent.putExtra("state", state);
-                            startActivity(intent);
-                        } else {
-                            gst_nature_spinner.setSelection(0);
-                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
-                        }
-                    } else {
-                        gst_nature_spinner.setSelection(0);
-                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                    }
-                }
-                else {
-                    Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                }
-            }
-        });
-
-        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(fromDebitNote){
-                    if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
-                        appUser.mListMapForItemDebitNote.clear();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    }
-                }
-                else{
-                    appUser.mListMapForItemDebitNote.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        /*gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(!fromDebitNote){
-                    appUser.mListMapForItemDebitNote.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                }
-
-                if (position==1){
-
-                   llSpItem.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                               if (!account_name_debit.getText().toString().equals("")) {
-                                   if (!transaction_amount.getText().toString().equals("")) {
-                                       Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
-                                       intent.putExtra("amount", transaction_amount.getText().toString());
-                                       intent.putExtra("sp_position", String.valueOf(position));
-                                       intent.putExtra("state", state);
-                                       startActivity(intent);
-                                   } else {
-                                       gst_nature_spinner.setSelection(0);
-                                       Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                                   }
-                               } else {
-                                   gst_nature_spinner.setSelection(0);
-                                   Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                               }
-                           }else {
-                               Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                           }
-                       }
-                   });
-
-                }else if(position==2) {
-
-                    llSpItem.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                                if (!account_name_debit.getText().toString().equals("")) {
-                                    if (!transaction_amount.getText().toString().equals("")) {
-                                        Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
-                                        intent.putExtra("amount", transaction_amount.getText().toString());
-                                        intent.putExtra("sp_position", String.valueOf(position));
-                                        intent.putExtra("state", state);
-                                        startActivity(intent);
-                                    } else {
-                                        gst_nature_spinner.setSelection(0);
-                                        Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    gst_nature_spinner.setSelection(0);
-                                    Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
-                                }
-                            }else {
-                                Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                            }
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(this);
@@ -385,7 +234,71 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 startActivity(intent);
             }
         });
+        llSpItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Issued Against Sale")) {
+                    if (!account_name_credit.getText().toString().equals("")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            intent.putExtra("sp_position", "1");
+                            intent.putExtra("state", state);
+                            startActivity(intent);
+                        } else {
+                            gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                    }
+                }else if(gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Received Against Purchase")){
+                    if (!account_name_credit.getText().toString().equals("")) {
+                        if (!transaction_amount.getText().toString().equals("")) {
+                            Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
+                            intent.putExtra("sp_position", "2");
+                            intent.putExtra("amount", transaction_amount.getText().toString());
+                            intent.putExtra("state", state);
+                            startActivity(intent);
+                        } else {
+                            gst_nature_spinner.setSelection(0);
+                            Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
 
+                }
+            }
+        });
+
+        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(fromDebitNote){
+                    if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
+                        appUser.mListMapForItemDebitNote.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+                else{
+                    appUser.mListMapForItemDebitNote.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

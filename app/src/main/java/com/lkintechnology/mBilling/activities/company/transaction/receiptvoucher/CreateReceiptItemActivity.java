@@ -42,6 +42,9 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
     AppUser appUser;
     public Boolean fromreceipt;
     public String itempos;
+    public String voucher_type="";
+    public String voucher_id="";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemReceipt.get(Integer.parseInt(itempos));
              mReferenceNumber.setText((String)map.get("ref_num"));
+            voucher_id=(String)map.get("voucher_id");
+            voucher_type=(String)map.get("voucher_type");
              mTransactionAmount.setText((String)map.get("amount"));
              mTaxRate.setText((String)map.get("taxrate"));
             mTotalAmount.setText((String)map.get("total"));
@@ -88,7 +93,8 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if( !mReferenceNumber.getText().toString().equals("")){
                         if(!mTaxRate.getText().toString().equals("")){
-                            mMap.put("ref_num", mReferenceNumber.getText().toString());
+                            mMap.put("voucher_id", voucher_id);
+                            mMap.put("voucher_type", voucher_type);
                             mMap.put("amount", mTransactionAmount.getText().toString());
                             mMap.put("taxrate", mTaxRate.getText().toString());
                             mMap.put("total",mTotalAmount.getText().toString());

@@ -38,4 +38,23 @@ public class ReceiptItems {
     }
 
     public String reference_no;
+    public String voucher_id;
+
+    public String getVoucher_id() {
+        return voucher_id;
+    }
+
+    public void setVoucher_id(String voucher_id) {
+        this.voucher_id = voucher_id;
+    }
+
+    public String getVoucher_type() {
+        return voucher_type;
+    }
+
+    public void setVoucher_type(String voucher_type) {
+        this.voucher_type = voucher_type;
+    }
+
+    public String voucher_type;
 }

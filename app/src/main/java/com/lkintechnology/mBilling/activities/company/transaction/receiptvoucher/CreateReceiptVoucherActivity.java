@@ -150,6 +150,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     String attachemnt;
+    public String spinnergstnature;
 
 
     @Override
@@ -271,25 +272,41 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable")) {
-                    if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
-                        if (!transaction_amount.getText().toString().equals("")) {
-                            if (!fromReceiptVoucher) {
-                                appUser.mListMapForItemReceipt.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            }
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
+                    if (!transaction_amount.getText().toString().equals("")) {
                             Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
                             intent.putExtra("amount", transaction_amount.getText().toString());
                             startActivity(intent);
                         } else {
-                         //   gst_nature_spinner.setSelection(0);
+                            gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "Enter the amount", Snackbar.LENGTH_LONG).show();
-                        }
+
                     }
                 }else {
                     Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
 
                 }
+            }
+        });
+
+        gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(fromReceiptVoucher){
+                    if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
+                        appUser.mListMapForItemReceipt.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+                else{
+                    appUser.mListMapForItemReceipt.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -1014,6 +1031,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 set_date_pdc.setText("");
             }
             String group_type = response.getReceipt_voucher().getData().getAttributes().getGst_nature().trim();
+            spinnergstnature=group_type;
             int groupindex = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_receipt).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_receipt)[i].equals(group_type)) {
@@ -1025,6 +1043,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             gst_nature_spinner.setSelection(groupindex);
             Map mMap=new HashMap<>();
            for(int i=0; i<response.getReceipt_voucher().getData().getAttributes().getReceipt_item().size();i++){
+               mMap.put("voucher_id", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getVoucher_id());
+               mMap.put("voucher_type", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getVoucher_type());
                mMap.put("ref_num", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getReference_no());
                mMap.put("amount", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getAmount()));
                mMap.put("taxrate", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTax_rate()));
