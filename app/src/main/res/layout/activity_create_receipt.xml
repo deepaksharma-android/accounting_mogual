@@ -340,18 +340,18 @@
 
                                         <TextView
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="30dp"
                                             android:layout_toRightOf="@+id/view"
                                             android:text="Go"
                                             android:textSize="@dimen/dp_16"
                                             style="@style/Gotham_Medium"
-                                            android:layout_marginLeft="@dimen/dp_5"
+                                            android:layout_marginLeft="@dimen/dp_3"
                                             android:gravity="center"
                                             android:background="@drawable/go_button_background"
                                             android:textColor="@color/white"
+                                            android:padding="@dimen/dp_1"
                                             android:textStyle="bold"
-                                            android:layout_marginRight="@dimen/dp_3"/>
-
+                                            android:layout_marginRight="@dimen/dp_5"/>
                                     </LinearLayout>
                                 </LinearLayout>
 

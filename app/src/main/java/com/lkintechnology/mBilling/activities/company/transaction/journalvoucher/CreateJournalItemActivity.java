@@ -250,6 +250,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             if(state.equals(appUser.company_state)){
                                                 mMap.put("cgst", tvCGST.getText().toString());
                                                 mMap.put("sgst", tvSgst.getText().toString());
+                                                mMap.put("igst", "");
                                             }
                                             else{
                                                 mMap.put("igst", tvIGST.getText().toString());
@@ -320,6 +321,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             if(state.equals(appUser.company_state)){
                                                 mMap.put("cgst", tvCGST.getText().toString());
                                                 mMap.put("sgst", tvSgst.getText().toString());
+                                                mMap.put("igst", "");
                                             }
                                             else{
                                                 mMap.put("igst", tvIGST.getText().toString());
