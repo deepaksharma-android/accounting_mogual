@@ -9,11 +9,28 @@ public class Attributes {
     public String gst_nature;
     public String voucher_number;
     public String account_name_credit;
-    public String account_name_debit;
+    public AccountDebit account_debit;
     public Double amount;
     public String narration;
     public String attachment;
     public String invoice_html;
+    public int account_name_credit_id;
+
+    public AccountDebit getAccount_debit() {
+        return account_debit;
+    }
+
+    public void setAccount_debit(AccountDebit account_debit) {
+        this.account_debit = account_debit;
+    }
+
+    public int getAccount_name_credit_id() {
+        return account_name_credit_id;
+    }
+
+    public void setAccount_name_credit_id(int account_name_credit_id) {
+        this.account_name_credit_id = account_name_credit_id;
+    }
 
     public String getInvoice_html() {
         return invoice_html;
@@ -78,14 +95,6 @@ public class Attributes {
 
     public void setAccount_name_credit(String account_name_credit) {
         this.account_name_credit = account_name_credit;
-    }
-
-    public String getAccount_name_debit() {
-        return account_name_debit;
-    }
-
-    public void setAccount_name_debit(String account_name_debit) {
-        this.account_name_debit = account_name_debit;
     }
 
     public Double getAmount() {

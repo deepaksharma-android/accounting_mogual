@@ -69,6 +69,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -879,10 +880,13 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         if (response.getStatus() == 200) {
             set_date.setText(response.getJournal_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getJournal_voucher().getData().getAttributes().getVoucher_number());
-            account_name_debit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_debit());
+            account_name_debit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getName());
             account_name_credit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_credit());
             transaction_amount.setText(String.valueOf(response.getJournal_voucher().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getJournal_voucher().getData().getAttributes().getNarration());
+            appUser.account_name_debit_id = ""+response.getJournal_voucher().getData().getAttributes().getAccount_debit().getId();
+            appUser.account_name_credit_id = ""+response.getJournal_voucher().getData().getAttributes().getAccount_name_credit_id();
+            LocalRepositories.saveAppUser(this,appUser);
             if (!response.getJournal_voucher().getData().getAttributes().getAttachment().equals("")) {
                 Glide.with(this).load(Uri.parse(response.getJournal_voucher().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -902,6 +906,29 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             }
             gst_nature_spinner.setSelection(groupindex);
+
+
+/*            Map mMap = new HashMap();
+            for(int i =0;i<response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size();i++){
+                mMap.put("account_id","");
+                mMap.put("party_id","");
+                mMap.put("inv_num","");
+                mMap.put("difference_amount","");
+                mMap.put("rate","");
+                mMap.put("cgst","");
+                mMap.put("sgst","");
+                mMap.put("igst","");
+                mMap.put("gst_pos1","");
+                mMap.put("gst_pos2","");
+                mMap.put("state","");
+                mMap.put("spRCNItem","");
+                mMap.put("spITCEligibility","");
+
+                appUser.mListMapForItemJournalVoucherNote.add(mMap);
+                LocalRepositories.saveAppUser(this,appUser);
+            }*/
+
+
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

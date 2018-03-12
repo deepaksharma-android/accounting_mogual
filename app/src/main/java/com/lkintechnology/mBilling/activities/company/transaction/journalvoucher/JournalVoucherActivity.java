@@ -205,7 +205,7 @@ public class JournalVoucherActivity extends AppCompatActivity {
 
 
     @Subscribe
-    public void getIncome(GetJournalVoucherResponse response){
+    public void getJournalVoucher(GetJournalVoucherResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             mRecyclerView.setHasFixedSize(true);
