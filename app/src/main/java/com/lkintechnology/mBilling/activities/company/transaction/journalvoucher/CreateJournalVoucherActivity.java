@@ -126,6 +126,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     private Uri imageToUploadUri;
     private String gst_nature_position;
     String state;
+    String gstnaturespinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,10 +277,10 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                     appUser.journal_voucher_date = set_date.getText().toString();
                                     appUser.journal_voucher_voucher_no = voucher_no.getText().toString();
                                     appUser.journal_voucher_gst_nature = gst_nature_spinner.getSelectedItem().toString();
-                                    for(int i=0;i<appUser.mListMapForItemJournalVoucherNote.size();i++){
-                                        Map map=appUser.mListMapForItemJournalVoucherNote.get((i));
-                                        map.put("account_id",appUser.account_name_credit_id);
-                                        map.put("party_id",appUser.account_name_debit_id );
+                                    for (int i = 0; i < appUser.mListMapForItemJournalVoucherNote.size(); i++) {
+                                        Map map = appUser.mListMapForItemJournalVoucherNote.get((i));
+                                        map.put("account_id", appUser.account_name_credit_id);
+                                        map.put("party_id", appUser.account_name_debit_id);
                                     }
                                     if (!transaction_amount.getText().toString().equals("")) {
                                         appUser.journal_voucher_amount = Double.parseDouble(transaction_amount.getText().toString());
@@ -461,139 +462,78 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 }
             }
         });
-
         llSpiner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (transaction_amount.getText().toString().equals("")){
+            public void onClick(View v) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense/Consolidated RCM Payable")) {
 
-                        Snackbar.make(coordinatorLayout, "Please enter the amount ", Snackbar.LENGTH_LONG).show();
-                }else {
-                    Snackbar.make(coordinatorLayout, "all ready filled & please select GST Nature", Snackbar.LENGTH_LONG).show();
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        appUser.journalreason = "";
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent1 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
+                        intent1.putExtra("diff_amount", transaction_amount.getText().toString());
+                        intent1.putExtra("gst_pos1", "1");
+                        intent1.putExtra("state", state);
+                        startActivity(intent1);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Registered Expenses (B2B)")) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        Intent intent2 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
+                        intent2.putExtra("diff_amount", transaction_amount.getText().toString());
+                        intent2.putExtra("gst_pos2", "2");
+                        intent2.putExtra("state", state);
+                        startActivity(intent2);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note received against purchase")) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
+                        intent3.putExtra("gst_pos6", "6");
+                        intent3.putExtra("diff_amount", transaction_amount.getText().toString());
+                        intent3.putExtra("state", state);
+                        startActivity(intent3);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note received against purchase")) {
+                    if (!transaction_amount.getText().toString().equals("")) {
+                        Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
+                        intent3.putExtra("gst_pos7", "7");
+                        intent3.putExtra("diff_amount", transaction_amount.getText().toString());
+                        intent3.putExtra("state", state);
+                        startActivity(intent3);
+                    } else {
+                        gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
+                    }
+                } else {
+                    Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
+
                 }
             }
         });
-
-
-
-
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                appUser.mListMapForItemJournalVoucherNote.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                gst_nature_position=String.valueOf(position);
+                if(fromJournalVoucher){
+                    if(!gst_nature_spinner.getSelectedItem().toString().equals(gstnaturespinner)){
+                        appUser.mListMapForItemJournalVoucherNote.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+                else{
+                    appUser.mListMapForItemJournalVoucherNote.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
 
-
-                   if (position == 1) {
-
-                       llSpiner.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
-
-                                   appUser.journalreason = "";
-                                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                   appUser.mListMapForItemJournalVoucherNote.clear();
-                                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                   if (!transaction_amount.getText().toString().equals("")) {
-                                       appUser.journalreason = "";
-                                       LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                       Intent intent1 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
-                                       intent1.putExtra("diff_amount", transaction_amount.getText().toString());
-                                       intent1.putExtra("gst_pos1", String.valueOf(position));
-                                       intent1.putExtra("state", state);
-                                       startActivity(intent1);
-                                   } else {
-                                       gst_nature_spinner.setSelection(0);
-                                       Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
-                                   }
-                               }else {
-                                   Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                               }
-                           }
-                       });
-
-                   } else if (position == 2) {
-
-
-                       llSpiner.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
-                                   appUser.journalreason = "";
-                                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                   if (!transaction_amount.getText().toString().equals("")) {
-                                       Intent intent2 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
-                                       intent2.putExtra("diff_amount", transaction_amount.getText().toString());
-                                       intent2.putExtra("gst_pos2", String.valueOf(position));
-                                       intent2.putExtra("state", state);
-                                       startActivity(intent2);
-                                   } else {
-                                       gst_nature_spinner.setSelection(0);
-                                       Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
-                                   }
-                               }else {
-                                   Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                               }
-                           }
-                       });
-                   } else if (position == 6) {
-
-                       llSpiner.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
-                                   appUser.mListMapForItemJournalVoucherNote.clear();
-                                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                   appUser.mListMapForItemCreditNote.clear();
-                                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                   if (!transaction_amount.getText().toString().equals("")) {
-                                       Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
-                                       intent3.putExtra("gst_pos6", String.valueOf(position));
-                                       intent3.putExtra("diff_amount", transaction_amount.getText().toString());
-                                       intent3.putExtra("state", state);
-                                       startActivity(intent3);
-                                   } else {
-                                       gst_nature_spinner.setSelection(0);
-                                       Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
-                                   }
-                               }else {
-                                   Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                               }
-                           }
-                       });
-                   } else if (position == 7) {
-
-                       llSpiner.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               if (!gst_nature_spinner.getSelectedItem().toString().equals("Not Applicable non Gst")) {
-                                   appUser.mListMapForItemJournalVoucherNote.clear();
-                                   appUser.mListMapForItemDebitNote.clear();
-                                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                   if (!transaction_amount.getText().toString().equals("")) {
-                                       Intent intent4 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
-                                       intent4.putExtra("gst_pos7", String.valueOf(position));
-                                       intent4.putExtra("diff_amount", transaction_amount.getText().toString());
-                                       intent4.putExtra("state", state);
-                                       startActivity(intent4);
-                                   } else {
-                                       gst_nature_spinner.setSelection(0);
-                                       Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
-                                   }
-                               }else {
-                                   Snackbar.make(coordinatorLayout, "Please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-                               }
-                           }
-                       });
-
-                   }
-               }
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -601,7 +541,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
         });
 
+
     }
+
 
     private void startDialog() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
@@ -897,6 +839,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getJournal_voucher().getData().getAttributes().getGst_nature().trim();
+            gstnaturespinner=group_type;
             int groupindex = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_journal_voucher).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_journal_voucher)[i].equals(group_type)) {
@@ -906,27 +849,48 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             }
             gst_nature_spinner.setSelection(groupindex);
+            Map mMap = new HashMap();
+            for(int i =0;i<response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size();i++) {
+                if (groupindex == 1) {
+                    mMap.put("gst_pos1", "1");
+                } else if (groupindex == 2) {
+                    mMap.put("gst_pos2", "2");
+                } else if (groupindex == 6) {
+                    mMap.put("gst_pos6", "6");
+                } else if (groupindex == 7) {
+                    mMap.put("gst_pos7", "7");
+                }
+                mMap.put("id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getId());
+                mMap.put("account_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAccount_id());
+                mMap.put("party_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getParty_id());
+                mMap.put("inv_num",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getInvoice_no());
+                mMap.put("diff_amount",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAmount()));
+                mMap.put("difference_amount",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAmount()));
+                mMap.put("rate",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getTax_rate()));
+                mMap.put("gst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getTax_rate()));
+                mMap.put("cgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getCgst_amount()));
+                mMap.put("sgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSgst_amount()));
+                mMap.put("igst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getIgst_amount()));
+                mMap.put("date",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
+               if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState().equals("")){
+                   mMap.put("state","Haryana");
+               }
+                else{
+                   mMap.put("state",response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState());
+               }
 
-
-/*            Map mMap = new HashMap();
-            for(int i =0;i<response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size();i++){
-                mMap.put("account_id","");
-                mMap.put("party_id","");
-                mMap.put("inv_num","");
-                mMap.put("difference_amount","");
-                mMap.put("rate","");
-                mMap.put("cgst","");
-                mMap.put("sgst","");
-                mMap.put("igst","");
-                mMap.put("gst_pos1","");
-                mMap.put("gst_pos2","");
-                mMap.put("state","");
-                mMap.put("spRCNItem","");
-                mMap.put("spITCEligibility","");
-
+                mMap.put("spRCNItem",""/*response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcn_item()*/);
+                mMap.put("goodsItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
+                mMap.put("spITCEligibility",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemJournalVoucherNote.add(mMap);
                 LocalRepositories.saveAppUser(this,appUser);
-            }*/
+            }
+
+
+
+
+
+
 
 
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

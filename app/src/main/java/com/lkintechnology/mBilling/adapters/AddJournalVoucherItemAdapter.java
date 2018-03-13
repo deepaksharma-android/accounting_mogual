@@ -71,7 +71,7 @@ public class AddJournalVoucherItemAdapter extends BaseAdapter {
             String rcnItem= (String) map.get("spRCNItem");
             String itcEligibility= (String) map.get("spITCEligibility");
 
-             if (igst.equals("")) {
+             if (igst.equals("")||igst==null||igst.equals("null")) {
                  holder.mIgstLayout.setVisibility(View.INVISIBLE);
                  holder.mCgstLayout.setVisibility(View.VISIBLE);
                  holder.mSgstLayout.setVisibility(View.VISIBLE);

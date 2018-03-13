@@ -77,6 +77,9 @@ public class CreditNoteItemDetailAdapter extends BaseAdapter {
                 String sgst = (String) map.get("sgst");
                 String differenciateitem = (String) map.get("difference_amount");
                 String igst = (String) map.get("igst");
+                if(igst==null||igst.equals("null")){
+                    holder.tvIGST.setVisibility(View.GONE);
+                }
                 String itcEligibility = (String) map.get("goodsItem");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
@@ -126,6 +129,7 @@ public class CreditNoteItemDetailAdapter extends BaseAdapter {
 
         }else
              { if (! mListMap.get(position).get("state").equals(appUser.company_state)) {
+
                  holder.tvIGST.setVisibility(View.VISIBLE);
                  holder.tvViewIGST.setVisibility(View.VISIBLE);
                  holder.tvITCEligibility.setVisibility(View.VISIBLE);
@@ -178,6 +182,9 @@ public class CreditNoteItemDetailAdapter extends BaseAdapter {
                  String differenciateitem = (String) map.get("difference_amount");
                 String igst = (String) map.get("igst");
                  String itcEligibility = (String) map.get("goodsItem");
+                 if(igst==null||igst.equals("null")){
+                     holder.tvIGST.setVisibility(View.GONE);
+                 }
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");

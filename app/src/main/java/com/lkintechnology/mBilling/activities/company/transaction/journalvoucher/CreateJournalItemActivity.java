@@ -76,6 +76,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     Map mMap;
     private String spPos1, spPos2;
     String state;
+    String id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         if(fromjournal){
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
+            id=(String)map.get("id");
             String voucher_number= (String)map.get("inv_num");
             String acount_name=(String)map.get("acount_name");
             String party_name= (String)map.get("party_name");
@@ -140,7 +142,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             spPos2=sp2;
 
         }
-        if(state==null){
+        if(state==null||state.equals("")){
             state="Haryana";
         }
 
@@ -242,6 +244,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
                                             //mMap.put("account_id", account_id);
                                            // mMap.put("party_id", party_id);
+                                            mMap.put("id", id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
                                            // mMap.put("acount_name", tvAccountName.getText().toString());
                                            // mMap.put("party_name", tvPartyName.getText().toString());
@@ -313,6 +316,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
                                            // mMap.put("account_id", account_id);
                                            // mMap.put("party_id", party_id);
+                                            mMap.put("id", id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
                                           //  mMap.put("acount_name", tvAccountName.getText().toString());
                                            // mMap.put("party_name", tvPartyName.getText().toString());

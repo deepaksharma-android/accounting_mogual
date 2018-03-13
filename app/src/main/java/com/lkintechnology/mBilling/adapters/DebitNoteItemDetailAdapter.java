@@ -184,7 +184,9 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
         String value= (String) map.get("value");
         String total= (String) map.get("total");
         String mrp= (String) map.get("mrp");*/
-
+            if(igst==null||igst.equals("null")){
+                holder.tvIGST.setVisibility(View.GONE);
+            }
             holder.tvInvoiceDetail.setText(invoicedetail);
             holder.tvDate.setText(date);
             holder.tvGST.setText(gst);

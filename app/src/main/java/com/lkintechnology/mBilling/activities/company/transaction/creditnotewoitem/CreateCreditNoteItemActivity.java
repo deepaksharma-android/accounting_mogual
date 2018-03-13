@@ -138,7 +138,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         }
 
 
-        if(state==null){
+        if(state==null||state.equals("")){
             state="Haryana";
 
         }

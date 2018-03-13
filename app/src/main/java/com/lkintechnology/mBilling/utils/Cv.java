@@ -6,7 +6,7 @@ public interface Cv {
 
    //String BASE_URL = "https://mbilling.in/api/v1/";
     String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-   //String BASE_URL = "http://192.168.43.61:3000/api/v1/";
+   //String BASE_URL = "http://192.168.1.20:3000/api/v1/";
 
 
 

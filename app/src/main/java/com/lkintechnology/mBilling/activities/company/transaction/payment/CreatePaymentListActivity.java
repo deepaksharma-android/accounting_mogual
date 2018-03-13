@@ -85,6 +85,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
     public Boolean frompayment;
     private String itempos;
     public String state;
+    public String id="";
 
 
     @Override
@@ -108,6 +109,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemPaymentList.get(Integer.parseInt(itempos));
              String voucher_number= (String)map.get("inv_num");
+            id=(String)map.get("id");
             String acount_name=(String)map.get("acount_name");
             String party_name= (String)map.get("party_name");
             String difference_amount=(String)map.get("difference_amount");
@@ -262,6 +264,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                             //mMap.put("account_id", account_id);
                                            // mMap.put("party_id", party_id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
+                                            mMap.put("id", id);
                                             //mMap.put("acount_name", tvAccountName.getText().toString());
                                           //  mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
