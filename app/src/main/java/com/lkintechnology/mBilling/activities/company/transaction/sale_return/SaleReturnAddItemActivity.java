@@ -285,7 +285,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         else {
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
-            id = intent.getStringExtra("id");
+            id = intent.getStringExtra("item_id");
             name = intent.getStringExtra("name");
             desc = intent.getStringExtra("desc");
             main_unit = intent.getStringExtra("main_unit");

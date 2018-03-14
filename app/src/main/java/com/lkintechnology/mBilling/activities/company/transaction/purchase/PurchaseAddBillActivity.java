@@ -60,14 +60,14 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
     String billSundryAmount;
     String billSundryCharges;
     String billsundryothername;
-    int billSundryId;
+    String billSundryId;
     String billSundryFedAs;
     String billSundryFedAsPercentage;
     String billSundryFedAsPercentagePrevious;
     String billSundryType;
     Double billSundryDefaultValue;
     int billSundryNumber;
-    String id;
+    String id="";
     Boolean billSundryConsolidated;
     Boolean frombillvoucherlist;
     double taxval=0.0;
@@ -97,7 +97,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
             billSundryType=(String) map.get("type");
             billSundryNumber=Integer.parseInt((String) map.get("number_of_bill"));
             billSundryConsolidated=Boolean.parseBoolean((String) map.get("consolidated"));
-            billSundryId=Integer.parseInt((String) map.get("bill_sundry_id"));
+            billSundryId=(String) map.get("bill_sundry_id");
             id=(String) map.get("id");
             if(billSundryFedAsPercentage.equals("valuechange")){
                 String changeamount= (String) map.get("changeamount");
@@ -120,8 +120,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
             billSundryType = data.getAttributes().getBill_sundry_type();
             billSundryNumber = data.getAttributes().getNumber_of_bill_sundry();
             billSundryConsolidated = data.getAttributes().isConsolidate_bill_sundry();
-            billSundryId = data.getAttributes().getBill_sundry_id();
-            id = data.getId();
+            billSundryId =data.getId();
         }
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
@@ -221,7 +220,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                 appUser.bill_sundry_sale_voucher_type = data.getAttributes().getBill_sundry_type();
                 mMap.put("id", /*data.getId()*/id);
                 mMap.put("courier_charges",billSundryCharges);
-                mMap.put("bill_sundry_id",String.valueOf(billSundryId));
+                mMap.put("bill_sundry_id",billSundryId);
                 mMap.put("percentage",billSundaryPercentage);
                 mMap.put("percentage_value",billSundaryPercentage);
                 mMap.put("default_unit",String.valueOf(billSundryDefaultValue));

@@ -1013,7 +1013,7 @@ public class CreateSaleReturnFragment extends Fragment {
             for (int i = 0; i < response.getSale_return_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                 Map mMap = new HashMap<>();
                 mMap.put("id", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getId()));
-                mMap.put("id", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
+                mMap.put("item_id", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
                 mMap.put("item_name", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem());
                 mMap.put("description", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
                 mMap.put("quantity", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));
@@ -1103,7 +1103,7 @@ public class CreateSaleReturnFragment extends Fragment {
             if (response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
                 for (int i = 0; i < response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
                     Map mMap = new HashMap<>();
-                    mMap.put("id", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
+                    mMap.put("id",response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getId());
                     mMap.put("courier_charges", response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
                     mMap.put("bill_sundry_id", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
                     mMap.put("percentage", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));

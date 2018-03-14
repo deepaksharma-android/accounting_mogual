@@ -1054,7 +1054,7 @@ public class CreatePurchaseFragment extends Fragment {
                 if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
                     for (int i = 0; i < response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
                         Map mMap = new HashMap<>();
-                        mMap.put("id", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
+                        mMap.put("id", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getId()));
                         mMap.put("courier_charges", response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
                         mMap.put("bill_sundry_id", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
                         mMap.put("percentage", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));

@@ -5,6 +5,15 @@ public class SaleVoucherDetailsBillSundry {
     public String bill_sundry;
     public Double amount;
     public String bill_sundry_type;
+    public String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Double getDefault_value() {
         return default_value;

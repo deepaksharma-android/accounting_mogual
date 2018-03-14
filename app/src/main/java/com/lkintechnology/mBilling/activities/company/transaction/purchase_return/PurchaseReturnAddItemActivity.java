@@ -279,8 +279,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
 
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
-            id = intent.getStringExtra("id");
-          name = intent.getStringExtra("name");
+            id = intent.getStringExtra("item_id");
+            name = intent.getStringExtra("name");
             desc = intent.getStringExtra("desc");
             main_unit = intent.getStringExtra("main_unit");
             alternate_unit = intent.getStringExtra("alternate_unit");

@@ -1103,7 +1103,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 if (response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
                     for (int i = 0; i < response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
                         Map mMap = new HashMap<>();
-                        mMap.put("id", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
+                        mMap.put("id", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getId());
                         mMap.put("courier_charges", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
                         mMap.put("bill_sundry_id", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
                         mMap.put("percentage", String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
@@ -1137,7 +1137,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                             }
                             mMap.put("other", billsundryothername);
                         }*/
-                        appUser.mListMapForBillSale.add(mMap);
+                        appUser.mListMapForBillPurchaseReturn.add(mMap);
                         // appUser.mListMap = mListMap;
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }

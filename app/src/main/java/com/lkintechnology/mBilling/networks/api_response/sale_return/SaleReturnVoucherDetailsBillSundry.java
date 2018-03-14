@@ -6,6 +6,16 @@ public class SaleReturnVoucherDetailsBillSundry {
     public Double amount;
     public String bill_sundry_type;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String id;
+
     public Double getDefault_value() {
         return default_value;
     }

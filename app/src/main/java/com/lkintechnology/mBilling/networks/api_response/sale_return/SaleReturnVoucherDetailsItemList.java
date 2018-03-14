@@ -8,6 +8,7 @@ public class SaleReturnVoucherDetailsItemList {
     public int quantity;
     public Double total_amount;
 
+
     public int getId() {
         return id;
     }
