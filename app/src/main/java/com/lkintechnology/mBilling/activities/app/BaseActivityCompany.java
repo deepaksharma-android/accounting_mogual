@@ -1,5 +1,7 @@
 package com.lkintechnology.mBilling.activities.app;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
@@ -29,6 +32,8 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.util.List;
 
 public class BaseActivityCompany extends AppCompatActivity {
     private Menu menu;
@@ -113,6 +118,12 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     }
     public void dashboard(View view){
+      /*  if(isForeground("ComponentInfo{com.lkintechnology.mBilling/com.lkintechnology.mBilling.activities.company.FirstPageActivity}")){
+            Toast.makeText(getApplicationContext(),"yes",Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"no",Toast.LENGTH_LONG).show();
+        }*/
         drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),FirstPageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
@@ -238,6 +249,28 @@ public class BaseActivityCompany extends AppCompatActivity {
         }
         else {
             mTitleText.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isForeground(String PackageName){
+        // Get the Activity Manager
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+        // Get a list of running tasks, we are only interested in the last one,
+        // the top most so we give a 1 as parameter so we only get the topmost.
+        List< ActivityManager.RunningTaskInfo > task = manager.getRunningTasks(1);
+
+        // Get the info we need for comparison.
+        ComponentName componentInfo = task.get(0).topActivity;
+
+        // Check if it matches our package name.
+        if(componentInfo.getPackageName().equals(PackageName)) {
+            return true;
+        }
+        else {
+
+            // If not then our app is not on the foreground.
+            return false;
         }
     }
 

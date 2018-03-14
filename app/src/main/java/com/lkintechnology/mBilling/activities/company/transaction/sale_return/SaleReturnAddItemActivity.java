@@ -373,7 +373,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                                          appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         for (String s : appUser.serial_arr) {
-                                            listString += s + ",";
+                                            listString += s + ";";
                                         }
                                         mSr_no.setText(listString);
                                         Toast.makeText(SaleReturnAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
@@ -533,7 +533,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
                                 for (String s : appUser.purchase_item_serail_arr)
                                 {
-                                    listString += s + ",";
+                                    listString += s + ";";
                                 }
                                 mSr_no.setText(listString);
                                 dialogbal.dismiss();
@@ -989,7 +989,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     appUser.purchase_item_serail_arr.add(result.getContents());
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     for (String s : appUser.purchase_item_serail_arr) {
-                        listString += s + ",";
+                        listString += s + ";";
                     }
                     mSr_no.setText(listString);
                     Toast.makeText(SaleReturnAddItemActivity.this,result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();

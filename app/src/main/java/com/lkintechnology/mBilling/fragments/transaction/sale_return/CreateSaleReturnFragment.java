@@ -1031,7 +1031,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 mMap.put("serial_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                 StringBuilder sb=new StringBuilder();
                 for(String str : response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
-                    sb.append(str).append(";"); //separating contents using semi colon
+                    sb.append(str).append(","); //separating contents using semi colon
                 }
                 String strfromArrayList = sb.toString();
                 mMap.put("serial_number",strfromArrayList);
@@ -1115,15 +1115,19 @@ public class CreateSaleReturnFragment extends Fragment {
                     mMap.put("amount", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
                     mMap.put("previous", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                       /*  if(String.valueOf(2)!=null) {*/
+                    if (response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0){
+                        mMap.put("fed_as_percentage", "valuechange");
+                        mMap.put("changeamount", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
+                    }
                     mMap.put("number_of_bill", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
                     // }
                       /*  if(String.valueOf(true)!=null) {*/
                     mMap.put("consolidated", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
                     // }
                       /*  if(billSundryFedAsPercentage!=null){*/
-                    if (response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
+                  /*  if (response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
                         mMap.put("changeamount", String.valueOf(response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
-                    }
+                    }*/
                     // }
 
                   /*      if(data.getAttributes().getBill_sundry_id()String.valueOf(billSundryId)!=null) {
