@@ -52,7 +52,7 @@
         android:id="@+id/submit"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/vendorText"
+
 
         android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"
