@@ -43,7 +43,7 @@ public class SplashActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         appUser = LocalRepositories.getAppUser(this);
         if (null == appUser) {
@@ -54,41 +54,36 @@ public class SplashActivity extends Activity {
         if (appUser != null) {
             Log.e("appUser", appUser.toString());
         }
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion <= 22) {
+                // Do something for lollipop and above versions
+                Timer RunSplash = new Timer();
+                TimerTask ShowSplash = new TimerTask() {
+                    @Override
+                    public void run() {
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_VERSION);
 
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion <= 22) {
-            // Do something for lollipop and above versions
-            Timer RunSplash = new Timer();
-            TimerTask ShowSplash = new TimerTask() {
-                @Override
-                public void run() {
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_VERSION);
-                   /* if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                        Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);/*//***Change Here***
-                        startActivity(intent);
-                        finish();
+
                     }
-                    else {
-                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);/*//***Change Here***
-                        startActivity(intent);
-                        finish();
-                    }*/
 
-                }
+                };
 
-            };
-
-            // Start the timer
-            RunSplash.schedule(ShowSplash, Delay);
-        } else {
-            checkPermissions();
+                // Start the timer
+                RunSplash.schedule(ShowSplash, Delay);
+            } else {
+                checkPermissions();
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"No Internet Connection !",Toast.LENGTH_LONG).show();
         }
 
 
-    }
 
+
+    }
 
 
     private void checkPermissions() {
@@ -123,49 +118,35 @@ public class SplashActivity extends Activity {
                         @Override
                         public void run() {
                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_VERSION);
-                           /* if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
-                                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);/*//***Change Here***
-                                startActivity(intent);
-                                finish();
+                    }
 
-                            }
-                            else {
-                                Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);/*//***Change Here***
-                                startActivity(intent);
-                                finish();
-                            }*/
+                } ;
+                // Start the timer
+                RunSplash.schedule(ShowSplash, Delay);
 
 
-                        }
+        }else{
+            AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(SplashActivity.this);
+            myAlertDialog.setTitle(getString(R.string.msg_perms_needed));
+            myAlertDialog.setPositiveButton(getString(R.string.btn_quit), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    finish();
+                }
+            });
 
-                    };
-                    // Start the timer
-                    RunSplash.schedule(ShowSplash, Delay);
-
-
-                } else {
-                    AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(SplashActivity.this);
-                    myAlertDialog.setTitle(getString(R.string.msg_perms_needed));
-                    myAlertDialog.setPositiveButton(getString(R.string.btn_quit), new DialogInterface.OnClickListener() {
+            myAlertDialog.setNegativeButton(getString(R.string.btn_accept),
+                    new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface arg0, int arg1) {
-                           finish();
+                            checkPermissions();
                         }
                     });
+            myAlertDialog.show();
 
-                    myAlertDialog.setNegativeButton(getString(R.string.btn_accept),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    checkPermissions();
-                                }
-                            });
-                    myAlertDialog.show();
-
-                }
-                break;
         }
+        break;
     }
+
+}
 
     @Subscribe
     public void version(VersionResponse versionResponse) {
@@ -174,11 +155,11 @@ public class SplashActivity extends Activity {
                 PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
                 versionName = packageInfo.versionName;
                 versionCode = packageInfo.versionCode;
-                Timber.i("VERSION NAME"+versionName);
+                Timber.i("VERSION NAME" + versionName);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-            if (Double.parseDouble(versionName)!=(Double.parseDouble(versionResponse.getVersion_number()))) {
+            if (Double.parseDouble(versionName) != (Double.parseDouble(versionResponse.getVersion_number()))) {
                 android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(SplashActivity.this);
                 alert.setCancelable(false);
                 alert.setMessage("A new version of m-Billing is available.Please update to version " + versionResponse.getVersion_number() + " now.");
@@ -194,21 +175,19 @@ public class SplashActivity extends Activity {
             } else {
                 if (Preferences.getInstance(getApplicationContext()).getLogin() == true) {
                     Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
 
-                }
-                else {
+                } else {
                     Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 }
             }
 
-        }
-        else{
+        } else {
             Toast.makeText(getApplicationContext(), versionResponse.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
@@ -217,6 +196,7 @@ public class SplashActivity extends Activity {
     public void timeout(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -234,7 +214,6 @@ public class SplashActivity extends Activity {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
 
 
 }

@@ -218,6 +218,7 @@ public class BankCashReportActivity extends RegisterAbstractActivity implements 
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
+                mEnd_date.setText(date1);
 
                /* int j=-1,k=-1;
                 for(int i=0;i<monthArr.length;i++){
@@ -236,12 +237,12 @@ public class BankCashReportActivity extends RegisterAbstractActivity implements 
                         }*/
                 // Or
 
-                if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
+              /*  if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
                     //System.out.println("Date1 is after Date2");
                     mEnd_date.setText(date1);
                 }else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

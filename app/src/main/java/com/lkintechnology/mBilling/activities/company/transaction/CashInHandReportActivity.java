@@ -208,7 +208,7 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
         DatePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                view.setMaxDate(System.currentTimeMillis());
+               // view.setMaxDate(System.currentTimeMillis());
                 String start_date = mStart_date.getText().toString();
                /* String[] datesplit = start_date.split("-");
                 int start_year = Integer.valueOf(datesplit[0]);
@@ -218,7 +218,7 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
-
+                mEnd_date.setText(date1);
                /* int j=-1,k=-1;
                 for(int i=0;i<monthArr.length;i++){
                    if((monthArr[i]==String.valueOf(monthOfYear))){
@@ -236,12 +236,12 @@ public class CashInHandReportActivity extends RegisterAbstractActivity implement
                         }*/
                 // Or
 
-                if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
+              /*  if (date1.compareTo(start_date) >= 0 && date1.compareTo(dateString) <= 0){
                     //System.out.println("Date1 is after Date2");
                     mEnd_date.setText(date1);
                 }else{
                     Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
-                }
+                }*/
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
