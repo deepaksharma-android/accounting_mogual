@@ -62,13 +62,13 @@ public class BankCashWithdrawListAdapter extends RecyclerView.Adapter<BankCashWi
             }
         });*/
 
-       /* viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String receipt_voucher_id=data.get(position).getId();
                 EventBus.getDefault().post(new EventClickAlertForBakCashWithDraw(receipt_voucher_id));
             }
-        });*/
+        });
 
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override

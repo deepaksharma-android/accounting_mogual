@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -62,6 +63,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     AppUser appUser;
     Boolean fromMaterailCentreGroupList;
     public String title;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static MaterialCentreGroupsList data;
 
@@ -76,7 +78,7 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         title = "CREATE MATERIAL CENTRE GROUP";
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         fromMaterailCentreGroupList = getIntent().getExtras().getBoolean("frommaterialcentregrouplist");
         if (fromMaterailCentreGroupList == true) {
             title = "EDIT MATERIAL CENTRE GROUP";
@@ -301,6 +303,10 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
     public void createMaterialCenterialGroup(CreateMaterialCentreGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "material_center_group");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
            // MaterialCentreGroupListActivity.isDirectForMaterialCentreGroup=true;
             Intent intent = new Intent(this, MaterialCentreGroupListActivity.class);
             intent.putExtra("bool",true);

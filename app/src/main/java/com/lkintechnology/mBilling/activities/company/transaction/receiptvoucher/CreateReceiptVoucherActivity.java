@@ -40,6 +40,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -151,6 +152,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     private Uri imageToUploadUri;
     String attachemnt;
     public String spinnergstnature;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -162,6 +164,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         initActionbar();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         appUser = LocalRepositories.getAppUser(this);
         appUser.mListMapForItemReceipt.clear();
         LocalRepositories.saveAppUser(this,appUser);
@@ -906,6 +909,10 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     public void createreceiptresponse(CreateReceiptVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "receipt");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             if (from != null) {
                 Preferences.getInstance(this).setParty_name("");
                 Preferences.getInstance(this).setParty_id("");

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -64,6 +65,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     ArrayList<String> grouplistname;
     ArrayList<String> grouplistid;
     public static AccountGroups data=null;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -72,7 +74,7 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         title="CREATE ACCOUNT GROUP";
         appUser=LocalRepositories.getAppUser(this);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         fromAccountGroupList=getIntent().getExtras().getBoolean("fromaccountgrouplist");
         if(fromAccountGroupList==true){
             title="EDIT ACCOUNT GROUP";
@@ -273,6 +275,10 @@ public class CreateAccountGroupActivity extends RegisterAbstractActivity {
     public void createAccountGroup(CreateAccountGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "account_group");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             //AccountGroupListActivity.isDirectForAccountGroup=true;
             Intent intent = new Intent(this, AccountGroupListActivity.class);
             intent.putExtra("bool",true);

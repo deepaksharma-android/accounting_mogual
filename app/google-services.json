@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "109795981595",
+    "firebase_url": "https://m-billing.firebaseio.com",
+    "project_id": "m-billing",
+    "storage_bucket": "m-billing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109795981595:android:d7bbbb536fe9c9ff",
+        "android_client_info": {
+          "package_name": "com.lkintechnology.mBilling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109795981595-gskabu1be3jvfemq4v0c3k8oup04t2bo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1BwXjUy_m_4SbCYx5CotjbIAGQ8-BCDk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

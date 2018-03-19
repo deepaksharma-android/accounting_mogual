@@ -51,7 +51,6 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
 
-/*
         viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +58,6 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
                 EventBus.getDefault().post(new EventClickAlertForReceipt(receipt_voucher_id));
             }
         });
-*/
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

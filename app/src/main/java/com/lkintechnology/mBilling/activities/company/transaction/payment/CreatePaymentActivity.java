@@ -38,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -142,6 +143,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     String attachemnt;
     private Uri imageToUploadUri;
     public String gstnaturespinner;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static int iconHandlerVariable = 0;
     WebView mPdf_webview;
@@ -155,6 +157,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         initActionbar();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         appUser = LocalRepositories.getAppUser(this);
 
         bundle = getIntent().getExtras();
@@ -909,6 +912,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public void createpaymentresponse(CreatePaymentResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "payment");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             //voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");

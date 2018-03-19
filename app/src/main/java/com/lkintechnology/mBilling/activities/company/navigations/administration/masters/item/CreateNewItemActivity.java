@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -107,6 +108,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public Boolean boolForStore = false;
 
     public static int intStartActivityForResult = 0;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -115,6 +117,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         context = this;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         mItemName.setText(appUser.item_name);
         mHsnNumber.setText(appUser.item_hsn_number);
         mItemGroup.setText(appUser.item_group_name);
@@ -647,6 +650,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public void createitem(CreateItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "item");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_value("");

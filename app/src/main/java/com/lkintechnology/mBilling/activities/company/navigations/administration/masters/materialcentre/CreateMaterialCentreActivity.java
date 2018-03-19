@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -66,6 +67,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     Boolean frommaterialcentrelist;
     String title;
     public static CreateMaterialCentreActivity context;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -73,7 +75,7 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         context = this;
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
 
         title = "CREATE MATERIAL CENTRE";
         frommaterialcentrelist = getIntent().getExtras().getBoolean("frommaterialcentrelist");
@@ -286,6 +288,10 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
     public void createMaterialCentre(CreateMaterialCentreResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "material_center");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //  MaterialCentreListActivity.isDirectForMaterialCentre=true;
             Intent intent = new Intent(getApplicationContext(), MaterialCentreListActivity.class);

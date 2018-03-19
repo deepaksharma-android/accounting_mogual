@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -110,7 +111,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     public Boolean boolForReceivedBy = false;
     public static int intStartActivityForResult=0;
     Bitmap photo;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     WebView mPdf_webview;;
 
@@ -121,6 +123,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         ButterKnife.bind(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -661,6 +664,10 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     public void createexpenceresponse(CreateExpenceResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "expense");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
            // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");

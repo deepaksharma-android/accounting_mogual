@@ -40,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
@@ -136,7 +137,7 @@ public class CreatePurchaseFragment extends Fragment {
     Bitmap photo;
     WebView mPdf_webview;
     private Uri imageToUploadUri;
-    ;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onStart() {
@@ -152,6 +153,7 @@ public class CreatePurchaseFragment extends Fragment {
         appUser = LocalRepositories.getAppUser(getActivity());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
         if (CreatePurchaseActivity.fromsalelist) {
             submit.setVisibility(View.GONE);
             update.setVisibility(View.VISIBLE);
@@ -585,7 +587,6 @@ public class CreatePurchaseFragment extends Fragment {
         if (ParameterConstant.forAccountIntentBool) {
             String result = ParameterConstant.forAccountIntentName;
             party_id = ParameterConstant.forAccountIntentGroupId;
-            ;
             appUser.sale_partyName = ParameterConstant.forAccountIntentId;
             appUser.sale_party_group = ParameterConstant.forAccountIntentGroupId;
             appUser.purchase_account_master_id = ParameterConstant.forAccountIntentGroupId;
@@ -758,6 +759,10 @@ public class CreatePurchaseFragment extends Fragment {
     public void createpurchase(CreatePurchaseResponce response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "purchase_voucher");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -54,6 +55,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
     Boolean frommunitlist;
     ArrayAdapter<String> muqcAdapter;
     public String title;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         title="CREATE ITEM UNIT";
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         frommunitlist = getIntent().getExtras().getBoolean("fromunitlist");
         if (frommunitlist) {
             title="EDIT ITEM UNIT";

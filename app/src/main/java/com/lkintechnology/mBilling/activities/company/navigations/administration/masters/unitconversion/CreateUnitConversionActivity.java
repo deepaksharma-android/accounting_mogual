@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -66,7 +67,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     public Boolean boolForAltUnit = false;
     public static int intStartActivityForResult = 0;
     public static CreateUnitConversionActivity context;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,7 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
         context=this;
         appUser = LocalRepositories.getAppUser(this);
         title = "CREATE ITEM UNIT CONVERSION";
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         mainUnitText.setText( appUser.unit_conversion_main_unit);
         subUnitText.setText(appUser.unit_conversion_sub_unit);
         mConfactor.setText( appUser.confactor);
@@ -351,6 +352,10 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
     public void createunit(CreateUnitConversionResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "unit");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), UnitConversionListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

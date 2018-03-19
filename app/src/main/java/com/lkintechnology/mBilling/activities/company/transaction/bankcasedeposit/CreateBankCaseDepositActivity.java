@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -114,7 +115,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     public static int intStartActivityForResult = 0;
     Bitmap photo;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         appUser = LocalRepositories.getAppUser(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
         appUser.voucher_type = "Bank Cash Deposit";
@@ -674,6 +677,10 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     public void createbankcashdepositresponse(CreateBankCashDepositResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_deposit");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
             // voucher_no.setText("");

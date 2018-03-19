@@ -64,13 +64,13 @@ public class JournalVoucherListAdapter extends RecyclerView.Adapter<JournalVouch
             }
         });*/
 
-       /* viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String bankCashDepositeId=data.get(position).getId();
                 EventBus.getDefault().post(new EventClickAlertForJournalVoucher(bankCashDepositeId));
             }
-        });*/
+        });
 
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override

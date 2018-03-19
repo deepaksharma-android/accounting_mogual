@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -122,7 +123,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     String spinnergstnature;
-    ;
+    private FirebaseAnalytics mFirebaseAnalytics;
     // public static boolean creditNoteStatic;
 
     @Override
@@ -131,6 +132,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         //setContentView(R.layout.activity_create_bank_case_deposit);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -704,6 +706,10 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     public void createcreditnoteresponse(CreateCreditNoteResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "credit_note");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");

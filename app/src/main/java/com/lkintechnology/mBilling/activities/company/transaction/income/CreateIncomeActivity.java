@@ -36,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -116,6 +118,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     public static int intStartActivityForResult=0;
     Bitmap photo;
     WebView mPdf_webview;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +127,7 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         ButterKnife.bind(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -664,6 +668,10 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     public void createincomeresponse(CreateIncomeResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "income");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
            // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");

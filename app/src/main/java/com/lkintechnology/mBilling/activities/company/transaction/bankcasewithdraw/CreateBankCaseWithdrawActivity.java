@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -115,7 +116,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public static int intStartActivityForResult = 0;
     Bitmap photo;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         ButterKnife.bind(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
@@ -669,6 +672,10 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public void createbankcashwithdrawresponse(CreateBankCashWithdrawResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             voucher_no.setText("");
             transaction_amount.setText("");

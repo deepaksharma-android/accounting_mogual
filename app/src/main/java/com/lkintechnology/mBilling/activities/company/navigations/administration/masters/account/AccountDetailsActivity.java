@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -76,7 +77,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     private static final int REQUEST_CODE_PICK_CONTACTS = 9;
     private Uri uriContact;
     private String contactID;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean boolForGroupName=false;
 
     @Override
@@ -87,6 +88,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         title="CREATE ACCOUNT";
         fromaccountlist=getIntent().getExtras().getBoolean("fromaccountlist");
         appUser = LocalRepositories.getAppUser(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         /*appUser.account_amount_receivable = "";
         appUser.account_amount_payable = "";
         appUser.account_address = "";
@@ -589,6 +591,10 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
     public void createaccount(CreateAccountResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "account");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent=new Intent(getApplicationContext(),ExpandableAccountListActivity.class);

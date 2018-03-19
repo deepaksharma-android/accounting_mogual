@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -65,12 +66,14 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     String valuepercentagecal = "";
     String title;
     public ArrayAdapter<String> mNatureAdapter;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         title = "CREATE BILL SUNDRY";
         fromList = getIntent().getExtras().getBoolean("fromlist");
         if (fromList) {
@@ -327,6 +330,10 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
     public void createbillsundry(CreateBillSundryResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bill_sundry");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), BillSundryListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

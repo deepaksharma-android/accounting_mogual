@@ -40,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
@@ -133,7 +134,8 @@ public class CreateSaleReturnFragment extends Fragment {
     String party_id;
     public static int intStartActivityForResult=0;
     WebView mPdf_webview;
-    private Uri imageToUploadUri;;
+    private Uri imageToUploadUri;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -143,6 +145,7 @@ public class CreateSaleReturnFragment extends Fragment {
         ButterKnife.bind(this, view);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
         appUser = LocalRepositories.getAppUser(getActivity());
         appUser.voucher_type = "Sale Return";
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -795,6 +798,10 @@ public class CreateSaleReturnFragment extends Fragment {
     public void createSaleReturn(CreateSaleReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sale_return_voucher");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);

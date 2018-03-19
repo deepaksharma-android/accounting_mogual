@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -64,13 +65,14 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     public static ItemGroups data;
     ArrayList<String> grouplistname;
     ArrayList<String> grouplistid;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         appUser = LocalRepositories.getAppUser(this);
         title="CREATE ITEM GROUP";
         fromItemGroupList = getIntent().getExtras().getBoolean("fromitemgrouplist");
@@ -274,6 +276,10 @@ public class CreateItemGroupActivity extends RegisterAbstractActivity {
     public void createItemGroup(CreateItemGroupResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "item_group");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             //ExpandableAccountListActivity.isDirectForAccount=true;
             Intent intent = new Intent(this, ItemGroupListActivity.class);
