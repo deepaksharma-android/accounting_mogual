@@ -90,6 +90,7 @@
                             android:hint="0"
                             android:inputType="numberDecimal"
                             android:textColor="#000"
+                            android:textColorHint="#e2e2e2"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -120,6 +121,7 @@
                             android:background="@android:color/transparent"
                             android:inputType="numberDecimal"
                             android:hint="0"
+                            android:textColorHint="#e2e2e2"
                             android:textColor="#000"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -151,6 +153,7 @@
                             android:inputType="numberDecimal"
                             android:hint="0"
                             android:textColor="#000"
+                            android:textColorHint="#e2e2e2"
                             android:textSize="16sp" />
                     </LinearLayout>
 
