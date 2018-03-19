@@ -161,7 +161,7 @@
             android:layout_weight="0.05">
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="1dp"
