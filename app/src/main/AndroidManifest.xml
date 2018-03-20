@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".ThisApp"
@@ -41,6 +44,12 @@
             android:name=".activities.app.HomePageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noAnimTheme" />
+        <receiver android:name=".networks.SmsListener">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".activities.user.LoginActivity"
             android:parentActivityName=".activities.app.HomePageActivity"
