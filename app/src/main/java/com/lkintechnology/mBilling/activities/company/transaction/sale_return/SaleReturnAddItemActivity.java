@@ -658,6 +658,15 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
+
+                    Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("") | mRate.getText().toString().equals("0.0")) {
+                    Snackbar.make(coordinatorLayout, "enter minimum 1 % rate ", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
                     mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
