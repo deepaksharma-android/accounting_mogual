@@ -14,6 +14,7 @@ public class ParameterConstant {
     public static int checkForPurchaseTypeList;
     public static int handleAutoCompleteTextView;
     public static String name;
+    public static String email;
     public static String id;
     public static String mobile;
     public static boolean forAccountIntentBool;
@@ -21,6 +22,7 @@ public class ParameterConstant {
     public static String forAccountIntentId;
     public static String forAccountIntentMobile;
     public static String forAccountIntentState;
+    public static String forAccountIntentEmail;
     public static String forAccountIntentGroupId;
     public static int accountSwitching;
 

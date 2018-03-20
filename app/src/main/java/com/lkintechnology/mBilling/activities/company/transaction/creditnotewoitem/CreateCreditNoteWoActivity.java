@@ -330,61 +330,86 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                                 appUser.credit_note_attachment = encodedString;
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
-                                new AlertDialog.Builder(CreateCreditNoteWoActivity.this)
-                                        .setTitle("Email")
-                                        .setMessage(R.string.btn_send_email)
-                                        .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+                                if(appUser.account_name_credit_note_email!=null&&!appUser.account_name_credit_note_email.equalsIgnoreCase("null")&&!appUser.account_name_credit_note_email.equals("")) {
+                                    new AlertDialog.Builder(CreateCreditNoteWoActivity.this)
+                                            .setTitle("Email")
+                                            .setMessage(R.string.btn_send_email)
+                                            .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                            appUser.email_yes_no = "true";
-                                            LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
-                                            if (isConnected) {
-                                                mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
-                                                mProgressDialog.setMessage("Info...");
-                                                mProgressDialog.setIndeterminate(false);
-                                                mProgressDialog.setCancelable(true);
-                                                mProgressDialog.show();
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                            } else {
-                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                        if (isConnected) {
-                                                            snackbar.dismiss();
+                                                appUser.email_yes_no = "true";
+                                                LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
+                                                if (isConnected) {
+                                                    mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                                snackbar.show();
-                                            }
-                                        })
-                                        .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                                    });
+                                                    snackbar.show();
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                            appUser.email_yes_no = "false";
-                                            LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
-                                            if (isConnected) {
-                                                mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
-                                                mProgressDialog.setMessage("Info...");
-                                                mProgressDialog.setIndeterminate(false);
-                                                mProgressDialog.setCancelable(true);
-                                                mProgressDialog.show();
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
-                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                            } else {
-                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                        if (isConnected) {
-                                                            snackbar.dismiss();
+                                                appUser.email_yes_no = "false";
+                                                LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
+                                                if (isConnected) {
+                                                    mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                                snackbar.show();
-                                            }
+                                                    });
+                                                    snackbar.show();
+                                                }
 
-                                        })
-                                        .show();
+                                            })
+                                            .show();
+                                }else {
+                                    appUser.email_yes_no = "false";
+                                    LocalRepositories.saveAppUser(CreateCreditNoteWoActivity.this, appUser);
+                                    if (isConnected) {
+                                        mProgressDialog = new ProgressDialog(CreateCreditNoteWoActivity.this);
+                                        mProgressDialog.setMessage("Info...");
+                                        mProgressDialog.setIndeterminate(false);
+                                        mProgressDialog.setCancelable(true);
+                                        mProgressDialog.show();
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_CREDIT_NOTE);
+                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                    } else {
+                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if (isConnected) {
+                                                    snackbar.dismiss();
+                                                }
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                }
 
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
@@ -608,6 +633,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     boolForGroupName = true;
                     appUser.account_name_credit_note_id = ParameterConstant.id;
+                    appUser.account_name_credit_note_email = ParameterConstant.email;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     account_name_credit.setText(ParameterConstant.name);
                 } else {
@@ -616,9 +642,10 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     String id = data.getStringExtra("id");
                     state = data.getStringExtra("state");
                     appUser.account_name_credit_note_id = id;
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     String[] name = result.split(",");
                     account_name_credit.setText(name[0]);
+                    appUser.account_name_credit_note_email = name[3];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
             }
         }

@@ -396,62 +396,87 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                 appUser.purchase_return_attachment = encodedString;
                                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            new AlertDialog.Builder(getActivity())
-                                                    .setTitle("Email")
-                                                    .setMessage(R.string.btn_send_email)
-                                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="true";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
-                                                        if (isConnected) {
-                                                            mProgressDialog = new ProgressDialog(getActivity());
-                                                            mProgressDialog.setMessage("Info...");
-                                                            mProgressDialog.setIndeterminate(false);
-                                                            mProgressDialog.setCancelable(true);
-                                                            mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        }else {
-                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View view) {
-                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                    if (isConnected) {
-                                                                        snackbar.dismiss();
+                                            if(appUser.sale_partyEmail!=null&&!appUser.sale_partyEmail.equalsIgnoreCase("null")&&!appUser.sale_partyEmail.equals("")) {
+                                                new AlertDialog.Builder(getActivity())
+                                                        .setTitle("Email")
+                                                        .setMessage(R.string.btn_send_email)
+                                                        .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                                            appUser.email_yes_no = "true";
+                                                            LocalRepositories.saveAppUser(getActivity(), appUser);
+                                                            if (isConnected) {
+                                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                                mProgressDialog.setMessage("Info...");
+                                                                mProgressDialog.setIndeterminate(false);
+                                                                mProgressDialog.setCancelable(true);
+                                                                mProgressDialog.show();
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                            } else {
+                                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View view) {
+                                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                        if (isConnected) {
+                                                                            snackbar.dismiss();
+                                                                        }
                                                                     }
-                                                                }
-                                                            });
-                                                            snackbar.show();
-                                                        }
-                                                    })
-                                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                                                });
+                                                                snackbar.show();
+                                                            }
+                                                        })
+                                                        .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="false";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
-                                                        if (isConnected) {
-                                                            mProgressDialog = new ProgressDialog(getActivity());
-                                                            mProgressDialog.setMessage("Info...");
-                                                            mProgressDialog.setIndeterminate(false);
-                                                            mProgressDialog.setCancelable(true);
-                                                            mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        }
-                                                        else {
-                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View view) {
-                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                    if (isConnected) {
-                                                                        snackbar.dismiss();
+                                                            appUser.email_yes_no = "false";
+                                                            LocalRepositories.saveAppUser(getActivity(), appUser);
+                                                            if (isConnected) {
+                                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                                mProgressDialog.setMessage("Info...");
+                                                                mProgressDialog.setIndeterminate(false);
+                                                                mProgressDialog.setCancelable(true);
+                                                                mProgressDialog.show();
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                            } else {
+                                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View view) {
+                                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                        if (isConnected) {
+                                                                            snackbar.dismiss();
+                                                                        }
                                                                     }
-                                                                }
-                                                            });
-                                                            snackbar.show();
-                                                        }
+                                                                });
+                                                                snackbar.show();
+                                                            }
 
-                                                    })
-                                                    .show();
+                                                        })
+                                                        .show();
+                                            }else {
+                                                appUser.email_yes_no = "false";
+                                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                                if (isConnected) {
+                                                    mProgressDialog = new ProgressDialog(getActivity());
+                                                    mProgressDialog.setMessage("Info...");
+                                                    mProgressDialog.setIndeterminate(false);
+                                                    mProgressDialog.setCancelable(true);
+                                                    mProgressDialog.show();
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                } else {
+                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                            if (isConnected) {
+                                                                snackbar.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                                    snackbar.show();
+                                                }
+                                            }
                                         } else {
                                             Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                         }
@@ -720,7 +745,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     mMobileNumber.setText(ParameterConstant.mobile);
                     party_id=ParameterConstant.id;
                     appUser.sale_partyName = ParameterConstant.id;
+                    appUser.sale_partyEmail = ParameterConstant.email;
                     appUser.purchase_account_master_id=ParameterConstant.id;
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
@@ -735,11 +762,12 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     appUser.sale_partyName = id;
                     appUser.sale_party_group=group;
                     appUser.purchase_account_master_id=id;
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     String[] strArr=result.split(",");
                     mPartyName.setText(strArr[0]);
                     mMobileNumber.setText(mobile);
+                    appUser.sale_partyEmail = strArr[3];
                     boolForPartyName=true;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Preferences.getInstance(getContext()).setMobile(mobile);
                     Preferences.getInstance(getContext()).setParty_name(strArr[0]);
                     Preferences.getInstance(getContext()).setParty_id(id);

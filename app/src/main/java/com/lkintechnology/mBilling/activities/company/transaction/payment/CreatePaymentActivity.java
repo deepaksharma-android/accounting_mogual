@@ -372,64 +372,89 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     appUser.payment_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                                    Timber.i("yyyyyyy  "+appUser.mListMapForItemPaymentList);
-
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    new AlertDialog.Builder(CreatePaymentActivity.this)
-                                            .setTitle("Email")
-                                            .setMessage(R.string.btn_send_email)
-                                            .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                                appUser.email_yes_no = "true";
-                                                LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
-                                                if (isConnected) {
-                                                    mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
-                                                    mProgressDialog.setMessage("Info...");
-                                                    mProgressDialog.setIndeterminate(false);
-                                                    mProgressDialog.setCancelable(true);
-                                                    mProgressDialog.show();
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                } else {
-                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                snackbar.dismiss();
+                                    if(appUser.payment_paid_to_email!=null&&!appUser.payment_paid_to_email.equalsIgnoreCase("null")&&!appUser.payment_paid_to_email.equals("")) {
+                                        System.out.println("yyyyyyyyyyyyy " +appUser.payment_paid_to_email);
+                                        new AlertDialog.Builder(CreatePaymentActivity.this)
+                                                .setTitle("Email")
+                                                .setMessage(R.string.btn_send_email)
+                                                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                                    appUser.email_yes_no = "true";
+                                                    LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                                    if (isConnected) {
+                                                        mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                                        mProgressDialog.setMessage("Info...");
+                                                        mProgressDialog.setIndeterminate(false);
+                                                        mProgressDialog.setCancelable(true);
+                                                        mProgressDialog.show();
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    } else {
+                                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                if (isConnected) {
+                                                                    snackbar.dismiss();
+                                                                }
                                                             }
-                                                        }
-                                                    });
-                                                    snackbar.show();
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                                        });
+                                                        snackbar.show();
+                                                    }
+                                                })
+                                                .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                                appUser.email_yes_no = "false";
-                                                LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
-                                                if (isConnected) {
-                                                    mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
-                                                    mProgressDialog.setMessage("Info...");
-                                                    mProgressDialog.setIndeterminate(false);
-                                                    mProgressDialog.setCancelable(true);
-                                                    mProgressDialog.show();
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                } else {
-                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                snackbar.dismiss();
+                                                    appUser.email_yes_no = "false";
+                                                    LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                                    if (isConnected) {
+                                                        mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                                        mProgressDialog.setMessage("Info...");
+                                                        mProgressDialog.setIndeterminate(false);
+                                                        mProgressDialog.setCancelable(true);
+                                                        mProgressDialog.show();
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    } else {
+                                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                if (isConnected) {
+                                                                    snackbar.dismiss();
+                                                                }
                                                             }
-                                                        }
-                                                    });
-                                                    snackbar.show();
-                                                }
+                                                        });
+                                                        snackbar.show();
+                                                    }
 
-                                            })
-                                            .show();
+                                                })
+                                                .show();
+                                    }else {
+                                        appUser.email_yes_no = "false";
+                                        LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                        if (isConnected) {
+                                            mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                            mProgressDialog.setMessage("Info...");
+                                            mProgressDialog.setIndeterminate(false);
+                                            mProgressDialog.setCancelable(true);
+                                            mProgressDialog.show();
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                        } else {
+                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                }
+                                            });
+                                            snackbar.show();
+                                        }
+                                    }
 
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
@@ -803,6 +828,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    boolForReceivedFrom = true;
                    appUser.payment_paid_to_id = ParameterConstant.id;
                    appUser.payment_paid_to_name = ParameterConstant.name;
+                   appUser.payment_paid_to_email = ParameterConstant.email;
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    paid_to.setText(ParameterConstant.name);
                }else {
@@ -813,7 +839,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    String[] name = result.split(",");
                    appUser.payment_paid_to_id = id;
                    appUser.payment_paid_to_name = name[0];
+                   appUser.payment_paid_to_email = name[3];
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   Timber.i("yyyyy"+appUser.payment_paid_to_email);
+                   Timber.i("yyyyyyyyy   "+result);
                    paid_to.setText(name[0]);
                }
             }
