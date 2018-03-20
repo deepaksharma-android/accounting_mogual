@@ -15,7 +15,16 @@
         android:layout_width="match_parent"
         android:id="@+id/search_view"
         android:inputType="text"
-        android:layout_height="wrap_content"></AutoCompleteTextView>
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_grey_stroke"
+        android:padding="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_3"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
+        android:drawableLeft="@drawable/ic_magnify_grey600_24dp"
+        android:hint="Search here"
+        android:drawablePadding="@dimen/dp_5">
+    </AutoCompleteTextView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_button"
@@ -26,7 +35,8 @@
         android:layout_marginRight="20dp"
         android:onClick="add"
         android:layout_marginBottom="40dp"
-        android:src="@drawable/icon_add" />
+        android:src="@drawable/icon_add"
+        />
 
     <ExpandableListView
         android:id="@+id/lvExp"
@@ -34,6 +44,7 @@
         android:layout_below="@+id/search_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_3"
         />
 
 </RelativeLayout>
