@@ -276,13 +276,25 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (gst_nature_spinner.getSelectedItem().toString().equals("Advance receipt")) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Advance Receipt")) {
+                    arrow.setVisibility(View.VISIBLE);
+
                     if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            startActivity(intent);
+                        if (!received_from.getText().toString().equals("")) {
+                            if (!received_by.getText().toString().equals("")) {
+                                Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
+                                intent.putExtra("amount", transaction_amount.getText().toString());
+                                startActivity(intent);
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select Received By", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }else {
+                            Snackbar.make(coordinatorLayout, "Please select Received From", Snackbar.LENGTH_LONG).show();
+
+                        }
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                            //gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "Enter the amount", Snackbar.LENGTH_LONG).show();
 
                     }
@@ -295,7 +307,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
 
         gst_nature_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if(fromReceiptVoucher){
                     if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
                         appUser.mListMapForItemReceipt.clear();
@@ -305,6 +317,13 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 else{
                     appUser.mListMapForItemReceipt.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                if (position==0){
+                    arrow.setVisibility(View.GONE);
+
+                }else {
+                    arrow.setVisibility(View.VISIBLE);
+
                 }
             }
 

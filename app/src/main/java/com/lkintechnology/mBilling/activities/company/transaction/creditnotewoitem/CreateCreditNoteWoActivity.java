@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -222,6 +223,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             @Override
             public void onClick(View v) {
                 if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Issued Against Sale")) {
+                    llSelectItem.setVisibility(View.VISIBLE);
                     if (!account_name_credit.getText().toString().equals("")) {
                         if (!transaction_amount.getText().toString().equals("")) {
                             Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
@@ -230,14 +232,15 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                             intent.putExtra("state", state);
                             startActivity(intent);
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                          //  gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                       // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                     }
                 }else if(gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Received Against Purchase")){
+                    llSelectItem.setVisibility(View.VISIBLE);
                     if (!account_name_credit.getText().toString().equals("")) {
                         if (!transaction_amount.getText().toString().equals("")) {
                             Intent intent = new Intent(CreateCreditNoteWoActivity.this, AddCreditNoteItemActivity.class);
@@ -246,11 +249,11 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                             intent.putExtra("state", state);
                             startActivity(intent);
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                           // gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                       // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                     }
                 }
@@ -274,6 +277,12 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 else{
                     appUser.mListMapForItemCreditNote.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                if (position==0){
+                    llSelectItem.setVisibility(View.GONE);
+                }else {
+                    llSelectItem.setVisibility(View.VISIBLE);
+
                 }
 
             }
@@ -303,10 +312,20 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
-                intent.putExtra("encodedString", imageToUploadUri.toString());
-                intent.putExtra("booleAttachment", false);
-                startActivity(intent);
+                if (imageToUploadUri == null) {
+                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("iEncodedString", true);
+                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("encodedString", imageToUploadUri.toString());
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -38,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -231,17 +232,28 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
-                startActivity(intent);
+                if (imageToUploadUri == null) {
+                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("iEncodedString", true);
+                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("encodedString", imageToUploadUri.toString());
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                }
             }
         });
         llSpItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Issued Against Sale")) {
-                    if (!account_name_credit.getText().toString().equals("")) {
+                    llSpItem.setVisibility(View.VISIBLE);
+                    if (!account_name_debit.getText().toString().equals("")) {
                         if (!transaction_amount.getText().toString().equals("")) {
                             Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
                             intent.putExtra("amount", transaction_amount.getText().toString());
@@ -249,15 +261,17 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                             intent.putExtra("state", state);
                             startActivity(intent);
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                           // gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        gst_nature_spinner.setSelection(0);
-                        Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
+                       // gst_nature_spinner.setSelection(0);
+                        Snackbar.make(coordinatorLayout, "Please select account name debit", Snackbar.LENGTH_LONG).show();
                     }
                 }else if(gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Received Against Purchase")){
-                    if (!account_name_credit.getText().toString().equals("")) {
+                    llSpItem.setVisibility(View.VISIBLE);
+
+                    if (!account_name_debit.getText().toString().equals("")) {
                         if (!transaction_amount.getText().toString().equals("")) {
                             Intent intent = new Intent(CreateDebitNoteWoItemActivity.this, AddDebitNoteItemActivity.class);
                             intent.putExtra("sp_position", "2");
@@ -265,11 +279,11 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                             intent.putExtra("state", state);
                             startActivity(intent);
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                            //gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "Please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                       // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                     }
                 }
@@ -294,7 +308,13 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     appUser.mListMapForItemDebitNote.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
+               if (position==0){
+                   llSpItem.setVisibility(View.GONE);
 
+               }else {
+                   llSpItem.setVisibility(View.VISIBLE);
+
+               }
             }
 
             @Override

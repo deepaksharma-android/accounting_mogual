@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -37,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -68,8 +70,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 public class CreateExpenceActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.paid_from)
@@ -99,7 +103,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     CoordinatorLayout coordinatorLayout;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog DatePickerDialog1;
-    private static final int SELECT_PICTURE=1;
+    private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
     InputStream inputStream = null;
     ProgressDialog mProgressDialog;
@@ -109,12 +113,13 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     AppUser appUser;
     public Boolean boolForReceivedFrom = false;
     public Boolean boolForReceivedBy = false;
-    public static int intStartActivityForResult=0;
+    public static int intStartActivityForResult = 0;
     Bitmap photo;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
-
-    WebView mPdf_webview;;
+    Uri mainUri;
+    WebView mPdf_webview;
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +137,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         appUser.voucher_type = "Expense";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-        android.support.v7.app.ActionBar actionBar =getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
@@ -146,14 +151,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         paid_to.setText(appUser.paid_to_name);
         Boolean isConnected = ConnectivityReceiver.isConnected();
 
-        title="CREATE EXPENSE";
-        fromExpence=getIntent().getBooleanExtra("fromExpense",false);
-        if(fromExpence==true){
-            title="EDIT EXPENSE";
+        title = "CREATE EXPENSE";
+        fromExpence = getIntent().getBooleanExtra("fromExpense", false);
+        if (fromExpence == true) {
+            title = "EDIT EXPENSE";
             mSubmit.setVisibility(View.GONE);
             mUpdate.setVisibility(View.VISIBLE);
-            appUser.edit_expence_id=getIntent().getExtras().getString("id");
-            LocalRepositories.saveAppUser(this,appUser);
+            appUser.edit_expence_id = getIntent().getExtras().getString("id");
+            LocalRepositories.saveAppUser(this, appUser);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -176,7 +181,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                         });
                 snackbar.show();
             }
-        }else {
+        } else {
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -205,24 +210,24 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startDialog();
+                startDialog();
             }
         });
 
         paid_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.accountSwitching=1;
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.accountSwitching = 1;
                 //intStartActivityForResult=1;
                 //ParameterConstant.checkStartActivityResultForAccount =7;
                 appUser.account_master_group = "Cash-in-hand,Bank Accounts";
                 //Bank Accounts
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 2);
             }
@@ -231,16 +236,16 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         paid_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.accountSwitching=2;
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.accountSwitching = 2;
                 //intStartActivityForResult=2;
                 //ParameterConstant.checkStartActivityResultForAccount =7;
                 appUser.account_master_group = "Expenses (Direct/Mfg.),Expenses (Indirect/Admn.)";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -249,18 +254,28 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
-                startActivity(intent);
+                if (imageToUploadUri == null) {
+                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("iEncodedString", true);
+                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("encodedString", imageToUploadUri.toString());
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                }
             }
         });
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!paid_to.getText().toString().equals("")) {
                             if (!paid_from.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -274,7 +289,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                     appUser.expence_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if(isConnected) {
+                                    if (isConnected) {
                                         mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
                                         mProgressDialog.setMessage("Info...");
                                         mProgressDialog.setIndeterminate(false);
@@ -283,20 +298,19 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_EXPENCE);
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                         //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_COMPANY_DASHBOARD_INFO);
-                                    }
-                                    else{
+                                    } else {
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if(isConnected){
+                                                if (isConnected) {
                                                     snackbar.dismiss();
                                                 }
                                             }
                                         });
                                         snackbar.show();
                                     }
-                                }else {
+                                } else {
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
@@ -305,10 +319,10 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select paid to", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
@@ -339,8 +353,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!voucher_no.getText().toString().equals("")){
-                    if(!set_date.getText().toString().equals("")) {
+                if (!voucher_no.getText().toString().equals("")) {
+                    if (!set_date.getText().toString().equals("")) {
                         if (!paid_to.getText().toString().equals("")) {
                             if (!paid_from.getText().toString().equals("")) {
                                 if (!transaction_amount.getText().toString().equals("")) {
@@ -354,27 +368,26 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                                     appUser.expence_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if(isConnected) {
+                                    if (isConnected) {
                                         mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
                                         mProgressDialog.setMessage("Info...");
                                         mProgressDialog.setIndeterminate(false);
                                         mProgressDialog.setCancelable(true);
                                         mProgressDialog.show();
                                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_EDIT_EXPENCE);
-                                    }
-                                    else{
+                                    } else {
                                         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if(isConnected){
+                                                if (isConnected) {
                                                     snackbar.dismiss();
                                                 }
                                             }
                                         });
                                         snackbar.show();
                                     }
-                                }else {
+                                } else {
                                     Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
@@ -383,10 +396,10 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select paid to", Snackbar.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select date", Snackbar.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please enter voucher number", Snackbar.LENGTH_LONG).show();
                     if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
@@ -417,7 +430,6 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     }
 
 
-
     private void setDateField() {
         set_date.setOnClickListener(this);
 
@@ -444,6 +456,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             DatePickerDialog1.show();
         }
     }
+
     private void startDialog() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(CreateExpenceActivity.this);
@@ -473,18 +486,18 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching == 1) {
             String result = ParameterConstant.forAccountIntentName;
             String[] name = result.split(",");
             appUser.paid_from_id = ParameterConstant.forAccountIntentId;
-            appUser.paid_from_name=name[0];
+            appUser.paid_from_name = name[0];
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             paid_from.setText(name[0]);
-        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+        } else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching == 2) {
             String result = ParameterConstant.forAccountIntentName;
             String[] name = result.split(",");
             appUser.paid_to_id = ParameterConstant.forAccountIntentId;
-            appUser.paid_to_name=name[0];
+            appUser.paid_to_name = name[0];
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             paid_to.setText(name[0]);
         }
@@ -494,26 +507,26 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             switch (requestCode) {
                 case Cv.REQUEST_CAMERA:
 
-                try {
-                    photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageToUploadUri);
-                    Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
-                    mSelectedImage.setVisibility(View.VISIBLE);
-                    mSelectedImage.setImageBitmap(im);
-                    encodedString = Helpers.bitmapToBase64(im);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+                    try {
+                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageToUploadUri);
+                        Bitmap im = scaleDownBitmap(photo, 100, getApplicationContext());
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(im);
+                        encodedString = Helpers.bitmapToBase64(im);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
 
                 case Cv.REQUEST_GALLERY:
 
                     try {
-                        imageToUploadUri= data.getData();
+                        imageToUploadUri = data.getData();
 
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
                                 ContentUris.parseId(data.getData()),
                                 MediaStore.Images.Thumbnails.MINI_KIND, null);
-                        encodedString= Helpers.bitmapToBase64(photo);
+                        encodedString = Helpers.bitmapToBase64(photo);
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(photo);
                         break;
@@ -549,37 +562,37 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             }*/
 
             if (requestCode == 2) {
-               if (ParameterConstant.handleAutoCompleteTextView==1){
-                   boolForReceivedFrom = true;
-                   appUser.paid_from_id = ParameterConstant.id;
-                   appUser.paid_from_name = ParameterConstant.name;
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   paid_from.setText(ParameterConstant.name);
-               }else {
-                   boolForReceivedFrom = true;
-                   String result = data.getStringExtra("name");
-                   String id = data.getStringExtra("id");
-                   String[] name = result.split(",");
-                   appUser.paid_from_id = id;
-                   appUser.paid_from_name = name[0];
-                   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                   paid_from.setText(name[0]);
-               }
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForReceivedFrom = true;
+                    appUser.paid_from_id = ParameterConstant.id;
+                    appUser.paid_from_name = ParameterConstant.name;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    paid_from.setText(ParameterConstant.name);
+                } else {
+                    boolForReceivedFrom = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String[] name = result.split(",");
+                    appUser.paid_from_id = id;
+                    appUser.paid_from_name = name[0];
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    paid_from.setText(name[0]);
+                }
             }
             if (requestCode == 3) {
-                if (ParameterConstant.handleAutoCompleteTextView==1){
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     boolForReceivedBy = true;
-                    appUser.paid_to_id =ParameterConstant.id;
-                    appUser.paid_to_name =ParameterConstant.name;
+                    appUser.paid_to_id = ParameterConstant.id;
+                    appUser.paid_to_name = ParameterConstant.name;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     paid_to.setText(ParameterConstant.name);
-                }else {
+                } else {
                     boolForReceivedBy = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
                     String[] name = result.split(",");
-                    appUser.paid_to_id =id;
-                    appUser.paid_to_name =name[0];
+                    appUser.paid_to_id = id;
+                    appUser.paid_to_name = name[0];
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                     paid_to.setText(name[0]);
@@ -626,6 +639,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         }
 */
     }
+
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
@@ -653,7 +667,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -661,19 +675,19 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     }
 
     @Subscribe
-    public void createexpenceresponse(CreateExpenceResponse response){
+    public void createexpenceresponse(CreateExpenceResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "expense");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-           // voucher_no.setText("");
+            // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             paid_from.setText("");
             paid_to.setText("");
-            encodedString="";
+            encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -683,7 +697,7 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(CreateExpenceActivity.this, TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
                        /* ProgressDialog progressDialog = new ProgressDialog(CreateExpenceActivity.this);
                         progressDialog.setMessage("Please wait...");
@@ -703,53 +717,52 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Subscribe
-    public void getExpenceDetails(GetExpenceDetailsResponse response){
+    public void getExpenceDetails(GetExpenceDetailsResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             set_date.setText(response.getExpense().getData().getAttributes().getDate());
             voucher_no.setText(response.getExpense().getData().getAttributes().getVoucher_number());
             paid_from.setText(response.getExpense().getData().getAttributes().getPaid_from());
             paid_to.setText(response.getExpense().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getExpense().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getExpense().getData().getAttributes().getNarration());
-            if(!response.getExpense().getData().getAttributes().getAttachment().equals("")){
+            if (!response.getExpense().getData().getAttributes().getAttachment().equals("")) {
+                mainUri=Uri.parse(response.getExpense().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Uri.parse(response.getExpense().getData().getAttributes().getAttachment()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
-    public void editBankCashDeposit(EditExpenceResponse response){
+    public void editBankCashDeposit(EditExpenceResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Intent intent = new Intent(this, ExpenceActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             startActivity(intent);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
     @Subscribe
     public void getVoucherNumber(GetVoucherNumbersResponse response) {
         mProgressDialog.dismiss();
@@ -769,36 +782,36 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         snackbar.show();
     }
 
-      @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-       MenuInflater menuInflater = getMenuInflater();
-       menuInflater.inflate(R.menu.activity_list_button_action,menu);
-          if(fromExpence==true){
-              MenuItem item = menu.findItem(R.id.icon_id);
-              item.setVisible(false);
-          }else{
-              MenuItem item = menu.findItem(R.id.icon_id);
-              item.setVisible(true);
-          }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
+        if (fromExpence == true) {
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(false);
+        } else {
+            MenuItem item = menu.findItem(R.id.icon_id);
+            item.setVisible(true);
+        }
 
-       return super.onCreateOptionsMenu(menu);
-   }
+        return super.onCreateOptionsMenu(menu);
+    }
 
-  /* @Override
-   public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId())
-       {
-           case R.id.icon_id:
-               Intent i = new Intent(getApplicationContext(),ExpenceActivity.class);
-               startActivity(i);
-       }
-       return super.onOptionsItemSelected(item);
-   }*/
+    /* @Override
+     public boolean onOptionsItemSelected(MenuItem item) {
+         switch (item.getItemId())
+         {
+             case R.id.icon_id:
+                 Intent i = new Intent(getApplicationContext(),ExpenceActivity.class);
+                 startActivity(i);
+         }
+         return super.onOptionsItemSelected(item);
+     }*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),ExpenceActivity.class);
+                Intent i = new Intent(getApplicationContext(), ExpenceActivity.class);
                 startActivity(i);
                 finish();
                 return true;
@@ -834,7 +847,6 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
 
 
-
         if (path.exists()) {
             path.delete();
             path.mkdir();
@@ -862,14 +874,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         }
     }
 
-    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+    public Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
 
         final float densityMultiplier = context.getResources().getDisplayMetrics().density;
 
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+        int h = (int) (newHeight * densityMultiplier);
+        int w = (int) (h * photo.getWidth() / ((double) photo.getHeight()));
 
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+        photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
     }

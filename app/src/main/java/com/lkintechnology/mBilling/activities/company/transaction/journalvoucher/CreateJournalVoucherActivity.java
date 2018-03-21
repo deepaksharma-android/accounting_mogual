@@ -39,6 +39,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -262,10 +263,20 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
-                intent.putExtra("encodedString", imageToUploadUri.toString());
-                intent.putExtra("booleAttachment", false);
-                startActivity(intent);
+                if (imageToUploadUri == null) {
+                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("iEncodedString", true);
+                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("encodedString", imageToUploadUri.toString());
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                }
             }
         });
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -494,50 +505,94 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             @Override
             public void onClick(View v) {
                 if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense/Consolidated RCM Payable")) {
+                    llSpiner.setVisibility(View.VISIBLE);
 
                     if (!transaction_amount.getText().toString().equals("")) {
-                        appUser.journalreason = "";
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        Intent intent1 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
-                        intent1.putExtra("diff_amount", transaction_amount.getText().toString());
-                        intent1.putExtra("gst_pos1", "1");
-                        intent1.putExtra("state", state);
-                        startActivity(intent1);
+                        if (!account_name_credit.getText().toString().equals("")) {
+                            if (!account_name_debit.getText().toString().equals("")) {
+                                appUser.journalreason = "";
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                Intent intent1 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
+                                intent1.putExtra("diff_amount", transaction_amount.getText().toString());
+                                intent1.putExtra("gst_pos1", "1");
+                                intent1.putExtra("state", state);
+                                startActivity(intent1);
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }else {
+                            Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
+
+                        }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                     //   gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
                 } else if (gst_nature_spinner.getSelectedItem().toString().equals("Registered Expenses (B2B)")) {
+                    llSpiner.setVisibility(View.VISIBLE);
                     if (!transaction_amount.getText().toString().equals("")) {
-                        Intent intent2 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
-                        intent2.putExtra("diff_amount", transaction_amount.getText().toString());
-                        intent2.putExtra("gst_pos2", "2");
-                        intent2.putExtra("state", state);
-                        startActivity(intent2);
+                        if (!account_name_credit.getText().toString().equals("")) {
+                            if (!account_name_debit.getText().toString().equals("")) {
+                                Intent intent2 = new Intent(CreateJournalVoucherActivity.this, AddJournalItemActivity.class);
+                                intent2.putExtra("diff_amount", transaction_amount.getText().toString());
+                                intent2.putExtra("gst_pos2", "2");
+                                intent2.putExtra("state", state);
+                                startActivity(intent2);
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }else {
+                            Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
+
+                        }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                       // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
-                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note received against purchase")) {
+                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Received Against Purchase")) {
+                    llSpiner.setVisibility(View.VISIBLE);
                     if (!transaction_amount.getText().toString().equals("")) {
-                        Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
-                        intent3.putExtra("gst_pos6", "6");
-                        intent3.putExtra("diff_amount", transaction_amount.getText().toString());
-                        intent3.putExtra("state", state);
-                        startActivity(intent3);
+                        if (!account_name_credit.getText().toString().equals("")) {
+                            if (!account_name_debit.getText().toString().equals("")) {
+                                Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddCreditNoteItemActivity.class);
+                                intent3.putExtra("gst_pos6", "6");
+                                intent3.putExtra("diff_amount", transaction_amount.getText().toString());
+                                intent3.putExtra("state", state);
+                                startActivity(intent3);
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }else {
+                            Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
+
+                        }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                       // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
-                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note received against purchase")) {
+                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Received Against Purchase")) {
+                    llSpiner.setVisibility(View.VISIBLE);
                     if (!transaction_amount.getText().toString().equals("")) {
-                        Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
-                        intent3.putExtra("gst_pos7", "7");
-                        intent3.putExtra("diff_amount", transaction_amount.getText().toString());
-                        intent3.putExtra("state", state);
-                        startActivity(intent3);
+                        if (!account_name_credit.getText().toString().equals("")) {
+                            if (!account_name_debit.getText().toString().equals("")) {
+                                Intent intent3 = new Intent(CreateJournalVoucherActivity.this, AddDebitNoteItemActivity.class);
+                                intent3.putExtra("gst_pos7", "7");
+                                intent3.putExtra("diff_amount", transaction_amount.getText().toString());
+                                intent3.putExtra("state", state);
+                                startActivity(intent3);
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }else {
+                            Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
+
+                        }
                     } else {
-                        gst_nature_spinner.setSelection(0);
+                        //gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
@@ -560,7 +615,12 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     appUser.mListMapForItemJournalVoucherNote.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
+                if (position==0 | position==3 | position==4 | position==5 | position==8 | position==9){
+                    llSpiner.setVisibility(View.GONE);
 
+                }else {
+                    llSpiner.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
