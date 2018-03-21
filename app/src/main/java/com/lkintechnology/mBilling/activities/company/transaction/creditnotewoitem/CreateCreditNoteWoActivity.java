@@ -813,8 +813,9 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 }
             }
             gst_nature_spinner.setSelection(groupindex);
-            Map mMap = new HashMap<>();
+            Map mMap;
             for (int i = 0; i < response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().size(); i++) {
+                mMap = new HashMap<>();
                 mMap.put("id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getId());
                 mMap.put("inv_num", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getInvoice_no());
                 mMap.put("difference_amount", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getAmount()));
@@ -839,8 +840,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
                 mMap.put("state",response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
                 appUser.mListMapForItemCreditNote.add(mMap);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             }
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

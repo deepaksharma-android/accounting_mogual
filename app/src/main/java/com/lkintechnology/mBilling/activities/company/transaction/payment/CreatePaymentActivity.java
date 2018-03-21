@@ -610,8 +610,6 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                     }
                     else {
                         Snackbar.make(coordinatorLayout, "please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-
                     }
             }
         });
@@ -1054,8 +1052,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
             gst_nature_spinner.setSelection(groupindex);
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Map mMap = new HashMap();
+            Map mMap;
             for(int i =0;i<response.getPayment().getData().getAttributes().getPayment_item().getData().size();i++){
+                mMap = new HashMap();
                 mMap.put("id",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getId());
                 mMap.put("account_id",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getAccount_id());
                 mMap.put("party_id",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getParty_id());
@@ -1076,10 +1075,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 mMap.put("spRCNItem",""/*response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcn_item()*/);
                 mMap.put("spITCEligibility",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemPaymentList.add(mMap);
-                LocalRepositories.saveAppUser(this,appUser);
             }
-
-
+            LocalRepositories.saveAppUser(this,appUser);
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

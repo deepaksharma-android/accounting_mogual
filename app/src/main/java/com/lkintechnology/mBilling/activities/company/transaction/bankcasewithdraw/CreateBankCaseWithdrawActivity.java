@@ -673,11 +673,10 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");;
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             withdraw_from.setText("");

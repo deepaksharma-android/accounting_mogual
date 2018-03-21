@@ -799,8 +799,9 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 }
             }
             gst_nature_spinner.setSelection(groupindex);
-            Map mMap = new HashMap<>();
+            Map mMap;
             for (int i = 0; i < response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().size(); i++) {
+                mMap = new HashMap<>();
                 mMap.put("id",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getId());
                 mMap.put("inv_num", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getInvoice_no());
                 mMap.put("difference_amount", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getAmount()));
@@ -825,8 +826,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
                 mMap.put("state",response.getDebit_note().getData().getAttributes().getAccount_dedit().getState());
                 appUser.mListMapForItemDebitNote.add(mMap);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             }
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         }
         else{

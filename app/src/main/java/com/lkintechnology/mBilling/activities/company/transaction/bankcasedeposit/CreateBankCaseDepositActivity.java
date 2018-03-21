@@ -683,7 +683,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
-            // voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             deposit_by.setText("");

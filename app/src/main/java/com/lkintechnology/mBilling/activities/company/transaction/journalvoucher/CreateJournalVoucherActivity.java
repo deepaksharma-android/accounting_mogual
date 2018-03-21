@@ -883,8 +883,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             }
             gst_nature_spinner.setSelection(groupindex);
-            Map mMap = new HashMap();
+            Map mMap;
             for(int i =0;i<response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size();i++) {
+                mMap = new HashMap();
                 if (groupindex == 1) {
                     mMap.put("gst_pos1", "1");
                 } else if (groupindex == 2) {
@@ -917,15 +918,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mMap.put("goodsItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
                 mMap.put("spITCEligibility",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemJournalVoucherNote.add(mMap);
-                LocalRepositories.saveAppUser(this,appUser);
             }
-
-
-
-
-
-
-
+            LocalRepositories.saveAppUser(this,appUser);
 
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {

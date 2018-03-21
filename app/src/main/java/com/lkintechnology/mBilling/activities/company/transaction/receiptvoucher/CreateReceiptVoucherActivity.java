@@ -74,6 +74,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -1074,9 +1075,13 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 }
 
             }
+            List<Map> myList=new ArrayList<>();
             gst_nature_spinner.setSelection(groupindex);
-            Map mMap=new HashMap<>();
+            Map mMap;
+            appUser.mListMapForItemReceipt.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
            for(int i=0; i<response.getReceipt_voucher().getData().getAttributes().getReceipt_item().size();i++){
+               mMap=new HashMap<>();
                mMap.put("voucher_id", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getVoucher_id());
                mMap.put("voucher_type", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getVoucher_type());
                mMap.put("ref_num", response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getReference_no());
@@ -1084,9 +1089,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                mMap.put("taxrate", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTax_rate()));
                mMap.put("total", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTotal_amount()));
                appUser.mListMapForItemReceipt.add(mMap);
-               LocalRepositories.saveAppUser(getApplicationContext(), appUser);
            }
-            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }

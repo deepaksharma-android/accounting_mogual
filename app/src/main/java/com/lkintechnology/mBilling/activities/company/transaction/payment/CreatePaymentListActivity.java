@@ -100,9 +100,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
         initialpageSetup();
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
-        amount = getIntent().getStringExtra("amount");
         state=getIntent().getStringExtra("state");
-        etDiffAmount.setText(amount);
         llSubmit.setOnClickListener(this);
 
         if(frompayment){
@@ -155,10 +153,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             amount=difference_amount;
             spPos1=sp1;
             spPos2=sp2;
-
-
-
+        }else {
+            amount = getIntent().getStringExtra("amount");
+            etDiffAmount.setText(amount);
         }
+
 
         if(state==null){
             state="Haryana";

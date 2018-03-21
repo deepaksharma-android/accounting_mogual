@@ -505,6 +505,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String payment_attachment="";
     public String delete_payment_id;
     public String edit_payment_id;
+    public String payment_amount_for_item;
 
     public ArrayList<Map> companyLoginArray=new ArrayList();
     public Boolean boolSetOrAddtoMap;
