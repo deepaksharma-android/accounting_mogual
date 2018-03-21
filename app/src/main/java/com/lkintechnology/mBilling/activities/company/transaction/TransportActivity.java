@@ -195,7 +195,6 @@ public class TransportActivity extends AppCompatActivity {
     //private method of your class
     private int getIndex(Spinner spinner, String myString) {
         int index = 0;
-
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
                 index = i;

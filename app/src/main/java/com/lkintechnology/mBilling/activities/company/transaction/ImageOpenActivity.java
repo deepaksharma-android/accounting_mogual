@@ -84,8 +84,15 @@ public class ImageOpenActivity extends AppCompatActivity {
                         }
                     });*/
         } else {
+
             encodedString = intent.getStringExtra("encodedString");
-            mImageOpen.setImageURI(Uri.parse(encodedString));
+            boolean b=intent.getBooleanExtra("iEncodedString",false);
+            if (b){
+                mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
+            }else {
+                mImageOpen.setImageURI(Uri.parse(encodedString));
+            }
+//            mImageOpen.setImageURI(Uri.parse(encodedString));
             Timber.i("filepath" + encodedString);
             //mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
         }
