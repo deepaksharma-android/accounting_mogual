@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.activities.company.transaction.purchase_return;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -71,6 +74,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
 
         ButterKnife.bind(this);
         initActionbar();
+
         appUser = LocalRepositories.getAppUser(this);
         appUser.mListMapForItemPurchaseReturn.clear();
         appUser.mListMapForBillPurchaseReturn.clear();
@@ -142,6 +146,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
             }
         });
     }
+
 
     @Override
     protected void onResume() {

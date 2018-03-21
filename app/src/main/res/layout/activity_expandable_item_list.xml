@@ -31,12 +31,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:id="@+id/autoCompleteTextView"/>
+                android:id="@+id/autoCompleteTextView"
+                android:background="@drawable/bg_grey_stroke"
+                android:padding="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_3"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:drawableLeft="@drawable/ic_magnify_grey600_24dp"
+                android:drawablePadding="@dimen/dp_5"
+                android:hint="Search here"/>
             <ExpandableListView
                 android:id="@+id/lvExp"
                 android:groupIndicator="@null"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_3"/>
         </LinearLayout>
 
 
