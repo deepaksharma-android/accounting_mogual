@@ -137,6 +137,7 @@ public class CreateSaleReturnFragment extends Fragment {
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
+    public Boolean fromedit=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -326,7 +327,9 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TransportActivity.voucher_type="sale_return";
-                startActivity(new Intent(getActivity(), TransportActivity.class));
+                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
+                intent.putExtra("fromedit",fromedit);
+                startActivity(intent);
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -1029,6 +1032,7 @@ public class CreateSaleReturnFragment extends Fragment {
         if (response.getStatus() == 200) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
+            fromedit=true;
             mDate.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getDate()));
             mVchNumber.setText(response.getSale_return_voucher().getData().getAttributes().getVoucher_number());
             mSaleType.setText(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
@@ -1143,6 +1147,9 @@ public class CreateSaleReturnFragment extends Fragment {
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
             }
+        if (response.getSale_return_voucher().getData().getAttributes().getTransport_details()!=null) {
+            TransportActivity.salereturndata=response.getSale_return_voucher().getData().getAttributes().getTransport_details();
+        }
         if (response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries()!=null) {
             if (response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
                 for (int i = 0; i < response.getSale_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {

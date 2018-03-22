@@ -136,6 +136,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
+    public Boolean fromedit=false;
 
     @Override
     public void onStart() {
@@ -337,7 +338,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TransportActivity.voucher_type="purchase_return";
-                startActivity(new Intent(getActivity(), TransportActivity.class));
+                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
+                intent.putExtra("fromedit",fromedit);
+                startActivity(intent);
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -1030,8 +1033,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
     public void getPurchaseReturnVoucherDetails(GetPurchaseReturnVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
+            fromedit=true;
             mDate.setText(response.getPurchase_return_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());
@@ -1144,6 +1149,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
 
+            }
+            if (response.getPurchase_return_voucher().getData().getAttributes().getTransport_details()!=null) {
+                TransportActivity.purchasereturndata=response.getPurchase_return_voucher().getData().getAttributes().getTransport_details();
             }
             if(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries()!=null) {
                 if (response.getPurchase_return_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {

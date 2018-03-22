@@ -1,5 +1,7 @@
 package com.lkintechnology.mBilling.networks.api_response.sale_return;
 
+import com.lkintechnology.mBilling.networks.api_response.transport.Transport;
+
 import java.util.ArrayList;
 
 public class SaleReturnVoucherDetailsAttribute {
@@ -173,4 +175,14 @@ public class SaleReturnVoucherDetailsAttribute {
     public void setBill_sundries_amount(Double bill_sundries_amount) {
         this.bill_sundries_amount = bill_sundries_amount;
     }
+
+    public Transport getTransport_details() {
+        return transport_details;
+    }
+
+    public void setTransport_details(Transport transport_details) {
+        this.transport_details = transport_details;
+    }
+
+    public Transport transport_details;
 }

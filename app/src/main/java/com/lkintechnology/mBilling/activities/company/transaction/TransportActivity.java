@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.api_response.transport.Transport;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -56,6 +57,12 @@ public class TransportActivity extends AppCompatActivity {
     AppUser appUser;
     private int mYear, mMonth, mDay, mHour, mMinute;
     public static String voucher_type="";
+    public static Transport saledata;
+    public static Transport purchasedata;
+    public static Transport purchasereturndata;
+    public static Transport salereturndata;
+    public Boolean fromedit;
+
 
 
 
@@ -66,51 +73,167 @@ public class TransportActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-        spinner_e_way_bill.setSelection(1);
+        fromedit=getIntent().getExtras().getBoolean("fromedit");
+        if(fromedit) {
 
-        if (appUser.transport_details.size() > 0) {
-            spinner_transport.setSelection(getIndex(spinner_transport, appUser.transport_details.get("mode_of_transport").toString()));
-            transport.setText(appUser.transport_details.get("transport").toString());
-            gr_rr.setText(appUser.transport_details.get("gr_no").toString());
-            mDate.setText(appUser.transport_details.get("date").toString());
-            vehicle_no.setText(appUser.transport_details.get("vehicle_number").toString());
-            station.setText(appUser.transport_details.get("station").toString());
-            pin.setText(appUser.transport_details.get("pincode").toString());
-            if (appUser.transport_details.get("eway_bill_required").toString().equals("true")) {
-                spinner_e_way_bill.setSelection(0);
-            } else {
-                spinner_e_way_bill.setSelection(1);
-            }
-//            spinner_e_way_bill.setSelection(getIndex(spinner_e_way_bill, appUser.transport_details.get("eway_bill_required").toString()));
-            distance.setText(appUser.transport_details.get("distance").toString());
-
-            e_way.setText(appUser.transport_details.get("eway_bill_number").toString());
-        } else {
-            final Calendar c = Calendar.getInstance();
-            mDate.setText(" " + c.get(Calendar.DAY_OF_MONTH) + " " + Helpers.getMonth(c.get(Calendar.MONTH)) + " " + c.get(Calendar.YEAR));
-        }
-
-        mDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePickerDialog();
-            }
-        });
-        spinner_e_way_bill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
+            if (voucher_type.equals("sale")) {
+                transport.setText(saledata.getTransport());
+                gr_rr.setText(saledata.getGr_no());
+                mDate.setText(saledata.getDate());
+                vehicle_no.setText(saledata.getVehicle_number());
+                station.setText(saledata.getStation());
+                pin.setText(saledata.getPincode());
+                if (saledata.getEway_bill_required()) {
+                    spinner_e_way_bill.setSelection(1);
                     show_hide_layout.setVisibility(View.VISIBLE);
+                    distance.setText(saledata.getDistance());
+                    if (saledata.getMode_of_transport().equals("Road")) {
+                        spinner_transport.setSelection(0);
+                    } else if (saledata.getMode_of_transport().equals("Air")) {
+                        spinner_transport.setSelection(1);
+                    } else if (saledata.getMode_of_transport().equals("Rail")) {
+                        spinner_transport.setSelection(2);
+                    } else if (saledata.getMode_of_transport().equals("Ship")) {
+                        spinner_transport.setSelection(3);
+                    } else {
+                        spinner_transport.setSelection(0);
+                    }
+                    e_way.setText(saledata.getEway_bill_number());
                 } else {
-                    show_hide_layout.setVisibility(View.GONE);
+                    spinner_e_way_bill.setSelection(0);
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                }
+
+            } else if (voucher_type.equals("purchase")) {
+                transport.setText(purchasedata.getTransport());
+                gr_rr.setText(purchasedata.getGr_no());
+                mDate.setText(purchasedata.getDate());
+                vehicle_no.setText(purchasedata.getVehicle_number());
+                station.setText(purchasedata.getStation());
+                pin.setText(purchasedata.getPincode());
+                if (purchasedata.getEway_bill_required()) {
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                    distance.setText(purchasedata.getDistance());
+                    if (purchasedata.getMode_of_transport().equals("Road")) {
+                        spinner_transport.setSelection(0);
+                    } else if (purchasedata.getMode_of_transport().equals("Air")) {
+                        spinner_transport.setSelection(1);
+                    } else if (purchasedata.getMode_of_transport().equals("Rail")) {
+                        spinner_transport.setSelection(2);
+                    } else if (purchasedata.getMode_of_transport().equals("Ship")) {
+                        spinner_transport.setSelection(3);
+                    } else {
+                        spinner_transport.setSelection(0);
+                    }
+                    e_way.setText(purchasedata.getEway_bill_number());
+                } else {
+                    spinner_e_way_bill.setSelection(0);
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                }
+
+            } else if (voucher_type.equals("sale_return")) {
+                transport.setText(salereturndata.getTransport());
+                gr_rr.setText(salereturndata.getGr_no());
+                mDate.setText(salereturndata.getDate());
+                vehicle_no.setText(salereturndata.getVehicle_number());
+                station.setText(salereturndata.getStation());
+                pin.setText(salereturndata.getPincode());
+                if (salereturndata.getEway_bill_required()) {
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                    distance.setText(salereturndata.getDistance());
+                    if (salereturndata.getMode_of_transport().equals("Road")) {
+                        spinner_transport.setSelection(0);
+                    } else if (salereturndata.getMode_of_transport().equals("Air")) {
+                        spinner_transport.setSelection(1);
+                    } else if (salereturndata.getMode_of_transport().equals("Rail")) {
+                        spinner_transport.setSelection(2);
+                    } else if (salereturndata.getMode_of_transport().equals("Ship")) {
+                        spinner_transport.setSelection(3);
+                    } else {
+                        spinner_transport.setSelection(0);
+                    }
+                    e_way.setText(salereturndata.getEway_bill_number());
+                } else {
+                    spinner_e_way_bill.setSelection(0);
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                }
+            } else if (voucher_type.equals("purchase_return")) {
+                transport.setText(purchasereturndata.getTransport());
+                gr_rr.setText(purchasereturndata.getGr_no());
+                mDate.setText(purchasereturndata.getDate());
+                vehicle_no.setText(purchasereturndata.getVehicle_number());
+                station.setText(purchasereturndata.getStation());
+                pin.setText(purchasereturndata.getPincode());
+                if (purchasereturndata.getEway_bill_required()) {
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                    distance.setText(purchasereturndata.getDistance());
+                    if (purchasereturndata.getMode_of_transport().equals("Road")) {
+                        spinner_transport.setSelection(0);
+                    } else if (purchasereturndata.getMode_of_transport().equals("Air")) {
+                        spinner_transport.setSelection(1);
+                    } else if (purchasereturndata.getMode_of_transport().equals("Rail")) {
+                        spinner_transport.setSelection(2);
+                    } else if (purchasereturndata.getMode_of_transport().equals("Ship")) {
+                        spinner_transport.setSelection(3);
+                    } else {
+                        spinner_transport.setSelection(0);
+                    }
+                    e_way.setText(purchasereturndata.getEway_bill_number());
+                } else {
+                    spinner_e_way_bill.setSelection(0);
+                    show_hide_layout.setVisibility(View.VISIBLE);
                 }
             }
+        }
+        else {
+            spinner_e_way_bill.setSelection(1);
+            if (appUser.transport_details.size() > 0) {
+                spinner_transport.setSelection(getIndex(spinner_transport, appUser.transport_details.get("mode_of_transport").toString()));
+                transport.setText(appUser.transport_details.get("transport").toString());
+                gr_rr.setText(appUser.transport_details.get("gr_no").toString());
+                mDate.setText(appUser.transport_details.get("date").toString());
+                vehicle_no.setText(appUser.transport_details.get("vehicle_number").toString());
+                station.setText(appUser.transport_details.get("station").toString());
+                pin.setText(appUser.transport_details.get("pincode").toString());
+                if (appUser.transport_details.get("eway_bill_required").toString().equals("true")) {
+                    spinner_e_way_bill.setSelection(0);
+                } else {
+                    spinner_e_way_bill.setSelection(1);
+                }
+//            spinner_e_way_bill.setSelection(getIndex(spinner_e_way_bill, appUser.transport_details.get("eway_bill_required").toString()));
+                distance.setText(appUser.transport_details.get("distance").toString());
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                e_way.setText(appUser.transport_details.get("eway_bill_number").toString());
+            } else {
+                final Calendar c = Calendar.getInstance();
+                mDate.setText(" " + c.get(Calendar.DAY_OF_MONTH) + " " + Helpers.getMonth(c.get(Calendar.MONTH)) + " " + c.get(Calendar.YEAR));
             }
-        });
+
+            mDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    datePickerDialog();
+                }
+            });
+            spinner_e_way_bill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (i == 0) {
+                        show_hide_layout.setVisibility(View.VISIBLE);
+                    } else {
+                        show_hide_layout.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

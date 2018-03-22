@@ -134,6 +134,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     Boolean fromsalelist;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
+    public Boolean fromedit=false;
 
     @Override
     public void onStart() {
@@ -344,7 +345,10 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TransportActivity.voucher_type="sale";
-                startActivity(new Intent(getActivity(), TransportActivity.class));
+                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
+                intent.putExtra("fromedit",fromedit);
+                startActivity(intent);
+
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -1057,6 +1061,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         if (response.getStatus() == 200) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
+            fromedit=true;
             mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_number());
             Preferences.getInstance(getApplicationContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
@@ -1172,6 +1177,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                      mMap.put("unit_list", mUnitList);
                     appUser.mListMapForItemSale.add(mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                if (response.getSale_voucher().getData().getAttributes().getTransport_details()!=null) {
+                    TransportActivity.saledata=response.getSale_voucher().getData().getAttributes().getTransport_details();
                 }
                 if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries()!=null) {
 

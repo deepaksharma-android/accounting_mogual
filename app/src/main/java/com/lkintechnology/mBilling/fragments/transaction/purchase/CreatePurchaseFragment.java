@@ -139,6 +139,7 @@ public class CreatePurchaseFragment extends Fragment {
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
+    public Boolean fromedit=false;
 
     @Override
     public void onStart() {
@@ -345,7 +346,9 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TransportActivity.voucher_type="purchase";
-                startActivity(new Intent(getActivity(), TransportActivity.class));
+                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
+                intent.putExtra("fromedit",fromedit);
+                startActivity(intent);
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -966,8 +969,10 @@ public class CreatePurchaseFragment extends Fragment {
     public void getSaleVoucherDetails(GetPurchaseVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
+            fromedit=true;
             mDate.setText(response.getPurchase_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getPurchase_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
@@ -1092,6 +1097,9 @@ public class CreatePurchaseFragment extends Fragment {
                     appUser.mListMapForItemPurchase.add(mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
+            }
+            if (response.getPurchase_voucher().getData().getAttributes().getTransport_details()!=null) {
+                TransportActivity.purchasedata=response.getPurchase_voucher().getData().getAttributes().getTransport_details();
             }
             if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries() != null) {
                 if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
