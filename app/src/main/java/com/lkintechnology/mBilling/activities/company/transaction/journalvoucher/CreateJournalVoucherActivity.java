@@ -620,7 +620,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     llSpiner.setVisibility(View.GONE);
 
                 }else {
-                    llSpiner.setVisibility(View.VISIBLE);
+                    llSpiner.setVisibility(View.GONE);
                 }
             }
 
