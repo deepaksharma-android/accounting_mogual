@@ -327,6 +327,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         EditText account_city = (EditText) dialogaddress.findViewById(R.id.city);
         EditText account_pinCode = (EditText) dialogaddress.findViewById(R.id.pincode);
         Spinner spinner_state = (Spinner) dialogaddress.findViewById(R.id.state_spinner);
+        spinner_state.setSelection(12);
         LinearLayout submit = (LinearLayout) dialogaddress.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialogaddress.findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
@@ -385,6 +386,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         dialoggst.setCancelable(true);
         // set the custom dialog components - text, image and button
         Spinner account_type_of_dealer = (Spinner) dialoggst.findViewById(R.id.type_of_dealer_spinner);
+        account_type_of_dealer.setSelection(1);
         EditText account_gst = (EditText) dialoggst.findViewById(R.id.gst);
         EditText account_aadhaar = (EditText) dialoggst.findViewById(R.id.aadhaar);
         EditText account_pan = (EditText) dialoggst.findViewById(R.id.pan);

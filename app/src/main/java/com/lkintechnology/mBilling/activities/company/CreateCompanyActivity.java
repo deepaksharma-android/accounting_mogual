@@ -87,6 +87,7 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
                 R.layout.layout_trademark_type_spinner_dropdown_item, getResources().getStringArray(R.array.state));
         spinnerStateAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
         mStateSpinner.setAdapter(spinnerStateAdapter);
+        mStateSpinner.setSelection(12);
         appUser = LocalRepositories.getAppUser(getApplicationContext());
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
