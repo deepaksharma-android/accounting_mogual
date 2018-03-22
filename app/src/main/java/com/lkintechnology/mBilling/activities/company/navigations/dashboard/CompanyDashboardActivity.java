@@ -245,6 +245,8 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         EditText username = (EditText) dialog.findViewById(R.id.cusername);
         EditText password = (EditText) dialog.findViewById(R.id.cpassword);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout remember_me_layout = (LinearLayout) dialog.findViewById(R.id.remember_me_layout);
+        remember_me_layout.setVisibility(View.GONE);
         LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,8 +290,6 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                                     });
                             snackbar.show();
                         }
-
-
                     }
                     else{
                         Toast.makeText(getApplicationContext(),"Enter password",Toast.LENGTH_LONG).show();
