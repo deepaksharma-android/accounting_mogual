@@ -74,7 +74,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     private String chooseRCN[] = { "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
     AppUser appUser;
     Map mMap;
-    private String spPos1, spPos2;
+    private String spPos1, spPos2,amount;
     String state;
     String id="";
 
@@ -90,6 +90,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
         state = getIntent().getStringExtra("state");
+        amount = getIntent().getExtras().getString("diff_amount");
+        etDiffAmount.setText(amount);
         fromjournal=getIntent().getExtras().getBoolean("fromjournal");
         llSubmit.setOnClickListener(this);
         if(fromjournal){
@@ -140,6 +142,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             spITCEligibility.setSelection(groupindexspITCEligibility);
             spPos1=sp1;
             spPos2=sp2;
+            amount=difference_amount;
 
         }
         if(state==null||state.equals("")){
@@ -260,7 +263,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             }
 
                                             mMap.put("gst_pos1", spPos1);
-                                            mMap.put("gst_pos2", spPos1);
+                                            //mMap.put("gst_pos2", spPos2);
                                             mMap.put("state",state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
@@ -275,6 +278,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
                                             intent.putExtra("gst_pos1", spPos1);
                                             intent.putExtra("state", state);
+                                            intent.putExtra("diff_amount",amount);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -331,8 +335,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
 
-                                            mMap.put("gst_pos1", spPos1);
-                                            mMap.put("gst_pos2", spPos1);
+                                            //mMap.put("gst_pos1", spPos1);
+                                            mMap.put("gst_pos2", spPos2);
                                             mMap.put("state",state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
@@ -348,6 +352,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
                                             intent.putExtra("gst_pos2", spPos2);
                                             intent.putExtra("state", state);
+                                            intent.putExtra("diff_amount",amount);
                                             startActivity(intent);
                                             finish();
                                         } else {

@@ -34,7 +34,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
      LinearLayout llSubmit;
     @Bind(R.id.listViewjournal_Items)
      ListView journalItemList;
-    private String pos1,pos2;
+    private String pos1,pos2,amount;
     private AddJournalVoucherItemAdapter addJournalItemAdapter;
     AppUser appUser;
     String state;
@@ -49,6 +49,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
         pos1=getIntent().getStringExtra("gst_pos1");
         pos2=getIntent().getStringExtra("gst_pos2");
         state=getIntent().getStringExtra("state");
+        amount=getIntent().getStringExtra("diff_amount");
         createJournalList.setOnClickListener(this);
         llSubmit.setOnClickListener(this);
 
@@ -85,7 +86,6 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
                 });
                 alertDialog.show();
                 return true;
-
             }
         });
 
@@ -125,6 +125,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
                 Intent intent=new Intent(AddJournalItemActivity.this,CreateJournalItemActivity.class);
                 intent.putExtra("gst_pos1",pos1);
                 intent.putExtra("gst_pos2",pos2);
+                intent.putExtra("diff_amount",amount);
                 intent.putExtra("state",state);
                 startActivity(intent);
                 finish();

@@ -83,7 +83,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etIGST.setText((String)map.get("igst"));
             etSGST.setText((String)map.get("sgst"));
             amount=(String) map.get("difference_amount");
-            journalVoucherDiffAmount=(String) map.get("diff_amount");
+            journalVoucherDiffAmount=(String) map.get("difference_amount");
             state=(String) map.get("state");
             journalVoucherPosition=((String)map.get("gst_pos7"));
             spGoodsKey1=((String)map.get("sp_position"));
@@ -124,8 +124,13 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             spGoodsKey1=getIntent().getStringExtra("sp_position");
             journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
             amount=getIntent().getStringExtra("amount");
-            etDifferenceAmount.setText(amount);
             journalVoucherDiffAmount=getIntent().getExtras().getString("diff_amount");
+            if (journalVoucherPosition!=null){
+                etDifferenceAmount.setText(journalVoucherDiffAmount);
+            }else {
+                etDifferenceAmount.setText(amount);
+            }
+
             state=getIntent().getExtras().getString("state");
             calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
@@ -380,7 +385,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
                                         mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
-                                        mMap.put("diff_amount", etDifferenceAmount.getText().toString());
+                                        mMap.put("difference_amount", etDifferenceAmount.getText().toString());
                                         mMap.put("gst", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());

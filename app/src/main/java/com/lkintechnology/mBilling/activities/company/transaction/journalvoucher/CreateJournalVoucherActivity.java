@@ -968,7 +968,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mMap.put("sgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSgst_amount()));
                 mMap.put("igst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getIgst_amount()));
                 mMap.put("date",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
-
+                String state = response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState();
+                Timber.i("aaaaa  "+state);
                if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState()==null){
                    mMap.put("state","Haryana");
                }

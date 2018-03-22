@@ -166,6 +166,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                         Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);
                         intent.putExtra("diff_amount", journalVoucherDiffAmount);
                         intent.putExtra("gst_pos7", journalVoucherPosition);
+                        intent.putExtra("state", state);
                         startActivity(intent);
                         finish();
                     }

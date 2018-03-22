@@ -47,7 +47,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     Map mMap;
     private RelativeLayout rootLayout;
     private LinearLayout ll_submit,rootSP;
-  private String amount,position,state,journalVoucherPosition,journalDiffAmount;
+    private String amount,position,state,journalVoucherPosition,journalDiffAmount;
     private Spinner spChooseGoods;
        private String chooseGoods[]={"Input Goods","Input Services","Capital Goods","None"};
     private String itempos;
@@ -85,7 +85,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etIGST.setText((String)map.get("igst"));
             etSGST.setText((String)map.get("sgst"));
             amount=(String) map.get("difference_amount");
-            journalDiffAmount=(String) map.get("diff_amount");
+            journalDiffAmount=(String) map.get("difference_amount");
             state=(String) map.get("state");
             journalVoucherPosition=((String)map.get("gst_pos6"));
             position=((String)map.get("sp_position"));
@@ -383,7 +383,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
                                         mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
-                                        mMap.put("diff_amount", journalDiffAmount);
+                                        mMap.put("difference_amount", journalDiffAmount);
                                         mMap.put("gst", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
