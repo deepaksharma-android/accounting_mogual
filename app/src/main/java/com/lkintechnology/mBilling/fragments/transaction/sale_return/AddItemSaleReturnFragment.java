@@ -549,7 +549,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                                         Double amounts=Double.parseDouble(amount)*2;
                                         Double taxper=Double.parseDouble(taxpercentage);
                                         if (taxper.equals(amounts)) {
-                                            multi = itemprice * (amounts / 100);
+                                            multi = itemprice * (Double.parseDouble(amount) / 100);
                                             subtot = subtot + multi;
                                         }
 
