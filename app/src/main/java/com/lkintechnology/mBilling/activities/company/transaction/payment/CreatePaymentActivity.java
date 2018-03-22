@@ -560,26 +560,48 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             public void onClick(View v) {
 
                     if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense")) {
+                        llSpinerItemSelect.setVisibility(View.VISIBLE);
                         if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            intent.putExtra("sp_position1", "1");
-                            intent.putExtra("state",state);
-                            //intent.putExtra("state",state);
-                            startActivity(intent);
+                            if (!paid_to.getText().toString().equals("")) {
+                                if (!paid_from.getText().toString().equals("")) {
+                                    Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                    intent.putExtra("amount", transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position1", "1");
+                                    intent.putExtra("state", state);
+                                    //intent.putExtra("state",state);
+                                    startActivity(intent);
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please select Paid From", Snackbar.LENGTH_LONG).show();
+
+                                }
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select Paid To", Snackbar.LENGTH_LONG).show();
+
+                            }
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                           // gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     }else if(gst_nature_spinner.getSelectedItem().toString().equals("Registered Expenses (B2B)")){
+                        llSpinerItemSelect.setVisibility(View.VISIBLE);
                         if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            intent.putExtra("sp_position2","2");
-                            intent.putExtra("state",state);
-                            startActivity(intent);
+                            if (!paid_to.getText().toString().equals("")) {
+                                if (!paid_from.getText().toString().equals("")) {
+                                    Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                    intent.putExtra("amount", transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position2", "2");
+                                    intent.putExtra("state", state);
+                                    startActivity(intent);
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please select Paid From", Snackbar.LENGTH_LONG).show();
+
+                                }
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select Paid To", Snackbar.LENGTH_LONG).show();
+
+                            }
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                           // gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     }
@@ -603,6 +625,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 else{
                     appUser.mListMapForItemPaymentList.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                if (position==0 | position==3 | position==4 | position==5 | position==6 | position==7){
+                    llSpinerItemSelect.setVisibility(View.GONE);
+
+                }else {
+                    llSpinerItemSelect.setVisibility(View.VISIBLE);
                 }
 
             }
