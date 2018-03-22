@@ -69,6 +69,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     HashMap<Integer, List<String>> listDataChildId;
     HashMap<Integer, List<String>> listDataChildMobile;
     HashMap<Integer, List<String>> listDataChildState;
+    HashMap<String, List<String>> listDataChildEmail;
     List<String> mobile;
     ProgressDialog mProgressDialog;
     AppUser appUser;
@@ -248,10 +249,16 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     NamePhoneType = new HashMap<String, String>();
                     name.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName()
                             + "," + String.valueOf(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getUndefined())
-                            +","+response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount());
+                            +","+response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getAmount()
+                            +","+response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getEmail());
                     id.add(response.getOrdered_accounts().get(i).getData().get(j).getId());
                     mobile.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
                     NamePhoneType.put("Name", response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
+                    if(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getEmail()!=null){
+                        NamePhoneType.put("Email",response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getEmail());
+                    }else {
+                        NamePhoneType.put("Email","");
+                    }
                     if(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number()!=null) {
                         NamePhoneType.put("Phone", response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
                     }
@@ -270,7 +277,6 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 listDataChildId.put(i, id);
                 listDataChildMobile.put(i, mobile);
                 listDataChildState.put(i, stateList);
-
             }
 
 
@@ -368,7 +374,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     public void clickEvent(EventAccountChildClicked pos) {
         Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
-        if (!isDirectForAccount && bool) { //PC
+        if (!isDirectForAccount && bool) {
 
             autoCompleteTextView();
             String id = pos.getPosition();
@@ -554,15 +560,18 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 Map<String, String> map = mPeopleList.get(i);
                 String name = map.get("Name");
                 String phone = map.get("Phone");
+                String email = map.get("Email");
                 if (data.equals(name)) {
                     String id = idList.get(getPositionOfItem(name));
                     ParameterConstant.name = name;
                     ParameterConstant.mobile = phone;
+                    ParameterConstant.email = email;
                     ParameterConstant.id = id;
                 } else if (data.equals(phone)) {
                     String id = idList.get(getPositionOfItem(name));
                     ParameterConstant.name = name;
                     ParameterConstant.mobile = phone;
+                    ParameterConstant.email = email;
                     ParameterConstant.id = id;
                 }
                 setResult(Activity.RESULT_OK, returnIntent);

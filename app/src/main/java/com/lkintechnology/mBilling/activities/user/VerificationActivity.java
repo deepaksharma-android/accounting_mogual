@@ -1,13 +1,22 @@
 package com.lkintechnology.mBilling.activities.user;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -30,6 +39,9 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -48,11 +60,16 @@ public class VerificationActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     Boolean fromRegisterPage, fromLoginPage, fromForgotPasswordPage, fromProfilePage, fromUpdateMobileNumber;
+    private Activity activity;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        if (checkAndRequestPermissions()) {
+            // carry on the normal flow, as the case of  permissions  granted.
+        }
         initActionbar();
         String mobile = getIntent().getExtras().getString("mobile");
         fromRegisterPage = getIntent().getExtras().getBoolean("fromRegisterPage");
@@ -108,6 +125,33 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 finish();
             }
         });
+
+
+    }
+    // to get permission from user
+
+    private  boolean checkAndRequestPermissions() {
+        int permissionSendMessage = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS);
+        int receiveSMS = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
+        int readSMS = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (receiveSMS != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.RECEIVE_MMS);
+        }
+        if (readSMS != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_SMS);
+        }
+        if (permissionSendMessage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.SEND_SMS);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
+                    REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
     private void initActionbar() {
@@ -130,6 +174,59 @@ public class VerificationActivity extends RegisterAbstractActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase("otp")) {
+                String message = intent.getStringExtra("message");
+
+                mOtp.setText(message);
+                if (mOtp.length()==4){
+                    submitApiCall();
+                }
+                //Do whatever you want with the code here
+            }
+        }
+    };
+
+    private void submitApiCall() {
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        boolean cancel = false;
+        View focusView = null;
+        if (!mOtp.getText().toString().equals("")) {
+            appUser.otp = mOtp.getText().toString();
+            appUser.mobile = mMobileNumber.getText().toString();
+            LocalRepositories.saveAppUser(this, appUser);
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(VerificationActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(this, appUser);
+                ApiCallsService.action(this, Cv.ACTION_VERIFICATION);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        } else {
+            mOtp.setError(getString(R.string.err_otp));
+            cancel = true;
+            focusView = mOtp;
+        }
+    }
+
 
     @Override
     protected int layoutId() {
@@ -265,6 +362,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -347,5 +445,15 @@ public class VerificationActivity extends RegisterAbstractActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
+        super.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
 }

@@ -372,64 +372,89 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     appUser.payment_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                                    Timber.i("yyyyyyy  "+appUser.mListMapForItemPaymentList);
-
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    new AlertDialog.Builder(CreatePaymentActivity.this)
-                                            .setTitle("Email")
-                                            .setMessage(R.string.btn_send_email)
-                                            .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                                appUser.email_yes_no = "true";
-                                                LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
-                                                if (isConnected) {
-                                                    mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
-                                                    mProgressDialog.setMessage("Info...");
-                                                    mProgressDialog.setIndeterminate(false);
-                                                    mProgressDialog.setCancelable(true);
-                                                    mProgressDialog.show();
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                } else {
-                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                snackbar.dismiss();
+                                    if(appUser.payment_paid_to_email!=null&&!appUser.payment_paid_to_email.equalsIgnoreCase("null")&&!appUser.payment_paid_to_email.equals("")) {
+                                        System.out.println("yyyyyyyyyyyyy " +appUser.payment_paid_to_email);
+                                        new AlertDialog.Builder(CreatePaymentActivity.this)
+                                                .setTitle("Email")
+                                                .setMessage(R.string.btn_send_email)
+                                                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                                    appUser.email_yes_no = "true";
+                                                    LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                                    if (isConnected) {
+                                                        mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                                        mProgressDialog.setMessage("Info...");
+                                                        mProgressDialog.setIndeterminate(false);
+                                                        mProgressDialog.setCancelable(true);
+                                                        mProgressDialog.show();
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    } else {
+                                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                if (isConnected) {
+                                                                    snackbar.dismiss();
+                                                                }
                                                             }
-                                                        }
-                                                    });
-                                                    snackbar.show();
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                                        });
+                                                        snackbar.show();
+                                                    }
+                                                })
+                                                .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                                appUser.email_yes_no = "false";
-                                                LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
-                                                if (isConnected) {
-                                                    mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
-                                                    mProgressDialog.setMessage("Info...");
-                                                    mProgressDialog.setIndeterminate(false);
-                                                    mProgressDialog.setCancelable(true);
-                                                    mProgressDialog.show();
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                } else {
-                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                snackbar.dismiss();
+                                                    appUser.email_yes_no = "false";
+                                                    LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                                    if (isConnected) {
+                                                        mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                                        mProgressDialog.setMessage("Info...");
+                                                        mProgressDialog.setIndeterminate(false);
+                                                        mProgressDialog.setCancelable(true);
+                                                        mProgressDialog.show();
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    } else {
+                                                        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                if (isConnected) {
+                                                                    snackbar.dismiss();
+                                                                }
                                                             }
-                                                        }
-                                                    });
-                                                    snackbar.show();
-                                                }
+                                                        });
+                                                        snackbar.show();
+                                                    }
 
-                                            })
-                                            .show();
+                                                })
+                                                .show();
+                                    }else {
+                                        appUser.email_yes_no = "false";
+                                        LocalRepositories.saveAppUser(CreatePaymentActivity.this, appUser);
+                                        if (isConnected) {
+                                            mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
+                                            mProgressDialog.setMessage("Info...");
+                                            mProgressDialog.setIndeterminate(false);
+                                            mProgressDialog.setCancelable(true);
+                                            mProgressDialog.show();
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PAYMENT);
+                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                        } else {
+                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                    if (isConnected) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                }
+                                            });
+                                            snackbar.show();
+                                        }
+                                    }
 
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please enter Amount", Snackbar.LENGTH_LONG).show();
@@ -558,35 +583,61 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser.payment_amount_for_item = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                    if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense")) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense")) {
+                        llSpinerItemSelect.setVisibility(View.VISIBLE);
                         if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            intent.putExtra("sp_position1", "1");
-                            intent.putExtra("state",state);
-                            //intent.putExtra("state",state);
-                            startActivity(intent);
+                            if (!paid_to.getText().toString().equals("")) {
+                                if (!paid_from.getText().toString().equals("")) {
+                                    Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                    intent.putExtra("amount", transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position1", "1");
+                                    intent.putExtra("state", state);
+                                    appUser.payment_amount_for_item = transaction_amount.getText().toString();
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                    //intent.putExtra("state",state);
+                                    startActivity(intent);
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please select Paid From", Snackbar.LENGTH_LONG).show();
+
+                                }
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select Paid To", Snackbar.LENGTH_LONG).show();
+
+                            }
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                           // gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     }else if(gst_nature_spinner.getSelectedItem().toString().equals("Registered Expenses (B2B)")){
+                        llSpinerItemSelect.setVisibility(View.VISIBLE);
                         if (!transaction_amount.getText().toString().equals("")) {
-                            Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
-                            intent.putExtra("amount", transaction_amount.getText().toString());
-                            intent.putExtra("sp_position2","2");
-                            intent.putExtra("state",state);
-                            startActivity(intent);
+                            if (!paid_to.getText().toString().equals("")) {
+                                if (!paid_from.getText().toString().equals("")) {
+                                    Intent intent = new Intent(CreatePaymentActivity.this, ShowPaymentListActivity.class);
+                                    intent.putExtra("amount", transaction_amount.getText().toString());
+                                    intent.putExtra("sp_position2", "2");
+                                    intent.putExtra("state", state);
+                                    appUser.payment_amount_for_item = transaction_amount.getText().toString();
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                    startActivity(intent);
+                                }else {
+                                    Snackbar.make(coordinatorLayout, "Please select Paid From", Snackbar.LENGTH_LONG).show();
+
+                                }
+                            }else {
+                                Snackbar.make(coordinatorLayout, "Please select Paid To", Snackbar.LENGTH_LONG).show();
+
+                            }
                         } else {
-                            gst_nature_spinner.setSelection(0);
+                           // gst_nature_spinner.setSelection(0);
                             Snackbar.make(coordinatorLayout, "please enter amount", Snackbar.LENGTH_LONG).show();
                         }
                     }
                     else {
                         Snackbar.make(coordinatorLayout, "please select GST Nature", Snackbar.LENGTH_LONG).show();
-
-
                     }
             }
         });
@@ -603,6 +654,12 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 else{
                     appUser.mListMapForItemPaymentList.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                if (position==0 | position==3 | position==4 | position==5 | position==6 | position==7){
+                    llSpinerItemSelect.setVisibility(View.GONE);
+
+                }else {
+                    llSpinerItemSelect.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -702,7 +759,6 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
     }
 
     @Override
@@ -803,6 +859,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    boolForReceivedFrom = true;
                    appUser.payment_paid_to_id = ParameterConstant.id;
                    appUser.payment_paid_to_name = ParameterConstant.name;
+                   appUser.payment_paid_to_email = ParameterConstant.email;
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    paid_to.setText(ParameterConstant.name);
                }else {
@@ -813,7 +870,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    String[] name = result.split(",");
                    appUser.payment_paid_to_id = id;
                    appUser.payment_paid_to_name = name[0];
+                   appUser.payment_paid_to_email = name[3];
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   Timber.i("yyyyy"+appUser.payment_paid_to_email);
+                   Timber.i("yyyyyyyyy   "+result);
                    paid_to.setText(name[0]);
                }
             }
@@ -1025,8 +1085,9 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
             gst_nature_spinner.setSelection(groupindex);
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Map mMap = new HashMap();
+            Map mMap;
             for(int i =0;i<response.getPayment().getData().getAttributes().getPayment_item().getData().size();i++){
+                mMap = new HashMap();
                 mMap.put("id",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getId());
                 mMap.put("account_id",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getAccount_id());
                 mMap.put("party_id",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getParty_id());
@@ -1047,10 +1108,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 mMap.put("spRCNItem",""/*response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcn_item()*/);
                 mMap.put("spITCEligibility",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemPaymentList.add(mMap);
-                LocalRepositories.saveAppUser(this,appUser);
             }
-
-
+            LocalRepositories.saveAppUser(this,appUser);
 
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

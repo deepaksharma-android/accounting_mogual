@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -252,10 +253,20 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",imageToUploadUri.toString());
-                intent.putExtra("booleAttachment",false);
-                startActivity(intent);
+                if (imageToUploadUri == null) {
+                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("iEncodedString", true);
+                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                    intent.putExtra("encodedString", imageToUploadUri.toString());
+                    intent.putExtra("booleAttachment", false);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -673,11 +684,10 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");;
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            voucher_no.setText("");
             transaction_amount.setText("");
             transaction_narration.setText("");
             withdraw_from.setText("");

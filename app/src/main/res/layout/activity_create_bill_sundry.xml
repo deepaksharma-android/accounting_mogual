@@ -284,7 +284,8 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/solid_blue">
+                    android:background="@drawable/solid_blue"
+                    android:layout_marginBottom="@dimen/dp_7">
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="fill_parent"
@@ -306,7 +307,8 @@
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/solid_blue"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/dp_7">
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:layout_width="fill_parent"
@@ -315,7 +317,8 @@
                         android:gravity="center"
                         android:text="Update"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        />
 
                 </LinearLayout>
             </LinearLayout>

@@ -45,7 +45,8 @@
                 android:id="@+id/listViewItems"
                 android:layout_width="fill_parent"
                 android:divider="@null"
-                android:layout_height="fill_parent"></ListView>
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="@dimen/dp_52"></ListView>
         </LinearLayout>
 
     <LinearLayout

@@ -98,6 +98,7 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
                             mMap.put("amount", mTransactionAmount.getText().toString());
                             mMap.put("taxrate", mTaxRate.getText().toString());
                             mMap.put("total",mTotalAmount.getText().toString());
+                            mMap.put("ref_num",mReferenceNumber.getText().toString());
                             if (!fromreceipt) {
                                 appUser.mListMapForItemReceipt.add(mMap);
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);

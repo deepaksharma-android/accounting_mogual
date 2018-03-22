@@ -169,6 +169,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     Intent intent = new Intent(this, CreateCreditNoteItemActivity.class);
                     intent.putExtra("gst_pos6", positionJournalVoucher);
                     intent.putExtra("diff_amount", journalDiffAmount);
+                    intent.putExtra("state", state);
                     startActivity(intent);
                     finish();
                 }

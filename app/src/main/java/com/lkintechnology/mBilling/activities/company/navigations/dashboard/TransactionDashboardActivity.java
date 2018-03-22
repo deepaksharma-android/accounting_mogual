@@ -121,8 +121,13 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
        // Preferences.getInstance(getApplicationContext()).setStoreId("");
         appUser.receipt_received_by_name = "";
         appUser.receipt_received_from_name = "";
+        appUser.receipt_received_from_email = "";
+        appUser.account_name_credit_note_email = "";
+        appUser.account_name_debit_email = "";
+        appUser.account_name_debit_note_email = "";
         appUser.payment_paid_from_name = "";
         appUser.payment_paid_to_name = "";
+        appUser.payment_paid_to_email = "";
         appUser.deposit_by_name = "";
         appUser.deposit_to_name = "";
         appUser.withdraw_by_name = "";
@@ -133,6 +138,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.paid_to_name = "";
         appUser.account_name_debit_name = "";
         appUser.account_name_credit_name = "";
+        appUser.sale_partyEmail = "";
         Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
 
@@ -140,6 +146,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
         ParameterConstant.name="";
         ParameterConstant.mobile="";
+        ParameterConstant.email="";
         ParameterConstant.id="";
       /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);

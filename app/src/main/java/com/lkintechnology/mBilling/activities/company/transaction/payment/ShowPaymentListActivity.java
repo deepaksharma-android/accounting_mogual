@@ -42,6 +42,7 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
     private PaymentShowListAdapter paymentShowListAdapter;
     AppUser appUser;
     String state;
+    int flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
