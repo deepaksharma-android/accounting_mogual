@@ -628,6 +628,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.navigations.reports.gstr3b.Gstr3bReportActivity"
+            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.transaction.stocktransfer.GetStockTransferListActivity"
             android:parentActivityName=".activities.company.transaction.stocktransfer.CreateStockTransferActivity"
             android:screenOrientation="portrait"

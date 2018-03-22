@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.financialreports.BalanceSheetActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.financialreports.ProfitAndLossActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.gstr3b.Gstr3bReportActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.gstreturn.PurchaseRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.gstreturn.SaleRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.outstanding.AmountReceivablesListActivity;
@@ -192,12 +193,8 @@ public class AcountGroupActivity extends AppCompatActivity {
         mGstr3B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(AcountGroupActivity.this)
-                        .setTitle("m-Billing")
-                        .setMessage("Coming soon")
-                        .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok,null)
-                        .show();
+                Intent intent = new Intent(getApplicationContext(), Gstr3bReportActivity.class);
+                startActivity(intent);
 
 
             }

@@ -552,15 +552,17 @@ public class AddItemVoucherFragment extends Fragment {
                                     taxname = arrtaxstring[0].trim();
                                     taxvalue = arrtaxstring[1].trim();
                                     if (taxvalue.equals("MultiRate")) {
-                                        if (taxpercentage.equals(amount)) {
+                                        Double amounts=Double.parseDouble(amount)*2;
+                                        Double taxper=Double.parseDouble(taxpercentage);
+                                        if (taxper.equals(amounts)) {
                                             multi = itemprice * (taxpercentagevalue / 100);
                                             subtot = subtot + multi;
                                         }
                                         else{
-                                            if(billsundryname.equals("CGST")||billsundryname.equals("SGST")){
+                                           /* if(billsundryname.equals("CGST")||billsundryname.equals("SGST")){
                                                 multi = itemprice * (Double.parseDouble(amount) / 100);
                                                 subtot = subtot + multi;
-                                            }
+                                            }*/
                                         }
 
                                     } else if (taxvalue.equals("TaxIncl.")) {

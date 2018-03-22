@@ -537,6 +537,8 @@ public class ApiCallsService extends IntentService {
             handleUpdatePurchaseReturnVoucherDetails();
         } else if (Cv.ACTION_GET_PROFIT_AND_LOSS.equals(action)) {
             handleGetProfitAndLoss();
+        }else if (Cv.ACTION_GET_GSTR3B.equals(action)) {
+            handleGetGst3B();
         } else if (Cv.ACTION_GET_CHECK_BARCODE.equals(action)) {
             handleGetCheckBarcode();
         } else if (Cv.ACTION_GET_STOCK_TRANSFER.equals(action)) {
@@ -4277,6 +4279,28 @@ public class ApiCallsService extends IntentService {
     private void handleGetProfitAndLoss() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getprofitandloss(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+    private void handleGetGst3B() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getgstr3b(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
             @Override
             public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
                 if (r.code() == 200) {

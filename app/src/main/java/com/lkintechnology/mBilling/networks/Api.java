@@ -670,6 +670,9 @@ public interface Api {
     @GET("company/profit_loss/{id}")
     Call<CompanyReportResponse> getprofitandloss(@Path("id") String id ,@Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("company/gstr3b/{id}")
+    Call<CompanyReportResponse> getgstr3b(@Path("id") String id ,@Query("start_date") String start_date, @Query("end_date") String end_date);
+
     @GET("company_stock_transfer_vouchers/{id}")
     Call<GetStockTransferListResponse> getStockTransfer (@Path("id") String id, @Query("duration") String duration);
 
