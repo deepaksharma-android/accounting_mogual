@@ -78,6 +78,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateJournalVoucherActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
@@ -967,7 +968,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mMap.put("sgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSgst_amount()));
                 mMap.put("igst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getIgst_amount()));
                 mMap.put("date",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
-               if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState().equals("")){
+
+               if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState()==null){
                    mMap.put("state","Haryana");
                }
                 else{
