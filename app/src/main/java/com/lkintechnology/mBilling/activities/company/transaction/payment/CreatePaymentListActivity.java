@@ -101,12 +101,13 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
         state=getIntent().getStringExtra("state");
+        amount = getIntent().getExtras().getString("amount");
+        etDiffAmount.setText(amount);
         llSubmit.setOnClickListener(this);
-
         if(frompayment){
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemPaymentList.get(Integer.parseInt(itempos));
-             String voucher_number= (String)map.get("inv_num");
+            String voucher_number= (String)map.get("inv_num");
             id=(String)map.get("id");
             String acount_name=(String)map.get("acount_name");
             String party_name= (String)map.get("party_name");
@@ -153,11 +154,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             amount=difference_amount;
             spPos1=sp1;
             spPos2=sp2;
-        }else {
-            amount = getIntent().getStringExtra("amount");
-            etDiffAmount.setText(amount);
         }
-
 
         if(state==null){
             state="Haryana";
@@ -291,8 +288,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             }
                                             Intent intent = new Intent(getApplicationContext(), ShowPaymentListActivity.class);
-                                            intent.putExtra("gst_pos1", spPos1);
+                                            intent.putExtra("sp_position1", spPos1);
                                             intent.putExtra("state",state);
+                                            intent.putExtra("amount",amount);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -362,8 +360,9 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
 
                                             // Intent intent = new Intent(AddCreditNoteItemActivity.this, CreditNoteItemDetailActivity.class);
                                             Intent intent = new Intent(getApplicationContext(), ShowPaymentListActivity.class);
-                                            intent.putExtra("gst_pos2", spPos2);
+                                            intent.putExtra("sp_position2", spPos2);
                                             intent.putExtra("state",state);
+                                            intent.putExtra("amount",amount);
                                             startActivity(intent);
                                             finish();
                                         } else {

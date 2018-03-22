@@ -583,8 +583,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         llSpinerItemSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser.payment_amount_for_item = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
-                    if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense")) {
+                if (gst_nature_spinner.getSelectedItem().toString().equals("Rcm/Unreg. Expense")) {
                         llSpinerItemSelect.setVisibility(View.VISIBLE);
                         if (!transaction_amount.getText().toString().equals("")) {
                             if (!paid_to.getText().toString().equals("")) {
@@ -593,6 +595,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     intent.putExtra("amount", transaction_amount.getText().toString());
                                     intent.putExtra("sp_position1", "1");
                                     intent.putExtra("state", state);
+                                    appUser.payment_amount_for_item = transaction_amount.getText().toString();
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                     //intent.putExtra("state",state);
                                     startActivity(intent);
                                 }else {
@@ -616,6 +620,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                                     intent.putExtra("amount", transaction_amount.getText().toString());
                                     intent.putExtra("sp_position2", "2");
                                     intent.putExtra("state", state);
+                                    appUser.payment_amount_for_item = transaction_amount.getText().toString();
+                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                     startActivity(intent);
                                 }else {
                                     Snackbar.make(coordinatorLayout, "Please select Paid From", Snackbar.LENGTH_LONG).show();
@@ -753,7 +759,6 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
     }
 
     @Override
