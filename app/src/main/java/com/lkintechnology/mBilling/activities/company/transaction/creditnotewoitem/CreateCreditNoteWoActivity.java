@@ -300,7 +300,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                //ParameterConstant.checkStartActivityResultForAccount =12;
+                //ParameterConstant.checkStartActivityResultForAccount Sundry Debtors,Sundry Creditors=12;
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
