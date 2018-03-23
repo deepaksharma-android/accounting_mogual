@@ -1097,8 +1097,16 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mMap.put("description", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
                     mMap.put("quantity", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));
                     mMap.put("unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
-                    mMap.put("discount",  String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()));
-                    mMap.put("value", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice()));
+                    if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()==null){
+                        mMap.put("discount","0.0");
+                    }else {
+                        mMap.put("discount",  String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()));
+                    }
+                    if(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice()==null){
+                        mMap.put("value","0.0");
+                    }else {
+                        mMap.put("value", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice()));
+                    }
                     mMap.put("default_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDefault_unit_for_sales());
                     mMap.put("packaging_unit", Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
                     mMap.put("sales_price_alternate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_alternate()));
