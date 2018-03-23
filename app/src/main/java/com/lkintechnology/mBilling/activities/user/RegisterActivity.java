@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,6 +66,8 @@ public class RegisterActivity extends RegisterAbstractActivity {
     EditText mzip_code;
     @Bind(R.id.salesman_mobile)
     EditText mSalesman_mobile;
+    @Bind(R.id.terms)
+    TextView mTerms;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
@@ -82,7 +86,10 @@ public class RegisterActivity extends RegisterAbstractActivity {
                 Helpers.facebookLogin(callbackManager, fbLoginBtn);
             }
         });
-
+        mTerms.setClickable(true);
+        mTerms.setMovementMethod(LinkMovementMethod.getInstance());
+        String text = "By continuing, you are indicating that you have read and agree to the <a href='https://www.mbilling.in/terms-condition'> Terms of Use</a> and <a href='https://www.mbilling.in/privacy-policy'> Privacy Policy</a> ";
+        mTerms.setText(Html.fromHtml(text));
     }
 
     private void initActionbar() {

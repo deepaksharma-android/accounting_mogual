@@ -558,20 +558,28 @@
                             android:textColor="#fff"
                             android:textSize="16sp" />
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/terms"
+                    <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:textColor="#60000000"
-                        android:textColorLink="@color/button_color"
-                        android:textSize="12sp" />
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:id="@+id/terms"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:textColor="#60000000"
+                            android:textColorLink="@color/button_color"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
                 </LinearLayout>
 
 
             </LinearLayout>
         </ScrollView>
+
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
