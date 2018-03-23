@@ -177,8 +177,18 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         final Calendar newCalendar = Calendar.getInstance();
 
         String date1 = dateFormatter.format(newCalendar.getTime());
-        mFinancialYear.setText("01 Apr 2017");
-        mBookYear.setText("01 Apr 2017");
+        String fixMonth = "Apr";
+        int inputMonthPosition = inputMonthPosition(fixMonth);
+        int currentMonthPosition = currentMonth();
+        int currentYear = currentYear();
+
+        if(inputMonthPosition>currentMonthPosition){
+            mFinancialYear.setText("01 "+monthName[inputMonthPosition]+" "+(currentYear-1));
+        }else {
+            mFinancialYear.setText("01 "+monthName[inputMonthPosition]+" "+currentYear);
+        }
+
+        mBookYear.setText("01 "+monthName[inputMonthPosition]+" "+currentYear);
 
 
         DatePickerDialog1 = new DatePickerDialog(getActivity(), new android.app.DatePickerDialog.OnDateSetListener() {
@@ -204,6 +214,40 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
+    }
+
+    String[] monthName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+            "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    private int currentMonth() {
+        int monthPosition = -1;
+        Calendar cal = Calendar.getInstance();
+        String currentMonth = monthName[cal.get(Calendar.MONTH)];
+        //String currentYear = monthName[cal.get(Calendar.YEAR)];
+
+        for (int i = 0; i < 12; i++) {
+            if (currentMonth == (monthName[i])) {
+                monthPosition = i;
+            }
+        }
+        return monthPosition;
+    }
+
+    private int currentYear() {
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        return currentYear;
+    }
+
+    private int inputMonthPosition(String month) {
+        int inputMonth = -1;
+        for (int i = 0; i < 12; i++) {
+            if (month.equals(monthName[i])) {
+                inputMonth = i;
+            }
+        }
+        return inputMonth;
     }
 
     @Override
