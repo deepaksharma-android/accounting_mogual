@@ -924,7 +924,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 mPurchaseVoucherItem.put("mrp", mrp);
                 appUser.mMapPurchaseVoucherItem = mPurchaseVoucherItem;
                 LocalRepositories.saveAppUser(this, appUser);
-                intent.putExtra("id", itemid);
+                intent.putExtra("item_id", itemid);
                 intent.putExtra("name", itemName);
                 intent.putExtra("desc", descr);
                 intent.putExtra("main_unit", main_unit);
@@ -1111,7 +1111,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mSaleVoucherItem.put("tax", tax);
                         appUser.mMapSaleVoucherItem = mSaleVoucherItem;
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        intent.putExtra("id", itemid);
+                        intent.putExtra("item_id", itemid);
                         intent.putExtra("name", itemName);
                         intent.putExtra("desc", descr);
                         intent.putExtra("main_unit", main_unit);
@@ -1182,7 +1182,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mPurchaseVoucherItem.put("mrp", mrp);
                         appUser.mMapPurchaseVoucherItem = mPurchaseVoucherItem;
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        intent.putExtra("id", itemid);
+                        intent.putExtra("item_id", itemid);
                         intent.putExtra("name", itemName);
                         intent.putExtra("desc", descr);
                         intent.putExtra("main_unit", main_unit);
@@ -1231,8 +1231,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         String barcode = listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         intent.putExtra("fromitemlist", true);
                         intent.putExtra("fromSaleVoucherItemList", true);
-
-
                         mSaleReturnItem.put("name", itemName);
                         mSaleReturnItem.put("desc", descr);
                         mSaleReturnItem.put("main_unit", main_unit);
@@ -1250,7 +1248,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mSaleReturnItem.put("tax", tax);
                         appUser.mMapSaleReturnItem = mSaleReturnItem;
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        intent.putExtra("id", itemid);
+                        intent.putExtra("item_id", itemid);
                         intent.putExtra("name", itemName);
                         intent.putExtra("desc", descr);
                         intent.putExtra("main_unit", main_unit);
@@ -1320,8 +1318,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mPurchaseReturnItem.put("mrp", mrp);
                         appUser.mMapPurchaseReturnItem = mPurchaseReturnItem;
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                        intent.putExtra("id", itemid);
+                        intent.putExtra("item_id", itemid);
                         intent.putExtra("name", itemName);
                         intent.putExtra("desc", descr);
                         intent.putExtra("main_unit", main_unit);

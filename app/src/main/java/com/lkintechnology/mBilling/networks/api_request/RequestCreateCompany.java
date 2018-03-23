@@ -28,5 +28,7 @@ public class RequestCreateCompany {
         company.put("phone_number", appUser.comapny_phone_number);
         company.put("username", appUser.companyUserName);
         company.put("password", appUser.companyUserPassword);
+        company.put("zipcode", appUser.companyzipcode);
+
     }
 }

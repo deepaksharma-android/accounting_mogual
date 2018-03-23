@@ -41,6 +41,8 @@ public class CompanyDetailsFragment extends Fragment {
     EditText mAddress;
     @Bind(R.id.city)
     EditText mCity;
+    @Bind(R.id.zip_code)
+    EditText mzip_code;
 /*    @Bind(R.id.country_spinner)
     Spinner mCountrySpinner;*/
     @Bind(R.id.state_spinner)
@@ -53,6 +55,7 @@ public class CompanyDetailsFragment extends Fragment {
     EditText mEmail;
     @Bind(R.id.ward)
     EditText mWard;
+
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     AppUser appUser;
@@ -109,7 +112,7 @@ public class CompanyDetailsFragment extends Fragment {
         mWard.setText(Preferences.getInstance(getActivity()).getCward());
         mFax.setText(Preferences.getInstance(getActivity()).getCfax());
         mEmail.setText(Preferences.getInstance(getActivity()).getCemail());
-
+        mzip_code.setText((Preferences.getInstance(getActivity()).getCZipcode()));
         if(!Preferences.getInstance(getActivity()).getCindustrytype().equals("")) {
             String industryname = Preferences.getInstance(getActivity()).getCindustrytype().trim();// insert code here
             int index = -1;
@@ -166,38 +169,43 @@ public class CompanyDetailsFragment extends Fragment {
                 hideSoftKeyboard();
                 if(!mAddress.getText().toString().equals("")) {
                     if (!mCity.getText().toString().equals("")) {
-
-                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                        if (isConnected) {
-                            appUser.fax = mFax.getText().toString();
-                            appUser.company_email = mEmail.getText().toString();
-                            appUser.address = mAddress.getText().toString();
-                            // appUser.country=mCountrySpinner.getSelectedItem().toString();
-                            appUser.state = mStateSpinner.getSelectedItem().toString();
-                            appUser.industryId = String.valueOf(EditCompanyActivity.industry_id.get(pos));
-                            appUser.city = mCity.getText().toString();
-                            appUser.ward = mWard.getText().toString();
-                            LocalRepositories.saveAppUser(getActivity(), appUser);
-                            mProgressDialog = new ProgressDialog(getActivity());
-                            mProgressDialog.setMessage("Info...");
-                            mProgressDialog.setIndeterminate(false);
-                            mProgressDialog.setCancelable(true);
-                            mProgressDialog.show();
-                            LocalRepositories.saveAppUser(getActivity(), appUser);
-                            ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_DETAILS);
-                        } else {
-                            snackbar = Snackbar
-                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                    .setAction("RETRY", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if (isConnected) {
-                                                snackbar.dismiss();
+                        if (!mzip_code.getText().toString().equals("")) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                appUser.fax = mFax.getText().toString();
+                                appUser.company_email = mEmail.getText().toString();
+                                appUser.address = mAddress.getText().toString();
+                                // appUser.country=mCountrySpinner.getSelectedItem().toString();
+                                appUser.state = mStateSpinner.getSelectedItem().toString();
+                                appUser.industryId = String.valueOf(EditCompanyActivity.industry_id.get(pos));
+                                appUser.city = mCity.getText().toString();
+                                appUser.ward = mWard.getText().toString();
+                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                mProgressDialog = new ProgressDialog(getActivity());
+                                mProgressDialog.setMessage("Info...");
+                                mProgressDialog.setIndeterminate(false);
+                                mProgressDialog.setCancelable(true);
+                                mProgressDialog.show();
+                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_DETAILS);
+                            } else {
+                                snackbar = Snackbar
+                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                        .setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if (isConnected) {
+                                                    snackbar.dismiss();
+                                                }
                                             }
-                                        }
-                                    });
-                            snackbar.show();
+                                        });
+                                snackbar.show();
+                            }
+                        }
+                        else{
+                            Snackbar
+                                    .make(coordinatorLayout, "Please enter pincode", Snackbar.LENGTH_LONG).show();
                         }
                     }
                     else{

@@ -62,6 +62,8 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
     EditText mAddress;
     @Bind(R.id.city)
     EditText mCity;
+    @Bind(R.id.zip_code)
+    EditText mzip_code;
     @Bind(R.id.state_spinner)
     Spinner mStateSpinner;
     @Bind(R.id.username)
@@ -106,41 +108,49 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
                                                 if (!mPassword.getText().toString().equals("")) {
                                                     if (!mConfirmPassword.getText().toString().equals("")) {
                                                         if (mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
-                                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                            if (isConnected) {
-                                                                appUser.company_name = mComapnyName.getText().toString();
-                                                                appUser.comapny_phone_number = mPhoneNumber.getText().toString();
-                                                                appUser.financial_year_from = mFinancialYear.getText().toString();
-                                                                appUser.books_commencing_from = mBookYear.getText().toString();
-                                                                appUser.cin = mCin.getText().toString();
-                                                                appUser.it_pin = mPan.getText().toString();
-                                                                appUser.gst = mGst.getText().toString();
-                                                                appUser.address = mAddress.getText().toString();
-                                                                appUser.city = mCity.getText().toString();
-                                                                appUser.state = mStateSpinner.getSelectedItem().toString();
-                                                                appUser.companyUserName = mUserName.getText().toString();
-                                                                appUser.companyUserPassword = mPassword.getText().toString();
-                                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                                                mProgressDialog = new ProgressDialog(CreateCompanyActivity.this);
-                                                                mProgressDialog.setMessage("Info...");
-                                                                mProgressDialog.setIndeterminate(false);
-                                                                mProgressDialog.setCancelable(true);
-                                                                mProgressDialog.show();
-                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_COMPANY);
-                                                            } else {
-                                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                                                        .setAction("RETRY", new View.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(View view) {
-                                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                                if (isConnected) {
-                                                                                    snackbar.dismiss();
+                                                            if (!mzip_code.getText().toString().equals("")) {
+                                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                if (isConnected) {
+                                                                    appUser.company_name = mComapnyName.getText().toString();
+                                                                    appUser.comapny_phone_number = mPhoneNumber.getText().toString();
+                                                                    appUser.financial_year_from = mFinancialYear.getText().toString();
+                                                                    appUser.books_commencing_from = mBookYear.getText().toString();
+                                                                    appUser.cin = mCin.getText().toString();
+                                                                    appUser.it_pin = mPan.getText().toString();
+                                                                    appUser.gst = mGst.getText().toString();
+                                                                    appUser.address = mAddress.getText().toString();
+                                                                    appUser.city = mCity.getText().toString();
+                                                                    appUser.state = mStateSpinner.getSelectedItem().toString();
+                                                                    appUser.companyUserName = mUserName.getText().toString();
+                                                                    appUser.companyUserPassword = mPassword.getText().toString();
+                                                                    appUser.companyzipcode=mzip_code.getText().toString();
+                                                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                                    mProgressDialog = new ProgressDialog(CreateCompanyActivity.this);
+                                                                    mProgressDialog.setMessage("Info...");
+                                                                    mProgressDialog.setIndeterminate(false);
+                                                                    mProgressDialog.setCancelable(true);
+                                                                    mProgressDialog.show();
+                                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_COMPANY);
+                                                                } else {
+                                                                    snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                                                            .setAction("RETRY", new View.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(View view) {
+                                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                                                    if (isConnected) {
+                                                                                        snackbar.dismiss();
+                                                                                    }
                                                                                 }
-                                                                            }
-                                                                        });
+                                                                            });
+                                                                    snackbar.show();
+                                                                }
+                                                            }
+                                                            else{
+                                                                snackbar = Snackbar
+                                                                        .make(coordinatorLayout, "Please enter pincode", Snackbar.LENGTH_LONG);
                                                                 snackbar.show();
                                                             }
-                                                        } else {
+                                                        }else {
                                                             snackbar = Snackbar
                                                                     .make(coordinatorLayout, "Password does not match", Snackbar.LENGTH_LONG);
                                                             snackbar.show();
