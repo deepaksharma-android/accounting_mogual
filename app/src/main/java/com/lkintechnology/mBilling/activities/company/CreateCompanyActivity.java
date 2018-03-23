@@ -249,11 +249,11 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
 
         if(inputMonthPosition>currentMonthPosition){
             mFinancialYear.setText("01 "+monthName[inputMonthPosition]+" "+(currentYear-1));
+            mBookYear.setText("01 "+monthName[inputMonthPosition]+" "+(currentYear-1));
         }else {
             mFinancialYear.setText("01 "+monthName[inputMonthPosition]+" "+currentYear);
+            mBookYear.setText("01 "+monthName[inputMonthPosition]+" "+currentYear);
         }
-
-        mBookYear.setText("01 "+monthName[inputMonthPosition]+" "+currentYear);
 
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
