@@ -316,7 +316,7 @@
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Zip Code"
+                            android:text="Pin Code"
                             android:layout_marginTop="10dp"
                             android:textColor="#000"
                             android:textSize="15sp"

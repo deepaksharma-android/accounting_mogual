@@ -66,7 +66,7 @@ public class CompanyPasswordFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
+       /* EventBus.getDefault().register(this);*/
         super.onCreate(savedInstanceState);
     }
     @Override
@@ -87,28 +87,7 @@ public class CompanyPasswordFragment extends Fragment {
                 showpopup();
             }
         });
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(getActivity(), Cv.ACTION_GET_COMPANY_USER);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+
        /* mUserName.setText(Preferences.getInstance(getActivity()).getCusername());
         if(!Preferences.getInstance(getActivity()).getCusername().equals("")){
             mPassword.setText("••••••••");
@@ -169,7 +148,36 @@ public class CompanyPasswordFragment extends Fragment {
         });*/
         return v;
     }
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        if (visible && isResumed()) {
+            EventBus.getDefault().register(this);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getActivity(), Cv.ACTION_GET_COMPANY_USER);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
 
+    }
     @Subscribe
     public void getcompanyuser(CompanyUserResponse response){
         mProgressDialog.dismiss();

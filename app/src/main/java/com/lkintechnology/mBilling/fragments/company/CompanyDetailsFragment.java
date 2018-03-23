@@ -164,17 +164,20 @@ public class CompanyDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard();
+                if(!mAddress.getText().toString().equals("")) {
+                    if (!mCity.getText().toString().equals("")) {
+
                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                        if(isConnected) {
-                            appUser.fax=mFax.getText().toString();
-                            appUser.company_email=mEmail.getText().toString();
-                            appUser.address=mAddress.getText().toString();
-                           // appUser.country=mCountrySpinner.getSelectedItem().toString();
-                            appUser.state=mStateSpinner.getSelectedItem().toString();
-                            appUser.industryId= String.valueOf(EditCompanyActivity.industry_id.get(pos));
-                            appUser.city=mCity.getText().toString();
-                            appUser.ward=mWard.getText().toString();
-                            LocalRepositories.saveAppUser(getActivity(),appUser);
+                        if (isConnected) {
+                            appUser.fax = mFax.getText().toString();
+                            appUser.company_email = mEmail.getText().toString();
+                            appUser.address = mAddress.getText().toString();
+                            // appUser.country=mCountrySpinner.getSelectedItem().toString();
+                            appUser.state = mStateSpinner.getSelectedItem().toString();
+                            appUser.industryId = String.valueOf(EditCompanyActivity.industry_id.get(pos));
+                            appUser.city = mCity.getText().toString();
+                            appUser.ward = mWard.getText().toString();
+                            LocalRepositories.saveAppUser(getActivity(), appUser);
                             mProgressDialog = new ProgressDialog(getActivity());
                             mProgressDialog.setMessage("Info...");
                             mProgressDialog.setIndeterminate(false);
@@ -182,15 +185,14 @@ public class CompanyDetailsFragment extends Fragment {
                             mProgressDialog.show();
                             LocalRepositories.saveAppUser(getActivity(), appUser);
                             ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_DETAILS);
-                        }
-                        else{
+                        } else {
                             snackbar = Snackbar
                                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                     .setAction("RETRY", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if(isConnected){
+                                            if (isConnected) {
                                                 snackbar.dismiss();
                                             }
                                         }
@@ -198,6 +200,16 @@ public class CompanyDetailsFragment extends Fragment {
                             snackbar.show();
                         }
                     }
+                    else{
+                        Snackbar
+                                .make(coordinatorLayout, "Please enter your city", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Snackbar
+                            .make(coordinatorLayout, "Please enter your address", Snackbar.LENGTH_LONG).show();
+                }
+                }
 
         });
         return v;
