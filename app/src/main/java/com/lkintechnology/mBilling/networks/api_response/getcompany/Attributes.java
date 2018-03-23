@@ -275,4 +275,14 @@ public class Attributes {
 
     public String unique_id;
 
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String zipcode;
+
 }

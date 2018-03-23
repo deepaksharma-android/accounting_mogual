@@ -192,14 +192,21 @@ public class RegisterActivity extends RegisterAbstractActivity {
                     if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
                         if (Validation.isPwdFormatValid(mConfirmPassword.getText().toString())) {
                             if(mPassword.getText().toString().matches(mConfirmPassword.getText().toString())) {
-                                appUser.name=mName.getText().toString();
-                                appUser.email=mEmail.getText().toString();
-                                appUser.mobile=mMobile.getText().toString();
-                                appUser.password=mPassword.getText().toString();
-                                appUser.zipcode=mzip_code.getText().toString();
-                                appUser.salesmanmobile=mSalesman_mobile.getText().toString();
-                                LocalRepositories.saveAppUser(this,appUser);
-                                logInRequest();
+                                if (!mzip_code.getText().toString().equals("")) {
+                                    appUser.name = mName.getText().toString();
+                                    appUser.email = mEmail.getText().toString();
+                                    appUser.mobile = mMobile.getText().toString();
+                                    appUser.password = mPassword.getText().toString();
+                                    appUser.zipcode = mzip_code.getText().toString();
+                                    appUser.salesmanmobile = mSalesman_mobile.getText().toString();
+                                    LocalRepositories.saveAppUser(this, appUser);
+                                    logInRequest();
+                                }
+                                else{
+                                    snackbar = Snackbar
+                                            .make(coordinatorLayout, "Enter Pincode", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                }
                             }
                             else{
                                 snackbar = Snackbar

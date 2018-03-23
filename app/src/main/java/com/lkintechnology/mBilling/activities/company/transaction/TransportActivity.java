@@ -74,8 +74,22 @@ public class TransportActivity extends AppCompatActivity {
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         fromedit=getIntent().getExtras().getBoolean("fromedit");
-        if(fromedit) {
+        spinner_e_way_bill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    show_hide_layout.setVisibility(View.VISIBLE);
+                } else {
+                    show_hide_layout.setVisibility(View.GONE);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        if(fromedit) {
             if (voucher_type.equals("sale")) {
                 transport.setText(saledata.getTransport());
                 gr_rr.setText(saledata.getGr_no());
@@ -84,7 +98,7 @@ public class TransportActivity extends AppCompatActivity {
                 station.setText(saledata.getStation());
                 pin.setText(saledata.getPincode());
                 if (saledata.getEway_bill_required()) {
-                    spinner_e_way_bill.setSelection(1);
+                    spinner_e_way_bill.setSelection(0);
                     show_hide_layout.setVisibility(View.VISIBLE);
                     distance.setText(saledata.getDistance());
                     if (saledata.getMode_of_transport().equals("Road")) {
@@ -100,8 +114,8 @@ public class TransportActivity extends AppCompatActivity {
                     }
                     e_way.setText(saledata.getEway_bill_number());
                 } else {
-                    spinner_e_way_bill.setSelection(0);
-                    show_hide_layout.setVisibility(View.VISIBLE);
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.GONE);
                 }
 
             } else if (voucher_type.equals("purchase")) {
@@ -112,7 +126,7 @@ public class TransportActivity extends AppCompatActivity {
                 station.setText(purchasedata.getStation());
                 pin.setText(purchasedata.getPincode());
                 if (purchasedata.getEway_bill_required()) {
-                    spinner_e_way_bill.setSelection(1);
+                    spinner_e_way_bill.setSelection(0);
                     show_hide_layout.setVisibility(View.VISIBLE);
                     distance.setText(purchasedata.getDistance());
                     if (purchasedata.getMode_of_transport().equals("Road")) {
@@ -128,8 +142,8 @@ public class TransportActivity extends AppCompatActivity {
                     }
                     e_way.setText(purchasedata.getEway_bill_number());
                 } else {
-                    spinner_e_way_bill.setSelection(0);
-                    show_hide_layout.setVisibility(View.VISIBLE);
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.GONE);
                 }
 
             } else if (voucher_type.equals("sale_return")) {
@@ -140,7 +154,7 @@ public class TransportActivity extends AppCompatActivity {
                 station.setText(salereturndata.getStation());
                 pin.setText(salereturndata.getPincode());
                 if (salereturndata.getEway_bill_required()) {
-                    spinner_e_way_bill.setSelection(1);
+                    spinner_e_way_bill.setSelection(0);
                     show_hide_layout.setVisibility(View.VISIBLE);
                     distance.setText(salereturndata.getDistance());
                     if (salereturndata.getMode_of_transport().equals("Road")) {
@@ -156,8 +170,8 @@ public class TransportActivity extends AppCompatActivity {
                     }
                     e_way.setText(salereturndata.getEway_bill_number());
                 } else {
-                    spinner_e_way_bill.setSelection(0);
-                    show_hide_layout.setVisibility(View.VISIBLE);
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.GONE);
                 }
             } else if (voucher_type.equals("purchase_return")) {
                 transport.setText(purchasereturndata.getTransport());
@@ -167,7 +181,7 @@ public class TransportActivity extends AppCompatActivity {
                 station.setText(purchasereturndata.getStation());
                 pin.setText(purchasereturndata.getPincode());
                 if (purchasereturndata.getEway_bill_required()) {
-                    spinner_e_way_bill.setSelection(1);
+                    spinner_e_way_bill.setSelection(0);
                     show_hide_layout.setVisibility(View.VISIBLE);
                     distance.setText(purchasereturndata.getDistance());
                     if (purchasereturndata.getMode_of_transport().equals("Road")) {
@@ -183,8 +197,8 @@ public class TransportActivity extends AppCompatActivity {
                     }
                     e_way.setText(purchasereturndata.getEway_bill_number());
                 } else {
-                    spinner_e_way_bill.setSelection(0);
-                    show_hide_layout.setVisibility(View.VISIBLE);
+                    spinner_e_way_bill.setSelection(1);
+                    show_hide_layout.setVisibility(View.GONE);
                 }
             }
         }
@@ -212,28 +226,14 @@ public class TransportActivity extends AppCompatActivity {
                 mDate.setText(" " + c.get(Calendar.DAY_OF_MONTH) + " " + Helpers.getMonth(c.get(Calendar.MONTH)) + " " + c.get(Calendar.YEAR));
             }
 
-            mDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    datePickerDialog();
-                }
-            });
-            spinner_e_way_bill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (i == 0) {
-                        show_hide_layout.setVisibility(View.VISIBLE);
-                    } else {
-                        show_hide_layout.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
         }
+        mDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog();
+            }
+        });
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

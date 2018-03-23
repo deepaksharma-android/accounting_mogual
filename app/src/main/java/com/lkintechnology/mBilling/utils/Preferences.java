@@ -26,6 +26,7 @@ public class Preferences {
     private static final String CPAN = "pan";
     private static final String CADDRESS = "address";
     private static final String CCITY = "city";
+    private static final String CZIPCODE = "zipcode";
     private static final String CCOUNTRY = "country";
     private static final String CSTATE = "state";
     private static final String CINDUSTRYTYPE = "industry";
@@ -277,6 +278,15 @@ public class Preferences {
 
     public String getCcity() {
         return pref.getString(CCITY, "");
+    }
+
+    public void setCZipcode(String czipcode) {
+        editor.putString(CZIPCODE, czipcode);
+        editor.commit();
+    }
+
+    public String getCZipcode() {
+        return pref.getString(CZIPCODE, "");
     }
 
     public void setCcountry(String ccountry) {

@@ -1118,7 +1118,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mMap.put("serial_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                     StringBuilder sb=new StringBuilder();
                     for(String str : response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
-                        sb.append(str).append(";"); //separating contents using semi colon
+                        sb.append(str).append(","); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();
                     mMap.put("barcode",strfromArrayList);

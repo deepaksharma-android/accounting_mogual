@@ -136,6 +136,7 @@ public class CompanySignatureFragment extends Fragment {
             LocalRepositories.saveAppUser(getActivity(),appUser);
         }
     }
+
     @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
@@ -156,7 +157,7 @@ public class CompanySignatureFragment extends Fragment {
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-            tabhost.getTabAt(6).select();
+            tabhost.getTabAt(5).select();
             //startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);

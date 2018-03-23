@@ -307,9 +307,22 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard(view);
-                appUser.account_amount_receivable = amount_receivable.getText().toString();
-                appUser.account_amount_payable = amount_payable.getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if(!amount_receivable.getText().toString().equals("")) {
+                    appUser.account_amount_receivable = amount_receivable.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                else{
+                    appUser.account_amount_receivable="0.0";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                if(!amount_payable.getText().toString().equals("")){
+                    appUser.account_amount_payable = amount_payable.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+                else{
+                    appUser.account_amount_payable="0.0";
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
                 dialogbal.dismiss();
             }
         });
