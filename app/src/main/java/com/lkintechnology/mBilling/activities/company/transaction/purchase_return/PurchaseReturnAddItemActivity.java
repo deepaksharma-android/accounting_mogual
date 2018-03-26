@@ -200,6 +200,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
+            mSr_no.setText(barcode);
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -301,7 +302,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             tax = intent.getStringExtra("tax");
             barcode = intent.getStringExtra("barcode");
             arr_barcode = new ArrayList();
-            arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
+            arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
             for (int i = 0; i < arr_new_barcode.size(); i++) {
                 arr_barcode.add(i + 1, arr_new_barcode.get(i));

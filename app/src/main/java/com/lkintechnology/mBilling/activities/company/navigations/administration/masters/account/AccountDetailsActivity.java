@@ -340,7 +340,7 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         EditText account_city = (EditText) dialogaddress.findViewById(R.id.city);
         EditText account_pinCode = (EditText) dialogaddress.findViewById(R.id.pincode);
         Spinner spinner_state = (Spinner) dialogaddress.findViewById(R.id.state_spinner);
-        spinner_state.setSelection(12);
+        //spinner_state.setSelection(12);
         LinearLayout submit = (LinearLayout) dialogaddress.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialogaddress.findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
@@ -369,6 +369,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
                 }
             }
             spinner_state.setSelection(stateindex);
+           /* appUser.account_state = spinner_state.getSelectedItem().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
         }
 
         submit.setOnClickListener(new View.OnClickListener() {
