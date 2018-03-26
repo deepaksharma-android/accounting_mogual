@@ -221,6 +221,8 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
                 Intent intent = new Intent(this, CreateSaleActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromsalelist",false);
+                intent.putExtra("fromdashboard",true);
+
                 startActivity(intent);
                 finish();
                 return true;
@@ -234,6 +236,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
         Intent intent = new Intent(this, CreateSaleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromsalelist",false);
+        intent.putExtra("fromdashboard",true);
         startActivity(intent);
         finish();
     }

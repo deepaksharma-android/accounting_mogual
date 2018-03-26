@@ -350,9 +350,6 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                                     if (!appUser.stock_serial_arr.get(i).equals("")) {
                                         appUser.stock_item_serail_arr.add(appUser.stock_serial_arr.get(i));
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-
-
                                     }
                                 }
 

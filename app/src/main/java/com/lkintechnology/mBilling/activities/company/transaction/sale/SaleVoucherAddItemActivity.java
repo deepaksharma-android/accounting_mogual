@@ -198,7 +198,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
+            Timber.i("ssssss  "+barcode);
+            Timber.i("ssssss  "+arr_barcode.toString());
+            Timber.i("ssssss  "+arr_new_barcode.toString());
 
+            mSr_no.setText(barcode);
             id = iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -296,12 +300,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             tax = intent.getStringExtra("tax");
             barcode = intent.getStringExtra("barcode");
             arr_barcode = new ArrayList();
-            arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(";")));
+            arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
             for (int i = 0; i < arr_new_barcode.size(); i++) {
                 arr_barcode.add(i + 1, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
+
+            Timber.i("ssss "+barcode);
+
+
+
             mItemName.setText(name);
             mDescription.setText(desc);
             mUnitList.add("Main Unit : " + main_unit);

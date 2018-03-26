@@ -14,12 +14,13 @@
 
 
 
-
     <RelativeLayout
+
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#e2e2e2"
         android:orientation="vertical">
+
 
 
         <ImageView
@@ -40,7 +41,8 @@
             android:layout_marginRight="20dp"
             android:onClick="add"
             android:layout_marginBottom="40dp"
-            android:src="@drawable/icon_add" />
+            android:src="@drawable/icon_add"
+           />
 
         <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/reset"
@@ -187,7 +189,11 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mainLayout"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+         />
+
+
+
     </RelativeLayout>
 
         <RelativeLayout

@@ -65,6 +65,7 @@ public class CompanyListActivity extends BaseActivity {
     TextView mReset;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+
     public Dialog dialog;
     CompanyListAdapter mAdapter;
     AppUser appUser;
@@ -118,6 +119,7 @@ public class CompanyListActivity extends BaseActivity {
                 }
             }
         });
+
         mReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

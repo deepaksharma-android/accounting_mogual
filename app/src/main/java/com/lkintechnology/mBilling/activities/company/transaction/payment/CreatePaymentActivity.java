@@ -659,7 +659,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                     llSpinerItemSelect.setVisibility(View.GONE);
 
                 }else {
-                    llSpinerItemSelect.setVisibility(View.GONE);
+                    llSpinerItemSelect.setVisibility(View.VISIBLE);
                 }
 
             }

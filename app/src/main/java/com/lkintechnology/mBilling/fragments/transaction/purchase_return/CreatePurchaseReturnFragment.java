@@ -1083,7 +1083,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     mMap.put("serial_wise", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                     StringBuilder sb=new StringBuilder();
                     for(String str : response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
-                        sb.append(str).append(";"); //separating contents using semi colon
+                        sb.append(str).append(","); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();
                     mMap.put("barcode",strfromArrayList);
@@ -1217,6 +1217,21 @@ public class CreatePurchaseReturnFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
+            Preferences.getInstance(getActivity()).setUpdate("");
+            Preferences.getInstance(getContext()).setMobile("");
+            Preferences.getInstance(getContext()).setNarration("");
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
+            appUser.mListMapForItemPurchaseReturn.clear();
+            appUser.mListMapForBillPurchaseReturn.clear();
+            appUser.transport_details.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
             startActivity(new Intent(getApplicationContext(),GetPurchaseReturnListActivity.class));
         }
         else {
