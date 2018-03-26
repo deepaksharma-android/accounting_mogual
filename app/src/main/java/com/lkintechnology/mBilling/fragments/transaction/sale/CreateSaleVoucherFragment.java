@@ -184,6 +184,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 snackbar.show();
             }
         }
+
         if(CreateSaleActivity.fromdashboard){
 
 
@@ -1255,7 +1256,23 @@ public class CreateSaleVoucherFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-            startActivity(new Intent(getApplicationContext(),GetSaleVoucherListActivity.class));
+            Preferences.getInstance(getActivity()).setUpdate("");
+            Preferences.getInstance(getContext()).setMobile("");
+            Preferences.getInstance(getContext()).setNarration("");
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            encodedString="";
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
+            appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();
+            appUser.transport_details.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
+            Intent intent = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
+            startActivity(intent);
         }
         else {
             snackbar = Snackbar
