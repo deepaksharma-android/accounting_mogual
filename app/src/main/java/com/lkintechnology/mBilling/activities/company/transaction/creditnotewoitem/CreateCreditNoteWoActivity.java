@@ -281,7 +281,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 if (position==0){
                     llSelectItem.setVisibility(View.GONE);
                 }else {
-                    llSelectItem.setVisibility(View.GONE);
+                    llSelectItem.setVisibility(View.VISIBLE);
 
                 }
 

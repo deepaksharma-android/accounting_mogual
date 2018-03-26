@@ -322,7 +322,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                     arrow.setVisibility(View.GONE);
 
                 }else {
-                    arrow.setVisibility(View.GONE);
+                    arrow.setVisibility(View.VISIBLE);
 
                 }
             }

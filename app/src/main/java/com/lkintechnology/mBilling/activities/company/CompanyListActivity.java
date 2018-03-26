@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ public class CompanyListActivity extends BaseActivity {
     LinearLayout mMainLayout;
     @Bind(R.id.reset)
     TextView mReset;
+
     public Dialog dialog;
     CompanyListAdapter mAdapter;
     AppUser appUser;
@@ -111,6 +113,7 @@ public class CompanyListActivity extends BaseActivity {
                 }
             }
         });
+
         mReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

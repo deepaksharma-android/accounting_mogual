@@ -19,13 +19,13 @@
         android:background="@drawable/bg_grey_stroke"
         android:padding="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_3"
-        android:layout_marginLeft="@dimen/dp_5"
-        android:layout_marginRight="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_2"
+        android:layout_marginRight="@dimen/dp_2"
         android:drawableLeft="@drawable/ic_magnify_grey600_24dp"
         android:hint="Search here"
         android:drawablePadding="@dimen/dp_5">
     </AutoCompleteTextView>
-
+    
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_button"
         android:layout_width="wrap_content"
