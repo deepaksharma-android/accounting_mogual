@@ -7,6 +7,7 @@
         <enum name="Gotham_Bold" value="3" />
         <enum name="Gotham_BookItalic" value="4" />
         <enum name="Gotham_Black" value="5" />
+        <enum name="Brown_Bag" value="6" />
     </attr>
 
     <declare-styleable name="BuzzFonts">

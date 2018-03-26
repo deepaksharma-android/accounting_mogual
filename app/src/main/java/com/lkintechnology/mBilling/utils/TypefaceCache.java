@@ -13,6 +13,7 @@ public class TypefaceCache {
     private static final String BUZZ_FONT_GOTHAM_BOLD = "fonts/Gotham_Bold.ttf";
     private static final String BUZZ_FONT_GOTHAM_BOOKITALIC = "fonts/Gotham_BookItalic.ttf";
     private static final String BUZZ_FONT_GOTHAM_BLACK = "fonts/Gotham_Black.ttf";
+    private static final String BUZZ_FONT_BROWN_BAG = "fonts/BrownBagLunch.ttf";
 
 
 
@@ -49,6 +50,9 @@ public class TypefaceCache {
                 break;
             case 5:
                 typefaceTemp =BUZZ_FONT_GOTHAM_BLACK;
+                break;
+            case 6:
+                typefaceTemp =BUZZ_FONT_BROWN_BAG;
                 break;
 
             default:

@@ -64,6 +64,9 @@
     <style name="Gotham_Black">
         <item name="fontType">Gotham_Black</item>
     </style>
+    <style name="Brown_Bag">
+        <item name="fontType">Brown_Bag</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
