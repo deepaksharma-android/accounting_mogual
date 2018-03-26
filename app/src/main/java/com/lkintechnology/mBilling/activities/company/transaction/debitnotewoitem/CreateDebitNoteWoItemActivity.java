@@ -312,7 +312,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                    llSpItem.setVisibility(View.GONE);
 
                }else {
-                   llSpItem.setVisibility(View.GONE);
+                   llSpItem.setVisibility(View.VISIBLE);
 
                }
             }

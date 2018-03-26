@@ -4,14 +4,23 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="fill_parent">
+    
+    <FrameLayout
+        android:id="@+id/overlay_screen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+
 
 
 
     <RelativeLayout
+
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#e2e2e2"
         android:orientation="vertical">
+
 
 
         <ImageView
@@ -32,7 +41,8 @@
             android:layout_marginRight="20dp"
             android:onClick="add"
             android:layout_marginBottom="40dp"
-            android:src="@drawable/icon_add" />
+            android:src="@drawable/icon_add"
+           />
 
         <com.lkintechnology.mBilling.utils.BuzzTextView
             android:id="@+id/reset"
@@ -179,6 +189,54 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mainLayout"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+         />
+
+
+
     </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#B3000000"
+            android:id="@+id/top_layout">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginRight="60dp"
+                android:layout_marginBottom="60dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Brown_Bag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:text="Add your company here"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center"
+                    android:textSize="40sp"/>
+
+            <ImageView
+                android:id="@+id/ivInstruction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:layout_gravity="bottom"
+                android:layout_weight="0.4"
+                android:rotation="30"
+                android:paddingLeft="20dip"
+                android:scaleType="center"
+                android:src="@drawable/curve_arrow" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

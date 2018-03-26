@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,11 +12,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +63,9 @@ public class CompanyListActivity extends BaseActivity {
     LinearLayout mMainLayout;
     @Bind(R.id.reset)
     TextView mReset;
+    @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;
+
     public Dialog dialog;
     CompanyListAdapter mAdapter;
     AppUser appUser;
@@ -77,7 +83,9 @@ public class CompanyListActivity extends BaseActivity {
         setAdd(0);
         setAppBarTitle(1, "COMPANY LIST");
         mFloatingButton.bringToFront();
-
+        if (isFirstTime()) {
+            mOverlayLayout.setVisibility(View.INVISIBLE);
+        }
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +119,7 @@ public class CompanyListActivity extends BaseActivity {
                 }
             }
         });
+
         mReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -426,6 +435,32 @@ public class CompanyListActivity extends BaseActivity {
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+            mOverlayLayout.setVisibility(View.VISIBLE);
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mOverlayLayout.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+
+            });
+
+
+        }
+        return ranBefore;
+
     }
 
 }
