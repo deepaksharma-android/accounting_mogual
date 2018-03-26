@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.fragments.dashboard;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +10,12 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -46,6 +49,8 @@ public class DashBoardReportsFragment extends Fragment {
     TextView mProfit_loss_textview1;
     @Bind(R.id.profit_loss_image)
     ImageView profit_loss_image;
+    @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;
     ProgressDialog mProgressDialog;
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
@@ -57,6 +62,9 @@ public class DashBoardReportsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard_reports, container, false);
         ButterKnife.bind(this, view);
+        if (isFirstTime()) {
+            mOverlayLayout.setVisibility(View.INVISIBLE);
+        }
         appUser= LocalRepositories.getAppUser(getActivity());
         mtextview_sales.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getSales()));
         mtextview_expenses.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getExpenses()));
@@ -101,5 +109,31 @@ public class DashBoardReportsFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+            mOverlayLayout.setVisibility(View.VISIBLE);
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mOverlayLayout.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+
+            });
+
+
+        }
+        return ranBefore;
+
     }
 }

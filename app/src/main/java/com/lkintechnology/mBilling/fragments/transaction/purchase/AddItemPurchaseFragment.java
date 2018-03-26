@@ -533,9 +533,15 @@ public class AddItemPurchaseFragment extends Fragment {
                                 String itemtotalval = (String) mapj.get("total");
                                 String itemtax = (String) mapj.get("tax");
                                 String arr[] = itemtax.split(" ");
-                                String itemtaxval = arr[1];
-                                String arrper[] = itemtaxval.split("%");
-                                String taxpercentage = arrper[0];
+                                String taxpercentage = null;
+                                if(!arr[0].equals("Exempt")){
+                                    String itemtaxval = arr[1];
+                                    String arrper[] = itemtaxval.split("%");
+                                    taxpercentage = arrper[0];
+                                }
+                                else{
+                                    taxpercentage="0";
+                                }
                                 double taxpercentagevalue = Double.parseDouble(taxpercentage);
                                 double multi=0.0;
                                 double itemprice = Double.parseDouble(itemtotalval);
