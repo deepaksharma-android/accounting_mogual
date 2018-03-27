@@ -407,7 +407,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     StringBuilder sb = new StringBuilder();
                     if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getBarcode() != null) {
                         for (String str : response.getOrdered_items().get(i).getData().get(j).getAttributes().getBarcode()) {
-                            sb.append(str).append(";"); //separating contents using semi colon
+                            sb.append(str).append(","); //separating contents using semi colon
                         }
                         String strfromArrayList = sb.toString();
 
@@ -909,6 +909,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
                 intent.putExtra("barcode", barcode);
+                Timber.i("sssss "+barcode);
                 startActivity(intent);
                 finish();
 
