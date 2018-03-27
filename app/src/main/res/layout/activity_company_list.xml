@@ -196,7 +196,7 @@
 
     </RelativeLayout>
 
-        <RelativeLayout
+      <!--  <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#B3000000"
@@ -235,12 +235,14 @@
                 android:scaleType="center"
                 android:src="@drawable/curve_arrow" />
             </LinearLayout>
+        </RelativeLayout>-->
 
 
 
 
-
-        </RelativeLayout>
 
     </FrameLayout>
+
+
+
 </android.support.design.widget.CoordinatorLayout>
