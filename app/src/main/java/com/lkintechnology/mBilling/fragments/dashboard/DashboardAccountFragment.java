@@ -61,8 +61,8 @@ public class DashboardAccountFragment extends Fragment{
     TextView mtextview_customer;
     @Bind(R.id.textview_supplier)
     TextView mtextview_supplier;
-   /* @Bind(R.id.top_layout)
-    RelativeLayout mOverlayLayout;*/
+    @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;
     @Bind(R.id.textview_stock_in_hand)
     TextView mtextview_stock_in_hand;
 
@@ -80,9 +80,9 @@ public class DashboardAccountFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_dashboard_accounts, container, false);
         ButterKnife.bind(this, view);
 
-       /* if (isFirstTime()) {
+        if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }*/
+        }
 
 
 
@@ -208,7 +208,7 @@ public class DashboardAccountFragment extends Fragment{
         }
     }
 
-  /*  private boolean isFirstTime()
+    private boolean isFirstTime()
     {
         SharedPreferences preferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
@@ -232,5 +232,5 @@ public class DashboardAccountFragment extends Fragment{
         }
         return ranBefore;
 
-    }*/
+    }
 }

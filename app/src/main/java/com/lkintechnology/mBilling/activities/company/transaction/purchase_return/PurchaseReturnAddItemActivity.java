@@ -301,6 +301,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             alternate_unit_con_factor = intent.getStringExtra("alternate_unit_con_factor");
             tax = intent.getStringExtra("tax");
             barcode = intent.getStringExtra("barcode");
+            Timber.i("sssss  "+barcode);
             arr_barcode = new ArrayList();
             arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
@@ -308,6 +309,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 arr_barcode.add(i + 1, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
+            Timber.i("sssss  "+arr_barcode.toString());
             mItemName.setText(name);
             mDescription.setText(desc);
             mUnitList.add("Main Unit : " + main_unit);
