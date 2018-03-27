@@ -666,7 +666,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     return;
                 }
                 if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("") | mRate.getText().toString().equals("0.0")) {
-                    Snackbar.make(coordinatorLayout, "enter minimum 1 % rate ", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "enter rate ", Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 Boolean isConnected = ConnectivityReceiver.isConnected();
