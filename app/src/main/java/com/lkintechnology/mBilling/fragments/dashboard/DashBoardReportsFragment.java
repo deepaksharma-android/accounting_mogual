@@ -51,7 +51,11 @@ public class DashBoardReportsFragment extends Fragment {
     TextView mProfit_loss_textview1;
     @Bind(R.id.profit_loss_image)
     ImageView profit_loss_image;
+/*
 
+    @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;
+*/
 
     ProgressDialog mProgressDialog;
     CoordinatorLayout coordinatorLayout;
@@ -64,9 +68,15 @@ public class DashBoardReportsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard_reports, container, false);
         ButterKnife.bind(this, view);
+
         /*if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
         }*/
+
+       /* if (isFirstTime()) {
+            mOverlayLayout.setVisibility(View.INVISIBLE);
+        }*/
+
         appUser= LocalRepositories.getAppUser(getActivity());
         mtextview_sales.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getSales()));
         mtextview_expenses.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getExpenses()));
@@ -113,9 +123,15 @@ public class DashBoardReportsFragment extends Fragment {
         return view;
     }
 
+
    /* private boolean isFirstTime() {
         SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
         //SharedPreferences preferences1=getP
+=======
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
+>>>>>>> 5574a122ca998a5e944aa148005182d5f66e2ea6
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
         if (!ranBefore) {
 
@@ -136,5 +152,9 @@ public class DashBoardReportsFragment extends Fragment {
 
         }
         return ranBefore;
+<<<<<<< HEAD
     }*/
+
+    }
+
 }

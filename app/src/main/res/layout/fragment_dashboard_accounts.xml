@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="#e2e2e2"
     tools:context="com.lkintechnology.mBilling.activities.company.FirstPageActivity">
-
+<FrameLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -649,7 +651,185 @@
 
         </RelativeLayout>
     </RelativeLayout>
+
     -->
+
+   <!-- <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:id="@+id/top_layout">
+
+        <LinearLayout
+            android:id="@+id/cash_in_hand_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <ImageView
+                android:id="@+id/ivInstruction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:layout_weight="0.2"
+                android:rotation="270"
+                android:layout_gravity="right"
+                android:src="@drawable/thin_arrow" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Click for Cash-in-hand"
+                android:textColor="#fff"
+                android:layout_gravity="bottom|right"
+                android:gravity="bottom"
+                android:textSize="25sp"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/bank_account_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_below="@id/cash_in_hand_layout"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Click for Bank accounts"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="bottom|right"
+                android:gravity="bottom"
+                android:textSize="25sp"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:layout_weight="0.2"
+                android:rotation="0"
+                android:layout_gravity="right"
+                android:scaleType="center"
+                android:src="@drawable/anti_thin_arrow" />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/customer_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_below="@id/bank_account_layout"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:layout_weight="0.2"
+                android:rotation="270"
+                android:layout_gravity="right"
+                android:scaleType="center"
+                android:src="@drawable/thin_arrow" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Click for customers"
+                android:textColor="#fff"
+                android:layout_gravity="bottom|right"
+                android:gravity="bottom"
+                android:textSize="25sp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/supplier_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginTop="-5dp"
+            android:layout_below="@id/customer_layout"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Click for suppliers"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="bottom|left"
+                android:gravity="bottom"
+                android:textSize="25sp"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:layout_weight="0.2"
+                android:rotation="0"
+                android:layout_gravity="right"
+                android:scaleType="center"
+                android:src="@drawable/anti_thin_arrow" />
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/stock_in_hand_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_below="@id/supplier_layout"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:layout_weight="0.2"
+                android:rotation="270"
+                android:layout_gravity="right"
+                android:scaleType="center"
+                android:src="@drawable/thin_arrow" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Click for stock-in-hand"
+                android:textColor="#fff"
+                android:layout_gravity="bottom|right"
+                android:gravity="bottom"
+                android:textSize="25sp"/>
+
+
+        </LinearLayout>
+    </RelativeLayout>-->
+</FrameLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
 

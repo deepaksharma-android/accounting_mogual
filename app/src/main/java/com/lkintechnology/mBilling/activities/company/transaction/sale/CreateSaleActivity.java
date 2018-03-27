@@ -25,6 +25,7 @@ import android.view.View;
 
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
@@ -68,12 +69,16 @@ public class CreateSaleActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
 
         if (fromsalelist) {
+            Toast.makeText(this, "if fromsalelist", Toast.LENGTH_SHORT).show();
             if (fromdashboard) {
+                Toast.makeText(this, "if fromdashboard", Toast.LENGTH_SHORT).show();
                 title = "CREATE SALE VOUCHER";
             } else {
+                Toast.makeText(this, "else fromdashboard", Toast.LENGTH_SHORT).show();
                 title = "EDIT SALE VOUCHER";
             }
         } else {
+            Toast.makeText(this, "else fromsalelist", Toast.LENGTH_SHORT).show();
             title = "CREATE SALE VOUCHER";
         }
 

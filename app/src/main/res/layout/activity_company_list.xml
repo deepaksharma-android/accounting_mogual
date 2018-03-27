@@ -235,8 +235,14 @@
                 android:scaleType="center"
                 android:src="@drawable/curve_arrow" />
             </LinearLayout>
-
         </RelativeLayout>-->
 
+
+
+
+
     </FrameLayout>
+
+
+
 </android.support.design.widget.CoordinatorLayout>

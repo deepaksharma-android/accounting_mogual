@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="#e2e2e2"
     tools:context="com.lkintechnology.mBilling.activities.company.FirstPageActivity">
-
+<FrameLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -450,7 +452,12 @@
              </LinearLayout>
          </LinearLayout>-->
 
-    </FrameLayout>
+
+
+
+</FrameLayout>
+
+</FrameLayout>
 
 <!--    <RelativeLayout
         android:layout_width="match_parent"

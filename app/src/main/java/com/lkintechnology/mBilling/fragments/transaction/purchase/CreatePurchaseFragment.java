@@ -1166,6 +1166,22 @@ public class CreatePurchaseFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
+            Preferences.getInstance(getActivity()).setUpdate("");
+            Preferences.getInstance(getContext()).setMobile("");
+            Preferences.getInstance(getContext()).setNarration("");
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mNarration.setText("");
+            mVchNumber.setText("");
+            encodedString = "";
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
+            appUser.mListMapForItemPurchase.clear();
+            appUser.mListMapForBillPurchase.clear();
+            appUser.transport_details.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
             startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
         } else {
             snackbar = Snackbar
