@@ -73,9 +73,7 @@ public class DashBoardReportsFragment extends Fragment {
             mOverlayLayout.setVisibility(View.INVISIBLE);
         }*/
 
-       /* if (isFirstTime()) {
-            mOverlayLayout.setVisibility(View.INVISIBLE);
-        }*/
+
 
         appUser= LocalRepositories.getAppUser(getActivity());
         mtextview_sales.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getSales()));
@@ -124,37 +122,6 @@ public class DashBoardReportsFragment extends Fragment {
     }
 
 
-   /* private boolean isFirstTime() {
-        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
-        //SharedPreferences preferences1=getP
-=======
-    private boolean isFirstTime()
-    {
-        SharedPreferences preferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
->>>>>>> 5574a122ca998a5e944aa148005182d5f66e2ea6
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
-            mOverlayLayout.setVisibility(View.VISIBLE);
-            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    mOverlayLayout.setVisibility(View.INVISIBLE);
-                    return false;
-                }
-
-            });
-
-
-        }
-        return ranBefore;
-<<<<<<< HEAD
-    }*/
 
     }
 
-}
