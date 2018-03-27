@@ -35,6 +35,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static android.content.Context.MODE_PRIVATE;
+import com.lkintechnology.mBilling.utils.Preferences;
+
 public class DashboardAccountFragment extends Fragment{
     @Bind(R.id.transaction_button)
     LinearLayout transactionButton;
@@ -58,8 +61,8 @@ public class DashboardAccountFragment extends Fragment{
     TextView mtextview_customer;
     @Bind(R.id.textview_supplier)
     TextView mtextview_supplier;
-    @Bind(R.id.top_layout)
-    RelativeLayout mOverlayLayout;
+   /* @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;*/
     @Bind(R.id.textview_stock_in_hand)
     TextView mtextview_stock_in_hand;
 
@@ -76,9 +79,13 @@ public class DashboardAccountFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard_accounts, container, false);
         ButterKnife.bind(this, view);
-        if (isFirstTime()) {
+
+       /* if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
+
+
+
         appUser=LocalRepositories.getAppUser(getActivity());
         final Calendar newCalendar = Calendar.getInstance();
         String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -159,6 +166,32 @@ public class DashboardAccountFragment extends Fragment{
         return view;
     }
 
+ /*   private boolean isFirstTime() {
+        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
+        //SharedPreferences preferences1=getP
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+            mOverlayLayout.setVisibility(View.VISIBLE);
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mOverlayLayout.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+
+            });
+
+
+        }
+        return ranBefore;
+
+    }*/
+
     private String getDayNumberSuffix(int day) {
         if (day >= 11 && day <= 13) {
             return "th";
@@ -175,7 +208,7 @@ public class DashboardAccountFragment extends Fragment{
         }
     }
 
-    private boolean isFirstTime()
+  /*  private boolean isFirstTime()
     {
         SharedPreferences preferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
@@ -199,5 +232,5 @@ public class DashboardAccountFragment extends Fragment{
         }
         return ranBefore;
 
-    }
+    }*/
 }

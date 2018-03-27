@@ -69,16 +69,12 @@ public class CreateSaleActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
 
         if (fromsalelist) {
-            Toast.makeText(this, "if fromsalelist", Toast.LENGTH_SHORT).show();
             if (fromdashboard) {
-                Toast.makeText(this, "if fromdashboard", Toast.LENGTH_SHORT).show();
                 title = "CREATE SALE VOUCHER";
             } else {
-                Toast.makeText(this, "else fromdashboard", Toast.LENGTH_SHORT).show();
                 title = "EDIT SALE VOUCHER";
             }
         } else {
-            Toast.makeText(this, "else fromsalelist", Toast.LENGTH_SHORT).show();
             title = "CREATE SALE VOUCHER";
         }
 

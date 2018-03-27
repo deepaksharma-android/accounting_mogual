@@ -3,6 +3,7 @@ package com.lkintechnology.mBilling.activities.company.navigations.administratio
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -51,6 +54,9 @@ public class AccountGroupListActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
+    @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;
+
     RecyclerView.LayoutManager layoutManager;
     AccountGroupListAdapter mAdapter;
     AppUser appUser;
@@ -67,6 +73,9 @@ public class AccountGroupListActivity extends AppCompatActivity {
         fromMaster = getIntent().getExtras().getBoolean("frommaster");
         fromCreateGroup = getIntent().getExtras().getBoolean("fromcreategroup");
         ButterKnife.bind(this);
+        if (isFirstTime()) {
+            mOverlayLayout.setVisibility(View.INVISIBLE);
+        }
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         mFloatingButton.bringToFront();
@@ -94,6 +103,31 @@ public class AccountGroupListActivity extends AppCompatActivity {
             snackbar.show();
         }
 
+    }
+
+    private boolean isFirstTime() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        //SharedPreferences preferences1=getP
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+            mOverlayLayout.setVisibility(View.VISIBLE);
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mOverlayLayout.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+
+            });
+
+
+        }
+        return ranBefore;
     }
 
 
