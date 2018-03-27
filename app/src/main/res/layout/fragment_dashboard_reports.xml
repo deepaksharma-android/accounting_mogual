@@ -8,7 +8,7 @@
     tools:context="com.lkintechnology.mBilling.activities.company.FirstPageActivity">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -284,17 +284,16 @@
                     android:id="@+id/transaction_button"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
+                   android:layout_marginTop="@dimen/dp_180"
                     android:background="@drawable/curve_backgroung_blue"
-                    android:gravity="center_horizontal">
+                    >
 
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -450,8 +449,70 @@
                      android:textStyle="bold" />
              </LinearLayout>
          </LinearLayout>-->
-    </RelativeLayout>
 
+    </FrameLayout>
+
+<!--    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:id="@+id/top_layout">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/curve_arrow"
+                android:layout_marginTop="@dimen/dp_70"
+                android:layout_gravity="center"
+                android:rotation="-40"/>
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click here for sales"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="@dimen/dp_30"
+                android:layout_marginTop="-10dp"/>
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/curve_arrow"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:rotation="-30"/>
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click here for expenses"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_30"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="@dimen/dp_10"/>
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/curve_arrow"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:rotation="-50"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_50"/>
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click here for transection"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_30"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+    </RelativeLayout>-->
 </android.support.design.widget.CoordinatorLayout>
 
 

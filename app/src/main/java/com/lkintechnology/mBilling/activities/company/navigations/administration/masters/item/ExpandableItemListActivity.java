@@ -3,6 +3,7 @@ package com.lkintechnology.mBilling.activities.company.navigations.administratio
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -76,6 +79,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     @Bind(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
+    @Bind(R.id.top_layout)
+    RelativeLayout mOverlayLayout;
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -141,6 +146,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
+        if (isFirstTime()) {
+            mOverlayLayout.setVisibility(View.INVISIBLE);
+        }
         initActionbar();
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
         appUser = LocalRepositories.getAppUser(this);
@@ -156,6 +164,31 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private boolean isFirstTime() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        //SharedPreferences preferences1=getP
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+            mOverlayLayout.setVisibility(View.VISIBLE);
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mOverlayLayout.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+
+            });
+
+
+        }
+        return ranBefore;
     }
 
 

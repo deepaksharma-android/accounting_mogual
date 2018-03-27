@@ -63,8 +63,7 @@ public class CompanyListActivity extends BaseActivity {
     LinearLayout mMainLayout;
     @Bind(R.id.reset)
     TextView mReset;
-    @Bind(R.id.top_layout)
-    RelativeLayout mOverlayLayout;
+
 
     public Dialog dialog;
     CompanyListAdapter mAdapter;
@@ -83,9 +82,9 @@ public class CompanyListActivity extends BaseActivity {
         setAdd(0);
         setAppBarTitle(1, "COMPANY LIST");
         mFloatingButton.bringToFront();
-        if (isFirstTime()) {
+        /*if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -437,7 +436,7 @@ public class CompanyListActivity extends BaseActivity {
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private boolean isFirstTime()
+   /* private boolean isFirstTime()
     {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
@@ -461,6 +460,6 @@ public class CompanyListActivity extends BaseActivity {
         }
         return ranBefore;
 
-    }
+    }*/
 
 }
