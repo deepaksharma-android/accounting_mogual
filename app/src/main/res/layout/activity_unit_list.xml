@@ -58,7 +58,7 @@
                 style="@style/Brown_Bag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Click here for create account"
+                android:text="Click here to create unit"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dp_30"
                 android:layout_marginTop="-10dp"

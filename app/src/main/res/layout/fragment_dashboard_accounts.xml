@@ -10,15 +10,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        tools:context=".activities.company.navigations.dashboard.CompanyDashboardActivity">
+
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -316,7 +308,58 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/transaction_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/curve_backgroung_blue"
+                    android:gravity="center_horizontal">
 
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="20dp"
+                                android:layout_weight="0.32"
+                                android:orientation="vertical">
+
+
+
+                                <ImageView
+                                    android:id="@+id/transaction_icon"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="right"
+                                    android:src="@drawable/transaction"/>
+                            </LinearLayout>
+
+
+                            <com.lkintechnology.mBilling.utils.BuzzTextView
+                                style="@style/Gotham_Medium"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.68"
+                                android:id="@+id/transactiontext"
+                                android:layout_marginLeft="5dp"
+                                android:text="START TRANSACTION"
+                                android:textColor="#fff"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -326,339 +369,11 @@
 
 
 
-        <!-- <LinearLayout
-             android:layout_width="0dp"
-             android:layout_height="match_parent"
-             android:layout_margin="3dp"
-             android:layout_weight="1"
-             android:background="@drawable/stoke_grey_white"
-             android:orientation="vertical">
-
-             <com.berylsystems.buzz.utils.BuzzTextView
-                 style="@style/Gotham_Medium"
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:text="\u20B9 4000"
-                 android:textColor="@color/black" />
-
-             <com.berylsystems.buzz.utils.BuzzTextView
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight=".3"
-                 android:background="#ffc107" />
-
-             <com.berylsystems.buzz.utils.BuzzTextView
-                 style="@style/Gotham_Medium"
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:text="Sale"
-                 android:textColor="@color/black" />
-         </LinearLayout>
-
-         <LinearLayout
-             android:layout_width="0dp"
-             android:layout_height="match_parent"
-             android:layout_margin="3dp"
-             android:layout_weight="1"
-             android:background="@drawable/stoke_grey_white"
-             android:orientation="vertical">
-
-             <com.berylsystems.buzz.utils.BuzzTextView
-                 style="@style/Gotham_Medium"
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:text="\u20B9 6000"
-                 android:textColor="@color/black" />
-
-             <com.berylsystems.buzz.utils.BuzzTextView
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight=".3"
-                 android:background="#db3740" />
-
-             <com.berylsystems.buzz.utils.BuzzTextView
-                 style="@style/Gotham_Medium"
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:text="Expanse"
-                 android:textColor="@color/black" />
-         </LinearLayout>-->
 
 
 
 
-
-        <!-- <Button
-             android:id="@+id/transaction_button"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-
-
-             android:layout_marginTop="5dp"
-             android:background="@drawable/stoke_grey_white"
-             android:backgroundTint="@color/colorPrimary"
-             android:text="Start Transactions"
-             android:textColor="#fff" />-->
-
-        <!-- <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-             android:layout_margin="5dp"
-             android:layout_weight=".7"
-             android:background="@drawable/stoke_grey_white">
-
-             <LinearLayout
-                 android:layout_width="match_parent"
-                 android:layout_gravity="center"
-                 android:gravity="center"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:layout_width="25dp"
-                     android:layout_height="25dp"
-                     android:src="@drawable/buying_on_smartphone"/>
-
-                 <com.berylsystems.buzz.utils.BuzzTextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="match_parent"
-                     android:gravity="center"
-                     android:layout_marginLeft="5dp"
-                     android:text="Buy BAHI KHATA"
-                     android:textAlignment="center"
-                     android:textColor="@color/colorPrimary"
-                     android:textSize="15dp"
-                     android:textStyle="bold" />
-             </LinearLayout>
-         </LinearLayout>-->
-
-        <LinearLayout
-            android:id="@+id/transaction_button"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/curve_backgroung_blue"
-            android:gravity="center_horizontal">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="0.32"
-                        android:orientation="vertical">
-
-
-
-                        <ImageView
-                            android:id="@+id/transaction_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="right"
-                            android:src="@drawable/transaction"/>
-                    </LinearLayout>
-
-
-                    <com.lkintechnology.mBilling.utils.BuzzTextView
-                        style="@style/Gotham_Medium"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.68"
-                        android:id="@+id/transactiontext"
-                        android:layout_marginLeft="5dp"
-                        android:text="START TRANSACTION"
-                        android:textColor="#fff"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-
-    </FrameLayout>
-   <!-- <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#B3000000"
-        android:id="@+id/top_layout">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/cash"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:src="@drawable/curve_arrow"
-                android:layout_marginTop="@dimen/dp_70"
-                android:layout_centerHorizontal="true"
-                android:rotation="-40"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tvcash"
-                style="@style/Brown_Bag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for cash in hand"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="@dimen/dp_30"
-                android:layout_marginTop="-10dp"
-                android:layout_below="@+id/cash"
-                android:singleLine="true"
-                android:layout_centerHorizontal="true"
-                android:padding="5dp"/>
-            <ImageView
-                android:id="@+id/bank"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:src="@drawable/curve_arrow"
-                android:layout_below="@+id/tvcash"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:rotation="-40"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tvbank"
-                style="@style/Brown_Bag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for bank account"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="@dimen/dp_30"
-                android:layout_marginTop="-10dp"
-                android:layout_below="@+id/bank"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:padding="5dp"
-                android:singleLine="true"
-                />
-            <ImageView
-                android:id="@+id/customers"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:src="@drawable/curve_arrow"
-                android:layout_below="@+id/tvbank"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:layout_marginRight="@dimen/dp_5"
-
-                android:layout_centerHorizontal="true"
-                android:rotation="-40"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tvcustomers"
-                style="@style/Brown_Bag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for customers"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="@dimen/dp_30"
-                android:layout_marginTop="-10dp"
-                android:layout_below="@+id/customers"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:gravity="center"
-                android:singleLine="true"
-                android:layout_centerHorizontal="true"
-                android:padding="3dp"
-                />
-            <ImageView
-                android:id="@+id/supplier"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:src="@drawable/curve_arrow"
-                android:layout_below="@+id/tvcustomers"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:layout_marginRight="@dimen/dp_10"
-                android:rotation="-40"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tvsupplier"
-                style="@style/Brown_Bag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for suppliers"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="@dimen/dp_30"
-                android:layout_marginTop="-10dp"
-                android:layout_below="@+id/supplier"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:padding="@dimen/dp_5"
-                android:singleLine="true"
-
-                />
-            <ImageView
-                android:id="@+id/stock"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:src="@drawable/curve_arrow"
-                android:layout_below="@+id/tvsupplier"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_centerHorizontal="true"
-                android:rotation="-40"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tvstock"
-                style="@style/Brown_Bag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for stock in hand"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="@dimen/dp_30"
-                android:layout_marginTop="-10dp"
-                android:layout_below="@+id/stock"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_centerHorizontal="true"
-                android:singleLine="true"
-                android:padding="@dimen/dp_5"/>
-            <ImageView
-                android:id="@+id/transection"
-                android:layout_width="@dimen/dp_30"
-                android:layout_height="@dimen/dp_30"
-                android:src="@drawable/curve_arrow"
-                android:layout_below="@+id/tvstock"
-               android:layout_alignParentRight="true"
-               android:layout_marginRight="@dimen/dp_70"
-                android:rotation="-120"
-                />
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tvTransection"
-                style="@style/Brown_Bag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for transection"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:textSize="@dimen/dp_30"
-                android:layout_below="@+id/transection"
-                android:layout_marginLeft="@dimen/dp_2"
-               android:layout_alignParentRight="true"
-                android:singleLine="true"
-                android:gravity="center"
-                />
-
-        </RelativeLayout>
->>>>>>> c2bf40b08c4f94e9a0d6427416c590142640c1d7
-    </RelativeLayout>
-
-    -->
-
-   <!-- <RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#B3000000"
@@ -831,7 +546,7 @@
 
 
         </LinearLayout>
-    </RelativeLayout>-->
+    </RelativeLayout>
 </FrameLayout>
 
 
