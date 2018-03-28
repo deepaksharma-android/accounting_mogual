@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.EditCompanyActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.adapters.CompanyLoginAdapter;
 import com.lkintechnology.mBilling.adapters.UserFragmentAdapter;
@@ -41,6 +42,9 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.lkintechnology.mBilling.activities.company.EditCompanyActivity.fragPos;
+import static com.lkintechnology.mBilling.activities.company.EditCompanyActivity.mHeaderViewPager;
 
 public class CompanyPasswordFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
@@ -71,13 +75,12 @@ public class CompanyPasswordFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
     @Override
     public void onStart() {
         super.onStart();
-        //EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +89,7 @@ public class CompanyPasswordFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_company_password, container, false);
         ButterKnife.bind(this,v);
         appUser = LocalRepositories.getAppUser(getActivity());
-
+        EventBus.getDefault().register(this);
         mAddCompanyLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,7 +161,7 @@ public class CompanyPasswordFragment extends Fragment {
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
         if (visible && isResumed()) {
-            EventBus.getDefault().register(this);
+          //  EventBus.getDefault().register(this);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
@@ -196,6 +199,9 @@ public class CompanyPasswordFragment extends Fragment {
                 mRecyclerView.setLayoutManager(layoutManager);
                 mAdapter=new CompanyLoginAdapter(getActivity(),response.getUsers());
                 mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
+
 
             }else {
                 Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -260,6 +266,7 @@ public class CompanyPasswordFragment extends Fragment {
                                 appUser.companyUserName = username.getText().toString();
                                 appUser.companyUserPassword = password.getText().toString();
                                 appUser.companymobile = mobile.getText().toString();
+                                appUser.company_user=usernameList;
                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
@@ -269,6 +276,7 @@ public class CompanyPasswordFragment extends Fragment {
                                     mProgressDialog.setCancelable(true);
                                     mProgressDialog.show();
                                     ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_LOGIN);
+
                                 } else {
                                     snackbar = Snackbar
                                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -307,17 +315,13 @@ public class CompanyPasswordFragment extends Fragment {
 
     @Subscribe
     public void createCompany(CompanyLoginResponse response){
-        /*usernameList=new ArrayList<>();
-        usernameList.add(username.)*/
+
+        appUser=LocalRepositories.getAppUser(getActivity());
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             dialog.dismiss();
-          startActivity(new Intent(getActivity().getApplicationContext(),CompanyDashboardActivity.class));
-           /* layoutManager = new LinearLayoutManager(getActivity());
-            mRecyclerView.setLayoutManager(layoutManager);
-            userFragmentAdapter=new UserFragmentAdapter(getActivity(),usernameList);
-            mRecyclerView.setAdapter(userFragmentAdapter);
-            userFragmentAdapter.notifyDataSetChanged();*/
+            mHeaderViewPager.setCurrentItem(0);
+
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -329,6 +333,12 @@ public class CompanyPasswordFragment extends Fragment {
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+    }
+
+    private int getItem(int i) {
+
+            return mHeaderViewPager.getCurrentItem() + i;
+
     }
 
     @Subscribe
@@ -377,5 +387,6 @@ public class CompanyPasswordFragment extends Fragment {
         mProgressDialog.dismiss();
 
     }
+
 
 }

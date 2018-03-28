@@ -53,8 +53,8 @@ public class EditCompanyActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
    // public static CompanyData data;
-    @Bind(R.id.viewpager)
-    ViewPager mHeaderViewPager;
+   /* @Bind(R.id.viewpager)
+     ViewPager mHeaderViewPager;*/
     @Bind(R.id.tabs)
     TabLayout mTabLayout;
     AppUser appUser;
@@ -63,11 +63,14 @@ public class EditCompanyActivity extends AppCompatActivity {
     public static ArrayList<String> industry_type = new ArrayList<>();
     public static ArrayList<Integer> industry_id = new ArrayList<>();
     public static IndustryTypeResponse response;
+    public static   ViewPager mHeaderViewPager;
+    public static int fragPos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_company);
         ButterKnife.bind(this);
+        mHeaderViewPager= (ViewPager) findViewById(R.id.viewpager);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
         EventBus.getDefault().register(this);
@@ -92,7 +95,7 @@ public class EditCompanyActivity extends AppCompatActivity {
                         }
                     });
             snackbar.show();
-            mTabLayout.setEnabled(false);
+            mTabLayout.setClickable(false);
         }
 
        /* Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -164,8 +167,8 @@ public class EditCompanyActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
+        public static final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
@@ -174,6 +177,7 @@ public class EditCompanyActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            fragPos=position;
             return mFragmentList.get(position);
         }
 
