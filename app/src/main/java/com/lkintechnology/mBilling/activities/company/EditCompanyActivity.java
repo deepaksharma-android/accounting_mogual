@@ -301,7 +301,7 @@ public class EditCompanyActivity extends AppCompatActivity {
                     tabStrip.getChildAt(j).setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
-                            return false;
+                            return true;
                         }
                     });
                 }
