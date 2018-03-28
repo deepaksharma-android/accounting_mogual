@@ -129,6 +129,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     @Bind(R.id.cancel)
     ImageView mCancel;
     String itemid="";
+    String[] barcodeArray;
 
     //activity_purchase_return_add_item
     @Override
@@ -201,6 +202,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
             voucher_barcode = (String) map.get("voucher_barcode");
+            barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -491,6 +493,19 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                             pairs[i].setSelection(groupindex);
                         }
                     }
+
+                    // set value in spinner for edit
+                    if (frombillitemvoucherlist){
+                        for (int i = 0; i < Integer.parseInt(serial); i++) {
+                            for (int j=i;j<arr_barcode.size();j++){
+                                if (barcodeArray[i].equals(arr_barcode.get(j))){
+                                    pairs[i].setSelection(j);
+                                }
+                            }
+                        }
+                    }
+
+
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

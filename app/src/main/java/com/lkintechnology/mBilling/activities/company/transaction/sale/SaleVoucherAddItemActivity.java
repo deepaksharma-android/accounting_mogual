@@ -127,6 +127,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     ImageView mCancel;
     Boolean fromsalelist;
     String itemid="";
+    String[] barcodeArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +201,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             voucher_barcode = (String) map.get("voucher_barcode");
             //barcode=voucher_barcode;
+            barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
             id = iid;
             mItemName.setText(itemName);
@@ -498,6 +500,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                             }
                         }
 
+                    }
+
+                    // set value in spinner for edit
+                    if (frombillitemvoucherlist){
+                        for (int i = 0; i < Integer.parseInt(serial); i++) {
+                            for (int j=i;j<arr_barcode.size();j++){
+                                if (barcodeArray[i].equals(arr_barcode.get(j))){
+                                    pairs[i].setSelection(j);
+                                }
+                            }
+                        }
                     }
 
            /*         scan.setOnClickListener(new View.OnClickListener() {
