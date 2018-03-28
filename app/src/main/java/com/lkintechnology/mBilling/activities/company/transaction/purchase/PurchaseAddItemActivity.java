@@ -142,6 +142,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     int pos = -1;
     String itemid="";
     String serialnumber;
+    public static List<String> myListForBarcode,myListForSerialNo;
+    public static Boolean boolForBarcode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,9 +151,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
         initActionbar();
+/*
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+*/
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mScannerView = new ZBarScannerView(this);
@@ -204,16 +208,18 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     appUser.serial_arr.add(serialList.get(i).trim());
                     LocalRepositories.saveAppUser(this, appUser);
                 }
-
                 Timber.i("MYSERAILNUMBER" + serialnumber);
             }
             itemid=item_id;
+          /*  boolForBarcode=true;
+            PurchaseAddItemActivity.myListForSerialNo = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
+            mSr_no.setText(serialnumber);*/
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
-            mSr_no.setText(serialnumber);
+
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -371,6 +377,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         @Override
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
+                                boolForBarcode=false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
@@ -415,6 +422,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             @Override
             public void onClick(View view) {
                 if(!mQuantity.getText().toString().equals("")) {
+                    boolForBarcode=false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(PurchaseAddItemActivity.this);
@@ -529,6 +537,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            boolForBarcode=false;
                             appUser.serial_arr.clear();
                             appUser.item_id=id;
                           //  appUser.purchase_item_serail_arr.clear();
@@ -585,8 +594,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             }
                             mSr_no.setText(listString);
                             dialogbal.dismiss();
-
-
                         }
                     });
                     dialogbal.show();
@@ -1131,6 +1138,12 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
             mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            mMap.put("serial_number",appUser.purchase_item_serail_arr);
+           /* if(PurchaseAddItemActivity.boolForBarcode){
+                mMap.put("serial_number",PurchaseAddItemActivity.myListForSerialNo);
+            }else {
+                mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            }*/
             mMap.put("unit_list",mUnitList);
             if(!frombillitemvoucherlist) {
                 appUser.mListMapForItemPurchase.add(mMap);

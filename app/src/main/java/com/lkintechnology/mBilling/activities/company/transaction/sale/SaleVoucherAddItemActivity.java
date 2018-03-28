@@ -125,10 +125,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     FrameLayout scanning_content_frame;
     @Bind(R.id.cancel)
     ImageView mCancel;
-    Boolean fromsalelist;
+    Boolean fromsalelist,boolForBarcode;
     String itemid="";
+    List<String> myListForSerialNo;
     String[] barcodeArray;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,8 +146,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-        appUser.sale_item_serial_arr.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        /*appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if (frombillitemvoucherlist) {
@@ -203,6 +204,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             //barcode=voucher_barcode;
             barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
+           /* boolForBarcode=true;
+            myListForSerialNo = new ArrayList<String>(Arrays.asList(barcode.split(",")));*/
+
             id = iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -369,6 +373,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         @Override
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
+                                boolForBarcode=false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
@@ -411,6 +416,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void onClick(View view) {
                 if (!mQuantity.getText().toString().equals("")) {
+                    boolForBarcode=false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(SaleVoucherAddItemActivity.this);
@@ -525,6 +531,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            boolForBarcode=false;
                             appUser.sale_item_serial_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.sale_item_serial_arr.add("5");
@@ -767,6 +774,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
                 mMap.put("serial_number", appUser.sale_item_serial_arr);
+
                 mMap.put("unit_list", mUnitList);
                 // mListMap.add(mMap);
 
@@ -895,7 +903,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         mTotal.setText("0.0");
                     }
                 }
-
             }
 
             @Override
