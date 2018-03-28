@@ -715,7 +715,9 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     Snackbar.make(coordinatorLayout, "enter rate", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-
+                appUser.barcode_voucher_type="purchase";
+                appUser.voucher_id_barcode=itemid;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {

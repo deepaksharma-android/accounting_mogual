@@ -18,6 +18,8 @@ public class RequestCheckBarcode {
 
         item = new HashMap<>();
         item.put("item_id", appUser.item_id);
+        item.put("id", appUser.voucher_id_barcode);
+        item.put("voucher_type", appUser.barcode_voucher_type);
         item.put("barcode", appUser.purchase_item_serail_arr);
 
 

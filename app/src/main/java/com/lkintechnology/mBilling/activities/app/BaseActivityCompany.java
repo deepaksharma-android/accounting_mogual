@@ -219,7 +219,8 @@ public class BaseActivityCompany extends AppCompatActivity {
                 .setTitle("Exit Users")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-
+                    appUser.company_logo="";
+                    LocalRepositories.saveAppUser(this,appUser);
                     startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
                     finish();
                 })
