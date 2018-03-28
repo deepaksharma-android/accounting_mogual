@@ -501,7 +501,13 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                                         Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         if(!pairs[i].getText().toString().equals("")) {
-                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
+
+                                            if ((appUser.serial_arr.size()-1)==i){
+                                                appUser.serial_arr.set(i,pairs[i].getText().toString());
+                                            }else {
+                                                appUser.serial_arr.add(pairs[i].getText().toString());
+                                            }
+//                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
                                             //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         }
@@ -998,7 +1004,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 if (appUser.serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                    Toast.makeText(SaleReturnAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SaleReturnAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
                 } else {
                     appUser.serial_arr.add(result.getContents());
                     appUser.purchase_item_serail_arr.add(result.getContents());
