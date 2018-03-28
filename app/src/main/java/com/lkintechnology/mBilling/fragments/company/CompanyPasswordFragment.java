@@ -77,7 +77,7 @@ public class CompanyPasswordFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-       // EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -204,7 +204,7 @@ public class CompanyPasswordFragment extends Fragment {
            // Toast.makeText(getActivity(), "Subscribe else", Toast.LENGTH_SHORT).show();
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -261,7 +261,6 @@ public class CompanyPasswordFragment extends Fragment {
                                 appUser.companyUserPassword = password.getText().toString();
                                 appUser.companymobile = mobile.getText().toString();
                                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                                EventBus.getDefault().register(this);
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
                                     mProgressDialog = new ProgressDialog(getActivity());
@@ -322,7 +321,7 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-            EventBus.getDefault().unregister(this);
+
         }
         else {
             dialog.dismiss();
