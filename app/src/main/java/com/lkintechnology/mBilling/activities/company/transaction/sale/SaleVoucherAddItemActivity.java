@@ -301,7 +301,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
             for (int i = 0; i < arr_new_barcode.size(); i++) {
-                arr_barcode.add(i + 1, arr_new_barcode.get(i));
+                if (!arr_new_barcode.get(i).equals("")){
+                    arr_barcode.add(i + 1, arr_new_barcode.get(i));
+                }
+
                 LocalRepositories.saveAppUser(this, appUser);
             }
 
