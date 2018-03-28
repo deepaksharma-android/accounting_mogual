@@ -666,9 +666,13 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     return;
                 }
                 if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("") | mRate.getText().toString().equals("0.0")) {
-                    Snackbar.make(coordinatorLayout, "enter minimum 1 % rate ", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "enter rate ", Snackbar.LENGTH_LONG).show();
                     return;
                 }
+                appUser.barcode_voucher_type="sale_return";
+                appUser.voucher_id_barcode=itemid;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
                     mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);

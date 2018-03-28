@@ -317,7 +317,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
 
     public List<Map> mListMapForItemPurchase = new ArrayList();
     public List<Map<String, String>> mListMapForBillPurchase = new ArrayList();
-
+   public String voucher_id_barcode="";
+    public String barcode_voucher_type;
 
 
     public String sale_return_series = "";
