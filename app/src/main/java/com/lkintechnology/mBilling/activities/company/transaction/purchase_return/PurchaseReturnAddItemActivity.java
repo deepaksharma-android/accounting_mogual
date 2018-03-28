@@ -131,6 +131,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     String itemid="";
     List<String> myListForBarcode,myListForSerialNo;
     Boolean boolForBarcode;
+    String[] barcodeArray;
 
     //activity_purchase_return_add_item
     @Override
@@ -203,6 +204,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
             voucher_barcode = (String) map.get("voucher_barcode");
+            barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
            /* boolForBarcode=true;
             myListForBarcode = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
@@ -313,9 +315,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
             for (int i = 0; i < arr_new_barcode.size(); i++) {
-                if (!arr_new_barcode.get(i).equals("")){
                     arr_barcode.add(i + 1, arr_new_barcode.get(i));
-                }
                 LocalRepositories.saveAppUser(this, appUser);
             }
             Timber.i("sssss  "+arr_barcode.toString());
@@ -499,6 +499,19 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                             pairs[i].setSelection(groupindex);
                         }
                     }
+
+                    // set value in spinner for edit
+                    if (frombillitemvoucherlist){
+                        for (int i = 0; i < Integer.parseInt(serial); i++) {
+                            for (int j=i;j<arr_barcode.size();j++){
+                                if (barcodeArray[i].equals(arr_barcode.get(j))){
+                                    pairs[i].setSelection(j);
+                                }
+                            }
+                        }
+                    }
+
+
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

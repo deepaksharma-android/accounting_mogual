@@ -128,7 +128,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     Boolean fromsalelist,boolForBarcode;
     String itemid="";
     List<String> myListForSerialNo;
-
+    String[] barcodeArray;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,6 +202,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             voucher_barcode = (String) map.get("voucher_barcode");
             //barcode=voucher_barcode;
+            barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
            /* boolForBarcode=true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(barcode.split(",")));*/
@@ -305,10 +307,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
             for (int i = 0; i < arr_new_barcode.size(); i++) {
-                if (!arr_new_barcode.get(i).equals("")){
-                    arr_barcode.add(i + 1, arr_new_barcode.get(i));
-                }
-
+                arr_barcode.add(i + 1, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
 
@@ -504,6 +503,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                             }
                         }
 
+                    }
+
+                    // set value in spinner for edit
+                    if (frombillitemvoucherlist){
+                        for (int i = 0; i < Integer.parseInt(serial); i++) {
+                            for (int j=i;j<arr_barcode.size();j++){
+                                if (barcodeArray[i].equals(arr_barcode.get(j))){
+                                    pairs[i].setSelection(j);
+                                }
+                            }
+                        }
                     }
 
            /*         scan.setOnClickListener(new View.OnClickListener() {
