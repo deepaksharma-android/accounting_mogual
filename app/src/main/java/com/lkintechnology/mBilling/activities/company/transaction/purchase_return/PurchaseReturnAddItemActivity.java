@@ -129,6 +129,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     @Bind(R.id.cancel)
     ImageView mCancel;
     String itemid="";
+    List<String> myListForBarcode,myListForSerialNo;
+    Boolean boolForBarcode;
 
     //activity_purchase_return_add_item
     @Override
@@ -147,8 +149,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-        appUser.sale_item_serial_arr.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+       /* appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
         if(frombillitemvoucherlist){
             pos=getIntent().getExtras().getInt("pos");
@@ -202,6 +204,10 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             id=iid;
             voucher_barcode = (String) map.get("voucher_barcode");
             mSr_no.setText(voucher_barcode);
+           /* boolForBarcode=true;
+            myListForBarcode = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
+            myListForSerialNo = new ArrayList<String>(Arrays.asList(barcode.split(",")));*/
+
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -370,6 +376,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                         @Override
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
+                                boolForBarcode=false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
@@ -411,6 +418,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View view) {
                 if (!mQuantity.getText().toString().equals("")) {
+                    boolForBarcode=false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(PurchaseReturnAddItemActivity.this);
@@ -494,6 +502,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            boolForBarcode=false;
                             appUser.sale_item_serial_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.sale_item_serial_arr.add("5");
@@ -713,7 +722,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 mMap.put("main_unit",main_unit);
                 mMap.put("batch_wise",batchwise);
                 mMap.put("serial_wise",serailwise);
-                mMap.put("barcode",barcode);
+                mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode",mSr_no.getText().toString());
                 mMap.put("purchase_unit",purchase_unit);
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();

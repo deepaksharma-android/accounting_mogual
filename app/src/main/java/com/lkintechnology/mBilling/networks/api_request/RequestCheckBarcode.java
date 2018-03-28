@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.networks.api_request;
 
 import android.content.Context;
 
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
@@ -21,9 +22,13 @@ public class RequestCheckBarcode {
         item.put("id", appUser.voucher_id_barcode);
         item.put("voucher_type", appUser.barcode_voucher_type);
         item.put("barcode", appUser.purchase_item_serail_arr);
-
-
-
+/*
+        if(PurchaseAddItemActivity.boolForBarcode){
+            item.put("barcode", PurchaseAddItemActivity.myListForSerialNo);
+        }else {
+            item.put("barcode", appUser.purchase_item_serail_arr);
+        }
+*/
 
     }
 }

@@ -153,9 +153,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         mUnitList = new ArrayList<>();
 
         mScannerView = new ZBarScannerView(this);
-        appUser.serial_arr.clear();
-        appUser.purchase_item_serail_arr.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+       /* appUser.serial_arr.clear();
+        appUser.purchase_item_serail_arr.clear();*/
+        //LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
