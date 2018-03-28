@@ -149,6 +149,16 @@ public class PurchaseReturnVoucherDetailsItemList {
     public String conversion_factor;
     public String tax_category_id;
     public String tax_category;
+    public ArrayList<String> voucher_barcode;
+
+    public ArrayList<String> getVoucher_barcode() {
+        return voucher_barcode;
+    }
+
+    public void setVoucher_barcode(ArrayList<String> voucher_barcode) {
+        this.voucher_barcode = voucher_barcode;
+    }
+
     public ArrayList<String> getBarcode() {
         return barcode;
     }
