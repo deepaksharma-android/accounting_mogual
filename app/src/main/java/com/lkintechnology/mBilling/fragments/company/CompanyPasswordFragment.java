@@ -24,6 +24,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.adapters.CompanyLoginAdapter;
+import com.lkintechnology.mBilling.adapters.UserFragmentAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CompanyAuthenticateResponse;
@@ -35,6 +36,8 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,6 +59,7 @@ public class CompanyPasswordFragment extends Fragment {
     @Bind(R.id.company_user_recycler_view)
     RecyclerView mRecyclerView;
     CompanyLoginAdapter mAdapter;
+    UserFragmentAdapter userFragmentAdapter;
     @Bind(R.id.fab)
     FloatingActionButton mAddCompanyLogin;
     RecyclerView.LayoutManager layoutManager;
@@ -63,6 +67,7 @@ public class CompanyPasswordFragment extends Fragment {
     public CompanyPasswordFragment() {
         // Required empty public constructor
     }
+    private static ArrayList<String> usernameList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -189,6 +194,7 @@ public class CompanyPasswordFragment extends Fragment {
                 mRecyclerView.setLayoutManager(layoutManager);
                 mAdapter=new CompanyLoginAdapter(getActivity(),response.getUsers());
                 mRecyclerView.setAdapter(mAdapter);
+
             }else {
                 Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
             }
@@ -242,6 +248,8 @@ public class CompanyPasswordFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                usernameList=new ArrayList<>();
+                usernameList.add(username.getText().toString());
                 if(!mobile.getText().toString().equals("")) {
                     if (!username.getText().toString().equals("")) {
                         if (!password.getText().toString().equals("")) {
@@ -296,10 +304,17 @@ public class CompanyPasswordFragment extends Fragment {
 
     @Subscribe
     public void createCompany(CompanyLoginResponse response){
+        /*usernameList=new ArrayList<>();
+        usernameList.add(username.)*/
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             dialog.dismiss();
-            startActivity(new Intent(getActivity().getApplicationContext(),CompanyDashboardActivity.class));
+          startActivity(new Intent(getActivity().getApplicationContext(),CompanyDashboardActivity.class));
+           /* layoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(layoutManager);
+            userFragmentAdapter=new UserFragmentAdapter(getActivity(),usernameList);
+            mRecyclerView.setAdapter(userFragmentAdapter);
+            userFragmentAdapter.notifyDataSetChanged();*/
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

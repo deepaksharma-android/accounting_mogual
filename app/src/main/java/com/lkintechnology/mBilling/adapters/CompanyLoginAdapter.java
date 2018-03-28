@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 
 public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapter.ViewHolder> {
     private ArrayList<Users> data;
+    private ArrayList<String> userName;
     private Context context;
     int[] images;
     public Dialog dialog;
@@ -69,6 +70,28 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
 
 
     }
+  /* @Override
+   public void onBindViewHolder(CompanyLoginAdapter.ViewHolder viewHolder, int i) {
+       appUser=LocalRepositories.getAppUser(context);
+       viewHolder.mCompanyUserName.setText(userName.get(i));
+       //appUser.company_user_id= String.valueOf(data.get(i).getId());
+       viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+             *//*  if(!userName.get(i).getAdmin()) {
+                   Intent intent = new Intent(context, CompanyAuthrizationActivity.class);
+                   CompanyAuthrizationActivity.data=data.get(i);
+                   Integer user_id = data.get(i).getId();
+                   appUser.authorizations__setting_user_id = user_id;
+                   LocalRepositories.saveAppUser(context, appUser);
+                   context.startActivity(intent);
+               }*//*
+           }
+       });
+
+
+
+   }*/
 
     @Override
     public int getItemCount() {

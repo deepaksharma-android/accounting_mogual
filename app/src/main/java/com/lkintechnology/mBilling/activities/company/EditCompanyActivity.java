@@ -92,6 +92,7 @@ public class EditCompanyActivity extends AppCompatActivity {
                         }
                     });
             snackbar.show();
+            mTabLayout.setEnabled(false);
         }
 
        /* Boolean isConnected = ConnectivityReceiver.isConnected();
