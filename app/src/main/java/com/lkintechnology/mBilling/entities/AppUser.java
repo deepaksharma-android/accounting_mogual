@@ -542,7 +542,8 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public int authorizations__setting_user_id;
     public String serial_ref_no;
     public Map<String,String> transport_details =new HashMap<>();
-   // public String forAccountIntentName="";
+    public ArrayList<String> company_user;
+    // public String forAccountIntentName="";
    // public String forAccountIntentId="";
     //public boolean forAccountIntentBool;
 
