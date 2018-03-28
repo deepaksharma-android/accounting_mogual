@@ -84,7 +84,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(count==0){
-                    appUser.stock_serial_arr.clear();
+//                    appUser.stock_serial_arr.clear();
                     appUser.stock_item_serail_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     mSr_no.setText("");
@@ -168,7 +168,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                                     if (appUser.stock_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                                        Toast.makeText(ItemOpeningStockActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(ItemOpeningStockActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         appUser.stock_serial_arr.add(mSerialNumber.getText().toString());
                                         appUser.stock_item_serail_arr.add(mSerialNumber.getText().toString());
@@ -331,8 +331,14 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                         } else {
+
                                             if (!pairs[i].getText().toString().equals("")) {
-                                                appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                                if ((appUser.stock_serial_arr.size()-1)==i){
+                                                    appUser.stock_serial_arr.set(i,pairs[i].getText().toString());
+                                                }else {
+                                                    appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                                }
+
                                                 //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
                                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             } else {
