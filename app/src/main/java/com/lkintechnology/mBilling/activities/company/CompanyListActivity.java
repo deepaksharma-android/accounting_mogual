@@ -86,6 +86,7 @@ public class CompanyListActivity extends BaseActivity {
         mFloatingButton.bringToFront();
         if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
+
         }
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -448,6 +449,7 @@ public class CompanyListActivity extends BaseActivity {
             editor.putBoolean("RanBefore", true);
             editor.commit();
             mOverlayLayout.setVisibility(View.VISIBLE);
+
             mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
 
                 @Override
