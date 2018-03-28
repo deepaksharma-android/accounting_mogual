@@ -72,7 +72,7 @@ public class CompanyPasswordFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+       // EventBus.getDefault().register(this);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -153,7 +153,7 @@ public class CompanyPasswordFragment extends Fragment {
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
         if (visible && isResumed()) {
-           // EventBus.getDefault().register(this);
+            EventBus.getDefault().register(this);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
