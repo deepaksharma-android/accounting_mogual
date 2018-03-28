@@ -7,6 +7,9 @@ import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.networks.Api;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -61,8 +64,9 @@ public class ThisApp extends Application
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-
+        OkHttpClient.Builder client = new OkHttpClient.Builder()
+        .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS);
 
         client.addInterceptor(chain -> {
 

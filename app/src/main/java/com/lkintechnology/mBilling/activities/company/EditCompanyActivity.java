@@ -17,7 +17,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -298,6 +300,16 @@ public class EditCompanyActivity extends AppCompatActivity {
 //                LocalRepositories.saveAppUser(this,appUser);
                 setupViewPager(mHeaderViewPager);
                 mTabLayout.setupWithViewPager(mHeaderViewPager);
+//                mTabLayout.clearOnTabSelectedListeners();
+                LinearLayout tabStrip = ((LinearLayout)mTabLayout.getChildAt(0));
+                for(int j = 0; j < tabStrip.getChildCount(); j++) {
+                    tabStrip.getChildAt(j).setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
+                }
                 mHeaderViewPager.setOffscreenPageLimit(1);
             }
         } else {

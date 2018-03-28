@@ -92,7 +92,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     String packaging_unit_con_factor;
     String mrp;
     String tax;
-    String barcode;
+    String barcode,voucher_barcode;
     Boolean frombillitemvoucherlist;
     String name;
     String desc;
@@ -127,6 +127,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     ImageView mCancel;
     Boolean fromsalelist;
     String itemid="";
+    String[] barcodeArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,11 +199,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
-            Timber.i("ssssss  "+barcode);
-            Timber.i("ssssss  "+arr_barcode.toString());
-            Timber.i("ssssss  "+arr_new_barcode.toString());
-
-            mSr_no.setText(barcode);
+            voucher_barcode = (String) map.get("voucher_barcode");
+            //barcode=voucher_barcode;
+            barcodeArray=voucher_barcode.split(",");
+            mSr_no.setText(voucher_barcode);
             id = iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -499,6 +499,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                     }
 
+                    // set value in spinner for edit
+                    if (frombillitemvoucherlist){
+                        for (int i = 0; i < Integer.parseInt(serial); i++) {
+                            for (int j=i;j<arr_barcode.size();j++){
+                                if (barcodeArray[i].equals(arr_barcode.get(j))){
+                                    pairs[i].setSelection(j);
+                                }
+                            }
+                        }
+                    }
+
            /*         scan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -533,8 +544,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     }
                                 }
-
-
                             }
                             List<String> arr = new ArrayList<String>();
                             for (int i = 0; i < appUser.sale_item_serial_arr.size(); i++) {
@@ -725,6 +734,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("batch_wise", batchwise);
                 mMap.put("serial_wise", serailwise);
                 mMap.put("barcode", barcode);
+                mMap.put("voucher_barcode",mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
 
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();

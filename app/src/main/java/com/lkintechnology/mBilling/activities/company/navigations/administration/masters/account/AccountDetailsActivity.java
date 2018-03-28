@@ -343,16 +343,18 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
         EditText account_pinCode = (EditText) dialogaddress.findViewById(R.id.pincode);
         Spinner spinner_state = (Spinner) dialogaddress.findViewById(R.id.state_spinner);
         //spinner_state.setSelection(12);
-        if (!appUser.state.equals("")) {
-            String state = appUser.state.trim();// insert code here
-            int stateindex = -1;
-            for (int i = 0; i < getResources().getStringArray(R.array.state).length; i++) {
-                if (getResources().getStringArray(R.array.state)[i].equals(state)) {
-                    stateindex = i;
-                    break;
+        if(appUser.state!=null) {
+            if (!appUser.state.equals("")||!appUser.state.equals("null")){
+                String state = appUser.state.trim();// insert code here
+                int stateindex = -1;
+                for (int i = 0; i < getResources().getStringArray(R.array.state).length; i++) {
+                    if (getResources().getStringArray(R.array.state)[i].equals(state)) {
+                        stateindex = i;
+                        break;
+                    }
                 }
+                spinner_state.setSelection(stateindex);
             }
-            spinner_state.setSelection(stateindex);
         }
         LinearLayout submit = (LinearLayout) dialogaddress.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialogaddress.findViewById(R.id.close);
