@@ -79,6 +79,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -1087,6 +1088,16 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     }
                     String strfromArrayList = sb.toString();
                     mMap.put("barcode",strfromArrayList);
+                    appUser.sale_item_serial_arr = response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    Timber.i("zzzzz  "+appUser.sale_item_serial_arr.toString());
+                    StringBuilder sb1 = new StringBuilder();
+                    for(String str : response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()){
+                        sb1.append(str).append(","); //separating contents using semi colon
+                    }
+                    String strfromArraList1 =sb1.toString();
+                    Timber.i("zzzzzz  "+strfromArraList1);
+                    mMap.put("voucher_barcode",strfromArraList1);
                     mMap.put("serial_number",strfromArrayList);
                     mMap.put("purchase_unit", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList=new ArrayList<>();

@@ -113,7 +113,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     String id;
     ArrayAdapter<String> spinnerAdapter;
     ArrayList arr_barcode;
-    String barcode;
+    String barcode,voucher_barcode;
     ArrayList arr_new_barcode;
     private ZBarScannerView mScannerView;
     @Bind(R.id.mainLayout)
@@ -200,7 +200,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
-            mSr_no.setText(barcode);
+            voucher_barcode = (String) map.get("voucher_barcode");
+            mSr_no.setText(voucher_barcode);
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -711,6 +712,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 mMap.put("batch_wise",batchwise);
                 mMap.put("serial_wise",serailwise);
                 mMap.put("barcode",barcode);
+                mMap.put("voucher_barcode",mSr_no.getText().toString());
                 mMap.put("purchase_unit",purchase_unit);
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
