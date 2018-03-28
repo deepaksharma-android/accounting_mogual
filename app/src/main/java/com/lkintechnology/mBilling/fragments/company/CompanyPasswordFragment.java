@@ -66,12 +66,13 @@ public class CompanyPasswordFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-       /* EventBus.getDefault().register(this);*/
+
         super.onCreate(savedInstanceState);
     }
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -152,7 +153,7 @@ public class CompanyPasswordFragment extends Fragment {
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
         if (visible && isResumed()) {
-            EventBus.getDefault().register(this);
+           // EventBus.getDefault().register(this);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
@@ -182,6 +183,7 @@ public class CompanyPasswordFragment extends Fragment {
     public void getcompanyuser(CompanyUserResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+
            // mRecyclerView.setHasFixedSize(true);
            // Toast.makeText(getActivity(), "Subscribe if", Toast.LENGTH_SHORT).show();
             if(response.getUsers().size()!=0){
@@ -196,6 +198,7 @@ public class CompanyPasswordFragment extends Fragment {
            // Toast.makeText(getActivity(), "Subscribe else", Toast.LENGTH_SHORT).show();
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -250,6 +253,7 @@ public class CompanyPasswordFragment extends Fragment {
                                 appUser.companyUserPassword = password.getText().toString();
                                 appUser.companymobile = mobile.getText().toString();
                                 LocalRepositories.saveAppUser(getActivity(), appUser);
+                                EventBus.getDefault().register(this);
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
                                     mProgressDialog = new ProgressDialog(getActivity());
@@ -303,7 +307,7 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-
+            EventBus.getDefault().unregister(this);
         }
         else {
             dialog.dismiss();
