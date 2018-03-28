@@ -1078,7 +1078,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 mMap.put("batch_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                 mMap.put("serial_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                 StringBuilder sb=new StringBuilder();
-                for(String str : response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
+                for(String str : response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()){
                     sb.append(str).append(","); //separating contents using semi colon
                 }
                 String strfromArrayList = sb.toString();
