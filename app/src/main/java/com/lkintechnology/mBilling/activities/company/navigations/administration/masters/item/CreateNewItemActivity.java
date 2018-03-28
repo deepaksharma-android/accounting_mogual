@@ -350,6 +350,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                /* if (!mStore.getText().toString().equals("")) {*/
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
+                                appUser.stock_serial_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
               /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                     if (mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))) {
