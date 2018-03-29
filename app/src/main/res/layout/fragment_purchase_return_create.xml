@@ -224,7 +224,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/dp_5">
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         style="@style/Gotham_Medium"
