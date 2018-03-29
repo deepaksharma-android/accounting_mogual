@@ -151,8 +151,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-       /* appUser.sale_item_serial_arr.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+        appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
         if(frombillitemvoucherlist){
             pos=getIntent().getExtras().getInt("pos");
@@ -718,7 +718,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     Snackbar.make(coordinatorLayout, "enter rate", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-
+                if(!frombillitemvoucherlist){
+                    quantity=mQuantity.getText().toString();
+                }
                 mMap.put("id", itemid);
                 mMap.put("item_id",id);
                 mMap.put("item_name", mItemName.getText().toString());
