@@ -970,10 +970,14 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
     @Override
     public void onBackPressed() {
-        if ( ExpandableItemListActivity.comingFrom == 1) {
-            startActivity(new Intent(this, ExpandableItemListActivity.class));
+        //if ( ExpandableItemListActivity.comingFrom == 1) {
+           /* startActivity(new Intent(this, ExpandableItemListActivity.class));
+            finish();*/
+            Intent intent = new Intent(this, ExpandableItemListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
-        }
+       // }
     }
 
     private int getWidth(){

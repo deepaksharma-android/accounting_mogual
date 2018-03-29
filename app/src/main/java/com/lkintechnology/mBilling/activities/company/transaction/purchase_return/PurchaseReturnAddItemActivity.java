@@ -876,9 +876,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
-                  /*  mSr_no.setText("");
+                    mSr_no.setText("");
                     appUser.sale_item_serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {

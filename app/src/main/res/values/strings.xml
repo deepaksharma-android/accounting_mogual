@@ -197,7 +197,6 @@
         <item>Composition Expense</item>
         <item>Cr. Note Received Against Purchase</item>
         <item>Dr. Note Received Against Purchase</item>
-        <!-- <item>Consolidated RCM Payable</item> -->
         <item>GST Tax Adjustments</item>
         <item>GST Payment to Government</item>
     </string-array>
