@@ -1173,7 +1173,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
             in.putExtra("is", true);
-            intent.putExtra("fromsalelist",true);
+            in.putExtra("fromsalelist",true);
             startActivity(in);
             finish();
 
