@@ -782,6 +782,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 Intent in = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
                 in.putExtra("is", true);
                 in.putExtra("fromdashboard",false);
+                in.putExtra("fromsalelist",true);
                 startActivity(in);
                 if ((appUser.sale_item_serial_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.sale_item_serial_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
                     finish();

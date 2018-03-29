@@ -1117,6 +1117,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             Intent in = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
             in.putExtra("is", true);
             in.putExtra("fromdashboard",false);
+            in.putExtra("fromsalelist",true);
             startActivity(in);
             finish();
             snackbar = Snackbar
