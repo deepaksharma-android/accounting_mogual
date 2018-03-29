@@ -1018,7 +1018,9 @@ public class CreatePurchaseFragment extends Fragment {
                     mMap.put("main_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mMap.put("batch_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
-                   /* appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                    appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    /* appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     Timber.i("zzzzz "+appUser.purchase_item_serail_arr.toString());
                     StringBuilder sb = new StringBuilder();

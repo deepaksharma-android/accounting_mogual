@@ -138,6 +138,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     int pos = -1;
     String itemid="";
     String serialnumber;
+    String quantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,7 +167,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             String item_id=(String) map.get("id");
             String itemName= (String) map.get("item_name");
             String description= (String) map.get("description");
-            String quantity= (String) map.get("quantity");
+            quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
             String srNo= (String) map.get("sr_no");
             String rate= (String) map.get("rate");
@@ -490,6 +491,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                             public void onClick(View view) {
                                 appUser.serial_arr.clear();
                                 appUser.item_id=id;
+                                quantity=mQuantity.getText().toString();
                                 //  appUser.purchase_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                 for(int i=0;i<Integer.parseInt(serial);i++) {
@@ -678,10 +680,12 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 appUser.barcode_voucher_type="sale_return";
                 appUser.voucher_id_barcode=itemid;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
+                if(!frombillitemvoucherlist){
+                    quantity=mQuantity.getText().toString();
+                }
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    if ((appUser.purchase_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.purchase_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                    if(mQuantity.getText().toString().equals(quantity)) {
                         mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -794,9 +798,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
-                    mSr_no.setText("");
+                   /* mSr_no.setText("");
                     appUser.sale_item_serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {

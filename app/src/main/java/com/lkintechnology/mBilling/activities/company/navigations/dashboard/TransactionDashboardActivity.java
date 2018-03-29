@@ -114,6 +114,9 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
         appUser = LocalRepositories.getAppUser(context);
         appUser.transport_details.clear();
+        appUser.sale_item_serial_arr.clear();
+        appUser.purchase_item_serail_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         LocalRepositories.saveAppUser(this,appUser);
         setAddCompany(2);
         setAppBarTitleCompany(1, "TRANSACTION");
