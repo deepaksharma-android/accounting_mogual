@@ -501,7 +501,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     }
 
                     // set value in spinner for edit
-                    if (frombillitemvoucherlist){
+                  /*  if (frombillitemvoucherlist){
                         for (int i = 0; i < Integer.parseInt(serial); i++) {
                             for (int j=i;j<arr_barcode.size();j++){
                                 if (barcodeArray[i].equals(arr_barcode.get(j))){
@@ -509,7 +509,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                                 }
                             }
                         }
-                    }
+                    }*/
 
 
                     submit.setOnClickListener(new View.OnClickListener() {
