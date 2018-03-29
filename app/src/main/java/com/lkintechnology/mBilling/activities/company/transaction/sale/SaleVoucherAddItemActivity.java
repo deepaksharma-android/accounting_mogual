@@ -187,7 +187,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mUnitList.add(myList.get(i).trim());
             }
             Timber.i("UNIT_LIST" + myList);
-            barcode = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
+            barcode = (String) map.get("barcode").toString().replace("[", "").replace("]", "");
             arr_barcode = new ArrayList();
             arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");

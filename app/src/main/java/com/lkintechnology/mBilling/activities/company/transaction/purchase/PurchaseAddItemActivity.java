@@ -1139,7 +1139,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
             mMap.put("serial_number",appUser.purchase_item_serail_arr);
-            mMap.put("serial_number",appUser.purchase_item_serail_arr);
            /* if(PurchaseAddItemActivity.boolForBarcode){
                 mMap.put("serial_number",PurchaseAddItemActivity.myListForSerialNo);
             }else {
