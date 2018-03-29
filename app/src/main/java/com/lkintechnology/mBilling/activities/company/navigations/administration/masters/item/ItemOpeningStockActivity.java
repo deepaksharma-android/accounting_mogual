@@ -65,6 +65,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     FrameLayout scanning_content_frame;
     @Bind(R.id.cancel)
     ImageView mCancel;
+    Boolean stock=true;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,15 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             listString += s + ",";
         }
         mSr_no.setText(listString);
+       /* if(mSr_no.getText().toString().equals("")){
+            mSr_no.setText(".");
+        }
+        if(mStockQuantity.equals("0")){
+            mStockQuantity.setText("");
+            mStockPrice.setText("");
+            mStockValue.setText("");
+            mSr_no.setText(".");
+        }*/
         mScannerView = new ZBarScannerView(this);
         mStockQuantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,14 +96,17 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count==0){
-                    mSr_no.setText("");
+                stock=false;
+                      /*  if(count==0){
+                            mSr_no.setText("");
+                        }*/
+
                 //    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
 //                    appUser.stock_serial_arr.clear();
                  /*   appUser.stock_item_serail_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     mSr_no.setText("");*/
-                }
+
                 if (!mStockQuantity.getText().toString().isEmpty()) {
                     stockquantity = Double.valueOf(mStockQuantity.getText().toString());
                     if (!mStockPrice.getText().toString().isEmpty()) {
@@ -108,6 +121,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             @Override
             public void afterTextChanged(Editable s) {
+
                // Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
             }
         });
@@ -325,6 +339,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                             @Override
                             public void onClick(View view) {
                               //  appUser.stock_serial_arr.add("3");
+                                stock=true;
                                 Preferences.getInstance(getApplicationContext()).setSerial("");
                                 appUser.stock_serial_arr.clear();
                                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
@@ -399,6 +414,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
          */
 
         if (! Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")) {
+            stock=true;
             mStockQuantity.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_quantity());
         }
         if (!Preferences.getInstance(getApplicationContext()).getItem_stock_amount().equals("")) {
@@ -411,15 +427,18 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")){
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                if(stock==false&&appUser.stock_serial_arr.size()>0){
+                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
                 }
-                if (!mSr_no.getText().toString().equals("")) {
+                else{
+                    finish();
+                }
+               /* if (!mSr_no.getText().toString().equals("")) {
                     finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
-                }
+                }*/
                 if(!mStockQuantity.getText().toString().equals("")) {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                 }
