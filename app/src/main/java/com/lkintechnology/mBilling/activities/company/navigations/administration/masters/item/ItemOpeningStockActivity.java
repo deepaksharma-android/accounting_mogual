@@ -73,7 +73,10 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         initActionbar();
         appUser= LocalRepositories.getAppUser(this);
         String listString = "";
-
+        for (String s : appUser.stock_serial_arr) {
+            listString += s + ",";
+        }
+        mSr_no.setText(listString);
         mScannerView = new ZBarScannerView(this);
         mStockQuantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,9 +88,9 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(count==0){
 //                    appUser.stock_serial_arr.clear();
-                    appUser.stock_item_serail_arr.clear();
+                 /*   appUser.stock_item_serail_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                    mSr_no.setText("");
+                    mSr_no.setText("");*/
                 }
                 if (!mStockQuantity.getText().toString().isEmpty()) {
                     stockquantity = Double.valueOf(mStockQuantity.getText().toString());
@@ -322,6 +325,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                               //  appUser.stock_serial_arr.add("3");
                                 Preferences.getInstance(getApplicationContext()).setSerial("");
                                 appUser.stock_serial_arr.clear();
+                                Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                                // appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
@@ -405,7 +409,10 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ((appUser.stock_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.stock_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                if(Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")){
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                }
+                if (Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals(mStockQuantity.getText().toString())) {
                     finish();
                 }
                 else{

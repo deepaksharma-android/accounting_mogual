@@ -283,7 +283,10 @@ public class CreateSaleReturnFragment extends Fragment {
                 ParameterConstant.checkStartActivityResultForAccount =8;
                 ParameterConstant.checkForPurchaseTypeList=2;
                 SaleTypeListActivity.isDirectForSaleType=false;
-                startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
+                //startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
+                Intent intent=new Intent(getContext(),PurchaseTypeListActivity.class);
+                intent.putExtra("sale_return",true);
+                getActivity().startActivityForResult(intent,2);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
@@ -1077,6 +1080,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 mMap.put("main_unit",response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                 mMap.put("batch_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                 mMap.put("serial_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
+                appUser.purchase_item_serail_arr = response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 /*appUser.purchase_item_serail_arr = response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 StringBuilder sb=new StringBuilder();

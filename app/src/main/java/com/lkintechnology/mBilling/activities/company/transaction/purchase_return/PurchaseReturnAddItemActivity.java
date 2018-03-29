@@ -784,12 +784,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 in.putExtra("fromdashboard",false);
                 in.putExtra("fromsalelist",true);
                 startActivity(in);
-                if ((appUser.sale_item_serial_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.sale_item_serial_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
-                    finish();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
-                }
+                finish();
             }
         });
 
@@ -875,9 +870,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
-                    mSr_no.setText("");
+                  /*  mSr_no.setText("");
                     appUser.sale_item_serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {

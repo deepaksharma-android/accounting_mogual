@@ -144,6 +144,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     String serialnumber;
     public static List<String> myListForBarcode,myListForSerialNo;
     public static Boolean boolForBarcode;
+    String quantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +173,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             String iid=(String)map.get("item_id");
             String item_id=(String) map.get("id");
             String description= (String) map.get("description");
-            String quantity= (String) map.get("quantity");
+             quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
             String srNo= (String) map.get("sr_no");
             String rate= (String) map.get("rate");
@@ -541,6 +542,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             boolForBarcode=false;
                             appUser.serial_arr.clear();
                             appUser.item_id=id;
+                            quantity=mQuantity.getText().toString();
                           //  appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             for(int i=0;i<Integer.parseInt(serial);i++) {
@@ -733,21 +735,24 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 appUser.barcode_voucher_type = "purchase";
                 appUser.voucher_id_barcode = itemid;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                if(!frombillitemvoucherlist){
+                    quantity=mQuantity.getText().toString();
+                }
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    if ((appUser.purchase_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.purchase_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
-                        mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
-                    }
+                        if(mQuantity.getText().toString().equals(quantity)) {
+                            mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
+                        }
                     else{
-                        Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
-                    }
+                            Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -848,9 +853,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
-                    mSr_no.setText("");
-                    appUser.sale_item_serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+         /*           appUser.sale_item_serial_arr.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
