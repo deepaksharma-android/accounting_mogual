@@ -129,7 +129,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     String itemid="";
     List<String> myListForSerialNo;
     String[] barcodeArray;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

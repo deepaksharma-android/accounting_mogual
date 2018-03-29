@@ -211,6 +211,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 Timber.i("MYSERAILNUMBER" + serialnumber);
             }
             itemid=item_id;
+            mSr_no.setText(serialnumber);
           /*  boolForBarcode=true;
             PurchaseAddItemActivity.myListForSerialNo = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
             mSr_no.setText(serialnumber);*/
