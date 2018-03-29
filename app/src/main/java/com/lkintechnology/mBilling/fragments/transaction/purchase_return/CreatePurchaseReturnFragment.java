@@ -1106,8 +1106,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     }
                     String strfromArrayList = sb.toString();
                     mMap.put("barcode",strfromArrayList);
-                   /* appUser.sale_item_serial_arr = response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                    appUser.sale_item_serial_arr = response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     Timber.i("zzzzz  "+appUser.sale_item_serial_arr.toString());
                     StringBuilder sb1 = new StringBuilder();
                     for(String str : response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()){

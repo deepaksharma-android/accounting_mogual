@@ -129,7 +129,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     String itemid="";
     List<String> myListForSerialNo;
     String[] barcodeArray;
-
+    String quantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,8 +146,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-        /*appUser.sale_item_serial_arr.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
+        appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if (frombillitemvoucherlist) {
@@ -159,7 +159,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             String iid = (String) map.get("item_id");
             String itemName = (String) map.get("item_name");
             String description = (String) map.get("description");
-            String quantity = (String) map.get("quantity");
+            quantity = (String) map.get("quantity");
             String unit = (String) map.get("unit");
             String srNo = (String) map.get("sr_no");
             String rate = (String) map.get("rate");
@@ -532,6 +532,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         @Override
                         public void onClick(View view) {
                             boolForBarcode=false;
+                            quantity=mQuantity.getText().toString();
                             appUser.sale_item_serial_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.sale_item_serial_arr.add("5");
@@ -720,7 +721,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     Snackbar.make(coordinatorLayout, "enter rate", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-
+                if(!frombillitemvoucherlist){
+                    quantity=mQuantity.getText().toString();
+                }
                 mMap.put("id", itemid);
                 mMap.put("item_id", id);
                 mMap.put("item_name", mItemName.getText().toString());
@@ -787,17 +790,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     appUser.mListMapForItemSale.add(finalPos, mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
-                in.putExtra("fromdashboard",false);
-              /*  if(fromsalelist){
-                    in.putExtra("fromsalelist", true);
-                }
-                else{
-                    in.putExtra("fromsalelist", false);
-                }*/
-                in.putExtra("is", true);
-                startActivity(in);
-                if ((appUser.sale_item_serial_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.sale_item_serial_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+
+                if(mQuantity.getText().toString().equals(quantity)) {
+                    Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                    in.putExtra("fromdashboard",false);
+                    in.putExtra("is", true);
+                    startActivity(in);
                     finish();
                 }
                 else{
@@ -887,9 +885,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
-                    mSr_no.setText("");
+                  /*  mSr_no.setText("");
                     appUser.sale_item_serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
