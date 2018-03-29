@@ -200,14 +200,17 @@ public class RegisterActivity extends RegisterAbstractActivity {
                         if (Validation.isPwdFormatValid(mConfirmPassword.getText().toString())) {
                             if(mPassword.getText().toString().matches(mConfirmPassword.getText().toString())) {
                                 if (!mzip_code.getText().toString().equals("")) {
-                                    appUser.name = mName.getText().toString();
-                                    appUser.email = mEmail.getText().toString();
-                                    appUser.mobile = mMobile.getText().toString();
-                                    appUser.password = mPassword.getText().toString();
-                                    appUser.zipcode = mzip_code.getText().toString();
-                                    appUser.salesmanmobile = mSalesman_mobile.getText().toString();
-                                    LocalRepositories.saveAppUser(this, appUser);
-                                    logInRequest();
+                                    if (validate()) {
+
+                                            appUser.name = mName.getText().toString();
+                                            appUser.email = mEmail.getText().toString();
+                                            appUser.mobile = mMobile.getText().toString();
+                                            appUser.password = mPassword.getText().toString();
+                                            appUser.zipcode = mzip_code.getText().toString();
+                                            appUser.salesmanmobile = mSalesman_mobile.getText().toString();
+                                            LocalRepositories.saveAppUser(this, appUser);
+                                            logInRequest();
+                                    }
                                 }
                                 else{
                                     snackbar = Snackbar
@@ -248,6 +251,39 @@ public class RegisterActivity extends RegisterAbstractActivity {
             snackbar.show();
 
         }
+    }
+   //   check validation on zipcode and email mobile
+    private boolean validate() {
+        if (mzip_code.getText().toString().trim().length()<6){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter Valid Pincode", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else if (mEmail.getText().toString().length()==0){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter Email", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString().trim()).matches()){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Invalid Email", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else if (mSalesman_mobile.getText().toString().length()==0){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter Salesman Mobile Number", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else if (mSalesman_mobile.getText().toString().trim().length()< 10 | mSalesman_mobile.getText().toString().trim().length()> 12){
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "Enter Valid Mobile Number", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else {
+            return true;
+        }
+
+
     }
 
 

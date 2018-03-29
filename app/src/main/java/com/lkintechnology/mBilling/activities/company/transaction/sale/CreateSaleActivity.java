@@ -57,7 +57,7 @@ public class CreateSaleActivity extends AppCompatActivity {
     public static boolean fromsalelist;
     public static boolean fromdashboard;
 
-
+  
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +80,7 @@ public class CreateSaleActivity extends AppCompatActivity {
 
 
         initActionbar();
+
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
         Intent intent = getIntent();
@@ -115,7 +116,9 @@ public class CreateSaleActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
+
         actionbarTitle.setText(title);
+
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
