@@ -501,7 +501,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     }
 
                     // set value in spinner for edit
-                    if (frombillitemvoucherlist){
+                  /*  if (frombillitemvoucherlist){
                         for (int i = 0; i < Integer.parseInt(serial); i++) {
                             for (int j=i;j<arr_barcode.size();j++){
                                 if (barcodeArray[i].equals(arr_barcode.get(j))){
@@ -509,7 +509,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                                 }
                             }
                         }
-                    }
+                    }*/
 
 
                     submit.setOnClickListener(new View.OnClickListener() {
@@ -716,6 +716,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     Snackbar.make(coordinatorLayout, "enter rate", Snackbar.LENGTH_LONG).show();
                     return;
                 }
+
                 mMap.put("id", itemid);
                 mMap.put("item_id",id);
                 mMap.put("item_name", mItemName.getText().toString());
@@ -782,7 +783,12 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 in.putExtra("is", true);
                 in.putExtra("fromdashboard",false);
                 startActivity(in);
-                finish();
+                if ((appUser.sale_item_serial_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.sale_item_serial_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                }
             }
         });
 

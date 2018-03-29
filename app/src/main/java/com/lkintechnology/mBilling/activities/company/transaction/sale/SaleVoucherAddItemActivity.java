@@ -187,7 +187,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mUnitList.add(myList.get(i).trim());
             }
             Timber.i("UNIT_LIST" + myList);
-            barcode = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
+            barcode = (String) map.get("barcode").toString().replace("[", "").replace("]", "");
             arr_barcode = new ArrayList();
             arr_new_barcode = new ArrayList<String>(Arrays.asList(barcode.split(",")));
             arr_barcode.add(0, "None");
@@ -506,7 +506,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     }
 
                     // set value in spinner for edit
-                    if (frombillitemvoucherlist){
+                   /* if (frombillitemvoucherlist){
                         for (int i = 0; i < Integer.parseInt(serial); i++) {
                             for (int j=i;j<arr_barcode.size();j++){
                                 if (barcodeArray[i].equals(arr_barcode.get(j))){
@@ -514,7 +514,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 }
                             }
                         }
-                    }
+                    }*/
 
            /*         scan.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -797,7 +797,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 }*/
                 in.putExtra("is", true);
                 startActivity(in);
-                finish();
+                if ((appUser.sale_item_serial_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.sale_item_serial_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                }
             }
         });
 

@@ -681,13 +681,18 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
+                    if ((appUser.purchase_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.purchase_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                        mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     snackbar = Snackbar
                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)

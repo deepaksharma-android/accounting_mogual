@@ -72,6 +72,9 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        appUser.serial_arr.clear();
+        appUser.purchase_item_serail_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         appUser.mListMapForItemPurchase.clear();
         appUser.mListMapForBillPurchase.clear();
         LocalRepositories.saveAppUser(this,appUser);

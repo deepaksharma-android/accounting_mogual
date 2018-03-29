@@ -722,42 +722,47 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             @Override
             public void onClick(View v) {
                 if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
-
                     Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("")| mRate.getText().toString().equals("0.0")) {
+                if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("") | mRate.getText().toString().equals("0.0")) {
                     Snackbar.make(coordinatorLayout, "enter rate", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                appUser.barcode_voucher_type="purchase";
-                appUser.voucher_id_barcode=itemid;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+                appUser.barcode_voucher_type = "purchase";
+                appUser.voucher_id_barcode = itemid;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
-                } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    if ((appUser.purchase_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.purchase_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                        mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                    }
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
-                }
+                                });
+                        snackbar.show();
 
+                }
             }
         });
 
@@ -1138,7 +1143,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
-            mMap.put("serial_number",appUser.purchase_item_serail_arr);
             mMap.put("serial_number",appUser.purchase_item_serail_arr);
            /* if(PurchaseAddItemActivity.boolForBarcode){
                 mMap.put("serial_number",PurchaseAddItemActivity.myListForSerialNo);

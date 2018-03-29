@@ -468,6 +468,16 @@ public class ItemAttribute {
 
     public ArrayList<String> barcode;
 
+    public ArrayList<String> getOpeningstockbarcode() {
+        return openingstockbarcode;
+    }
+
+    public void setOpeningstockbarcode(ArrayList<String> openingstockbarcode) {
+        this.openingstockbarcode = openingstockbarcode;
+    }
+
+    public ArrayList<String> openingstockbarcode;
+
 
 
 

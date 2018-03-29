@@ -1080,12 +1080,14 @@ public class CreateSaleReturnFragment extends Fragment {
                 mMap.put("main_unit",response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                 mMap.put("batch_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                 mMap.put("serial_wise", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
+                /*appUser.purchase_item_serail_arr = response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 StringBuilder sb=new StringBuilder();
                 for(String str : response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()){
                     sb.append(str).append(","); //separating contents using semi colon
                 }
-                String strfromArrayList = sb.toString();
-                mMap.put("serial_number",strfromArrayList);
+                String strfromArrayList = sb.toString();*/
+                mMap.put("serial_number",response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
                 mMap.put("sale_unit", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit());
                 ArrayList<String> mUnitList=new ArrayList<>();
                 mUnitList.add("Main Unit : " + response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());

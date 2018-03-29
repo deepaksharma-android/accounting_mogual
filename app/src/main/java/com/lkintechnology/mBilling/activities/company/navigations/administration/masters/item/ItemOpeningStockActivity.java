@@ -405,6 +405,12 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ((appUser.stock_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.stock_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                }
                 if(!mStockQuantity.getText().toString().equals("")) {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                 }
@@ -424,7 +430,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                     Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
                 }
 
-                finish();
+
             }
         });
 
