@@ -87,6 +87,8 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(count==0){
+                    mSr_no.setText("");
+                //    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
 //                    appUser.stock_serial_arr.clear();
                  /*   appUser.stock_item_serail_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -106,7 +108,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             @Override
             public void afterTextChanged(Editable s) {
-
+               // Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
             }
         });
 
@@ -333,7 +335,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                                             pairs[i].setText("");
                                             appUser.stock_serial_arr.add(i, "");
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                            Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                           // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                         } else {
 
                                             if (!pairs[i].getText().toString().equals("")) {
@@ -412,7 +414,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                 if(Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")){
                     Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                 }
-                if (Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals(mStockQuantity.getText().toString())) {
+                if (!mSr_no.getText().toString().equals("")) {
                     finish();
                 }
                 else{

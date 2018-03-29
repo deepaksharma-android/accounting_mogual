@@ -501,7 +501,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                                         pairs[i].setText("");
                                         appUser.serial_arr.add(i, "");
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                      //  Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         if(!pairs[i].getText().toString().equals("")) {
 

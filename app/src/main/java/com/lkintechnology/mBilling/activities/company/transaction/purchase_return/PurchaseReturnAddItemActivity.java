@@ -132,6 +132,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     List<String> myListForBarcode,myListForSerialNo;
     Boolean boolForBarcode;
     String[] barcodeArray;
+    String quantity;
 
     //activity_purchase_return_add_item
     @Override
@@ -161,7 +162,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             String iid=(String)map.get("item_id");
             String item_id=(String) map.get("id");
             String description= (String) map.get("description");
-            String quantity= (String) map.get("quantity");
+            quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
             String srNo= (String) map.get("sr_no");
             String rate= (String) map.get("rate");
@@ -515,6 +516,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            quantity=mQuantity.getText().toString();
                             boolForBarcode=false;
                             appUser.sale_item_serial_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -779,11 +781,16 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     appUser.mListMapForItemPurchaseReturn.add(finalPos,mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                Intent in = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
-                in.putExtra("is", true);
-                in.putExtra("fromdashboard",false);
-                startActivity(in);
-                finish();
+                if(mQuantity.getText().toString().equals(quantity)) {
+                    Intent in = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
+                    in.putExtra("is", true);
+                    in.putExtra("fromdashboard", false);
+                    startActivity(in);
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
