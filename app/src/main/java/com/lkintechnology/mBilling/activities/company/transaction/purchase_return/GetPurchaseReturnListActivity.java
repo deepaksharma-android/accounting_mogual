@@ -76,6 +76,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
         initActionbar();
 
         appUser = LocalRepositories.getAppUser(this);
+        appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         appUser.mListMapForItemPurchaseReturn.clear();
         appUser.mListMapForBillPurchaseReturn.clear();
         LocalRepositories.saveAppUser(this,appUser);

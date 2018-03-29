@@ -59,8 +59,7 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
-        appUser.purchase_item_serail_arr.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
         fromdashboard=getIntent().getExtras().getBoolean("fromdashboard");
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         appUser= LocalRepositories.getAppUser(this);

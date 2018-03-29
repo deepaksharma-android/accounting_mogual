@@ -72,6 +72,8 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        appUser.sale_item_serial_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         appUser.mListMapForItemSale.clear();
         appUser.mListMapForBillSale.clear();
         LocalRepositories.saveAppUser(this,appUser);
