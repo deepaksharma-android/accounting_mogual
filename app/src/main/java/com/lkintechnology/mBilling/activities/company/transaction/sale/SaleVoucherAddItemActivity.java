@@ -789,7 +789,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 }
                 Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
                 in.putExtra("fromdashboard",false);
-                in.putExtra("fromsalelist",true);
               /*  if(fromsalelist){
                     in.putExtra("fromsalelist", true);
                 }
