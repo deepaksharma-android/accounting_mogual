@@ -61,6 +61,8 @@ public class CreatePurchaseActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
+        appUser.purchase_item_serail_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         title="CREATE PURCHASE VOUCHER";
         if(fromsalelist){
