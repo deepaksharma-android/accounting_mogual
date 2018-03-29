@@ -1018,12 +1018,15 @@ public class CreatePurchaseFragment extends Fragment {
                     mMap.put("main_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mMap.put("batch_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
+                   /* appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    Timber.i("zzzzz "+appUser.purchase_item_serail_arr.toString());
                     StringBuilder sb = new StringBuilder();
                     for (String str : response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()) {
                         sb.append(str).append(","); //separating contents using semi colon
                     }
-                    String strfromArrayList = sb.toString();
-                    mMap.put("serial_number", strfromArrayList);
+                    String strfromArrayList = sb.toString();*/
+                    mMap.put("serial_number", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
                     mMap.put("purchase_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList = new ArrayList<>();
                     mUnitList.add("Main Unit : " + response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());

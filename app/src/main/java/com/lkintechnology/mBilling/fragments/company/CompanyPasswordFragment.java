@@ -320,11 +320,32 @@ public class CompanyPasswordFragment extends Fragment {
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             dialog.dismiss();
-            mHeaderViewPager.setCurrentItem(0);
-
-            snackbar = Snackbar
+           // mHeaderViewPager.setCurrentItem(0);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+               /* mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();*/
+                ApiCallsService.action(getActivity(), Cv.ACTION_GET_COMPANY_USER);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+          /*  snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
 
         }
         else {
