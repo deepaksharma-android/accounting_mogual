@@ -543,6 +543,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String serial_ref_no;
     public Map<String,String> transport_details =new HashMap<>();
     public ArrayList<String> company_user;
+    public String gst_nature_purchase_return ="";
     // public String forAccountIntentName="";
    // public String forAccountIntentId="";
     //public boolean forAccountIntentBool;

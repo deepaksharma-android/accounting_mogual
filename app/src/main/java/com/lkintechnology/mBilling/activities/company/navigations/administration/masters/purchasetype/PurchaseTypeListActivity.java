@@ -52,6 +52,7 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     Boolean fromGeneral, fromMaster, fromCreateGroup;
     public static Boolean isDirectForPurchaseTypeList = true;
+    private Boolean saleReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,9 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        saleReturn=getIntent().getBooleanExtra("sale_return",false);
         initActionbar();
+
         EventBus.getDefault().register(this);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -100,7 +103,19 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("PURCHASE TYPE");
+        if (saleReturn!=null){
+            if (saleReturn==true){
+                actionbarTitle.setText("SALE RETURN TYPE");
+
+            }else {
+                actionbarTitle.setText("PURCHASE TYPE");
+
+            }
+        }else {
+            actionbarTitle.setText("PURCHASE TYPE");
+
+        }
+
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);

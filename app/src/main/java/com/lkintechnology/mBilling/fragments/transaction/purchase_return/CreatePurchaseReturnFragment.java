@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -138,6 +139,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit=false;
+    @Bind(R.id.gst_nature_purchase)
+    Spinner gst_nature;
 
     @Override
     public void onStart() {
@@ -285,7 +288,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SaleTypeListActivity.isDirectForSaleType=false;
-                startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
+               // startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
+                Intent intent=new Intent(getContext(),SaleTypeListActivity.class);
+                intent.putExtra("purchase_return",true);
+                startActivityForResult(intent,22);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
@@ -377,6 +383,17 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 credit.setTextColor(Color.parseColor("#000000"));//black
             }
         });
+        gst_nature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Preferences.getInstance(getApplicationContext()).setPurchase_return_gst_nature(gst_nature.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -405,12 +422,13 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                         if (!mPartyName.getText().toString().equals("")) {
                                           /*  if (!mMobileNumber.getText().toString().equals("")) {*/
                                                 appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
+                                             //   appUser.gst_nature_purchase_return = gst_nature.getSelectedItem().toString();
                                                 appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                                 appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                                 appUser.purchase_narration = mNarration.getText().toString();
                                                 appUser.purchase_return_attachment = encodedString;
                                                 LocalRepositories.saveAppUser(getActivity(), appUser);
-                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                               Boolean isConnected = ConnectivityReceiver.isConnected();
 
                                             if(appUser.sale_partyEmail!=null&&!appUser.sale_partyEmail.equalsIgnoreCase("null")&&!appUser.sale_partyEmail.equals("")) {
                                                 new AlertDialog.Builder(getActivity())
