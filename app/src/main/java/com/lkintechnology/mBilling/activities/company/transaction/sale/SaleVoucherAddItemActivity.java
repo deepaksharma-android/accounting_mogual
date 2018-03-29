@@ -797,7 +797,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 }*/
                 in.putExtra("is", true);
                 startActivity(in);
-                finish();
+                if ((appUser.sale_item_serial_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.sale_item_serial_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
