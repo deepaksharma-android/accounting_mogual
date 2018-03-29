@@ -52,6 +52,7 @@ public class SaleTypeListActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     Boolean fromGeneral, fromMaster, fromCreateGroup;
     public static Boolean isDirectForSaleType = true;
+    private Boolean purchaseReturn;
 
 
     @Override
@@ -60,6 +61,7 @@ public class SaleTypeListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sale_type_list);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        purchaseReturn=getIntent().getBooleanExtra("purchase_return",false);
         initActionbar();
         EventBus.getDefault().register(this);
 
@@ -100,7 +102,14 @@ public class SaleTypeListActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("SALE TYPE");
+        if (purchaseReturn!=null && purchaseReturn==true){
+            actionbarTitle.setText("PURCHASE RETURN TYPE");
+
+        }else {
+            actionbarTitle.setText("SALE TYPE");
+
+        }
+      //  actionbarTitle.setText("SALE TYPE");
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);

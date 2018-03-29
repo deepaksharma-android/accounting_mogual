@@ -36,5 +36,6 @@ public class RequestCreatePurchaseReturn {
         voucher.put("send_email",appUser.email_yes_no);
         voucher.put("attachment",appUser.purchase_return_attachment);
         voucher.put("transport_details",appUser.transport_details);
+        voucher.put("itc_eligibility",Preferences.getInstance(ctx).getPurchase_return_gst_nature());
    }
 }
