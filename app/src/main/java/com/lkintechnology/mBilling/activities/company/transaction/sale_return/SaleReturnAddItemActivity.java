@@ -139,7 +139,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     int pos = -1;
     String itemid="";
     String serialnumber;
-    public static List<String> myListForBarcode,myListForSerialNo;
+    public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
     @Override
@@ -159,6 +159,8 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         mScannerView = new ZBarScannerView(this);
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
+        myListForSerialNo=new ArrayList<>();
+        myListForSerialNo.clear();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 

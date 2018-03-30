@@ -143,7 +143,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     int pos = -1;
     String itemid="";
     String serialnumber;
-    public static List<String> myListForBarcode,myListForSerialNo;
+    public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
     @Override
@@ -157,6 +157,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         Timber.i("oooooo "+appUser.purchase_item_serail_arr.toString());
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
+        myListForSerialNo=new ArrayList<>();
+        myListForSerialNo.clear();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
