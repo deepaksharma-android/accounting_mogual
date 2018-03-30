@@ -161,6 +161,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         appUser.purchase_item_serail_arr.clear();
         myListForSerialNo=new ArrayList<>();
         myListForSerialNo.clear();
+        boolForBarcode=true;
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
