@@ -167,6 +167,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:textColor="#000"
+                            android:text="."
                             android:textSize="16sp" />
                     </LinearLayout>
 
