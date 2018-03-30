@@ -48,6 +48,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CreateNewItemActivity extends RegisterAbstractActivity {
 
@@ -109,6 +110,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     public static int intStartActivityForResult = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
+    String str="";
 
 
     @Override
@@ -350,8 +352,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                /* if (!mStore.getText().toString().equals("")) {*/
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
-                                appUser.stock_serial_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                               /* appUser.stock_serial_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
               /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
                     if (mTaxCategory.getSelectedItem().toString().equals(appUser.arr_tax_category_name.get(i))) {
                         appUser.item_tax_category = Integer.parseInt(appUser.arr_tax_category_id.get(i));
@@ -1016,14 +1018,19 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()) != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_setting_critical_max_level_days(String.valueOf(response.getItem().getData().getAttributes().getMaximum_level_days()));
             }
+
             if (response.getItem().getData().getAttributes().getOpeningstockbarcode() != null) {
                 appUser.stock_serial_arr.clear();
                 LocalRepositories.saveAppUser(this,appUser);
                 for(int i=0;i<response.getItem().getData().getAttributes().getOpeningstockbarcode().size();i++){
                     appUser.stock_serial_arr.add(response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i));
                     LocalRepositories.saveAppUser(this,appUser);
+                    str+=response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i)+",";
                 }
+                Preferences.getInstance(getApplicationContext()).setStockSerial(str);
             }
+            Timber.i("cccccc "+str);
+            Timber.i("cccccc "+appUser.stock_serial_arr.toString());
             if (response.getItem().getData().getAttributes().getItem_description() != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_description(String.valueOf(response.getItem().getData().getAttributes().getItem_description()));
             }
