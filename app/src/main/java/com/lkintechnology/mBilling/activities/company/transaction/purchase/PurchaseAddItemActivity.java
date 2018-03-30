@@ -159,6 +159,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         appUser.purchase_item_serail_arr.clear();
         myListForSerialNo=new ArrayList<>();
         myListForSerialNo.clear();
+        boolForBarcode=true;
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
