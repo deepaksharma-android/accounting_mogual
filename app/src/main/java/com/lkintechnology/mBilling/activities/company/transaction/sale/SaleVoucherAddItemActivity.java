@@ -92,7 +92,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     String packaging_unit_con_factor;
     String mrp;
     String tax;
-    String barcode,voucher_barcode;
+    String barcode, voucher_barcode;
     Boolean frombillitemvoucherlist;
     String name;
     String desc;
@@ -126,11 +126,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     @Bind(R.id.cancel)
     ImageView mCancel;
     Boolean fromsalelist;
-    String itemid="";
+    String itemid = "";
     String[] barcodeArray;
     String quantity;
     List<String> myListForSerialNo;
     Boolean boolForBarcode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,9 +148,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
-        myListForSerialNo=new ArrayList<>();
+        myListForSerialNo = new ArrayList<>();
         myListForSerialNo.clear();
-        boolForBarcode=true;
+        boolForBarcode = true;
         appUser.sale_item_serial_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
@@ -159,7 +160,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             pos = getIntent().getExtras().getInt("pos");
             Map map = new HashMap<>();
             map = appUser.mListMapForItemSale.get(pos);
-            String item_id=(String) map.get("id");
+            String item_id = (String) map.get("id");
             String iid = (String) map.get("item_id");
             String itemName = (String) map.get("item_name");
             String description = (String) map.get("description");
@@ -199,12 +200,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 arr_barcode.add(i + 1, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
-            itemid=item_id;
+            itemid = item_id;
             id = iid;
 
             voucher_barcode = (String) map.get("voucher_barcode");
+            barcodeArray = voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
-            boolForBarcode=true;
+            boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
 
             mItemName.setText(itemName);
@@ -310,8 +312,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 LocalRepositories.saveAppUser(this, appUser);
             }
 
-            Timber.i("ssss "+barcode);
-
+            Timber.i("ssss " + barcode);
 
 
             mItemName.setText(name);
@@ -372,7 +373,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         @Override
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
-                                boolForBarcode=false;
+                                boolForBarcode = false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
@@ -415,7 +416,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void onClick(View view) {
                 if (!mQuantity.getText().toString().equals("")) {
-                    boolForBarcode=false;
+                    boolForBarcode = false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(SaleVoucherAddItemActivity.this);
@@ -505,15 +506,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     }
 
                     // set value in spinner for edit
-                   /* if (frombillitemvoucherlist){
+                    if (frombillitemvoucherlist) {
                         for (int i = 0; i < Integer.parseInt(serial); i++) {
-                            for (int j=i;j<arr_barcode.size();j++){
-                                if (barcodeArray[i].equals(arr_barcode.get(j))){
-                                    pairs[i].setSelection(j);
+                            for (int j = i; j < arr_barcode.size(); j++) {
+                                if (i < barcodeArray.length) {
+                                    if ((barcodeArray[i]).equals((arr_barcode.get(j)).toString())||(barcodeArray[i].trim()).equals((arr_barcode.get(j)).toString().trim())) {
+                                        pairs[i].setSelection(j);
+                                    }
                                 }
                             }
                         }
-                    }*/
+                    }
 
            /*         scan.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -530,8 +533,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            boolForBarcode=false;
-                            quantity=mQuantity.getText().toString();
+                            boolForBarcode = false;
+                            quantity = mQuantity.getText().toString();
                             appUser.sale_item_serial_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.sale_item_serial_arr.add("5");
@@ -632,7 +635,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 Double main_unit_price = Double.parseDouble(sales_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
                                 mRate.setText(String.valueOf(main_unit_price));
                             } else {
-                                    mRate.setText(sales_price_main);
+                                mRate.setText(sales_price_main);
                             }
                         }
                     } else if (i == 1) {
@@ -682,7 +685,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 mRate.setText(rate);
                                 mDiscount.setText(discount);
                                 mValue.setText(value);
-                            }else {
+                            } else {
                                 mRate.setText(sales_price_main);
                             }
                         }
@@ -716,12 +719,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("")| mRate.getText().toString().equals("0.0")) {
+                if (mRate.getText().toString().equals("0") | mRate.getText().toString().equals("") | mRate.getText().toString().equals("0.0")) {
                     Snackbar.make(coordinatorLayout, "enter rate", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if(!frombillitemvoucherlist){
-                    quantity=mQuantity.getText().toString();
+                if (!frombillitemvoucherlist) {
+                    quantity = mQuantity.getText().toString();
                 }
                 mMap.put("id", itemid);
                 mMap.put("item_id", id);
@@ -743,7 +746,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("batch_wise", batchwise);
                 mMap.put("serial_wise", serailwise);
                 mMap.put("barcode", barcode);
-                mMap.put("voucher_barcode",mSr_no.getText().toString());
+                mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
 
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
@@ -776,10 +779,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
                 //mMap.put("serial_number", appUser.sale_item_serial_arr);
-                if(boolForBarcode){
-                    mMap.put("serial_number",myListForSerialNo);
-                }else {
-                    mMap.put("serial_number",appUser.sale_item_serial_arr);
+                if (boolForBarcode) {
+                    mMap.put("serial_number", myListForSerialNo);
+                } else {
+                    mMap.put("serial_number", appUser.sale_item_serial_arr);
                 }
                 mMap.put("unit_list", mUnitList);
                 // mListMap.add(mMap);
@@ -794,15 +797,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
 
-                if(mQuantity.getText().toString().equals(quantity)) {
+                if (mQuantity.getText().toString().equals(quantity)) {
                     Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
-                    in.putExtra("fromdashboard",false);
+                    in.putExtra("fromdashboard", false);
                     in.putExtra("is", true);
                     startActivity(in);
                     finish();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -815,7 +817,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(mDiscount.getText().toString().equals("")){
+                if (mDiscount.getText().toString().equals("")) {
                     mDiscount.setText("0.0");
                 }
 
@@ -824,7 +826,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         second = Double.valueOf(mRate.getText().toString());
                         if (!mDiscount.getText().toString().isEmpty()) {
                             first = Double.valueOf(mDiscount.getText().toString());
-                            mValue.setText(String.format("%.2f",(first * second)));
+                            mValue.setText(String.format("%.2f", (first * second)));
 
                         }
                     } else {
@@ -854,14 +856,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     first = Double.valueOf(mDiscount.getText().toString());
                     if (!mRate.getText().toString().isEmpty()) {
                         second = Double.valueOf(mRate.getText().toString());
-                        if(!mQuantity.getText().toString().equals("")){
-                            third=Double.valueOf(mQuantity.getText().toString());
-                        }
-                        else{
-                            third=0.0;
+                        if (!mQuantity.getText().toString().equals("")) {
+                            third = Double.valueOf(mQuantity.getText().toString());
+                        } else {
+                            third = 0.0;
                         }
 
-                        mValue.setText(String.format("%.2f",((first * second*third) / 100)));
+                        mValue.setText(String.format("%.2f", ((first * second * third) / 100)));
                     }
                 } else {
                     mValue.setText("0.0");
@@ -885,7 +886,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count == 0) {
-                    mTotal.setText(String.format("%.2f",0.0));
+                    mTotal.setText(String.format("%.2f", 0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
                   /*  mSr_no.setText("");
@@ -897,13 +898,12 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            if(!mRate.getText().toString().equals("")) {
+                            if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
+                            } else {
+                                third = 0.0;
                             }
-                            else{
-                                third=0.0;
-                            }
-                            mTotal.setText(String.format("%.2f",((third - first) * second)));
+                            mTotal.setText(String.format("%.2f", ((third - first) * second)));
                         }
                     } else {
                         mTotal.setText("0.0");
@@ -934,14 +934,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            if(!mRate.getText().toString().equals("")) {
+                            if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
-                            }
-                            else{
-                                third=0.0;
+                            } else {
+                                third = 0.0;
                             }
                             if (((third * second) - first) >= 0) {
-                                mTotal.setText(String.format("%.2f",((third * second) - first)));
+                                mTotal.setText(String.format("%.2f", ((third * second) - first)));
                             } else {
                                 mValue.setText("0.0");
                                 Toast.makeText(getApplicationContext(), "Value can not be more than total price", Toast.LENGTH_LONG).show();
@@ -952,17 +951,15 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
 
                     }
-                }
-                else {
+                } else {
                     third = Double.valueOf(mRate.getText().toString());
-                    if(!mQuantity.getText().toString().equals("")) {
+                    if (!mQuantity.getText().toString().equals("")) {
                         second = Double.valueOf(mQuantity.getText().toString());
-                    }
-                    else{
-                        second=0.0;
+                    } else {
+                        second = 0.0;
                     }
 
-                    mTotal.setText(String.format("%.2f",((third * second))));
+                    mTotal.setText(String.format("%.2f", ((third * second))));
                 }
 
 
@@ -970,7 +967,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             @Override
             public void afterTextChanged(Editable s) {
-              //  mDiscount.setText("0.0");
+                //  mDiscount.setText("0.0");
             }
         });
 
