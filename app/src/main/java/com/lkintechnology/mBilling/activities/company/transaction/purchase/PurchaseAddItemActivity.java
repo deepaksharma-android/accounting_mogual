@@ -38,6 +38,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -152,11 +153,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
         initActionbar();
-/*
+        Timber.i("oooooo "+appUser.serial_arr.toString());
+        Timber.i("oooooo "+appUser.purchase_item_serail_arr.toString());
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-*/
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mScannerView = new ZBarScannerView(this);
@@ -213,9 +214,9 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             }
             itemid=item_id;
             mSr_no.setText(serialnumber);
-          /*  boolForBarcode=true;
+            boolForBarcode=true;
             PurchaseAddItemActivity.myListForSerialNo = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
-            mSr_no.setText(serialnumber);*/
+            mSr_no.setText(serialnumber);
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -748,6 +749,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             mProgressDialog.setCancelable(true);
                             mProgressDialog.show();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            RequestCheckBarcode.bollForBarcode=true;
                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
                         }
                     else{
@@ -1151,12 +1153,12 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
-            mMap.put("serial_number",appUser.purchase_item_serail_arr);
-           /* if(PurchaseAddItemActivity.boolForBarcode){
+           // mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            if(PurchaseAddItemActivity.boolForBarcode){
                 mMap.put("serial_number",PurchaseAddItemActivity.myListForSerialNo);
             }else {
                 mMap.put("serial_number",appUser.purchase_item_serail_arr);
-            }*/
+            }
             mMap.put("unit_list",mUnitList);
             if(!frombillitemvoucherlist) {
                 appUser.mListMapForItemPurchase.add(mMap);

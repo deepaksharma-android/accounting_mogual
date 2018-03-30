@@ -125,9 +125,10 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     FrameLayout scanning_content_frame;
     @Bind(R.id.cancel)
     ImageView mCancel;
-    Boolean fromsalelist,boolForBarcode;
+    Boolean fromsalelist;
     String itemid="";
     List<String> myListForSerialNo;
+    Boolean boolForBarcode;
     String[] barcodeArray;
     String quantity;
     @Override

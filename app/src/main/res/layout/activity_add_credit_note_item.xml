@@ -225,9 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/et_igst"
                 android:spinnerMode="dialog"
-               android:visibility="gone"
-
-                >
+               android:visibility="gone">
 
             </Spinner>
 

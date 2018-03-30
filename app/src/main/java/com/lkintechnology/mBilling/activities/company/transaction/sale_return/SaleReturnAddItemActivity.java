@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -138,6 +139,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     int pos = -1;
     String itemid="";
     String serialnumber;
+    public static List<String> myListForBarcode,myListForSerialNo;
+    public static Boolean boolForBarcode;
+    String quantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,11 +157,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         mUnitList = new ArrayList<>();
 
         mScannerView = new ZBarScannerView(this);
-       // appUser.purchase_item_serail_arr.clear();
-        //LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-       /* appUser.serial_arr.clear();
-        appUser.purchase_item_serail_arr.clear();*/
-        //LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        appUser.serial_arr.clear();
+        appUser.purchase_item_serail_arr.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
 
         if(frombillitemvoucherlist){
@@ -168,7 +170,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             String item_id=(String) map.get("id");
             String itemName= (String) map.get("item_name");
             String description= (String) map.get("description");
-            String quantity= (String) map.get("quantity");
+            quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
             String srNo= (String) map.get("sr_no");
             String rate= (String) map.get("rate");
@@ -207,11 +209,11 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 Timber.i("MYSERAILNUMBER" + serialnumber);
             }
             itemid=item_id;
-       /*     mUnitAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, mUnitList);
-            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
+            boolForBarcode=true;
+            SaleReturnAddItemActivity.myListForSerialNo = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
+
+            mSr_no.setText(serialnumber);
             mSr_no.setText(serialnumber);
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -364,6 +366,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                         @Override
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
+                                boolForBarcode = false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
@@ -408,6 +411,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             @Override
             public void onClick(View view) {
                 if(!mQuantity.getText().toString().equals("")) {
+                    boolForBarcode = false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(SaleReturnAddItemActivity.this);
@@ -490,8 +494,10 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                boolForBarcode = false;
                                 appUser.serial_arr.clear();
                                 appUser.item_id=id;
+                                quantity=mQuantity.getText().toString();
                                 //  appUser.purchase_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                                 for(int i=0;i<Integer.parseInt(serial);i++) {
@@ -680,16 +686,19 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 appUser.barcode_voucher_type="sale_return";
                 appUser.voucher_id_barcode=itemid;
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
+                if(!frombillitemvoucherlist){
+                    quantity=mQuantity.getText().toString();
+                }
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    if ((appUser.purchase_item_serail_arr.size() > 0 && !mSr_no.getText().toString().equals(""))||(appUser.purchase_item_serail_arr.size() == 0 && mSr_no.getText().toString().equals(""))) {
+                    if(mQuantity.getText().toString().equals(quantity)) {
                         mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        RequestCheckBarcode.bollForBarcode=false;
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
                     }
                     else{
@@ -796,9 +805,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
-                    mSr_no.setText("");
+                   /* mSr_no.setText("");
                     appUser.sale_item_serial_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
@@ -1102,7 +1111,12 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
             mMap.put("unit_list",mUnitList);
-            mMap.put("serial_number",appUser.purchase_item_serail_arr);
+           // mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            if(SaleReturnAddItemActivity.boolForBarcode){
+                mMap.put("serial_number",SaleReturnAddItemActivity.myListForSerialNo);
+            }else {
+                mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            }
 
             if(!frombillitemvoucherlist) {
                 appUser.mListMapForItemSaleReturn.add(mMap);

@@ -3,6 +3,7 @@ package com.lkintechnology.mBilling.networks.api_request;
 import android.content.Context;
 
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 public class RequestCheckBarcode {
     public Map item;
+    public static Boolean bollForBarcode;
 
 
 
@@ -21,14 +23,19 @@ public class RequestCheckBarcode {
         item.put("item_id", appUser.item_id);
         item.put("id", appUser.voucher_id_barcode);
         item.put("voucher_type", appUser.barcode_voucher_type);
-        item.put("barcode", appUser.purchase_item_serail_arr);
-/*
-        if(PurchaseAddItemActivity.boolForBarcode){
-            item.put("barcode", PurchaseAddItemActivity.myListForSerialNo);
-        }else {
-            item.put("barcode", appUser.purchase_item_serail_arr);
+        //item.put("barcode", appUser.purchase_item_serail_arr);
+        if( RequestCheckBarcode.bollForBarcode){
+            if(PurchaseAddItemActivity.boolForBarcode){
+                item.put("barcode", PurchaseAddItemActivity.myListForSerialNo);
+            }else {
+                item.put("barcode", appUser.purchase_item_serail_arr);
+            }
+        }else if(!RequestCheckBarcode.bollForBarcode) {
+            if(SaleReturnAddItemActivity.boolForBarcode){
+                item.put("barcode", SaleReturnAddItemActivity.myListForSerialNo);
+            }else {
+                item.put("barcode", appUser.purchase_item_serail_arr);
+            }
         }
-*/
-
     }
 }
