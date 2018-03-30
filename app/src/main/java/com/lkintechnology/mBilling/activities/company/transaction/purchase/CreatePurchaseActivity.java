@@ -53,6 +53,7 @@ public class CreatePurchaseActivity extends AppCompatActivity {
     Snackbar snackbar;
     public String title;
     public static boolean fromsalelist;
+    public static boolean isForEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,9 @@ public class CreatePurchaseActivity extends AppCompatActivity {
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         title="CREATE PURCHASE VOUCHER";
         if(fromsalelist){
+            title="EDIT PURCHASE VOUCHER";
+        }
+        if (isForEdit){
             title="EDIT PURCHASE VOUCHER";
         }
         initActionbar();

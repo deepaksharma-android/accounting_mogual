@@ -23,6 +23,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase_retur
 import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -117,11 +118,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.sale_item_serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        LocalRepositories.saveAppUser(this,appUser);
+        LocalRepositories.saveAppUser(this, appUser);
         setAddCompany(2);
         setAppBarTitleCompany(1, "TRANSACTION");
         Preferences.getInstance(getApplicationContext()).setUpdate("");
-       // Preferences.getInstance(getApplicationContext()).setStoreId("");
+        // Preferences.getInstance(getApplicationContext()).setStoreId("");
         appUser.receipt_received_by_name = "";
         appUser.receipt_received_from_name = "";
         appUser.receipt_received_from_email = "";
@@ -145,12 +146,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
 
-        ParameterConstant.handleAutoCompleteTextView=0;
+        ParameterConstant.handleAutoCompleteTextView = 0;
 
-        ParameterConstant.name="";
-        ParameterConstant.mobile="";
-        ParameterConstant.email="";
-        ParameterConstant.id="";
+        ParameterConstant.name = "";
+        ParameterConstant.mobile = "";
+        ParameterConstant.email = "";
+        ParameterConstant.id = "";
       /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
         int[] colors = new int[ta.length()];
@@ -190,7 +191,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
@@ -203,12 +204,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 //final CharSequence[] items = {"Add", "Modify"};
                 appUser.mListMapForItemSale.clear();
                 appUser.mListMapForBillSale.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent intent=new Intent(getApplicationContext(),CreateSaleActivity.class);
-                intent.putExtra("fromsalelist",false);
-                intent.putExtra("fromdashboard",true);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                intent.putExtra("fromsalelist", false);
+                intent.putExtra("fromdashboard", true);
                 startActivity(intent);
-              //  context.startActivity(new Intent(context, CreateSaleActivity.class));
+                //  context.startActivity(new Intent(context, CreateSaleActivity.class));
                /* AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -266,7 +267,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                CreatePurchaseActivity.isForEdit = false;
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
@@ -279,11 +280,11 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
                 LocalRepositories.saveAppUser(context, appUser);
-                Intent intent=new Intent(getApplicationContext(),CreatePurchaseActivity.class);
-                intent.putExtra("fromsalelist",false);
+                Intent intent = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
+                intent.putExtra("fromsalelist", false);
 
                 startActivity(intent);
-               // context.startActivity(new Intent(context, CreatePurchaseActivity.class));
+                // context.startActivity(new Intent(context, CreatePurchaseActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -343,7 +344,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             @Override
             public void onClick(View view) {
                 Intent j = new Intent(context, CreateBankCaseDepositActivity.class);
-               // j.putExtra("fromBankCashDeposit", false);
+                // j.putExtra("fromBankCashDeposit", false);
                 context.startActivity(j);
 
               /*  final CharSequence[] items = {"Add", "Modify"};
@@ -463,7 +464,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         saleReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                CreateSaleReturnActivity.isForEdit=false;
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
                 //Preferences.getInstance(context).setStore("");
@@ -475,10 +476,10 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 appUser.mListMapForItemSaleReturn.clear();
                 appUser.mListMapForBillSaleReturn.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent intent=new Intent(getApplicationContext(),CreateSaleReturnActivity.class);
-                intent.putExtra("fromsalelist",false);
-                intent.putExtra("fromdashboard",true);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent intent = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
+                intent.putExtra("fromsalelist", false);
+                intent.putExtra("fromdashboard", true);
                 startActivity(intent);
                 //context.startActivity(new Intent(context, CreateSaleReturnActivity.class));
 
@@ -521,12 +522,12 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 appUser.mListMapForItemPurchaseReturn.clear();
                 appUser.mListMapForBillPurchaseReturn.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                Intent intent=new Intent(getApplicationContext(),CreatePurchaseReturnActivity.class);
-                intent.putExtra("fromsalelist",false);
-                intent.putExtra("fromdashboard",true);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Intent intent = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
+                intent.putExtra("fromsalelist", false);
+                intent.putExtra("fromdashboard", true);
                 startActivity(intent);
-              //  context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
+                //  context.startActivity(new Intent(context, CreatePurchaseReturnActivity.class));
                /* final CharSequence[] items = {"Add", "Modify"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(TransactionDashboardActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -638,6 +639,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
             }
         });
     }
+
     private void stockTransfer() {
         stockTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -654,8 +656,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
                 LocalRepositories.saveAppUser(context, appUser);
-                Intent intent=new Intent(getApplicationContext(),CreateStockTransferActivity.class);
-                intent.putExtra("fromstocklist",false);
+                Intent intent = new Intent(getApplicationContext(), CreateStockTransferActivity.class);
+                intent.putExtra("fromstocklist", false);
                 startActivity(intent);
             }
         });

@@ -56,6 +56,7 @@ public class CreateSaleActivity extends AppCompatActivity {
     String title;
     public static boolean fromsalelist;
     public static boolean fromdashboard;
+    public static boolean isForEdit;
 
   
     @Override
@@ -76,6 +77,9 @@ public class CreateSaleActivity extends AppCompatActivity {
             }
         } else {
             title = "CREATE SALE VOUCHER";
+        }
+        if (isForEdit){
+            title = "EDIT SALE VOUCHER";
         }
 
 

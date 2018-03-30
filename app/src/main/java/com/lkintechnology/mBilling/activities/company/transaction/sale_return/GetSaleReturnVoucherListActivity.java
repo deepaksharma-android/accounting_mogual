@@ -231,6 +231,7 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
+        CreateSaleReturnActivity.isForEdit=false;
         Intent intent = new Intent(this, CreateSaleReturnActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromsalelist",false);

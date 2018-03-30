@@ -714,6 +714,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
+
+                if (CreateSaleActivity.fromsalelist){
+                    CreateSaleActivity.isForEdit=true;
+                }
+
                 if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
 
                     Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
@@ -799,7 +804,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                 if (mQuantity.getText().toString().equals(quantity)) {
                     Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
-                    in.putExtra("fromdashboard", false);
+
+                    in.putExtra("fromdashboard",false);
+
                     in.putExtra("is", true);
                     startActivity(in);
                     finish();

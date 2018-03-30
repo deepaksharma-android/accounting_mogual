@@ -24,6 +24,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.adapters.GetSaleVoucherListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -235,6 +236,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
+        CreateSaleActivity.isForEdit=false;
         Intent intent = new Intent(this, CreateSaleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromsalelist",false);

@@ -237,6 +237,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
+        CreatePurchaseReturnActivity.isForEdit=false;
         Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromsalelist",false);

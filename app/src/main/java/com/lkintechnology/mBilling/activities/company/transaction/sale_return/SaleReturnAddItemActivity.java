@@ -1135,6 +1135,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             Intent in = new Intent(getApplicationContext(), CreateSaleReturnActivity.class);
             in.putExtra("is", true);
+            if (CreateSaleReturnActivity.fromsalelist){
+                CreateSaleReturnActivity.isForEdit=true;
+            }
             in.putExtra("fromdashboard",false);
             startActivity(in);
             finish();

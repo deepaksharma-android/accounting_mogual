@@ -234,6 +234,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity {
 
     @Override
     public void onBackPressed() {
+        CreatePurchaseActivity.isForEdit=false;
         Intent intent = new Intent(this, CreatePurchaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromsalelist",false);

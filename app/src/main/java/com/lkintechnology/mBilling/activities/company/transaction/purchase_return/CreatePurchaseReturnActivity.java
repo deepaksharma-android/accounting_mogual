@@ -54,6 +54,7 @@ public class CreatePurchaseReturnActivity extends AppCompatActivity {
     String title;
     public static boolean fromsalelist;
     public static boolean fromdashboard;
+    public static boolean isForEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,9 @@ public class CreatePurchaseReturnActivity extends AppCompatActivity {
         fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
         title="CREATE PURCHASE RETURN VOUCHER";
         if(fromsalelist){
+            title="EDIT PURCHASE RETURN VOUCHER";
+        }
+        if (isForEdit){
             title="EDIT PURCHASE RETURN VOUCHER";
         }
         initActionbar();

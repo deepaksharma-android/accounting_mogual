@@ -992,20 +992,44 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 else{
                     intent.putExtra("fromsalelist", false);
                 }*/
+                if (CreateSaleActivity.fromsalelist){
+                    CreateSaleActivity.isForEdit=true;
+                }else {
+                    CreateSaleActivity.isForEdit=false;
+                }
+
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 1) {
+
+                if (CreatePurchaseActivity.fromsalelist){
+                    CreatePurchaseActivity.isForEdit=true;
+                }else {
+                    CreatePurchaseActivity.isForEdit=false;
+                }
+
                 Intent intent = new Intent(this, CreatePurchaseActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 2) {
+                if (CreateSaleReturnActivity.fromsalelist){
+                    CreateSaleReturnActivity.isForEdit=true;
+                }else {
+                    CreateSaleReturnActivity.isForEdit=false;
+                }
                 Intent intent = new Intent(this, CreateSaleReturnActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 3) {
+                if (CreatePurchaseReturnActivity.fromsalelist){
+                    CreatePurchaseReturnActivity.isForEdit=true;
+                }else {
+                    CreatePurchaseReturnActivity.isForEdit=false;
+                }
+
                 Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);

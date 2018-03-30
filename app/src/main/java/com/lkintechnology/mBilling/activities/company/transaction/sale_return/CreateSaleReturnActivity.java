@@ -51,6 +51,8 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
     String title;
     public static boolean fromsalelist;
     public static boolean fromdashboard;
+    public static boolean isForEdit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,9 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
         appUser= LocalRepositories.getAppUser(this);
         title="CREATE SALE RETURN VOUCHER";
         if(fromsalelist){
+            title="EDIT SALE RETURN VOUCHER";
+        }
+        if(isForEdit){
             title="EDIT SALE RETURN VOUCHER";
         }
         initActionbar();
