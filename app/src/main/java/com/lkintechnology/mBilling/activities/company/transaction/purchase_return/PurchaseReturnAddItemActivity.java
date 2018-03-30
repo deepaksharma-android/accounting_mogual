@@ -129,10 +129,10 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     @Bind(R.id.cancel)
     ImageView mCancel;
     String itemid="";
-    List<String> myListForBarcode,myListForSerialNo;
-    Boolean boolForBarcode;
     String[] barcodeArray;
     String quantity;
+    List<String> myListForSerialNo;
+    Boolean boolForBarcode;
 
     //activity_purchase_return_add_item
     @Override
@@ -151,6 +151,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
+        myListForSerialNo=new ArrayList<>();
+        myListForSerialNo.clear();
+        boolForBarcode=true;
         appUser.sale_item_serial_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
@@ -199,17 +202,12 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             }
 
             itemid=item_id;
-       /*     mUnitAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, mUnitList);
-            mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id=iid;
             voucher_barcode = (String) map.get("voucher_barcode");
             barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
-           /* boolForBarcode=true;
-            myListForBarcode = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
-            myListForSerialNo = new ArrayList<String>(Arrays.asList(barcode.split(",")));*/
+            boolForBarcode=true;
+            myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
 
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -771,7 +769,12 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 mMap.put("mrp", mrp);
                 mMap.put("tax", tax);
                 mMap.put("unit_list",mUnitList);
-                mMap.put("serial_number", appUser.sale_item_serial_arr);
+                //mMap.put("serial_number", appUser.sale_item_serial_arr);
+                if(boolForBarcode){
+                    mMap.put("serial_number",myListForSerialNo);
+                }else {
+                    mMap.put("serial_number",appUser.sale_item_serial_arr);
+                }
                 // mListMap.add(mMap);
                 if(!frombillitemvoucherlist) {
                     appUser.mListMapForItemPurchaseReturn.add(mMap);

@@ -147,6 +147,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
         int pos = -1;
+        myListForSerialNo=new ArrayList<>();
+        myListForSerialNo.clear();
+        boolForBarcode=true;
         appUser.sale_item_serial_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
@@ -197,14 +200,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 LocalRepositories.saveAppUser(this, appUser);
             }
             itemid=item_id;
+            id = iid;
 
             voucher_barcode = (String) map.get("voucher_barcode");
-            //barcodeArray=voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
             boolForBarcode=true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
 
-            id = iid;
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -777,7 +779,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 if(boolForBarcode){
                     mMap.put("serial_number",myListForSerialNo);
                 }else {
-                    mMap.put("serial_number",appUser.purchase_item_serail_arr);
+                    mMap.put("serial_number",appUser.sale_item_serial_arr);
                 }
                 mMap.put("unit_list", mUnitList);
                 // mListMap.add(mMap);
