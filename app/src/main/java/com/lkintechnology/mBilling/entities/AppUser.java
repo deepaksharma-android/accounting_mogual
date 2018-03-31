@@ -548,5 +548,6 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
    // public String forAccountIntentId="";
     //public boolean forAccountIntentBool;
 
+    public int quantity;
 
 }
