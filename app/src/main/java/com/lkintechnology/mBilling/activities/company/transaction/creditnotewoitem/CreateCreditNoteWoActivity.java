@@ -838,7 +838,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 mMap.put("id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getId());
                 mMap.put("inv_num", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getInvoice_no());
                 mMap.put("difference_amount", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getAmount()));
-                mMap.put("gst",String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getTax_rate()));
+                mMap.put("rate",String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getTax_rate()));
                 if(groupindex==1){
                     mMap.put("sp_position","1");
                 }
@@ -855,9 +855,14 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
                 }
                 mMap.put("date", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getDate());
-                mMap.put("goodsItem", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getItc_eligibility());
+                mMap.put("spITCEligibility", response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getItc_eligibility());
 
-                mMap.put("state",response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
+                if(!response.getCredit_note().getData().getAttributes().getAccount_credit().getState().equals("")) {
+                    mMap.put("state", response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
+                }
+                else{
+                    mMap.put("state","Haryana");
+                }
                 appUser.mListMapForItemCreditNote.add(mMap);
             }
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

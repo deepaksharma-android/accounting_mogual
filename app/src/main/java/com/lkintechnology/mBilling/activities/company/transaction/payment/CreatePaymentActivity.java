@@ -1104,8 +1104,10 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 mMap.put("cgst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getCgst_amount()));
                 mMap.put("sgst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getSgst_amount()));
                 mMap.put("igst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getIgst_amount()));
-                mMap.put("state",response.getPayment().getData().getAttributes().getPaid_to().getState());
-                mMap.put("spRCNItem",""/*response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcn_item()*/);
+                if(!response.getPayment().getData().getAttributes().getPaid_to().getState().equals("")||response.getPayment().getData().getAttributes().getPaid_to().getState()!=null) {
+                    mMap.put("state", response.getPayment().getData().getAttributes().getPaid_to().getState());
+                }
+                mMap.put("spRCNItem",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcm_nature());
                 mMap.put("spITCEligibility",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemPaymentList.add(mMap);
             }

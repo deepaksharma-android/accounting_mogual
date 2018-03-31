@@ -78,7 +78,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
             etDifferenceAmount.setText((String)map.get("difference_amount"));
-            etGST.setText((String)map.get("gst"));
+            etGST.setText((String)map.get("rate"));
              etCGST.setText((String)map.get("cgst"));
             etIGST.setText((String)map.get("igst"));
             etSGST.setText((String)map.get("sgst"));
@@ -87,7 +87,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             state=(String) map.get("state");
             journalVoucherPosition=((String)map.get("gst_pos7"));
             spGoodsKey1=((String)map.get("sp_position"));
-            String goods=((String)map.get("goodsItem"));
+            String goods=((String)map.get("spITCEligibility"));
             tvDate.setText((String)map.get("date"));
             if(spGoodsKey1!=null) {
                 if (spGoodsKey1.equals("2")) {
@@ -285,7 +285,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     mMap.put("id",id);
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", etDifferenceAmount.getText().toString());
-                                    mMap.put("gst", etGST.getText().toString());
+                                    mMap.put("rate", etGST.getText().toString());
                                     if (state.equals(appUser.company_state)) {
                                         mMap.put("cgst", etCGST.getText().toString());
                                         mMap.put("sgst", etSGST.getText().toString());
@@ -295,7 +295,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("state", state);
                                     }
                                     mMap.put("date", tvDate.getText().toString());
-                                    mMap.put("goodsItem", "");
+                                    mMap.put("spITCEligibility", "");
                                     mMap.put("sp_position",spGoodsKey1);
                                     mMap.put("date",tvDate.getText().toString());
                                     mMap.put("state",state);
@@ -333,7 +333,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", etDifferenceAmount.getText().toString());
-                                        mMap.put("gst", etGST.getText().toString());
+                                        mMap.put("rate", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
@@ -343,7 +343,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                             mMap.put("state", state);
                                         }
                                         mMap.put("date", tvDate.getText().toString());
-                                        mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
                                         mMap.put("sp_position",spGoodsKey1);
                                         mMap.put("date",tvDate.getText().toString());
                                         mMap.put("state",state);
@@ -386,7 +386,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", etDifferenceAmount.getText().toString());
-                                        mMap.put("gst", etGST.getText().toString());
+                                        mMap.put("rate", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
@@ -396,7 +396,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                             mMap.put("state", state);
                                         }
                                         mMap.put("date", tvDate.getText().toString());
-                                        mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
                                         mMap.put("gst_pos7", journalVoucherPosition);
                                         mMap.put("date",tvDate.getText().toString());
                                         mMap.put("state",state);

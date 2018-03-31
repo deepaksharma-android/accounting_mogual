@@ -61,7 +61,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
             holder = (DebitNoteItemDetailAdapter.ViewHolder) convertView.getTag();
         }
 
-        if (mListMap.get(position).get("goodsItem") != null && mListMap.get(position).get("goodsItem").equals("")){
+        if (mListMap.get(position).get("spITCEligibility") != null && mListMap.get(position).get("spITCEligibility").equals("")){
             if (!mListMap.get(position).get("state").equals(appUser.company_state)){
                 holder.tvIGST.setVisibility(View.VISIBLE);
                 holder.tvCCST.setVisibility(View.INVISIBLE);
@@ -78,7 +78,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
                 String sgst = (String) map.get("sgst");
                 String differenciateitem = (String) map.get("difference_amount");
                 String igst = (String) map.get("igst");
-                String itcEligibility = (String) map.get("goodsItem");
+                String itcEligibility = (String) map.get("spITCEligibility");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
@@ -107,7 +107,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
                 String sgst = (String) map.get("sgst");
                 String differenciateitem = (String) map.get("difference_amount");
                 String igst = (String) map.get("igst");
-                String itcEligibility = (String) map.get("goodsItem");
+                String itcEligibility = (String) map.get("spITCEligibility");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
@@ -126,7 +126,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
 
 
         }else
-        { if (! mListMap.get(position).get("state").equals(appUser.company_state)) {
+        { if (!mListMap.get(position).get("state").equals(appUser.company_state)) {
             holder.tvIGST.setVisibility(View.VISIBLE);
             holder.tvViewIGST.setVisibility(View.VISIBLE);
             holder.tvITCEligibility.setVisibility(View.VISIBLE);
@@ -145,7 +145,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
             // String sgst = (String) map.get("sgst");
             String differenciateitem = (String) map.get("difference_amount");
             String igst = (String) map.get("igst");
-            String itcEligibility = (String) map.get("goodsItem");
+            String itcEligibility = (String) map.get("spITCEligibility");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
@@ -179,7 +179,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
             String sgst = (String) map.get("sgst");
             String differenciateitem = (String) map.get("difference_amount");
             String igst = (String) map.get("igst");
-            String itcEligibility = (String) map.get("goodsItem");
+            String itcEligibility = (String) map.get("spITCEligibility");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");

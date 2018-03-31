@@ -80,7 +80,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
             tvDiffAmount.setText((String)map.get("difference_amount"));
-            etGST.setText((String)map.get("gst"));
+            etGST.setText((String)map.get("rate"));
             etCGST.setText((String)map.get("cgst"));
             etIGST.setText((String)map.get("igst"));
             etSGST.setText((String)map.get("sgst"));
@@ -89,7 +89,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             state=(String) map.get("state");
             journalVoucherPosition=((String)map.get("gst_pos6"));
             position=((String)map.get("sp_position"));
-            String goods=((String)map.get("goodsItem"));
+            String goods=((String)map.get("spITCEligibility"));
             tvDate.setText((String)map.get("date"));
             if(position!=null) {
                 if (position.equals("2")) {
@@ -273,7 +273,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     mMap.put("id",id);
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", tvDiffAmount.getText().toString());
-                                    mMap.put("gst", etGST.getText().toString());
+                                    mMap.put("rate", etGST.getText().toString());
 
                                     if (state.equals(appUser.company_state)) {
                                         mMap.put("cgst", etCGST.getText().toString());
@@ -285,7 +285,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                       //  mMap.put("state", state);
                                     }
                                     mMap.put("date", tvDate.getText().toString());
-                                    mMap.put("goodsItem", "");
+                                    mMap.put("spITCEligibility", "");
                                     mMap.put("state",state);
                                     mMap.put("sp_position",position);
                                     mMap.put("amount",amount);
@@ -327,7 +327,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", tvDiffAmount.getText().toString());
-                                        mMap.put("gst", etGST.getText().toString());
+                                        mMap.put("rate", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
@@ -339,7 +339,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("sp_position",position);
                                         mMap.put("date",tvDate.getText().toString());
                                         mMap.put("state",state);
-                                        mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
                                         if (!fromcredit){
                                             appUser.mListMapForItemCreditNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
@@ -384,7 +384,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("id",id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", journalDiffAmount);
-                                        mMap.put("gst", etGST.getText().toString());
+                                        mMap.put("rate", etGST.getText().toString());
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
@@ -396,7 +396,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("gst_pos6", journalVoucherPosition);
                                         mMap.put("date",tvDate.getText().toString());
                                         mMap.put("state",state);
-                                        mMap.put("goodsItem", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
                                         if (!fromcredit){
                                             appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);

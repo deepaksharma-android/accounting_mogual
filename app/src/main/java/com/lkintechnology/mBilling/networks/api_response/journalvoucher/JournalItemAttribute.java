@@ -93,15 +93,16 @@ public class JournalItemAttribute {
 
     public String party_id;
 
-    public String getRcn_item() {
-        return rcn_item;
+
+    public String getRcm_nature() {
+        return rcm_nature;
     }
 
-    public void setRcn_item(String rcn_item) {
-        this.rcn_item = rcn_item;
+    public void setRcm_nature(String rcm_nature) {
+        this.rcm_nature = rcm_nature;
     }
 
-    public String rcn_item;
+    public String rcm_nature;
 
     public String date;
 

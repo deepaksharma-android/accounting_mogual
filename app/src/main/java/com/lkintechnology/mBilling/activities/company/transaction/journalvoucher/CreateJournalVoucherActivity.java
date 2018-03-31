@@ -970,14 +970,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mMap.put("date",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
                 String state = response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState();
                 Timber.i("aaaaa  "+state);
-               if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState()==null){
+               if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState()==null||response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState().equals("")){
                    mMap.put("state","Haryana");
                }
                 else{
                    mMap.put("state",response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState());
                }
 
-                mMap.put("spRCNItem",""/*response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcn_item()*/);
+                mMap.put("spRCNItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getRcm_nature());
                 mMap.put("goodsItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
                 mMap.put("spITCEligibility",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemJournalVoucherNote.add(mMap);

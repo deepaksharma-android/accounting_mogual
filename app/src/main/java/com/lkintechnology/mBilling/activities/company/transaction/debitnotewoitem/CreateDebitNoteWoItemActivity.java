@@ -810,7 +810,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getDebit_note().getData().getAttributes().getGst_nature().trim();
-             spinnergstnature=group_type;
+            spinnergstnature=group_type;
             int groupindex = -1;
             for (int i = 0; i<getResources().getStringArray(R.array.gst_nature_debit).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_debit)[i].equals(group_type)) {
@@ -842,9 +842,13 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
                 }
                 mMap.put("date", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getDate());
-                mMap.put("goodsItem", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getItc_eligibility());
-
-                mMap.put("state",response.getDebit_note().getData().getAttributes().getAccount_dedit().getState());
+                mMap.put("spITCEligibility", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getItc_eligibility());
+                if(!response.getDebit_note().getData().getAttributes().getAccount_dedit().getState().equals("")) {
+                    mMap.put("state", response.getDebit_note().getData().getAttributes().getAccount_dedit().getState());
+                }
+                else{
+                    mMap.put("state","Haryana");
+                }
                 appUser.mListMapForItemDebitNote.add(mMap);
             }
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
