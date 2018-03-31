@@ -825,7 +825,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 mMap.put("id",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getId());
                 mMap.put("inv_num", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getInvoice_no());
                 mMap.put("difference_amount", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getAmount()));
-                mMap.put("gst",String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getTax_rate()));
+                mMap.put("rate",String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getTax_rate()));
                 if(groupindex==1){
                     mMap.put("sp_position","1");
                 }
@@ -833,7 +833,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     mMap.put("sp_position","2");
                 }
 
-                if (response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getCgst_amount()!=null) {
+                if (response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getCgst_amount()>0.0) {
                     mMap.put("cgst", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getCgst_amount()));
                     mMap.put("sgst", String.valueOf(response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getSgst_amount()));
 

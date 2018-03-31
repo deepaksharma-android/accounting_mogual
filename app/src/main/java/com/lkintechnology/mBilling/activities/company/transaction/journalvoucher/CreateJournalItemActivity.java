@@ -171,7 +171,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                     double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
                     double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
-                        tvCGST.setText(String.valueOf(halfPer));
+                    tvCGST.setText(String.valueOf(halfPer));
+                    tvIGST.setText(String.valueOf(percentage));
 
                 }else if (s.length()<=0){
                     tvSgst.setText("");

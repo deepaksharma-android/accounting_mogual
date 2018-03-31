@@ -846,7 +846,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     mMap.put("sp_position","2");
                 }
 
-                if (response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getCgst_amount()!=null) {
+                if (response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getCgst_amount()>0.0) {
                     mMap.put("cgst", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getCgst_amount()));
                     mMap.put("sgst", String.valueOf(response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSgst_amount()));
 

@@ -73,7 +73,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
                 Timber.i("MEEEEEEEEEE" + mListMap.get(position));
                 String invoicedetail = (String) map.get("inv_num");
                 String date = (String) map.get("date");
-                String gst = (String) map.get("gst");
+                String gst = (String) map.get("rate");
                 String cgst = (String) map.get("cgst");
                 String sgst = (String) map.get("sgst");
                 String differenciateitem = (String) map.get("difference_amount");
@@ -102,7 +102,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
                 Timber.i("MEEEEEEEEEE" + mListMap.get(position));
                 String invoicedetail = (String) map.get("inv_num");
                 String date = (String) map.get("date");
-                String gst = (String) map.get("gst");
+                String gst = (String) map.get("rate");
                 String cgst = (String) map.get("cgst");
                 String sgst = (String) map.get("sgst");
                 String differenciateitem = (String) map.get("difference_amount");
@@ -140,7 +140,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
             Timber.i("MEEEEEEEEEE" + mListMap.get(position));
             String invoicedetail = (String) map.get("inv_num");
             String date = (String) map.get("date");
-            String gst = (String) map.get("gst");
+            String gst = (String) map.get("rate");
             //String cgst = (String) map.get("cgst");
             // String sgst = (String) map.get("sgst");
             String differenciateitem = (String) map.get("difference_amount");
@@ -174,7 +174,7 @@ public class DebitNoteItemDetailAdapter extends BaseAdapter {
             String invoicedetail = (String) map.get("inv_num");
             String date = (String) map.get("date");
 
-            String gst = (String) map.get("gst");
+            String gst = (String) map.get("rate");
             String cgst = (String) map.get("cgst");
             String sgst = (String) map.get("sgst");
             String differenciateitem = (String) map.get("difference_amount");
