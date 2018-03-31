@@ -50,7 +50,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     LinearLayout mSubmitButton;
     AppUser appUser;
     Double stockquantity, stockprice;
-    String batchwise,serailwise;
+    String batchwise, serailwise;
     String serial;
     private ZBarScannerView mScannerView;
     @Bind(R.id.mainLayout)
@@ -65,14 +65,15 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     FrameLayout scanning_content_frame;
     @Bind(R.id.cancel)
     ImageView mCancel;
-    Boolean stock=true;
+    Boolean stock = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_opening_stock);
         ButterKnife.bind(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         String listString = "";
         for (String s : appUser.stock_serial_arr) {
             listString += s + ",";
@@ -96,7 +97,11 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                stock=false;
+                if (!mStockQuantity.getText().toString().equals("") && !mStockQuantity.getText().toString().isEmpty()) {
+                    if (appUser.quantity != Integer.valueOf(mStockQuantity.getText().toString())) {
+                        stock = false;
+                    }
+                }
                       /*  if(count==0){
                             mSr_no.setText("");
                         }*/
@@ -122,7 +127,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             @Override
             public void afterTextChanged(Editable s) {
 
-               // Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                // Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
             }
         });
 
@@ -153,11 +158,11 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             }
         });
-        if(!Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("")) {
+        if (!Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("")) {
             serailwise = Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail();
         }
-        if(!Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("")) {
-            batchwise =Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail();
+        if (!Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail().equals("")) {
+            batchwise = Preferences.getInstance(getApplicationContext()).getitem_batch_wise_detail();
         }
         mAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,22 +204,19 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                                         mSr_no.setText(listString);
                                         mSerialNumber.setText("");
                                     }
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext()," Quantity is less.",Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
                                     dialogbal.dismiss();
                                 }
 
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Enter Serial number",Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
                     dialogbal.show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Add quantity", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -223,15 +225,14 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mScanItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mStockQuantity.getText().toString().equals("0")) {
+                if (!mStockQuantity.getText().toString().equals("0")) {
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(ItemOpeningStockActivity.this);
                     scanning_content_frame.addView(mScannerView);
                     mScannerView.startCamera();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Add quantity", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -253,7 +254,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
             }
         });
 
-        if(batchwise!=null||serailwise!=null) {
+        if (batchwise != null || serailwise != null) {
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -290,10 +291,9 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                             pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                             pairs[l].setTextSize(18);
                             if (appUser.stock_serial_arr.size() > 0) {
-                                if(appUser.stock_serial_arr.size()>l) {
+                                if (appUser.stock_serial_arr.size() > l) {
                                     pairs[l].setText(appUser.stock_serial_arr.get(l));
-                                }
-                                else{
+                                } else {
                                     pairs[l].setText("");
                                 }
                             }
@@ -338,37 +338,39 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                              //  appUser.stock_serial_arr.add("3");
-                                stock=true;
+                                //  appUser.stock_serial_arr.add("3");
+                                stock = true;
+                                appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 Preferences.getInstance(getApplicationContext()).setSerial("");
                                 appUser.stock_serial_arr.clear();
                                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-                               // appUser.stock_item_serail_arr.clear();
+                                // appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
-                                        if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
-                                            pairs[i].setText("");
+                                    if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
+                                        pairs[i].setText("");
+                                        appUser.stock_serial_arr.add(i, "");
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                    } else {
+
+                                        if (!pairs[i].getText().toString().equals("")) {
+                                            if ((appUser.stock_serial_arr.size() - 1) == i) {
+                                                appUser.stock_serial_arr.set(i, pairs[i].getText().toString());
+                                            } else {
+                                                appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                            }
+
+                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        } else {
                                             appUser.stock_serial_arr.add(i, "");
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                           // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
-                                        } else {
+                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
 
-                                            if (!pairs[i].getText().toString().equals("")) {
-                                                if ((appUser.stock_serial_arr.size()-1)==i){
-                                                    appUser.stock_serial_arr.set(i,pairs[i].getText().toString());
-                                                }else {
-                                                    appUser.stock_serial_arr.add(pairs[i].getText().toString());
-                                                }
-
-                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                            } else {
-                                                appUser.stock_serial_arr.add(i, "");
-                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-
-                                            }
                                         }
+                                    }
                                 }
                                 Preferences.getInstance(getApplicationContext()).setStockSerial("");
                                 appUser.stock_item_serail_arr.clear();
@@ -381,8 +383,8 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                                 }
 
                                 appUser.stock_serial_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                for(int i=0;i<appUser.stock_item_serail_arr.size();i++){
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                for (int i = 0; i < appUser.stock_item_serail_arr.size(); i++) {
                                     appUser.stock_serial_arr.add(appUser.stock_item_serail_arr.get(i));
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 }
@@ -404,17 +406,16 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                 }
 
             });
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Select batchwise or serial",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Select batchwise or serial", Toast.LENGTH_LONG).show();
         }
         /*Preferences.getInstance(getApplicationContext()).getItem_stock_quantity();
          mStockPrice.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_amount());
           mStockValue.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_value());
          */
 
-        if (! Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")) {
-            stock=true;
+        if (!Preferences.getInstance(getApplicationContext()).getItem_stock_quantity().equals("")) {
+            stock = true;
             mStockQuantity.setText(Preferences.getInstance(getApplicationContext()).getItem_stock_quantity());
         }
         if (!Preferences.getInstance(getApplicationContext()).getItem_stock_amount().equals("")) {
@@ -427,10 +428,9 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(stock==false&&appUser.stock_serial_arr.size()>0){
-                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
-                }
-                else{
+                if (stock == false && appUser.stock_serial_arr.size() > 0) {
+                    Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
+                } else {
                     finish();
                 }
                /* if (!mSr_no.getText().toString().equals("")) {
@@ -439,22 +439,19 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                 else{
                     Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
                 }*/
-                if(!mStockQuantity.getText().toString().equals("")) {
+                if (!mStockQuantity.getText().toString().equals("")) {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-                }
-                else{
+                } else {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
                 }
-                if(!mStockPrice.getText().toString().equals("")) {
+                if (!mStockPrice.getText().toString().equals("")) {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
-                }
-                else{
+                } else {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
                 }
                 if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
-                Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
-                }
-                else{
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
+                } else {
                     Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
                 }
 
@@ -478,7 +475,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("OPENING STOCK");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -495,11 +492,10 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         return true;
     }
 
-    private int getWidth(){
-        int density= getResources().getDisplayMetrics().densityDpi;
-        int size =0;
-        switch(density)
-        {
+    private int getWidth() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int size = 0;
+        switch (density) {
             case DisplayMetrics.DENSITY_LOW:
                 size = 500;
                 break;
@@ -523,11 +519,11 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
         return size;
     }
-    private int getHeight(){
-        int density= getResources().getDisplayMetrics().densityDpi;
-        int height =150;
-        switch(density)
-        {
+
+    private int getHeight() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int height = 150;
+        switch (density) {
             case DisplayMetrics.DENSITY_LOW:
                 height = 150;
                 break;
@@ -552,9 +548,9 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     @Override
     public void handleResult(Result result) {
         if (!result.getContents().equals("")) {
-            String listString="";
-            int qty=Integer.parseInt( mStockQuantity.getText().toString());
-            if (qty>appUser.stock_serial_arr.size()) {
+            String listString = "";
+            int qty = Integer.parseInt(mStockQuantity.getText().toString());
+            if (qty > appUser.stock_serial_arr.size()) {
                 // mScannerView.stopCamera();
                 if (appUser.stock_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
@@ -578,9 +574,8 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                 mScannerView.startCamera();
 
 
-            }
-            else{
-                Toast.makeText(ItemOpeningStockActivity.this,"Item quantity is less", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ItemOpeningStockActivity.this, "Item quantity is less", Toast.LENGTH_SHORT).show();
                 mScannerView.stopCamera();
                 scanning_content_frame.removeView(mScannerView);
                 mMainLayout.setVisibility(View.VISIBLE);
