@@ -110,8 +110,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
     public static int intStartActivityForResult = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
-    String str="";
+    String str = "";
 
+    public static boolean isForEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +216,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         fromitemlist = getIntent().getExtras().getBoolean("fromitemlist");
         if (fromitemlist) {
             title = "EDIT ITEM";
+            isForEdit = true;
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
@@ -286,6 +288,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
 
+        } else {
+            isForEdit = false;
         } /*else {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
@@ -391,7 +395,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                            /* } else {
                                     Snackbar.make(coordinatorLayout, "Select Store", Snackbar.LENGTH_LONG).show();
                                 }*/
-                            }else {
+                            } else {
                                 Snackbar.make(coordinatorLayout, "Add Tax Catagory", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
@@ -550,7 +554,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 intStartActivityForResult = 3;
-                ParameterConstant.checkStartActivityResultForMaterialCenter=6;
+                ParameterConstant.checkStartActivityResultForMaterialCenter = 6;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getApplicationContext(), MaterialCentreListActivity.class), 4);
             }
@@ -594,6 +598,10 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void openingStock(View view) {
+        if (mItemGroup.getText().toString().isEmpty()||mItemGroup.getText().toString().equals("")||mItemUnit.getText().toString().isEmpty()||mItemUnit.getText().toString().equals("")||mTaxCategory.getText().toString().isEmpty()||mTaxCategory.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please select Group, Unit, and Text Category", Toast.LENGTH_SHORT).show();
+            return;
+        }
         startActivity(new Intent(getApplicationContext(), ItemOpeningStockActivity.class));
     }
 
@@ -655,7 +663,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "item");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
@@ -746,7 +754,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                boolForStore=true;
+                boolForStore = true;
                 if (result.equals("None")) {
                     mHsnLayout.setVisibility(View.GONE);
                     appUser.item_hsn_number = "";
@@ -767,13 +775,13 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
-                boolForStore=true;
+                boolForStore = true;
                 appUser.stock_item_material_center_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
                 mItemGroup.setText(appUser.item_group_name);
-                appUser.stock_item_material_center=name[0];
+                appUser.stock_item_material_center = name[0];
                 Preferences.getInstance(getApplicationContext()).setStore_for_item(name[0]);
                 Preferences.getInstance(getApplicationContext()).setStore_id_for_item(id);
             }
@@ -796,7 +804,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             } else if (intStartActivityForResult == 2) {
                 boolForItemGroup = true;
                 boolForStore = true;
-            }else if (intStartActivityForResult == 3) {
+            } else if (intStartActivityForResult == 3) {
                 boolForUnit = true;
                 boolForItemGroup = true;
             }
@@ -813,14 +821,14 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 appUser.item_unit_id = id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 mItemUnit.setText(result);
-            }else if (!boolForStore) {
+            } else if (!boolForStore) {
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.stock_item_material_center_id = String.valueOf(id);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String[] name = result.split(",");
                 mStore.setText(name[0]);
-                appUser.stock_item_material_center=name[0];
+                appUser.stock_item_material_center = name[0];
                 Preferences.getInstance(getApplicationContext()).setStore_for_item(name[0]);
                 Preferences.getInstance(getApplicationContext()).setStore_id_for_item(id);
             }
@@ -1021,16 +1029,16 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
             if (response.getItem().getData().getAttributes().getOpeningstockbarcode() != null) {
                 appUser.stock_serial_arr.clear();
-                LocalRepositories.saveAppUser(this,appUser);
-                for(int i=0;i<response.getItem().getData().getAttributes().getOpeningstockbarcode().size();i++){
+                LocalRepositories.saveAppUser(this, appUser);
+                for (int i = 0; i < response.getItem().getData().getAttributes().getOpeningstockbarcode().size(); i++) {
                     appUser.stock_serial_arr.add(response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i));
-                    LocalRepositories.saveAppUser(this,appUser);
-                    str+=response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i)+",";
+                    LocalRepositories.saveAppUser(this, appUser);
+                    str += response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i) + ",";
                 }
                 Preferences.getInstance(getApplicationContext()).setStockSerial(str);
             }
-            Timber.i("cccccc "+str);
-            Timber.i("cccccc "+appUser.stock_serial_arr.toString());
+            Timber.i("cccccc " + str);
+            Timber.i("cccccc " + appUser.stock_serial_arr.toString());
             if (response.getItem().getData().getAttributes().getItem_description() != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_description(String.valueOf(response.getItem().getData().getAttributes().getItem_description()));
             }

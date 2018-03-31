@@ -66,6 +66,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     @Bind(R.id.cancel)
     ImageView mCancel;
     Boolean stock = true;
+    int i=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,11 +98,25 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mStockQuantity.getText().toString().equals("") && !mStockQuantity.getText().toString().isEmpty()) {
-                    if (appUser.quantity != Integer.valueOf(mStockQuantity.getText().toString())) {
-                        stock = false;
+                if (CreateNewItemActivity.isForEdit){
+                    if (i==0){
+                        appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
+                        LocalRepositories.saveAppUser(getApplication(),appUser);
+                        i++;
+                    }
+                    if (!mStockQuantity.getText().toString().equals("") && !mStockQuantity.getText().toString().isEmpty()) {
+                        if (appUser.quantity != Integer.valueOf(mStockQuantity.getText().toString())) {
+                            stock = false;
+                        }
+                    }
+                }else {
+                    if (!mStockQuantity.getText().toString().equals("") && !mStockQuantity.getText().toString().isEmpty()) {
+                        if (appUser.quantity != Integer.valueOf(mStockQuantity.getText().toString())) {
+                            stock = false;
+                        }
                     }
                 }
+
                       /*  if(count==0){
                             mSr_no.setText("");
                         }*/
