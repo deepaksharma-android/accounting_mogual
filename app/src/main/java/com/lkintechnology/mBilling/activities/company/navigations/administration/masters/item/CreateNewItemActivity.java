@@ -768,7 +768,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                mItemUnit.setText("");
+                mTaxCategory.setText("");
             }
         }
         if (requestCode == 4) {
