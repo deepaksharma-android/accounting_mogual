@@ -142,6 +142,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
+    Boolean textChange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +156,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         mSpinnerUnit.setEnabled(false);
         mUnitList = new ArrayList<>();
         mUnitList = new ArrayList<>();
-
+        textChange=false;
         mScannerView = new ZBarScannerView(this);
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
@@ -370,6 +371,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
                                 boolForBarcode = false;
+                                textChange=false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
@@ -415,6 +417,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             public void onClick(View view) {
                 if(!mQuantity.getText().toString().equals("")) {
                     boolForBarcode = false;
+                    textChange=false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(SaleReturnAddItemActivity.this);
@@ -498,6 +501,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                             @Override
                             public void onClick(View view) {
                                 boolForBarcode = false;
+                                textChange=false;
                                 appUser.serial_arr.clear();
                                 appUser.item_id=id;
                                 quantity=mQuantity.getText().toString();
@@ -694,7 +698,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 }
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                    if(mQuantity.getText().toString().equals(quantity)) {
+                    if(!textChange || (mSr_no.getText().toString().isEmpty())){
                         mProgressDialog = new ProgressDialog(SaleReturnAddItemActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -804,6 +808,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textChange =true;
                 if (count == 0) {
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
