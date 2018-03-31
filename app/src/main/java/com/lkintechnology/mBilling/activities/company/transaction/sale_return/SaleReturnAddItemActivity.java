@@ -36,6 +36,7 @@ import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -933,7 +934,23 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     @Override
     public void onBackPressed() {
 
-        if (ExpandableItemListActivity.comingFrom == 0) {
+        if (CreateSaleReturnActivity.fromsalelist){
+            CreateSaleReturnActivity.isForEdit=true;
+        }
+        Intent intent = getIntent();
+        boolean b = intent.getBooleanExtra("bool", false);
+        if (b) {
+            Intent intent1 = new Intent(this, CreateSaleReturnActivity.class);
+            intent1.putExtra("is", true);
+            startActivity(intent1);
+            finish();
+        } else {
+            Intent intent2 = new Intent(this, ExpandableItemListActivity.class);
+            startActivity(intent2);
+            finish();
+        }
+
+       /* if (ExpandableItemListActivity.comingFrom == 0) {
             Intent intent1 = new Intent(this, CreateSaleReturnActivity.class);
             intent1.putExtra("is", true);
             startActivity(intent1);
@@ -947,7 +964,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             finish();
         } else if (ExpandableItemListActivity.comingFrom == 3) {
             finish();
-        }
+        }*/
     }
 
     private int getWidth(){

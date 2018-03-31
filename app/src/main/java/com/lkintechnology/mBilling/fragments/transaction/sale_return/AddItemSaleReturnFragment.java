@@ -110,6 +110,7 @@ public class AddItemSaleReturnFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), SaleReturnAddItemActivity.class);
                 intent.putExtra("frombillitemvoucherlist", true);
+                intent.putExtra("bool", true);
                 intent.putExtra("pos", i);
                 startActivity(intent);
                 getActivity().finish();

@@ -285,8 +285,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 SaleTypeListActivity.isDirectForSaleType=false;
                 //startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
                 Intent intent=new Intent(getContext(),PurchaseTypeListActivity.class);
-                intent.putExtra("sale_return",true);
-                getActivity().startActivityForResult(intent,2);
+//                intent.putExtra("sale_return",true);
+                startActivityForResult(intent,22);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
@@ -726,7 +726,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 //mItemGroup.setText("");
             }
         }
-        if (requestCode == 2) {
+        if (requestCode == 22) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");

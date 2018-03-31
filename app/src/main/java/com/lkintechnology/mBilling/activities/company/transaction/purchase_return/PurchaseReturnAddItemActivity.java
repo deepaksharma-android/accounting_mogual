@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -991,9 +992,23 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
 
     @Override
     public void onBackPressed() {
+        if (CreatePurchaseReturnActivity.fromsalelist){
+            CreatePurchaseReturnActivity.isForEdit=true;
+        }
+        Intent intent = getIntent();
+        boolean b = intent.getBooleanExtra("bool", false);
+        if (b) {
+            Intent intent1 = new Intent(this, CreatePurchaseReturnActivity.class);
+            intent1.putExtra("is", true);
+            startActivity(intent1);
+            finish();
+        } else {
+            Intent intent2 = new Intent(this, ExpandableItemListActivity.class);
+            startActivity(intent2);
+            finish();
+        }
 
-        startActivity(new Intent(this, ExpandableItemListActivity.class));
-        finish();
+
     }
 
     private int getWidth() {

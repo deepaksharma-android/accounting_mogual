@@ -123,6 +123,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), PurchaseReturnAddItemActivity.class);
+                intent.putExtra("bool", true);
                 intent.putExtra("frombillitemvoucherlist", true);
                 intent.putExtra("pos", i);
                 startActivity(intent);

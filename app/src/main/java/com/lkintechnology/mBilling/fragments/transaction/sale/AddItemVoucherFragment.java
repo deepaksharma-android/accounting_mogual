@@ -126,6 +126,7 @@ public class AddItemVoucherFragment extends Fragment {
                     intent.putExtra("fromsalelist", false);
                 }*/
                 intent.putExtra("frombillitemvoucherlist", true);
+                intent.putExtra("bool", true);
                 intent.putExtra("pos", i);
                 startActivity(intent);
                 getActivity().finish();

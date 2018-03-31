@@ -984,10 +984,23 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         //if ( ExpandableItemListActivity.comingFrom == 1) {
            /* startActivity(new Intent(this, ExpandableItemListActivity.class));
             finish();*/
-            Intent intent = new Intent(this, ExpandableItemListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+        if (CreatePurchaseActivity.fromsalelist){
+            CreatePurchaseActivity.isForEdit=true;
+        }
+
+
+        Intent intent = getIntent();
+        boolean b = intent.getBooleanExtra("bool", false);
+        if (b) {
+            Intent intent1 = new Intent(this, CreatePurchaseActivity.class);
+            intent1.putExtra("is", true);
+            startActivity(intent1);
             finish();
+        } else {
+            Intent intent2 = new Intent(this, ExpandableItemListActivity.class);
+            startActivity(intent2);
+            finish();
+        }
        // }
     }
 
