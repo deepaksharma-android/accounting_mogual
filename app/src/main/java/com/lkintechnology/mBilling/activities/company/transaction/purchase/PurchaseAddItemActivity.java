@@ -146,6 +146,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
+    Boolean textChange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +168,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         mSpinnerUnit.setClickable(false);
         mSpinnerUnit.setEnabled(false);
         mUnitList = new ArrayList<>();
+        textChange=false;
 
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
         if(frombillitemvoucherlist){
@@ -177,7 +179,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             String iid=(String)map.get("item_id");
             String item_id=(String) map.get("id");
             String description= (String) map.get("description");
-             quantity= (String) map.get("quantity");
+            quantity= (String) map.get("quantity");
             String unit= (String) map.get("unit");
             String srNo= (String) map.get("sr_no");
             String rate= (String) map.get("rate");
@@ -198,7 +200,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             String mainunit=(String) map.get("main_unit");
             String alternateunit=(String) map.get("alternate_unit");
             String purchasepricemain=(String) map.get("purchase_price_main");
-
+            Timber.i("bbbbbb "+quantity);
             String purchasepricealternate=(String) map.get("purchase_price_alternate");
             String unit_list=(String) map.get("unit_list").toString().replace("[","").replace("]","");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
@@ -384,6 +386,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
                                 boolForBarcode=false;
+                                textChange=false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
@@ -429,6 +432,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             public void onClick(View view) {
                 if(!mQuantity.getText().toString().equals("")) {
                     boolForBarcode=false;
+                    textChange=false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(PurchaseAddItemActivity.this);
@@ -544,6 +548,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         @Override
                         public void onClick(View view) {
                             boolForBarcode=false;
+                            textChange=false;
                             appUser.serial_arr.clear();
                             appUser.item_id=id;
                             quantity=mQuantity.getText().toString();
@@ -745,7 +750,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                        if(mQuantity.getText().toString().equals(quantity)) {
+                           if(!textChange || (mSr_no.getText().toString().isEmpty())){
                             mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
                             mProgressDialog.setMessage("Info...");
                             mProgressDialog.setIndeterminate(false);
@@ -755,7 +760,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             RequestCheckBarcode.bollForBarcode=true;
                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
                         }
-                    else{
+                         else{
                             Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
                         }
                     } else {
@@ -854,6 +859,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textChange =true;
                 if (count == 0) {
                     mTotal.setText(String.format("%.2f",0.0));
                     mValue.setText("0.0");
