@@ -58,6 +58,8 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), CreateJournalItemActivity.class);
                 intent.putExtra("fromjournal", true);
+                intent.putExtra("state",state);
+                intent.putExtra("diff_amount",amount);
                 intent.putExtra("pos",String.valueOf(i));
                 startActivity(intent);
                 finish();

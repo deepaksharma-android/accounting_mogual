@@ -866,7 +866,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    boolForReceivedFrom = true;
                    String result = data.getStringExtra("name");
                    String id = data.getStringExtra("id");
-                    state=data.getStringExtra("state");
+                   state=data.getStringExtra("state");
                    String[] name = result.split(",");
                    appUser.payment_paid_to_id = id;
                    appUser.payment_paid_to_name = name[0];
@@ -1106,6 +1106,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 mMap.put("igst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getIgst_amount()));
                 if(!response.getPayment().getData().getAttributes().getPaid_to().getState().equals("")||response.getPayment().getData().getAttributes().getPaid_to().getState()!=null) {
                     mMap.put("state", response.getPayment().getData().getAttributes().getPaid_to().getState());
+                    state=response.getPayment().getData().getAttributes().getPaid_to().getState();
+
                 }
                 mMap.put("spRCNItem",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcm_nature());
                 mMap.put("spITCEligibility",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getItc_eligibility());

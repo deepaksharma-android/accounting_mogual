@@ -81,7 +81,6 @@
                         android:layout_marginLeft="5dp"
                         android:background="@android:color/transparent"
                         android:hint="eg.51236889558555"
-                        android:inputType="number"
                         android:textColor="#000"
                         android:textSize="16sp" />
 

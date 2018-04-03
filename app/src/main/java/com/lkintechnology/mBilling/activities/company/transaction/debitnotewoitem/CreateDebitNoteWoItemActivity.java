@@ -849,6 +849,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 mMap.put("spITCEligibility", response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getItc_eligibility());
                 if(!response.getDebit_note().getData().getAttributes().getAccount_dedit().getState().equals("")) {
                     mMap.put("state", response.getDebit_note().getData().getAttributes().getAccount_dedit().getState());
+                    state=response.getDebit_note().getData().getAttributes().getAccount_dedit().getState();
                 }
                 else{
                     mMap.put("state","Haryana");

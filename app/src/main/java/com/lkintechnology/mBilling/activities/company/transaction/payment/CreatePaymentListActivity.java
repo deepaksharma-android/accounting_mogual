@@ -118,7 +118,7 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             String igst=(String)map.get("igst");
             String cgst= (String)map.get("cgst");
             String sgst=(String)map.get("sgst");
-            state=(String)map.get("state");
+          //  state=(String)map.get("state");
             String spRCNItem= (String)map.get("spRCNItem");
             String ITCEligibility=(String)map.get("spITCEligibility");
             etIVNNo.setText(voucher_number);
@@ -126,11 +126,16 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             //account_id=(String)map.get("account_id");
             tvPartyName.setText(party_name);
            // party_id=(String)map.get("party_id");
-            etDiffAmount.setText(difference_amount);
+           // etDiffAmount.setText(difference_amount);
             etRate.setText(rate);
-            tvIGST.setText(igst);
+            double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
+            double halfPer = percentage / 2.0;
+            tvSgst.setText(String.valueOf(halfPer));
+            tvCGST.setText(String.valueOf(halfPer));
+            tvIGST.setText(String.valueOf(percentage));
+          /*  tvIGST.setText(igst);
             tvCGST.setText(cgst);
-            tvSgst.setText(sgst);
+            tvSgst.setText(sgst);*/
             String group_type = spRCNItem.trim();
             int groupindex = -1;
             for (int i = 0; i<chooseRCN.length; i++) {
@@ -170,6 +175,29 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             mCgstLayout.setVisibility(View.GONE);
             mSgstLayout.setVisibility(View.GONE);
         }
+        etDiffAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i2==0){
+                    etDiffAmount.setText("0.0");
+                    etRate.setText("0.0");
+                    tvIGST.setText("0.0");
+                    tvCGST.setText("0.0");
+                    tvSgst.setText("0.0");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         etRate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -179,6 +207,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count==0){
+                    tvIGST.setText("0.0");
+                    tvCGST.setText("0.0");
+                    tvSgst.setText("0.0");
+                }
                 if (s.length() > 0) {
                     double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
                     double halfPer = percentage / 2.0;

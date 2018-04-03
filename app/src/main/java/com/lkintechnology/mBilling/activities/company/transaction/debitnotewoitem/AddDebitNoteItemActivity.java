@@ -74,11 +74,15 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                         intent.putExtra("fromdebit", true);
                         intent.putExtra("pos", String.valueOf(i));
                         intent.putExtra("journal",true);
+                        intent.putExtra("state",state);
+                        intent.putExtra("diff_amount",journalVoucherDiffAmount);
                     }
                 }
                 else{
                     intent.putExtra("journal",false);
                     intent.putExtra("fromdebit", true);
+                    intent.putExtra("amount",amount);
+                    intent.putExtra("state",state);
                     intent.putExtra("pos", String.valueOf(i));
                 }
 

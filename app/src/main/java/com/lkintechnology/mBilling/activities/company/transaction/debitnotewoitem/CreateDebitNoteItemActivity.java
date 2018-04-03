@@ -64,27 +64,37 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
         fromdebit=getIntent().getExtras().getBoolean("fromdebit");
+        state=getIntent().getExtras().getString("state");
         if(fromdebit){
             itempos=getIntent().getExtras().getString("pos");
             Boolean journal=getIntent().getExtras().getBoolean("journal");
             Map map;
             if(journal){
+                journalVoucherDiffAmount=getIntent().getExtras().getString("diff_amount");
+                etDifferenceAmount.setText(journalVoucherDiffAmount);
                 map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
             }
             else{
+                amount=getIntent().getExtras().getString("amount");
+                etDifferenceAmount.setText(amount);
                 map=appUser.mListMapForItemDebitNote.get(Integer.parseInt(itempos));
             }
             id=(String)map.get("id");
             etIVNNo.setText((String)map.get("inv_num"));
             tvDate.setText((String)map.get("date"));
-            etDifferenceAmount.setText((String)map.get("difference_amount"));
+           // etDifferenceAmount.setText((String)map.get("difference_amount"));
             etGST.setText((String)map.get("rate"));
-             etCGST.setText((String)map.get("cgst"));
+            double percentage = ((Double.parseDouble(etDifferenceAmount.getText().toString()) * Double.parseDouble(etGST.getText().toString())) / 100);
+            double halfPer = percentage / 2.0;
+            etSGST.setText(String.valueOf(halfPer));
+            etCGST.setText(String.valueOf(halfPer));
+            etIGST.setText(String.valueOf(percentage));
+            /* etCGST.setText((String)map.get("cgst"));
             etIGST.setText((String)map.get("igst"));
-            etSGST.setText((String)map.get("sgst"));
+            etSGST.setText((String)map.get("sgst"));*/
             amount=(String) map.get("difference_amount");
-            journalVoucherDiffAmount=(String) map.get("difference_amount");
-            state=(String) map.get("state");
+          //  journalVoucherDiffAmount=(String) map.get("difference_amount");
+           // state=(String) map.get("state");
             journalVoucherPosition=((String)map.get("gst_pos7"));
             spGoodsKey1=((String)map.get("sp_position"));
             String goods=((String)map.get("spITCEligibility"));

@@ -863,6 +863,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
                 if(!response.getCredit_note().getData().getAttributes().getAccount_credit().getState().equals("")) {
                     mMap.put("state", response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
+                    state=response.getCredit_note().getData().getAttributes().getAccount_credit().getState();
+
                 }
                 else{
                     mMap.put("state","Haryana");

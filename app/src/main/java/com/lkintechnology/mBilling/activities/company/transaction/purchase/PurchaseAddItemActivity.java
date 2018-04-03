@@ -494,7 +494,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     for (int l = 0; l < Integer.parseInt(serial); l++) {
                         pairs[l] = new EditText(getApplicationContext());
                         pairs[l].setPadding(20, 10, 10, 0);
-                        pairs[l].setInputType(InputType.TYPE_CLASS_NUMBER);
                         pairs[l].setWidth(width);
                         pairs[l].setHeight(height);
                         pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);

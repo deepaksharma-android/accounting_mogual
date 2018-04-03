@@ -65,6 +65,8 @@ public class ShowPaymentListActivity extends AppCompatActivity implements View.O
                 Intent intent = new Intent(getApplicationContext(), CreatePaymentListActivity.class);
                 intent.putExtra("frompayment", true);
                 intent.putExtra("pos",String.valueOf(i));
+                intent.putExtra("state",state);
+                intent.putExtra("amount",amount);
                 startActivity(intent);
                 finish();
             }

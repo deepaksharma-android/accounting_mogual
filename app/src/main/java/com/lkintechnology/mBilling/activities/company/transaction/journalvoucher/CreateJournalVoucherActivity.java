@@ -972,13 +972,13 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mMap.put("sgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSgst_amount()));
                 mMap.put("igst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getIgst_amount()));
                 mMap.put("date",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
-                String state = response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState();
-                Timber.i("aaaaa  "+state);
+
                if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState()==null||response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState().equals("")){
                    mMap.put("state","Haryana");
                }
                 else{
                    mMap.put("state",response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState());
+                   state=response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState();
                }
 
                 mMap.put("spRCNItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getRcm_nature());
