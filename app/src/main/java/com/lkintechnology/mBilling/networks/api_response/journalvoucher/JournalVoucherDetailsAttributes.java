@@ -97,6 +97,14 @@ public class JournalVoucherDetailsAttributes {
         this.account_name_credit = account_name_credit;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public Double getAmount() {
         return amount;
     }
@@ -120,4 +128,6 @@ public class JournalVoucherDetailsAttributes {
     public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
+
+    public String reason;
 }

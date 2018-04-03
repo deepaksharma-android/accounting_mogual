@@ -22,6 +22,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVouch
 import com.lkintechnology.mBilling.adapters.CreditNoteItemDetailAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import timber.log.Timber;
@@ -57,7 +58,15 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         Timber.i("mystate"+state);
         initialpageSetup();
         Timber.i("state"+appUser.company_state);
-
+        String group_type = Preferences.getInstance(getApplicationContext()).getReason();
+        int groupindex = -1;
+        for (int i = 0; i < getResources().getStringArray(R.array.reasons).length; i++) {
+            if (getResources().getStringArray(R.array.reasons)[i].equals(group_type)) {
+                groupindex = i;
+                break;
+            }
+        }
+        reason.setSelection(groupindex);
         listItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -74,7 +83,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     intent.putExtra("journal", false);
                     intent.putExtra("pos", String.valueOf(i));
                 }
-
+                Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                 startActivity(intent);
                 finish();
             }
@@ -170,6 +179,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     intent.putExtra("gst_pos6", positionJournalVoucher);
                     intent.putExtra("diff_amount", journalDiffAmount);
                     intent.putExtra("state", state);
+                    Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                     startActivity(intent);
                     finish();
                 }
@@ -178,6 +188,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     intent.putExtra("amount",amount);
                     intent.putExtra("sp_position",position);
                     intent.putExtra("state", state);
+                    Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                     startActivity(intent);
                     finish();
                 }
@@ -188,6 +199,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                     if (positionJournalVoucher.equals("6")) {
                         if (appUser.mListMapForItemJournalVoucherNote.size() > 0) {
                             appUser.journalreason = reason.getSelectedItem().toString();
+                            Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                             LocalRepositories.saveAppUser(this, appUser);
                             finish();
                         } else {
@@ -197,6 +209,7 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
                 } else {
                     if (appUser.mListMapForItemCreditNote.size() > 0) {
                         appUser.creditreason = reason.getSelectedItem().toString();
+                        Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                         LocalRepositories.saveAppUser(this, appUser);
                         finish();
                     } else {

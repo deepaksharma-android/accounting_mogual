@@ -159,6 +159,29 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             mCgstLayout.setVisibility(View.GONE);
             mSgstLayout.setVisibility(View.GONE);
         }
+        etDiffAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i2==0){
+                    etDiffAmount.setText("0.0");
+                    etRate.setText("0.0");
+                    tvIGST.setText("0.0");
+                    tvCGST.setText("0.0");
+                    tvSgst.setText("0.0");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         etRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -167,6 +190,11 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count==0){
+                    tvIGST.setText("0.0");
+                    tvCGST.setText("0.0");
+                    tvSgst.setText("0.0");
+                }
                 if (s.length() > 0) {
                     double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
                     double halfPer = percentage / 2.0;

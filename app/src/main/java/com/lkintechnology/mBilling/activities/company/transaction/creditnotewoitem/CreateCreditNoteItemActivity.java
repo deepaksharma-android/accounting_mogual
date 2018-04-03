@@ -188,7 +188,29 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etIGST.setVisibility(View.VISIBLE);
             tv_gst.setText("IGST %");
         }
+        tvDiffAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i2==0){
+                    tvDiffAmount.setText("0.0");
+                    etGST.setText("0.0");
+                    etIGST.setText("0.0");
+                    etCGST.setText("0.0");
+                    etSGST.setText("0.0");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         etGST.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -197,6 +219,11 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count==0){
+                    etIGST.setText("0.0");
+                    etCGST.setText("0.0");
+                    etSGST.setText("0.0");
+                }
                 if (s.length()>0){
                   double  percentage= (Double.parseDouble(tvDiffAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
                     etIGST.setText(String.valueOf(percentage));

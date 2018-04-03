@@ -58,6 +58,7 @@ import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -301,11 +302,13 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 if(fromDebitNote){
                     if(!gst_nature_spinner.getSelectedItem().toString().equals(spinnergstnature)){
                         appUser.mListMapForItemDebitNote.clear();
+                        Preferences.getInstance(getApplicationContext()).setReason("");
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
                 else{
                     appUser.mListMapForItemDebitNote.clear();
+                    Preferences.getInstance(getApplicationContext()).setReason("");
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                if (position==0){
@@ -819,6 +822,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 }
             }
             gst_nature_spinner.setSelection(groupindex);
+            Preferences.getInstance(getApplicationContext()).setReason(response.getDebit_note().getData().getAttributes().getReason());
             Map mMap;
             for (int i = 0; i < response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().size(); i++) {
                 mMap = new HashMap<>();

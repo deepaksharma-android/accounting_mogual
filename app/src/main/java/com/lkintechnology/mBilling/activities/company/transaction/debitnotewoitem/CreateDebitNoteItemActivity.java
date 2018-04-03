@@ -33,8 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
-   private EditText etIVNNo;
-    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,etDifferenceAmount,tvITC,tv_gst;
+   private EditText etIVNNo,etDifferenceAmount;
+    private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,tvITC,tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
     private RelativeLayout rootLayout;
@@ -183,7 +183,29 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etIGST.setVisibility(View.VISIBLE);
             tv_gst.setText("IGST %");
         }
+        etDifferenceAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i2==0){
+                    etDifferenceAmount.setText("0.0");
+                    etGST.setText("0.0");
+                    etIGST.setText("0.0");
+                    etCGST.setText("0.0");
+                    etSGST.setText("0.0");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         etGST.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -192,6 +214,11 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count==0){
+                    etIGST.setText("0.0");
+                    etCGST.setText("0.0");
+                    etSGST.setText("0.0");
+                }
                 if (s.length()>0){
                     percentage= (Double.parseDouble(etDifferenceAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
                     etIGST.setText(String.valueOf(percentage));
@@ -234,7 +261,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         etIVNNo= (EditText) findViewById(R.id.et_invoice);
         etCGST= (TextView) findViewById(R.id.et_cgst);
         etGST= (EditText) findViewById(R.id.et_gst);
-        etDifferenceAmount= (TextView) findViewById(R.id.et_difference_amount);
+        etDifferenceAmount= (EditText) findViewById(R.id.et_difference_amount);
         tvSGST= (TextView) findViewById(R.id.tv_sgst);
         tvCGST= (TextView) findViewById(R.id.tv_cgst);
         tvIGST= (TextView) findViewById(R.id.tv_igst);

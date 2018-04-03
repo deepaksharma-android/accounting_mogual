@@ -145,7 +145,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.sale_partyEmail = "";
         Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
-
+        Preferences.getInstance(getApplicationContext()).setReason("");
         ParameterConstant.handleAutoCompleteTextView = 0;
 
         ParameterConstant.name = "";

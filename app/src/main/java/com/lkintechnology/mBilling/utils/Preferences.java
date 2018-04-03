@@ -48,6 +48,7 @@ public class Preferences {
     private static final String STOCK_SERIAL = "stock_serial";
     private static final String PURCHASE_TAX_TYPE = "purchase_tax_type";
     private static final String UPDATE="update";
+    private static final String REASON="reason";
 
 
 
@@ -1312,5 +1313,12 @@ public class Preferences {
     }
     public String getPurchase_return_gst_nature() {
         return pref.getString(purchase_return_gst_nature, "");
+    }
+    public void setReason(String reason) {
+        editor.putString(REASON, reason);
+        editor.commit();
+    }
+    public String getReason() {
+        return pref.getString(REASON, "");
     }
 }

@@ -108,8 +108,17 @@ public class CreditNoteDetailsAttributes {
         return account_name_debit;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public void setAccount_name_debit(String account_name_debit) {
         this.account_name_debit = account_name_debit;
+
     }
 
     public Double getAmount() {
@@ -135,4 +144,6 @@ public class CreditNoteDetailsAttributes {
     public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
+
+    public String reason;
 }

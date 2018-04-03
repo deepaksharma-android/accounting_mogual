@@ -79,7 +79,7 @@
                 android:textSize="@dimen/sp_15"
                 android:textColor="#000"
                 style="@style/Gotham_Medium"/>
-            <com.lkintechnology.mBilling.utils.BuzzTextView
+            <com.lkintechnology.mBilling.utils.BuzzEditText
                 android:id="@+id/et_difference_amount"
                 android:layout_below="@+id/tv_difference_amount"
                 android:layout_width="fill_parent"
@@ -88,6 +88,7 @@
                 android:background="@drawable/bg_grey_stroke"
                 android:maxLength="13"
                 android:textColor="#000"
+                android:inputType="numberDecimal"
                 android:textSize="16sp"
                 android:padding="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_10"

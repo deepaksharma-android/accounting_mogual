@@ -114,6 +114,14 @@ public class DebitNoteDetailsAttributes {
         this.amount = amount;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public String getNarration() {
         return narration;
     }
@@ -131,4 +139,5 @@ public class DebitNoteDetailsAttributes {
     }
 
     public DebitNoteItems debit_note_item;
+    public String reason;
 }

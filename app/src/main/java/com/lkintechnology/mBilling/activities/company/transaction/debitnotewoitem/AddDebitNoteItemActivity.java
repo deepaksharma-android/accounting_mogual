@@ -22,6 +22,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoit
 import com.lkintechnology.mBilling.adapters.DebitNoteItemDetailAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 public class AddDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,6 +56,15 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
          journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
         journalVoucherDiffAmount = getIntent().getStringExtra("diff_amount");
         initialPageSetup();
+        String group_type = Preferences.getInstance(getApplicationContext()).getReason();
+        int groupindex = -1;
+        for (int i = 0; i < getResources().getStringArray(R.array.reasons).length; i++) {
+            if (getResources().getStringArray(R.array.reasons)[i].equals(group_type)) {
+                groupindex = i;
+                break;
+            }
+        }
+        reason.setSelection(groupindex);
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -167,6 +177,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                         intent.putExtra("diff_amount", journalVoucherDiffAmount);
                         intent.putExtra("gst_pos7", journalVoucherPosition);
                         intent.putExtra("state", state);
+                        Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                         startActivity(intent);
                         finish();
                     }
@@ -175,6 +186,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                     intent.putExtra("amount", amount);
                     intent.putExtra("sp_position", spGoodsKey);
                     intent.putExtra("state", state);
+                    Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                     startActivity(intent);
                     finish();
                 }
@@ -184,6 +196,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                     if (journalVoucherPosition.equals("7")) {
                         if (appUser.mListMapForItemJournalVoucherNote.size() > 0) {
                             appUser.journalreason = reason.getSelectedItem().toString();
+                            Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                             LocalRepositories.saveAppUser(this, appUser);
                             finish();
                         } else {
@@ -193,6 +206,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                 } else {
                     if (appUser.mListMapForItemDebitNote.size() > 0) {
                         appUser.debitreason = reason.getSelectedItem().toString();
+                        Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                         LocalRepositories.saveAppUser(this, appUser);
                         finish();
                     } else {

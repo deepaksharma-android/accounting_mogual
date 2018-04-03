@@ -60,6 +60,7 @@ import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -609,11 +610,13 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 if(fromJournalVoucher){
                     if(!gst_nature_spinner.getSelectedItem().toString().equals(gstnaturespinner)){
                         appUser.mListMapForItemJournalVoucherNote.clear();
+                        Preferences.getInstance(getApplicationContext()).setReason("");
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
                 else{
                     appUser.mListMapForItemJournalVoucherNote.clear();
+                    Preferences.getInstance(getApplicationContext()).setReason("");
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 if (position==0 | position==3 | position==4 | position==5 | position==8 | position==9){
@@ -944,6 +947,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             }
             gst_nature_spinner.setSelection(groupindex);
+            Preferences.getInstance(getApplicationContext()).setReason(response.getJournal_voucher().getData().getAttributes().getReason());
             Map mMap;
             for(int i =0;i<response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size();i++) {
                 mMap = new HashMap();
