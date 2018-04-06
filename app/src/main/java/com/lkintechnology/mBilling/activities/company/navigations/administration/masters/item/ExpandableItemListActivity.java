@@ -52,6 +52,7 @@ import com.lkintechnology.mBilling.utils.EventDeleteItem;
 import com.lkintechnology.mBilling.utils.EventEditItem;
 import com.lkintechnology.mBilling.utils.EventSaleAddItem;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -158,8 +159,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.item_group_name="";
         appUser.item_unit_name="";
         appUser.item_tax_category_name="";
+        appUser.edit_item_id="";
         appUser.stock_item_serail_arr.clear();
         appUser.stock_serial_arr.clear();
+        Preferences.getInstance(getApplicationContext()).setStockSerial("");
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
 

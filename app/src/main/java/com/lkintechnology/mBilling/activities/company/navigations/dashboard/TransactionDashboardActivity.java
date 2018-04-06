@@ -19,6 +19,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.income.CreateI
 import com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.payment.CreatePaymentActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
@@ -26,6 +27,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale_return.Cr
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -143,6 +145,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.account_name_debit_name = "";
         appUser.account_name_credit_name = "";
         appUser.sale_partyEmail = "";
+        RequestCheckBarcode.bollForBarcode=null;
         Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
         Preferences.getInstance(getApplicationContext()).setReason("");

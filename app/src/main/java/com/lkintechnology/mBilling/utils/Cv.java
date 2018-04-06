@@ -7,16 +7,9 @@ public interface Cv {
 
 
 
-   // BASE_URL = "https://mbilling.in/api/v1/";
+   //String BASE_URL = "https://mbilling.in/api/v1/";
   String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-  //String BASE_URL = "http://192.168.1.7:3000/api/v1/";
-
-
-
-
-
-
-
+  //String BASE_URL = "http://192.168.1.8:3000/api/v1/";
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
     String PREFS_APP_USER = "com.berylsystems.buzz.utils.app_user";
     String ACTION_LOGIN = "login_user";

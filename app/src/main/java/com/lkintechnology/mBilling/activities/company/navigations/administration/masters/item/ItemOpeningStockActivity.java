@@ -1,10 +1,13 @@
 package com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -25,10 +28,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
+import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
+import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,6 +47,9 @@ import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Bind(R.id.stock_quantity)
     EditText mStockQuantity;
     @Bind(R.id.stock_price)
@@ -66,12 +80,14 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     @Bind(R.id.cancel)
     ImageView mCancel;
     Boolean stock = true;
-    int i=0;
+    ProgressDialog mProgressDialog;
+    Snackbar snackbar;
+    int i = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_opening_stock);
+         setContentView(R.layout.activity_item_opening_stock);
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
@@ -98,10 +114,10 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (CreateNewItemActivity.isForEdit){
-                    if (i==0){
+                if (CreateNewItemActivity.isForEdit) {
+                    if (i == 0) {
                         appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
-                        LocalRepositories.saveAppUser(getApplication(),appUser);
+                        LocalRepositories.saveAppUser(getApplication(), appUser);
                         i++;
                     }
                     if (!mStockQuantity.getText().toString().equals("") && !mStockQuantity.getText().toString().isEmpty()) {
@@ -109,7 +125,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                             stock = false;
                         }
                     }
-                }else {
+                } else {
                     if (!mStockQuantity.getText().toString().equals("") && !mStockQuantity.getText().toString().isEmpty()) {
                         if (appUser.quantity != Integer.valueOf(mStockQuantity.getText().toString())) {
                             stock = false;
@@ -445,36 +461,82 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                 if (stock == false && appUser.stock_serial_arr.size() > 0) {
                     Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
                 } else {
+                    if (!mStockQuantity.getText().toString().equals("")) {
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                    } else {
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+                    }
+                    if (!mStockPrice.getText().toString().equals("")) {
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
+                    } else {
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+                    }
+                    if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
+                    } else {
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
+                    }
                     finish();
                 }
-               /* if (!mSr_no.getText().toString().equals("")) {
-                    finish();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
+               /* appUser.barcode_voucher_type = "purchase";
+                appUser.item_id = appUser.edit_item_id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (stock == false && appUser.stock_serial_arr.size() > 0) {
+                    Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
+                } else {
+                     if (CreateNewItemActivity.isForEdit) {
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(ItemOpeningStockActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                snackbar.dismiss();
+                                            }
+                                        }
+                                    });
+                            snackbar.show();
+
+                        }
+                    } else {
+                        if (!mStockQuantity.getText().toString().equals("")) {
+                            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                        } else {
+                            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+                        }
+                        if (!mStockPrice.getText().toString().equals("")) {
+                            Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
+                        } else {
+                            Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+                        }
+                        if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
+                            Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
+                        } else {
+                            Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
+                        }
+                        finish();
+                    }
                 }*/
-                if (!mStockQuantity.getText().toString().equals("")) {
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-                } else {
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
-                }
-                if (!mStockPrice.getText().toString().equals("")) {
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
-                } else {
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
-                }
-                if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
-                } else {
-                    Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
-                }
-
-
             }
         });
 
     }
 
+    /*@Override
+    protected int layoutId() {
+        return R.layout.activity_item_opening_stock;
+    }
+*/
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -598,4 +660,31 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         }
 
     }
+
+   /* @Subscribe
+    public void checkbarcode(CheckBarcodeResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            if (!mStockQuantity.getText().toString().equals("")) {
+                Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+            } else {
+                Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+            }
+            if (!mStockPrice.getText().toString().equals("")) {
+                Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
+            } else {
+                Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+            }
+            if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
+                Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
+            } else {
+                Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
+            }
+            finish();
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+    }*/
 }
