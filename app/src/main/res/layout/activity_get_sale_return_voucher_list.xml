@@ -21,6 +21,7 @@
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                 android:weightSum="1">
+
                 <Spinner
                     android:id="@+id/dashboard_spinner"
                     android:layout_width="0dp"
@@ -28,21 +29,72 @@
                     android:layout_weight="0.4"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="3dp"
+                    android:visibility="gone"
                     android:gravity="left|center">
                 </Spinner>
 
-                <com.lkintechnology.mBilling.utils.BuzzTextView
-                    android:id="@+id/total"
-                    style="@style/Gotham_Medium"
+                <LinearLayout
+                    android:id="@+id/date_from_to"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:textColor="#fff"
-                    android:gravity="right|center"
-                    android:layout_marginRight="10dp"/>
+                    android:orientation="horizontal"
+                    android:layout_weight=".6"
+                    android:layout_gravity="center">
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:id="@+id/start_date"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@android:color/transparent"
+                        android:hint="09 Apr 2018"
+                        android:textColor="#fff"
+                        android:textColorHint="#fff"
+                        android:textSize="14sp"/>
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+
+                        android:layout_width="0dp"
+                        android:layout_weight="0.05"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@android:color/transparent"
+                        android:text="To"
+                        android:textColor="#000"
+                        android:textSize="12sp"/>
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:id="@+id/end_date"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.25"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@android:color/transparent"
+                        android:hint="09 Apr 2018"
+                        android:textColorHint="#fff"
+                        android:textColor="#fff"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_weight=".4">
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/total"
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="right|center"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#fff" />
+                </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -54,4 +106,3 @@
             android:scrollbars="none" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
-
