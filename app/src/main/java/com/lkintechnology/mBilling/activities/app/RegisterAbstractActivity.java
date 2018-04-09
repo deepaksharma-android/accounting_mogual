@@ -17,12 +17,6 @@ public abstract class RegisterAbstractActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-    }
-
     protected abstract int layoutId();
 
     @Override

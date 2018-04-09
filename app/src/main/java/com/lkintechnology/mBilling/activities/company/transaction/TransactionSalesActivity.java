@@ -1,5 +1,7 @@
 package com.lkintechnology.mBilling.activities.company.transaction;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,8 +16,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,15 +39,18 @@ import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionSalesActivity extends RegisterAbstractActivity {
+public class TransactionSalesActivity extends RegisterAbstractActivity implements View.OnClickListener{
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -62,6 +69,16 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
     String title;
     @Bind(R.id.total)
     TextView mTotal;
+    @Bind(R.id.date_from_to)
+    LinearLayout date_from_to;
+    @Bind(R.id.start_date)
+    TextView start_date;
+    @Bind(R.id.end_date)
+    TextView end_date;
+    public Dialog dialog;
+    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private SimpleDateFormat dateFormatter;
+    String dateString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +88,15 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
-
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        long date = System.currentTimeMillis();
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        dateString = dateFormatter.format(date);
+        start_date.setText(dateString);
+        end_date.setText(dateString);
+        appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();
@@ -141,6 +166,13 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        date_from_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showpopup();
             }
         });
     }
@@ -222,6 +254,35 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
     }
 
     @Override
+    protected void onResume() {
+        EventBus.getDefault().register(this);
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(TransactionSalesActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, FirstPageActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -298,6 +359,103 @@ public class TransactionSalesActivity extends RegisterAbstractActivity {
         else{
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public void showpopup(){
+        dialog = new Dialog(TransactionSalesActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.date_pick_dialog);
+        dialog.setCancelable(true);
+        // set the custom dialog components - text, image and button
+        TextView date1 = (TextView) dialog.findViewById(R.id.date1);
+        TextView date2 = (TextView) dialog.findViewById(R.id.date2);
+        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+
+        date1.setOnClickListener(this);
+        date2.setOnClickListener(this);
+        final Calendar newCalendar = Calendar.getInstance();
+
+        date1.setText(dateString);
+        date2.setText(dateString);
+
+        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date = dateFormatter.format(newDate.getTime());
+                ((TextView) dialog.findViewById(R.id.date1)).setText(date);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date = dateFormatter.format(newDate.getTime());
+                ((TextView) dialog.findViewById(R.id.date2)).setText(date);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        // if button is clicked, close the custom dialog
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
+                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(TransactionSalesActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == dialog.findViewById(R.id.date1)) {
+            DatePickerDialog1.show();
+        }else if (view == dialog.findViewById(R.id.date2)){
+            DatePickerDialog2.show();
         }
     }
 }
