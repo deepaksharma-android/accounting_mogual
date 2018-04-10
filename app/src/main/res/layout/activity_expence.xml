@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/coordinatorLayout"
+android:id="@+id/coordinatorLayout"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:id="@+id/dashboard_spinner_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
+        android:layout_height="40dp"
+        android:background="#067bc9"
         android:orientation="vertical">
-
         <LinearLayout
-            android:id="@+id/dashboard_spinner_layout"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#067bc9"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:weightSum="1">
-                <Spinner
-                    android:id="@+id/dashboard_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="0.4"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
-                    android:gravity="left|center">
-                </Spinner>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <Spinner
+                android:id="@+id/dashboard_spinner"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="0.4"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:gravity="left|center">
+            </Spinner>
 
-                <com.lkintechnology.mBilling.utils.BuzzTextView
-                    android:id="@+id/total"
-                    style="@style/Gotham_Medium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:textColor="#fff"
-                    android:gravity="right|center"
-                    android:layout_marginRight="10dp"/>
-
-            </LinearLayout>
-
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/total"
+                style="@style/Gotham_Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:textColor="#fff"
+                android:gravity="right|center"
+                android:layout_marginRight="10dp"/>
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/sale_type_list_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_height="fill_parent"
-            android:scrollbars="none" />
+
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sale_type_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="fill_parent"
+        android:scrollbars="none" />
+</LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
 
