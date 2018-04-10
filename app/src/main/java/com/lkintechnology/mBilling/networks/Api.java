@@ -449,8 +449,11 @@ public interface Api {
     @DELETE("sale_voucher/{id}")
     Call<DeleteSaleVoucherResponse> deletesalevoucher(@Path("id") String id);
 
+   /* @GET("company_bank_cash_deposits/{id}")
+    Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id,@Query("duration") String duration); */
+
     @GET("company_bank_cash_deposits/{id}")
-    Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id,@Query("duration") String duration);
+    Call<GetBankCashDepositResponse> getbankcashdeposit(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("bank_cash_deposits/{id}")
     Call<DeleteBankCashDepositResponse> deletebankcashdeposit(@Path("id") String id);
@@ -468,7 +471,7 @@ public interface Api {
     Call<CreateBankCashWithdrawResponse> createbankcashwithdraw(@Body RequestCreateBankCashWithdraw payload, @Path("id") String id);
 
     @GET("company_bank_cash_withdraw/{id}")
-    Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id,@Query("duration") String duration);
+    Call<GetBankCashWithdrawResponse> getbankcashwithdraw(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("bank_cash_withdraw/{id}")
     Call<DeleteBankCashWithdrawResponse> deletebankcashwithdraw(@Path("id") String id);
@@ -486,7 +489,7 @@ public interface Api {
     Call<CreateIncomeResponse> createincome(@Body RequestCreateIncome payload, @Path("id") String id);
 
     @GET("company_incomes/{id}")
-    Call<GetIncomeResponse> getincome(@Path("id") String id,@Query("duration") String duration);
+    Call<GetIncomeResponse> getincome(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("incomes/{id}")
     Call<DeleteIncomeResponse> deleteincome(@Path("id") String id);
@@ -501,7 +504,7 @@ public interface Api {
     Call<CreateExpenceResponse> createexpence(@Body RequestCreateEXpence payload, @Path("id") String id);
 
     @GET("company_expenses/{id}")
-    Call<GetExpenceResponse> getexpence(@Path("id") String id,@Query("duration") String duration);
+    Call<GetExpenceResponse> getexpence(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("expenses/{id}")
     Call<DeleteExpenceResponse> deleteexpence(@Path("id") String id);
@@ -516,7 +519,7 @@ public interface Api {
     Call<CreatePaymentResponse> createpayment(@Body RequestCreatePayment payload, @Path("id") String id);
 
     @GET("company_payments/{id}")
-    Call<GetPaymentResponse> getpayment(@Path("id") String id,@Query("duration") String duration);
+    Call<GetPaymentResponse> getpayment(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("payments/{id}")
     Call<DeletePaymentResponse> deletepayment(@Path("id") String id);
@@ -531,7 +534,7 @@ public interface Api {
     Call<CreateJournalVoucherResponse> createjournalvoucher(@Body RequestCreateJournalVoucher payload, @Path("id") String id);
 
     @GET("company_journal_voucher/{id}")
-    Call<GetJournalVoucherResponse> getjournalvoucher(@Path("id") String id,@Query("duration") String duration);
+    Call<GetJournalVoucherResponse> getjournalvoucher(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("journal_voucher/{id}")
     Call<DeleteJournalVoucherResponse> deletejournalvoucher(@Path("id") String id);
@@ -546,7 +549,7 @@ public interface Api {
     Call<CreateReceiptVoucherResponse> createreceipt(@Body RequestCreateReceipt payload, @Path("id") String id);
 
     @GET("company_receipt_vouchers/{id}")
-    Call<GetReceiptVoucherResponse> getreceiptvoucher(@Path("id") String id,@Query("duration") String duration);
+    Call<GetReceiptVoucherResponse> getreceiptvoucher(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("receipt_vouchers/{id}")
     Call<DeleteReceiptVoucherResponse> deletereceiptvoucher(@Path("id") String id);
@@ -561,7 +564,7 @@ public interface Api {
     Call<CreateCreditNoteResponse> createcreditnote(@Body RequestCreateCreditNote payload, @Path("id") String id);
 
     @GET("company_credit_notes/{id}")
-    Call<GetCreditNoteResponse> getcreditnote(@Path("id") String id,@Query("duration") String duration);
+    Call<GetCreditNoteResponse> getcreditnote(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("credit_notes/{id}")
     Call<DeleteCreditNoteResponse> deletecrdeitnote(@Path("id") String id);
@@ -576,7 +579,7 @@ public interface Api {
     Call<CreateDebitNoteResponse> createdebitnote(@Body RequestCreateDebitNote payload, @Path("id") String id);
 
     @GET("company_debit_notes/{id}")
-    Call<GetDebitNoteResponse> getdebitnote(@Path("id") String id,@Query("duration") String duration);
+    Call<GetDebitNoteResponse> getdebitnote(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("debit_notes/{id}")
     Call<DeleteDebitNoteResponse> deletedebitnote(@Path("id") String id);
@@ -603,22 +606,22 @@ public interface Api {
     Call<GetVoucherNumbersResponse> getvouchernumbers(@Path("id") String id, @Query("voucher_type") String voucher_type);
 
     @GET("company_sale_vouchers/{id}")
-    Call<GetSaleVoucherListResponse> getsalevoucher(@Path("id") String id, @Query("duration") String duration);
+    Call<GetSaleVoucherListResponse> getsalevoucher(@Path("id") String id,@Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @GET("company_purchase_vouchers/{id}")
-    Call<GetPurchaseVoucherListResponse> getpurchasevoucher(@Path("id") String id, @Query("duration") String duration);
+    Call<GetPurchaseVoucherListResponse> getpurchasevoucher(@Path("id") String id, @Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @GET("pdc_details/{id}")
     Call<GetPdcResponse> getPdc(@Path("id") String id, @Query("duration") String duration);
 
     @GET("company_sale_return_vouchers/{id}")
-    Call<GetSaleReturnVoucherListResponse> getsalereturnvoucher(@Path("id") String id, @Query("duration") String duration);
+    Call<GetSaleReturnVoucherListResponse> getsalereturnvoucher(@Path("id") String id, @Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("sale_return_voucher/{id}")
     Call<DeleteSaleReturnVoucherResponse> deletesalereturnvoucher(@Path("id") String id);
 
     @GET("company_purchase_return_vouchers/{id}")
-    Call<GetPurchaseReturnVoucherListResponse>getpurchasereturnvoucher(@Path("id") String id, @Query("duration") String duration);
+    Call<GetPurchaseReturnVoucherListResponse>getpurchasereturnvoucher(@Path("id") String id, @Query("start_date") String start_date,@Query("end_date") String end_date);
 
     @DELETE("purchase_voucher/{id}")
     Call<DeletePurchaseVoucherResponse> deletepurchasevoucher(@Path("id") String id);

@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.utils.Validation;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 
@@ -269,7 +270,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, "Invalid Email", Snackbar.LENGTH_LONG);
             snackbar.show();
             return false;
-        }else if (mSalesman_mobile.getText().toString().length()==0){
+        }/*else if (mSalesman_mobile.getText().toString().length()==0){
             snackbar = Snackbar
                     .make(coordinatorLayout, "Enter Salesman Mobile Number", Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -279,11 +280,9 @@ public class RegisterActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, "Enter Valid Mobile Number", Snackbar.LENGTH_LONG);
             snackbar.show();
             return false;
-        }else {
+        }*/else {
             return true;
         }
-
-
     }
 
 
@@ -346,11 +345,8 @@ public class RegisterActivity extends RegisterAbstractActivity {
                     .show();
 
         } else{
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-
-
         }
     }
     @Override

@@ -18,10 +18,10 @@ public abstract class RegisterAbstractActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-    }
+   protected void onResume() {
+               super.onResume();
+               EventBus.getDefault().register(this);
+           }
 
     protected abstract int layoutId();
 

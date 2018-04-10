@@ -1,5 +1,7 @@
 package com.lkintechnology.mBilling.activities.company.transaction.purchase_return;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +17,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,13 +45,15 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
+public class GetPurchaseReturnListActivity extends RegisterAbstractActivity implements View.OnClickListener{
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -66,6 +72,16 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
     String title;
     @Bind(R.id.total)
     TextView mTotal;
+    @Bind(R.id.date_from_to)
+    LinearLayout date_from_to;
+    @Bind(R.id.start_date)
+    TextView start_date;
+    @Bind(R.id.end_date)
+    TextView end_date;
+    public Dialog dialog;
+    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private SimpleDateFormat dateFormatter;
+    String dateString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +97,15 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
         appUser.mListMapForItemPurchaseReturn.clear();
         appUser.mListMapForBillPurchaseReturn.clear();
         LocalRepositories.saveAppUser(this,appUser);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        long date = System.currentTimeMillis();
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        dateString = dateFormatter.format(date);
+        start_date.setText(dateString);
+        end_date.setText(dateString);
+        appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();
@@ -147,6 +172,13 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
 
             }
         });
+
+        date_from_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showpopup();
+            }
+        });
     }
 
 
@@ -155,6 +187,29 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
         appUser.mListMapForItemPurchaseReturn.clear();
         appUser.mListMapForBillPurchaseReturn.clear();
         LocalRepositories.saveAppUser(this,appUser);
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(GetPurchaseReturnListActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
         super.onResume();
     }
 
@@ -249,6 +304,9 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
     public void getPurchaseReturnVoucher(GetPurchaseReturnVoucherListResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            appUser.start_date="";
+            appUser.end_date="";
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
@@ -359,6 +417,103 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity {
             Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
             intent.putExtra("company_report", response.getHtml());
             startActivity(intent);
+        }
+    }
+
+    public void showpopup(){
+        dialog = new Dialog(GetPurchaseReturnListActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.date_pick_dialog);
+        dialog.setCancelable(true);
+        // set the custom dialog components - text, image and button
+        TextView date1 = (TextView) dialog.findViewById(R.id.date1);
+        TextView date2 = (TextView) dialog.findViewById(R.id.date2);
+        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+
+        date1.setOnClickListener(this);
+        date2.setOnClickListener(this);
+        final Calendar newCalendar = Calendar.getInstance();
+
+        date1.setText(dateString);
+        date2.setText(dateString);
+
+        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date = dateFormatter.format(newDate.getTime());
+                ((TextView) dialog.findViewById(R.id.date1)).setText(date);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        DatePickerDialog2 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date = dateFormatter.format(newDate.getTime());
+                ((TextView) dialog.findViewById(R.id.date2)).setText(date);
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        // if button is clicked, close the custom dialog
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
+                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(GetPurchaseReturnListActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == dialog.findViewById(R.id.date1)) {
+            DatePickerDialog1.show();
+        }else if (view == dialog.findViewById(R.id.date2)){
+            DatePickerDialog2.show();
         }
     }
 }
