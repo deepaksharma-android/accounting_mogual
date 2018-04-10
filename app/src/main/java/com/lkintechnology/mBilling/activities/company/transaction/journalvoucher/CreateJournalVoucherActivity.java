@@ -575,7 +575,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                        // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
-                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Received Against Purchase")) {
+                } else if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Issued Against Sale")) {
                     llSpiner.setVisibility(View.VISIBLE);
                     if (!transaction_amount.getText().toString().equals("")) {
                         if (!account_name_credit.getText().toString().equals("")) {
