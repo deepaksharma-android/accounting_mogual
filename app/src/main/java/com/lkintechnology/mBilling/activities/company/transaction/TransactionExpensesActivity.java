@@ -253,7 +253,7 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity implem
 
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
+
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(TransactionExpensesActivity.this);

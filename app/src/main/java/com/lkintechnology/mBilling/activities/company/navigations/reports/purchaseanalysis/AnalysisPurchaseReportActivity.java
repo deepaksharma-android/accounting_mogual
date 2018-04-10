@@ -246,7 +246,6 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
 
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(AnalysisPurchaseReportActivity.this);
