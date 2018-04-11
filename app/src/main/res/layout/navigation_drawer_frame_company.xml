@@ -210,7 +210,7 @@
                             android:layout_height="1dp"
                             android:background="#e2e2e2" />
 
-                        <LinearLayout
+                      <!--  <LinearLayout
                             android:id="@+id/config_layout"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
@@ -242,7 +242,7 @@
                         <View
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
-                            android:background="#e2e2e2" />
+                            android:background="#e2e2e2" />-->
 
                     </LinearLayout>
 

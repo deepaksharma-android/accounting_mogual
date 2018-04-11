@@ -211,9 +211,9 @@ public class BaseActivityCompany extends AppCompatActivity {
         finish();
     }
 
-    public void configuration(View v){
+/*    public void configuration(View v){
 
-    }
+    }*/
     public void exit(View v){
         new AlertDialog.Builder(BaseActivityCompany.this)
                 .setTitle("Exit Users")
