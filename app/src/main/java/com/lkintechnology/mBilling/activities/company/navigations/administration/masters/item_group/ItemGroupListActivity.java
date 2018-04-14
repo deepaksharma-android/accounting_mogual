@@ -70,9 +70,9 @@ public class ItemGroupListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_group_list);
 
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+   /*     if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         mFloatingButton.bringToFront();

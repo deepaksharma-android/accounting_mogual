@@ -67,9 +67,9 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_centre_group_list);
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+      /*  if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         mFloatingButton.bringToFront();

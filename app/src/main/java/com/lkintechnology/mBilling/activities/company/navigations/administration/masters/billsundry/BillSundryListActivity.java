@@ -77,9 +77,9 @@ public class BillSundryListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_sundry_list);
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+  /*      if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         initActionbar();
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);

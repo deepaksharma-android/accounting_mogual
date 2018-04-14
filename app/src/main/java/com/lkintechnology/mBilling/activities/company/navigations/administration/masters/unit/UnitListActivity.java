@@ -78,9 +78,9 @@ public class UnitListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit_list);
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+       /* if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         initActionbar();
         uqcName=new ArrayList<>();
         uqcId=new ArrayList<>();

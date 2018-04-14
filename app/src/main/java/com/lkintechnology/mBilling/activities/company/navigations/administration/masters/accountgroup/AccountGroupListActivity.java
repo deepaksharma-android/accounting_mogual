@@ -73,9 +73,9 @@ public class AccountGroupListActivity extends AppCompatActivity {
         fromMaster = getIntent().getExtras().getBoolean("frommaster");
         fromCreateGroup = getIntent().getExtras().getBoolean("fromcreategroup");
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+   /*     if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         mFloatingButton.bringToFront();

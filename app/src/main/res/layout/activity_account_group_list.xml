@@ -37,6 +37,7 @@
         android:layout_height="match_parent"
         android:background="#B3000000"
         android:id="@+id/top_layout"
+        android:visibility="gone"
         android:clickable="true">
 
         <RelativeLayout

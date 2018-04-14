@@ -80,9 +80,9 @@ public class DashboardAccountFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_dashboard_accounts, container, false);
         ButterKnife.bind(this, view);
 
-        if (isFirstTime()) {
+   /*     if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
 
 

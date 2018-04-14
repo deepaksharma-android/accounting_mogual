@@ -98,9 +98,9 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_expandabl_list);
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+     /*   if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         initActionbar();
         mFloatingButton.bringToFront();
         appUser = LocalRepositories.getAppUser(this);

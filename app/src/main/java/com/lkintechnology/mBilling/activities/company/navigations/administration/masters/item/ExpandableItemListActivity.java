@@ -147,9 +147,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
-        if (isFirstTime()) {
+     /*   if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
         initActionbar();
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
         appUser = LocalRepositories.getAppUser(this);
