@@ -114,6 +114,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
                 //EditCompanyActivity.data = data;
+                intent.putExtra("frompass",false);
                 startActivity(intent);
             }
         });

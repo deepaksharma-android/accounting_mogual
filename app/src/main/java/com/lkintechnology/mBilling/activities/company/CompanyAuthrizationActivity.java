@@ -184,7 +184,9 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
             LocalRepositories.saveAppUser(this, appUser);
             Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("frompass",true);
             startActivity(intent);
+
             finish();
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
@@ -216,6 +218,7 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
             case android.R.id.home:
                 Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("frompass",true);
                 startActivity(intent);
                 finish();
                 return true;
@@ -228,6 +231,7 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("frompass",true);
         startActivity(intent);
         finish();
     }

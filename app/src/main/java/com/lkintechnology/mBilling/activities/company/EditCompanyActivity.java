@@ -69,11 +69,13 @@ public class EditCompanyActivity extends AppCompatActivity {
     public static IndustryTypeResponse response;
     public  ViewPager mHeaderViewPager;
     public static int fragPos;
+    public static Boolean frompass;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_company);
         ButterKnife.bind(this);
+        frompass=getIntent().getExtras().getBoolean("frompass");
         mHeaderViewPager= (ViewPager) findViewById(R.id.viewpager);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
@@ -314,6 +316,10 @@ public class EditCompanyActivity extends AppCompatActivity {
                 industry_id.add(response.getIndustry().getData().get(i).getAttributes().getId());
 //                LocalRepositories.saveAppUser(this,appUser);
                 setupViewPager(mHeaderViewPager);
+                if(frompass){
+                    mHeaderViewPager.setCurrentItem(5);
+
+                }
                 mTabLayout.setupWithViewPager(mHeaderViewPager);
 //                mTabLayout.clearOnTabSelectedListeners();
                 LinearLayout tabStrip = ((LinearLayout)mTabLayout.getChildAt(0));
@@ -325,6 +331,7 @@ public class EditCompanyActivity extends AppCompatActivity {
                         }
                     });
                 }
+
                /* mHeaderViewPager.setOffscreenPageLimit(1);*/
             }
         } else {

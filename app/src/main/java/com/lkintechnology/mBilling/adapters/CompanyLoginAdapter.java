@@ -61,6 +61,7 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
                     Intent intent = new Intent(context, CompanyAuthrizationActivity.class);
                     CompanyAuthrizationActivity.data=data.get(i);
                     Integer user_id = data.get(i).getId();
+                    intent.putExtra("frompass",true);
                     appUser.authorizations__setting_user_id = user_id;
                     LocalRepositories.saveAppUser(context, appUser);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
