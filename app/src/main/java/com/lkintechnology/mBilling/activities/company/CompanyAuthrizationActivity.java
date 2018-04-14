@@ -183,6 +183,7 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
             appUser.allow_user_to_edit_voucher = "";
             LocalRepositories.saveAppUser(this, appUser);
             Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -213,6 +214,9 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
                 return true;
             default:
@@ -222,6 +226,9 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 }

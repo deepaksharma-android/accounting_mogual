@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -62,7 +63,9 @@ public class CompanyLoginAdapter extends RecyclerView.Adapter<CompanyLoginAdapte
                     Integer user_id = data.get(i).getId();
                     appUser.authorizations__setting_user_id = user_id;
                     LocalRepositories.saveAppUser(context, appUser);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(intent);
+                    ((Activity)context).finish();
                 }
             }
         });

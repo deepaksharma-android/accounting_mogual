@@ -46,7 +46,7 @@ import butterknife.ButterKnife;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+public class ItemOpeningStockActivity extends RegisterAbstractActivity implements ZBarScannerView.ResultHandler {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -87,7 +87,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_item_opening_stock);
+        // setContentView(R.layout.activity_item_opening_stock);
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
@@ -458,7 +458,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (stock == false && appUser.stock_serial_arr.size() > 0) {
+      /*          if (stock == false && appUser.stock_serial_arr.size() > 0) {
                     Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
                 } else {
                     if (!mStockQuantity.getText().toString().equals("")) {
@@ -477,8 +477,8 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                         Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
                     }
                     finish();
-                }
-               /* appUser.barcode_voucher_type = "purchase";
+                }*/
+                appUser.barcode_voucher_type = "item";
                 appUser.item_id = appUser.edit_item_id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -526,17 +526,16 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                         }
                         finish();
                     }
-                }*/
+                }
             }
         });
 
     }
 
-    /*@Override
+    @Override
     protected int layoutId() {
         return R.layout.activity_item_opening_stock;
     }
-*/
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -661,7 +660,7 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
 
     }
 
-   /* @Subscribe
+    @Subscribe
     public void checkbarcode(CheckBarcodeResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -686,5 +685,5 @@ public class ItemOpeningStockActivity extends AppCompatActivity implements ZBarS
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
-    }*/
+    }
 }

@@ -62,10 +62,10 @@ public class RequestCheckBarcode {
                 }
             }
         }
-        /*else{
+        else{
             String unit_list= Preferences.getInstance(ctx).getStockSerial();
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
             item.put("barcode", myList);
-        }*/
+        }
     }
 }

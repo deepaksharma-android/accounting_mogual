@@ -34,6 +34,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.unit.UnitListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_response.item.CreateItemResponse;
 import com.lkintechnology.mBilling.networks.api_response.item.EditItemResponse;
 import com.lkintechnology.mBilling.networks.api_response.item.GetItemDetailsResponse;
@@ -126,7 +127,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mItemGroup.setText(appUser.item_group_name);
         mItemUnit.setText(appUser.item_unit_name);
         mTaxCategory.setText(appUser.item_tax_category_name);
-
+        RequestCheckBarcode.bollForBarcode=null;
         mStore.setText(appUser.stock_item_material_center);
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setStockSerial("");

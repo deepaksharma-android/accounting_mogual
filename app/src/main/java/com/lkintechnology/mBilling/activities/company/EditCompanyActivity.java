@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.activities.company;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.company.CompanyBasicFragment;
 import com.lkintechnology.mBilling.fragments.company.CompanyDetailsFragment;
@@ -65,7 +67,7 @@ public class EditCompanyActivity extends AppCompatActivity {
     public static ArrayList<String> industry_type = new ArrayList<>();
     public static ArrayList<Integer> industry_id = new ArrayList<>();
     public static IndustryTypeResponse response;
-    public static   ViewPager mHeaderViewPager;
+    public  ViewPager mHeaderViewPager;
     public static int fragPos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,7 +99,7 @@ public class EditCompanyActivity extends AppCompatActivity {
                         }
                     });
             snackbar.show();
-            mTabLayout.setClickable(false);
+
         }
 
        /* Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -131,12 +133,25 @@ public class EditCompanyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-               finish();
+                Intent intent = new Intent(getApplicationContext(), CompanyDashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), CompanyDashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -170,7 +185,7 @@ public class EditCompanyActivity extends AppCompatActivity {
     }
 
     static class ViewPagerAdapter extends FragmentPagerAdapter {
-        public static final List<Fragment> mFragmentList = new ArrayList<>();
+        public  final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
@@ -179,7 +194,7 @@ public class EditCompanyActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            fragPos=position;
+          //  fragPos=position;
             return mFragmentList.get(position);
         }
 
@@ -310,7 +325,7 @@ public class EditCompanyActivity extends AppCompatActivity {
                         }
                     });
                 }
-                mHeaderViewPager.setOffscreenPageLimit(1);
+               /* mHeaderViewPager.setOffscreenPageLimit(1);*/
             }
         } else {
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();

@@ -44,7 +44,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static com.lkintechnology.mBilling.activities.company.EditCompanyActivity.fragPos;
-import static com.lkintechnology.mBilling.activities.company.EditCompanyActivity.mHeaderViewPager;
+
 
 public class CompanyPasswordFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
@@ -356,11 +356,11 @@ public class CompanyPasswordFragment extends Fragment {
         }
     }
 
-    private int getItem(int i) {
+ /*   private int getItem(int i) {
 
             return mHeaderViewPager.getCurrentItem() + i;
 
-    }
+    }*/
 
     @Subscribe
     public void opencompany(EventEditLogin pos){
