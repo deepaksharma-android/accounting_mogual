@@ -15,8 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +42,7 @@ import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,7 +69,10 @@ public class CompanyListActivity extends BaseActivity {
     LinearLayout mMainLayout;
     @Bind(R.id.reset)
     TextView mReset;
-
+    @Bind(R.id.curve)
+    ImageView curve;
+    @Bind(R.id.adddustbintext)
+    TextView adddustbin;
 
     public Dialog dialog;
     CompanyListAdapter mAdapter;
@@ -83,11 +90,40 @@ public class CompanyListActivity extends BaseActivity {
         setNavigation(1);
         setAdd(0);
         setAppBarTitle(1, "COMPANY LIST");
+        curve.setVisibility(View.VISIBLE);
+        adddustbin.setVisibility(View.VISIBLE);
         mFloatingButton.bringToFront();
-        if (isFirstTime()) {
+   /*     if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
 
-        }
+        }*/
+        final Animation animationFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        final Animation animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        animationFadeIn.setDuration(3000);
+        curve.startAnimation(animationFadeIn);
+        adddustbin.startAnimation(animationFadeIn);
+        animationFadeOut.setStartOffset(3000);
+        animationFadeOut.setDuration(3000);
+        curve.startAnimation(animationFadeOut);
+        adddustbin.startAnimation(animationFadeOut);
+        animationFadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                curve.setVisibility(View.GONE);
+                adddustbin.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
