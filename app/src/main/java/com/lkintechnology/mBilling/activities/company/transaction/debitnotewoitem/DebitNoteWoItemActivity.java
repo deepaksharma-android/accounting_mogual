@@ -86,7 +86,7 @@ public class DebitNoteWoItemActivity extends AppCompatActivity implements View.O
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        EventBus.getDefault().register(this);
+
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -310,6 +310,10 @@ public class DebitNoteWoItemActivity extends AppCompatActivity implements View.O
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
+        appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(DebitNoteWoItemActivity.this);

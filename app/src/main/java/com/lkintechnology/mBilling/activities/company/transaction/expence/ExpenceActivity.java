@@ -84,11 +84,9 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expence);
-
         ButterKnife.bind(this);
         appUser= LocalRepositories.getAppUser(this);
         initActionbar();
-        EventBus.getDefault().register(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -321,6 +319,10 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
+        appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(ExpenceActivity.this);
@@ -348,7 +350,7 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
     }
     @Override
     protected void onPause() {
-        //  EventBus.getDefault().unregister(this);
+          EventBus.getDefault().unregister(this);
         //mProgressDialog.dismiss();
         super.onPause();
     }
@@ -356,7 +358,7 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
-        //  EventBus.getDefault().unregister(this);
+          EventBus.getDefault().unregister(this);
         // mProgressDialog.dismiss();
     }
 
