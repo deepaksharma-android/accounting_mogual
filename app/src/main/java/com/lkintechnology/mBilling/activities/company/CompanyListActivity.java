@@ -115,7 +115,7 @@ public class CompanyListActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
+                mOverlayLayout.setVisibility(View.INVISIBLE);
             }
 
             @Override
