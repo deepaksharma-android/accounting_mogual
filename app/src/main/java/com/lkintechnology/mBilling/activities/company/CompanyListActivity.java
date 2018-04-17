@@ -93,36 +93,38 @@ public class CompanyListActivity extends BaseActivity {
         curve.setVisibility(View.VISIBLE);
         adddustbin.setVisibility(View.VISIBLE);
         mFloatingButton.bringToFront();
-   /*     if (isFirstTime()) {
+        if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
 
-        }*/
-        final Animation animationFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        final Animation animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-        animationFadeIn.setDuration(3000);
-        curve.startAnimation(animationFadeIn);
-        adddustbin.startAnimation(animationFadeIn);
-        animationFadeOut.setStartOffset(3000);
-        animationFadeOut.setDuration(3000);
-        curve.startAnimation(animationFadeOut);
-        adddustbin.startAnimation(animationFadeOut);
-        animationFadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                curve.setVisibility(View.GONE);
-                adddustbin.setVisibility(View.GONE);
-            }
+        }
+        else {
+            final Animation animationFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+            final Animation animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+            animationFadeIn.setDuration(3000);
+            curve.startAnimation(animationFadeIn);
+            adddustbin.startAnimation(animationFadeIn);
+            animationFadeOut.setStartOffset(3000);
+            animationFadeOut.setDuration(3000);
+            curve.startAnimation(animationFadeOut);
+            adddustbin.startAnimation(animationFadeOut);
+            animationFadeOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    curve.setVisibility(View.GONE);
+                    adddustbin.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mOverlayLayout.setVisibility(View.INVISIBLE);
-            }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mOverlayLayout.setVisibility(View.INVISIBLE);
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
+                }
+            });
+        }
 
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override

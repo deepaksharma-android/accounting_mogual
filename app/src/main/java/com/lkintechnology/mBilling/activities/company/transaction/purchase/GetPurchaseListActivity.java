@@ -184,6 +184,9 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
     protected void onResume() {
         appUser.mListMapForItemPurchase.clear();
         appUser.mListMapForBillPurchase.clear();
+        appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         LocalRepositories.saveAppUser(this,appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {

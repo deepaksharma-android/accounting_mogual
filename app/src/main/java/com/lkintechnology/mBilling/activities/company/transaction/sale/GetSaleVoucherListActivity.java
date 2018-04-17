@@ -183,6 +183,9 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     protected void onResume() {
         appUser.mListMapForItemSale.clear();
         appUser.mListMapForBillSale.clear();
+        appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         LocalRepositories.saveAppUser(this,appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {

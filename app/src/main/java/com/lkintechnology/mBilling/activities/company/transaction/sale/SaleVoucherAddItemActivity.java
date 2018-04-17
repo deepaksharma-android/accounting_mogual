@@ -951,7 +951,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 mTotal.setText(String.format("%.2f", ((third * second) - first)));
                             } else {
                                 mValue.setText("0.0");
-                                Toast.makeText(getApplicationContext(), "Value can not be more than total price", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(), "Value can not be more than total price", Toast.LENGTH_LONG).show();
                             }
                         }
                     } else {
