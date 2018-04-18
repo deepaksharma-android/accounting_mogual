@@ -336,6 +336,9 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                         mTotal.setText(String.valueOf((totalitemamount * per) / 100));
 
                     }
+                    else{
+                        mTotal.setText("0");
+                    }
                     billSundryFedAsPercentage=billSundryFedAsPercentagePrevious;
                     mTotalAmt.addTextChangedListener(watcher2);
                     break;
@@ -343,6 +346,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                 case R.id.totalamt: {
                     billAmount.removeTextChangedListener(watcher1);
                     billAmount.setText("0");
+                    mTotal.setText("0");
                     billSundryFedAsPercentage="valuechange";// set whatever text you want to set in editText1
                     billAmount.addTextChangedListener(watcher1);
 
