@@ -71,6 +71,9 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
     Boolean frombillvoucherlist;
     double taxval=0.0;
     private MyInputWatcher watcher1, watcher2;
+    @Bind(R.id.total)
+    TextView mTotal;
+    public Double totalitemamount = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +126,16 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
             billSundryId = data.getId();
         }
         courier_charges.setText(billSundryCharges);
+        for (int i = 0; i < appUser.itemtotal.size(); i++) {
+            String tot = appUser.itemtotal.get(i);
+            double total = Double.parseDouble(tot);
+            totalitemamount = totalitemamount + total;
+        }
+        if (!billAmount.getText().toString().equals("")) {
+            Double per = Double.parseDouble(billAmount.getText().toString());
+            mTotal.setText(String.valueOf((totalitemamount * per) / 100));
 
+        }
         String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
 
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
@@ -302,6 +314,11 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
                 case R.id.bill_amount: {
                     mTotalAmt.removeTextChangedListener(watcher2);
                     mTotalAmt.setText("0");
+                    if (!billAmount.getText().toString().equals("")) {
+                        Double per = Double.parseDouble(billAmount.getText().toString());
+                        mTotal.setText(String.valueOf((totalitemamount * per) / 100));
+
+                    }
                     billSundryFedAsPercentage=billSundryFedAsPercentagePrevious;
                     mTotalAmt.addTextChangedListener(watcher2);
                     break;

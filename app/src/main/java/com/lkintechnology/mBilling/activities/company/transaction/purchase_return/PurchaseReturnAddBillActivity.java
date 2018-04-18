@@ -50,7 +50,8 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout submit;
     public static BillSundryData data=null;
-
+    @Bind(R.id.total)
+    TextView mTotal;
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map<String, String> mMap;
@@ -72,6 +73,7 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
     Boolean frombillvoucherlist;
     double taxval=0.0;
     private MyInputWatcher watcher1, watcher2;
+    public Double totalitemamount = 0.0;
 
 
     //
@@ -126,7 +128,16 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
         }
         courier_charges.setText(billSundryCharges);
         //percentage.setText(billSundaryPercentage);
+        for (int i = 0; i < appUser.itemtotalPurchase.size(); i++) {
+            String tot = appUser.itemtotalPurchase.get(i);
+            double total = Double.parseDouble(tot);
+            totalitemamount = totalitemamount + total;
+        }
+        if (!billAmount.getText().toString().equals("")) {
+            Double per = Double.parseDouble(billAmount.getText().toString());
+            mTotal.setText(String.valueOf((totalitemamount * per) / 100));
 
+        }
         String taxstring= Preferences.getInstance(getApplicationContext()).getSale_type_name();
         //Timber.i("SIZE"+appUser.arr_billSundryId.get(5));
         if(/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")){
@@ -324,6 +335,11 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
                 case R.id.bill_amount: {
                     mTotalAmt.removeTextChangedListener(watcher2);
                     mTotalAmt.setText("0");
+                    if (!billAmount.getText().toString().equals("")) {
+                        Double per = Double.parseDouble(billAmount.getText().toString());
+                        mTotal.setText(String.valueOf((totalitemamount * per) / 100));
+
+                    }
                     billSundryFedAsPercentage=billSundryFedAsPercentagePrevious;
                     mTotalAmt.addTextChangedListener(watcher2);
                     break;
