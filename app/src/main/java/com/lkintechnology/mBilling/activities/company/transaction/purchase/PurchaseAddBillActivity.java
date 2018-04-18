@@ -346,7 +346,7 @@ public class PurchaseAddBillActivity extends AppCompatActivity {
                 case R.id.totalamt: {
                     billAmount.removeTextChangedListener(watcher1);
                     billAmount.setText("0");
-                    mTotal.setText("0");
+                    mTotal.setText(mTotalAmt.getText().toString());
                     billSundryFedAsPercentage="valuechange";// set whatever text you want to set in editText1
                     billAmount.addTextChangedListener(watcher1);
 
