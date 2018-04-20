@@ -377,13 +377,14 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
                                     // mScannerView.stopCamera();
+                                    if (mSerialNumber.getText().toString().length() == 15) {
                                     if (appUser.serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
                                         Toast.makeText(SaleReturnAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
                                     } else {
                                         appUser.serial_arr.add(mSerialNumber.getText().toString());
-                                         appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
+                                        appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         for (String s : appUser.serial_arr) {
                                             listString += s + ",";
@@ -392,6 +393,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                                         Toast.makeText(SaleReturnAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
                                         mSerialNumber.setText("");
                                     }
+                                    } else {
+                                            Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString()+"is not a IMEI number", Toast.LENGTH_LONG).show();
+                                        }
                                 }
                                 else{
                                     Toast.makeText(getApplicationContext()," Quantity is less.",Toast.LENGTH_LONG).show();
@@ -501,65 +505,66 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                             @Override
                             public void onClick(View view) {
                                 boolForBarcode = false;
-                                textChange=false;
+                                textChange = false;
                                 appUser.serial_arr.clear();
-                                appUser.item_id=id;
-                                quantity=mQuantity.getText().toString();
+                                appUser.item_id = id;
+                                quantity = mQuantity.getText().toString();
                                 //  appUser.purchase_item_serail_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                for(int i=0;i<Integer.parseInt(serial);i++) {
-
-                                    if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
-                                        pairs[i].setText("");
-                                        appUser.serial_arr.add(i, "");
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                      //  Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        if(!pairs[i].getText().toString().equals("")) {
-
-                                            if ((appUser.serial_arr.size()-1)==i){
-                                                appUser.serial_arr.set(i,pairs[i].getText().toString());
-                                            }else {
-                                                appUser.serial_arr.add(pairs[i].getText().toString());
-                                            }
-//                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
-                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        }
-                                        else{
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                for (int i = 0; i < Integer.parseInt(serial); i++) {
+                                    if (pairs[i].getText().toString().length() == 15) {
+                                        if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
+                                            pairs[i].setText("");
                                             appUser.serial_arr.add(i, "");
-                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            //  Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            if (!pairs[i].getText().toString().equals("")) {
+
+                                                if ((appUser.serial_arr.size() - 1) == i) {
+                                                    appUser.serial_arr.set(i, pairs[i].getText().toString());
+                                                } else {
+                                                    appUser.serial_arr.add(pairs[i].getText().toString());
+                                                }
+//                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
+                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            } else {
+                                                appUser.serial_arr.add(i, "");
+                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            }
+                                        }
+
+
+                                        appUser.purchase_item_serail_arr.clear();
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        for (int j = 0; j < appUser.serial_arr.size(); j++) {
+                                            if (!appUser.serial_arr.get(j).equals("")) {
+                                                appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(j));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                                            }
+                                        }
+                                        appUser.serial_arr.clear();
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        for (int k = 0; k < appUser.purchase_item_serail_arr.size(); k++) {
+                                            appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(k));
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                         }
+
+
+                                        String listString = "";
+
+                                        for (String s : appUser.purchase_item_serail_arr) {
+                                            listString += s + ",";
+                                        }
+                                        mSr_no.setText(listString);
+                                        dialogbal.dismiss();
+                                    } else {
+                                        Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "is not a IMEI number", Toast.LENGTH_SHORT).show();
                                     }
-
                                 }
-                                appUser.purchase_item_serail_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                for(int i=0;i<appUser.serial_arr.size();i++){
-                                    if(!appUser.serial_arr.get(i).equals("")){
-                                        appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(i));
-                                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
-                                    }
-                                }
-                                appUser.serial_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                for(int i=0;i<appUser.purchase_item_serail_arr.size();i++){
-                                    appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(i));
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                }
-
-
-
-                                String listString = "";
-
-                                for (String s : appUser.purchase_item_serail_arr)
-                                {
-                                    listString += s + ",";
-                                }
-                                mSr_no.setText(listString);
-                                dialogbal.dismiss();
                             }
                         });
                         dialogbal.show();
@@ -1041,21 +1046,22 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             int qty=Integer.parseInt( mQuantity.getText().toString());
             if (qty>appUser.serial_arr.size()) {
                 // mScannerView.stopCamera();
-                if (appUser.serial_arr.contains(result.getContents())) {
+                if(result.getContents().length()==15) {
+                    if (appUser.serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
 //                    Toast.makeText(SaleReturnAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
-                } else {
-                    appUser.serial_arr.add(result.getContents());
-                    appUser.purchase_item_serail_arr.add(result.getContents());
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    for (String s : appUser.purchase_item_serail_arr) {
-                        listString += s + ",";
+                    } else {
+                        appUser.serial_arr.add(result.getContents());
+                        appUser.purchase_item_serail_arr.add(result.getContents());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        for (String s : appUser.purchase_item_serail_arr) {
+                            listString += s + ",";
+                        }
+                        mSr_no.setText(listString);
+                        Toast.makeText(SaleReturnAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                     }
-                    mSr_no.setText(listString);
-                    Toast.makeText(SaleReturnAddItemActivity.this,result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                 }
-
                 mScannerView.stopCamera();
                 scanning_content_frame.removeView(mScannerView);
                 mScannerView.setResultHandler(SaleReturnAddItemActivity.this);
