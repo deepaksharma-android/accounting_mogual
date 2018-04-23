@@ -379,21 +379,24 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
+                                    if (mSerialNumber.getText().toString().length() == 15) {
+                                        if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                                        Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        appUser.sale_item_serial_arr.add(mSerialNumber.getText().toString());
-                                        // appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        for (String s : appUser.sale_item_serial_arr) {
-                                            listString += s + ",";
+                                            Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            appUser.sale_item_serial_arr.add(mSerialNumber.getText().toString());
+                                            // appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            for (String s : appUser.sale_item_serial_arr) {
+                                                listString += s + ",";
+                                            }
+                                            mSr_no.setText(listString);
+                                            Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
+                                            mSerialNumber.setText("");
                                         }
-                                        mSr_no.setText(listString);
-                                        Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
-                                        mSerialNumber.setText("");
-
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + "is not a IMEI number", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
@@ -511,7 +514,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         for (int i = 0; i < Integer.parseInt(serial); i++) {
                             for (int j = i; j < arr_barcode.size(); j++) {
                                 if (i < barcodeArray.length) {
-                                    if ((barcodeArray[i]).equals((arr_barcode.get(j)).toString())||(barcodeArray[i].trim()).equals((arr_barcode.get(j)).toString().trim())) {
+                                    if ((barcodeArray[i]).equals((arr_barcode.get(j)).toString()) || (barcodeArray[i].trim()).equals((arr_barcode.get(j)).toString().trim())) {
                                         pairs[i].setSelection(j);
                                     }
                                 }
@@ -716,8 +719,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             public void onClick(View v) {
                 mSubmit.startAnimation(blinkOnClick);
 
-                if (CreateSaleActivity.fromsalelist){
-                    CreateSaleActivity.isForEdit=true;
+                if (CreateSaleActivity.fromsalelist) {
+                    CreateSaleActivity.isForEdit = true;
                 }
 
                 if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
@@ -806,7 +809,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 if (mQuantity.getText().toString().equals(quantity)) {
                     Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
 
-                    in.putExtra("fromdashboard",false);
+                    in.putExtra("fromdashboard", false);
 
                     in.putExtra("is", true);
                     startActivity(in);
@@ -1005,8 +1008,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
     @Override
     public void onBackPressed() {
-        if (CreateSaleActivity.fromsalelist){
-            CreateSaleActivity.isForEdit=true;
+        if (CreateSaleActivity.fromsalelist) {
+            CreateSaleActivity.isForEdit = true;
         }
         Intent intent = getIntent();
         boolean b = intent.getBooleanExtra("bool", false);
@@ -1103,19 +1106,21 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             String listString = "";
             int qty = Integer.parseInt(mQuantity.getText().toString());
             if (qty > appUser.sale_item_serial_arr.size()) {
-                // mScannerView.stopCamera();
-                if (appUser.sale_item_serial_arr.contains(result.getContents())) {
+                if (result.getContents().length() == 15) {
+                    // mScannerView.stopCamera();
+                    if (appUser.sale_item_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                    Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
-                } else {
-                    appUser.sale_item_serial_arr.add(result.getContents());
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    for (String s : appUser.sale_item_serial_arr) {
-                        listString += s + ",";
+                        Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        appUser.sale_item_serial_arr.add(result.getContents());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        for (String s : appUser.sale_item_serial_arr) {
+                            listString += s + ",";
+                        }
+                        mSr_no.setText(listString);
+                        Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                     }
-                    mSr_no.setText(listString);
-                    Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                 }
 
                 mScannerView.stopCamera();

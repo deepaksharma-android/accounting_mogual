@@ -1084,6 +1084,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     public void handleResult(Result result) {
         if (!result.getContents().equals("")) {
             String listString="";
+
             int qty=Integer.parseInt( mQuantity.getText().toString());
             if (qty>appUser.serial_arr.size()) {
                 if(result.getContents().length()==15) {
