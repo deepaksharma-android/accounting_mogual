@@ -226,9 +226,6 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
     public void getcreditnote(GetCreditNoteResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
-            appUser.start_date="";
-            appUser.end_date="";
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

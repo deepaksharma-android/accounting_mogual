@@ -255,8 +255,8 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     @Override
     protected void onResume() {
         EventBus.getDefault().register(this);
-        appUser.start_date = start_date.getText().toString();
-        appUser.end_date = end_date.getText().toString();
+     /*   appUser.start_date = start_date.getText().toString();
+        appUser.end_date = end_date.getText().toString();*/
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -305,9 +305,6 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     public void getBankCashDeposit(GetBankCashWithdrawResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
-            appUser.start_date="";
-            appUser.end_date="";
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

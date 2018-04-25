@@ -187,8 +187,6 @@ public class CreateSaleVoucherFragment extends Fragment {
         }
 
         if(CreateSaleActivity.fromdashboard){
-
-
             String date1 = dateFormatter.format(newCalendar.getTime());
             Preferences.getInstance(getContext()).setVoucher_date(date1);
             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -434,7 +432,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -459,6 +457,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -484,6 +483,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                     mProgressDialog.setCancelable(true);
                                                     mProgressDialog.show();
                                                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                 } else {
                                                     snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                         @Override
@@ -508,7 +508,6 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
                                 }
                             } else {
-
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
                                     mProgressDialog = new ProgressDialog(getActivity());
@@ -865,7 +864,6 @@ public class CreateSaleVoucherFragment extends Fragment {
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
            /* if (Preferences.getInstance(getApplicationContext()).getCash_credit().equals("Cash")) {
                 *//*if(!appUser.sale_party_group.equals("Cash-in-hand")) {
                     Intent intent = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
@@ -892,6 +890,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             mMobileNumber.setText("");
             mNarration.setText("");
             encodedString="";
+            mVchNumber.setText("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();

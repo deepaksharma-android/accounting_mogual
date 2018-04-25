@@ -876,6 +876,7 @@ public class CreateSaleReturnFragment extends Fragment {
             else{*/
                mPartyName.setText("");
                mMobileNumber.setText("");
+               mVchNumber.setText("");
                mNarration.setText("");
                encodedString="";
                mSelectedImage.setImageDrawable(null);

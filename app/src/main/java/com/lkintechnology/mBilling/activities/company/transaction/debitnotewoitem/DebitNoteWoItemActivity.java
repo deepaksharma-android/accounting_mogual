@@ -228,9 +228,6 @@ public class DebitNoteWoItemActivity extends AppCompatActivity implements View.O
     public void getdebitnote(GetDebitNoteResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
-            appUser.start_date="";
-            appUser.end_date="";
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
