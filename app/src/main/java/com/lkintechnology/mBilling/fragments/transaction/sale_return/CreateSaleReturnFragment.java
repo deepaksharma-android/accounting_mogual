@@ -426,7 +426,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                                //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -451,7 +451,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                               // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -477,7 +477,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                     mProgressDialog.setCancelable(true);
                                                     mProgressDialog.show();
                                                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                   // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                 } else {
                                                     snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                         @Override
@@ -885,6 +885,7 @@ public class CreateSaleReturnFragment extends Fragment {
                appUser.mListMapForBillSaleReturn.clear();
                appUser.transport_details.clear();
                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+               ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                FragmentTransaction ft = getFragmentManager().beginTransaction();
                ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
 //                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));

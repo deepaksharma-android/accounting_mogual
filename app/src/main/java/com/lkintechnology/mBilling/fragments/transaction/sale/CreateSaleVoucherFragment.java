@@ -432,7 +432,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                                //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -457,7 +457,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                                //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -483,7 +483,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                     mProgressDialog.setCancelable(true);
                                                     mProgressDialog.show();
                                                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                 } else {
                                                     snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                         @Override
@@ -897,6 +897,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.mListMapForBillSale.clear();
             appUser.transport_details.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
                /* startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));*/

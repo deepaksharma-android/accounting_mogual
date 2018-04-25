@@ -284,8 +284,6 @@ public class AnalysisSaleReportActivity extends RegisterAbstractActivity impleme
     public void getSaleVoucher(GetSaleVoucherListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
-            appUser.start_date="";
-            appUser.end_date="";
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
