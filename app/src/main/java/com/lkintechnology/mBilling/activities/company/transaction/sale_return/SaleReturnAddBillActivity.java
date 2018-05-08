@@ -79,7 +79,7 @@ public class SaleReturnAddBillActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         frombillvoucherlist=getIntent().getExtras().getBoolean("frombillvoucherlist");
-        setContentView(R.layout.activity_sale_return_add_bill);
+        setContentView(R.layout.activity_sale_voucher_add_bill);
 
         ButterKnife.bind(this);
         initActionbar();
