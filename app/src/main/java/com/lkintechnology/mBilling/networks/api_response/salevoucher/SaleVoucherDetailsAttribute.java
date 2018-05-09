@@ -9,6 +9,24 @@ public class SaleVoucherDetailsAttribute {
     public int company_id;
     public int sale_type_id;
     public String sale_type;
+    public String shipped_to_id;
+    public String shipped_to_name;
+
+    public String getShipped_to_id() {
+        return shipped_to_id;
+    }
+
+    public void setShipped_to_id(String shipped_to_id) {
+        this.shipped_to_id = shipped_to_id;
+    }
+
+    public String getShipped_to_name() {
+        return shipped_to_name;
+    }
+
+    public void setShipped_to_name(String shipped_to_name) {
+        this.shipped_to_name = shipped_to_name;
+    }
 
     public String getVoucher_series() {
         return voucher_series;

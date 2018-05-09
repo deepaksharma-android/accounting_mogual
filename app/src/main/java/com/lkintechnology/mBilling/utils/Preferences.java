@@ -152,6 +152,8 @@ public class Preferences {
     private static final String store_id_for_item="store_id_for_item";
     private static final String store_for_item="store_for_item";
     private static final String party_name="party_name";
+    private static final String shipped_to="shipped_to";
+    private static final String shipped_to_id="shipped_to_id";
     private static final String party_id="party_id";
     private static final String vouchermobile="mobile";
     private static final String vouchernarration="narration";
@@ -1194,6 +1196,23 @@ public class Preferences {
 
     public String getParty_name() {
         return pref.getString(party_name, "");
+    }
+
+    public void setShipped_to(String shippedTo) {
+        editor.putString(shipped_to, shippedTo);
+        editor.commit();
+    }
+
+    public String getShipped_to() {
+        return pref.getString(shipped_to, "");
+    }
+    public void setShipped_to_id(String shippedToId) {
+        editor.putString(shipped_to_id, shippedToId);
+        editor.commit();
+    }
+
+    public String getShipped_to_id() {
+        return pref.getString(shipped_to_id, "");
     }
 
 

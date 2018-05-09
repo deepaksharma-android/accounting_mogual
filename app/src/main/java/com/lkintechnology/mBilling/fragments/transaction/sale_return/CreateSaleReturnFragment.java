@@ -101,6 +101,8 @@ public class CreateSaleReturnFragment extends Fragment {
     TextView mStore;
     @Bind(R.id.party_name)
     TextView mPartyName;
+    @Bind(R.id.shipped_to)
+    TextView mShippedTo;
     @Bind(R.id.mobile_number)
     EditText mMobileNumber;
     @Bind(R.id.cash)
@@ -222,6 +224,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
         mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
+        mShippedTo.setText(Preferences.getInstance(getContext()).getShipped_to());
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
@@ -303,6 +306,22 @@ public class CreateSaleReturnFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 ParameterConstant.handleAutoCompleteTextView=0;
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
+            }
+        });
+        mShippedTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.forAccountIntentMobile="";
+                //ParameterConstant.checkStartActivityResultForAccount =8;
+                intStartActivityForResult=2;
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
+                ExpandableAccountListActivity.isDirectForAccount=false;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                ParameterConstant.handleAutoCompleteTextView=0;
+                startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 4);
             }
         });
 
@@ -788,6 +807,31 @@ public class CreateSaleReturnFragment extends Fragment {
                 //mItemGroup.setText("");
             }
         }
+        if (requestCode == 4) {
+            if (resultCode == Activity.RESULT_OK) {
+
+
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForPartyName = true;
+                    mShippedTo.setText(ParameterConstant.name);
+
+                    Preferences.getInstance(getContext()).setShipped_to_id(ParameterConstant.id);
+                    Preferences.getInstance(getContext()).setShipped_to(ParameterConstant.name);
+
+                }
+                else {
+                    boolForPartyName = true;
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String mobile = data.getStringExtra("mobile");
+                    String group = data.getStringExtra("group");
+                    String[] strArr = result.split(",");
+                    mShippedTo.setText(strArr[0]);
+                    Preferences.getInstance(getContext()).setShipped_to(strArr[0]);
+                    Preferences.getInstance(getContext()).setShipped_to_id(id);
+                }
+            }
+        }
     }
 
     @Override
@@ -1044,6 +1088,7 @@ public class CreateSaleReturnFragment extends Fragment {
             Preferences.getInstance(getApplicationContext()).setPurchase_type_name(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
             mStore.setText(response.getSale_return_voucher().getData().getAttributes().getMaterial_center());
             mPartyName.setText(response.getSale_return_voucher().getData().getAttributes().getAccount_master());
+            mShippedTo.setText(response.getSale_return_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getNarration()));
             Preferences.getInstance(getContext()).setStore(response.getSale_return_voucher().getData().getAttributes().getMaterial_center());
@@ -1051,7 +1096,9 @@ public class CreateSaleReturnFragment extends Fragment {
             Preferences.getInstance(getContext()).setPurchase_type_name(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getContext()).setPurchase_type_id(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getPurchase_type_id()));
             Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getAccount_master_id()));
+            Preferences.getInstance(getContext()).setShipped_to_id(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getShipped_to_id()));
             Preferences.getInstance(getContext()).setParty_name(response.getSale_return_voucher().getData().getAttributes().getAccount_master());
+            Preferences.getInstance(getContext()).setShipped_to(response.getSale_return_voucher().getData().getAttributes().getShipped_to_name());
             Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
             appUser.totalamount=String.valueOf(response.getSale_return_voucher().getData().getAttributes().getTotal_amount());
             appUser.items_amount=String.valueOf(response.getSale_return_voucher().getData().getAttributes().getItems_amount());

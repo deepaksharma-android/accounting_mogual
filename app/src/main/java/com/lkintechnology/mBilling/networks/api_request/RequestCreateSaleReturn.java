@@ -24,6 +24,7 @@ public class RequestCreateSaleReturn {
         voucher.put("purchase_type_id", Preferences.getInstance(ctx).getPurchase_type_id());
         voucher.put("payment_type", Preferences.getInstance(ctx).getCash_credit());
         voucher.put("account_master_id", Preferences.getInstance(ctx).getParty_id());
+        voucher.put("shipped_to_id",Preferences.getInstance(ctx).getShipped_to_id());
         voucher.put("mobile_number", appUser.sale_return_mobileNumber);
         voucher.put("material_center_id", Preferences.getInstance(ctx).getStoreId());
         voucher.put("narration", appUser.sale_return_narration);

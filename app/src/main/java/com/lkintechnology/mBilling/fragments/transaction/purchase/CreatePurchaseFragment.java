@@ -101,6 +101,8 @@ public class CreatePurchaseFragment extends Fragment {
     TextView mStore;
     @Bind(R.id.party_name)
     TextView mPartyName;
+    @Bind(R.id.shipped_to)
+    TextView mShippedTo;
     @Bind(R.id.mobile_number)
     EditText mMobileNumber;
     @Bind(R.id.cash)
@@ -230,6 +232,7 @@ public class CreatePurchaseFragment extends Fragment {
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
         mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
+        mShippedTo.setText(Preferences.getInstance(getContext()).getShipped_to());
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
@@ -309,6 +312,22 @@ public class CreatePurchaseFragment extends Fragment {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 33);
+            }
+        });
+        mShippedTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.forAccountIntentMobile = "";
+                intStartActivityForResult = 2;
+                //ParameterConstant.checkStartActivityResultForAccount = 2;
+                appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView = 0;
+                startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 44);
             }
         });
 
@@ -748,6 +767,28 @@ public class CreatePurchaseFragment extends Fragment {
                 //mItemGroup.setText("");
             }
         }
+        if (requestCode == 44) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
+                    boolForPartyName = true;
+                    mShippedTo.setText(ParameterConstant.name);
+                    Preferences.getInstance(getContext()).setShipped_to_id(ParameterConstant.id);
+                    Preferences.getInstance(getContext()).setShipped_to(ParameterConstant.name);
+                } else {
+                    String result = data.getStringExtra("name");
+                    String id = data.getStringExtra("id");
+                    String mobile = data.getStringExtra("mobile");
+                    String group = data.getStringExtra("group");
+                    String[] strArr = result.split(",");
+                    mShippedTo.setText(strArr[0]);
+                    boolForPartyName = true;
+                    Preferences.getInstance(getContext()).setShipped_to(strArr[0]);
+                    Preferences.getInstance(getContext()).setShipped_to_id(id);
+                }
+
+            }
+        }
     }
 
 
@@ -978,6 +1019,7 @@ public class CreatePurchaseFragment extends Fragment {
             Preferences.getInstance(getApplicationContext()).setPurchase_type_name(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
             mStore.setText(response.getPurchase_voucher().getData().getAttributes().getMaterial_center());
             mPartyName.setText(response.getPurchase_voucher().getData().getAttributes().getAccount_master());
+            mShippedTo.setText(response.getPurchase_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getNarration()));
             Preferences.getInstance(getContext()).setStore(response.getPurchase_voucher().getData().getAttributes().getMaterial_center());
@@ -986,6 +1028,8 @@ public class CreatePurchaseFragment extends Fragment {
             Preferences.getInstance(getContext()).setPurchase_type_id(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getPurchase_type_id()));
             Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getAccount_master_id()));
             Preferences.getInstance(getContext()).setParty_name(response.getPurchase_voucher().getData().getAttributes().getAccount_master());
+            Preferences.getInstance(getContext()).setShipped_to(response.getPurchase_voucher().getData().getAttributes().getShipped_to_name());
+            Preferences.getInstance(getContext()).setShipped_to_id(response.getPurchase_voucher().getData().getAttributes().getShipped_to_id());
             Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
             appUser.totalamount = String.valueOf(response.getPurchase_voucher().getData().getAttributes().getTotal_amount());
             appUser.items_amount = String.valueOf(response.getPurchase_voucher().getData().getAttributes().getItems_amount());

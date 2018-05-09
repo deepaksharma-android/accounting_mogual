@@ -284,6 +284,7 @@ public class AppUser {
     public String sale_partyName = "";
     public String sale_partyEmail = "";
     public String sale_party_group="";
+    public String shipped_to = "";
     public String sale_mobileNumber = "";
     public String sale_cash_credit;
     public String sale_narration = "";

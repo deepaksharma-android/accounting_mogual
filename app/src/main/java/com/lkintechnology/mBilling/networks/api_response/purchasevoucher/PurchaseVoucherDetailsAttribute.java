@@ -6,7 +6,25 @@ import java.util.ArrayList;
 
 public class PurchaseVoucherDetailsAttribute {
     public String voucher_series;
+    public String shipped_to_name;
+    public String shipped_to_id;
     public int company_id;
+
+    public String getShipped_to_name() {
+        return shipped_to_name;
+    }
+
+    public void setShipped_to_name(String shipped_to_name) {
+        this.shipped_to_name = shipped_to_name;
+    }
+
+    public String getShipped_to_id() {
+        return shipped_to_id;
+    }
+
+    public void setShipped_to_id(String shipped_to_id) {
+        this.shipped_to_id = shipped_to_id;
+    }
 
     public int getPurchase_type_id() {
         return purchase_type_id;
