@@ -378,7 +378,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() == 15) {
+                                    if (mSerialNumber.getText().toString().length() >=15 && mSerialNumber.getText().toString().length()<=20) {
                                         if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/

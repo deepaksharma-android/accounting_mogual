@@ -383,7 +383,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 // appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
-                                    if (pairs[i].getText().toString().length() == 15) {
+                                    if (pairs[i].getText().toString().length()>=15 && pairs[i].getText().toString().length()<=20) {
                                         if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
                                             pairs[i].setText("");
                                             appUser.stock_serial_arr.add(i, "");

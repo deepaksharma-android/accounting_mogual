@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -391,7 +392,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() == 15) {
+                                    if (mSerialNumber.getText().toString().length() >=15 && mSerialNumber.getText().toString().length()<=20) {
                                         if (appUser.serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -501,6 +502,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         pairs[l].setHeight(height);
                         pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                         pairs[l].setTextSize(18);
+                        pairs[l].setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
                         if(appUser.serial_arr.size()>0) {
                             if(appUser.serial_arr.size()>l) {
                                 pairs[l].setText(appUser.serial_arr.get(l));
@@ -556,8 +558,9 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             quantity=mQuantity.getText().toString();
                           //  appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            boolean isbool = true;
                             for(int i=0;i<Integer.parseInt(serial);i++) {
-                                if (pairs[i].getText().toString().length() == 15) {
+                                if (pairs[i].getText().toString().length()>=15 && pairs[i].getText().toString().length()<=20) {
                                     if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
                                         pairs[i].setText("");
                                         appUser.serial_arr.add(i, "");
@@ -605,14 +608,20 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                         listString += s + ",";
                                     }
                                     mSr_no.setText(listString);
+                                    isbool = true;
                                     dialogbal.dismiss();
 
                                 }
                                 else{
+                                    isbool = false;
                                     Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + "is not a IMEI number", Toast.LENGTH_SHORT).show();
                                 }
                             }
+                            if (isbool){
+                                dialogbal.dismiss();
+                            }else {
 
+                            }
 
                         }
                     });
