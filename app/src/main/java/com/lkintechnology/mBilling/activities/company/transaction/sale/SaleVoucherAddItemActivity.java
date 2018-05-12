@@ -1106,7 +1106,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             String listString = "";
             int qty = Integer.parseInt(mQuantity.getText().toString());
             if (qty > appUser.sale_item_serial_arr.size()) {
-                if (result.getContents().length() == 15) {
+                if (result.getContents().length() >= 15 && result.getContents().length() <= 20) {
                     // mScannerView.stopCamera();
                     if (appUser.sale_item_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");

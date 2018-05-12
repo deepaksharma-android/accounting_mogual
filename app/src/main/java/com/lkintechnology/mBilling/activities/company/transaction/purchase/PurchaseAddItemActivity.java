@@ -1094,7 +1094,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
             int qty=Integer.parseInt( mQuantity.getText().toString());
             if (qty>appUser.serial_arr.size()) {
-                if(result.getContents().length()==15) {
+                if(result.getContents().length() >= 15 && result.getContents().length() <= 20) {
                     if (appUser.serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/

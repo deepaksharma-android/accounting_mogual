@@ -645,7 +645,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             String listString = "";
             int qty = Integer.parseInt(mStockQuantity.getText().toString());
             if (qty > appUser.stock_serial_arr.size()) {
-                if (result.getContents().length() == 15) {
+                if (result.getContents().length() >= 15 && result.getContents().length() <= 20) {
                     // mScannerView.stopCamera();
                     if (appUser.stock_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
