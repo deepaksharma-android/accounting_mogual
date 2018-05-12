@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -325,6 +326,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             pairs[l].setHeight(height);
                             pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                             pairs[l].setTextSize(18);
+                            pairs[l].setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
                             if (appUser.stock_serial_arr.size() > 0) {
                                 if (appUser.stock_serial_arr.size() > l) {
                                     pairs[l].setText(appUser.stock_serial_arr.get(l));
@@ -382,6 +384,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                                 // appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                boolean isbool = true;
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
                                     if (pairs[i].getText().toString().length()>=15 && pairs[i].getText().toString().length()<=20) {
                                         if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
@@ -432,12 +435,17 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                         }
                                         Preferences.getInstance(getApplication()).setStockSerial(listString);
                                         mSr_no.setText(listString);
-                                        dialogbal.dismiss();
+                                        isbool = true;
                                     } else {
-                                        Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                        isbool = false;
+                                        Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
                                     }
                                 }
+                                if (isbool){
+                                    dialogbal.dismiss();
+                                }else {
 
+                                }
                             }
                         });
                         dialogbal.show();

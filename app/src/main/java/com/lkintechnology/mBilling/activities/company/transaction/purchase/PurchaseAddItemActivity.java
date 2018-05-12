@@ -609,12 +609,10 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                     }
                                     mSr_no.setText(listString);
                                     isbool = true;
-                                    dialogbal.dismiss();
-
                                 }
                                 else{
                                     isbool = false;
-                                    Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + "is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             if (isbool){
