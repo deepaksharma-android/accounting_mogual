@@ -114,10 +114,10 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     String main_unit;
     String alternate_unit;
     String purchase_price_main;
-    String purchase_price_alternate ;
+    String purchase_price_alternate;
     Boolean serailwise;
-    Boolean batchwise ;
-    String packaging_unit ;
+    Boolean batchwise;
+    String packaging_unit;
     String default_unit;
     String packaging_unit_purchase_price;
     String sale_type;
@@ -142,75 +142,76 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     Snackbar snackbar;
     Dialog dialogbal;
     int pos = -1;
-    String itemid="";
+    String itemid = "";
     String serialnumber;
     public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
     Boolean textChange;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        frombillitemvoucherlist=getIntent().getExtras().getBoolean("frombillitemvoucherlist");
+        frombillitemvoucherlist = getIntent().getExtras().getBoolean("frombillitemvoucherlist");
         appUser = LocalRepositories.getAppUser(this);
         ButterKnife.bind(this);
         initActionbar();
-        Timber.i("oooooo "+appUser.serial_arr.toString());
-        Timber.i("oooooo "+appUser.purchase_item_serail_arr.toString());
+        Timber.i("oooooo " + appUser.serial_arr.toString());
+        Timber.i("oooooo " + appUser.purchase_item_serail_arr.toString());
         appUser.serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
-        myListForSerialNo=new ArrayList<>();
+        myListForSerialNo = new ArrayList<>();
         myListForSerialNo.clear();
-        boolForBarcode=true;
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        boolForBarcode = true;
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         mListMap = new ArrayList<>();
         mMap = new HashMap<>();
         mScannerView = new ZBarScannerView(this);
         mSpinnerUnit.setClickable(false);
         mSpinnerUnit.setEnabled(false);
         mUnitList = new ArrayList<>();
-        textChange=false;
+        textChange = false;
 
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
-        if(frombillitemvoucherlist){
-            pos=getIntent().getExtras().getInt("pos");
-            Map map=new HashMap<>();
-            map=appUser.mListMapForItemPurchase.get(pos);
-            String itemName= (String) map.get("item_name");
-            String iid=(String)map.get("item_id");
-            String item_id=(String) map.get("id");
-            String description= (String) map.get("description");
-            quantity= (String) map.get("quantity");
-            String unit= (String) map.get("unit");
-            String srNo= (String) map.get("sr_no");
-            String rate= (String) map.get("rate");
-            String discount= (String) map.get("discount");
-            String value= (String) map.get("value");
-            String total= (String) map.get("total");
-            String mrpitem= (String) map.get("mrp");
-            String purchaseunit= (String) map.get("purchase_unit");
-            String applieditem= (String) map.get("applied");
-            String priceselectedunititem= (String) map.get("price_selected_unit");
-            String alternateunitconfactoritem= (String) map.get("alternate_unit_con_factor");
-            String packagingunitconfactoritem= (String) map.get("packaging_unit_con_factor");
-            String taxitem= (String) map.get("tax");
-            String batch_wise=(String) map.get("batch_wise").toString();
-            String serial_wise= (String) map.get("serial_wise").toString();
-            String packagingunit=(String) map.get("packaging_unit");
-            String defaultunit=(String) map.get("default_unit");
-            String mainunit=(String) map.get("main_unit");
-            String alternateunit=(String) map.get("alternate_unit");
-            String purchasepricemain=(String) map.get("purchase_price_main");
-            Timber.i("bbbbbb "+quantity);
-            String purchasepricealternate=(String) map.get("purchase_price_alternate");
-            String unit_list=(String) map.get("unit_list").toString().replace("[","").replace("]","");
+        if (frombillitemvoucherlist) {
+            pos = getIntent().getExtras().getInt("pos");
+            Map map = new HashMap<>();
+            map = appUser.mListMapForItemPurchase.get(pos);
+            String itemName = (String) map.get("item_name");
+            String iid = (String) map.get("item_id");
+            String item_id = (String) map.get("id");
+            String description = (String) map.get("description");
+            quantity = (String) map.get("quantity");
+            String unit = (String) map.get("unit");
+            String srNo = (String) map.get("sr_no");
+            String rate = (String) map.get("rate");
+            String discount = (String) map.get("discount");
+            String value = (String) map.get("value");
+            String total = (String) map.get("total");
+            String mrpitem = (String) map.get("mrp");
+            String purchaseunit = (String) map.get("purchase_unit");
+            String applieditem = (String) map.get("applied");
+            String priceselectedunititem = (String) map.get("price_selected_unit");
+            String alternateunitconfactoritem = (String) map.get("alternate_unit_con_factor");
+            String packagingunitconfactoritem = (String) map.get("packaging_unit_con_factor");
+            String taxitem = (String) map.get("tax");
+            String batch_wise = (String) map.get("batch_wise").toString();
+            String serial_wise = (String) map.get("serial_wise").toString();
+            String packagingunit = (String) map.get("packaging_unit");
+            String defaultunit = (String) map.get("default_unit");
+            String mainunit = (String) map.get("main_unit");
+            String alternateunit = (String) map.get("alternate_unit");
+            String purchasepricemain = (String) map.get("purchase_price_main");
+            Timber.i("bbbbbb " + quantity);
+            String purchasepricealternate = (String) map.get("purchase_price_alternate");
+            String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
-            for(int i=0;i<myList.size();i++){
+            for (int i = 0; i < myList.size(); i++) {
                 mUnitList.add(myList.get(i).trim());
             }
 
-            if((String) map.get("serial_number").toString()!=null) {
-                serialnumber = (String) map.get("serial_number").toString().replace("[","").replace("]","");
+            if ((String) map.get("serial_number").toString() != null) {
+                serialnumber = (String) map.get("serial_number").toString().replace("[", "").replace("]", "");
                 List<String> serialList = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
                 for (int i = 0; i < serialList.size(); i++) {
                     appUser.serial_arr.add(serialList.get(i).trim());
@@ -218,16 +219,16 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 }
                 Timber.i("MYSERAILNUMBER" + serialnumber);
             }
-            itemid=item_id;
+            itemid = item_id;
             mSr_no.setText(serialnumber);
-            boolForBarcode=true;
+            boolForBarcode = true;
             PurchaseAddItemActivity.myListForSerialNo = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
             mSr_no.setText(serialnumber);
        /*     mUnitAdapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, mUnitList);
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
-            id=iid;
+            id = iid;
 
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -236,28 +237,28 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mDiscount.setText(discount);
             mTotal.setText(total);
             mDescription.setText(description);
-            default_unit=defaultunit;
-            mrp=mrpitem;
-            purchase_unit=purchaseunit;
-            main_unit=mainunit;
-            alternate_unit=alternateunit;
-            purchase_price_applied_on=applieditem;
-            purchase_price_main=purchasepricemain;
-            alternate_unit_con_factor=alternateunitconfactoritem;
-            packaging_unit_con_factor=packagingunitconfactoritem;
-            purchase_price_alternate=purchasepricealternate;
-            price_selected_unit=priceselectedunititem;
-            serailwise=Boolean.valueOf(serial_wise);
-            batchwise=Boolean.valueOf(batch_wise);
-            Timber.i("PRICESELECTED"+price_selected_unit);
+            default_unit = defaultunit;
+            mrp = mrpitem;
+            purchase_unit = purchaseunit;
+            main_unit = mainunit;
+            alternate_unit = alternateunit;
+            purchase_price_applied_on = applieditem;
+            purchase_price_main = purchasepricemain;
+            alternate_unit_con_factor = alternateunitconfactoritem;
+            packaging_unit_con_factor = packagingunitconfactoritem;
+            purchase_price_alternate = purchasepricealternate;
+            price_selected_unit = priceselectedunititem;
+            serailwise = Boolean.valueOf(serial_wise);
+            batchwise = Boolean.valueOf(batch_wise);
+            Timber.i("PRICESELECTED" + price_selected_unit);
          /*   if(packagingunit==null){
                 packaging_unit="";
             }
             else{*/
             packaging_unit = packagingunit;
             // }
-            packaging_unit_con_factor=packagingunitconfactoritem;
-            tax=taxitem;
+            packaging_unit_con_factor = packagingunitconfactoritem;
+            tax = taxitem;
            /* if(price_selected_unit.equals("main")){
                 mSpinnerUnit.setSelection(0);
             }
@@ -278,50 +279,48 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             if (!packaging_unit.equals("")) {
                 if (price_selected_unit.equals("main")) {
                     mSpinnerUnit.setSelection(0);
-                    purchase_unit=main_unit;
+                    purchase_unit = main_unit;
                 } else if (price_selected_unit.equals("alternate")) {
                     mSpinnerUnit.setSelection(1);
-                    purchase_unit=alternate_unit;
+                    purchase_unit = alternate_unit;
                 } else if (price_selected_unit.equals("packaging")) {
                     mSpinnerUnit.setSelection(2);
-                    purchase_unit=packaging_unit;
+                    purchase_unit = packaging_unit;
                 } else {
                     mSpinnerUnit.setSelection(0);
-                    purchase_unit=main_unit;
+                    purchase_unit = main_unit;
                 }
             } else {
                 if (price_selected_unit.equals("main")) {
                     mSpinnerUnit.setSelection(0);
-                    purchase_unit=main_unit;
+                    purchase_unit = main_unit;
                 } else if (price_selected_unit.equals("alternate")) {
                     mSpinnerUnit.setSelection(1);
-                    purchase_unit=alternate_unit;
+                    purchase_unit = alternate_unit;
                 } else {
                     mSpinnerUnit.setSelection(0);
-                    purchase_unit=main_unit;
+                    purchase_unit = main_unit;
                 }
 
 
             }
-        }
-
-        else {
+        } else {
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
             id = intent.getStringExtra("item_id");
-             name = intent.getStringExtra("name");
-             desc = intent.getStringExtra("desc");
-             main_unit = intent.getStringExtra("main_unit");
+            name = intent.getStringExtra("name");
+            desc = intent.getStringExtra("desc");
+            main_unit = intent.getStringExtra("main_unit");
             alternate_unit = intent.getStringExtra("alternate_unit");
             purchase_price_main = intent.getStringExtra("purchase_price_main");
-            if(purchase_price_main.equals("null")){
-                purchase_price_main="0.0";
+            if (purchase_price_main.equals("null")) {
+                purchase_price_main = "0.0";
             }
-             purchase_price_alternate = intent.getStringExtra("purchase_price_alternate");
-             serailwise = intent.getExtras().getBoolean("serial_wise");
+            purchase_price_alternate = intent.getStringExtra("purchase_price_alternate");
+            serailwise = intent.getExtras().getBoolean("serial_wise");
             batchwise = intent.getExtras().getBoolean("batch_wise");
-             packaging_unit = intent.getStringExtra("packaging_unit");
-             default_unit = intent.getStringExtra("default_unit");
+            packaging_unit = intent.getStringExtra("packaging_unit");
+            default_unit = intent.getStringExtra("default_unit");
             packaging_unit_purchase_price = intent.getStringExtra("packaging_unit_purchase_price");
             mrp = intent.getStringExtra("mrp");
             packaging_unit_con_factor = intent.getStringExtra("packaging_unit_con_factor");
@@ -386,13 +385,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         @Override
                         public void onClick(View view) {
                             if (!mSerialNumber.getText().toString().equals("")) {
-                                boolForBarcode=false;
-                                textChange=false;
+                                boolForBarcode = false;
+                                textChange = false;
                                 String listString = "";
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() >=15 && mSerialNumber.getText().toString().length()<=20) {
+                                    if (mSerialNumber.getText().toString().length() >= 15 && mSerialNumber.getText().toString().length() <= 20) {
                                         if (appUser.serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -409,23 +408,21 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                             mSerialNumber.setText("");
                                         }
                                     } else {
-                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString()+"is not a IMEI number", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + "is not a IMEI number", Toast.LENGTH_LONG).show();
                                     }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
+                                    dialogbal.dismiss();
                                 }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
-                                        dialogbal.dismiss();
-                                    }
-                                }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Enter Serial number",Toast.LENGTH_LONG).show();
+                            } else {
+                                dialogbal.dismiss();
+                                //Toast.makeText(getApplicationContext(),"Enter Serial number",Toast.LENGTH_LONG).show();
                             }
                         }
                     });
                     dialogbal.show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Add quantity", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -434,17 +431,16 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         mScanItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mQuantity.getText().toString().equals("")) {
-                    boolForBarcode=false;
-                    textChange=false;
+                if (!mQuantity.getText().toString().equals("")) {
+                    boolForBarcode = false;
+                    textChange = false;
                     mMainLayout.setVisibility(View.GONE);
                     mScanLayout.setVisibility(View.VISIBLE);
                     mScannerView.setResultHandler(PurchaseAddItemActivity.this);
                     scanning_content_frame.addView(mScannerView);
                     mScannerView.startCamera();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Add quantity",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Add quantity", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -462,8 +458,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     listString += s + ",";
                 }
                 mSr_no.setText(listString);*/
-           // }
-        }
+                // }
+            }
         });
 
 
@@ -483,17 +479,17 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     serial = "0";
                 }
                 if (!serial.equals("0")) {
-                     dialogbal = new Dialog(PurchaseAddItemActivity.this);
+                    dialogbal = new Dialog(PurchaseAddItemActivity.this);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogbal.setContentView(R.layout.dialog_serail);
                     dialogbal.setCancelable(true);
                     LinearLayout serialLayout = (LinearLayout) dialogbal.findViewById(R.id.main_layout);
                     LinearLayout submit = (LinearLayout) dialogbal.findViewById(R.id.submit);
                     LinearLayout serial_layout = (LinearLayout) dialogbal.findViewById(R.id.serial_layout);
-                    int width=getWidth();
-                    int height=getHeight();
+                    int width = getWidth();
+                    int height = getHeight();
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-                    lp.setMargins(20,10,20,0);
+                    lp.setMargins(20, 10, 20, 0);
                     EditText[] pairs = new EditText[Integer.parseInt(serial)];
                     for (int l = 0; l < Integer.parseInt(serial); l++) {
                         pairs[l] = new EditText(getApplicationContext());
@@ -502,16 +498,15 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         pairs[l].setHeight(height);
                         pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
                         pairs[l].setTextSize(18);
-                        pairs[l].setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
-                        if(appUser.serial_arr.size()>0) {
-                            if(appUser.serial_arr.size()>l) {
+                        pairs[l].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                        if (appUser.serial_arr.size() > 0) {
+                            if (appUser.serial_arr.size() > l) {
                                 pairs[l].setText(appUser.serial_arr.get(l));
-                            }
-                            else{
+                            } else {
                                 pairs[l].setText("");
                             }
                         }
-                        pairs[l].setHint("Enter Serial Number"+" "+(l+1));
+                        pairs[l].setHint("Enter Serial Number" + " " + (l + 1));
                         pairs[l].setHintTextColor(Color.GRAY);
                         pairs[l].setTextColor(Color.BLACK);
                         pairs[l].setLayoutParams(lp);
@@ -551,16 +546,16 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            boolForBarcode=false;
-                            textChange=false;
+                            boolForBarcode = false;
+                            textChange = false;
                             appUser.serial_arr.clear();
-                            appUser.item_id=id;
-                            quantity=mQuantity.getText().toString();
-                          //  appUser.purchase_item_serail_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                            boolean isbool = true;
-                            for(int i=0;i<Integer.parseInt(serial);i++) {
-                                if (pairs[i].getText().toString().length()>=15 && pairs[i].getText().toString().length()<=20) {
+                            appUser.item_id = id;
+                            quantity = mQuantity.getText().toString();
+                            //  appUser.purchase_item_serail_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            boolean isbool = false;
+                            for (int i = 0; i < Integer.parseInt(serial); i++) {
+                                if (pairs[i].getText().toString().length() >= 15 && pairs[i].getText().toString().length() <= 20) {
                                     if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
                                         pairs[i].setText("");
                                         appUser.serial_arr.add(i, "");
@@ -586,41 +581,41 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                     }
 
                                     appUser.purchase_item_serail_arr.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                    for(int j=0;j<appUser.serial_arr.size();j++){
-                                        if(!appUser.serial_arr.get(j).equals("")){
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    for (int j = 0; j < appUser.serial_arr.size(); j++) {
+                                        if (!appUser.serial_arr.get(j).equals("")) {
                                             appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(j));
-                                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                                         }
                                     }
                                     appUser.serial_arr.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                                    for(int k=0;k<appUser.purchase_item_serail_arr.size();k++){
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    for (int k = 0; k < appUser.purchase_item_serail_arr.size(); k++) {
                                         appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(k));
-                                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     }
 
                                     String listString = "";
 
-                                    for (String s : appUser.purchase_item_serail_arr)
-                                    {
+                                    for (String s : appUser.purchase_item_serail_arr) {
                                         listString += s + ",";
                                     }
                                     mSr_no.setText(listString);
                                     isbool = true;
-                                }
-                                else{
-                                    isbool = false;
-                                    Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if(pairs[i].getText().toString().equals("")) {
+                                        isbool = true;
+                                    }else {
+                                        isbool = false;
+                                        Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                 }
                             }
-                            if (isbool){
+                            if (isbool) {
                                 dialogbal.dismiss();
-                            }else {
-
                             }
-
                         }
                     });
                     dialogbal.show();
@@ -637,7 +632,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                     if (i == 2) {
-                        purchase_unit=packaging_unit;
+                        purchase_unit = packaging_unit;
                         price_selected_unit = "packaging";
                         if (default_unit.equals("Pckg. Unit")) {
                             mRate.setText(String.valueOf(packaging_unit_purchase_price));
@@ -655,7 +650,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                     }
                     if (i == 0) {
-                        purchase_unit=main_unit;
+                        purchase_unit = main_unit;
                         price_selected_unit = "main";
                         if (default_unit.equals("Pckg. Unit")) {
                             Double main_unit_price = Double.parseDouble(packaging_unit_purchase_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -669,7 +664,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             }
                         }
                     } else if (i == 1) {
-                        purchase_unit=alternate_unit;
+                        purchase_unit = alternate_unit;
                         price_selected_unit = "alternate";
                         if (default_unit.equals("Pckg. Unit")) {
                             Double main_unit_price = Double.parseDouble(packaging_unit_purchase_price) / Double.parseDouble(packaging_unit_con_factor);
@@ -696,7 +691,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (i == 0) {
-                        purchase_unit=main_unit;
+                        purchase_unit = main_unit;
                         price_selected_unit = "main";
                         if (purchase_price_applied_on.equals("Alternate Unit")) {
                             Double main_unit_price = Double.parseDouble(purchase_price_alternate) * Double.parseDouble(alternate_unit_con_factor);
@@ -713,22 +708,22 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                 mRate.setText(rate);
                                 mDiscount.setText(discount);
                                 mValue.setText(value);
-                            }else {
+                            } else {
                                 mRate.setText(purchase_price_main);
                             }
                         }
                     } else if (i == 1) {
-                        purchase_unit=alternate_unit;
+                        purchase_unit = alternate_unit;
                         price_selected_unit = "alternate";
                         if (purchase_price_applied_on.equals("Main Unit")) {
-                         //   if (!purchase_price_main.equals("null")){
-                                Double alternate_unit_price = Double.parseDouble(purchase_price_main) / Double.parseDouble(alternate_unit_con_factor);
-                                mRate.setText(String.valueOf(alternate_unit_price));
-                         //   }
+                            //   if (!purchase_price_main.equals("null")){
+                            Double alternate_unit_price = Double.parseDouble(purchase_price_main) / Double.parseDouble(alternate_unit_con_factor);
+                            mRate.setText(String.valueOf(alternate_unit_price));
+                            //   }
 
                         } else {
-                           // if (!purchase_price_main.equals("null")){
-                                mRate.setText(purchase_price_alternate);
+                            // if (!purchase_price_main.equals("null")){
+                            mRate.setText(purchase_price_alternate);
                            /* }else {
                                 mRate.setText("");
                             }*/
@@ -759,38 +754,37 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 appUser.barcode_voucher_type = "purchase";
                 appUser.voucher_id_barcode = itemid;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                if(!frombillitemvoucherlist){
-                    quantity=mQuantity.getText().toString();
+                if (!frombillitemvoucherlist) {
+                    quantity = mQuantity.getText().toString();
                 }
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
-                           if(!textChange || (mSr_no.getText().toString().isEmpty())){
-                            mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
-                            mProgressDialog.setMessage("Info...");
-                            mProgressDialog.setIndeterminate(false);
-                            mProgressDialog.setCancelable(true);
-                            mProgressDialog.show();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            RequestCheckBarcode.bollForBarcode=true;
-                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
-                        }
-                         else{
-                            Toast.makeText(getApplicationContext(),"Please select serial number",Toast.LENGTH_LONG).show();
-                        }
+                    if (!textChange || (mSr_no.getText().toString().isEmpty())) {
+                        mProgressDialog = new ProgressDialog(PurchaseAddItemActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        RequestCheckBarcode.bollForBarcode = true;
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
                     } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            snackbar.dismiss();
-                                        }
+                        Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
                                     }
-                                });
-                        snackbar.show();
+                                }
+                            });
+                    snackbar.show();
 
                 }
             }
@@ -805,7 +799,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(mDiscount.getText().toString().equals("")){
+                if (mDiscount.getText().toString().equals("")) {
                     mDiscount.setText("0.0");
                 }
 
@@ -814,7 +808,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         second = Double.valueOf(mRate.getText().toString());
                         if (!mDiscount.getText().toString().isEmpty()) {
                             first = Double.valueOf(mDiscount.getText().toString());
-                            mValue.setText(String.format("%.2f",(first * second)));
+                            mValue.setText(String.format("%.2f", (first * second)));
 
                         }
                     } else {
@@ -844,14 +838,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     first = Double.valueOf(mDiscount.getText().toString());
                     if (!mRate.getText().toString().isEmpty()) {
                         second = Double.valueOf(mRate.getText().toString());
-                        if(!mQuantity.getText().toString().equals("")){
-                            third=Double.valueOf(mQuantity.getText().toString());
-                        }
-                        else{
-                            third=0.0;
+                        if (!mQuantity.getText().toString().equals("")) {
+                            third = Double.valueOf(mQuantity.getText().toString());
+                        } else {
+                            third = 0.0;
                         }
 
-                        mValue.setText(String.format("%.2f",((first * second*third) / 100)));
+                        mValue.setText(String.format("%.2f", ((first * second * third) / 100)));
                     }
                 } else {
                     mValue.setText("0.0");
@@ -874,9 +867,9 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textChange =true;
+                textChange = true;
                 if (count == 0) {
-                    mTotal.setText(String.format("%.2f",0.0));
+                    mTotal.setText(String.format("%.2f", 0.0));
                     mValue.setText("0.0");
                     mDiscount.setText("0.0");
          /*           appUser.sale_item_serial_arr.clear();
@@ -887,13 +880,12 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            if(!mRate.getText().toString().equals("")) {
+                            if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
+                            } else {
+                                third = 0.0;
                             }
-                            else{
-                                third=0.0;
-                            }
-                            mTotal.setText(String.format("%.2f",((third - first) * second)));
+                            mTotal.setText(String.format("%.2f", ((third - first) * second)));
                         }
                     } else {
                         mTotal.setText("0.0");
@@ -925,14 +917,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         second = Double.valueOf(mQuantity.getText().toString());
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
-                            if(!mRate.getText().toString().equals("")) {
+                            if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
-                            }
-                            else{
-                                third=0.0;
+                            } else {
+                                third = 0.0;
                             }
                             if (((third * second) - first) >= 0) {
-                                mTotal.setText(String.format("%.2f",((third * second) - first)));
+                                mTotal.setText(String.format("%.2f", ((third * second) - first)));
                             } else {
                                 mValue.setText("0.0");
                                 //Toast.makeText(getApplicationContext(), "Value can not be more than total price", Toast.LENGTH_LONG).show();
@@ -944,17 +935,15 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
 
                     }
-                }
-                else {
+                } else {
                     third = Double.valueOf(mRate.getText().toString());
-                    if(!mQuantity.getText().toString().equals("")) {
+                    if (!mQuantity.getText().toString().equals("")) {
                         second = Double.valueOf(mQuantity.getText().toString());
-                    }
-                    else{
-                        second=0.0;
+                    } else {
+                        second = 0.0;
                     }
 
-                    mTotal.setText(String.format("%.2f",((third * second))));
+                    mTotal.setText(String.format("%.2f", ((third * second))));
                 }
 
 
@@ -987,7 +976,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("PURCHASE ADD ITEM");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -999,8 +988,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         //if ( ExpandableItemListActivity.comingFrom == 1) {
            /* startActivity(new Intent(this, ExpandableItemListActivity.class));
             finish();*/
-        if (CreatePurchaseActivity.fromsalelist){
-            CreatePurchaseActivity.isForEdit=true;
+        if (CreatePurchaseActivity.fromsalelist) {
+            CreatePurchaseActivity.isForEdit = true;
         }
 
 
@@ -1016,14 +1005,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             startActivity(intent2);
             finish();
         }
-       // }
+        // }
     }
 
-    private int getWidth(){
-        int density= getResources().getDisplayMetrics().densityDpi;
-        int size =0;
-        switch(density)
-        {
+    private int getWidth() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int size = 0;
+        switch (density) {
             case DisplayMetrics.DENSITY_LOW:
                 size = 500;
                 break;
@@ -1047,11 +1035,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
         return size;
     }
-    private int getHeight(){
-        int density= getResources().getDisplayMetrics().densityDpi;
-        int height =150;
-        switch(density)
-        {
+
+    private int getHeight() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int height = 150;
+        switch (density) {
             case DisplayMetrics.DENSITY_LOW:
                 height = 150;
                 break;
@@ -1090,11 +1078,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     @Override
     public void handleResult(Result result) {
         if (!result.getContents().equals("")) {
-            String listString="";
+            String listString = "";
 
-            int qty=Integer.parseInt( mQuantity.getText().toString());
-            if (qty>appUser.serial_arr.size()) {
-                if(result.getContents().length() >= 15 && result.getContents().length() <= 20) {
+            int qty = Integer.parseInt(mQuantity.getText().toString());
+            if (qty > appUser.serial_arr.size()) {
+                if (result.getContents().length() >= 15 && result.getContents().length() <= 20) {
                     if (appUser.serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -1118,9 +1106,8 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 mScannerView.startCamera();
 
 
-            }
-            else{
-                Toast.makeText(PurchaseAddItemActivity.this,"Item quantity is less", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(PurchaseAddItemActivity.this, "Item quantity is less", Toast.LENGTH_SHORT).show();
                 mScannerView.stopCamera();
                 scanning_content_frame.removeView(mScannerView);
                 mMainLayout.setVisibility(View.VISIBLE);
@@ -1131,19 +1118,19 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     }
 
     @Subscribe
-    public void checkbarcode(CheckBarcodeResponse response){
+    public void checkbarcode(CheckBarcodeResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             final int finalPos = pos;
             final int finalPos1 = pos;
-            Timber.i("ARRAY"+appUser.purchase_item_serail_arr);
+            Timber.i("ARRAY" + appUser.purchase_item_serail_arr);
             mSubmit.startAnimation(blinkOnClick);
-            if (mQuantity.getText().toString().equals("0")|mQuantity.getText().toString().equals("")){
-                Snackbar.make(coordinatorLayout,"enter minimum 1 quantity",Snackbar.LENGTH_LONG).show();
+            if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
+                Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                 return;
             }
             mMap.put("id", itemid);
-            mMap.put("item_id",id);
+            mMap.put("item_id", id);
             mMap.put("item_name", mItemName.getText().toString());
             mMap.put("description", mDescription.getText().toString());
             mMap.put("quantity", mQuantity.getText().toString());
@@ -1152,37 +1139,35 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mMap.put("rate", mRate.getText().toString());
             mMap.put("discount", mDiscount.getText().toString());
             mMap.put("value", mValue.getText().toString());
-            mMap.put("default_unit",default_unit);
-            mMap.put("packaging_unit",packaging_unit);
-            mMap.put("purchase_price_alternate",purchase_price_alternate);
-            mMap.put("purchase_price_main",purchase_price_main);
-            mMap.put("alternate_unit",alternate_unit);
-            mMap.put("packaging_unit_sales_price",packaging_unit_purchase_price);
-            mMap.put("main_unit",main_unit);
-            mMap.put("batch_wise",batchwise);
-            mMap.put("serial_wise",serailwise);
-            mMap.put("purchase_unit",purchase_unit);
-            String taxstring= Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
-            if(taxstring.startsWith("I")||taxstring.startsWith("L")) {
+            mMap.put("default_unit", default_unit);
+            mMap.put("packaging_unit", packaging_unit);
+            mMap.put("purchase_price_alternate", purchase_price_alternate);
+            mMap.put("purchase_price_main", purchase_price_main);
+            mMap.put("alternate_unit", alternate_unit);
+            mMap.put("packaging_unit_sales_price", packaging_unit_purchase_price);
+            mMap.put("main_unit", main_unit);
+            mMap.put("batch_wise", batchwise);
+            mMap.put("serial_wise", serailwise);
+            mMap.put("purchase_unit", purchase_unit);
+            String taxstring = Preferences.getInstance(getApplicationContext()).getPurchase_type_name();
+            if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
                 String arrtaxstring[] = taxstring.split("-");
                 String taxname = arrtaxstring[0].trim();
                 String taxvalue = arrtaxstring[1].trim();
-                if(taxvalue.equals("ItemWise")) {
-                    String total=mTotal.getText().toString();
-                    String arr[]=tax.split(" ");
-                    String itemtax=arr[1];
-                    String taxval[]=itemtax.split("%");
-                    String taxpercent=taxval[0];
-                    double totalamt=Double.parseDouble(total)*(Double.parseDouble(taxpercent)/100);
-                    totalamt=Double.parseDouble(total)+totalamt;
+                if (taxvalue.equals("ItemWise")) {
+                    String total = mTotal.getText().toString();
+                    String arr[] = tax.split(" ");
+                    String itemtax = arr[1];
+                    String taxval[] = itemtax.split("%");
+                    String taxpercent = taxval[0];
+                    double totalamt = Double.parseDouble(total) * (Double.parseDouble(taxpercent) / 100);
+                    totalamt = Double.parseDouble(total) + totalamt;
                     mMap.put("total", String.valueOf(totalamt));
-                    mMap.put("itemwiseprice",totalitemprice);
-                }
-                else {
+                    mMap.put("itemwiseprice", totalitemprice);
+                } else {
                     mMap.put("total", mTotal.getText().toString());
                 }
-            }
-            else{
+            } else {
                 mMap.put("total", mTotal.getText().toString());
             }
 
@@ -1192,42 +1177,41 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
-           // mMap.put("serial_number",appUser.purchase_item_serail_arr);
-            if(PurchaseAddItemActivity.boolForBarcode){
-                mMap.put("serial_number",PurchaseAddItemActivity.myListForSerialNo);
-            }else {
-                mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            // mMap.put("serial_number",appUser.purchase_item_serail_arr);
+            if (PurchaseAddItemActivity.boolForBarcode) {
+                mMap.put("serial_number", PurchaseAddItemActivity.myListForSerialNo);
+            } else {
+                mMap.put("serial_number", appUser.purchase_item_serail_arr);
             }
-            mMap.put("unit_list",mUnitList);
-            if(!frombillitemvoucherlist) {
+            mMap.put("unit_list", mUnitList);
+            if (!frombillitemvoucherlist) {
                 appUser.mListMapForItemPurchase.add(mMap);
                 // appUser.mListMap = mListMap;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            }
-            else{
+            } else {
                 appUser.mListMapForItemPurchase.remove(finalPos);
-                appUser.mListMapForItemPurchase.add(finalPos,mMap);
+                appUser.mListMapForItemPurchase.add(finalPos, mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             }
             // mListMap.add(mMap);
             appUser.serial_arr.clear();
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             Intent in = new Intent(getApplicationContext(), CreatePurchaseActivity.class);
             in.putExtra("is", true);
-            if (CreatePurchaseActivity.fromsalelist){
-                CreatePurchaseActivity.isForEdit=true;
+            if (CreatePurchaseActivity.fromsalelist) {
+                CreatePurchaseActivity.isForEdit = true;
             }
             startActivity(in);
             finish();
 
 
             snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
 
         }
         snackbar = Snackbar
-                .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+                .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 }

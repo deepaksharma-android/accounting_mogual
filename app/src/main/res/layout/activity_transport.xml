@@ -229,6 +229,7 @@
                             android:layout_marginLeft="5dp"
                             android:background="@android:color/transparent"
                             android:textColor="#000"
+                            android:maxLength="6"
                             android:inputType="numberDecimal"
                             android:textSize="16sp" />
                     </LinearLayout>

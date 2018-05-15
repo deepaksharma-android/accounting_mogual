@@ -13,7 +13,9 @@ import android.location.LocationManager;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
@@ -38,7 +40,9 @@ import com.google.gson.Gson;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
+import butterknife.Bind;
 import timber.log.Timber;
 
 
@@ -273,5 +277,17 @@ public class Helpers {
     public static String  getMonth(int month){
         String[] ar={"Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"};
         return ar[month];
+    }
+
+    public static Bitmap selectAttachmentUniversal(Context context, Intent data){
+        Uri uri = data.getData();
+        Bitmap bm = null;
+        try {
+            bm= MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bm;
     }
 }

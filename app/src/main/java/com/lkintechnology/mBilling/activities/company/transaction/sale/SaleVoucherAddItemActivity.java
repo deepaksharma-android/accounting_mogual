@@ -396,7 +396,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                             mSerialNumber.setText("");
                                         }
                                     } else {
-                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + "is not a IMEI number", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
@@ -404,7 +404,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 }
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
+                                dialogbal.dismiss();
+                                //Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -558,7 +560,15 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     break;
 
                 case Cv.REQUEST_GALLERY:
-
+                   /* try{
+                        photo = Helpers.selectAttachmentUniversal(getApplicationContext(),data);
+                        encodedString = Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        mSelectedImage.setImageBitmap(photo);
+                        break;
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }*/
                     try {
                         imageToUploadUri= data.getData();
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),

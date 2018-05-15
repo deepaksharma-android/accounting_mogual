@@ -404,7 +404,8 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                                 }
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
+                                dialogbal.dismiss();
+                                //Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

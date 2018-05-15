@@ -221,7 +221,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 int qty = Integer.parseInt(mStockQuantity.getText().toString());
                                 if (qty > appUser.stock_serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() == 15) {
+                                    if (mSerialNumber.getText().toString().length() >= 15 && mSerialNumber.getText().toString().length() <= 20) {
                                         if (appUser.stock_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -238,7 +238,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                             mSerialNumber.setText("");
                                         }
                                     } else {
-                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + "is not a IMEI number", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
                                     }
 
                                 } else {
@@ -247,7 +247,8 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 }
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
+                                dialogbal.dismiss();
+                               // Toast.makeText(getApplicationContext(), "Enter Serial number", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -384,9 +385,9 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
                                 // appUser.stock_item_serail_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                boolean isbool = true;
+                                boolean isbool = false;
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
-                                    if (pairs[i].getText().toString().length()>=15 && pairs[i].getText().toString().length()<=20) {
+                                    if (pairs[i].getText().toString().length()>=15 && pairs[i].getText().toString().length()<=20){
                                         if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
                                             pairs[i].setText("");
                                             appUser.stock_serial_arr.add(i, "");
@@ -436,15 +437,18 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                         Preferences.getInstance(getApplication()).setStockSerial(listString);
                                         mSr_no.setText(listString);
                                         isbool = true;
-                                    } else {
-                                        isbool = false;
-                                        Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        if(pairs[i].getText().toString().equals("")) {
+                                            isbool = true;
+                                        }else {
+                                            isbool = false;
+                                            Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
                                     }
                                 }
                                 if (isbool){
                                     dialogbal.dismiss();
-                                }else {
-
                                 }
                             }
                         });
@@ -645,7 +649,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             String listString = "";
             int qty = Integer.parseInt(mStockQuantity.getText().toString());
             if (qty > appUser.stock_serial_arr.size()) {
-                if (result.getContents().length() >= 15 && result.getContents().length() <= 20) {
+                if (result.getContents().length() >= 15 && result.getContents().length() <= 20)  {
                     // mScannerView.stopCamera();
                     if (appUser.stock_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");

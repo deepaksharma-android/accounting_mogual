@@ -1,6 +1,8 @@
 package com.lkintechnology.mBilling.entities;
 
 
+import android.graphics.Bitmap;
+
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
 
 import java.util.ArrayList;
@@ -552,5 +554,6 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     //public boolean forAccountIntentBool;
 
     public int quantity;
+    public Bitmap photos;
 
 }
