@@ -93,7 +93,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map mMap;
-    Double first, second, third;
+    Double first=0.0, second=0.0, third=0.0;
     Intent intent;
     Animation blinkOnClick;
     ArrayList<String> mUnitList;
@@ -805,11 +805,14 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                 if (!mDiscount.getText().toString().isEmpty()) {
                     if (!mRate.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mRate.getText().toString());
+                        if (!mRate.getText().toString().equals("")){
+                            second = Double.valueOf(mRate.getText().toString());
+                        }
                         if (!mDiscount.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mDiscount.getText().toString());
+                            if (!mDiscount.getText().toString().equals("")){
+                                first = Double.valueOf(mDiscount.getText().toString());
+                            }
                             mValue.setText(String.format("%.2f", (first * second)));
-
                         }
                     } else {
                         mValue.setText("0.0");
@@ -835,9 +838,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mDiscount.getText().toString().isEmpty()) {
-                    first = Double.valueOf(mDiscount.getText().toString());
+                    if (!mDiscount.getText().toString().equals("")){
+                        first = Double.valueOf(mDiscount.getText().toString());
+                    }
                     if (!mRate.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mRate.getText().toString());
+                        if (!mRate.getText().toString().equals("")){
+                            second = Double.valueOf(mRate.getText().toString());
+                        }
                         if (!mQuantity.getText().toString().equals("")) {
                             third = Double.valueOf(mQuantity.getText().toString());
                         } else {
@@ -877,9 +884,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mQuantity.getText().toString());
+                        if (!mQuantity.getText().toString().equals("")){
+                            second = Double.valueOf(mQuantity.getText().toString());
+                        }
                         if (!mValue.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mValue.getText().toString());
+                            if (!mValue.getText().toString().equals("")){
+                                first = Double.valueOf(mValue.getText().toString());
+                            }
                             if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
                             } else {
@@ -914,9 +925,13 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mQuantity.getText().toString());
+                        if (!mQuantity.getText().toString().equals("")){
+                            second = Double.valueOf(mQuantity.getText().toString());
+                        }
                         if (!mValue.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mValue.getText().toString());
+                            if (!mValue.getText().toString().equals("")){
+                                first = Double.valueOf(mValue.getText().toString());
+                            }
                             if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
                             } else {
@@ -936,7 +951,9 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                     }
                 } else {
-                    third = Double.valueOf(mRate.getText().toString());
+                    if (!mRate.getText().toString().equals("")){
+                        third = Double.valueOf(mRate.getText().toString());
+                    }
                     if (!mQuantity.getText().toString().equals("")) {
                         second = Double.valueOf(mQuantity.getText().toString());
                     } else {
@@ -952,6 +969,48 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             @Override
             public void afterTextChanged(Editable s) {
                 //  mDiscount.setText("0.0");
+            }
+        });
+
+        mRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mRate.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mRate.getText().toString());
+                        if (aDouble == 0) {
+                            mRate.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        mDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mDiscount.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mDiscount.getText().toString());
+                        if (aDouble == 0) {
+                            mDiscount.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        mValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mValue.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mValue.getText().toString());
+                        if (aDouble == 0) {
+                            mValue.setText("");
+                        }
+                    }
+                }
             }
         });
 

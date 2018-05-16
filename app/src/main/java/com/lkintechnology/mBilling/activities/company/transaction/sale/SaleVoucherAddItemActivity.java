@@ -81,7 +81,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map mMap;
-    Double first, second, third;
+    Double first=0.0, second=0.0, third=0.0;
     Intent intent;
     Animation blinkOnClick;
     ArrayList<String> mUnitList;
@@ -379,7 +379,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() >=15 && mSerialNumber.getText().toString().length()<=20) {
+                                    if (mSerialNumber.getText().toString().length() >= 15 && mSerialNumber.getText().toString().length() <= 20) {
                                         if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -835,9 +835,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                 if (!mDiscount.getText().toString().isEmpty()) {
                     if (!mRate.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mRate.getText().toString());
+                        if (!mRate.getText().toString().equals("")){
+                            second = Double.valueOf(mRate.getText().toString());
+                        }
                         if (!mDiscount.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mDiscount.getText().toString());
+                            if (!mDiscount.getText().toString().equals("")){
+                                first = Double.valueOf(mDiscount.getText().toString());
+                            }
                             mValue.setText(String.format("%.2f", (first * second)));
 
                         }
@@ -865,22 +869,25 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mDiscount.getText().toString().isEmpty()) {
-                    first = Double.valueOf(mDiscount.getText().toString());
+                    if (!mDiscount.getText().toString().equals("")){
+                        first = Double.valueOf(mDiscount.getText().toString());
+                    }
                     if (!mRate.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mRate.getText().toString());
+                        if (!mRate.getText().toString().equals("")){
+                            second = Double.valueOf(mRate.getText().toString());
+                        }
                         if (!mQuantity.getText().toString().equals("")) {
-                            third = Double.valueOf(mQuantity.getText().toString());
+                            if (!mQuantity.getText().toString().equals("")){
+                                third = Double.valueOf(mQuantity.getText().toString());
+                            }
                         } else {
                             third = 0.0;
                         }
-
                         mValue.setText(String.format("%.2f", ((first * second * third) / 100)));
                     }
                 } else {
                     mValue.setText("0.0");
-
                 }
-
             }
 
             @Override
@@ -907,7 +914,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mQuantity.getText().toString());
+                        if (!mQuantity.getText().toString().equals("")) {
+                            second = Double.valueOf(mQuantity.getText().toString());
+                        } else {
+                            second = 0.00;
+                        }
                         if (!mValue.getText().toString().isEmpty()) {
                             first = Double.valueOf(mValue.getText().toString());
                             if (!mRate.getText().toString().equals("")) {
@@ -937,15 +948,15 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-         /*       if(count==0){
-                    mDiscount.setText("");
-                }*/
-
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        second = Double.valueOf(mQuantity.getText().toString());
+                        if (!mQuantity.getText().toString().equals("")){
+                            second = Double.valueOf(mQuantity.getText().toString());
+                        }
                         if (!mValue.getText().toString().isEmpty()) {
-                            first = Double.valueOf(mValue.getText().toString());
+                            if (!mValue.getText().toString().equals("")){
+                                first = Double.valueOf(mValue.getText().toString());
+                            }
                             if (!mRate.getText().toString().equals("")) {
                                 third = Double.valueOf(mRate.getText().toString());
                             } else {
@@ -964,13 +975,14 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                     }
                 } else {
-                    third = Double.valueOf(mRate.getText().toString());
+                    if (!mRate.getText().toString().equals("")){
+                        third = Double.valueOf(mRate.getText().toString());
+                    }
                     if (!mQuantity.getText().toString().equals("")) {
                         second = Double.valueOf(mQuantity.getText().toString());
                     } else {
                         second = 0.0;
                     }
-
                     mTotal.setText(String.format("%.2f", ((third * second))));
                 }
 
@@ -980,6 +992,48 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void afterTextChanged(Editable s) {
                 //  mDiscount.setText("0.0");
+            }
+        });
+
+        mRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mRate.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mRate.getText().toString());
+                        if (aDouble == 0) {
+                            mRate.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        mDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mDiscount.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mDiscount.getText().toString());
+                        if (aDouble == 0) {
+                            mDiscount.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        mValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mValue.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mValue.getText().toString());
+                        if (aDouble == 0) {
+                            mValue.setText("");
+                        }
+                    }
+                }
             }
         });
 

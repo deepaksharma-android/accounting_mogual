@@ -103,6 +103,10 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
         state=getIntent().getStringExtra("state");
         amount = getIntent().getExtras().getString("amount");
         etDiffAmount.setText(amount);
+        etRate.setText("0.0");
+        tvIGST.setText("0.0");
+        tvCGST.setText("0.0");
+        tvSgst.setText("0.0");
         llSubmit.setOnClickListener(this);
         if(frompayment){
             itempos=getIntent().getExtras().getString("pos");
@@ -184,12 +188,11 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(i2==0){
-                    etDiffAmount.setText("0.0");
+                    //etDiffAmount.setText("0.0");
                     etRate.setText("0.0");
                     tvIGST.setText("0.0");
                     tvCGST.setText("0.0");
                     tvSgst.setText("0.0");
-
                 }
             }
 
@@ -213,7 +216,14 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                     tvSgst.setText("0.0");
                 }
                 if (s.length() > 0) {
-                    double percentage = ((Double.parseDouble(etDiffAmount.getText().toString()) * Double.parseDouble(etRate.getText().toString())) / 100);
+                    Double amount = 0.0,rate=0.0;
+                    if (!etDiffAmount.getText().toString().equals("")){
+                        amount = Double.parseDouble(etDiffAmount.getText().toString());
+                    }
+                    if (!etRate.getText().toString().equals("")){
+                        rate = Double.parseDouble(etRate.getText().toString());
+                    }
+                    double percentage = ((amount * rate) / 100);
                     double halfPer = percentage / 2.0;
                     tvSgst.setText(String.valueOf(halfPer));
                     tvCGST.setText(String.valueOf(halfPer));
@@ -247,6 +257,77 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                 startActivityForResult(intent, 2);
             }
         });
+
+        etDiffAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etDiffAmount.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etDiffAmount.getText().toString());
+                        if (aDouble==0){
+                            etRate.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etRate.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etRate.getText().toString());
+                        if (aDouble==0){
+                            etRate.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        tvIGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvIGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvIGST.getText().toString());
+                        if (aDouble==0){
+                            tvIGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        tvCGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvCGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvCGST.getText().toString());
+                        if (aDouble==0){
+                            tvCGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        tvSgst.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvSgst.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvSgst.getText().toString());
+                        if (aDouble==0){
+                            tvSgst.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
     private void initialpageSetup() {
