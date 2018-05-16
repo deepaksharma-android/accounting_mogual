@@ -36,59 +36,57 @@ import java.util.Map;
 
 import static android.media.CamcorderProfile.get;
 
-public class CreateCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText etIVNNo;
     private TextView tvDiffAmount;
-    private TextView tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,tvITC,tv_gst;
+    private TextView tvDate, etGST, etIGST, etCGST, etSGST, tvSGST, tvCGST, tvIGST, tvITC, tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day;
     AppUser appUser;
     Map mMap;
     private RelativeLayout rootLayout;
-    private LinearLayout ll_submit,rootSP;
-    private String amount,position,state,journalVoucherPosition,journalDiffAmount;
+    private LinearLayout ll_submit, rootSP;
+    private String amount, position, state, journalVoucherPosition, journalDiffAmount;
     private Spinner spChooseGoods;
-       private String chooseGoods[]={"Input Goods","Input Services","Capital Goods","None"};
+    private String chooseGoods[] = {"Input Goods", "Input Services", "Capital Goods", "None"};
     private String itempos;
     public Boolean fromcredit;
-    String id="";
+    String id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_credit_note_item);
         initActionBar();
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initView();
         initialpageSetup();
-        mMap=new HashMap();
+        mMap = new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
-        fromcredit=getIntent().getExtras().getBoolean("fromcredit");
-        state=getIntent().getExtras().getString("state");
+        fromcredit = getIntent().getExtras().getBoolean("fromcredit");
+        state = getIntent().getExtras().getString("state");
 
 
-
-        if(fromcredit){
-            itempos=getIntent().getExtras().getString("pos");
-            Boolean journal=getIntent().getExtras().getBoolean("journal");
+        if (fromcredit) {
+            itempos = getIntent().getExtras().getString("pos");
+            Boolean journal = getIntent().getExtras().getBoolean("journal");
             Map map;
-            if(journal){
-                journalDiffAmount=getIntent().getExtras().getString("diff_amount");
+            if (journal) {
+                journalDiffAmount = getIntent().getExtras().getString("diff_amount");
                 tvDiffAmount.setText(journalDiffAmount);
-                map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
-            }
-            else{
-                map=appUser.mListMapForItemCreditNote.get(Integer.parseInt(itempos));
-                amount=getIntent().getExtras().getString("amount");
+                map = appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
+            } else {
+                map = appUser.mListMapForItemCreditNote.get(Integer.parseInt(itempos));
+                amount = getIntent().getExtras().getString("amount");
                 tvDiffAmount.setText(amount);
             }
-            id=(String)map.get("id");
-            etIVNNo.setText((String)map.get("inv_num"));
-            tvDate.setText((String)map.get("date"));
-           // tvDiffAmount.setText((String)map.get("difference_amount"));
-            etGST.setText((String)map.get("rate"));
+            id = (String) map.get("id");
+            etIVNNo.setText((String) map.get("inv_num"));
+            tvDate.setText((String) map.get("date"));
+            // tvDiffAmount.setText((String)map.get("difference_amount"));
+            etGST.setText((String) map.get("rate"));
             double percentage = ((Double.parseDouble(tvDiffAmount.getText().toString()) * Double.parseDouble(etGST.getText().toString())) / 100);
             double halfPer = percentage / 2.0;
             etSGST.setText(String.valueOf(halfPer));
@@ -97,14 +95,14 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
            /* etCGST.setText((String)map.get("cgst"));
             etIGST.setText((String)map.get("igst"));
             etSGST.setText((String)map.get("sgst"));*/
-           // amount=(String) map.get("difference_amount");
+            // amount=(String) map.get("difference_amount");
             //journalDiffAmount=(String) map.get("difference_amount");
-           // state=(String) map.get("state");
-            journalVoucherPosition=((String)map.get("gst_pos6"));
-            position=((String)map.get("sp_position"));
-            String goods=((String)map.get("spITCEligibility"));
-            tvDate.setText((String)map.get("date"));
-            if(position!=null) {
+            // state=(String) map.get("state");
+            journalVoucherPosition = ((String) map.get("gst_pos6"));
+            position = ((String) map.get("sp_position"));
+            String goods = ((String) map.get("spITCEligibility"));
+            tvDate.setText((String) map.get("date"));
+            if (position != null) {
                 if (position.equals("2")) {
                     tvITC.setVisibility(View.VISIBLE);
                     String group_type = goods.trim();
@@ -116,12 +114,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                         }
                     }
                     spChooseGoods.setSelection(groupindex);
-                }
-                else{
+                } else {
                     tvITC.setVisibility(View.GONE);
                 }
-            }
-            else {
+            } else {
                 tvITC.setVisibility(View.VISIBLE);
                 String group_type = goods.trim();
                 int groupindex = -1;
@@ -135,52 +131,51 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
             }
 
-        }
-        else{
-            amount=getIntent().getExtras().getString("amount");
+        } else {
+            amount = getIntent().getExtras().getString("amount");
             tvDiffAmount.setText(amount);
-            position=getIntent().getExtras().getString("sp_position");
-            journalVoucherPosition=getIntent().getExtras().getString("gst_pos6");
-            journalDiffAmount=getIntent().getExtras().getString("diff_amount");
-            state=getIntent().getExtras().getString("state");
+            etGST.setText("0.0");
+            etIGST.setText("0.0");
+            etCGST.setText("0.0");
+            etSGST.setText("0.0");
+            position = getIntent().getExtras().getString("sp_position");
+            journalVoucherPosition = getIntent().getExtras().getString("gst_pos6");
+            journalDiffAmount = getIntent().getExtras().getString("diff_amount");
+            state = getIntent().getExtras().getString("state");
             calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
-            showDate(year, month+1, day);
+            showDate(year, month + 1, day);
         }
 
 
-        if(state==null||state.equals("")){
-            state="Haryana";
+        if (state == null || state.equals("")) {
+            state = "Haryana";
 
         }
 
 
-
-
-        if (position !=null){
-            if (position.equals("2")){
+        if (position != null) {
+            if (position.equals("2")) {
                 spChooseGoods.setVisibility(View.VISIBLE);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 tvITC.setVisibility(View.GONE);
             }
         }
-        if (journalVoucherPosition!=null){
-            if (journalVoucherPosition.equals("6")){
+        if (journalVoucherPosition != null) {
+            if (journalVoucherPosition.equals("6")) {
                 spChooseGoods.setVisibility(View.VISIBLE);
                 tvDiffAmount.setText(journalDiffAmount);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 tvITC.setVisibility(View.GONE);
             }
         }
-        if(state.equals(appUser.company_state)){
+        if (state.equals(appUser.company_state)) {
             tvCGST.setVisibility(View.VISIBLE);
             etCGST.setVisibility(View.VISIBLE);
             tvSGST.setVisibility(View.VISIBLE);
@@ -190,8 +185,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             etIGST.setVisibility(View.GONE);
             tv_gst.setText("GST %");
 
-        }
-        else{
+        } else {
             tvCGST.setVisibility(View.GONE);
             etCGST.setVisibility(View.GONE);
             tvSGST.setVisibility(View.GONE);
@@ -209,8 +203,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(i2==0){
-                    tvDiffAmount.setText("0.0");
+                if (i2 == 0) {
+                   // tvDiffAmount.setText("0.0");
                     etGST.setText("0.0");
                     etIGST.setText("0.0");
                     etCGST.setText("0.0");
@@ -232,18 +226,25 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count==0){
+                if (count == 0) {
                     etIGST.setText("0.0");
                     etCGST.setText("0.0");
                     etSGST.setText("0.0");
                 }
-                if (s.length()>0){
-                  double  percentage= (Double.parseDouble(tvDiffAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
+                if (s.length() > 0) {
+                    Double amount = 0.0, gst = 0.0;
+                    if (!tvDiffAmount.getText().toString().equals("")) {
+                        amount = Double.parseDouble(tvDiffAmount.getText().toString());
+                    }
+                    if (!etGST.getText().toString().equals("")) {
+                        gst = Double.parseDouble(etGST.getText().toString());
+                    }
+                    double percentage = ((amount * gst) / 100);
                     etIGST.setText(String.valueOf(percentage));
-                 double halfIC= (float) (percentage/2.0);
+                    double halfIC = (float) (percentage / 2.0);
                     etCGST.setText(String.valueOf(halfIC));
                     etSGST.setText(String.valueOf(halfIC));
-                }else if (s.length()<=0){
+                } else if (s.length() <= 0) {
                     etSGST.setText("");
                     etCGST.setText("");
                 }
@@ -254,29 +255,102 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
             }
         });
+
+        tvDiffAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvDiffAmount.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvDiffAmount.getText().toString());
+                        if (aDouble==0){
+                            tvDiffAmount.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etGST.getText().toString());
+                        if (aDouble==0){
+                            etGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etIGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etIGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etIGST.getText().toString());
+                        if (aDouble==0){
+                            etIGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etCGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etCGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etCGST.getText().toString());
+                        if (aDouble==0){
+                            etCGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etSGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etSGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etSGST.getText().toString());
+                        if (aDouble==0){
+                            etSGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
     }
+
     private void initView() {
-        rootLayout= (RelativeLayout) findViewById(R.id.rl_add_credit_note_item);
-        etIVNNo= (EditText) findViewById(R.id.et_invoice);
-        etCGST= (TextView) findViewById(R.id.et_cgst);
-        etGST= (EditText) findViewById(R.id.et_gst);
-        tvDiffAmount= (TextView) findViewById(R.id.et_difference_amount);
-        tvSGST= (TextView) findViewById(R.id.tv_sgst);
-        tvCGST= (TextView) findViewById(R.id.tv_cgst);
-        tvIGST= (TextView) findViewById(R.id.tv_igst);
-        etSGST= (TextView) findViewById(R.id.et_sgst);
-        etIGST= (TextView) findViewById(R.id.et_igst);
-        tvITC= (TextView) findViewById(R.id.tv_itc);
-        tv_gst= (TextView) findViewById(R.id.tv_gst);
-        spChooseGoods= (Spinner) findViewById(R.id.sp_choose_goods);
-        tvDate= (TextView) findViewById(R.id.tv_date_select);
-        ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
-        rootSP= (LinearLayout) findViewById(R.id.root_sp);
+        rootLayout = (RelativeLayout) findViewById(R.id.rl_add_credit_note_item);
+        etIVNNo = (EditText) findViewById(R.id.et_invoice);
+        etCGST = (TextView) findViewById(R.id.et_cgst);
+        etGST = (EditText) findViewById(R.id.et_gst);
+        tvDiffAmount = (TextView) findViewById(R.id.et_difference_amount);
+        tvSGST = (TextView) findViewById(R.id.tv_sgst);
+        tvCGST = (TextView) findViewById(R.id.tv_cgst);
+        tvIGST = (TextView) findViewById(R.id.tv_igst);
+        etSGST = (TextView) findViewById(R.id.et_sgst);
+        etIGST = (TextView) findViewById(R.id.et_igst);
+        tvITC = (TextView) findViewById(R.id.tv_itc);
+        tv_gst = (TextView) findViewById(R.id.tv_gst);
+        spChooseGoods = (Spinner) findViewById(R.id.sp_choose_goods);
+        tvDate = (TextView) findViewById(R.id.tv_date_select);
+        ll_submit = (LinearLayout) findViewById(R.id.tv_submit);
+        rootSP = (LinearLayout) findViewById(R.id.root_sp);
     }
+
     private void initialpageSetup() {
-        ArrayAdapter arrayAdapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,chooseGoods);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, chooseGoods);
         spChooseGoods.setAdapter(arrayAdapter);
     }
+
     // set action bar title and layout here
     private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -292,7 +366,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("Create Credit Note Item");
         actionbarTitle.setTextSize(16);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -302,15 +376,15 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_submit:
-                if (position!=null) {
+                if (position != null) {
                     if (position.equals("1")) {
                         spChooseGoods.setVisibility(View.INVISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
-                                    mMap.put("id",id);
+                                    mMap.put("id", id);
                                     mMap.put("inv_num", etIVNNo.getText().toString());
                                     mMap.put("difference_amount", tvDiffAmount.getText().toString());
                                     mMap.put("rate", etGST.getText().toString());
@@ -322,26 +396,26 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     } else {
                                         mMap.put("igst", etIGST.getText().toString());
                                         mMap.put("state", state);
-                                      //  mMap.put("state", state);
+                                        //  mMap.put("state", state);
                                     }
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("spITCEligibility", "");
-                                    mMap.put("state",state);
-                                    mMap.put("sp_position",position);
-                                    mMap.put("amount",amount);
-                                    mMap.put("date",tvDate.getText().toString());
-                                    if (!fromcredit){
+                                    mMap.put("state", state);
+                                    mMap.put("sp_position", position);
+                                    mMap.put("amount", amount);
+                                    mMap.put("date", tvDate.getText().toString());
+                                    if (!fromcredit) {
                                         appUser.mListMapForItemCreditNote.add(mMap);
                                         LocalRepositories.saveAppUser(this, appUser);
-                                    }else {
+                                    } else {
                                         appUser.mListMapForItemCreditNote.remove(Integer.parseInt(itempos));
-                                        appUser.mListMapForItemCreditNote.add(Integer.parseInt(itempos),mMap);
+                                        appUser.mListMapForItemCreditNote.add(Integer.parseInt(itempos), mMap);
                                         LocalRepositories.saveAppUser(this, appUser);
                                     }
                                     Intent intent = new Intent(this, AddCreditNoteItemActivity.class);
                                     intent.putExtra("amount", amount);
-                                    intent.putExtra("sp_position",position);
-                                    intent.putExtra("state",state);
+                                    intent.putExtra("sp_position", position);
+                                    intent.putExtra("state", state);
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -364,7 +438,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
-                                        mMap.put("id",id);
+                                        mMap.put("id", id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", tvDiffAmount.getText().toString());
                                         mMap.put("rate", etGST.getText().toString());
@@ -376,17 +450,17 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                             mMap.put("igst", etIGST.getText().toString());
                                             mMap.put("state", state);
                                         }
-                                        mMap.put("sp_position",position);
-                                        mMap.put("date",tvDate.getText().toString());
-                                        mMap.put("state",state);
+                                        mMap.put("sp_position", position);
+                                        mMap.put("date", tvDate.getText().toString());
+                                        mMap.put("state", state);
                                         mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
-                                        if (!fromcredit){
+                                        if (!fromcredit) {
                                             appUser.mListMapForItemCreditNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
 
-                                        }else {
+                                        } else {
                                             appUser.mListMapForItemCreditNote.remove(Integer.parseInt(itempos));
-                                            appUser.mListMapForItemCreditNote.add(Integer.parseInt(itempos),mMap);
+                                            appUser.mListMapForItemCreditNote.add(Integer.parseInt(itempos), mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
 
                                         }
@@ -414,14 +488,14 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                         }
 
                     }
-                }else if (journalVoucherPosition !=null ) {
+                } else if (journalVoucherPosition != null) {
                     if (journalVoucherPosition.equals("6")) {
                         spChooseGoods.setVisibility(View.VISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
-                                        mMap.put("id",id);
+                                        mMap.put("id", id);
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", journalDiffAmount);
                                         mMap.put("rate", etGST.getText().toString());
@@ -434,16 +508,16 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                             mMap.put("state", state);
                                         }
                                         mMap.put("gst_pos6", journalVoucherPosition);
-                                        mMap.put("date",tvDate.getText().toString());
-                                        mMap.put("state",state);
+                                        mMap.put("date", tvDate.getText().toString());
+                                        mMap.put("state", state);
                                         mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
-                                        if (!fromcredit){
+                                        if (!fromcredit) {
                                             appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
 
-                                        }else {
+                                        } else {
                                             appUser.mListMapForItemJournalVoucherNote.remove(Integer.parseInt(itempos));
-                                            appUser.mListMapForItemJournalVoucherNote.add(Integer.parseInt(itempos),mMap);
+                                            appUser.mListMapForItemJournalVoucherNote.add(Integer.parseInt(itempos), mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
 
                                         }
@@ -471,7 +545,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                         }
                     }
                 }
-                    break;
+                break;
 
             case R.id.tv_date_select:
                 showDialog(999);
@@ -489,6 +563,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         }
         return null;
     }
+
     private DatePickerDialog.OnDateSetListener myDateListener = new
             DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -498,7 +573,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                     // arg1 = year
                     // arg2 = month
                     // arg3 = day
-                    showDate(arg1, arg2+1, arg3);
+                    showDate(arg1, arg2 + 1, arg3);
                 }
             };
 

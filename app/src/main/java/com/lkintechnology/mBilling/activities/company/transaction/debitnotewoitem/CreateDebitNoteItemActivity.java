@@ -134,6 +134,10 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             spGoodsKey1=getIntent().getStringExtra("sp_position");
             journalVoucherPosition=getIntent().getExtras().getString("gst_pos7");
             amount=getIntent().getStringExtra("amount");
+            etGST.setText("0.0");
+            etIGST.setText("0.0");
+            etCGST.setText("0.0");
+            etSGST.setText("0.0");
             journalVoucherDiffAmount=getIntent().getExtras().getString("diff_amount");
             if (journalVoucherPosition!=null){
                 etDifferenceAmount.setText(journalVoucherDiffAmount);
@@ -202,7 +206,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(i2==0){
-                    etDifferenceAmount.setText("0.0");
+                    //etDifferenceAmount.setText("0.0");
                     etGST.setText("0.0");
                     etIGST.setText("0.0");
                     etCGST.setText("0.0");
@@ -230,7 +234,14 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                     etSGST.setText("0.0");
                 }
                 if (s.length()>0){
-                    percentage= (Double.parseDouble(etDifferenceAmount.getText().toString())*Double.parseDouble(etGST.getText().toString())/100);
+                    Double amount=0.0,gst=0.0;
+                    if(!etDifferenceAmount.getText().toString().equals("")){
+                        amount = Double.parseDouble(etDifferenceAmount.getText().toString());
+                    }
+                    if (!etGST.getText().toString().equals("")){
+                        gst = Double.parseDouble(etGST.getText().toString());
+                    }
+                    percentage= (amount*gst)/100;
                     etIGST.setText(String.valueOf(percentage));
                     halfIC= (float) (percentage/2.0);
                     etCGST.setText(String.valueOf(halfIC));
@@ -244,6 +255,76 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        etDifferenceAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etDifferenceAmount.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etDifferenceAmount.getText().toString());
+                        if (aDouble==0){
+                            etDifferenceAmount.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etGST.getText().toString());
+                        if (aDouble==0){
+                            etGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etIGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etIGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etIGST.getText().toString());
+                        if (aDouble==0){
+                            etIGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etCGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etCGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etCGST.getText().toString());
+                        if (aDouble==0){
+                            etCGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        etSGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!etSGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(etSGST.getText().toString());
+                        if (aDouble==0){
+                            etSGST.setText("");
+                        }
+                    }
+                }
             }
         });
     }
