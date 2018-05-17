@@ -37,6 +37,8 @@ public class AcountGroupActivity extends AppCompatActivity {
     LinearLayout openingStockGroup;
     @Bind(R.id.serial_number_reference)
     LinearLayout mSerialNumberReference;
+    @Bind(R.id.item_wise_report)
+    LinearLayout mItemWiseReport;
     @Bind(R.id.pdc_detail)
     LinearLayout pdcDetails;
     @Bind(R.id.amount_receivable)
@@ -230,6 +232,13 @@ public class AcountGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ProfitAndLossActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        mItemWiseReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ItemWiseReportActicity.class));
             }
         });
 

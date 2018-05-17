@@ -163,6 +163,7 @@ public interface Cv {
     String ACTION_DELETE_PURCHASE_RETURN_VOUCHER = "action_delete_purchase_return_voucher";
     String ACTION_GET_COMPANY_DASHBOARD_INFO = "action_get_company_dashboard_details";
     String ACTION_GET_TRANSACTION_PDF = "action_get_transaction_pdf";
+    String ACTION_GET_ITEM_WISE_REPORT = "action_get_item_wise_report";
     String ACTION_GET_VOUCHER_NUMBERS= "action_get_voucher_numbers";
 
     String  ACTION_GET_SALE_VOUCHER="action_get_sale_report";

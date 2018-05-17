@@ -65,6 +65,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -560,7 +561,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     break;
 
                 case Cv.REQUEST_GALLERY:
-                   /* try{
+                    try{
+                        imageToUploadUri= data.getData();
                         photo = Helpers.selectAttachmentUniversal(getApplicationContext(),data);
                         encodedString = Helpers.bitmapToBase64(photo);
                         mSelectedImage.setVisibility(View.VISIBLE);
@@ -568,8 +570,9 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         break;
                     }catch (Exception e){
                         e.printStackTrace();
-                    }*/
-                    try {
+                    }
+
+                   /* try {
                         imageToUploadUri= data.getData();
                         photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
                                 ContentUris.parseId(data.getData()),
@@ -580,7 +583,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         break;
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
             }
             if (requestCode == 2) {
                 if (ParameterConstant.handleAutoCompleteTextView == 1) {
@@ -660,12 +663,20 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     }
 
 
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
+    public Bitmap getPath(Uri uri) {
+        InputStream is = null;
+        try {
+            is = getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(is);
+        try {
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     @Override

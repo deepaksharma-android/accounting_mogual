@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.ItemWiseReportActicity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
@@ -110,7 +112,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     public Map<String, String> mPurchaseReturnItem;
     public Map<String, String> mSaleReturnItem;
-   // Boolean fromsalelist;
+    // Boolean fromsalelist;
 
 
     ProgressDialog mProgressDialog;
@@ -156,15 +158,14 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         floatingActionButton.bringToFront();
         appUser.item_name = "";
         appUser.item_hsn_number = "";
-        appUser.item_group_name="";
-        appUser.item_unit_name="";
-        appUser.item_tax_category_name="";
-        appUser.edit_item_id="";
+        appUser.item_group_name = "";
+        appUser.item_unit_name = "";
+        appUser.item_tax_category_name = "";
+        appUser.edit_item_id = "";
         appUser.stock_item_serail_arr.clear();
         appUser.stock_serial_arr.clear();
         Preferences.getInstance(getApplicationContext()).setStockSerial("");
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
 
     }
@@ -179,7 +180,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             editor.putBoolean("RanBefore", true);
             editor.commit();
             mOverlayLayout.setVisibility(View.VISIBLE);
-            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener() {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -228,28 +229,28 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
        /* if(isDirectForItem==true){*/
-            if (isConnected) {
-                mProgressDialog = new ProgressDialog(this);
-                mProgressDialog.setMessage("Info...");
-                mProgressDialog.setIndeterminate(false);
-                mProgressDialog.setCancelable(true);
-                mProgressDialog.show();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
-            } else {
-                snackbar = Snackbar
-                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                        .setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                if (isConnected) {
-                                    snackbar.dismiss();
-                                }
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
                             }
-                        });
-                snackbar.show();
-            }
+                        }
+                    });
+            snackbar.show();
+        }
  /*       }else{
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
@@ -456,8 +457,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         } else {
                             default_unit.add("");
                         }
-                    }
-                    else if (ExpandableItemListActivity.comingFrom == 4) {
+                    } else if (ExpandableItemListActivity.comingFrom == 4) {
                         if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_purchase() != null) {
                             default_unit.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getDefault_unit_for_purchase());
                         } else {
@@ -912,7 +912,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("mrp", mrp);
                 intent.putExtra("tax", tax);
                 intent.putExtra("barcode", barcode);
-                Timber.i("sssss "+barcode);
+                Timber.i("sssss " + barcode);
                 startActivity(intent);
                 finish();
 
@@ -980,6 +980,16 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 intent.putExtra("tax", tax);
                 startActivity(intent);
                 finish();
+            } else if (ExpandableItemListActivity.comingFrom == 5) {
+                Intent intent = new Intent();
+                String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                String arr1[] = itemName.split(",");
+                String item = arr1[0];
+                intent.putExtra("item_id", itemid);
+                intent.putExtra("name", item);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
         }
     }
@@ -995,10 +1005,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 else{
                     intent.putExtra("fromsalelist", false);
                 }*/
-                if (CreateSaleActivity.fromsalelist){
-                    CreateSaleActivity.isForEdit=true;
-                }else {
-                    CreateSaleActivity.isForEdit=false;
+                if (CreateSaleActivity.fromsalelist) {
+                    CreateSaleActivity.isForEdit = true;
+                } else {
+                    CreateSaleActivity.isForEdit = false;
                 }
 
                 intent.putExtra("is", true);
@@ -1006,31 +1016,30 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 1) {
 
-                if (CreatePurchaseActivity.fromsalelist){
-                    CreatePurchaseActivity.isForEdit=true;
-                }else {
-                    CreatePurchaseActivity.isForEdit=false;
+                if (CreatePurchaseActivity.fromsalelist) {
+                    CreatePurchaseActivity.isForEdit = true;
+                } else {
+                    CreatePurchaseActivity.isForEdit = false;
                 }
-
                 Intent intent = new Intent(this, CreatePurchaseActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 2) {
-                if (CreateSaleReturnActivity.fromsalelist){
-                    CreateSaleReturnActivity.isForEdit=true;
-                }else {
-                    CreateSaleReturnActivity.isForEdit=false;
+                if (CreateSaleReturnActivity.fromsalelist) {
+                    CreateSaleReturnActivity.isForEdit = true;
+                } else {
+                    CreateSaleReturnActivity.isForEdit = false;
                 }
                 Intent intent = new Intent(this, CreateSaleReturnActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 3) {
-                if (CreatePurchaseReturnActivity.fromsalelist){
-                    CreatePurchaseReturnActivity.isForEdit=true;
-                }else {
-                    CreatePurchaseReturnActivity.isForEdit=false;
+                if (CreatePurchaseReturnActivity.fromsalelist) {
+                    CreatePurchaseReturnActivity.isForEdit = true;
+                } else {
+                    CreatePurchaseReturnActivity.isForEdit = false;
                 }
 
                 Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
@@ -1041,6 +1050,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CreateStockTransferActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 5) {
                 finish();
             } else {
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
@@ -1090,6 +1101,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, CreateStockTransferActivity.class);
                         intent.putExtra("is", true);
                         startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 5) {
                         finish();
                     } else {
                         Intent intent = new Intent(this, MasterDashboardActivity.class);

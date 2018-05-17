@@ -53,6 +53,7 @@ import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarco
 import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
+import com.lkintechnology.mBilling.networks.api_response.item_wise_report.ItemWiseReportResponse;
 import com.lkintechnology.mBilling.networks.api_response.pdc.GetPdcResponse;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.account.CreateAccountResponse;
@@ -557,6 +558,8 @@ public class ApiCallsService extends IntentService {
             handleGetPdf();
         }else if (Cv.ACTION_GET_BALANCE_SHEET_PDF.equals(action)) {
             handleGetBalanceSheetPdf();
+        }else if (Cv.ACTION_GET_ITEM_WISE_REPORT.equals(action)) {
+            handleGetItemWiseReport();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
@@ -4519,6 +4522,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetTransactionPdfResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetItemWiseReport() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getItemWiseReport(appUser.pdf_account_id, appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<ItemWiseReportResponse>() {
+            @Override
+            public void onResponse(Call<ItemWiseReportResponse> call, Response<ItemWiseReportResponse> r) {
+                if (r.code() == 200) {
+                    ItemWiseReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemWiseReportResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
