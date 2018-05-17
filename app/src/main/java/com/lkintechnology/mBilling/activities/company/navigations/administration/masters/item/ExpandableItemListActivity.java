@@ -60,9 +60,11 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -142,6 +144,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     List<String> nameList;
     List<String> idList;
     private ArrayAdapter<String> adapter;
+    private SimpleDateFormat dateFormatter;
 
 
     @Override
@@ -153,8 +156,13 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             mOverlayLayout.setVisibility(View.INVISIBLE);
         }*/
         initActionbar();
-//        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
         appUser = LocalRepositories.getAppUser(this);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        long date = System.currentTimeMillis();
+        String dateString = dateFormatter.format(date);
+        appUser.stock_in_hand_date = dateString;
+//        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
+
         floatingActionButton.bringToFront();
         appUser.item_name = "";
         appUser.item_hsn_number = "";
@@ -987,7 +995,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 String arr1[] = itemName.split(",");
                 String item = arr1[0];
                 intent.putExtra("item_id", itemid);
-                intent.putExtra("name", item);
+                intent.putExtra("name", itemName);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

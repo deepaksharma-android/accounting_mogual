@@ -5,11 +5,66 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="fill_parent">
+
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:background="#fff" >
+
+        <LinearLayout
+            android:id="@+id/date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Select Date :"
+                android:textAllCaps="true"
+                android:textColor="#000"
+                android:layout_marginLeft="@dimen/dp_10"
+                style="@style/Gotham_Medium"
+                android:layout_weight=".4"/>
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/tv_date_select"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textColor="#000"
+                android:gravity="end"
+                android:paddingTop="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_5"
+                style="@style/Gotham_Medium"
+                android:textSize="18sp"
+                android:layout_weight=".55"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:id="@+id/calender_icon"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/icon_calendar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_layout"
+            android:orientation="horizontal">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:background="@color/colorPrimary"/>
+
+        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floating_button"
@@ -27,6 +82,7 @@
             android:id="@+id/lvExp"
             android:groupIndicator="@null"
             android:layout_height="match_parent"
+            android:layout_below="@+id/view"
             android:layout_width="match_parent"
             />
 

@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,7 +14,10 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -32,20 +36,29 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionStockInHandActivity extends AppCompatActivity{
+public class TransactionStockInHandActivity extends AppCompatActivity implements View.OnClickListener{
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
+    @Bind(R.id.date_layout)
+    LinearLayout mDate_layout;
+    @Bind(R.id.tv_date_select)
+    TextView mDate_select;
+    @Bind(R.id.calender_icon)
+    ImageView mCalender_Icon;
     TransactionStockInHandAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -60,6 +73,8 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     String title;
     public static Boolean isDirectForFirstPage = true;
     Boolean fromStockReport;
+    private SimpleDateFormat dateFormatter;
+    private DatePickerDialog DatePickerDialog1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +87,11 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
         appUser = LocalRepositories.getAppUser(this);
 
         title="Stock In Hand";
-       /* //fromStockReport=getIntent().getExtras().getBoolean("fromStockReport");
-        if(fromStockReport==true){
-            title="Stock Reports";
-        }*/
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        long date = System.currentTimeMillis();
+        String dateString = dateFormatter.format(date);
+        mDate_select.setText(dateString);
+        setDateField();
         initActionbar();
     }
 
@@ -137,6 +153,7 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
+            appUser.stock_in_hand_date = mDate_select.getText().toString();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
         } else {
@@ -165,6 +182,8 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     public void getTransactionStockInHand(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            appUser.stock_in_hand_date = "";
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             listDataHeader = new ArrayList<>();
             listDataChild = new HashMap<String, List<String>>();
             // listDataChildAmount = new HashMap<Integer, List<String>>();
@@ -316,5 +335,62 @@ public class TransactionStockInHandActivity extends AppCompatActivity{
     protected void onStop() {
         EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+    private void setDateField() {
+        mDate_select.setOnClickListener(this);
+        mCalender_Icon.setOnClickListener(this);
+
+        final Calendar newCalendar = Calendar.getInstance();
+
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        String dateString = sdf.format(date);
+
+        DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String date1 = dateFormatter.format(newDate.getTime());
+                String date = mDate_select.getText().toString();
+                mDate_select.setText(date1);
+
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(TransactionStockInHandActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    appUser.stock_in_hand_date = mDate_select.getText().toString();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mDate_select || view==mCalender_Icon) {
+            DatePickerDialog1.show();
+        }
     }
 }
