@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
@@ -46,6 +47,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdf
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 
+import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
@@ -134,7 +136,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     public String party_id = "";
     WebView mPdf_webview;
     Bitmap photo;
-    Boolean fromsalelist;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit=false;
@@ -1329,8 +1330,13 @@ public class CreateSaleVoucherFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
-            Intent intent = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
-            startActivity(intent);
+            if (SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+                Intent intent = new Intent(getApplicationContext(),SaleVouchersItemDetailsListActivity.class);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(getApplicationContext(),GetSaleVoucherListActivity.class);
+                startActivity(intent);
+            }
         }
         else {
             snackbar = Snackbar

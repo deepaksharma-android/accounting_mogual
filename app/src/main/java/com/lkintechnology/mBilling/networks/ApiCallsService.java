@@ -566,6 +566,8 @@ public class ApiCallsService extends IntentService {
         }else if (Cv.ACTION_GET_SALE_VOUCHERS_ITEM_DETAILS.equals(action)) {
             handleGetSaleVouchersItemDetails();
         }else if (Cv.ACTION_GET_PURCHASE_VOUCHERS_ITEM.equals(action)) {
+            handleGetPurchaseVouchersItem();
+        }else if (Cv.ACTION_GET_PURCHASE_VOUCHERS_ITEM_DETAILS.equals(action)) {
             handleGetPurchaseVouchersItemDetails();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
@@ -4611,7 +4613,7 @@ public class ApiCallsService extends IntentService {
         });
     }
 
-    private void handleGetPurchaseVouchersItemDetails() {
+    private void handleGetPurchaseVouchersItem() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.getPurchaseVouchersItem(Preferences.getInstance(getApplicationContext()).getCid(), appUser.start_date,appUser.end_date).enqueue(new Callback<GetSaleVouchersItem>() {
             @Override
@@ -4626,6 +4628,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetSaleVouchersItem> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetPurchaseVouchersItemDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getPurchaseVouchersItmDetails(Preferences.getInstance(getApplicationContext()).getCid(), appUser.sale_voucher_item_id,appUser.start_date,appUser.end_date).enqueue(new Callback<GetPurchaseVoucherListResponse>() {
+            @Override
+            public void onResponse(Call<GetPurchaseVoucherListResponse> call, Response<GetPurchaseVoucherListResponse> r) {
+                if (r.code() == 200) {
+                    GetPurchaseVoucherListResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPurchaseVoucherListResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

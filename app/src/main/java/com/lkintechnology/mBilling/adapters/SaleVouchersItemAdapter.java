@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.PurchaseVouchersItemDetailsListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.TransactionSalesActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
@@ -135,9 +137,13 @@ public class SaleVouchersItemAdapter extends BaseExpandableListAdapter {
                 appUser = LocalRepositories.getAppUser(context);
                 appUser.sale_voucher_item_id = itemId;
                 LocalRepositories.saveAppUser(context,appUser);
-                Intent intent = new Intent(context,SaleVouchersItemDetailsListActivity.class);
-                intent.putExtra("isFromTransactionSaleActivity",true);
-                context.startActivity(intent);
+                if (TransactionSalesActivity.isBoolForAdapter){
+                    Intent intent = new Intent(context,SaleVouchersItemDetailsListActivity.class);
+                    context.startActivity(intent);
+                }else {
+                    Intent intent = new Intent(context,PurchaseVouchersItemDetailsListActivity.class);
+                    context.startActivity(intent);
+                }
             }
         });
 

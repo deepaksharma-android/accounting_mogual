@@ -50,6 +50,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.PurchaseVouchersItemDetailsListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
@@ -1230,7 +1231,11 @@ public class CreatePurchaseFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
+            if(PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+                startActivity(new Intent(getApplicationContext(), PurchaseVouchersItemDetailsListActivity.class));
+            }else {
+                startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
+            }
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);

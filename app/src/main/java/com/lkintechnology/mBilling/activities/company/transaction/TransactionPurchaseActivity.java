@@ -81,6 +81,7 @@ public class TransactionPurchaseActivity extends RegisterAbstractActivity implem
 
         ButterKnife.bind(this);
         initActionbar();
+        TransactionSalesActivity.isBoolForAdapter = false;
         appUser=LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();

@@ -74,6 +74,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
     HashMap<Integer, List<String>> listDataChildId;
     List<String> name;
     List<String> id;
+    public static boolean isBoolForAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
 
         ButterKnife.bind(this);
         initActionbar();
+        isBoolForAdapter = true;
         appUser=LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();

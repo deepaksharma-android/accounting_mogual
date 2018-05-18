@@ -83,7 +83,6 @@ public class CreateSaleActivity extends AppCompatActivity {
             title = "EDIT SALE VOUCHER";
         }
 
-
         initActionbar();
 
         setupViewPager(mHeaderViewPager);
@@ -180,9 +179,10 @@ public class CreateSaleActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action, menu);
-
+       if (!SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+           MenuInflater menuInflater = getMenuInflater();
+           menuInflater.inflate(R.menu.activity_list_button_action, menu);
+       }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -197,11 +197,17 @@ public class CreateSaleActivity extends AppCompatActivity {
                 finish();
                 return true;
             case android.R.id.home:
-
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+                    Intent intent = new Intent(this, SaleVouchersItemDetailsListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

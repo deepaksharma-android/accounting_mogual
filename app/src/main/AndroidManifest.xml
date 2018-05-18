@@ -728,6 +728,11 @@
             android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.PurchaseVouchersItemDetailsListActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionPurchaseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />

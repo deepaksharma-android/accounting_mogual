@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.BaseActivityCompany;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.PurchaseVouchersItemDetailsListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.bankcasedeposit.CreateBankCaseDepositActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.bankcasewithdraw.CreateBankCaseWithdrawActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem.CreateCreditNoteWoActivity;
@@ -114,7 +116,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
 
         context = TransactionDashboardActivity.this;
-
+        SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
+        PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
         appUser = LocalRepositories.getAppUser(context);
         appUser.transport_details.clear();
         appUser.sale_item_serial_arr.clear();

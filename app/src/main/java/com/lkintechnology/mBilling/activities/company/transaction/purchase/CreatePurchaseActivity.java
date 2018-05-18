@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.PurchaseVouchersItemDetailsListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.purchase.AddItemPurchaseFragment;
 import com.lkintechnology.mBilling.fragments.transaction.purchase.CreatePurchaseFragment;
@@ -162,8 +164,10 @@ public class CreatePurchaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+        if (!PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.activity_list_button_action,menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -173,14 +177,22 @@ public class CreatePurchaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.icon_id:
                 Intent i = new Intent(getApplicationContext(),GetPurchaseListActivity.class);
+                PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
                 startActivity(i);
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+                    Intent intent = new Intent(this, PurchaseVouchersItemDetailsListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -189,11 +201,17 @@ public class CreatePurchaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+            Intent intent = new Intent(this, PurchaseVouchersItemDetailsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
