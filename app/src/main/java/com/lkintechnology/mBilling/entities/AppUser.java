@@ -354,6 +354,7 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String bank_cash_deposit_attachment="";
     public String start_date="";
     public String end_date="";
+    public String sale_voucher_item_id="";
     public String delete_bank_cash_deposit_id;
     public String delete_sale_voucher_id;
     public String delete_sale_return_voucher_id;

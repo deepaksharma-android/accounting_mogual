@@ -196,6 +196,7 @@ public interface Cv {
     String ACTION_GET_PDF= "action_get_pdf";
     String ACTION_GET_BALANCE_SHEET_PDF = "action_get_balance_sheet_pdf";
     String ACTION_GET_SALE_VOUCHERS_ITEM = "action_get_sale_vouchers_item";
+    String ACTION_GET_SALE_VOUCHERS_ITEM_DETAILS= "action_get_sale_voucher_item_details";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;

@@ -718,6 +718,11 @@
             android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.SaleVouchersItemDetailsListActivity"
+            android:parentActivityName=".activities.company.transaction.TransactionSalesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />

@@ -10,19 +10,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -31,20 +25,13 @@ import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 
 import com.lkintechnology.mBilling.adapters.SaleVouchersItemAdapter;
-import com.lkintechnology.mBilling.adapters.TransactionSalesAdapter;
-import com.lkintechnology.mBilling.adapters.TransactionStockInHandAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
-import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
-import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevouchersitem.GetSaleVouchersItem;
 import com.lkintechnology.mBilling.utils.Cv;
-import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
-import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
@@ -133,7 +120,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         //Spinner spinner = (Spinner) viewActionBar.findViewById(R.id.dashboard_spinner1);
        // spinner.setVisibility(View.VISIBLE);
-        actionbarTitle.setText("Sales");
+        actionbarTitle.setText("Sale Vouchers Item");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -228,7 +215,8 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
                     }
                     name.add(response.getGrouped_items().get(i).getItems().get(j).getName()
                             + "," + String.valueOf(totalstockprice)
-                            + "," + String.valueOf(totalstockquantity));
+                            + "," + String.valueOf(totalstockquantity)
+                            + "," + response.getGrouped_items().get(i).getItems().get(j).getId());
                     id.add(response.getGrouped_items().get(i).getItems().get(j).getId());
                 }
                 listDataChild.put(listDataHeader.get(i), name);

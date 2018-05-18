@@ -1,15 +1,20 @@
 package com.lkintechnology.mBilling.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +25,7 @@ public class SaleVouchersItemAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> _listDataHeader;
     private HashMap<String,List<String>> _listDataChild;
+    AppUser appUser;
 
     public SaleVouchersItemAdapter(Context context, List<String> _listDataHeader, HashMap<String,List<String>> _listDataChild){
 
@@ -106,6 +112,7 @@ public class SaleVouchersItemAdapter extends BaseExpandableListAdapter {
        // String undefined=strArr[1];
         String amount = strArr[1];
         String quantity =strArr[2];
+        String itemId =strArr[3];
 
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -120,32 +127,17 @@ public class SaleVouchersItemAdapter extends BaseExpandableListAdapter {
         lblListItem2.setText("₹ " +String.format("%.2f", Double.valueOf(amount)));
         lblListItem3.setText("qty: " + quantity);
 
-      /*  LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
-        LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);*/
+        LinearLayout mMainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
 
-       /* if (undefined.equals("true")) {
-            delete.setVisibility(View.VISIBLE);
-            edit.setVisibility(View.VISIBLE);
-        } else {
-            delete.setVisibility(View.GONE);
-            edit.setVisibility(View.GONE);
-        }*/
-
-      /*  delete.setOnClickListener(new View.OnClickListener() {
+        mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String id = groupPosition + "," +childPosititon;
-                EventBus.getDefault().post(new EventDeleteItem(id));
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(context);
+                appUser.sale_voucher_item_id = itemId;
+                LocalRepositories.saveAppUser(context,appUser);
+                context.startActivity(new Intent(context, SaleVouchersItemDetailsListActivity.class));
             }
         });
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = groupPosition + "," + childPosititon;
-                EventBus.getDefault().post(new EventEditItem(id));
-            }
-        });*/
 
         return convertView;
     }
