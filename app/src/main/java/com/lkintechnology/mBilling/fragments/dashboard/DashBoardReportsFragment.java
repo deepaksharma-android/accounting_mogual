@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionExpensesActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.TransactionPurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionSalesActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -37,8 +38,12 @@ public class DashBoardReportsFragment extends Fragment {
 
     @Bind(R.id.layout_sale)
     LinearLayout mSales_layout;
+    @Bind(R.id.layout_purchase)
+    LinearLayout mPurchase_layout;
     @Bind(R.id.layout_expense)
     LinearLayout mExpenses_layout;
+    @Bind(R.id.textview_purchase)
+    TextView mtextview_purchase;
     @Bind(R.id.textview_sale)
     TextView mtextview_sales;
     @Bind(R.id.textview_expenses)
@@ -110,6 +115,16 @@ public class DashBoardReportsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        mPurchase_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //appUser.duration_spinner ="Today";
+                Intent intent = new Intent(getActivity(), TransactionPurchaseActivity.class);
+                DashBoardReportsFragment.isDirectForFirstPage=false;
+                startActivity(intent);
+            }
+        });
+
         mExpenses_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

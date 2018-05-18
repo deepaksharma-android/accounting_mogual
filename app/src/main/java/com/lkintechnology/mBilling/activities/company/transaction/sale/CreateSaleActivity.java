@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
@@ -191,6 +192,7 @@ public class CreateSaleActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.icon_id:
                 Intent i = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
                 startActivity(i);
                 finish();
                 return true;
@@ -208,10 +210,17 @@ public class CreateSaleActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+            Intent intent = new Intent(this, SaleVouchersItemDetailsListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
 

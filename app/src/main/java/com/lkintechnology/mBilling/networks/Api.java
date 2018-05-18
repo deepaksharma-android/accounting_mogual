@@ -716,4 +716,8 @@ public interface Api {
 
     @GET("sale_voucher_item_details/{id}")
     Call<GetSaleVoucherListResponse> getsaleVouchersItmDetails(@Path("id") String id, @Query("item_id") String item_id,@Query("start_date") String start_date, @Query("end_date") String end_date);
+
+    @GET("get_purchase_vouchers/{id}")
+    Call<GetSaleVouchersItem> getPurchaseVouchersItem(@Path("id") String id, @Query("start_date") String start_date,@Query("end_date") String end_date);
+
 }

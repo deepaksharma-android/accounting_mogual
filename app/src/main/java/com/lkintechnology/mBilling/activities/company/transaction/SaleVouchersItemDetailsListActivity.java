@@ -62,6 +62,7 @@ public class SaleVouchersItemDetailsListActivity extends RegisterAbstractActivit
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    public static boolean isFromTransactionSaleActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class SaleVouchersItemDetailsListActivity extends RegisterAbstractActivit
         ButterKnife.bind(this);
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
+        isFromTransactionSaleActivity =true;
 
     }
 

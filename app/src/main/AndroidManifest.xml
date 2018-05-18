@@ -539,7 +539,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.transaction.TransactionSalesActivity"
-            android:parentActivityName=".activities.company.transaction.TransactionCashInHandActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -721,6 +721,11 @@
         <activity
             android:name=".activities.company.transaction.SaleVouchersItemDetailsListActivity"
             android:parentActivityName=".activities.company.transaction.TransactionSalesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.TransactionPurchaseActivity"
+            android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

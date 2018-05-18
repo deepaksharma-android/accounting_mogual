@@ -20,7 +20,7 @@
             style="@style/Gotham_Medium"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.35"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="#000" />
@@ -31,7 +31,7 @@
             style="@style/Gotham_Medium"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.25"
             android:layout_marginLeft="5dp"
             android:textSize="15sp"
             android:textColor="#000" />

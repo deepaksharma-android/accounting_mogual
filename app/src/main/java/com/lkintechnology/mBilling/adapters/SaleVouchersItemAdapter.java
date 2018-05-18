@@ -135,7 +135,9 @@ public class SaleVouchersItemAdapter extends BaseExpandableListAdapter {
                 appUser = LocalRepositories.getAppUser(context);
                 appUser.sale_voucher_item_id = itemId;
                 LocalRepositories.saveAppUser(context,appUser);
-                context.startActivity(new Intent(context, SaleVouchersItemDetailsListActivity.class));
+                Intent intent = new Intent(context,SaleVouchersItemDetailsListActivity.class);
+                intent.putExtra("isFromTransactionSaleActivity",true);
+                context.startActivity(intent);
             }
         });
 
