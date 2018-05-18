@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,13 +30,17 @@ import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 
+import com.lkintechnology.mBilling.adapters.SaleVouchersItemAdapter;
 import com.lkintechnology.mBilling.adapters.TransactionSalesAdapter;
+import com.lkintechnology.mBilling.adapters.TransactionStockInHandAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevouchersitem.GetSaleVouchersItem;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -45,6 +50,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -54,15 +61,11 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    RecyclerView.LayoutManager layoutManager;
-    TransactionSalesAdapter mAdapter;
-    @Bind(R.id.sale_type_list_recycler_view)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.lvExp)
+    ExpandableListView expListView;
     @Bind(R.id.dashboard_spinner_layout)
     LinearLayout dashboardSpinnerLayout;
-    @Bind(R.id.dashboard_spinner)
-    Spinner dashboardSpinner;
-    ArrayList<String> cashInHand = new ArrayList<>();
+    SaleVouchersItemAdapter listAdapter;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
@@ -79,6 +82,11 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+    HashMap<Integer, List<String>> listDataChildId;
+    List<String> name;
+    List<String> id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,77 +105,6 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-        String fixMonth = "Apr";
-        int inputMonthPosition = inputMonthPosition(fixMonth);
-        int currentMonthPosition = currentMonth();
-        int currentYear = currentYear();
-
-        cashInHand.add("Today");
-        cashInHand.add("Last 7 days");
-
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
-                cashInHand.add(monthName[i] + " " + currentYear);
-            }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
-            }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
-
-                cashInHand.add(monthName[i] + " " + currentYear);
-             }
-        }
-        /*ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, cashInHand);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dashboardSpinner.setAdapter(dataAdapter);*/
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                R.layout.layout_date_spinner_textview, cashInHand);
-        dataAdapter.setDropDownViewResource(R.layout.layout_date_spinner_dropdown_item);
-        dashboardSpinner.setAdapter(dataAdapter);
-
-        dashboardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.sales_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(TransactionSalesActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
-                } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
-                                    }
-                                }
-                            });
-                    snackbar.show();
-                }
-
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         date_from_to.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +116,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_transaction_month_year;
+        return R.layout.activity_sale_vouchers_item_list;
     }
 
     private void initActionbar() {
@@ -203,40 +140,6 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-    }
-
-    String[] monthName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-            "Aug", "Sep", "Oct", "Nov", "Dec"};
-
-    private int currentMonth() {
-        int monthPosition = -1;
-        Calendar cal = Calendar.getInstance();
-        String currentMonth = monthName[cal.get(Calendar.MONTH)];
-        //String currentYear = monthName[cal.get(Calendar.YEAR)];
-
-        for (int i = 0; i < 12; i++) {
-            if (currentMonth == (monthName[i])) {
-                monthPosition = i;
-            }
-        }
-        return monthPosition;
-    }
-
-    private int currentYear() {
-
-        Calendar cal = Calendar.getInstance();
-        int currentYear = cal.get(Calendar.YEAR);
-        return currentYear;
-    }
-
-    private int inputMonthPosition(String month) {
-        int inputMonth = -1;
-        for (int i = 0; i < 12; i++) {
-            if (month.equals(monthName[i])) {
-                inputMonth = i;
-            }
-        }
-        return inputMonth;
     }
 
     @Override
@@ -264,7 +167,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHERS_ITEM);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -291,74 +194,53 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
     }
 
     @Subscribe
-    public void getSaleVoucher(GetSaleVoucherListResponse response){
+    public void getSaleVouchersItem(GetSaleVouchersItem response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
-            mRecyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new TransactionSalesAdapter(this,response.getSale_vouchers().data);
-            mRecyclerView.setAdapter(mAdapter);
-            Double total=0.0;
-            for(int i=0;i<response.getSale_vouchers().getData().size();i++){
-                total=total+response.getSale_vouchers().getData().get(i).getAttributes().getTotal_amount();
-
+            listDataHeader = new ArrayList<>();
+            listDataChild = new HashMap<String, List<String>>();
+            // listDataChildAmount = new HashMap<Integer, List<String>>();
+            listDataChildId = new HashMap<Integer, List<String>>();
+            if (response.getGrouped_items().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
             }
-            mTotal.setText("Total: "+String.format("%.2f",total));
+            for (int i = 0; i < response.getGrouped_items().size(); i++) {
+                listDataHeader.add(response.getGrouped_items().get(i).getGroup_name()
+                        +","+String.valueOf(response.getGrouped_items().get(i).getTotal_amount())
+                        +","+String.valueOf(response.getGrouped_items().get(i).getTotal_quantity()));
+                name = new ArrayList<>();
+                //amount = new ArrayList<>();
+                id = new ArrayList<>();
+                Double totalstockprice;
+                int totalstockquantity;
+                for (int j = 0; j < response.getGrouped_items().get(i).getItems().size(); j++) {
+                    if(response.getGrouped_items().get(i).getItems().get(j).getAmount()!=null){
+                        totalstockprice=response.getGrouped_items().get(i).getItems().get(j).getAmount();
+                    }
+                    else{
+                        totalstockprice=0.0;
+                    }
+                    if(String.valueOf(response.getGrouped_items().get(i).getItems().get(j).getQuantity())!=null){
+                        totalstockquantity=response.getGrouped_items().get(i).getItems().get(j).getQuantity();
+                    }
+                    else{
+                        totalstockquantity=0;
+                    }
+                    name.add(response.getGrouped_items().get(i).getItems().get(j).getName()
+                            + "," + String.valueOf(totalstockprice)
+                            + "," + String.valueOf(totalstockquantity));
+                    id.add(response.getGrouped_items().get(i).getItems().get(j).getId());
+                }
+                listDataChild.put(listDataHeader.get(i), name);
+                listDataChildId.put(i, id);
+            }
+            listAdapter = new SaleVouchersItemAdapter(this, listDataHeader, listDataChild);
+
+            // setting list adapter
+            expListView.setAdapter(listAdapter);
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Subscribe
-    public void deletesalevoucher(EventDeleteSaleVoucher pos){
-        appUser.delete_sale_voucher_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
-        new AlertDialog.Builder(TransactionSalesActivity.this)
-                .setTitle("Delete Sale Voucher")
-                .setMessage("Are you sure you want to delete this Record ?")
-                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
-                        mProgressDialog = new ProgressDialog(TransactionSalesActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_SALE_VOUCHER);
-                    }
-                    else{
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
-                                            snackbar.dismiss();
-                                        }
-                                    }
-                                });
-                        snackbar.show();
-                    }
-                })
-                .setNegativeButton(R.string.btn_cancel, null)
-                .show();
-    }
-
-    @Subscribe
-    public void deletesalevoucherresponse(DeleteSaleVoucherResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -428,7 +310,7 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHERS_ITEM);
                 } else {
                     snackbar = Snackbar
                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)

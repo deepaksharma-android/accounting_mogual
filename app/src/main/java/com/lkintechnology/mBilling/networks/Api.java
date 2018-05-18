@@ -159,6 +159,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVouc
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevouchersitem.GetSaleVouchersItem;
 import com.lkintechnology.mBilling.networks.api_response.serialnumber.SerialNumberReferenceResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
@@ -710,5 +711,7 @@ public interface Api {
     @GET("company/item_wise_report/{item_id}")
     Call<ItemWiseReportResponse> getItemWiseReport(@Path("item_id") String item_id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("sale_vouchers/{id}")
+    Call<GetSaleVouchersItem> getSaleVouchersItem(@Path("id") String id, @Query("start_date") String start_date,@Query("end_date") String end_date);
 
 }

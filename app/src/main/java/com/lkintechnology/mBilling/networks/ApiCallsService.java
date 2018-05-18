@@ -167,6 +167,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevouchersitem.GetSaleVouchersItem;
 import com.lkintechnology.mBilling.networks.api_response.serialnumber.SerialNumberReferenceResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.CreateStockTransferResponse;
 import com.lkintechnology.mBilling.networks.api_response.stocktransfer.DeleteStockTransferResponse;
@@ -560,6 +561,8 @@ public class ApiCallsService extends IntentService {
             handleGetBalanceSheetPdf();
         }else if (Cv.ACTION_GET_ITEM_WISE_REPORT.equals(action)) {
             handleGetItemWiseReport();
+        }else if (Cv.ACTION_GET_SALE_VOUCHERS_ITEM.equals(action)) {
+            handleGetSaleVouchersItem();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
@@ -4547,6 +4550,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<ItemWiseReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetSaleVouchersItem() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getSaleVouchersItem(Preferences.getInstance(getApplicationContext()).getCid(), appUser.start_date,appUser.end_date).enqueue(new Callback<GetSaleVouchersItem>() {
+            @Override
+            public void onResponse(Call<GetSaleVouchersItem> call, Response<GetSaleVouchersItem> r) {
+                if (r.code() == 200) {
+                    GetSaleVouchersItem body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSaleVouchersItem> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {
