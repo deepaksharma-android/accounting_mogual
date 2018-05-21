@@ -294,6 +294,9 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity implem
             appUser.start_date="";
             appUser.end_date="";
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            if (response.getExpenses().getData().size() == 0) {
+                Snackbar.make(coordinatorLayout, "No Vouchers Found!!", Snackbar.LENGTH_LONG).show();
+            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

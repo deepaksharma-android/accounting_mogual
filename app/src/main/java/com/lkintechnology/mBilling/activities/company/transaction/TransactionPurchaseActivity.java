@@ -87,8 +87,13 @@ public class TransactionPurchaseActivity extends RegisterAbstractActivity implem
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
-        start_date.setText(dateString);
-        end_date.setText(dateString);
+        if (!appUser.start_date.equals("") && !appUser.end_date.equals("")){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);

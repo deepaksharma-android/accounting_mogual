@@ -160,6 +160,8 @@ public class Preferences {
     private static final String cash_credit="cash_credit";
     private static final String paid_to="paid_to";
     private static final String paid_from="paid_from";
+    private static final String start_date="start_date";
+    private static final String end_date="end_date";
 
     private Preferences(Context context) {
         this._context = context;
@@ -1244,6 +1246,24 @@ public class Preferences {
 
     public String getPaid_from() {
         return pref.getString(paid_from, "");
+    }
+
+    public void setStart_date(String startDate) {
+        editor.putString(start_date, startDate);
+        editor.commit();
+    }
+
+    public String getStart_date() {
+        return pref.getString(start_date, "");
+    }
+
+    public void setEnd_date(String endDate) {
+        editor.putString(end_date, endDate);
+        editor.commit();
+    }
+
+    public String getEnd_date() {
+        return pref.getString(end_date, "");
     }
 
 

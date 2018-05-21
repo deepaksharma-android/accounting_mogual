@@ -112,6 +112,9 @@ public class DashBoardReportsFragment extends Fragment {
                 //appUser.duration_spinner ="Today";
                 Intent intent = new Intent(getActivity(), TransactionSalesActivity.class);
                 DashBoardReportsFragment.isDirectForFirstPage=false;
+                appUser.start_date = "";
+                appUser.end_date = "";
+                LocalRepositories.saveAppUser(getActivity(),appUser);
                 startActivity(intent);
             }
         });
@@ -121,6 +124,9 @@ public class DashBoardReportsFragment extends Fragment {
                 //appUser.duration_spinner ="Today";
                 Intent intent = new Intent(getActivity(), TransactionPurchaseActivity.class);
                 DashBoardReportsFragment.isDirectForFirstPage=false;
+                appUser.start_date = "";
+                appUser.end_date = "";
+                LocalRepositories.saveAppUser(getActivity(),appUser);
                 startActivity(intent);
             }
         });
