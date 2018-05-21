@@ -698,6 +698,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     @Override
     public void onPause() {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
+        Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();

@@ -5,6 +5,15 @@ public class GetTransactionPdfResponse {
     public String message;
     public int status;
     public String company_report;
+    public String html;
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
 
     public String getCompany_report() {
         return company_report;

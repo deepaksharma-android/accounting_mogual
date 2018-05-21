@@ -81,16 +81,25 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
         setDateField();
-        mItem_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ExpandableItemListActivity.comingFrom = 5;
-                ExpandableItemListActivity.isDirectForItem = false;
-                Intent i = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
-                startActivityForResult(i, 2);
-            }
-        });
+        boolean from_stock_in_hand = getIntent().getBooleanExtra("from_stock_in_hand",false);
+        if (from_stock_in_hand){
+            String name = getIntent().getStringExtra("name");
+            String item_id = getIntent().getStringExtra("item_id");
+            mItem_textView.setText(name);
+            appUser.pdf_account_id = item_id;
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        }else {
+            mItem_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ExpandableItemListActivity.comingFrom = 5;
+                    ExpandableItemListActivity.isDirectForItem = false;
+                    Intent i = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
+                    startActivityForResult(i, 2);
+                }
+            });
+        }
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

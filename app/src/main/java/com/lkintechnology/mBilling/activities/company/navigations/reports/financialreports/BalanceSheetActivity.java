@@ -212,7 +212,7 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
-            String company_report = response.getCompany_report();
+            String company_report = response.getHtml();
             i.putExtra("company_report",company_report);
             startActivity(i);
             finish();

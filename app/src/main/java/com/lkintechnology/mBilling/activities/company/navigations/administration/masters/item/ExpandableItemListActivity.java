@@ -996,6 +996,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 String item = arr1[0];
                 intent.putExtra("item_id", itemid);
                 intent.putExtra("name", itemName);
+                intent.putExtra("from_stock_in_hand", false);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
