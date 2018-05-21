@@ -180,6 +180,8 @@ public class TransactionSalesActivity extends RegisterAbstractActivity implement
         super.onResume();
     }
 
+
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, FirstPageActivity.class);

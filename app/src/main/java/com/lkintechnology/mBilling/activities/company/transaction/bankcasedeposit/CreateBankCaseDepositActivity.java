@@ -4,12 +4,10 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,7 +23,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,6 +53,7 @@ import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.EditBan
 import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
+import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -121,6 +119,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
+    public static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +134,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         setDateField();
         appUser.voucher_type = "Bank Cash Deposit";
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+        //ImagePicker.setMinQuality(600, 600);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.list_button);
@@ -207,10 +208,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
-
             }
         });
 
@@ -462,10 +460,13 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         myAlertDialog.setNegativeButton("Gallary",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-
-                        Intent intGallery = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
+                        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        getIntent.setType("image/*");
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        pickIntent.setType("image/*");
+                       /* Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});*/
+                        startActivityForResult(pickIntent, Cv.REQUEST_GALLERY);
 
                     }
                 });
@@ -517,32 +518,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             deposit_by.setText(name[0]);
         }
 
-       /* if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                mSelectedImage.setVisibility(View.VISIBLE);
-                mSelectedImage.setImageURI(selectedImageUri);
-                try {
-                    inputStream = new FileInputStream(selectedImagePath);
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    try {
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            output.write(buffer, 0, bytesRead);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    bytes = output.toByteArray();
-                    encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }*/
-
         if (resultCode == RESULT_OK) {
             photo = null;
             switch (requestCode) {
@@ -561,7 +536,20 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     break;
 
                 case Cv.REQUEST_GALLERY:
-                    try{
+                    try {
+                        imageToUploadUri = data.getData();
+                        photo = ImagePicker.getImageFromResult(getApplicationContext(), resultCode, data);
+                        if (photo != null) {
+                            mSelectedImage.setVisibility(View.VISIBLE);
+                            encodedString = Helpers.bitmapToBase64(photo);
+                            mSelectedImage.setImageBitmap(photo);
+                            break;
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                  /*  try{
                         imageToUploadUri= data.getData();
                         photo = Helpers.selectAttachmentUniversal(getApplicationContext(),data);
                         encodedString = Helpers.bitmapToBase64(photo);
@@ -570,7 +558,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                         break;
                     }catch (Exception e){
                         e.printStackTrace();
-                    }
+                    }*/
 
                    /* try {
                         imageToUploadUri= data.getData();

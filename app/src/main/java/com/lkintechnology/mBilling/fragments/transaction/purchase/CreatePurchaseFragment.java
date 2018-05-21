@@ -62,6 +62,7 @@ import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchase
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
+import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -670,17 +671,16 @@ public class CreatePurchaseFragment extends Fragment {
                 break;
 
             case Cv.REQUEST_GALLERY:
-
                 try {
                     imageToUploadUri = data.getData();
-                    photo = MediaStore.Images.Thumbnails.getThumbnail(getActivity().getContentResolver(),
-                            ContentUris.parseId(data.getData()),
-                            MediaStore.Images.Thumbnails.MINI_KIND, null);
-                    encodedString = Helpers.bitmapToBase64(photo);
-                    mSelectedImage.setVisibility(View.VISIBLE);
-                    mSelectedImage.setImageBitmap(photo);
-                    break;
-                } catch (Exception e) {
+                    photo = ImagePicker.getImageFromResult(getApplicationContext(), resultCode, data);
+                    if (photo != null) {
+                        mSelectedImage.setVisibility(View.VISIBLE);
+                        encodedString = Helpers.bitmapToBase64(photo);
+                        mSelectedImage.setImageBitmap(photo);
+                        break;
+                    }
+                }catch (Exception e){
                     e.printStackTrace();
                 }
         }
@@ -949,11 +949,11 @@ public class CreatePurchaseFragment extends Fragment {
         myAlertDialog.setNegativeButton("Gallary",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-
-                        Intent intGallery = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
-
+                        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        getIntent.setType("image/*");
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        pickIntent.setType("image/*");
+                        startActivityForResult(pickIntent, Cv.REQUEST_GALLERY);
                     }
                 });
         myAlertDialog.show();

@@ -177,6 +177,9 @@ public class TransactionPurchaseActivity extends RegisterAbstractActivity implem
         super.onResume();
     }
 
+
+
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, FirstPageActivity.class);

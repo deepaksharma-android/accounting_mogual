@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -54,6 +55,7 @@ import com.lkintechnology.mBilling.networks.api_response.bankcashwithdraw.EditBa
 import com.lkintechnology.mBilling.networks.api_response.bankcashwithdraw.GetBankCashWithdrawDetailsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
+import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -217,16 +219,16 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         withdraw_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.accountSwitching=1;
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.accountSwitching = 1;
                 //intStartActivityForResult = 1;
                 //ParameterConstant.checkStartActivityResultForAccount = 5;
                 appUser.account_master_group = "Bank Accounts";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 4);
             }
@@ -235,16 +237,16 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         withdraw_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.accountSwitching=2;
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.accountSwitching = 2;
                 //intStartActivityForResult = 2;
                 //ParameterConstant.checkStartActivityResultForAccount = 5;
                 appUser.account_master_group = "Cash-in-hand";
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ExpandableAccountListActivity.isDirectForAccount = false;
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent i = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
                 startActivityForResult(i, 5);
             }
@@ -254,8 +256,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Bitmap bitmap = ((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString = Helpers.bitmapToBase64(bitmap);
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
                     intent.putExtra("encodedString", encodedString);
@@ -446,10 +448,11 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
 
-                        Intent intGallery = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intGallery, Cv.REQUEST_GALLERY);
-
+                        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        getIntent.setType("image/*");
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        pickIntent.setType("image/*");
+                        startActivityForResult(pickIntent, Cv.REQUEST_GALLERY);
                     }
                 });
         myAlertDialog.show();
@@ -484,18 +487,18 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==1) {
+        if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching == 1) {
             String result = ParameterConstant.forAccountIntentName;
             String[] name = result.split(",");
             appUser.withdraw_from_id = ParameterConstant.forAccountIntentId;
-            appUser.withdraw_from_name=name[0];
+            appUser.withdraw_from_name = name[0];
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             withdraw_from.setText(name[0]);
-        }else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching==2) {
+        } else if (ParameterConstant.forAccountIntentBool && ParameterConstant.accountSwitching == 2) {
             String result = ParameterConstant.forAccountIntentName;
             String[] name = result.split(",");
             appUser.withdraw_by_id = ParameterConstant.forAccountIntentId;
-            appUser.withdraw_by_name=name[0];
+            appUser.withdraw_by_name = name[0];
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             withdraw_by.setText(name[0]);
         }
@@ -536,7 +539,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
 
                     try {
                         photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageToUploadUri);
-                        Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
+                        Bitmap im = scaleDownBitmap(photo, 100, getApplicationContext());
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
@@ -546,29 +549,28 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     break;
 
                 case Cv.REQUEST_GALLERY:
-
                     try {
-                        imageToUploadUri= data.getData();
-                        photo = MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(),
-                                ContentUris.parseId(data.getData()),
-                                MediaStore.Images.Thumbnails.MINI_KIND, null);
-                        encodedString = Helpers.bitmapToBase64(photo);
-                        mSelectedImage.setVisibility(View.VISIBLE);
-                        mSelectedImage.setImageBitmap(photo);
-                        break;
-                    } catch (Exception e) {
+                        imageToUploadUri = data.getData();
+                        photo = ImagePicker.getImageFromResult(getApplicationContext(), resultCode, data);
+                        if (photo != null) {
+                            mSelectedImage.setVisibility(View.VISIBLE);
+                            encodedString = Helpers.bitmapToBase64(photo);
+                            mSelectedImage.setImageBitmap(photo);
+                            break;
+                        }
+                    }catch (Exception e){
                         e.printStackTrace();
                     }
             }
 
             if (requestCode == 4) {
-                if (ParameterConstant.handleAutoCompleteTextView==1){
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     boolForReceivedFrom = true;
                     appUser.withdraw_from_id = ParameterConstant.id;
                     appUser.withdraw_from_name = ParameterConstant.name;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     withdraw_from.setText(ParameterConstant.name);
-                }else {
+                } else {
                     boolForReceivedFrom = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
@@ -581,13 +583,13 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 }
             }
             if (requestCode == 5) {
-                if (ParameterConstant.handleAutoCompleteTextView==1){
+                if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     boolForReceivedBy = true;
-                    appUser.withdraw_by_id =ParameterConstant. id;
+                    appUser.withdraw_by_id = ParameterConstant.id;
                     appUser.withdraw_by_name = ParameterConstant.name;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     withdraw_by.setText(ParameterConstant.name);
-                }else {
+                } else {
                     boolForReceivedBy = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
@@ -684,8 +686,9 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");;
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "bank_cash_withdraw");
+            ;
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             transaction_amount.setText("");
@@ -693,7 +696,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             withdraw_from.setText("");
             withdraw_by.setText("");
             //set_date.setText( appUser.bank_cash_withdraw_date);
-            encodedString="";
+            encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
 
@@ -702,7 +705,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(CreateBankCaseWithdrawActivity.this, TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
                        /* ProgressDialog progressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
                         progressDialog.setMessage("Please wait...");
@@ -809,10 +812,10 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_list_button_action, menu);
-        if(fromBankcashWithdraw==true){
+        if (fromBankcashWithdraw == true) {
             MenuItem item = menu.findItem(R.id.icon_id);
             item.setVisible(false);
-        }else{
+        } else {
             MenuItem item = menu.findItem(R.id.icon_id);
             item.setVisible(true);
         }
@@ -1042,14 +1045,14 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         }
     }
 
-    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+    public Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
 
         final float densityMultiplier = context.getResources().getDisplayMetrics().density;
 
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+        int h = (int) (newHeight * densityMultiplier);
+        int w = (int) (h * photo.getWidth() / ((double) photo.getHeight()));
 
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+        photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
     }
