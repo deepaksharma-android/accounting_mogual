@@ -461,6 +461,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         serial = "0";
                     } else {
                         serial = mQuantity.getText().toString();
+
                     }
 
                 } else {
