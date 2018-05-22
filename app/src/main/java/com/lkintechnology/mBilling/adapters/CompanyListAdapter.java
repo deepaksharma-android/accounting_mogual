@@ -10,8 +10,6 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,15 +25,13 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.ViewHolder> implements Filterable {
+public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.ViewHolder> {
     private ArrayList<CompanyData> data;
-    private List<CompanyData> mFilteredList;
     private Context context;
     public Dialog dialog;
     AppUser appUser;
@@ -43,7 +39,6 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
     public CompanyListAdapter(Context context, ArrayList<CompanyData> data) {
         this.data = data;
         this.context = context;
-        mFilteredList=data;
     }
 
     @Override
@@ -54,15 +49,15 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
     @Override
     public void onBindViewHolder(CompanyListAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.mCompanyName.setText(mFilteredList.get(i).getAttributes().getName()+" "+"("+mFilteredList.get(i).getAttributes().getUnique_id()+")");
-        viewHolder.mCompany_address.setText(mFilteredList.get(i).getAttributes().getAddress());
+        viewHolder.mCompanyName.setText(data.get(i).getAttributes().getName()+" "+"("+data.get(i).getAttributes().getUnique_id()+")");
+        viewHolder.mCompany_address.setText(data.get(i).getAttributes().getAddress());
         appUser=LocalRepositories.getAppUser(context);
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.company_name=mFilteredList.get(i).getAttributes().getName();
-                appUser.company_id=mFilteredList.get(i).getId();
-                Preferences.getInstance(context).setCid(mFilteredList.get(i).getId());
+                appUser.company_name=data.get(i).getAttributes().getName();
+                appUser.company_id=data.get(i).getId();
+                Preferences.getInstance(context).setCid(data.get(i).getId());
                 LocalRepositories.saveAppUser(context,appUser);
                // CompanyDashboardActivity.data = data.get(i);
                 showpopup(i);
@@ -77,45 +72,6 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
         });
 
 
-    }
-    public Filter getFilter() {
-        return new Filter(){
-
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-
-                if (charString.isEmpty()) {
-
-                    mFilteredList = data;
-                } else {
-
-                    ArrayList<CompanyData> filteredList = new ArrayList<>();
-
-                    for (CompanyData androidVersion : data) {
-
-                        if (androidVersion.getAttributes().getName().toLowerCase().contains(charString)) {
-
-                            filteredList.add(androidVersion);
-                        }
-                    }
-
-                    mFilteredList = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = mFilteredList;
-                return filterResults;
-
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults filterResults) {
-                mFilteredList = (ArrayList<CompanyData>) filterResults.values;
-                notifyDataSetChanged();
-
-            }
-        };
     }
 
     public void showpopup(int pos){
@@ -223,7 +179,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
     @Override
     public int getItemCount() {
-        return mFilteredList.size();
+        return data.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
