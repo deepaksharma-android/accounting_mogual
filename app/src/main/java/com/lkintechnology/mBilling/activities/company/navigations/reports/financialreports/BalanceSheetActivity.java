@@ -215,7 +215,6 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
             String company_report = response.getHtml();
             i.putExtra("company_report",company_report);
             startActivity(i);
-            finish();
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
