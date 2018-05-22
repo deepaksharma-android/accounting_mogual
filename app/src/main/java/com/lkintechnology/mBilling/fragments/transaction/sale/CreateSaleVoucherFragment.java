@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,6 +46,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 
@@ -236,6 +239,12 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
+            //photo = Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment());
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
+        System.out.println("pcccc create "+Preferences.getInstance(getContext()).getAttachment());
 
         if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
@@ -349,12 +358,18 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    /*Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
+
+                   /* Drawable dr = ((ImageView) mSelectedImage).getDrawable();
+                    Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
+
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
                     intent.putExtra("encodedString", encodedString);
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
@@ -701,6 +716,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
+        System.out.println("pcccccc pause "+Preferences.getInstance(getActivity()).getAttachment());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -764,6 +780,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mSelectedImage.setImageBitmap(im);
                     mSelectedImage.setRotation(-90);
                     encodedString = Helpers.bitmapToBase64(im);
+                    Preferences.getInstance(getContext()).setAttachment(encodedString);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -776,6 +793,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                     if (photo != null) {
                         mSelectedImage.setVisibility(View.VISIBLE);
                         encodedString = Helpers.bitmapToBase64(photo);
+                        Preferences.getInstance(getContext()).setAttachment(encodedString);
+                        TransactionDashboardActivity.bitmapPhoto = photo;
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
@@ -943,6 +962,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
             appUser.transport_details.clear();
+            Preferences.getInstance(getContext()).setAttachment("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -1134,6 +1154,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             LocalRepositories.saveAppUser(getActivity(),appUser);
             if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
+                Preferences.getInstance(getContext()).setAttachment(response.getSale_voucher().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
@@ -1319,6 +1340,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             Preferences.getInstance(getActivity()).setUpdate("");
             Preferences.getInstance(getContext()).setMobile("");
             Preferences.getInstance(getContext()).setNarration("");
+            Preferences.getInstance(getContext()).setAttachment("");
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

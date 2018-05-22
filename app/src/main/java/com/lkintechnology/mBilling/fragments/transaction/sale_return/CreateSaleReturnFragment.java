@@ -49,6 +49,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.purchasetype.PurchaseTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
@@ -229,6 +230,10 @@ public class CreateSaleReturnFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
         if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
@@ -330,12 +335,13 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                   /* Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
                     intent.putExtra("encodedString", encodedString);
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
@@ -709,6 +715,7 @@ public class CreateSaleReturnFragment extends Fragment {
                     mSelectedImage.setVisibility(View.VISIBLE);
                     mSelectedImage.setImageBitmap(im);
                     encodedString = Helpers.bitmapToBase64(im);
+                    Preferences.getInstance(getContext()).setAttachment(encodedString);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -721,6 +728,8 @@ public class CreateSaleReturnFragment extends Fragment {
                     if (photo != null) {
                         mSelectedImage.setVisibility(View.VISIBLE);
                         encodedString = Helpers.bitmapToBase64(photo);
+                        TransactionDashboardActivity.bitmapPhoto = photo;
+                        Preferences.getInstance(getContext()).setAttachment(encodedString);
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
@@ -923,7 +932,8 @@ public class CreateSaleReturnFragment extends Fragment {
                mVchNumber.setText("");
                mNarration.setText("");
                encodedString="";
-               mSelectedImage.setImageDrawable(null);
+            Preferences.getInstance(getContext()).setAttachment("");
+            mSelectedImage.setImageDrawable(null);
                mSelectedImage.setVisibility(View.GONE);
                appUser.mListMapForItemSaleReturn.clear();
                appUser.mListMapForBillSaleReturn.clear();
@@ -1106,6 +1116,7 @@ public class CreateSaleReturnFragment extends Fragment {
             LocalRepositories.saveAppUser(getActivity(),appUser);
             if (!Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
+                Preferences.getInstance(getContext()).setAttachment(response.getSale_return_voucher().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
@@ -1266,12 +1277,12 @@ public class CreateSaleReturnFragment extends Fragment {
     public void updatepurchasereturnvoucher(UpdateSaleReturnResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+           // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
             Preferences.getInstance(getActivity()).setUpdate("");
             Preferences.getInstance(getContext()).setMobile("");
             Preferences.getInstance(getContext()).setNarration("");
+            Preferences.getInstance(getContext()).setAttachment("");
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

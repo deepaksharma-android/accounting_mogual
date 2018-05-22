@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.activities.company.transaction;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.net.Uri;
@@ -15,7 +16,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
 import com.lkintechnology.mBilling.utils.Helpers;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -31,6 +35,7 @@ public class ImageOpenActivity extends AppCompatActivity {
     ImageView mImageOpen;
     String encodedString, title;
     public Boolean boolAttachment;
+    public Boolean bitmapPhotos=false;
     private static final String TAG = "Touch";
     private static final float MIN_ZOOM = 1.0f, MAX_ZOOM = 1f;
 
@@ -86,9 +91,14 @@ public class ImageOpenActivity extends AppCompatActivity {
         } else {
 
             encodedString = intent.getStringExtra("encodedString");
+            bitmapPhotos = intent.getBooleanExtra("bitmapPhotos",false);
             boolean b=intent.getBooleanExtra("iEncodedString",false);
             if (b){
-                mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
+                if (bitmapPhotos){
+                    mImageOpen.setImageBitmap(TransactionDashboardActivity.bitmapPhoto);
+                }else {
+                    mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
+                }
             }else {
                 mImageOpen.setImageURI(Uri.parse(encodedString));
             }
