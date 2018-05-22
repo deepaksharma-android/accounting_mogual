@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:text="Amount Payble"
+                        android:text="Amount Payable"
                         android:textColor="@color/black" />
 
 
@@ -448,8 +448,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:text="Sale Report"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout

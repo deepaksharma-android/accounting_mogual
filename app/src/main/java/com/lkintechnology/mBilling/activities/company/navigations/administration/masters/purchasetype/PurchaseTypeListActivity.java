@@ -230,17 +230,18 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
 
     @Subscribe
     public void itemclickedevent(EventPurchaseClicked pos) {
-
-        Timber.i("POSITION" + pos.getPosition());
-        String str = pos.getPosition();
-        String[] strAr = str.split(",");
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("name", strAr[0]);
-        returnIntent.putExtra("id", strAr[1]);
+        if (!isDirectForPurchaseTypeList) {
+            Timber.i("POSITION" + pos.getPosition());
+            String str = pos.getPosition();
+            String[] strAr = str.split(",");
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("name", strAr[0]);
+            returnIntent.putExtra("id", strAr[1]);
         /*appUser.create_account_group_id = String.valueOf(appUser.arr_account_group_id.get(pos.getPosition()));
           LocalRepositories.saveAppUser(this, appUser);*/
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
 
     }
 }

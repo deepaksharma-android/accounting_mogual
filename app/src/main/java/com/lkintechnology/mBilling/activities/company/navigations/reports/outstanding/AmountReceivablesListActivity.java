@@ -58,6 +58,8 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
     List<String> id;
     ArrayList amountList=new ArrayList();
     Boolean amountreceivable;
+    Boolean amounReceivabletForDirect,amountPaybleForDirect;
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,14 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         mFloatingButton.bringToFront();
+         amounReceivabletForDirect=getIntent().getBooleanExtra("amounReceivabletForDirect",false);
+         amountPaybleForDirect=getIntent().getBooleanExtra("amountPaybleForDirect",false);
+         if(amounReceivabletForDirect){
+             title="AMOUNT RECEIVABLE";
+         }
+         else{
+             title="AMOUNT PAYABLE";
+         }
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
     }
@@ -81,7 +91,7 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("AMOUNT RECEIVABLE");
+        actionbarTitle.setText(title);
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionBar.setDisplayShowCustomEnabled(true);
@@ -197,8 +207,7 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
         appUser.childId = arrid;
         LocalRepositories.saveAppUser(this, appUser);
         Intent getIntent=getIntent();
-        Boolean amounReceivabletForDirect=getIntent.getBooleanExtra("amounReceivabletForDirect",false);
-        Boolean amountPaybleForDirect=getIntent.getBooleanExtra("amountPaybleForDirect",false);
+
         if(amounReceivabletForDirect){
             Intent intent = new Intent(getApplicationContext(), AmountReceivableActivity.class);
             intent.putExtra("name",name);
