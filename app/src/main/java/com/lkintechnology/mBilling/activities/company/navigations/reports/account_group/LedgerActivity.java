@@ -257,7 +257,6 @@ public class LedgerActivity extends RegisterAbstractActivity implements View.OnC
             String company_report = response.getCompany_report();
             i.putExtra("company_report",company_report);
             startActivity(i);
-            finish();
         }
         else{
             Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
