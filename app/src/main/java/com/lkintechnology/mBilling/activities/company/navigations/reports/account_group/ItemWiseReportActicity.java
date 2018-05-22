@@ -61,6 +61,8 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
     ImageView mCalender_Icon;
     @Bind(R.id.calender_icon1)
     ImageView mCalender_Icon1;
+    @Bind(R.id.arrow)
+    ImageView arrow;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
@@ -88,6 +90,7 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
             mItem_textView.setText(name);
             appUser.pdf_account_id = item_id;
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            arrow.setVisibility(View.GONE);
         }else {
             mItem_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
