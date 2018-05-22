@@ -99,6 +99,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 }
                 if(i==9){
                     ParameterConstant.checkForPurchaseTypeList=0;
+                    PurchaseTypeListActivity.isDirectForPurchaseTypeList=true;
                     context.startActivity(new Intent(context, PurchaseTypeListActivity.class));
                 }
                 if(i==10){

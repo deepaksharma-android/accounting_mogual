@@ -291,10 +291,10 @@ public class CreateSaleReturnFragment extends Fragment {
             public void onClick(View v) {
                 ParameterConstant.checkStartActivityResultForAccount =8;
                 ParameterConstant.checkForPurchaseTypeList=2;
-                SaleTypeListActivity.isDirectForSaleType=false;
+                PurchaseTypeListActivity.isDirectForPurchaseTypeList=false;
                 //startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
                 Intent intent=new Intent(getContext(),PurchaseTypeListActivity.class);
-//                intent.putExtra("sale_return",true);
+                intent.putExtra("sale_return",true);
                 startActivityForResult(intent,22);
             }
         });

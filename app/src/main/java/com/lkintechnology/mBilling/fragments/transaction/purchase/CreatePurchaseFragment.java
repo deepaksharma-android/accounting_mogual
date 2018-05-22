@@ -299,7 +299,7 @@ public class CreatePurchaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                SaleTypeListActivity.isDirectForSaleType = false;
+                PurchaseTypeListActivity.isDirectForPurchaseTypeList = false;
                 ParameterConstant.checkForPurchaseTypeList = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 2;
                 startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 22);
