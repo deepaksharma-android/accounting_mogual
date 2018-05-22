@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.activities.company.navigations.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +68,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     LinearLayout creditNote;
     @Bind(R.id.layout_stock_transfer)
     LinearLayout stockTransfer;
+    public static Bitmap bitmapPhoto = null;
 
 
     Context context;
@@ -207,6 +209,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setShipped_to_id("");
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
+                Preferences.getInstance(context).setAttachment("");
                 //Preferences.getInstance(context).setSale_type_name("");
                 Preferences.getInstance(context).setCash_credit("");
                 //final CharSequence[] items = {"Add", "Modify"};
@@ -286,6 +289,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
+                Preferences.getInstance(context).setAttachment("");
 //                Preferences.getInstance(context).setPurchase_type_name("");
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
@@ -484,6 +488,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
+                Preferences.getInstance(context).setAttachment("");
                 //Preferences.getInstance(context).setSale_type_name("");
 
                 appUser.mListMapForItemSaleReturn.clear();
@@ -532,6 +537,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
+                Preferences.getInstance(context).setAttachment("");
 //                Preferences.getInstance(context).setPurchase_return_type_name("");
 
                 appUser.mListMapForItemPurchaseReturn.clear();

@@ -35,7 +35,8 @@ public class RequestCreateSaleReturn {
         voucher.put("items_amount", appUser.items_amount);
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);
-        voucher.put("attachment",appUser.sale_return_attachment);
+       // voucher.put("attachment",appUser.sale_return_attachment);
+        voucher.put("attachment",Preferences.getInstance(ctx).getAttachment());
         voucher.put("transport_details",appUser.transport_details);
    }
 }
