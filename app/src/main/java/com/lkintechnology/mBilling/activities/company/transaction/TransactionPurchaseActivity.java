@@ -64,6 +64,8 @@ public class TransactionPurchaseActivity extends RegisterAbstractActivity implem
     TextView start_date;
     @Bind(R.id.end_date)
     TextView end_date;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     public Dialog dialog;
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
@@ -197,7 +199,11 @@ public class TransactionPurchaseActivity extends RegisterAbstractActivity implem
             // listDataChildAmount = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getGrouped_items().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
+                expListView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                expListView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getGrouped_items().size(); i++) {
                 listDataHeader.add(response.getGrouped_items().get(i).getGroup_name()

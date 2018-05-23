@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -68,6 +69,8 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     AccountExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -271,7 +274,12 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             listDataChildState = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_accounts().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
+                //Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
+                expListView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                expListView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());

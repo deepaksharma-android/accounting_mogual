@@ -50,10 +50,12 @@
                 android:groupIndicator="@null"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/dp_3"
-                />
+                android:layout_marginTop="@dimen/dp_3" />
+
+
         </LinearLayout>
 
+        <include layout="@layout/layout_error_message" />
 
     </RelativeLayout>
     <RelativeLayout

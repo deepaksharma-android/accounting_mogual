@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,8 @@ public class UnitConversionListActivity extends AppCompatActivity {
     FloatingActionButton actionButton;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     RecyclerView.LayoutManager layoutManager;
     UnitConversionListAdapter mAdapter;
     ProgressDialog mProgressDialog;
@@ -209,7 +212,14 @@ public class UnitConversionListActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             //appUser.arr_unitlistConversionId.clear();
-            LocalRepositories.saveAppUser(this, appUser);
+           // LocalRepositories.saveAppUser(this, appUser);
+            if (response.getUnit_conversions().getData().size() == 0) {
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

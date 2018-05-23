@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,6 +61,8 @@ public class ItemGroupListActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     Boolean fromGeneral, fromMaster, fromCreateGroup;
     public static Boolean isDirectForItemGroup = true;
 
@@ -215,10 +218,15 @@ public class ItemGroupListActivity extends AppCompatActivity {
             appUser.group_id1.clear();
             appUser.arr_item_group_name.clear();
             appUser.arr_item_group_id.clear();*/
-            LocalRepositories.saveAppUser(this, appUser);
+           // LocalRepositories.saveAppUser(this, appUser);
             if (response.getItem_groups().getData().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Item Group Found!!", Snackbar.LENGTH_LONG).show();
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
+
            /* for (int i = 0; i < response.getItem_groups().getData().size(); i++) {
                 appUser.arr_item_group_name.add(response.getItem_groups().getData().get(i).getAttributes().getName());
                 appUser.arr_item_group_id.add(response.getItem_groups().getData().get(i).getAttributes().getId());

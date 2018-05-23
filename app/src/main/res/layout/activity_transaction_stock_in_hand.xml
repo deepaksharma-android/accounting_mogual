@@ -7,11 +7,11 @@
     android:layout_height="fill_parent">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:background="#fff" >
+        android:background="#fff"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/date_layout"
@@ -21,34 +21,34 @@
             android:orientation="horizontal">
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight=".4"
                 android:text="Select Date :"
                 android:textAllCaps="true"
-                android:textColor="#000"
-                android:layout_marginLeft="@dimen/dp_10"
-                style="@style/Gotham_Medium"
-                android:layout_weight=".4"/>
+                android:textColor="#000" />
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/tv_date_select"
+                style="@style/Gotham_Medium"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textColor="#000"
+                android:layout_weight=".55"
                 android:gravity="end"
-                android:paddingTop="@dimen/dp_15"
                 android:paddingRight="@dimen/dp_5"
-                style="@style/Gotham_Medium"
-                android:textSize="18sp"
-                android:layout_weight=".55"/>
+                android:paddingTop="@dimen/dp_15"
+                android:textColor="#000"
+                android:textSize="18sp" />
 
             <ImageView
+                android:id="@+id/calender_icon"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
-                android:id="@+id/calender_icon"
                 android:layout_gravity="center"
-                android:layout_weight="0.1"
                 android:layout_marginRight="5dp"
+                android:layout_weight="0.1"
                 android:src="@drawable/icon_calendar" />
 
         </LinearLayout>
@@ -59,10 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_layout"
             android:orientation="horizontal">
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="5dp"
-            android:background="@color/colorPrimary"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="5dp"
+                android:background="@color/colorPrimary" />
 
         </LinearLayout>
 
@@ -72,19 +73,28 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_marginBottom="40dp"
             android:layout_marginRight="20dp"
             android:onClick="add"
-            android:visibility="gone"
-            android:layout_marginBottom="40dp"
-            android:src="@drawable/icon_add" />
+            android:src="@drawable/icon_add"
+            android:visibility="gone" />
 
-        <ExpandableListView
-            android:id="@+id/lvExp"
-            android:groupIndicator="@null"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/view"
+        <LinearLayout
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
-            />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view">
 
-    </RelativeLayout>
+            <ExpandableListView
+                android:id="@+id/lvExp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:groupIndicator="@null" />
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_error_message" />
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

@@ -76,6 +76,8 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity implem
     TextView start_date;
     @Bind(R.id.end_date)
     TextView end_date;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     public Dialog dialog;
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
@@ -295,7 +297,11 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity implem
             appUser.end_date="";
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (response.getExpenses().getData().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Vouchers Found!!", Snackbar.LENGTH_LONG).show();
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());

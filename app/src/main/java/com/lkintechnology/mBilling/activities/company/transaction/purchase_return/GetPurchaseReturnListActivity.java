@@ -78,6 +78,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
     TextView start_date;
     @Bind(R.id.end_date)
     TextView end_date;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     public Dialog dialog;
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
@@ -307,6 +309,14 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
     public void getPurchaseReturnVoucher(GetPurchaseReturnVoucherListResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            if (response.getPurchase_vouchers().getData().size() == 0) {
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
+
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

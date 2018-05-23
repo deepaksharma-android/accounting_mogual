@@ -73,7 +73,8 @@ public class CompanyListActivity extends BaseActivity {
     ImageView curve;
     @Bind(R.id.adddustbintext)
     TextView adddustbin;
-
+    @Bind(R.id.error_textView)
+    TextView error_textView;
     public Dialog dialog;
     CompanyListAdapter mAdapter;
     AppUser appUser;
@@ -407,16 +408,18 @@ public class CompanyListActivity extends BaseActivity {
     public void getCompnayList(CompanyListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
-            if(response.getCompanies().getData().size()>0) {
+            if (response.getCompanies().getData().size() == 0) {
+                mRecyclerView.setVisibility(View.GONE);
+                error_textView.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_textView.setVisibility(View.GONE);
+            }
                 mRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 mRecyclerView.setLayoutManager(layoutManager);
                 mAdapter = new CompanyListAdapter(this, response.getCompanies().getData());
                 mRecyclerView.setAdapter(mAdapter);
-            }
-            else{
-                Snackbar.make(coordinatorLayout,"No Company Found!",Snackbar.LENGTH_LONG).show();
-            }
         }
         else{
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

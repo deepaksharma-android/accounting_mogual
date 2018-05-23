@@ -92,7 +92,9 @@
             android:groupIndicator="@null"
             android:layout_height="match_parent"
             android:layout_below="@+id/view"
-            android:layout_width="match_parent"
-            />
+            android:layout_width="match_parent"/>
+
+        <include layout="@layout/layout_error_message" />
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

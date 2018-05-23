@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -56,7 +57,8 @@ public class AccountGroupListActivity extends AppCompatActivity {
     FloatingActionButton mFloatingButton;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
-
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     RecyclerView.LayoutManager layoutManager;
     AccountGroupListAdapter mAdapter;
     AppUser appUser;
@@ -226,9 +228,13 @@ public class AccountGroupListActivity extends AppCompatActivity {
             appUser.arr_account_group_id.clear();
             appUser.arr_account_group_name.clear();
             LocalRepositories.saveAppUser(this, appUser);
-
             if (response.getAccount_groups().getData().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Account Group Found!!", Snackbar.LENGTH_LONG).show();
+                //Snackbar.make(coordinatorLayout, "No Account Group Found!!", Snackbar.LENGTH_LONG).show();
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
 
            /* handler = new Handler();

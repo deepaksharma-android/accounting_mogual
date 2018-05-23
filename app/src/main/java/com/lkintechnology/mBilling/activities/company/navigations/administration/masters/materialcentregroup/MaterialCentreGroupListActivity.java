@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,8 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
     FloatingActionButton mFloatingButton;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     RecyclerView.LayoutManager layoutManager;
     MaterialCentreGroupListAdapter mAdapter;
     AppUser appUser;
@@ -214,7 +217,11 @@ public class MaterialCentreGroupListActivity extends AppCompatActivity {
             LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
             if (response.getMaterial_center_groups().getData().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Material Centre Group Found!!", Snackbar.LENGTH_LONG).show();
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
 
             mRecyclerView.setHasFixedSize(true);

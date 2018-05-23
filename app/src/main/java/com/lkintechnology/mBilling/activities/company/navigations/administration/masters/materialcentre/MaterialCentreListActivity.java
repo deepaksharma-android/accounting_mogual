@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -60,6 +61,8 @@ public class MaterialCentreListActivity extends AppCompatActivity {
     ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     MaterialCentreListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -205,7 +208,11 @@ public class MaterialCentreListActivity extends AppCompatActivity {
             listDataChild = new HashMap<String, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_material_centers().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Material Centre Found!!", Snackbar.LENGTH_LONG).show();
+                expListView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                expListView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getOrdered_material_centers().size(); i++) {
                 listDataHeader.add(response.getOrdered_material_centers().get(i).getGroup_name());
