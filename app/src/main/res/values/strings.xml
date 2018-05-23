@@ -7,7 +7,7 @@
     <string name="btn_accept">Accept</string>
     <string name="forgot_pass"><u>Forgot Password?</u></string>
     <string name="register"><u>Register Now !</u></string>
-    <string name="msg"><b>m<font color='#FF0000'>-</font>Billing: Smart Accounting\nApplication</b></string>
+    <string name="msg"><b>m<font color='#FF0000'>-</font>Billing: Smart Accounting For Mobile Dealer</b></string>
     <string name="msg_send_otp">"Enter your Mobile Number and we'll send you an OTP"\nto change your password.</string>
     <string-array name="days_of_week">
         <item>Beryl Systems</item>
