@@ -189,10 +189,18 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mainLayout"
-            android:scrollbars="none"
-         />
+            android:scrollbars="none" />
 
-
+        <TextView
+            android:id="@+id/error_textView"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="There aren't any company. Please create new company!"/>
 
     </RelativeLayout>
 
@@ -200,8 +208,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/top_layout">
-
-
 
             <TextView
                 android:id="@+id/adddustbintext"
