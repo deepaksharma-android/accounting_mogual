@@ -74,6 +74,8 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     TextView start_date;
     @Bind(R.id.end_date)
     TextView end_date;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     public Dialog dialog;
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
@@ -305,6 +307,13 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     public void getBankCashDeposit(GetBankCashWithdrawResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
+            if (response.getBank_cash_withdraws().getData().size() == 0) {
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

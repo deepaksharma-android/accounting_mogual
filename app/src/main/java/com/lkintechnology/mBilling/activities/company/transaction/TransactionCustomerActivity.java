@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -45,6 +46,8 @@ public class TransactionCustomerActivity extends AppCompatActivity{
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
     TransactionCustomerAdapter listAdapter;
@@ -160,8 +163,13 @@ public class TransactionCustomerActivity extends AppCompatActivity{
             // listDataChildAmount = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_accounts().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Account Found!!", Snackbar.LENGTH_LONG).show();
+                expListView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                expListView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
+
             for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
                 name = new ArrayList<>();

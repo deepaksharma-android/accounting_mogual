@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -104,5 +105,8 @@
             android:layout_marginTop="10dp"
             android:layout_height="fill_parent"
             android:scrollbars="none" />
+
+        <include layout="@layout/layout_error_message" />
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

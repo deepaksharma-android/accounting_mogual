@@ -51,6 +51,10 @@ public class TransactionStockInHandActivity extends AppCompatActivity implements
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.lvExp)
     ExpandableListView expListView;
+    @Bind(R.id.main_layout)
+    LinearLayout main_layout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     @Bind(R.id.floating_button)
     FloatingActionButton mFloatingButton;
     @Bind(R.id.date_layout)
@@ -189,7 +193,11 @@ public class TransactionStockInHandActivity extends AppCompatActivity implements
             // listDataChildAmount = new HashMap<Integer, List<String>>();
             listDataChildId = new HashMap<Integer, List<String>>();
             if (response.getOrdered_items().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
+                main_layout.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                main_layout.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getOrdered_items().size(); i++) {
                 listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
