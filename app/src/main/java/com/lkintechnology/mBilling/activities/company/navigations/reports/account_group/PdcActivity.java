@@ -13,7 +13,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
@@ -65,7 +67,10 @@ public class PdcActivity extends RegisterAbstractActivity {
     TextView mEnd_date;
     @Bind(R.id.submit)
     LinearLayout mSubmit;*/
-
+    @Bind(R.id.main_scrollview)
+    ScrollView main_scrollview;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     @Bind(R.id.list_view_receipt)
     ListView listViewReceipt;
     @Bind(R.id.list_view_payment)
@@ -223,7 +228,8 @@ public class PdcActivity extends RegisterAbstractActivity {
         receiptList=new ArrayList();
         paymentList=new ArrayList();
         if (response.getStatus() == 200) {
-
+            main_scrollview.setVisibility(View.VISIBLE);
+            error_layout.setVisibility(View.GONE);
             for(int i=0;i<response.getPdc_details().getData().size();i++){
                 if (response.getPdc_details().getData().get(i).getType().equals("receipt-vouchers")){
                     receiptList.add(response.getPdc_details().getData().get(i).getAttributes());
@@ -238,7 +244,9 @@ public class PdcActivity extends RegisterAbstractActivity {
             ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
             ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            main_scrollview.setVisibility(View.GONE);
+            error_layout.setVisibility(View.VISIBLE);
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             receiptList.clear();
             paymentList.clear();
             listViewReceipt.setAdapter(new PdcReceiptAdapter(this,receiptList));

@@ -60,14 +60,20 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:scrollbars="none" />
+        android:layout_height="fill_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="none" />
 
+    </LinearLayout>
 
+    <include layout="@layout/layout_error_message" />
 
 </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

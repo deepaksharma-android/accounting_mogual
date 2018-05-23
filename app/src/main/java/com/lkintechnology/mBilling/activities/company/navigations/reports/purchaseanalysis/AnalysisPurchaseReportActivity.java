@@ -59,6 +59,8 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     LinearLayout dashboardSpinnerLayout;
     @Bind(R.id.dashboard_spinner)
     Spinner dashboardSpinner;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     ArrayList<String> cashInHand = new ArrayList<>();
     ProgressDialog mProgressDialog;
     AppUser appUser;
@@ -283,6 +285,13 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     public void getSaleVoucher(GetPurchaseVoucherListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
+            if (response.getPurchase_vouchers().getData().size()==0){
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

@@ -48,6 +48,10 @@ public class SerialNumberReferenceActivity extends RegisterAbstractActivity {
     EditText mSerialNumber;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
+    @Bind(R.id.main_layout)
+    LinearLayout main_layout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     RecyclerView.LayoutManager layoutManager;
     SerialNumberReferenceAdapter mAdapter;
     @Bind(R.id.recycler_view)
@@ -127,6 +131,13 @@ public class SerialNumberReferenceActivity extends RegisterAbstractActivity {
     public void getSerialNumberReference(SerialNumberReferenceResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            if (response.getItem().getData().size()==0){
+                main_layout.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                main_layout.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
