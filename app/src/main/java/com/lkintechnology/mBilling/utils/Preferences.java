@@ -49,6 +49,7 @@ public class Preferences {
     private static final String PURCHASE_TAX_TYPE = "purchase_tax_type";
     private static final String UPDATE="update";
     private static final String REASON="reason";
+    private static final String FIRST="first";
 
 
 
@@ -183,9 +184,20 @@ public class Preferences {
         editor.commit();
     }
 
+
     public Boolean getLogin() {
         return pref.getBoolean(IS_LOGIN, false);
     }
+
+    public void setFirst(String first) {
+        editor.putString(FIRST, first);
+        editor.commit();
+    }
+
+    public String getFirst() {
+        return pref.getString(FIRST,"false");
+    }
+
 
     public void setCid(String cid) {
         editor.putString(CID, cid);
