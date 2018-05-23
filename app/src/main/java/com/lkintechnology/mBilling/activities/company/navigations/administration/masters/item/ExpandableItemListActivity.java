@@ -1419,6 +1419,19 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
 
                     }
+
+                    else if (ExpandableItemListActivity.comingFrom == 5) {
+                        Intent intent = new Intent();
+                        String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                        String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                        String arr1[] = itemName.split(",");
+                        String item = arr1[0];
+                        intent.putExtra("item_id", itemid);
+                        intent.putExtra("name", itemName);
+                        intent.putExtra("from_stock_in_hand", false);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
                 }
                   /*  Intent returnIntent = new Intent();
                     returnIntent.putExtra("name", adapter.getItem(i));
