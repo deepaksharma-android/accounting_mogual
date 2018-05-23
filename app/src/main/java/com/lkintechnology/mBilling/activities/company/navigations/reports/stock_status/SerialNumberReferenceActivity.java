@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.navigations.reports.account_group;
+package com.lkintechnology.mBilling.activities.company.navigations.reports.stock_status;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

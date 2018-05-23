@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.navigations.reports.account_group;
+package com.lkintechnology.mBilling.activities.company.navigations.reports.stock_status;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.CreateNewItemActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.ReportsActivity;
 import com.lkintechnology.mBilling.adapters.TransactionStockInHandAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -102,7 +103,7 @@ public class StocksReportsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                    Intent intent = new Intent(this, AcountGroupActivity.class);
+                    Intent intent = new Intent(this, ReportsActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -114,7 +115,7 @@ public class StocksReportsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, AcountGroupActivity.class);
+        Intent intent = new Intent(this, ReportsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

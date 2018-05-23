@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.navigations.reports.account_group;
+package com.lkintechnology.mBilling.activities.company.navigations.reports;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.CashBankActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.LedgerActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.PdcActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.financialreports.BalanceSheetActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.financialreports.ProfitAndLossActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.gstr3b.Gstr3bReportActivity;
@@ -22,12 +25,15 @@ import com.lkintechnology.mBilling.activities.company.navigations.reports.gstret
 import com.lkintechnology.mBilling.activities.company.navigations.reports.outstanding.AmountReceivablesListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.purchaseanalysis.AnalysisPurchaseReportActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.saleanalysis.AnalysisSaleReportActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.stock_status.ItemWiseReportActicity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.stock_status.SerialNumberReferenceActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.stock_status.StocksReportsActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AcountGroupActivity extends AppCompatActivity {
+public class ReportsActivity extends AppCompatActivity {
 
     @Bind(R.id.ledger)
     LinearLayout ledger;
@@ -169,7 +175,7 @@ public class AcountGroupActivity extends AppCompatActivity {
         mGstr1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(AcountGroupActivity.this)
+                new AlertDialog.Builder(ReportsActivity.this)
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
@@ -181,7 +187,7 @@ public class AcountGroupActivity extends AppCompatActivity {
         mGstr2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(AcountGroupActivity.this)
+                new AlertDialog.Builder(ReportsActivity.this)
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)

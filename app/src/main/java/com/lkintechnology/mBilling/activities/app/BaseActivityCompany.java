@@ -18,12 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.CompanyAboutActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.AcountGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.ReportsActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.MasterDashboardActivity;
@@ -162,7 +161,7 @@ public class BaseActivityCompany extends AppCompatActivity {
     }
     public void reports(View v){
         drawerLayout.closeDrawers();
-        Intent intent=new Intent(getApplicationContext(),AcountGroupActivity.class);
+        Intent intent=new Intent(getApplicationContext(),ReportsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();

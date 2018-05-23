@@ -500,37 +500,37 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.account_group.LedgerActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.account_group.CashBankActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigations.reports.ReportsActivity"
             android:parentActivityName=".activities.company.FirstPageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.account_group.PdcActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.outstanding.AmountReceivableActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.outstanding.AmountPaybleActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.saleanalysis.AnalysisSaleReportActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -543,7 +543,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.navigations.reports.account_group.StocksReportsActivity"
+            android:name=".activities.company.navigations.reports.stock_status.StocksReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -606,12 +606,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.gstreturn.PurchaseRegisterActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.gstreturn.SaleRegisterActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -633,12 +633,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.financialreports.ProfitAndLossActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.gstr3b.Gstr3bReportActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -647,13 +647,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.company.navigations.reports.account_group.SerialNumberReferenceActivity"
+            android:name=".activities.company.navigations.reports.stock_status.SerialNumberReferenceActivity"
             android:parentActivityName=".activities.company.navigations.administration.masters.accountgroup.AccountGroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.financialreports.BalanceSheetActivity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -714,8 +714,8 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
-            android:name=".activities.company.navigations.reports.account_group.ItemWiseReportActicity"
-            android:parentActivityName=".activities.company.navigations.reports.account_group.AcountGroupActivity"
+            android:name=".activities.company.navigations.reports.stock_status.ItemWiseReportActicity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity

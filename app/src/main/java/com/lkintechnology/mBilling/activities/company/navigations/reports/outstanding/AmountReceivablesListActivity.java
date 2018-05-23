@@ -20,7 +20,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.AccountDetailsActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.AcountGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.ReportsActivity;
 import com.lkintechnology.mBilling.adapters.AmountReceivableAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -104,7 +104,7 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                    Intent intent = new Intent(this, AcountGroupActivity.class);
+                    Intent intent = new Intent(this, ReportsActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -116,7 +116,7 @@ public class AmountReceivablesListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, AcountGroupActivity.class);
+        Intent intent = new Intent(this, ReportsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.reports.account_group.AcountGroupActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.ReportsActivity;
 import com.lkintechnology.mBilling.adapters.PurchaseReportAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -37,7 +37,6 @@ import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
@@ -234,7 +233,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, AcountGroupActivity.class);
+                Intent intent = new Intent(this, ReportsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -274,7 +273,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, AcountGroupActivity.class);
+        Intent intent = new Intent(this, ReportsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
