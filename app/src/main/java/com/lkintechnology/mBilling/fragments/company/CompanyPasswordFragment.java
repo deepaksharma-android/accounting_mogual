@@ -184,7 +184,8 @@ public class CompanyPasswordFragment extends Fragment {
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
         if (visible && isResumed()) {
-          //  EventBus.getDefault().register(this);
+            EventBus.getDefault().unregister(this);
+            EventBus.getDefault().register(this);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
