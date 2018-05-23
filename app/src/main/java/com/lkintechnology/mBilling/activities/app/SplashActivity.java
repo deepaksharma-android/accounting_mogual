@@ -64,21 +64,30 @@ public class SplashActivity extends Activity {
                     @Override
                     public void run() {
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_VERSION);
-
-
                     }
-
                 };
 
                 // Start the timer
                 RunSplash.schedule(ShowSplash, Delay);
             } else {
-                checkPermissions();
+                if (Preferences.getInstance(getApplicationContext()).getFirst().equals("false")) {
+                    checkPermissions();
+                } else {
+                    Timer RunSplash = new Timer();
+                    TimerTask ShowSplash = new TimerTask() {
+                        @Override
+                        public void run() {
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VERSION);
+                        }
+                    };
+                    RunSplash.schedule(ShowSplash, Delay);
+                }
             }
         }
         else{
             Toast.makeText(getApplicationContext(),"No Internet Connection !",Toast.LENGTH_LONG).show();
         }
+
 
 
 
@@ -117,6 +126,7 @@ public class SplashActivity extends Activity {
                     TimerTask ShowSplash = new TimerTask() {
                         @Override
                         public void run() {
+                            Preferences.getInstance(getApplicationContext()).setFirst("true");
                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_VERSION);
                     }
 
