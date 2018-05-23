@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,6 +65,8 @@ public class BillSundryListActivity extends AppCompatActivity {
     FloatingActionButton mFloatingButton;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     RecyclerView.LayoutManager layoutManager;
     BillSundryListAdapter mAdapter;
     ProgressDialog mProgressDialog;
@@ -184,7 +187,7 @@ public class BillSundryListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getUnitList(GetBillSundryListResponse response){
+    public void getBillSundryList(GetBillSundryListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
             appUser.arr_billSundryId.clear();
@@ -193,11 +196,15 @@ public class BillSundryListActivity extends AppCompatActivity {
             appUser.billSundryId.clear();
             LocalRepositories.saveAppUser(this, appUser);
             Timber.i("I AM HERE");
-            if(response.getBill_sundries().getData().size()==0){
-                Snackbar.make(coordinatorLayout,"No Bill Sundry Found!!",Snackbar.LENGTH_LONG).show();
+            if (response.getBill_sundries().getData().size() == 0) {
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            } else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
 
-                mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 mRecyclerView.setLayoutManager(layoutManager);
                 mAdapter = new BillSundryListAdapter(this, response.getBill_sundries().getData());

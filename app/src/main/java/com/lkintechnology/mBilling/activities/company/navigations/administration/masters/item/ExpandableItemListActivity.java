@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -82,6 +83,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -339,7 +342,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             listDataChildMrp = new HashMap<Integer, List<String>>();
             listDataTax = new HashMap<Integer, List<String>>();
             if (response.getOrdered_items().size() == 0) {
-                Snackbar.make(coordinatorLayout, "No Item Found!!", Snackbar.LENGTH_LONG).show();
+                expListView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                expListView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getOrdered_items().size(); i++) {
                 listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());

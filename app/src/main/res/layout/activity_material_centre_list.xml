@@ -30,5 +30,7 @@
             android:layout_marginBottom="40dp"
             android:src="@drawable/icon_add" />
 
+        <include layout="@layout/layout_error_message" />
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

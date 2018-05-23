@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
@@ -50,6 +51,8 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     PurchaseTypeListAdapter mAdapter;
     @Bind(R.id.purchase_type_list_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.error_layout)
+    LinearLayout error_layout;
     Boolean fromGeneral, fromMaster, fromCreateGroup;
     public static Boolean isDirectForPurchaseTypeList = true;
     private Boolean saleReturn;
@@ -206,8 +209,13 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
     public void getItemGroup(GetPurchaseTypeResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            LocalRepositories.saveAppUser(this, appUser);
-
+            if (response.getPurchase_type().getData().size() == 0) {
+                mRecyclerView.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);

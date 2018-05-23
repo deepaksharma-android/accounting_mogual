@@ -30,6 +30,8 @@
             android:layout_height="fill_parent"
             android:scrollbars="none" />
 
+        <include layout="@layout/layout_error_message" />
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
