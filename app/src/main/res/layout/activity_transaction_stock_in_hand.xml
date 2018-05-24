@@ -7,7 +7,7 @@
     android:layout_height="fill_parent">
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#fff"
@@ -27,6 +27,7 @@
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_weight=".4"
                 android:text="Select Date :"
+                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="#000" />
 
@@ -35,17 +36,18 @@
                 style="@style/Gotham_Medium"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".55"
-                android:gravity="end"
-                android:paddingRight="@dimen/dp_5"
+                android:layout_weight=".9"
+                android:gravity="left"
+                android:text="23 May 2018"
                 android:paddingTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:textColor="#000"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/calender_icon"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0.1"
@@ -62,7 +64,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="5dp"
+                android:layout_height="3dp"
                 android:background="@color/colorPrimary" />
 
         </LinearLayout>
@@ -95,6 +97,6 @@
 
         <include layout="@layout/layout_error_message" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
