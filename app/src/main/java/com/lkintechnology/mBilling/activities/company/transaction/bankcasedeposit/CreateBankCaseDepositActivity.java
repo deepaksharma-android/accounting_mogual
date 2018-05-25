@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -252,7 +253,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    Bitmap bitmap=((BitmapDrawable) mSelectedImage.getDrawable()).getBitmap();
                     String encodedString=Helpers.bitmapToBase64(bitmap);
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);

@@ -190,6 +190,35 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
 
             }
         });
+
+        mStockQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mStockQuantity.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mStockQuantity.getText().toString());
+                        if (aDouble == 0) {
+                            mStockQuantity.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        mStockPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!mStockPrice.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(mStockPrice.getText().toString());
+                        if (aDouble == 0) {
+                            mStockPrice.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
         if (!Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail().equals("")) {
             serailwise = Preferences.getInstance(getApplicationContext()).getitem_serial_number_wise_detail();
         }
@@ -566,6 +595,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             }
         });
 
+
     }
 
     @Override
@@ -724,4 +754,6 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             snackbar.show();
         }
     }
+
+
 }

@@ -328,6 +328,38 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             }
         });
         // set the custom dialog components - text, image and button
+
+        amount_receivable.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!amount_receivable.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(amount_receivable.getText().toString());
+                        if (aDouble == 0) {
+                            amount_receivable.setText("");
+                        }
+                    }else {
+                        appUser.account_amount_receivable="0.0";
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                }
+            }
+        });
+
+        amount_payable.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (!amount_payable.getText().toString().equals("")) {
+                        Double aDouble = Double.valueOf(amount_payable.getText().toString());
+                        if (aDouble == 0) {
+                            amount_payable.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
         dialogbal.show();
     }
 

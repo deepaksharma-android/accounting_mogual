@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
@@ -347,8 +349,11 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                   /* Bitmap bitmap = ((GlideBitmapDrawable) mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString = Helpers.bitmapToBase64(bitmap);*/
+                    Drawable dr = ((ImageView) mSelectedImage).getDrawable();
+                    Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
+                    TransactionDashboardActivity.bitmapPhoto=bitmap;
+                    String encodedString=Helpers.bitmapToBase64(bitmap);
+
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
                     intent.putExtra("encodedString", encodedString);
@@ -1124,9 +1129,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
             appUser.bill_sundries_amount = String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getBill_sundries_amount());
             LocalRepositories.saveAppUser(getActivity(), appUser);
             if (!Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getAttachment()).equals("")) {
-                mSelectedImage.setVisibility(View.VISIBLE);
                 Preferences.getInstance(getContext()).setAttachment(response.getPurchase_return_voucher().getData().getAttributes().getAttachment());
-                Glide.with(this).load(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
+                Glide.with(this).load(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
+                mSelectedImage.setVisibility(View.VISIBLE);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
