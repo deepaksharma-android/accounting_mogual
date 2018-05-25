@@ -17,7 +17,15 @@ public class RequestCreateItem {
     public RequestCreateItem(Context ctx) {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
         item = new HashMap<>();
-        item.put("name", appUser.item_name);
+        String item_name=appUser.item_name;
+        if(item_name.contains(",")){
+          String itemname=  item_name.replace(","," ");
+            item.put("name", itemname);
+        }
+        else{
+            item.put("name", item_name);
+        }
+
         item.put("company_id", Preferences.getInstance(ctx).getCid());
         item.put("item_group_id", appUser.item_group_id);
         item.put("item_unit_id", appUser.item_unit_id);

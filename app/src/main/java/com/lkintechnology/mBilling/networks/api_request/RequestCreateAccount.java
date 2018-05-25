@@ -18,7 +18,16 @@ public class RequestCreateAccount {
         AppUser appUser = LocalRepositories.getAppUser(ctx);
 
         account = new HashMap<>();
-        account.put("name", appUser.account_name);
+        String account_name=appUser.account_name;
+        if(account_name.contains(",")){
+            String accname=  account_name.replace(","," ");
+            account.put("name", accname);
+        }
+        else{
+            account.put("name", account_name);
+        }
+
+
         account.put("company_id", Preferences.getInstance(ctx).getCid());
         account.put("mobile_number", appUser.account_mobile_number);
         account.put("email", appUser.account_email);

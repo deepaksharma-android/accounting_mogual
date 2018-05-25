@@ -19,6 +19,14 @@ public class RequestCreateMaterialCentre {
 
         material_center = new HashMap<>();
         material_center.put("company_id", Preferences.getInstance(ctx).getCid());
+        String materialcenter=appUser.material_centre_name;
+        if(materialcenter.contains(",")){
+            String materialc=  materialcenter.replace(","," ");
+            material_center.put("name", materialc);
+        }
+        else{
+            material_center.put("name", materialcenter);
+        }
         material_center.put("name",appUser.material_centre_name);
         material_center.put("material_center_group_id", appUser.material_centre_group_id);
         material_center.put("account_master_id",appUser.stock_id);
