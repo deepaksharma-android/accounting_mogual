@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -453,7 +454,6 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 intCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                 imageToUploadUri = Uri.fromFile(f);
                 startActivityForResult(intCamera, Cv.REQUEST_CAMERA);
-
             }
         });
 
