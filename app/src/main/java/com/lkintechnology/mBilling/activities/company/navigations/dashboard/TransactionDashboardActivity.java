@@ -210,6 +210,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setMobile("");
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 //Preferences.getInstance(context).setSale_type_name("");
                 Preferences.getInstance(context).setCash_credit("");
                 //final CharSequence[] items = {"Add", "Modify"};
@@ -247,6 +248,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         receipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(getApplicationContext(), CreateReceiptVoucherActivity.class);
                 startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -290,6 +293,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
                 Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
 //                Preferences.getInstance(context).setPurchase_type_name("");
                 appUser.mListMapForItemPurchase.clear();
                 appUser.mListMapForBillPurchase.clear();
@@ -326,7 +330,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreatePaymentActivity.class);
                 context.startActivity(j);
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -357,6 +362,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         bankCashDeposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateBankCaseDepositActivity.class);
                 // j.putExtra("fromBankCashDeposit", false);
                 context.startActivity(j);
@@ -389,6 +396,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         bankCashWithdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateBankCaseWithdrawActivity.class);
                 context.startActivity(j);
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -419,6 +428,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateIncomeActivity.class);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -448,6 +459,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateExpenceActivity.class);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -489,6 +502,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
                 Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 //Preferences.getInstance(context).setSale_type_name("");
 
                 appUser.mListMapForItemSaleReturn.clear();
@@ -538,6 +552,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 Preferences.getInstance(context).setNarration("");
                 Preferences.getInstance(context).setCash_credit("");
                 Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
 //                Preferences.getInstance(context).setPurchase_return_type_name("");
 
                 appUser.mListMapForItemPurchaseReturn.clear();
@@ -575,6 +590,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         journalVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateJournalVoucherActivity.class);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};
@@ -605,6 +622,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         debitNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateDebitNoteWoItemActivity.class);
                 context.startActivity(j);
                /* final CharSequence[] items = {"Add", "Modify"};
@@ -635,6 +654,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         creditNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Preferences.getInstance(context).setAttachment("");
+                Preferences.getInstance(context).setUrlAttachment("");
                 Intent j = new Intent(context, CreateCreditNoteWoActivity.class);
                 context.startActivity(j);
                 /*final CharSequence[] items = {"Add", "Modify"};

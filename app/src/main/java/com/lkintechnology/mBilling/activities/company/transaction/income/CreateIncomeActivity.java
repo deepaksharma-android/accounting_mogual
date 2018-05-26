@@ -57,6 +57,7 @@ import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -206,7 +207,15 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             }
         }
         initActionbar();
-
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -257,12 +266,13 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                  /*  Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
@@ -544,6 +554,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                     mSelectedImage.setVisibility(View.VISIBLE);
                     mSelectedImage.setImageBitmap(im);
                     encodedString = Helpers.bitmapToBase64(im);
+                    Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                    Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -557,6 +569,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                             mSelectedImage.setVisibility(View.VISIBLE);
                             encodedString = Helpers.bitmapToBase64(photo);
                             mSelectedImage.setImageBitmap(photo);
+                            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                            Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                             break;
                         }
                     }catch (Exception e){
@@ -689,6 +703,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             received_into.setText("");
             received_from.setText("");
             encodedString="";
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -752,14 +768,13 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             received_from.setText(response.getIncome().getData().getAttributes().getReceived_from());
             transaction_amount.setText(String.valueOf(response.getIncome().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getIncome().getData().getAttributes().getNarration());
-            if(!response.getIncome().getData().getAttributes().getAttachment().equals("")){
-                Glide.with(this).load(Uri.parse(response.getIncome().getData().getAttributes().getAttachment()))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(mSelectedImage);
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            if (!Helpers.mystring(response.getIncome().getData().getAttributes().getAttachment()).equals("")) {
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getIncome().getData().getAttributes().getAttachment());
+                Glide.with(this).load(Helpers.mystring(response.getIncome().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -773,6 +788,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     public void editBankCashDeposit(EditIncomeResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, IncomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

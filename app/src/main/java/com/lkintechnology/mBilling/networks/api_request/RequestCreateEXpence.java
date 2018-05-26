@@ -24,6 +24,7 @@ public class RequestCreateEXpence {
         expense.put("paid_to_id", appUser.paid_to_id);
         expense.put("amount", appUser.expence_amount);
         expense.put("narration", appUser.expence_narration);
-        expense.put("attachment", appUser.expence_attachment);
+        //expense.put("attachment", appUser.expence_attachment);
+        expense.put("attachment", Preferences.getInstance(context).getAttachment());
     }
 }

@@ -26,6 +26,7 @@ public class RequestCreateBankCashWithdraw {
         bank_cash_withdraw.put("withdraw_by_id", appUser.withdraw_by_id);
         bank_cash_withdraw.put("amount", appUser.bank_cash_withdraw_amount);
         bank_cash_withdraw.put("narration", appUser.bank_cash_withdraw_narration);
-        bank_cash_withdraw.put("attachment", appUser.bank_cash_withdraw_attachment);
+       // bank_cash_withdraw.put("attachment", appUser.bank_cash_withdraw_attachment);
+        bank_cash_withdraw.put("attachment", Preferences.getInstance(context).getAttachment());
     }
 }

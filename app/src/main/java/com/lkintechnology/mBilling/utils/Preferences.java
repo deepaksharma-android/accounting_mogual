@@ -159,6 +159,7 @@ public class Preferences {
     private static final String vouchermobile="mobile";
     private static final String vouchernarration="narration";
     private static final String attachment ="attachment";
+    private static final String url_attachment ="url_attachment";
     private static final String cash_credit="cash_credit";
     private static final String paid_to="paid_to";
     private static final String paid_from="paid_from";
@@ -1305,6 +1306,15 @@ public class Preferences {
 
     public String getAttachment() {
         return pref.getString(attachment, "");
+    }
+
+    public void setUrlAttachment(String urlAttachment) {
+        editor.putString(url_attachment, urlAttachment);
+        editor.commit();
+    }
+
+    public String getUrl_attachment() {
+        return pref.getString(url_attachment, "");
     }
 
     public void setCash_credit(String cashcredit) {

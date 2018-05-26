@@ -27,7 +27,8 @@ public class RequestCreateDebitNote {
         debit_note.put("account_name_debit_id", appUser.account_name_debit_note_id);
         debit_note.put("amount", appUser.debit_note_amount);
         debit_note.put("narration", appUser.debit_note_narration);
-        debit_note.put("attachment", appUser.debit_note_attachment);
+       // debit_note.put("attachment", appUser.debit_note_attachment);
+        debit_note.put("attachment", Preferences.getInstance(context).getAttachment());
         debit_note.put("send_email",appUser.email_yes_no);
         debit_note.put("debit_note_item",appUser.mListMapForItemDebitNote);
         debit_note.put("reason",appUser.debitreason);

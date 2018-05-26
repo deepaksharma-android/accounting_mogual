@@ -89,13 +89,20 @@ public class ImageOpenActivity extends AppCompatActivity {
                         }
                     });*/
         } else {
-
             encodedString = intent.getStringExtra("encodedString");
             bitmapPhotos = intent.getBooleanExtra("bitmapPhotos",false);
             boolean b=intent.getBooleanExtra("iEncodedString",false);
             if (b){
                 if (bitmapPhotos){
-                    mImageOpen.setImageBitmap(TransactionDashboardActivity.bitmapPhoto);
+                    if (!Preferences.getInstance(this).getUrl_attachment().equals("")){
+                        Picasso.with(getApplicationContext())
+                                .load(Preferences.getInstance(this).getUrl_attachment())
+                                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                .networkPolicy(NetworkPolicy.NO_CACHE)
+                                .into(mImageOpen);
+                    }else {
+                        mImageOpen.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(this).getAttachment()));
+                    }
                 }else {
                     mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
                 }
