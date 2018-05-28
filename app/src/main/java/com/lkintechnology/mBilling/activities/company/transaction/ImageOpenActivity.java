@@ -113,7 +113,7 @@ public class ImageOpenActivity extends AppCompatActivity {
             Timber.i("filepath" + encodedString);
             //mImageOpen.setImageBitmap(Helpers.base64ToBitmap(encodedString));
         }
-        mImageOpen.setOnTouchListener(new View.OnTouchListener() {
+       /* mImageOpen.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 mImageOpen.setScaleType(ImageView.ScaleType.MATRIX);
@@ -184,7 +184,7 @@ public class ImageOpenActivity extends AppCompatActivity {
                 mImageOpen.setImageMatrix(matrix);
                 return true;
             }
-        });
+        });*/
     }
 
     @Override

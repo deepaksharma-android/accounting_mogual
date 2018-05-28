@@ -50,6 +50,7 @@ dependencies {
     compile 'me.dm7.barcodescanner:zbar:1.9.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.jsibbold:zoomage:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
 
