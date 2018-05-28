@@ -27,6 +27,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CreateCompanyResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -329,16 +330,15 @@ public class CreateCompanyActivity extends RegisterAbstractActivity implements V
     public void createCompany(CreateCompanyResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
             Preferences.getInstance(getApplicationContext()).setCid(String.valueOf(response.getId()));
             startActivity(new Intent(getApplicationContext(), FirstPageActivity.class));
             snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
             finish();
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

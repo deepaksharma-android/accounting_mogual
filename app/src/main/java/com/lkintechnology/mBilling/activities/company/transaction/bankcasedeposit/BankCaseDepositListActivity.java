@@ -37,6 +37,7 @@ import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.GetBank
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventClickAlertForBankCashDeposite;
 import com.lkintechnology.mBilling.utils.EventDeleteBankCashDeposit;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -338,7 +339,8 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
             mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -400,8 +402,8 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

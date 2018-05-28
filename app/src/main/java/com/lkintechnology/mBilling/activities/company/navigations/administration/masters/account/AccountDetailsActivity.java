@@ -665,8 +665,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             startActivity(intent);
 
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -698,8 +698,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             LocalRepositories.saveAppUser(this,appUser);
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -715,8 +715,8 @@ public class AccountDetailsActivity extends RegisterAbstractActivity {
             startActivity(intent);
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

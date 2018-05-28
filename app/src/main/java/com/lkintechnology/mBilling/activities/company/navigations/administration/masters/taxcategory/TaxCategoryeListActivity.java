@@ -26,6 +26,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.taxcategory.GetTaxCategoryResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventTaxCategoryClicked;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -165,7 +166,8 @@ public class TaxCategoryeListActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

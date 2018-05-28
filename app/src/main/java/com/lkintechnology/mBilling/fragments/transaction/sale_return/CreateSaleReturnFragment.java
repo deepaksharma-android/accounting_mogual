@@ -985,7 +985,8 @@ public class CreateSaleReturnFragment extends Fragment {
                     .show();
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 
@@ -996,8 +997,9 @@ public class CreateSaleReturnFragment extends Fragment {
             mVchNumber.setText(response.getVoucher_number());
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 
@@ -1273,9 +1275,10 @@ public class CreateSaleReturnFragment extends Fragment {
 
             }
         }else {
-            snackbar = Snackbar
+           /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 
@@ -1305,9 +1308,10 @@ public class CreateSaleReturnFragment extends Fragment {
             startActivity(new Intent(getApplicationContext(),GetSaleReturnVoucherListActivity.class));
         }
         else {
-            snackbar = Snackbar
+            /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 

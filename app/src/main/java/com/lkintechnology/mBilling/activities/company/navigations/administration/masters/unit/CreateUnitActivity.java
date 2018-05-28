@@ -29,6 +29,7 @@ import com.lkintechnology.mBilling.networks.api_response.unit.CreateUnitResponse
 import com.lkintechnology.mBilling.networks.api_response.unit.EditUnitResponse;
 import com.lkintechnology.mBilling.networks.api_response.unit.GetUnitDetailsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -260,7 +261,8 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -276,8 +278,8 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -303,7 +305,8 @@ public class CreateUnitActivity extends RegisterAbstractActivity {
             mSpinnerUqc.setSelection(groupindex);
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

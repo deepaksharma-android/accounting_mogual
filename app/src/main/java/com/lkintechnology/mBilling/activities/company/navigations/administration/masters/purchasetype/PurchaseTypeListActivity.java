@@ -29,6 +29,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.purchasetype.GetPurchaseTypeResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventPurchaseClicked;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -222,7 +223,8 @@ public class PurchaseTypeListActivity extends AppCompatActivity {
             mAdapter = new PurchaseTypeListAdapter(this, response.getPurchase_type().data);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

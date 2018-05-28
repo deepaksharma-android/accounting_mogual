@@ -24,6 +24,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.CreateAuthorizationSettingsResponse;
 import com.lkintechnology.mBilling.networks.api_response.companylogin.Users;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -190,7 +191,8 @@ public class CompanyAuthrizationActivity extends AppCompatActivity {
             finish();
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

@@ -957,7 +957,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
 
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 
@@ -968,8 +969,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mVchNumber.setText(response.getVoucher_number());
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 
@@ -1290,9 +1292,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
             }
 
         } else {
-            snackbar = Snackbar
+            /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
 
     }
@@ -1323,9 +1326,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
             startActivity(new Intent(getApplicationContext(), GetPurchaseReturnListActivity.class));
         } else {
-            snackbar = Snackbar
+           /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 

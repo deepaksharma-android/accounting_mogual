@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.networks.api_response.item.CreateItemResponse
 import com.lkintechnology.mBilling.networks.api_response.item.EditItemResponse;
 import com.lkintechnology.mBilling.networks.api_response.item.GetItemDetailsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -712,7 +713,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             startActivity(intent);
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -856,7 +858,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             startActivity(intent);
             finish();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1049,7 +1052,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             }
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

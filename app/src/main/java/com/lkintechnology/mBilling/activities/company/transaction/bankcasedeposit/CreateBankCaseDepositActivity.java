@@ -763,8 +763,9 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                     .show();
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             //Toast.makeText(CreateBankCaseDepositActivity.this, ""+ response.getMessage(), Toast.LENGTH_SHORT).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -790,7 +791,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
 
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -807,7 +809,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -820,6 +823,7 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

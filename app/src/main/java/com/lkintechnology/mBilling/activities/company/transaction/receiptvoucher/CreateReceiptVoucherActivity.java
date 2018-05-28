@@ -1043,7 +1043,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             }
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1108,7 +1109,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
            }
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1135,7 +1137,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 }
             }
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1146,8 +1149,9 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             voucher_no.setText(response.getVoucher_number());
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1327,8 +1331,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             startActivity(new Intent(CreateReceiptVoucherActivity.this, ReceiptVoucherActivity.class));
             finish();
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

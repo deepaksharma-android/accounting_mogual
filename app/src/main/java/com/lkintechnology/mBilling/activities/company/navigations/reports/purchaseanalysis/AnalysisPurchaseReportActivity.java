@@ -34,6 +34,7 @@ import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeleteP
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -299,7 +300,8 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
             mRecyclerView.setAdapter(mAdapter);
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -349,8 +351,8 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
     @Subscribe

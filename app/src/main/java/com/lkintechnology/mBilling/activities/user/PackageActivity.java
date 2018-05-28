@@ -32,6 +32,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.packages.GetPackageResponse;
 import com.lkintechnology.mBilling.networks.api_response.packages.PlanResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -220,6 +221,8 @@ public class PackageActivity extends RegisterAbstractActivity {
 
                 }
             });
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -230,6 +233,8 @@ public class PackageActivity extends RegisterAbstractActivity {
             Preferences.getInstance(getApplicationContext()).setLogin(true);
             Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
             startActivity(intent);
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
     @Subscribe

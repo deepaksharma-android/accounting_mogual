@@ -165,9 +165,9 @@ public class CompanySignatureFragment extends Fragment {
 
         }
         else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            //snackbar = Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
     public void hideSoftKeyboard() {

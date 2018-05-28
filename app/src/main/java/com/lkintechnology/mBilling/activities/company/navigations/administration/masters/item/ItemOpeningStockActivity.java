@@ -36,6 +36,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_response.checkbarcode.CheckBarcodeResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -749,9 +750,9 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             }
             finish();
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+           // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+           //snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

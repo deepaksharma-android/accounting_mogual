@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.networks.api_response.unit.ItemUnitList;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteUnit;
 import com.lkintechnology.mBilling.utils.EventUnitClicked;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -280,6 +281,8 @@ public class UnitListActivity extends AppCompatActivity {
                 }
             }, 1);*/
             data = response.getItem_units();
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -294,7 +297,8 @@ public class UnitListActivity extends AppCompatActivity {
                 uqcId.add(response.getUqc().getData().get(i).getAttributes().getId());
                 uqcName.add(response.getUqc().getData().get(i).getAttributes().getName());
             }
-
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
 
     }
@@ -345,8 +349,8 @@ public class UnitListActivity extends AppCompatActivity {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+          //  Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

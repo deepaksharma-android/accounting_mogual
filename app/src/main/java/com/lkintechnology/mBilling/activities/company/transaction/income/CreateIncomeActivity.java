@@ -741,8 +741,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
 
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
     @Subscribe
@@ -752,8 +752,9 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             voucher_no.setText(response.getVoucher_number());
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -780,7 +781,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -798,7 +800,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
     @Subscribe

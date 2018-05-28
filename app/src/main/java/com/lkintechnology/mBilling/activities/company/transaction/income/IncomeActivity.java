@@ -35,6 +35,7 @@ import com.lkintechnology.mBilling.networks.api_response.income.GetIncomeRespons
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventClickAlertForIncome;
 import com.lkintechnology.mBilling.utils.EventDeleteIncome;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -249,7 +250,8 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
             mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -311,8 +313,8 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

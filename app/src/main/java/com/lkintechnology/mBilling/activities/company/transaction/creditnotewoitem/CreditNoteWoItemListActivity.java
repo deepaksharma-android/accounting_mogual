@@ -35,6 +35,7 @@ import com.lkintechnology.mBilling.networks.api_response.creditnotewoitem.GetCre
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventClickAlertForCreditNote;
 import com.lkintechnology.mBilling.utils.EventDeleteCreditNote;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -248,7 +249,8 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
             mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -308,8 +310,8 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

@@ -35,6 +35,7 @@ import com.lkintechnology.mBilling.networks.api_response.payment.GetPaymentRespo
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventClickAlertForPayment;
 import com.lkintechnology.mBilling.utils.EventDeletePayment;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -250,7 +251,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
             mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -314,8 +316,8 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

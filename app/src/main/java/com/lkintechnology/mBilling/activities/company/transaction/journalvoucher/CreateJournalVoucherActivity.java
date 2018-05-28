@@ -924,7 +924,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1006,7 +1007,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1017,8 +1019,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             voucher_no.setText(response.getVoucher_number());
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -1035,7 +1038,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

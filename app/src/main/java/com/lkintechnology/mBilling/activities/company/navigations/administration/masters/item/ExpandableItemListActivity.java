@@ -50,6 +50,7 @@ import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteItem;
 import com.lkintechnology.mBilling.utils.EventEditItem;
 import com.lkintechnology.mBilling.utils.EventSaleAddItem;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -553,8 +554,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
 
 
@@ -612,8 +613,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

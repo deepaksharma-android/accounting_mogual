@@ -33,6 +33,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CompanyAuthenticateResponse;
 import com.lkintechnology.mBilling.networks.api_response.company.DeleteCompanyResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -46,15 +47,15 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     //public CompanyData data;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-   /* @Bind(R.id.recycler_view)
-    RecyclerView mRecyclerView;*/
-   // RecyclerView.LayoutManager layoutManager;
-   // CompanyDashboardAdapter mAdapter;
+    /* @Bind(R.id.recycler_view)
+     RecyclerView mRecyclerView;*/
+    // RecyclerView.LayoutManager layoutManager;
+    // CompanyDashboardAdapter mAdapter;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
-  /*  @Bind(R.id.layout_open)
-    LinearLayout mOpen;*/
+    /*  @Bind(R.id.layout_open)
+      LinearLayout mOpen;*/
     @Bind(R.id.deleteCompanyLayout)
     LinearLayout mDeleteCompanyLayout;
     @Bind(R.id.editCompanyLayout)
@@ -65,12 +66,12 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     LinearLayout mSyncBusyCompanyLayout;
     @Bind(R.id.syncItemsCompanyLayout)
     LinearLayout mSyncItemsCompanyLayout;
-   /* @Bind(R.id.layout_edit)
-    LinearLayout mEdit;
-    @Bind(R.id.layout_delete)
-    LinearLayout mDelete;
-    @Bind(R.id.layout_backup)
-    LinearLayout mBackup;*/
+    /* @Bind(R.id.layout_edit)
+     LinearLayout mEdit;
+     @Bind(R.id.layout_delete)
+     LinearLayout mDelete;
+     @Bind(R.id.layout_backup)
+     LinearLayout mBackup;*/
    /* @Bind(R.id.openImage)
     ImageView mOPenImage;
     @Bind(R.id.openText)
@@ -114,7 +115,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditCompanyActivity.class);
                 //EditCompanyActivity.data = data;
-                intent.putExtra("frompass",false);
+                intent.putExtra("frompass", false);
                 startActivity(intent);
             }
         });
@@ -139,7 +140,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok,null)
+                        .setNegativeButton(R.string.btn_ok, null)
                         .show();
 
             }
@@ -152,7 +153,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                         .setTitle("m-Billing")
                         .setMessage("Coming soon")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok,null)
+                        .setNegativeButton(R.string.btn_ok, null)
                         .show();
 
             }
@@ -182,7 +183,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText(appUser.company_name);
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -222,21 +223,16 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                 .show();*/
 
 
-
-
-
-
-
-
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
     }
-    public void showpopup(){
+
+    public void showpopup() {
         dialog = new Dialog(CompanyDashboardActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_login);
@@ -252,7 +248,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 dialog.dismiss();
@@ -263,11 +259,11 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!username.getText().toString().equals("")){
-                    if(!password.getText().toString().equals("")){
-                        appUser.cusername=username.getText().toString();
-                        appUser.cpassword=password.getText().toString();
-                        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (!username.getText().toString().equals("")) {
+                    if (!password.getText().toString().equals("")) {
+                        appUser.cusername = username.getText().toString();
+                        appUser.cpassword = password.getText().toString();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         Boolean isConnected = ConnectivityReceiver.isConnected();
                         if (isConnected) {
                             mProgressDialog = new ProgressDialog(CompanyDashboardActivity.this);
@@ -291,13 +287,11 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                                     });
                             snackbar.show();
                         }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_LONG).show();
                     }
-                    else{
-                        Toast.makeText(getApplicationContext(),"Enter password",Toast.LENGTH_LONG).show();
-                    }
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"Enter username",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -307,9 +301,9 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void authenticate(CompanyAuthenticateResponse response){
+    public void authenticate(CompanyAuthenticateResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             new AlertDialog.Builder(CompanyDashboardActivity.this)
                     .setTitle("Delete Users")
                     .setMessage("Are you sure you want to delete this company ?")
@@ -341,38 +335,33 @@ public class CompanyDashboardActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
 
-        }
-        else{
-
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
-
+        } else {
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
     }
 
     @Subscribe
-    public void deletecompany(DeleteCompanyResponse response){
+    public void deletecompany(DeleteCompanyResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+        if (response.getStatus() == 200) {
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
             finish();
-        }
-        else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(),CompanyListActivity.class));
+        } else {
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
+            startActivity(new Intent(getApplicationContext(), CompanyListActivity.class));
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, FirstPageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -384,7 +373,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, FirstPageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

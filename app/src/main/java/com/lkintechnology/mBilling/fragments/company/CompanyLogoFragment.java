@@ -25,6 +25,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CreateCompanyResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.bumptech.glide.Glide;
@@ -194,9 +195,9 @@ public class CompanyLogoFragment extends Fragment {
 
         }
         else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+           // snackbar = Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+           // snackbar.show();
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
     public void hideSoftKeyboard() {

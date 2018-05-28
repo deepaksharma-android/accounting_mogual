@@ -24,6 +24,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.user.UserApiResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -135,9 +136,9 @@ public class NewPasswordActivity extends RegisterAbstractActivity {
                 startActivity(new Intent(getApplicationContext(), PackageActivity.class));
             }*/
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

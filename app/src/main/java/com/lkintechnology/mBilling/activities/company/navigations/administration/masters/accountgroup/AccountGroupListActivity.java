@@ -37,6 +37,7 @@ import com.lkintechnology.mBilling.networks.api_response.accountgroup.GetAccount
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteGroup;
 import com.lkintechnology.mBilling.utils.EventGroupClicked;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -262,7 +263,8 @@ public class AccountGroupListActivity extends AppCompatActivity {
             CreateAccountGroupActivity.data = response.getAccount_groups();
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -361,8 +363,8 @@ public class AccountGroupListActivity extends AppCompatActivity {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
