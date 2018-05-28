@@ -97,6 +97,10 @@
         <item>Alt. Unit</item>
         <item>Pckg. Unit</item>
     </string-array>
+    <string-array name="business_type">
+        <item>Mobile Dealer</item>
+        <item>Electronics Dealer</item>
+    </string-array>
     <string-array name="item_price">
         <item>Main Unit</item>
         <item>Alternate Unit</item>

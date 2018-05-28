@@ -118,6 +118,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     LinearLayout mMainLayout;
     @Bind(R.id.add_item)
     LinearLayout mAddItem;
+    @Bind(R.id.business_type)
+    Spinner mBusinessType;
     @Bind(R.id.scan_item)
     LinearLayout mScanItem;
     @Bind(R.id.scanLayout)
@@ -380,7 +382,29 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                 int qty = Integer.parseInt(mQuantity.getText().toString());
                                 if (qty > appUser.sale_item_serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() >= 15 && mSerialNumber.getText().toString().length() <= 20) {
+                                    if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                                        if (mSerialNumber.getText().toString().length() == 15) {
+                                            if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                                                Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                appUser.sale_item_serial_arr.add(mSerialNumber.getText().toString());
+                                                // appUser.purchase_item_serail_arr.add(mSerialNumber.getText().toString());
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                for (String s : appUser.sale_item_serial_arr) {
+                                                    listString += s + ",";
+                                                }
+                                                mSr_no.setText(listString);
+                                                Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
+                                                mSerialNumber.setText("");
+                                            }
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                    else{
                                         if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -396,10 +420,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                             Toast.makeText(SaleVoucherAddItemActivity.this, mSerialNumber.getText().toString() + "added successfully", Toast.LENGTH_SHORT).show();
                                             mSerialNumber.setText("");
                                         }
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
+
                                     }
-                                } else {
+                                }else {
                                     Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
                                     dialogbal.dismiss();
                                 }
@@ -1163,8 +1186,25 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             String listString = "";
             int qty = Integer.parseInt(mQuantity.getText().toString());
             if (qty > appUser.sale_item_serial_arr.size()) {
-                if (result.getContents().length() >= 15 && result.getContents().length() <= 20) {
+                if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                if (result.getContents().length() == 15) {
                     // mScannerView.stopCamera();
+                    if (appUser.sale_item_serial_arr.contains(result.getContents())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                        Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        appUser.sale_item_serial_arr.add(result.getContents());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        for (String s : appUser.sale_item_serial_arr) {
+                            listString += s + ",";
+                        }
+                        mSr_no.setText(listString);
+                        Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                }
+                else{
                     if (appUser.sale_item_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
