@@ -27,7 +27,8 @@ public class RequestCreateCreditNote {
         //credit_note.put("account_name_debit_id", appUser.account_name_debit_note);
         credit_note.put("amount", appUser.credit_note_amount);
         credit_note.put("narration", appUser.credit_note_narration);
-        credit_note.put("attachment", appUser.credit_note_attachment);
+       // credit_note.put("attachment", appUser.credit_note_attachment);
+        credit_note.put("attachment", Preferences.getInstance(context).getAttachment());
         credit_note.put("send_email",appUser.email_yes_no);
         credit_note.put("credit_note_item",appUser.mListMapForItemCreditNote);
         credit_note.put("reason",appUser.creditreason);

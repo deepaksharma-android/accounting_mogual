@@ -24,6 +24,7 @@ public class RequestCreateIncome {
         income.put("received_from_id", appUser.received_from_id);
         income.put("amount", appUser.income_amount);
         income.put("narration", appUser.income_narration);
-        income.put("attachment", appUser.income_attachment);
+        //income.put("attachment", appUser.income_attachment);
+        income.put("attachment", Preferences.getInstance(context).getAttachment());
     }
 }

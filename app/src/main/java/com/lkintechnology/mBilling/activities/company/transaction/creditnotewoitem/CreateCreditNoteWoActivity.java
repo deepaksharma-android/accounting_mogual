@@ -211,6 +211,15 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
 
         }
         initActionbar();
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
 
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,12 +326,13 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    /*Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
@@ -629,6 +639,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
+                        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                        Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -642,6 +654,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                         mSelectedImage.setVisibility(View.VISIBLE);
                         encodedString = Helpers.bitmapToBase64(photo);
                         mSelectedImage.setImageBitmap(photo);
+                        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                        Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                         break;
                     }
                 }catch (Exception e){
@@ -767,6 +781,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             // account_name_debit.setText("");
             gst_nature_spinner.setSelection(0);
             encodedString = "";
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -817,15 +833,16 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getCredit_note().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getCredit_note().getData().getAttributes().getNarration());
-            if (!response.getCredit_note().getData().getAttributes().getAttachment().equals("")) {
-                Glide.with(this).load(Uri.parse(response.getCredit_note().getData().getAttributes().getAttachment()))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(mSelectedImage);
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            if (!Helpers.mystring(response.getCredit_note().getData().getAttributes().getAttachment()).equals("")) {
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getCredit_note().getData().getAttributes().getAttachment());
+                Glide.with(this).load(Helpers.mystring(response.getCredit_note().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
+
             String group_type = response.getCredit_note().getData().getAttributes().getGst_nature().trim();
             spinnergstnature=group_type;
             int groupindex = -1;
@@ -883,6 +900,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     public void editCreditNote(EditCreditNoteResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             //appUser.forAccountIntentBool=false;
             // appUser.forAccountIntentId="";
             //appUser.forAccountIntentName="";

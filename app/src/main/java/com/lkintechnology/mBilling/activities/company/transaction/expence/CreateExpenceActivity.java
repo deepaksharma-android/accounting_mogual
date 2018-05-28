@@ -58,6 +58,7 @@ import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -130,7 +131,6 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
-        initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         setDateField();
@@ -207,7 +207,15 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             }
         }
         initActionbar();
-
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -256,12 +264,13 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    /*Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
@@ -514,6 +523,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
+                        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                        Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -527,6 +538,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                             mSelectedImage.setVisibility(View.VISIBLE);
                             encodedString = Helpers.bitmapToBase64(photo);
                             mSelectedImage.setImageBitmap(photo);
+                            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                            Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                             break;
                         }
                     }catch (Exception e){
@@ -687,6 +700,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             paid_from.setText("");
             paid_to.setText("");
             encodedString = "";
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -731,16 +746,17 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             paid_to.setText(response.getExpense().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getExpense().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getExpense().getData().getAttributes().getNarration());
-            if (!response.getExpense().getData().getAttributes().getAttachment().equals("")) {
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            if (!Helpers.mystring(response.getExpense().getData().getAttributes().getAttachment()).equals("")) {
                 mainUri=Uri.parse(response.getExpense().getData().getAttributes().getAttachment());
-                Glide.with(this).load(Uri.parse(response.getExpense().getData().getAttributes().getAttachment()))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(mSelectedImage);
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getExpense().getData().getAttributes().getAttachment());
+                Glide.with(this).load(Helpers.mystring(response.getExpense().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
+
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -751,6 +767,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
     public void editBankCashDeposit(EditExpenceResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, ExpenceActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

@@ -58,6 +58,7 @@ import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -206,6 +207,15 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             }
         }
         initActionbar();
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
 
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,13 +266,15 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap = ((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString = Helpers.bitmapToBase64(bitmap);
+                   /* Bitmap bitmap = ((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString = Helpers.bitmapToBase64(bitmap);*/
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
+
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("encodedString", imageToUploadUri.toString());
@@ -543,6 +555,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                         mSelectedImage.setVisibility(View.VISIBLE);
                         mSelectedImage.setImageBitmap(im);
                         encodedString = Helpers.bitmapToBase64(im);
+                        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                        Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -556,6 +570,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                             mSelectedImage.setVisibility(View.VISIBLE);
                             encodedString = Helpers.bitmapToBase64(photo);
                             mSelectedImage.setImageBitmap(photo);
+                            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                            Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                             break;
                         }
                     }catch (Exception e){
@@ -699,7 +715,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
-
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             new AlertDialog.Builder(CreateBankCaseWithdrawActivity.this)
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
@@ -739,17 +756,16 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             withdraw_by.setText(response.getBank_cash_withdraw().getData().getAttributes().getWithdraw_by());
             transaction_amount.setText(String.valueOf(response.getBank_cash_withdraw().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getBank_cash_withdraw().getData().getAttributes().getNarration());
-            if (!response.getBank_cash_withdraw().getData().getAttributes().getAttachment().equals("")) {
-                //Glide.with(this).load(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()).into(mSelectedImage);
-
-                Glide.with(this).load(Uri.parse(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(mSelectedImage);
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            if (!Helpers.mystring(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()).equals("")) {
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getBank_cash_withdraw().getData().getAttributes().getAttachment());
+                Glide.with(this).load(Helpers.mystring(response.getBank_cash_withdraw().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
+
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -776,6 +792,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
     public void editBankCashWithdraw(EditBankCashWithdrawResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, BankCaseWithdrawActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

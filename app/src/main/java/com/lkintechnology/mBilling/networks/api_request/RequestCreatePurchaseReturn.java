@@ -35,9 +35,9 @@ public class RequestCreatePurchaseReturn {
         voucher.put("items_amount", appUser.items_amount);
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);
-        voucher.put("attachment",appUser.purchase_return_attachment);
         //voucher.put("attachment",appUser.purchase_return_attachment);
-        voucher.put("transport_details",Preferences.getInstance(ctx).getAttachment());
+        voucher.put("attachment",Preferences.getInstance(ctx).getAttachment());
+        voucher.put("transport_details",appUser.transport_details);
         voucher.put("itc_eligibility",Preferences.getInstance(ctx).getPurchase_return_gst_nature());
    }
 }

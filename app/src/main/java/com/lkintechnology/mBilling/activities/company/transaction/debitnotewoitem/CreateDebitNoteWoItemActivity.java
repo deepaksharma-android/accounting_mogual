@@ -206,6 +206,15 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             }
         }
         initActionbar();
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -235,12 +244,13 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                   /* Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
+                    intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
@@ -647,6 +657,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     mSelectedImage.setVisibility(View.VISIBLE);
                     mSelectedImage.setImageBitmap(im);
                     encodedString = Helpers.bitmapToBase64(im);
+                    Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                    Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -660,6 +672,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                             mSelectedImage.setVisibility(View.VISIBLE);
                             encodedString = Helpers.bitmapToBase64(photo);
                             mSelectedImage.setImageBitmap(photo);
+                            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                            Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                             break;
                         }
                     }catch (Exception e){
@@ -754,6 +768,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             // account_name_credit.setText("");
             gst_nature_spinner.setSelection(0);
             encodedString="";
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -802,14 +818,13 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getDebit_note().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getDebit_note().getData().getAttributes().getNarration());
-            if(!response.getDebit_note().getData().getAttributes().getAttachment().equals("")){
-                Glide.with(this).load(Uri.parse(response.getDebit_note().getData().getAttributes().getAttachment()))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(mSelectedImage);
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            if (!Helpers.mystring(response.getDebit_note().getData().getAttributes().getAttachment()).equals("")) {
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getDebit_note().getData().getAttributes().getAttachment());
+                Glide.with(this).load(Helpers.mystring(response.getDebit_note().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
             String group_type = response.getDebit_note().getData().getAttributes().getGst_nature().trim();
@@ -880,6 +895,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
     public void editExpence(EditDebitNoteResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, DebitNoteWoItemActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

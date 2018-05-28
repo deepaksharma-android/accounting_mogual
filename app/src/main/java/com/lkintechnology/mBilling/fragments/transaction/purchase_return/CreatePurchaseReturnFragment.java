@@ -241,6 +241,11 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
         if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
@@ -349,14 +354,14 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
-                    Drawable dr = ((ImageView) mSelectedImage).getDrawable();
+                    /*Drawable dr = ((ImageView) mSelectedImage).getDrawable();
                     Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
                     TransactionDashboardActivity.bitmapPhoto=bitmap;
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    String encodedString=Helpers.bitmapToBase64(bitmap);*/
 
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
                     intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
@@ -733,6 +738,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     mSelectedImage.setVisibility(View.VISIBLE);
                     mSelectedImage.setImageBitmap(im);
                     encodedString = Helpers.bitmapToBase64(im);
+                    Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                     Preferences.getInstance(getContext()).setAttachment(encodedString);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -747,6 +753,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                         mSelectedImage.setVisibility(View.VISIBLE);
                         encodedString = Helpers.bitmapToBase64(photo);
                         TransactionDashboardActivity.bitmapPhoto = photo;
+                        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                         Preferences.getInstance(getContext()).setAttachment(encodedString);
                         mSelectedImage.setImageBitmap(photo);
                         break;
@@ -908,6 +915,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             encodedString = "";
             mVchNumber.setText("");
             Preferences.getInstance(getContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchaseReturn.clear();
@@ -1129,7 +1137,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             appUser.bill_sundries_amount = String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getBill_sundries_amount());
             LocalRepositories.saveAppUser(getActivity(), appUser);
             if (!Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getAttachment()).equals("")) {
-                Preferences.getInstance(getContext()).setAttachment(response.getPurchase_return_voucher().getData().getAttributes().getAttachment());
+                Preferences.getInstance(getContext()).setUrlAttachment(response.getPurchase_return_voucher().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
@@ -1300,6 +1308,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             Preferences.getInstance(getContext()).setMobile("");
             Preferences.getInstance(getContext()).setNarration("");
             Preferences.getInstance(getContext()).setAttachment("");
+            Preferences.getInstance(getContext()).setUrlAttachment("");
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

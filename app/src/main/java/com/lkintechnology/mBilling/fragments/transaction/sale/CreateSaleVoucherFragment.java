@@ -62,6 +62,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.EventDeleteIncome;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -244,6 +245,11 @@ public class CreateSaleVoucherFragment extends Fragment {
             mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+            Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mSelectedImage);
+            mSelectedImage.setVisibility(View.VISIBLE);
+        }
         System.out.println("pcccc create "+Preferences.getInstance(getContext()).getAttachment());
 
         if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
@@ -360,15 +366,28 @@ public class CreateSaleVoucherFragment extends Fragment {
                 if (imageToUploadUri == null) {
                     /*Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
                     String encodedString=Helpers.bitmapToBase64(bitmap);*/
-
+/*
                     Drawable dr = ((ImageView) mSelectedImage).getDrawable();
-                    Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
-                    TransactionDashboardActivity.bitmapPhoto=bitmap;
-                    String encodedString=Helpers.bitmapToBase64(bitmap);
+                    Bitmap bitmap = ((GlideBitmapDrawable) dr.getCurrent()).getBitmap();
+                    TransactionDashboardActivity.bitmapPhoto = bitmap;
+                    String encodedString = Helpers.bitmapToBase64(bitmap);*/
+
+                   /* String encoded;
+                    if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
+                        Drawable dr = ((ImageView) mSelectedImage).getDrawable();
+                        Bitmap bitmap = ((BitmapDrawable) dr.getCurrent()).getBitmap();
+                        TransactionDashboardActivity.bitmapPhoto = bitmap;
+                        encoded = Helpers.bitmapToBase64(bitmap);
+                    } else {
+                        Drawable dr = ((ImageView) mSelectedImage).getDrawable();
+                        Bitmap bitmap = ((GlideBitmapDrawable) dr.getCurrent()).getBitmap();
+                        TransactionDashboardActivity.bitmapPhoto = bitmap;
+                        encoded = Helpers.bitmapToBase64(bitmap);
+                    }*/
 
                     Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
                     intent.putExtra("iEncodedString", true);
-                    intent.putExtra("encodedString", encodedString);
+                    intent.putExtra("encodedString", "");
                     intent.putExtra("booleAttachment", false);
                     intent.putExtra("bitmapPhotos", true);
                     startActivity(intent);
@@ -717,7 +736,6 @@ public class CreateSaleVoucherFragment extends Fragment {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
-        System.out.println("pcccccc pause "+Preferences.getInstance(getActivity()).getAttachment());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -781,6 +799,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mSelectedImage.setImageBitmap(im);
                     mSelectedImage.setRotation(-90);
                     encodedString = Helpers.bitmapToBase64(im);
+                    Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                     Preferences.getInstance(getContext()).setAttachment(encodedString);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -795,7 +814,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                         mSelectedImage.setVisibility(View.VISIBLE);
                         encodedString = Helpers.bitmapToBase64(photo);
                         Preferences.getInstance(getContext()).setAttachment(encodedString);
-                        TransactionDashboardActivity.bitmapPhoto = photo;
+                       // TransactionDashboardActivity.bitmapPhoto = photo;
+                        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
@@ -964,6 +984,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.mListMapForBillSale.clear();
             appUser.transport_details.clear();
             Preferences.getInstance(getContext()).setAttachment("");
+            Preferences.getInstance(getContext()).setUrlAttachment("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -1153,15 +1174,15 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.items_amount=String.valueOf(response.getSale_voucher().getData().getAttributes().getItems_amount());
             appUser.bill_sundries_amount=String.valueOf(response.getSale_voucher().getData().getAttributes().getBill_sundries_amount());
             LocalRepositories.saveAppUser(getActivity(),appUser);
+            Preferences.getInstance(getContext()).setAttachment("");
             if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
-                Preferences.getInstance(getContext()).setAttachment(response.getSale_voucher().getData().getAttributes().getAttachment());
+                Preferences.getInstance(getContext()).setUrlAttachment(response.getSale_voucher().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true).into(mSelectedImage);
                 mSelectedImage.setVisibility(View.VISIBLE);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
-
             if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0){
                 for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                     Map mMap = new HashMap<>();
@@ -1343,6 +1364,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             Preferences.getInstance(getContext()).setMobile("");
             Preferences.getInstance(getContext()).setNarration("");
             Preferences.getInstance(getContext()).setAttachment("");
+            Preferences.getInstance(getContext()).setUrlAttachment("");
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
