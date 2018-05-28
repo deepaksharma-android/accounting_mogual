@@ -24,6 +24,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.CreateDefaultItemsResponse;
 import com.lkintechnology.mBilling.networks.api_response.defaultitems.GetDefaultItemsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 import org.greenrobot.eventbus.Subscribe;
@@ -186,7 +187,8 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
             }
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -202,8 +204,9 @@ public class DefaultItemsExpandableListActivity extends RegisterAbstractActivity
             startActivity(intent);
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            mProgressDialog.dismiss();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //mProgressDialog.dismiss();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 }

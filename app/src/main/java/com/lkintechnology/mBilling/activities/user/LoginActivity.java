@@ -172,9 +172,9 @@ public class LoginActivity extends RegisterAbstractActivity {
                 finish();
             }
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
 
     }
@@ -276,7 +276,7 @@ public class LoginActivity extends RegisterAbstractActivity {
 
             } else {
                 /*if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
-                    Preferences.getInstance(getApplicationContext()).setLogin(true);
+                Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                 startActivity(intent);
@@ -288,11 +288,9 @@ public class LoginActivity extends RegisterAbstractActivity {
 
             }
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
-
-
+            /*snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();*/
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

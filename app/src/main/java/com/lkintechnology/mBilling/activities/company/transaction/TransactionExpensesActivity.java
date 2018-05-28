@@ -35,6 +35,7 @@ import com.lkintechnology.mBilling.networks.api_response.expence.DeleteExpenceRe
 import com.lkintechnology.mBilling.networks.api_response.expence.GetExpenceResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteExpence;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -316,7 +317,8 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity implem
             mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -361,12 +363,11 @@ public class TransactionExpensesActivity extends RegisterAbstractActivity implem
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_EXPENCE);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

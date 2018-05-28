@@ -29,6 +29,7 @@ import com.lkintechnology.mBilling.networks.api_response.unitconversion.CreateUn
 import com.lkintechnology.mBilling.networks.api_response.unitconversion.EditUnitConversionResponse;
 import com.lkintechnology.mBilling.networks.api_response.unitconversion.GetUnitConversionDetailsResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -344,7 +345,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
                 mSubUnitAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
                 mSubUnitSpinner.setAdapter(mSubUnitAdapter);*/
             }
-
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -361,7 +363,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+         //   Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -375,8 +378,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -414,8 +417,8 @@ public class CreateUnitConversionActivity extends RegisterAbstractActivity {
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
 
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

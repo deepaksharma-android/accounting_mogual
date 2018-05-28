@@ -46,6 +46,7 @@ import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSund
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteBillSundry;
 import com.lkintechnology.mBilling.utils.EventSaleAddBill;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -226,6 +227,8 @@ public class BillSundryListActivity extends AppCompatActivity {
                     }
                 }
             }, 1);
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -279,8 +282,8 @@ public class BillSundryListActivity extends AppCompatActivity {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BILL_SUNDRY_LIST);
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

@@ -38,6 +38,7 @@ import com.lkintechnology.mBilling.utils.EventClickAlertForPayment;
 import com.lkintechnology.mBilling.utils.EventClickAlertForReceipt;
 import com.lkintechnology.mBilling.utils.EventDeletePaymentPdcDetails;
 import com.lkintechnology.mBilling.utils.EventDeleteReceiptPdcDetails;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ListHeight;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
@@ -228,8 +229,13 @@ public class PdcActivity extends RegisterAbstractActivity {
         receiptList=new ArrayList();
         paymentList=new ArrayList();
         if (response.getStatus() == 200) {
-            main_scrollview.setVisibility(View.VISIBLE);
-            error_layout.setVisibility(View.GONE);
+            if (response.getPdc_details().getData().size()==0){
+                main_scrollview.setVisibility(View.GONE);
+                error_layout.setVisibility(View.VISIBLE);
+            }else {
+                main_scrollview.setVisibility(View.VISIBLE);
+                error_layout.setVisibility(View.GONE);
+            }
             for(int i=0;i<response.getPdc_details().getData().size();i++){
                 if (response.getPdc_details().getData().get(i).getType().equals("receipt-vouchers")){
                     receiptList.add(response.getPdc_details().getData().get(i).getAttributes());
@@ -244,8 +250,7 @@ public class PdcActivity extends RegisterAbstractActivity {
             ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
             ListHeight.setListViewHeightBasedOnChildren(listViewPayment);
         } else {
-            main_scrollview.setVisibility(View.GONE);
-            error_layout.setVisibility(View.VISIBLE);
+            Helpers.dialogMessage(this,response.getMessage());
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             receiptList.clear();
             paymentList.clear();
@@ -303,8 +308,8 @@ public class PdcActivity extends RegisterAbstractActivity {
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -353,8 +358,8 @@ public class PdcActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -468,7 +473,8 @@ public class PdcActivity extends RegisterAbstractActivity {
             i.putExtra("company_report", company_report);
             startActivity(i);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

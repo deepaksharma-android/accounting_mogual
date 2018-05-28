@@ -79,20 +79,19 @@ public class DashBoardReportsFragment extends Fragment {
         }*/
 
 
+        appUser = LocalRepositories.getAppUser(getActivity());
+        mtextview_sales.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getSales()));
+        mtextview_expenses.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getExpenses()));
+        mProfit_loss_textview1.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getProfit_loss()));
 
-        appUser= LocalRepositories.getAppUser(getActivity());
-        mtextview_sales.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getSales()));
-        mtextview_expenses.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getExpenses()));
-        mProfit_loss_textview1.setText("₹ " +String.format("%.2f",DashboardAccountFragment.data.getData().getAttributes().getProfit_loss()));
-
-        if(DashboardAccountFragment.data.getData().getAttributes().getProfit_loss()<0){
+        if (DashboardAccountFragment.data.getData().getAttributes().getProfit_loss() < 0) {
             //mProfit_lose_layout.setBackgroundColor(Color.RED);
             mProfit_loss_textview.setText("Loss");
             mProfit_loss_textview.setTextColor(Color.RED);
             mProfit_loss_textview1.setTextColor(Color.RED);
             // mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_red);
             profit_loss_image.setImageResource(R.drawable.icon_loss);
-        }else {
+        } else {
             mProfit_loss_textview.setText("Profit");
             profit_loss_image.setImageResource(R.drawable.icon_profits);
             // mProfit_loss_layout.setBackgroundResource(R.drawable.curve_backgroung_green);
@@ -111,10 +110,10 @@ public class DashBoardReportsFragment extends Fragment {
             public void onClick(View view) {
                 //appUser.duration_spinner ="Today";
                 Intent intent = new Intent(getActivity(), TransactionSalesActivity.class);
-                DashBoardReportsFragment.isDirectForFirstPage=false;
+                DashBoardReportsFragment.isDirectForFirstPage = false;
                 appUser.start_date = "";
                 appUser.end_date = "";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 startActivity(intent);
             }
         });
@@ -123,10 +122,10 @@ public class DashBoardReportsFragment extends Fragment {
             public void onClick(View view) {
                 //appUser.duration_spinner ="Today";
                 Intent intent = new Intent(getActivity(), TransactionPurchaseActivity.class);
-                DashBoardReportsFragment.isDirectForFirstPage=false;
+                DashBoardReportsFragment.isDirectForFirstPage = false;
                 appUser.start_date = "";
                 appUser.end_date = "";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 startActivity(intent);
             }
         });
@@ -135,14 +134,11 @@ public class DashBoardReportsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TransactionExpensesActivity.class);
-                DashBoardReportsFragment.isDirectForFirstPage=false;
+                DashBoardReportsFragment.isDirectForFirstPage = false;
                 startActivity(intent);
             }
         });
         return view;
     }
-
-
-
-    }
+}
 

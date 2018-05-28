@@ -32,6 +32,7 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVouc
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -177,7 +178,8 @@ public class SaleVouchersItemDetailsListActivity extends RegisterAbstractActivit
             mTotal.setText("Total: "+String.format("%.2f",total));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -223,11 +225,11 @@ public class SaleVouchersItemDetailsListActivity extends RegisterAbstractActivit
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHERS_ITEM_DETAILS);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -276,6 +278,8 @@ public class SaleVouchersItemDetailsListActivity extends RegisterAbstractActivit
             Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
             intent.putExtra("company_report", response.getHtml());
             startActivity(intent);
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 }

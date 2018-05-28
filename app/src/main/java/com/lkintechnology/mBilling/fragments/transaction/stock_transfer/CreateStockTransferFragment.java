@@ -153,7 +153,7 @@ public class CreateStockTransferFragment extends Fragment {
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
                 mProgressDialog.show();
-              //  ApiCallsService.action(getActivity(), Cv.ACTION_GET_STOCK_TRANSFER_DETAILS);
+                //  ApiCallsService.action(getActivity(), Cv.ACTION_GET_STOCK_TRANSFER_DETAILS);
             } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -168,7 +168,7 @@ public class CreateStockTransferFragment extends Fragment {
                         });
                 snackbar.show();
             }
-        }else{
+        } else {
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
                 mProgressDialog.setMessage("Info...");
@@ -191,11 +191,10 @@ public class CreateStockTransferFragment extends Fragment {
                 snackbar.show();
             }
         }
-        if(!Preferences.getInstance(getActivity()).getUpdate().equals("")){
+        if (!Preferences.getInstance(getActivity()).getUpdate().equals("")) {
             update.setVisibility(View.VISIBLE);
             submit.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
         }
@@ -258,7 +257,7 @@ public class CreateStockTransferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intStartActivityForResult = 1;
-                ParameterConstant.checkStartActivityResultForMaterialCenter=5;
+                ParameterConstant.checkStartActivityResultForMaterialCenter = 5;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
 
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 11);
@@ -269,7 +268,7 @@ public class CreateStockTransferFragment extends Fragment {
             public void onClick(View v) {
                 intStartActivityForResult = 2;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
-                ParameterConstant.checkStartActivityResultForMaterialCenter=5;
+                ParameterConstant.checkStartActivityResultForMaterialCenter = 5;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 12);
             }
         });
@@ -278,7 +277,7 @@ public class CreateStockTransferFragment extends Fragment {
             public void onClick(View v) {
 
                 SaleTypeListActivity.isDirectForSaleType = false;
-                ParameterConstant.checkForPurchaseTypeList=1;
+                ParameterConstant.checkForPurchaseTypeList = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 2;
                 startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 22);
             }
@@ -309,9 +308,9 @@ public class CreateStockTransferFragment extends Fragment {
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ImageOpenActivity.class);
-                intent.putExtra("encodedString",encodedString);
-                intent.putExtra("booleAttachment",false);
+                Intent intent = new Intent(getApplicationContext(), ImageOpenActivity.class);
+                intent.putExtra("encodedString", encodedString);
+                intent.putExtra("booleAttachment", false);
                 startActivity(intent);
             }
         });
@@ -350,7 +349,7 @@ public class CreateStockTransferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                appUser=LocalRepositories.getAppUser(getActivity());
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchase.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
@@ -366,26 +365,26 @@ public class CreateStockTransferFragment extends Fragment {
                                             appUser.purchase_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_STOCK_TRANSFER);
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                            } else {
+                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
                                                         if (isConnected) {
-                                                            mProgressDialog = new ProgressDialog(getActivity());
-                                                            mProgressDialog.setMessage("Info...");
-                                                            mProgressDialog.setIndeterminate(false);
-                                                            mProgressDialog.setCancelable(true);
-                                                            mProgressDialog.show();
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_STOCK_TRANSFER);
-                                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        } else {
-                                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View view) {
-                                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                                    if (isConnected) {
-                                                                        snackbar.dismiss();
-                                                                    }
-                                                                }
-                                                            });
-                                                            snackbar.show();
+                                                            snackbar.dismiss();
                                                         }
+                                                    }
+                                                });
+                                                snackbar.show();
+                                            }
                                         } else {
                                             Snackbar.make(coordinatorLayout, "Please select store to ", Snackbar.LENGTH_LONG).show();
                                         }
@@ -437,7 +436,7 @@ public class CreateStockTransferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 update.startAnimation(blinkOnClick);
-                appUser=LocalRepositories.getAppUser(getActivity());
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchase.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
@@ -446,32 +445,32 @@ public class CreateStockTransferFragment extends Fragment {
                                     if (!mStoreFrom.getText().toString().equals("")) {
                                         if (!mStoreTo.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
-                                        appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
-                                        appUser.purchase_voucher_number = mVchNumber.getText().toString();
-                                        appUser.purchase_mobile_number = mMobileNumber.getText().toString();
-                                        appUser.purchase_narration = mNarration.getText().toString();
-                                        appUser.purchase_attachment = encodedString;
-                                        LocalRepositories.saveAppUser(getActivity(), appUser);
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
-                                            mProgressDialog = new ProgressDialog(getActivity());
-                                            mProgressDialog.setMessage("Info...");
-                                            mProgressDialog.setIndeterminate(false);
-                                            mProgressDialog.setCancelable(true);
-                                            mProgressDialog.show();
-                                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_STOCK_TRANSFER);
-                                        } else {
-                                            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                    if (isConnected) {
-                                                        snackbar.dismiss();
+                                            appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
+                                            appUser.purchase_voucher_number = mVchNumber.getText().toString();
+                                            appUser.purchase_mobile_number = mMobileNumber.getText().toString();
+                                            appUser.purchase_narration = mNarration.getText().toString();
+                                            appUser.purchase_attachment = encodedString;
+                                            LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                                mProgressDialog = new ProgressDialog(getActivity());
+                                                mProgressDialog.setMessage("Info...");
+                                                mProgressDialog.setIndeterminate(false);
+                                                mProgressDialog.setCancelable(true);
+                                                mProgressDialog.show();
+                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_STOCK_TRANSFER);
+                                            } else {
+                                                snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                        if (isConnected) {
+                                                            snackbar.dismiss();
+                                                        }
                                                     }
-                                                }
-                                            });
-                                            snackbar.show();
-                                        }
+                                                });
+                                                snackbar.show();
+                                            }
                                         } else {
                                             Snackbar.make(coordinatorLayout, "Please select store To ", Snackbar.LENGTH_LONG).show();
                                         }
@@ -560,7 +559,7 @@ public class CreateStockTransferFragment extends Fragment {
                 boolForStore = true;
                 Preferences.getInstance(getContext()).setStore(name[0]);
                 Preferences.getInstance(getContext()).setStoreId(id);
-              //  Toast.makeText(getActivity(), "result code 11", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getActivity(), "result code 11", Toast.LENGTH_SHORT).show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -590,7 +589,7 @@ public class CreateStockTransferFragment extends Fragment {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 Timber.i("ID" + id);
-               // appUser.purchase_puchase_type_id = String.valueOf(id);
+                // appUser.purchase_puchase_type_id = String.valueOf(id);
                 appUser.stock_type_id = String.valueOf(id);
                 appUser.stock_type_name = result;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -616,8 +615,7 @@ public class CreateStockTransferFragment extends Fragment {
                     Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
-                }
-                else {
+                } else {
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
                     String mobile = data.getStringExtra("mobile");
@@ -658,7 +656,7 @@ public class CreateStockTransferFragment extends Fragment {
                 boolForStore = true;
             }
             if (!boolForPartyName) {
-               // Toast.makeText(getActivity(), "resume party", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "resume party", Toast.LENGTH_SHORT).show();
                 String result = intent.getStringExtra("name");
                 String id = intent.getStringExtra("id");
                 appUser.sale_store = String.valueOf(id);
@@ -690,7 +688,7 @@ public class CreateStockTransferFragment extends Fragment {
         if (response.getStatus() == 200) {
             Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
-           // update.setVisibility(View.GONE);
+            // update.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
 
             mMobileNumber.setText("");
@@ -713,11 +711,11 @@ public class CreateStockTransferFragment extends Fragment {
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
 
-                        if(response.getHtml()!=null) {
+                        if (response.getHtml() != null) {
                             Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
                             intent.putExtra("company_report", response.getHtml());
                             startActivity(intent);
-                        }else {
+                        } else {
                             Toast.makeText(getApplicationContext(), "PDF not found!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -727,7 +725,8 @@ public class CreateStockTransferFragment extends Fragment {
 
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -784,7 +783,6 @@ public class CreateStockTransferFragment extends Fragment {
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
 
 
-
         if (path.exists()) {
             path.delete();
             path.mkdir();
@@ -819,10 +817,12 @@ public class CreateStockTransferFragment extends Fragment {
             mVchNumber.setText(response.getVoucher_number());
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
@@ -831,6 +831,7 @@ public class CreateStockTransferFragment extends Fragment {
         mProgressDialog.dismiss();
 
     }
+
     @Subscribe
     public void getStockTransferDetails(GetStockTransferDetailsResponse response) {
         mProgressDialog.dismiss();
@@ -850,20 +851,20 @@ public class CreateStockTransferFragment extends Fragment {
             Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setPurchase_type_name(response.getStock_transfer_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getContext()).setPurchase_type_id(String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getPurchase_type_id()));
-           // Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getAccount_master_id()));
-           // Preferences.getInstance(getContext()).setParty_name(response.getStock_transfer_voucher().getData().getAttributes().getAccount_master());
+            // Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getAccount_master_id()));
+            // Preferences.getInstance(getContext()).setParty_name(response.getStock_transfer_voucher().getData().getAttributes().getAccount_master());
             Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getStock_transfer_voucher().getData().getAttributes().getMobile_number()));
-            appUser.totalamount=String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getTotal_amount());
-            appUser.items_amount=String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getItems_amount());
-            appUser.bill_sundries_amount=String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getBill_sundries_amount());
-            LocalRepositories.saveAppUser(getActivity(),appUser);
+            appUser.totalamount = String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getTotal_amount());
+            appUser.items_amount = String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getItems_amount());
+            appUser.bill_sundries_amount = String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getBill_sundries_amount());
+            LocalRepositories.saveAppUser(getActivity(), appUser);
             if (!Helpers.mystring(response.getStock_transfer_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 mSelectedImage.setVisibility(View.VISIBLE);
                 Glide.with(this).load(Helpers.mystring(response.getStock_transfer_voucher().getData().getAttributes().getAttachment())).into(mSelectedImage);
             } else {
                 mSelectedImage.setVisibility(View.GONE);
             }
-            if (response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().size() > 0){
+            if (response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().size() > 0) {
                 for (int i = 0; i < response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                     Map mMap = new HashMap<>();
                     mMap.put("id", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
@@ -871,7 +872,7 @@ public class CreateStockTransferFragment extends Fragment {
                     mMap.put("description", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
                     mMap.put("quantity", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));
                     mMap.put("unit", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
-                    mMap.put("discount",  String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()));
+                    mMap.put("discount", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()));
                     mMap.put("value", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice()));
                     mMap.put("default_unit", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getDefault_unit_for_sales());
                     mMap.put("packaging_unit", Helpers.mystring(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
@@ -879,42 +880,41 @@ public class CreateStockTransferFragment extends Fragment {
                     mMap.put("purchase_price_main", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
                     mMap.put("alternate_unit", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit());
                     mMap.put("packaging_unit_sales_price", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
-                    mMap.put("main_unit",response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
+                    mMap.put("main_unit", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mMap.put("batch_wise", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
-                    StringBuilder sb=new StringBuilder();
-                    for(String str : response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()){
+                    StringBuilder sb = new StringBuilder();
+                    for (String str : response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()) {
                         sb.append(str).append(";"); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();
-                    mMap.put("barcode",strfromArrayList);
+                    mMap.put("barcode", strfromArrayList);
                     mMap.put("purchase_unit", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
-                    ArrayList<String> mUnitList=new ArrayList<>();
+                    ArrayList<String> mUnitList = new ArrayList<>();
                     mUnitList.add("Main Unit : " + response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mUnitList.add("Alternate Unit :" + response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit());
                     if (!Helpers.mystring(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()).equals("")) {
                         mUnitList.add("Packaging Unit :" + Helpers.mystring(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
                     }
-                    mMap.put("total",String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
-                    if(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit()!=null) {
+                    mMap.put("total", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
+                    if (response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit() != null) {
                         if (response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit().equals(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit())) {
-                            mMap.put("rate",String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_main()));
+                            mMap.put("rate", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_main()));
                             mMap.put("price_selected_unit", "main");
-                        } else if(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit().equals(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit())) {
+                        } else if (response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit().equals(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit())) {
                             mMap.put("price_selected_unit", "alternate");
-                            mMap.put("rate",String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_alternate()));
-                        }
-                        else if(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit().equals(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit())){
-                            mMap.put("rate",String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
+                            mMap.put("rate", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_alternate()));
+                        } else if (response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit().equals(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit())) {
+                            mMap.put("rate", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
                             mMap.put("price_selected_unit", "packaging");
                         }
                     }
 
                     mMap.put("alternate_unit_con_factor", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getConversion_factor()));
-                    mMap.put("packaging_unit_con_factor",  String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_conversion_factor()));
-                    mMap.put("mrp",  String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getMrp()));
+                    mMap.put("packaging_unit_con_factor", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_conversion_factor()));
+                    mMap.put("mrp", String.valueOf(response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getMrp()));
                     mMap.put("tax", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getTax_category());
-                    mMap.put("applied",response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
+                    mMap.put("applied", response.getStock_transfer_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
                     //   mMap.put("serial_number", appUser.sale_item_serial_arr);
                     mMap.put("unit_list", mUnitList);
                     appUser.mListMapForItemPurchase.add(mMap);
@@ -955,12 +955,13 @@ public class CreateStockTransferFragment extends Fragment {
 
         }
 
-    }*/ else {
-            snackbar = Snackbar
+    }*/
+        } else {
+           /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
 
     }
-}
 }

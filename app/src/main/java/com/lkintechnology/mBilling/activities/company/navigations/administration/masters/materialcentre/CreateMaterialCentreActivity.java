@@ -32,6 +32,7 @@ import com.lkintechnology.mBilling.networks.api_response.materialcentre.EditMate
 import com.lkintechnology.mBilling.networks.api_response.materialcentre.GetMaterialCentreDetailResponse;
 import com.lkintechnology.mBilling.networks.api_response.materialcentre.StockResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -300,7 +301,8 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             startActivity(intent);
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -327,8 +329,8 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             mStockSpinner.setSelection(groupindex);
 
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -344,8 +346,8 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -408,7 +410,8 @@ public class CreateMaterialCentreActivity extends RegisterAbstractActivity {
                 mStockAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
                 mStockSpinner.setAdapter(mStockAdapter);
             }
-
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

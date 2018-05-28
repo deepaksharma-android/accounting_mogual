@@ -34,6 +34,7 @@ import com.lkintechnology.mBilling.networks.api_response.unitconversion.GetUnitC
 import com.lkintechnology.mBilling.networks.api_response.unitconversion.UnitConversion;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteConversionUnit;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -231,7 +232,8 @@ public class UnitConversionListActivity extends AppCompatActivity {
                 LocalRepositories.saveAppUser(this, appUser);
             }*/
             data = response.getUnit_conversions();
-
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -279,11 +281,10 @@ public class UnitConversionListActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_UNIT_CONVERSION_LIST);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
     @Subscribe

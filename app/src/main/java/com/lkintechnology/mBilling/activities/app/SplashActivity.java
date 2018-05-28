@@ -22,6 +22,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.version.VersionResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 
@@ -198,7 +199,8 @@ public class SplashActivity extends Activity {
             }
 
         } else {
-            Toast.makeText(getApplicationContext(), versionResponse.getMessage(), Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(), versionResponse.getMessage(), Toast.LENGTH_LONG).show();
+            Helpers.dialogMessage(getApplicationContext(),versionResponse.getMessage());
         }
     }
 

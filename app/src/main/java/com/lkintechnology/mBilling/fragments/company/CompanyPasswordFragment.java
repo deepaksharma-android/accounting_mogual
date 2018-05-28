@@ -33,6 +33,7 @@ import com.lkintechnology.mBilling.networks.api_response.companylogin.CompanyLog
 import com.lkintechnology.mBilling.networks.api_response.companylogin.CompanyUserResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventEditLogin;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,26 +69,30 @@ public class CompanyPasswordFragment extends Fragment {
     FloatingActionButton mAddCompanyLogin;
     RecyclerView.LayoutManager layoutManager;
     Dialog dialog;
+
     public CompanyPasswordFragment() {
         // Required empty public constructor
     }
+
     private static ArrayList<String> usernameList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public void onStart() {
         super.onStart();
 //        EventBus.getDefault().register(this);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_company_password, container, false);
-        ButterKnife.bind(this,v);
+        View v = inflater.inflate(R.layout.fragment_company_password, container, false);
+        ButterKnife.bind(this, v);
         appUser = LocalRepositories.getAppUser(getActivity());
         EventBus.getDefault().register(this);
         mAddCompanyLogin.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +101,7 @@ public class CompanyPasswordFragment extends Fragment {
                 showpopup();
             }
         });
-        if(EditCompanyActivity.frompass){
+        if (EditCompanyActivity.frompass) {
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
@@ -180,6 +185,7 @@ public class CompanyPasswordFragment extends Fragment {
         });*/
         return v;
     }
+
     @Override
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
@@ -211,28 +217,29 @@ public class CompanyPasswordFragment extends Fragment {
         }
 
     }
-    @Subscribe
-    public void getcompanyuser(CompanyUserResponse response){
-        mProgressDialog.dismiss();
-        if(response.getStatus()==200){
 
-           // mRecyclerView.setHasFixedSize(true);
-           // Toast.makeText(getActivity(), "Subscribe if", Toast.LENGTH_SHORT).show();
-            if(response.getUsers().size()!=0){
+    @Subscribe
+    public void getcompanyuser(CompanyUserResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            // mRecyclerView.setHasFixedSize(true);
+            // Toast.makeText(getActivity(), "Subscribe if", Toast.LENGTH_SHORT).show();
+            if (response.getUsers().size() != 0) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 mRecyclerView.setLayoutManager(layoutManager);
-                mAdapter=new CompanyLoginAdapter(getActivity(),response.getUsers());
+                mAdapter = new CompanyLoginAdapter(getActivity(), response.getUsers());
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
 
 
-
-            }else {
-                Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             }
         } else {
-           // Toast.makeText(getActivity(), "Subscribe else", Toast.LENGTH_SHORT).show();
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // Toast.makeText(getActivity(), "Subscribe else", Toast.LENGTH_SHORT).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
         //EventBus.getDefault().unregister(this);
     }
@@ -251,12 +258,12 @@ public class CompanyPasswordFragment extends Fragment {
 
 
     public void hideSoftKeyboard(View v) {
-        InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void showpopup(){
+    public void showpopup() {
         dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_company_login_diolog);
@@ -281,16 +288,16 @@ public class CompanyPasswordFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usernameList=new ArrayList<>();
+                usernameList = new ArrayList<>();
                 usernameList.add(username.getText().toString());
-                if(!mobile.getText().toString().equals("")) {
+                if (!mobile.getText().toString().equals("")) {
                     if (!username.getText().toString().equals("")) {
                         if (!password.getText().toString().equals("")) {
                             if (password.getText().toString().equals(confirmpassword.getText().toString())) {
                                 appUser.companyUserName = username.getText().toString();
                                 appUser.companyUserPassword = password.getText().toString();
                                 appUser.companymobile = mobile.getText().toString();
-                                appUser.company_user=usernameList;
+                                appUser.company_user = usernameList;
                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                 Boolean isConnected = ConnectivityReceiver.isConnected();
                                 if (isConnected) {
@@ -326,8 +333,7 @@ public class CompanyPasswordFragment extends Fragment {
                     } else {
                         Toast.makeText(getActivity(), "Enter username", Toast.LENGTH_LONG).show();
                     }
-                }
-                else{
+                } else {
                     Toast.makeText(getActivity(), "Enter mobile number", Toast.LENGTH_LONG).show();
                 }
 
@@ -338,13 +344,13 @@ public class CompanyPasswordFragment extends Fragment {
     }
 
     @Subscribe
-    public void createCompany(CompanyLoginResponse response){
+    public void createCompany(CompanyLoginResponse response) {
 
-        appUser=LocalRepositories.getAppUser(getActivity());
+        appUser = LocalRepositories.getAppUser(getActivity());
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             dialog.dismiss();
-           // mHeaderViewPager.setCurrentItem(0);
+            // mHeaderViewPager.setCurrentItem(0);
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                /* mProgressDialog = new ProgressDialog(getActivity());
@@ -371,12 +377,11 @@ public class CompanyPasswordFragment extends Fragment {
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
 
-        }
-        else {
+        } else {
             dialog.dismiss();
-            snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            /*snackbar = Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -387,7 +392,7 @@ public class CompanyPasswordFragment extends Fragment {
     }*/
 
     @Subscribe
-    public void opencompany(EventEditLogin pos){
+    public void opencompany(EventEditLogin pos) {
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(getActivity());
@@ -411,19 +416,19 @@ public class CompanyPasswordFragment extends Fragment {
             snackbar.show();
         }
     }
+
     @Subscribe
-    public void authenticate(CompanyAuthenticateResponse response){
+    public void authenticate(CompanyAuthenticateResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            startActivity(new Intent(getActivity(),CompanyDashboardActivity.class));
-        }
-        else{
-
-            snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
-
+        if (response.getStatus() == 200) {
+            startActivity(new Intent(getActivity(), CompanyDashboardActivity.class));
+        } else {
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+           // snackbar.show();
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar

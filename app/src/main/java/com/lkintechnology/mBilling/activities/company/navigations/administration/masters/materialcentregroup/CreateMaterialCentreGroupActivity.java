@@ -30,6 +30,7 @@ import com.lkintechnology.mBilling.networks.api_response.materialcentregroup.Edi
 import com.lkintechnology.mBilling.networks.api_response.materialcentregroup.GetMaterialCentreGroupDetailResponse;
 import com.lkintechnology.mBilling.networks.api_response.materialcentregroup.MaterialCentreGroupsList;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
@@ -295,7 +296,8 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
 
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -342,7 +344,8 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
             finish();*/
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
 
     }
@@ -360,7 +363,8 @@ public class CreateMaterialCentreGroupActivity extends RegisterAbstractActivity 
             startActivity(intent);
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

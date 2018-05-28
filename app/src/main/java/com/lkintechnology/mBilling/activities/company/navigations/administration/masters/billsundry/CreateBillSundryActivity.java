@@ -32,6 +32,7 @@ import com.lkintechnology.mBilling.networks.api_response.bill_sundry.EditBillSun
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSundryDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSundryNatureResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -339,7 +340,8 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -505,8 +507,8 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             if (String.valueOf(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_id()) != null) {
                 Preferences.getInstance(getApplicationContext()).setcalculated_on_bill_sundry_id(response.getBill_sundry_info().getData().getAttributes().getBill_sundry_round_off_limit());
             }
-
-
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -520,8 +522,8 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -542,6 +544,8 @@ public class CreateBillSundryActivity extends RegisterAbstractActivity {
             mNatureAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
             mBillSundryNatureSpinner.setAdapter(mNatureAdapter);
 
+        }else {
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

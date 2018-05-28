@@ -33,6 +33,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.otp.OtpResponse;
 import com.lkintechnology.mBilling.networks.api_response.user.UserApiResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -291,9 +292,9 @@ public class VerificationActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+           // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+           // snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -346,9 +347,9 @@ public class VerificationActivity extends RegisterAbstractActivity {
                 snackbar.show();
             }
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+          //  snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+          //  snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

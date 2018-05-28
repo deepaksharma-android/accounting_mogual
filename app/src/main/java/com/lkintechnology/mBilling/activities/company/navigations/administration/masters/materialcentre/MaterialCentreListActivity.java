@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.utils.EventDeleteMaterialCentre;
 import com.lkintechnology.mBilling.utils.EventEditMaterialCentre;
 import com.lkintechnology.mBilling.utils.EventSelectPurchase;
 import com.lkintechnology.mBilling.utils.EventSelectSaleVoucher;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -232,8 +233,8 @@ public class MaterialCentreListActivity extends AppCompatActivity {
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
       /*  expListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -303,8 +304,8 @@ public class MaterialCentreListActivity extends AppCompatActivity {
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

@@ -73,12 +73,13 @@ public class RegisterActivity extends RegisterAbstractActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     private CallbackManager callbackManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initActionbar();
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         callbackManager = CallbackManager.Factory.create();
         fbLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +114,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -130,14 +132,14 @@ public class RegisterActivity extends RegisterAbstractActivity {
 
     @Subscribe
     public void fbAuthResponse(EventFbAuthResponse resp) {
-        appUser.fb_id=resp.id;
-        appUser.name=resp.first_name+" "+resp.last_name;
-        appUser.email=resp.email;
-        appUser.password="qwopaskl23";
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser.fb_id = resp.id;
+        appUser.name = resp.first_name + " " + resp.last_name;
+        appUser.email = resp.email;
+        appUser.password = "qwopaskl23";
+        LocalRepositories.saveAppUser(this, appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(RegisterActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -145,15 +147,14 @@ public class RegisterActivity extends RegisterAbstractActivity {
             mProgressDialog.show();
 
             ApiCallsService.action(this, Cv.ACTION_FACEBOOK_CHECK);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -163,109 +164,102 @@ public class RegisterActivity extends RegisterAbstractActivity {
 
 
     }
+
     @Subscribe
-    public void userexists(UserExistResponse response){
+    public void userexists(UserExistResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-            if(response.is_present.equals("true")){
+        if (response.getStatus() == 200) {
+            if (response.is_present.equals("true")) {
                 Preferences.getInstance(getApplicationContext()).setLogin(true);
                 Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                 startActivity(intent);
                 finish();
-            }
-            else {
+            } else {
                 Intent intent = new Intent(getApplicationContext(), FacebookHandlerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromregisterpage",true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("fromregisterpage", true);
                 startActivity(intent);
                 finish();
             }
+        } else {
+            //snackbar = Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
-        else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
-        }
-
     }
 
-    public void register(View v){
+    public void register(View v) {
 
         boolean cancel = false;
         View focusView = null;
 
-        if(!mName.getText().toString().equals("")){
+        if (!mName.getText().toString().equals("")) {
             if (Validation.isPhoneFormatValid(mMobile.getText().toString())) {
-                    if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
-                        if (Validation.isPwdFormatValid(mConfirmPassword.getText().toString())) {
-                            if(mPassword.getText().toString().matches(mConfirmPassword.getText().toString())) {
-                                if (!mzip_code.getText().toString().equals("")) {
-                                    if (validate()) {
+                if (Validation.isPwdFormatValid(mPassword.getText().toString())) {
+                    if (Validation.isPwdFormatValid(mConfirmPassword.getText().toString())) {
+                        if (mPassword.getText().toString().matches(mConfirmPassword.getText().toString())) {
+                            if (!mzip_code.getText().toString().equals("")) {
+                                if (validate()) {
 
-                                            appUser.name = mName.getText().toString();
-                                            appUser.email = mEmail.getText().toString();
-                                            appUser.mobile = mMobile.getText().toString();
-                                            appUser.password = mPassword.getText().toString();
-                                            appUser.zipcode = mzip_code.getText().toString();
-                                            appUser.salesmanmobile = mSalesman_mobile.getText().toString();
-                                            LocalRepositories.saveAppUser(this, appUser);
-                                            logInRequest();
-                                    }
+                                    appUser.name = mName.getText().toString();
+                                    appUser.email = mEmail.getText().toString();
+                                    appUser.mobile = mMobile.getText().toString();
+                                    appUser.password = mPassword.getText().toString();
+                                    appUser.zipcode = mzip_code.getText().toString();
+                                    appUser.salesmanmobile = mSalesman_mobile.getText().toString();
+                                    LocalRepositories.saveAppUser(this, appUser);
+                                    logInRequest();
                                 }
-                                else{
-                                    snackbar = Snackbar
-                                            .make(coordinatorLayout, "Enter Pincode", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                }
-                            }
-                            else{
+                            } else {
                                 snackbar = Snackbar
-                                        .make(coordinatorLayout, "Password does not match", Snackbar.LENGTH_LONG);
+                                        .make(coordinatorLayout, "Enter Pincode", Snackbar.LENGTH_LONG);
                                 snackbar.show();
                             }
-
-                        }
-                        else {
+                        } else {
                             snackbar = Snackbar
-                                    .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
+                                    .make(coordinatorLayout, "Password does not match", Snackbar.LENGTH_LONG);
                             snackbar.show();
-
                         }
-                    }
-                    else {
+
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
                         snackbar.show();
+
                     }
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.err_invalid_pwd_format), Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
-            else {
+            } else {
                 snackbar = Snackbar
                         .make(coordinatorLayout, getString(R.string.err_invalid_mobile), Snackbar.LENGTH_LONG);
                 snackbar.show();
 
             }
-        }
-        else {
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, getString(R.string.err_invalid_name), Snackbar.LENGTH_LONG);
             snackbar.show();
 
         }
     }
-   //   check validation on zipcode and email mobile
+
+    //   check validation on zipcode and email mobile
     private boolean validate() {
-        if (mzip_code.getText().toString().trim().length()<6){
+        if (mzip_code.getText().toString().trim().length() < 6) {
             snackbar = Snackbar
                     .make(coordinatorLayout, "Enter Valid Pincode", Snackbar.LENGTH_LONG);
             snackbar.show();
             return false;
-        }else if (mEmail.getText().toString().length()==0){
+        } else if (mEmail.getText().toString().length() == 0) {
             snackbar = Snackbar
                     .make(coordinatorLayout, "Enter Email", Snackbar.LENGTH_LONG);
             snackbar.show();
             return false;
-        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString().trim()).matches()){
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString().trim()).matches()) {
             snackbar = Snackbar
                     .make(coordinatorLayout, "Invalid Email", Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -280,7 +274,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
                     .make(coordinatorLayout, "Enter Valid Mobile Number", Snackbar.LENGTH_LONG);
             snackbar.show();
             return false;
-        }*/else {
+        }*/ else {
             return true;
         }
     }
@@ -288,7 +282,7 @@ public class RegisterActivity extends RegisterAbstractActivity {
 
     private void logInRequest() {
         Boolean isConnected = ConnectivityReceiver.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             mProgressDialog = new ProgressDialog(RegisterActivity.this);
             mProgressDialog.setMessage("Info...");
             mProgressDialog.setIndeterminate(false);
@@ -296,15 +290,14 @@ public class RegisterActivity extends RegisterAbstractActivity {
             mProgressDialog.show();
             LocalRepositories.saveAppUser(this, appUser);
             ApiCallsService.action(this, Cv.ACTION_REGISTER_USER);
-        }
-        else{
+        } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if(isConnected){
+                            if (isConnected) {
                                 snackbar.dismiss();
                             }
                         }
@@ -319,19 +312,19 @@ public class RegisterActivity extends RegisterAbstractActivity {
         if (response.getStatus() == 200) {
             appUser.user_id = response.getUser().getData().getId();
             appUser.name = response.getUser().getData().getAttributes().getName();
-            appUser.mobile=response.getUser().getData().getAttributes().getMobile();
+            appUser.mobile = response.getUser().getData().getAttributes().getMobile();
             appUser.email = response.getUser().getData().getAttributes().getEmail();
             appUser.auth_token = response.getUser().getData().getAttributes().getAuth_token();
             LocalRepositories.saveAppUser(this, appUser);
-            if (response.getUser().getData().getAttributes().getActive()==false) {
-                Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
-                intent.putExtra("fromRegisterPage",true);
-                intent.putExtra("mobile",mMobile.getText().toString());
+            if (response.getUser().getData().getAttributes().getActive() == false) {
+                Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                intent.putExtra("fromRegisterPage", true);
+                intent.putExtra("mobile", mMobile.getText().toString());
                 startActivity(intent);
                 finish();
             }
 
-        }else if(response.getStatus() == 412) {
+        } else if (response.getStatus() == 412) {
             String mobile = "+917015860006";
             new AlertDialog.Builder(RegisterActivity.this)
                     .setTitle("Call us")
@@ -344,19 +337,19 @@ public class RegisterActivity extends RegisterAbstractActivity {
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
 
-        } else{
-            snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+        } else {
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            //snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, HomePageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 return true;
@@ -366,16 +359,17 @@ public class RegisterActivity extends RegisterAbstractActivity {
     }
 
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
     }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, HomePageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

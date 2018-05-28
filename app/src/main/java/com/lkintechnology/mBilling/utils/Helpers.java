@@ -1,6 +1,8 @@
 package com.lkintechnology.mBilling.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
@@ -28,6 +31,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.events.EventFbAuthResponse;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -289,5 +293,19 @@ public class Helpers {
             e.printStackTrace();
         }
         return bm;
+    }
+
+    public static void dialogMessage(Context context ,String message){
+        new AlertDialog.Builder(context)
+                .setTitle("m-Billing")
+                .setMessage(message)
+                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Your code
+                    }
+
+                }).show();
+               /* .setNegativeButton(R.string.btn_cancel, null)
+                .show();*/
     }
 }

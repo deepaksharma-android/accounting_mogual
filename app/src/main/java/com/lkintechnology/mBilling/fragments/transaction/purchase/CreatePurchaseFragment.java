@@ -943,7 +943,8 @@ public class CreatePurchaseFragment extends Fragment {
 
 
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 
@@ -1231,9 +1232,9 @@ public class CreatePurchaseFragment extends Fragment {
             }
 
         } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+           /* snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
 
     }
@@ -1270,9 +1271,10 @@ public class CreatePurchaseFragment extends Fragment {
                 startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
             }
         } else {
-            snackbar = Snackbar
+            /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();*/
+            Helpers.dialogMessage(getContext(),response.getMessage());
         }
     }
 

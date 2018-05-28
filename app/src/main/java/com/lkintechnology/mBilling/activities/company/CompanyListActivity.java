@@ -251,7 +251,8 @@ public class CompanyListActivity extends BaseActivity {
             Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(response.getCompany().getData().getAttributes().getUsername()));
         }
         else{
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -422,7 +423,8 @@ public class CompanyListActivity extends BaseActivity {
                 mRecyclerView.setAdapter(mAdapter);
         }
         else{
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
     @Subscribe
@@ -459,18 +461,17 @@ public class CompanyListActivity extends BaseActivity {
                 snackbar.show();
             }
     }
+
     @Subscribe
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
             finish();
-        }
-        else{
-
-            snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+        } else{
+            //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+           // snackbar.show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 

@@ -289,7 +289,8 @@ public class EditCompanyActivity extends AppCompatActivity {
                 snackbar.show();
             }
         } else {
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
 
 
@@ -335,7 +336,8 @@ public class EditCompanyActivity extends AppCompatActivity {
                /* mHeaderViewPager.setOffscreenPageLimit(1);*/
             }
         } else {
-            Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+          // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
