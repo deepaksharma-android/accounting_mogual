@@ -559,7 +559,9 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String payment_settlement_id_3="";
     public String payment_settlement_id_4="";
     public String payment_settlement_id_5="";
-    public ArrayList<Map> paymentSettlementList = new ArrayList<>();;
+    public ArrayList<Map> paymentSettlementList = new ArrayList<>();
+  //  public HashMap<Map, List<Map>> paymentSettlementHashMap = new HashMap<Map, List<Map>>();
+    public List paymentSettlementHashMap = new ArrayList();
 
     public int quantity;
     public Bitmap photos;

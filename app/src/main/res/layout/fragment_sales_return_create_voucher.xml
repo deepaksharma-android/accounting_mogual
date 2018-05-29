@@ -509,6 +509,43 @@
                                 </LinearLayout>
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:id="@+id/payment_settlement_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/grey_stroke_white_solid">
+
+                                <LinearLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="80dp"
+                                    android:layout_margin="8dp"
+                                    android:background="@drawable/square_gradient"
+                                    android:orientation="vertical">
+
+
+                                    <ImageView
+                                        android:layout_width="25dp"
+                                        android:layout_height="21dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="20dp"
+                                        android:src="@drawable/icon_attachment" />
+
+                                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                                        style="@style/Gotham_Medium"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginTop="10dp"
+                                        android:gravity="center"
+                                        android:text="Payment Settlement"
+                                        android:textColor="#67309c"
+                                        android:textSize="10sp" />
+
+
+                                </LinearLayout>
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/receipt"

@@ -56,6 +56,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase_retur
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.GetPurchaseReturnListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -124,6 +125,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
     LinearLayout mBrowseImage;
     @Bind(R.id.transport)
     LinearLayout mTransport;
+    @Bind(R.id.payment_settlement_layout)
+    LinearLayout mPaymentSettlementLayout;
     @Bind(R.id.receipt)
     LinearLayout mReceipt;
     @Bind(R.id.selected_image)
@@ -383,6 +386,24 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mPartyName.getText().toString().equals("")) {
+                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                        PaymentSettlementActivity.voucher_type = "purchase_return";
+                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                        intent.putExtra("fromedit", fromedit);
+                        startActivity(intent);
+                    } else {
+                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                    }
+                } else {
+                    Helpers.dialogMessage(getContext(), "Please select party name");
+                }
+            }
+        });
+
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -908,7 +929,13 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 }
             }
             else{*/
-
+            appUser.payment_settlement_id_1 = "";
+            appUser.payment_settlement_id_2 = "";
+            appUser.payment_settlement_id_3 = "";
+            appUser.payment_settlement_id_4 = "";
+            appUser.payment_settlement_id_5 = "";
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

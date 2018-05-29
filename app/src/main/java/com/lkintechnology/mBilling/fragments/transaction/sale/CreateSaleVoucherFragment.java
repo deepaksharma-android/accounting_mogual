@@ -416,6 +416,23 @@ public class CreateSaleVoucherFragment extends Fragment {
             public void onClick(View v) {
                 if (!mPartyName.getText().toString().equals("")) {
                     if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                        PaymentSettlementActivity.voucher_type = "sale_return";
+                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                        intent.putExtra("fromedit", fromedit);
+                        startActivity(intent);
+                    } else {
+                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                    }
+                } else {
+                    Helpers.dialogMessage(getContext(), "Please select party name");
+                }
+            }
+        });
+        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mPartyName.getText().toString().equals("")) {
+                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
                         PaymentSettlementActivity.voucher_type = "sale";
                         Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
                         intent.putExtra("fromedit", fromedit);
@@ -998,6 +1015,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.payment_settlement_id_4 = "";
             appUser.payment_settlement_id_5 = "";
             appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

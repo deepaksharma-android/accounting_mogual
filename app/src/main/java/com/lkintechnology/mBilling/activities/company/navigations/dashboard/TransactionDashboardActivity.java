@@ -205,6 +205,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
                 appUser.payment_settlement_id_4 = "";
                 appUser.payment_settlement_id_5 = "";
                 appUser.paymentSettlementList.clear();
+                appUser.paymentSettlementHashMap.clear();
 
                 CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();
@@ -288,6 +289,14 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.payment_settlement_id_1 = "";
+                appUser.payment_settlement_id_2 = "";
+                appUser.payment_settlement_id_3 = "";
+                appUser.payment_settlement_id_4 = "";
+                appUser.payment_settlement_id_5 = "";
+                appUser.paymentSettlementList.clear();
+                appUser.paymentSettlementHashMap.clear();
+
                 CreatePurchaseActivity.isForEdit = false;
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
@@ -498,6 +507,14 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         saleReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.payment_settlement_id_1 = "";
+                appUser.payment_settlement_id_2 = "";
+                appUser.payment_settlement_id_3 = "";
+                appUser.payment_settlement_id_4 = "";
+                appUser.payment_settlement_id_5 = "";
+                appUser.paymentSettlementList.clear();
+                appUser.paymentSettlementHashMap.clear();
+
                 CreateSaleReturnActivity.isForEdit=false;
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
@@ -548,6 +565,13 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchaseReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.payment_settlement_id_1 = "";
+                appUser.payment_settlement_id_2 = "";
+                appUser.payment_settlement_id_3 = "";
+                appUser.payment_settlement_id_4 = "";
+                appUser.payment_settlement_id_5 = "";
+                appUser.paymentSettlementList.clear();
+                appUser.paymentSettlementHashMap.clear();
 
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");

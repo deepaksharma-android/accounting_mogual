@@ -43,5 +43,6 @@ public class RequestCreatePurchase {
         voucher.put("attachment",Preferences.getInstance(context).getAttachment());
         voucher.put("itc_eligibility",Preferences.getInstance(context).getPurchase_gst_nature());
         voucher.put("transport_details",appUser.transport_details);
+        voucher.put("payment_settlement",appUser.paymentSettlementHashMap);
     }
 }

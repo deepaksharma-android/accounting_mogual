@@ -39,6 +39,6 @@ public class RequestCreateSaleVoucher {
         //voucher.put("attachment",appUser.sale_attachment);
         voucher.put("attachment",Preferences.getInstance(ctx).getAttachment());
         voucher.put("transport_details",appUser.transport_details);
-        voucher.put("payment_settlement",appUser.paymentSettlementList);
+        voucher.put("payment_settlement",appUser.paymentSettlementHashMap);
    }
 }

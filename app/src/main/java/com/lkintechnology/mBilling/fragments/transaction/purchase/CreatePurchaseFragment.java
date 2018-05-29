@@ -59,6 +59,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase.Creat
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
@@ -129,6 +130,8 @@ public class CreatePurchaseFragment extends Fragment {
     LinearLayout mBrowseImage;
     @Bind(R.id.transport)
     LinearLayout mTransport;
+    @Bind(R.id.payment_settlement_layout)
+    LinearLayout mPaymentSettlementLayout;
     @Bind(R.id.receipt)
     LinearLayout mReceipt;
     @Bind(R.id.selected_image)
@@ -391,6 +394,23 @@ public class CreatePurchaseFragment extends Fragment {
                 Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
                 intent.putExtra("fromedit",fromedit);
                 startActivity(intent);
+            }
+        });
+        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mPartyName.getText().toString().equals("")) {
+                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                        PaymentSettlementActivity.voucher_type = "purchase";
+                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                        intent.putExtra("fromedit", fromedit);
+                        startActivity(intent);
+                    } else {
+                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                    }
+                } else {
+                    Helpers.dialogMessage(getContext(), "Please select party name");
+                }
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -897,6 +917,13 @@ public class CreatePurchaseFragment extends Fragment {
                 }
             }
             else{*/
+            appUser.payment_settlement_id_1 = "";
+            appUser.payment_settlement_id_2 = "";
+            appUser.payment_settlement_id_3 = "";
+            appUser.payment_settlement_id_4 = "";
+            appUser.payment_settlement_id_5 = "";
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

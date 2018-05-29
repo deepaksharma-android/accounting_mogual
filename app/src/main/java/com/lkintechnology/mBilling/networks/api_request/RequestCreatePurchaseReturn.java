@@ -39,5 +39,6 @@ public class RequestCreatePurchaseReturn {
         voucher.put("attachment",Preferences.getInstance(ctx).getAttachment());
         voucher.put("transport_details",appUser.transport_details);
         voucher.put("itc_eligibility",Preferences.getInstance(ctx).getPurchase_return_gst_nature());
+        voucher.put("payment_settlement",appUser.paymentSettlementHashMap);
    }
 }
