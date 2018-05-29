@@ -199,6 +199,13 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser.payment_settlement_id_1 = "";
+                appUser.payment_settlement_id_2 = "";
+                appUser.payment_settlement_id_3 = "";
+                appUser.payment_settlement_id_4 = "";
+                appUser.payment_settlement_id_5 = "";
+                appUser.paymentSettlementList.clear();
+
                 CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
