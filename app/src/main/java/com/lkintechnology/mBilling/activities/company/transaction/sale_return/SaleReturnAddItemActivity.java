@@ -471,6 +471,20 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                 // }
             }
         });
+        mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                appUser.serial_arr.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                mSr_no.setText("");
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -592,6 +606,55 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                                             return;
                                         }
                                     }
+                                }
+                                else{
+                                    if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
+                                        pairs[i].setText("");
+                                        appUser.serial_arr.add(i, "");
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        //  Toast.makeText(SaleReturnAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (!pairs[i].getText().toString().equals("")) {
+                                            if ((appUser.serial_arr.size() - 1) == i) {
+                                                appUser.serial_arr.set(i, pairs[i].getText().toString());
+                                            } else {
+                                                appUser.serial_arr.add(pairs[i].getText().toString());
+                                            }
+//                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
+                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        } else {
+                                            appUser.serial_arr.add(i, "");
+                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
+                                    }
+
+
+                                    appUser.purchase_item_serail_arr.clear();
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    for (int j = 0; j < appUser.serial_arr.size(); j++) {
+                                        if (!appUser.serial_arr.get(j).equals("")) {
+                                            appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(j));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                                        }
+                                    }
+                                    appUser.serial_arr.clear();
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    for (int k = 0; k < appUser.purchase_item_serail_arr.size(); k++) {
+                                        appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(k));
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    }
+
+
+                                    String listString = "";
+
+                                    for (String s : appUser.purchase_item_serail_arr) {
+                                        listString += s + ",";
+                                    }
+                                    mSr_no.setText(listString);
+                                    isbool = true;
                                 }
                             }
 
