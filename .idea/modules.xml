@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/accounts-android.iml" filepath="$PROJECT_DIR$/accounts-android.iml" />
       <module fileurl="file://F:\Beryl\mBilling_attachment\accounts-android\accounts-android.iml" filepath="F:\Beryl\mBilling_attachment\accounts-android\accounts-android.iml" />
+      <module fileurl="file://C:\PC\m-Billing-Project\30_05_2018_master\accounts-android\accounts-android.iml" filepath="C:\PC\m-Billing-Project\30_05_2018_master\accounts-android\accounts-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://F:\Beryl\mBilling_attachment\accounts-android\app\app.iml" filepath="F:\Beryl\mBilling_attachment\accounts-android\app\app.iml" />
+      <module fileurl="file://C:\PC\m-Billing-Project\30_05_2018_master\accounts-android\app\app.iml" filepath="C:\PC\m-Billing-Project\30_05_2018_master\accounts-android\app\app.iml" />
     </modules>
   </component>
 </project>

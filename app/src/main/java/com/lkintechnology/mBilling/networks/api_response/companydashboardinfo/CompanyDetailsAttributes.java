@@ -9,6 +9,15 @@ public class CompanyDetailsAttributes {
     public Double stock_in_hand;
     public Double sales;
     public Double profit_loss;
+    public Double purchases;
+
+    public Double getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(Double purchases) {
+        this.purchases = purchases;
+    }
 
     public Double getProfit_loss() {
         return profit_loss;

@@ -81,6 +81,7 @@ public class DashBoardReportsFragment extends Fragment {
 
         appUser = LocalRepositories.getAppUser(getActivity());
         mtextview_sales.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getSales()));
+        mtextview_purchase.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getPurchases()));
         mtextview_expenses.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getExpenses()));
         mProfit_loss_textview1.setText("₹ " + String.format("%.2f", DashboardAccountFragment.data.getData().getAttributes().getProfit_loss()));
 
