@@ -20,11 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +66,8 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
     TextView mSr_no;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
+    @Bind(R.id.business_type)
+    Spinner mBusinessType;
     AppUser appUser;
     Double stockquantity, stockprice;
     String batchwise, serailwise;
@@ -251,7 +255,28 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 int qty = Integer.parseInt(mStockQuantity.getText().toString());
                                 if (qty > appUser.stock_serial_arr.size()) {
                                     // mScannerView.stopCamera();
-                                    if (mSerialNumber.getText().toString().length() >= 15 && mSerialNumber.getText().toString().length() <= 20) {
+                                    if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                                        if (mSerialNumber.getText().toString().length() == 15) {
+                                            if (appUser.stock_serial_arr.contains(mSerialNumber.getText().toString())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+//                                        Toast.makeText(ItemOpeningStockActivity.this, mSerialNumber.getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                appUser.stock_serial_arr.add(mSerialNumber.getText().toString());
+                                                appUser.stock_item_serail_arr.add(mSerialNumber.getText().toString());
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                for (String s : appUser.stock_item_serail_arr) {
+                                                    listString += s + ",";
+                                                }
+                                                Preferences.getInstance(getApplication()).setStockSerial(listString);
+                                                mSr_no.setText(listString);
+                                                mSerialNumber.setText("");
+                                            }
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                    else{
                                         if (appUser.stock_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -267,8 +292,6 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                             mSr_no.setText(listString);
                                             mSerialNumber.setText("");
                                         }
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
                                     }
 
                                 } else {
@@ -321,7 +344,20 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 // }
             }
         });
+        mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                appUser.stock_serial_arr.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                mSr_no.setText("");
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         if (batchwise != null || serailwise != null) {
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -417,7 +453,68 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 boolean isbool = false;
                                 for (int i = 0; i < Integer.parseInt(serial); i++) {
-                                    if (pairs[i].getText().toString().length() >= 15 && pairs[i].getText().toString().length() <= 20) {
+                                    if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                                        if (pairs[i].getText().toString().length() == 15) {
+                                            if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
+                                                pairs[i].setText("");
+                                                appUser.stock_serial_arr.add(i, "");
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                                            } else {
+
+                                                if (!pairs[i].getText().toString().equals("")) {
+                                                    if ((appUser.stock_serial_arr.size() - 1) == i) {
+                                                        appUser.stock_serial_arr.set(i, pairs[i].getText().toString());
+                                                    } else {
+                                                        appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                                    }
+
+                                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                } else {
+                                                    appUser.stock_serial_arr.add(i, "");
+                                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+
+                                                }
+                                            }
+                                            Preferences.getInstance(getApplicationContext()).setStockSerial("");
+                                            appUser.stock_item_serail_arr.clear();
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            for (int j = 0; j < appUser.stock_serial_arr.size(); j++) {
+                                                if (!appUser.stock_serial_arr.get(j).equals("")) {
+                                                    appUser.stock_item_serail_arr.add(appUser.stock_serial_arr.get(j));
+                                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                }
+                                            }
+
+                                            appUser.stock_serial_arr.clear();
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            for (int k = 0; k < appUser.stock_item_serail_arr.size(); k++) {
+                                                appUser.stock_serial_arr.add(appUser.stock_item_serail_arr.get(k));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            }
+
+
+                                            String listString = "";
+
+                                            for (String s : appUser.stock_item_serail_arr) {
+                                                listString += s + ",";
+                                            }
+                                            Preferences.getInstance(getApplication()).setStockSerial(listString);
+                                            mSr_no.setText(listString);
+                                            isbool = true;
+                                        } else {
+                                            if (pairs[i].getText().toString().equals("")) {
+                                                isbool = true;
+                                            } else {
+                                                isbool = false;
+                                                Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    else{
                                         if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
                                             pairs[i].setText("");
                                             appUser.stock_serial_arr.add(i, "");
@@ -467,14 +564,6 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                         Preferences.getInstance(getApplication()).setStockSerial(listString);
                                         mSr_no.setText(listString);
                                         isbool = true;
-                                    } else {
-                                        if (pairs[i].getText().toString().equals("")) {
-                                            isbool = true;
-                                        } else {
-                                            isbool = false;
-                                            Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
                                     }
                                 }
                                 if (isbool) {
@@ -694,21 +783,39 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             String listString = "";
             int qty = Integer.parseInt(mStockQuantity.getText().toString());
             if (qty > appUser.stock_serial_arr.size()) {
-                if (result.getContents().length() >= 15 && result.getContents().length() <= 20) {
-                    // mScannerView.stopCamera();
-                    if (appUser.stock_serial_arr.contains(result.getContents())) {
+                if (result.getContents().length() == 15 ) {
+                    if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                        // mScannerView.stopCamera();
+                        if (appUser.stock_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                        Toast.makeText(ItemOpeningStockActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
-                    } else {
-                        appUser.stock_serial_arr.add(result.getContents());
-                        appUser.stock_item_serail_arr.add(result.getContents());
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        for (String s : appUser.stock_item_serail_arr) {
-                            listString += s + ",";
+                            Toast.makeText(ItemOpeningStockActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                        } else {
+                            appUser.stock_serial_arr.add(result.getContents());
+                            appUser.stock_item_serail_arr.add(result.getContents());
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (String s : appUser.stock_item_serail_arr) {
+                                listString += s + ",";
+                            }
+                            Preferences.getInstance(getApplication()).setStockSerial(listString);
+                            mSr_no.setText(listString);
                         }
-                        Preferences.getInstance(getApplication()).setStockSerial(listString);
-                        mSr_no.setText(listString);
+                    }
+                    else{
+                        if (appUser.stock_serial_arr.contains(result.getContents())) {
+               /* appUser.serial_arr.add("");
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
+                            Toast.makeText(ItemOpeningStockActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                        } else {
+                            appUser.stock_serial_arr.add(result.getContents());
+                            appUser.stock_item_serail_arr.add(result.getContents());
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (String s : appUser.stock_item_serail_arr) {
+                                listString += s + ",";
+                            }
+                            Preferences.getInstance(getApplication()).setStockSerial(listString);
+                            mSr_no.setText(listString);
+                        }
                     }
                 }
                 mScannerView.stopCamera();
