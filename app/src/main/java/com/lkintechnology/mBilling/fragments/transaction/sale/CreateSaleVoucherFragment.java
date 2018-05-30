@@ -1211,6 +1211,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mMap.put("main_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mMap.put("batch_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                        mMap.put("business_type", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                    }
                     StringBuilder sb = new StringBuilder();
                     for (String str : response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()) {
                         sb.append(str).append(","); //separating contents using semi colon

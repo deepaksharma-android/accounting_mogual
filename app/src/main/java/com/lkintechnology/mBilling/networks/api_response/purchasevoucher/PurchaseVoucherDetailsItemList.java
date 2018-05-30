@@ -149,6 +149,15 @@ public class PurchaseVoucherDetailsItemList {
     public String tax_category_id;
     public String tax_category;
     public ArrayList<String> voucher_barcode;
+    public String business_type;
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public ArrayList<String> getVoucher_barcode() {
         return voucher_barcode;

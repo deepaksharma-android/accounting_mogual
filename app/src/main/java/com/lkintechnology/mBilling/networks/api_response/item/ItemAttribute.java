@@ -131,6 +131,15 @@ public class ItemAttribute {
     public int stock_quantity;
     public double stock_amount;
     public String conversion_type;
+    public String business_type;
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public int getOpening_stock_quantity_alternate() {
         return opening_stock_quantity_alternate;

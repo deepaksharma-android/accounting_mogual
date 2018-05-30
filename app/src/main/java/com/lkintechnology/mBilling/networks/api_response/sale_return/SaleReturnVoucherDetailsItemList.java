@@ -7,7 +7,15 @@ public class SaleReturnVoucherDetailsItemList {
     public  String item;
     public int quantity;
     public Double total_amount;
+    public String business_type;
 
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public int getId() {
         return id;

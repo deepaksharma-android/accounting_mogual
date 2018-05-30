@@ -668,6 +668,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "item");
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Preferences.getInstance(getApplicationContext()).setBusiness_type("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_amount("");
             Preferences.getInstance(getApplicationContext()).setItem_stock_value("");
@@ -850,7 +851,6 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public void editItem(EditItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent intent = new Intent(this, ExpandableItemListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -892,6 +892,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             if (!response.getItem().getData().getAttributes().getTax_category().equals("None")) {
                 mHsnLayout.setVisibility(View.VISIBLE);
                 mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());
+            }
+            if (response.getItem().getData().getAttributes().getBusiness_type()!=null){
+                Preferences.getInstance(getApplicationContext()).setBusiness_type(response.getItem().getData().getAttributes().getBusiness_type());
             }
             if (String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()) != null) {
                 Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()));

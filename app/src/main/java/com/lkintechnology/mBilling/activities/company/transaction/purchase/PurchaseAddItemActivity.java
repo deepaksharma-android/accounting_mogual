@@ -205,6 +205,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             String mainunit = (String) map.get("main_unit");
             String alternateunit = (String) map.get("alternate_unit");
             String purchasepricemain = (String) map.get("purchase_price_main");
+            String businessType = (String) map.get("business_type");
             Timber.i("bbbbbb " + quantity);
             String purchasepricealternate = (String) map.get("purchase_price_alternate");
             String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
@@ -232,7 +233,15 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id = iid;
-
+            if (businessType!=null){
+                if (businessType.equals("Mobile Dealer")){
+                    mBusinessType.setSelection(0);
+                }else {
+                    mBusinessType.setSelection(1);
+                }
+            }else {
+                mBusinessType.setSelection(0);
+            }
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -363,7 +372,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 } else {
                     mSpinnerUnit.setSelection(0);
                 }
-
             }
         }
 
@@ -651,7 +659,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                         }
                                     }
                                 } else {
-                                    if (pairs[i].getText().toString().length() >0) {
+                                    if (pairs[i].getText().toString().length() > 0) {
                                         if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
                                             pairs[i].setText("");
                                             appUser.serial_arr.add(i, "");
@@ -699,62 +707,16 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                         }
                                         mSr_no.setText(listString);
                                         isbool = true;
-                                    }else {
+                                    } else {
                                         count++;
                                     }
-                                }
-                                else if(mBusinessType.getSelectedItem().toString().equals("Electronics Dealer & Others")){
-                                    if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
-                                        pairs[i].setText("");
-                                        appUser.serial_arr.add(i, "");
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-//                                        Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        if (!pairs[i].getText().toString().equals("")) {
-                                            if ((appUser.serial_arr.size() - 1) == i) {
-                                                appUser.serial_arr.set(i, pairs[i].getText().toString());
-                                            } else {
-                                                appUser.serial_arr.add(pairs[i].getText().toString());
-                                            }
-
-//                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
-                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        } else {
-                                            appUser.serial_arr.add(i, "");
-                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        }
-                                    }
-
-                                    appUser.purchase_item_serail_arr.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    for (int j = 0; j < appUser.serial_arr.size(); j++) {
-                                        if (!appUser.serial_arr.get(j).equals("")) {
-                                            appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(j));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                                        }
-                                    }
-                                    appUser.serial_arr.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    for (int k = 0; k < appUser.purchase_item_serail_arr.size(); k++) {
-                                        appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(k));
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    }
-
-                                    String listString = "";
-
-                                    for (String s : appUser.purchase_item_serail_arr) {
-                                        listString += s + ",";
-                                    }
-                                    mSr_no.setText(listString);
-                                    isbool = true;
                                 }
                             }
                             if (Integer.parseInt(serial)==count){
                                 isbool = true;
                                 mSr_no.setText("");
+                                appUser.purchase_item_serail_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             }
                             if (isbool) {
                                 dialogbal.dismiss();
@@ -762,7 +724,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         }
                     });
                     dialogbal.show();
-
                 }
             }
 
@@ -1403,6 +1364,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 mMap.put("serial_number", appUser.purchase_item_serail_arr);
             }
             mMap.put("unit_list", mUnitList);
+            mMap.put("business_type",mBusinessType.getSelectedItem());
             if (!frombillitemvoucherlist) {
                 appUser.mListMapForItemPurchase.add(mMap);
                 // appUser.mListMap = mListMap;

@@ -190,6 +190,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             String salepricemain = (String) map.get("sales_price_main");
             String salepricealternate = (String) map.get("sales_price_alternate");
             String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
+            String businessType = (String) map.get("business_type");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
             for (int i = 0; i < myList.size(); i++) {
                 mUnitList.add(myList.get(i).trim());
@@ -212,6 +213,15 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             mSr_no.setText(voucher_barcode);
             boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
+            if (businessType!=null){
+                if (businessType.equals("Mobile Dealer")){
+                    mBusinessType.setSelection(0);
+                }else {
+                    mBusinessType.setSelection(1);
+                }
+            }else {
+                mBusinessType.setSelection(0);
+            }
 
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -783,6 +793,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
+                mMap.put("business_type",mBusinessType.getSelectedItem());
 
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {

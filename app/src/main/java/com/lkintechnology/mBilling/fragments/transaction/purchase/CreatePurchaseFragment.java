@@ -64,6 +64,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
 import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.PurchaseVoucherDetailsItemList;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
@@ -1104,6 +1105,9 @@ public class CreatePurchaseFragment extends Fragment {
                         sb.append(str).append(","); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();*/
+                    if (response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                        mMap.put("business_type", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                    }
                     mMap.put("serial_number", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
                     mMap.put("purchase_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList = new ArrayList<>();

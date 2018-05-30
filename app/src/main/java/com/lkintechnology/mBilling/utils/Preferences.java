@@ -97,6 +97,7 @@ public class Preferences {
     private static final String item_stock_quantity = "item_stock_quantity";
     private static final String item_stock_amount = "item_stock_amount";
     private static final String item_stock_value = "item_stock_value";
+    private static final String business_type = "business_type";
 
     private static final String item_alternate_unit_name="item_alternate_unit_name";
     private static final String item_alternate_unit_id="item_alternate_unit_id";
@@ -812,6 +813,14 @@ public class Preferences {
 
     public String getItem_stock_value() {
         return pref.getString(item_stock_value, "");
+    }
+    public void setBusiness_type(String businessType) {
+        editor.putString(business_type, businessType);
+        editor.commit();
+    }
+
+    public String getBusiness_type() {
+        return pref.getString(business_type, "");
     }
 
     public void setitem_alternate_unit_id(String itemalternateunitid) {

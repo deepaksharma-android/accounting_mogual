@@ -5,9 +5,18 @@ import java.util.ArrayList;
 public class PurchaseReturnVoucherDetailsItemList {
     public int item_id;
     public  String item;
+    public  String business_type;
     public int quantity;
     public Double total_amount;
     public Double rate_item;
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public int getId() {
         return id;

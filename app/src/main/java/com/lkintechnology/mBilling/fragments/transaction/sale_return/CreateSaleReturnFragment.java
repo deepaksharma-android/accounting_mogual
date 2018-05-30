@@ -1164,6 +1164,9 @@ public class CreateSaleReturnFragment extends Fragment {
                     sb.append(str).append(","); //separating contents using semi colon
                 }
                 String strfromArrayList = sb.toString();*/
+                if (response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                    mMap.put("business_type", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                }
                 mMap.put("serial_number", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
                 mMap.put("sale_unit", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit());
                 ArrayList<String> mUnitList = new ArrayList<>();

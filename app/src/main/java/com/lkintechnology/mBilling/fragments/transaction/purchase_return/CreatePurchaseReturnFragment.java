@@ -1166,6 +1166,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     mMap.put("main_unit", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mMap.put("batch_wise", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
+                    if (response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                        mMap.put("business_type", response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                    }
                     StringBuilder sb = new StringBuilder();
                     for (String str : response.getPurchase_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()) {
                         sb.append(str).append(","); //separating contents using semi colon
