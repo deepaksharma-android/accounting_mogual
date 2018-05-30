@@ -83,10 +83,6 @@ public class ReportsActivity extends AppCompatActivity {
     LinearLayout mBalance_sheet_layout;
     @Bind(R.id.profit_loss_report_layout)
     LinearLayout mProfit_loss_report_layout;
-
-
-
-
     AppUser appUser;
 
 
@@ -177,7 +173,7 @@ public class ReportsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new AlertDialog.Builder(ReportsActivity.this)
                         .setTitle("m-Billing")
-                        .setMessage("Coming soon")
+                        .setMessage("GSTR-1 report is not available in demo mode.")
                         .setPositiveButton(null, null)
                         .setNegativeButton(R.string.btn_ok,null)
                         .show();
@@ -189,7 +185,7 @@ public class ReportsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new AlertDialog.Builder(ReportsActivity.this)
                         .setTitle("m-Billing")
-                        .setMessage("Coming soon")
+                        .setMessage("GSTR-2 report is not available in demo mode.")
                         .setPositiveButton(null, null)
                         .setNegativeButton(R.string.btn_ok,null)
                         .show();

@@ -544,10 +544,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             // setting list adapter
             expListView.setAdapter(listAdapter);
 
-            expListView.setAdapter(listAdapter);
-            for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+          /*  for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                 expListView.expandGroup(i);
-            }
+            }*/
 
             autoCompleteTextView();
 
