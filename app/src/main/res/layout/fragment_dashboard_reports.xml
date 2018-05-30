@@ -110,7 +110,7 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="5dp"
                             android:layout_weight=".3"
-                            android:src="@drawable/sale" />
+                            android:src="@drawable/purchase" />
 
                         <com.lkintechnology.mBilling.utils.BuzzTextView
                             style="@style/Gotham_Medium"
