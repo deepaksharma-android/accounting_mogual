@@ -96,34 +96,34 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 if (i == 0) {
                     map = new HashMap();
                     map = appUser.paymentSettlementList.get(i);
-                    select_account1.setText("" + map.get("Payment_account_name"));
-                    appUser.payment_settlement_id_1 = "" + map.get("Payment_account_id");
-                    amount1.setText("" + map.get("Amount"));
+                    select_account1.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_1 = "" + map.get("payment_account_id");
+                    amount1.setText("" + map.get("amount"));
 
                 } else if (i == 1) {
                     map = new HashMap();
                     map = appUser.paymentSettlementList.get(i);
-                    select_account2.setText("" + map.get("Payment_account_name"));
-                    appUser.payment_settlement_id_2 = "" + map.get("Payment_account_id");
-                    amount2.setText("" + map.get("Amount"));
+                    select_account2.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_2 = "" + map.get("payment_account_id");
+                    amount2.setText("" + map.get("amount"));
                 } else if (i == 2) {
                     map = new HashMap();
                     map = appUser.paymentSettlementList.get(i);
-                    select_account3.setText("" + map.get("Payment_account_name"));
-                    appUser.payment_settlement_id_3 = "" + map.get("Payment_account_id");
-                    amount3.setText("" + map.get("Amount"));
+                    select_account3.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_3 = "" + map.get("payment_account_id");
+                    amount3.setText("" + map.get("amount"));
                 } else if (i == 3) {
                     map = new HashMap();
                     map = appUser.paymentSettlementList.get(i);
-                    select_account4.setText("" + map.get("Payment_account_name"));
-                    appUser.payment_settlement_id_4 = "" + map.get("Payment_account_id");
-                    amount4.setText("" + map.get("Amount"));
+                    select_account4.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_4 = "" + map.get("payment_account_id");
+                    amount4.setText("" + map.get("amount"));
                 } else if (i == 4) {
                     map = new HashMap();
                     map = appUser.paymentSettlementList.get(i);
-                    select_account5.setText("" + map.get("Payment_account_name"));
-                    appUser.payment_settlement_id_5 = "" + map.get("Payment_account_id");
-                    amount5.setText("" + map.get("Amount"));
+                    select_account5.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_5 = "" + map.get("payment_account_id");
+                    amount5.setText("" + map.get("amount"));
                 }
             }
         }
@@ -232,9 +232,9 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                         if (amount != 0) {
                             finish1 = true;
                             map = new HashMap();
-                            map.put("Payment_account_name", select_account1.getText().toString());
-                            map.put("Payment_account_id", appUser.payment_settlement_id_1);
-                            map.put("Amount", amount1.getText().toString());
+                            map.put("payment_account_name", select_account1.getText().toString());
+                            map.put("payment_account_id", appUser.payment_settlement_id_1);
+                            map.put("amount", amount1.getText().toString());
                             appUser.paymentSettlementList.add(map);
                             //paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
                         }
@@ -257,9 +257,9 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                         if (amount != 0) {
                             finish2 = true;
                             map = new HashMap();
-                            map.put("Payment_account_name", select_account2.getText().toString());
-                            map.put("Payment_account_id", appUser.payment_settlement_id_2);
-                            map.put("Amount", amount2.getText().toString());
+                            map.put("payment_account_name", select_account2.getText().toString());
+                            map.put("payment_account_id", appUser.payment_settlement_id_2);
+                            map.put("amount", amount2.getText().toString());
                             appUser.paymentSettlementList.add(map);
                             //paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
                         }
@@ -282,9 +282,9 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                         if (amount != 0) {
                             finish3 = true;
                             map = new HashMap();
-                            map.put("Payment_account_name", select_account3.getText().toString());
-                            map.put("Payment_account_id", appUser.payment_settlement_id_3);
-                            map.put("Amount", amount3.getText().toString());
+                            map.put("payment_account_name", select_account3.getText().toString());
+                            map.put("payment_account_id", appUser.payment_settlement_id_3);
+                            map.put("amount", amount3.getText().toString());
                             appUser.paymentSettlementList.add(map);
                             //paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
                         }
@@ -307,9 +307,9 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                         if (amount != 0) {
                             finish4 = true;
                             map = new HashMap();
-                            map.put("Payment_account_name", select_account4.getText().toString());
-                            map.put("Payment_account_id", appUser.payment_settlement_id_4);
-                            map.put("Amount", amount4.getText().toString());
+                            map.put("payment_account_name", select_account4.getText().toString());
+                            map.put("payment_account_id", appUser.payment_settlement_id_4);
+                            map.put("amount", amount4.getText().toString());
                             appUser.paymentSettlementList.add(map);
                             //paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
                         }
@@ -332,9 +332,9 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                         if (amount != 0) {
                             finish5 = true;
                             map = new HashMap();
-                            map.put("Payment_account_name", select_account5.getText().toString());
-                            map.put("Payment_account_id", appUser.payment_settlement_id_5);
-                            map.put("Amount", amount5.getText().toString());
+                            map.put("payment_account_name", select_account5.getText().toString());
+                            map.put("payment_account_id", appUser.payment_settlement_id_5);
+                            map.put("amount", amount5.getText().toString());
                             appUser.paymentSettlementList.add(map);
                             //paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
                         }

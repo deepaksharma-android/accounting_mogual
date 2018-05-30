@@ -8,15 +8,15 @@ import java.util.Map;
  */
 
 public class PaymentSettleModel {
-    public String Type;
+    public String type;
     public List<Map> payment_mode;
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public List<Map> getPayment_mode() {
