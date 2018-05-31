@@ -240,11 +240,11 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
-            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
             Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(mSelectedImage);
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -389,17 +389,21 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mPartyName.getText().toString().equals("")) {
-                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
-                        PaymentSettlementActivity.voucher_type = "purchase_return";
-                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                        intent.putExtra("fromedit", fromedit);
-                        startActivity(intent);
+                if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "purchase_return";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            intent.putExtra("fromedit", fromedit);
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
                     } else {
-                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        Helpers.dialogMessage(getContext(), "Please select party name");
                     }
                 } else {
-                    Helpers.dialogMessage(getContext(), "Please select party name");
+                    Helpers.dialogMessage(getContext(), "Please add item");
                 }
             }
         });
@@ -524,7 +528,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_PURCHASE_RETURN);
-                                                               // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                                // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -779,7 +783,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
         }
@@ -985,7 +989,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -998,7 +1002,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -1322,7 +1326,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
 
     }
@@ -1356,7 +1360,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
            /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 

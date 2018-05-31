@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
 import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
@@ -68,7 +69,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
     LinearLayout mSubmit;
     AppUser appUser;
     public static String voucher_type = "";
-    public Boolean fromedit;
+    public Boolean fromedit = false,fromsalelist=false,fromdashboard=false;
     public Boolean finish1 = true, finish2 = true, finish3 = true, finish4 = true, finish5 = true;
 
     @Override
@@ -78,55 +79,9 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
-        fromedit = getIntent().getExtras().getBoolean("fromedit");
 
-        if (fromedit) {
-            if (voucher_type.equals("sale")) {
-
-            } else if (voucher_type.equals("purchase")) {
-
-            } else if (voucher_type.equals("sale_return")) {
-
-            } else if (voucher_type.equals("purchase_return")) {
-
-            }
-        } else {
-            Map map;
-            for (int i = 0; i < appUser.paymentSettlementList.size(); i++) {
-                if (i == 0) {
-                    map = new HashMap();
-                    map = appUser.paymentSettlementList.get(i);
-                    select_account1.setText("" + map.get("payment_account_name"));
-                    appUser.payment_settlement_id_1 = "" + map.get("payment_account_id");
-                    amount1.setText("" + map.get("amount"));
-
-                } else if (i == 1) {
-                    map = new HashMap();
-                    map = appUser.paymentSettlementList.get(i);
-                    select_account2.setText("" + map.get("payment_account_name"));
-                    appUser.payment_settlement_id_2 = "" + map.get("payment_account_id");
-                    amount2.setText("" + map.get("amount"));
-                } else if (i == 2) {
-                    map = new HashMap();
-                    map = appUser.paymentSettlementList.get(i);
-                    select_account3.setText("" + map.get("payment_account_name"));
-                    appUser.payment_settlement_id_3 = "" + map.get("payment_account_id");
-                    amount3.setText("" + map.get("amount"));
-                } else if (i == 3) {
-                    map = new HashMap();
-                    map = appUser.paymentSettlementList.get(i);
-                    select_account4.setText("" + map.get("payment_account_name"));
-                    appUser.payment_settlement_id_4 = "" + map.get("payment_account_id");
-                    amount4.setText("" + map.get("amount"));
-                } else if (i == 4) {
-                    map = new HashMap();
-                    map = appUser.paymentSettlementList.get(i);
-                    select_account5.setText("" + map.get("payment_account_name"));
-                    appUser.payment_settlement_id_5 = "" + map.get("payment_account_id");
-                    amount5.setText("" + map.get("amount"));
-                }
-            }
-        }
+        fromsalelist = getIntent().getBooleanExtra("fromedit", false);
+        fromdashboard = getIntent().getBooleanExtra("fromedit", false);
 
         select_account_layout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,16 +310,72 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 if (appUser.paymentSettlementList.size() > 0) {
-                    paymentSettleModel.setType(voucher_type);
+                    paymentSettleModel.setVoucher_type(voucher_type);
                     appUser.paymentSettlementHashMap.add(paymentSettleModel);
                     // appUser.paymentSettlementHashMap.put(map1, paymentSettleModel);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 if (finish1 && finish2 && finish3 && finish4 && finish5) {
-                    finish();
+                   /* Intent intent = new Intent(getApplicationContext(),CreateSaleActivity.class);
+                    intent.putExtra("fromsalelist", fromsalelist);
+                    intent.putExtra("fromdashboard",fromdashboard);
+                    startActivity(intent);*/
+                   finish();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (fromedit) {
+            if (voucher_type.equals("sale")) {
+
+            } else if (voucher_type.equals("purchase")) {
+
+            } else if (voucher_type.equals("sale_return")) {
+
+            } else if (voucher_type.equals("purchase_return")) {
+
+            }
+        } else {
+            Map map;
+            for (int i = 0; i < appUser.paymentSettlementList.size(); i++) {
+                if (i == 0) {
+                    map = new HashMap();
+                    map = appUser.paymentSettlementList.get(i);
+                    select_account1.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_1 = "" + map.get("payment_account_id");
+                    amount1.setText("" + map.get("amount"));
+
+                } else if (i == 1) {
+                    map = new HashMap();
+                    map = appUser.paymentSettlementList.get(i);
+                    select_account2.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_2 = "" + map.get("payment_account_id");
+                    amount2.setText("" + map.get("amount"));
+                } else if (i == 2) {
+                    map = new HashMap();
+                    map = appUser.paymentSettlementList.get(i);
+                    select_account3.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_3 = "" + map.get("payment_account_id");
+                    amount3.setText("" + map.get("amount"));
+                } else if (i == 3) {
+                    map = new HashMap();
+                    map = appUser.paymentSettlementList.get(i);
+                    select_account4.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_4 = "" + map.get("payment_account_id");
+                    amount4.setText("" + map.get("amount"));
+                } else if (i == 4) {
+                    map = new HashMap();
+                    map = appUser.paymentSettlementList.get(i);
+                    select_account5.setText("" + map.get("payment_account_name"));
+                    appUser.payment_settlement_id_5 = "" + map.get("payment_account_id");
+                    amount5.setText("" + map.get("amount"));
+                }
+            }
+        }
     }
 
     @Override

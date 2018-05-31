@@ -149,12 +149,12 @@ public class CreatePurchaseFragment extends Fragment {
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
     Snackbar snackbar;
-    String encodedString,attachment = "";
+    String encodedString, attachment = "";
     Bitmap photo;
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
-    public Boolean fromedit=false;
+    public Boolean fromedit = false;
 
     @Override
     public void onStart() {
@@ -163,7 +163,7 @@ public class CreatePurchaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_purchase_create, container, false);
         ButterKnife.bind(this, view);
         appUser = LocalRepositories.getAppUser(getActivity());
@@ -249,11 +249,11 @@ public class CreatePurchaseFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
-            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
             Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(mSelectedImage);
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -390,26 +390,30 @@ public class CreatePurchaseFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TransportActivity.voucher_type="purchase";
-                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
-                intent.putExtra("fromedit",fromedit);
+                TransportActivity.voucher_type = "purchase";
+                Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
+                intent.putExtra("fromedit", fromedit);
                 startActivity(intent);
             }
         });
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mPartyName.getText().toString().equals("")) {
-                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
-                        PaymentSettlementActivity.voucher_type = "purchase";
-                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                        intent.putExtra("fromedit", fromedit);
-                        startActivity(intent);
+                if (appUser.mListMapForItemPurchase.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "purchase";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            intent.putExtra("fromedit", fromedit);
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
                     } else {
-                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        Helpers.dialogMessage(getContext(), "Please select party name");
                     }
                 } else {
-                    Helpers.dialogMessage(getContext(), "Please select party name");
+                    Helpers.dialogMessage(getContext(), "Please add item");
                 }
             }
         });
@@ -479,7 +483,7 @@ public class CreatePurchaseFragment extends Fragment {
                                             // Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if(appUser.sale_partyEmail!=null&&!appUser.sale_partyEmail.equalsIgnoreCase("null")&&!appUser.sale_partyEmail.equals("")) {
+                                            if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
                                                 new AlertDialog.Builder(getActivity())
                                                         .setTitle("Email")
                                                         .setMessage(R.string.btn_send_email)
@@ -533,7 +537,7 @@ public class CreatePurchaseFragment extends Fragment {
 
                                                         })
                                                         .show();
-                                            }else {
+                                            } else {
                                                 appUser.email_yes_no = "false";
                                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                                 if (isConnected) {
@@ -728,7 +732,7 @@ public class CreatePurchaseFragment extends Fragment {
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
         }
@@ -786,7 +790,7 @@ public class CreatePurchaseFragment extends Fragment {
                     appUser.sale_partyName = ParameterConstant.id;
                     appUser.purchase_account_master_id = ParameterConstant.id;
                     appUser.sale_partyEmail = ParameterConstant.email;
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
@@ -890,7 +894,7 @@ public class CreatePurchaseFragment extends Fragment {
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "purchase_voucher");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
@@ -971,7 +975,7 @@ public class CreatePurchaseFragment extends Fragment {
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -1070,7 +1074,7 @@ public class CreatePurchaseFragment extends Fragment {
 
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            fromedit=true;
+            fromedit = true;
             mDate.setText(response.getPurchase_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getPurchase_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
@@ -1122,7 +1126,7 @@ public class CreatePurchaseFragment extends Fragment {
                     mMap.put("batch_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                     appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     /* appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     Timber.i("zzzzz "+appUser.purchase_item_serail_arr.toString());
@@ -1206,8 +1210,8 @@ public class CreatePurchaseFragment extends Fragment {
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
             }
-            if (response.getPurchase_voucher().getData().getAttributes().getTransport_details()!=null) {
-                TransportActivity.purchasedata=response.getPurchase_voucher().getData().getAttributes().getTransport_details();
+            if (response.getPurchase_voucher().getData().getAttributes().getTransport_details() != null) {
+                TransportActivity.purchasedata = response.getPurchase_voucher().getData().getAttributes().getTransport_details();
             }
             if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries() != null) {
                 if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
@@ -1227,7 +1231,7 @@ public class CreatePurchaseFragment extends Fragment {
                       /*  if(String.valueOf(2)!=null) {*/
                         mMap.put("number_of_bill", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
                         // }
-                        if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0){
+                        if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0) {
                             mMap.put("fed_as_percentage", "valuechange");
                             mMap.put("changeamount", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                         }
@@ -1261,7 +1265,7 @@ public class CreatePurchaseFragment extends Fragment {
         } else {
            /* snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
 
     }
@@ -1292,16 +1296,16 @@ public class CreatePurchaseFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            if(PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+            if (PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity) {
                 startActivity(new Intent(getApplicationContext(), PurchaseVouchersItemDetailsListActivity.class));
-            }else {
+            } else {
                 startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
             }
         } else {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -1317,7 +1321,7 @@ public class CreatePurchaseFragment extends Fragment {
         return photo;
     }
 
-    public void alertdialogtype(){
+    public void alertdialogtype() {
         new android.support.v7.app.AlertDialog.Builder(getContext())
                 .setTitle("Purchase Voucher")
                 .setMessage("Please add purchase type in create voucher")
@@ -1327,7 +1331,8 @@ public class CreatePurchaseFragment extends Fragment {
                 })
                 .show();
     }
-    public void alertdialogstore(){
+
+    public void alertdialogstore() {
         new android.support.v7.app.AlertDialog.Builder(getContext())
                 .setTitle("Purchase Voucher")
                 .setMessage("Please add store in create voucher")

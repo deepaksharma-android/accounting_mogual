@@ -149,6 +149,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit = false;
 
+
     @Override
     public void onStart() {
         EventBus.getDefault().register(this);
@@ -243,6 +244,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -414,34 +416,21 @@ public class CreateSaleVoucherFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mPartyName.getText().toString().equals("")) {
-                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
-                        PaymentSettlementActivity.voucher_type = "sale_return";
-                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                        intent.putExtra("fromedit", fromedit);
-                        startActivity(intent);
+                if (appUser.mListMapForItemSale.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "sale";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            intent.putExtra("fromedit", fromedit);
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
                     } else {
-                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        Helpers.dialogMessage(getContext(), "Please select party name");
                     }
-                } else {
-                    Helpers.dialogMessage(getContext(), "Please select party name");
-                }
-            }
-        });
-        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mPartyName.getText().toString().equals("")) {
-                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
-                        PaymentSettlementActivity.voucher_type = "sale";
-                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                        intent.putExtra("fromedit", fromedit);
-                        startActivity(intent);
-                    } else {
-                        Helpers.dialogMessage(getContext(), "You can't settled payment");
-                    }
-                } else {
-                    Helpers.dialogMessage(getContext(), "Please select party name");
+                }else{
+                        Helpers.dialogMessage(getContext(),"Please add item");
                 }
             }
         });
@@ -772,6 +761,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
+        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }

@@ -373,17 +373,21 @@ public class CreateSaleReturnFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mPartyName.getText().toString().equals("")) {
-                    if (!appUser.sale_party_group.equals("Cash-in-hand")) {
-                        PaymentSettlementActivity.voucher_type = "sale_return";
-                        Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                        intent.putExtra("fromedit", fromedit);
-                        startActivity(intent);
+                if (appUser.mListMapForItemSaleReturn.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "sale_return";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            intent.putExtra("fromedit", fromedit);
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
                     } else {
-                        Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        Helpers.dialogMessage(getContext(), "Please select party name");
                     }
                 } else {
-                    Helpers.dialogMessage(getContext(), "Please select party name");
+                    Helpers.dialogMessage(getContext(), "Please add item");
                 }
             }
         });
