@@ -28,6 +28,7 @@ import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
 import com.lkintechnology.mBilling.activities.company.DefaultItemsExpandableListActivity;
 import com.lkintechnology.mBilling.activities.company.EditCompanyActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.ReportsActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CompanyAuthenticateResponse;
@@ -66,6 +67,8 @@ public class CompanyDashboardActivity extends AppCompatActivity {
     LinearLayout mSyncBusyCompanyLayout;
     @Bind(R.id.syncItemsCompanyLayout)
     LinearLayout mSyncItemsCompanyLayout;
+    @Bind(R.id.backupLayout)
+    LinearLayout mBackupLayout;
     /* @Bind(R.id.layout_edit)
      LinearLayout mEdit;
      @Bind(R.id.layout_delete)
@@ -138,9 +141,21 @@ public class CompanyDashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new AlertDialog.Builder(CompanyDashboardActivity.this)
                         .setTitle("m-Billing")
-                        .setMessage("Coming soon")
+                        .setMessage("Sync with busy is not available in demo mode.")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok, null)
+                        .setNegativeButton(R.string.btn_ok,null)
+                        .show();
+
+            }
+        });
+        mBackupLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(CompanyDashboardActivity.this)
+                        .setTitle("m-Billing")
+                        .setMessage("Backup data is not available in demo mode.")
+                        .setPositiveButton(null, null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
             }
@@ -151,9 +166,9 @@ public class CompanyDashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new AlertDialog.Builder(CompanyDashboardActivity.this)
                         .setTitle("m-Billing")
-                        .setMessage("Coming soon")
+                        .setMessage("Sync with tally is not available in demo mode.")
                         .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok, null)
+                        .setNegativeButton(R.string.btn_ok,null)
                         .show();
 
             }
