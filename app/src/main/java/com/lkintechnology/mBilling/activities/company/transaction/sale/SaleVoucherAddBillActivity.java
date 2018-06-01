@@ -39,10 +39,7 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
 
     @Bind(R.id.bill_courier_charges)
     EditText courier_charges;
-    @Bind(R.id.bill_percentage)
-    EditText percentage;
-    @Bind(R.id.percentage_layout)
-    LinearLayout mPercentageLayout;
+
     @Bind(R.id.bill_amount)
     EditText billAmount;
     @Bind(R.id.totalamt)
@@ -51,6 +48,10 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
     TextView mTotal;
     @Bind(R.id.totallayout)
     LinearLayout mTotalLayout;
+    @Bind(R.id.totalAmountLayout)
+    LinearLayout mTotalAmountLayout;
+    @Bind(R.id.defaultvaluetext)
+    TextView mDefaulttext;
     @Bind(R.id.submit)
     LinearLayout submit;
     public static BillSundryData data = null;
@@ -150,7 +151,10 @@ public class SaleVoucherAddBillActivity extends AppCompatActivity {
             // mPercentageLayout.setVisibility(View.VISIBLE);
             mTotalLayout.setVisibility(View.VISIBLE);
             //  percentage.setText(billSundaryPercentage);
-        } else {
+        } else if(billSundryFedAs.equals("Absolute Amount")) {
+            mDefaulttext.setText("Default Amount");
+            mTotalAmountLayout.setVisibility(View.GONE);
+
             //  mPercentageLayout.setVisibility(View.GONE);
             // percentage.setText("");
         }
