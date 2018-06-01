@@ -199,7 +199,8 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
+        DatePickerDialog1.getDatePicker().setMaxDate(System.currentTimeMillis());
+        DatePickerDialog2.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 
     @Override
