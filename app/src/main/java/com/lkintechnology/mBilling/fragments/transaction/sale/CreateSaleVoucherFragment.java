@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,11 +32,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -47,7 +42,6 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 
@@ -63,7 +57,6 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
-import com.lkintechnology.mBilling.utils.EventDeleteIncome;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -999,6 +992,11 @@ public class CreateSaleVoucherFragment extends Fragment {
             }*/
           /*  else{*/
 
+            appUser.payment_account_id_1 = "";
+            appUser.payment_account_id_2 = "";
+            appUser.payment_account_id_3 = "";
+            appUser.payment_account_id_4 = "";
+            appUser.payment_account_id_5 = "";
             appUser.payment_settlement_id_1 = "";
             appUser.payment_settlement_id_2 = "";
             appUser.payment_settlement_id_3 = "";
@@ -1370,6 +1368,18 @@ public class CreateSaleVoucherFragment extends Fragment {
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         }
                     }
+                }
+                if (response.getSale_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                    Map map;
+                    for (int i=0;i<response.getSale_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                        map = new HashMap();
+                        map.put("id",response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                        map.put("payment_account_name", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                        map.put("payment_account_id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                        map.put("amount", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                        appUser.paymentSettlementList.add(map);
+                    }
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 }
             }
 

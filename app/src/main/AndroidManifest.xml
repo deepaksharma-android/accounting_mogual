@@ -34,16 +34,22 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".activities.app.HomePageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.app.HomePageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimTheme" />
 
         <receiver android:name=".networks.SmsListener">
             <intent-filter>
