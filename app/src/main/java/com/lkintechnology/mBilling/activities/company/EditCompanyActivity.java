@@ -27,6 +27,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.company.CompanyBankDetailsFragment;
 import com.lkintechnology.mBilling.fragments.company.CompanyBasicFragment;
 import com.lkintechnology.mBilling.fragments.company.CompanyDetailsFragment;
 import com.lkintechnology.mBilling.fragments.company.CompanyGstFragment;
@@ -178,6 +179,7 @@ public class EditCompanyActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CompanyBasicFragment(), "BASIC");
         adapter.addFragment(new CompanyDetailsFragment(), "DETAILS");
+        adapter.addFragment(new CompanyBankDetailsFragment(), "BANK DETAILS");
         adapter.addFragment(new CompanyGstFragment(), "GST INFO");
        // adapter.addFragment(new CompanyAdditionalFragment(), "ADDITIONAL");
         adapter.addFragment(new CompanyLogoFragment(), "LOGO");
@@ -266,6 +268,10 @@ public class EditCompanyActivity extends AppCompatActivity {
             Preferences.getInstance(getApplicationContext()).setClogo(Helpers.mystring(response.getCompany().getData().getAttributes().getLogo()));
             Preferences.getInstance(getApplicationContext()).setCsign(Helpers.mystring(response.getCompany().getData().getAttributes().getSignature()));
             Preferences.getInstance(getApplicationContext()).setCusername(Helpers.mystring(response.getCompany().getData().getAttributes().getUsername()));
+            Preferences.getInstance(getApplicationContext()).setCbankname(Helpers.mystring(response.getCompany().getData().getAttributes().getBank_name()));
+            Preferences.getInstance(getApplicationContext()).setCbankaccount(Helpers.mystring(response.getCompany().getData().getAttributes().getBank_account()));
+            Preferences.getInstance(getApplicationContext()).setCifsccode(Helpers.mystring(response.getCompany().getData().getAttributes().getIfsc_code()));
+            Preferences.getInstance(getApplicationContext()).setCmicrcode(Helpers.mystring(response.getCompany().getData().getAttributes().getMicr_code()));
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(EditCompanyActivity.this);

@@ -1,7 +1,9 @@
 package com.lkintechnology.mBilling.fragments.company;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -16,15 +18,19 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.EditCompanyActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.company.CreateCompanyResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,114 +40,82 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class CompanyGstFragment extends Fragment {
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class CompanyBankDetailsFragment extends Fragment {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.gst)
-    EditText mGst;
-    @Bind(R.id.dealer_spinner)
-    Spinner mDealerSpinner;
-    @Bind(R.id.default1)
-    EditText mDefaultTax1;
-    @Bind(R.id.default2)
-    EditText mDefaultTax2;
+    @Bind(R.id.bank_name)
+    EditText mBankName;
+    @Bind(R.id.bank_account_layout)
+    LinearLayout mBankAccountLayout;
+    @Bind(R.id.bank_account)
+    EditText mBankAccount;
+    @Bind(R.id.ifsc_code)
+    EditText mIfscCode;
+    @Bind(R.id.micr_code)
+    EditText mMicrCode;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
-    @Bind(R.id.tax2)
-    LinearLayout mTax2;
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
-    ArrayAdapter<String> spinnerAdapter;
-    public CompanyGstFragment() {
+
+    public CompanyBankDetailsFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public void onStart() {
         EventBus.getDefault().register(this);
         super.onStart();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_company_gst, container, false);
-        ButterKnife.bind(this,v);
+        View v = inflater.inflate(R.layout.fragment_company_bank_details, container, false);
+        ButterKnife.bind(this, v);
         appUser = LocalRepositories.getAppUser(getActivity());
-        spinnerAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.layout_trademark_type_spinner_dropdown_item,getResources().getStringArray(R.array.dealer));
-        spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
-        mDealerSpinner.setAdapter(spinnerAdapter);
-        mGst.setText(Preferences.getInstance(getActivity()).getCgst());
-        mDefaultTax1.setText(Preferences.getInstance(getActivity()).getCtax1());
-        mDefaultTax2.setText(Preferences.getInstance(getActivity()).getCtax2());
-        if(!Preferences.getInstance(getActivity()).getCdealer().equals("")) {
-            String dealername = Preferences.getInstance(getActivity()).getCdealer().trim();
-            if(dealername.equals("Regular")){
-                mTax2.setVisibility(View.GONE);
-            }
-            else{
-                mTax2.setVisibility(View.VISIBLE);
-            }
-            int index = -1;
-            for (int i = 0; i < getResources().getStringArray(R.array.dealer).length; i++) {
-                if (getResources().getStringArray(R.array.dealer)[i].equals(dealername)) {
-                    index = i;
-                    break;
-                }
-            }
-            Timber.i("INDEX" + index);
-            mDealerSpinner.setSelection(index);
-        }
-        mDealerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==0){
-                    mDefaultTax2.setText("");
-                    mTax2.setVisibility(View.GONE);
-                }
-                else{
-                    mTax2.setVisibility(View.VISIBLE);
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+        mBankName.setText(Preferences.getInstance(getApplicationContext()).getCbankname());
+        mBankAccount.setText(Preferences.getInstance(getApplicationContext()).getCbankaccount());
+        mIfscCode.setText(Preferences.getInstance(getApplicationContext()).getCifsccode());
+        mMicrCode.setText(Preferences.getInstance(getApplicationContext()).getCmicrcode());
 
-            }
-        });
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 hideSoftKeyboard();
                 Boolean isConnected = ConnectivityReceiver.isConnected();
-                if(isConnected) {
-                    appUser.gst=mGst.getText().toString();
-                    appUser.type_of_dealer=mDealerSpinner.getSelectedItem().toString();
-                    appUser.default_tax_rate1=mDefaultTax1.getText().toString();
-                    appUser.default_tax_rate2=mDefaultTax2.getText().toString();
-                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                if (isConnected) {
+                    appUser.bank_name = mBankName.getText().toString();
+                    appUser.bank_account = mBankAccount.getText().toString();
+                    appUser.bank_ifsc_code = mIfscCode.getText().toString();
+                    appUser.bank_micr_code = mMicrCode.getText().toString();
+                    LocalRepositories.saveAppUser(getActivity(), appUser);
                     mProgressDialog = new ProgressDialog(getActivity());
                     mProgressDialog.setMessage("Info...");
                     mProgressDialog.setIndeterminate(false);
                     mProgressDialog.setCancelable(true);
                     mProgressDialog.show();
                     LocalRepositories.saveAppUser(getActivity(), appUser);
-                    ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_GST);
-                }
-                else{
+                    ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_BANK_DETAILS);
+                } else {
                     snackbar = Snackbar
                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                             .setAction("RETRY", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if(isConnected){
+                                    if (isConnected) {
                                         snackbar.dismiss();
                                     }
                                 }
@@ -153,6 +127,7 @@ public class CompanyGstFragment extends Fragment {
         });
         return v;
     }
+
     @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
@@ -166,38 +141,42 @@ public class CompanyGstFragment extends Fragment {
     }
 
     @Subscribe
-    public void createCompany(CreateCompanyResponse response){
+    public void createCompany(CreateCompanyResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-
-            appUser.cid= String.valueOf(response.getId());
-            LocalRepositories.saveAppUser(getActivity(),appUser);
+        if (response.getStatus() == 200) {
+          /*  mBankName.setText("");
+            mBankName.setText("");
+            mIfscCode.setText("");
+            mMicrCode.setText("");*/
+            appUser.cid = String.valueOf(response.getId());
+            LocalRepositories.saveAppUser(getActivity(), appUser);
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-            tabhost.getTabAt(4).select();
+            tabhost.getTabAt(3).select();
             //startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
             snackbar = Snackbar
-                    .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
 
-        }
-        else {
-           // snackbar = Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
-           // snackbar.show();
-            Helpers.dialogMessage(getContext(),response.getMessage());
+        } else {
+            // snackbar = Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);
+            // snackbar.show();
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
+
     @Subscribe
-    public void timout(String msg){
+    public void timout(String msg) {
         snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
 
     }
-   public void hideSoftKeyboard() {
-       if(getActivity().getCurrentFocus()!=null) {
-           InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-           inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-       }
-   }
+
+    public void hideSoftKeyboard() {
+        if (getActivity().getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 }

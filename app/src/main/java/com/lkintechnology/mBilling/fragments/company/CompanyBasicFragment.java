@@ -89,6 +89,8 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         View v =inflater.inflate(R.layout.fragment_company_basic, container, false);
         ButterKnife.bind(this,v);
         EventBus.getDefault().register(this);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        setDateField();
         mComapnyName.setText(Preferences.getInstance(getActivity()).getCname());
         mPrintName.setText(Preferences.getInstance(getActivity()).getCprintname());
         mShortName.setText(Preferences.getInstance(getActivity()).getCshortname());
@@ -98,8 +100,6 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         mCin.setText(Preferences.getInstance(getActivity()).getCcin());
         mPan.setText(Preferences.getInstance(getActivity()).getCpan());
         appUser = LocalRepositories.getAppUser(getActivity());
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        setDateField();
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

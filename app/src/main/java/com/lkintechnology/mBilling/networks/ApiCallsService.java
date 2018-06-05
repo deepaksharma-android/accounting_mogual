@@ -10,6 +10,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
 import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
+import com.lkintechnology.mBilling.networks.api_request.RequestCompanyBankDetails;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyDetails;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyGst;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyLogin;
@@ -253,6 +254,8 @@ public class ApiCallsService extends IntentService {
             handleBasic();
         } else if (Cv.ACTION_CREATE_DETAILS.equals(action)) {
             handleCompanyDetails();
+        }  else if (Cv.ACTION_CREATE_BANK_DETAILS.equals(action)) {
+            handleCompanyBankDetails();
         } else if (Cv.ACTION_CREATE_GST.equals(action)) {
             handleCompanyGst();
         } else if (Cv.ACTION_CREATE_ADDITIONAL.equals(action)) {
@@ -2209,6 +2212,30 @@ public class ApiCallsService extends IntentService {
     private void handleCompanyDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
         api.cdetails(new RequestCompanyDetails(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
+            @Override
+            public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
+                if (r.code() == 200) {
+                    CreateCompanyResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateCompanyResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+
+    }
+    private void handleCompanyBankDetails() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.bankDetails(new RequestCompanyBankDetails(this), Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CreateCompanyResponse>() {
             @Override
             public void onResponse(Call<CreateCompanyResponse> call, Response<CreateCompanyResponse> r) {
                 if (r.code() == 200) {

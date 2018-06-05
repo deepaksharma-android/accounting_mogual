@@ -26,6 +26,7 @@ public interface Cv {
     String ACTION_CREATE_BASIC = "create_basic";
     String ACTION_VERSION = "show_version";
     String ACTION_CREATE_DETAILS = "company_details";
+    String ACTION_CREATE_BANK_DETAILS = "company_bank_details";
     String ACTION_CREATE_GST = "company_gst";
     String ACTION_CREATE_ADDITIONAL = "company_additional";
     String ACTION_CREATE_LOGO = "company_logo";
