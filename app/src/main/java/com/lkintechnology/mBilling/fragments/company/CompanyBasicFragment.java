@@ -298,9 +298,7 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
     public String dateFormate(String date){
         String arr[] = date.split("-");
         String month = Helpers.getMonth(Integer.parseInt(arr[1])-1);
-
         String date1 = arr[2]+" "+month+" "+arr[0];
-
         return date1;
     }
 }
