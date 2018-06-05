@@ -72,7 +72,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     @Bind(R.id.item_layout)
     LinearLayout mItemLayout;
     @Bind(R.id.description)
-    TextView mDescription;
+    EditText mDescription;
     @Bind(R.id.quantity)
     EditText mQuantity;
     @Bind(R.id.spinner_unit)
