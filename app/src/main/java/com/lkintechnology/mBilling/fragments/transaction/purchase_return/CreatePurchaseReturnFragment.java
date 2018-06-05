@@ -386,12 +386,12 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser=LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
                     if (!mPartyName.getText().toString().equals("")) {
                         if (!appUser.sale_party_group.equals("Cash-in-hand")) {
                             PaymentSettlementActivity.voucher_type = "purchase_return";
                             Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                            intent.putExtra("fromedit", fromedit);
                             startActivity(intent);
                         } else {
                             Helpers.dialogMessage(getContext(), "You can't settled payment");
@@ -930,11 +930,6 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 }
             }
             else{*/
-            appUser.payment_account_id_1 = "";
-            appUser.payment_account_id_2 = "";
-            appUser.payment_account_id_3 = "";
-            appUser.payment_account_id_4 = "";
-            appUser.payment_account_id_5 = "";
             appUser.paymentSettlementList.clear();
             appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
@@ -1318,7 +1313,19 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     }
                 }
             }
-
+            if (response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                Map map;
+                appUser.paymentSettlementList.clear();
+                for (int i=0;i<response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                    map = new HashMap();
+                    map.put("id",response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                    map.put("payment_account_name", response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                    map.put("payment_account_id", response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                    map.put("amount", response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                    appUser.paymentSettlementList.add(map);
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
         } else {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
@@ -1332,6 +1339,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
     public void updatepurchasereturnvoucher(UpdatePurchaseReturnVoucher response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

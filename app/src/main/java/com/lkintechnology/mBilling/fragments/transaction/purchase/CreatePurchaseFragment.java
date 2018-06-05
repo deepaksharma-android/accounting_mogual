@@ -390,12 +390,12 @@ public class CreatePurchaseFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser=LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemPurchase.size() > 0) {
                     if (!mPartyName.getText().toString().equals("")) {
                         if (!appUser.sale_party_group.equals("Cash-in-hand")) {
                             PaymentSettlementActivity.voucher_type = "purchase";
                             Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
-                            intent.putExtra("fromedit", fromedit);
                             startActivity(intent);
                         } else {
                             Helpers.dialogMessage(getContext(), "You can't settled payment");
@@ -912,11 +912,6 @@ public class CreatePurchaseFragment extends Fragment {
                 }
             }
             else{*/
-            appUser.payment_account_id_1 = "";
-            appUser.payment_account_id_2 = "";
-            appUser.payment_account_id_3 = "";
-            appUser.payment_account_id_4 = "";
-            appUser.payment_account_id_5 = "";
             appUser.paymentSettlementList.clear();
             appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
@@ -1252,7 +1247,19 @@ public class CreatePurchaseFragment extends Fragment {
                     }
                 }
             }
-
+            if (response.getPurchase_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                Map map;
+                appUser.paymentSettlementList.clear();
+                for (int i=0;i<response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                    map = new HashMap();
+                    map.put("id",response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                    map.put("payment_account_name", response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                    map.put("payment_account_id", response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                    map.put("amount", response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                    appUser.paymentSettlementList.add(map);
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
         } else {
            /* snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
@@ -1266,6 +1273,10 @@ public class CreatePurchaseFragment extends Fragment {
     public void updatepurchasevoucher(UpdatePurchaseResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
+
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();

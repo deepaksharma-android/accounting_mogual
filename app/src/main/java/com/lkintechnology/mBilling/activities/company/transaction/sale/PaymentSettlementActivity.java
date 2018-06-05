@@ -68,7 +68,6 @@ public class PaymentSettlementActivity extends AppCompatActivity {
     LinearLayout mSubmit;
     AppUser appUser;
     public static String voucher_type = "";
-    public Boolean fromedit = false;
     public Boolean finish1 = true, finish2 = true, finish3 = true, finish4 = true, finish5 = true;
 
     @Override
@@ -79,19 +78,8 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
 
-        fromedit = getIntent().getBooleanExtra("fromedit", false);
-        System.out.println(appUser.paymentSettlementList.size());
-       /* if (fromedit) {
-            if (voucher_type.equals("sale")) {
+        System.out.println("pccccc payment "+appUser.paymentSettlementList.size());
 
-            } else if (voucher_type.equals("purchase")) {
-
-            } else if (voucher_type.equals("sale_return")) {
-
-            } else if (voucher_type.equals("purchase_return")) {
-
-            }
-        } else {*/
         appUser.payment_account_id_1 = "";
         appUser.payment_account_id_2 = "";
         appUser.payment_account_id_3 = "";
@@ -149,14 +137,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                //intStartActivityForResult = 2;
-                //ParameterConstant.checkStartActivityResultForAccount = 0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                //intent.putExtra("bool",true);
                 startActivityForResult(intent, 1);
             }
         });
@@ -167,14 +152,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                //intStartActivityForResult = 2;
-                //ParameterConstant.checkStartActivityResultForAccount = 0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                //intent.putExtra("bool",true);
                 startActivityForResult(intent, 2);
             }
         });
@@ -185,14 +167,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                //intStartActivityForResult = 2;
-                //ParameterConstant.checkStartActivityResultForAccount = 0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                //intent.putExtra("bool",true);
                 startActivityForResult(intent, 3);
             }
         });
@@ -203,14 +182,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                //intStartActivityForResult = 2;
-                //ParameterConstant.checkStartActivityResultForAccount = 0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                //intent.putExtra("bool",true);
                 startActivityForResult(intent, 4);
             }
         });
@@ -221,14 +197,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                //intStartActivityForResult = 2;
-                //ParameterConstant.checkStartActivityResultForAccount = 0;
                 appUser.account_master_group = "";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                //intent.putExtra("bool",true);
                 startActivityForResult(intent, 5);
             }
         });

@@ -369,6 +369,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser=LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemSaleReturn.size() > 0) {
                     if (!mPartyName.getText().toString().equals("")) {
                         if (!appUser.sale_party_group.equals("Cash-in-hand")) {
@@ -948,11 +949,6 @@ public class CreateSaleReturnFragment extends Fragment {
                }
            }
             else{*/
-            appUser.payment_account_id_1 = "";
-            appUser.payment_account_id_2 = "";
-            appUser.payment_account_id_3 = "";
-            appUser.payment_account_id_4 = "";
-            appUser.payment_account_id_5 = "";
             appUser.paymentSettlementList.clear();
             appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
@@ -1290,6 +1286,20 @@ public class CreateSaleReturnFragment extends Fragment {
                 }
 
             }
+
+            if (response.getSale_return_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                Map map;
+                appUser.paymentSettlementList.clear();
+                for (int i=0;i<response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                    map = new HashMap();
+                    map.put("id",response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                    map.put("payment_account_name", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                    map.put("payment_account_id", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                    map.put("amount", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                    appUser.paymentSettlementList.add(map);
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
         } else {
            /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
@@ -1302,6 +1312,8 @@ public class CreateSaleReturnFragment extends Fragment {
     public void updatepurchasereturnvoucher(UpdateSaleReturnResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             //snackbar.show();
             Preferences.getInstance(getActivity()).setUpdate("");
