@@ -1,0 +1,273 @@
+package com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.InputFilter;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
+
+public class BarcodeActivity extends AppCompatActivity {
+    AppUser appUser;
+    String serial;
+    String listString;
+    int pos;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_barcode);
+
+        appUser = LocalRepositories.getAppUser(getApplicationContext());
+
+        serial = getIntent().getStringExtra("serial");
+        pos = getIntent().getIntExtra("businessType",0);
+
+
+        LinearLayout serialLayout = (LinearLayout) findViewById(R.id.main_layout);
+        LinearLayout submit = (LinearLayout) findViewById(R.id.submit);
+        int width = getWidth();
+        int height = getHeight();
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+        lp.setMargins(20, 10, 20, 0);
+        EditText[] pairs = new EditText[Integer.parseInt(serial)];
+        for (int l = 0; l < Integer.parseInt(serial); l++) {
+            pairs[l] = new EditText(getApplicationContext());
+            pairs[l].setPadding(20, 10, 10, 0);
+            pairs[l].setWidth(width);
+            pairs[l].setHeight(height);
+            pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
+            pairs[l].setTextSize(18);
+            pairs[l].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+            if (appUser.stock_serial_arr.size() > 0) {
+                if (appUser.stock_serial_arr.size() > l) {
+                    pairs[l].setText(appUser.stock_serial_arr.get(l));
+                } else {
+                    pairs[l].setText("");
+                }
+            }
+            pairs[l].setHint("Enter Serial Number" + " " + (l + 1));
+            pairs[l].setHintTextColor(Color.GRAY);
+            pairs[l].setTextColor(Color.BLACK);
+            pairs[l].setLayoutParams(lp);
+            pairs[l].setId(l);
+            //pairs[l].setText((l + 1) + ": something");
+            serialLayout.addView(pairs[l]);
+        }
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  appUser.stock_serial_arr.add("3");
+                Preferences.getInstance(getApplicationContext()).setSerial("");
+                appUser.stock_serial_arr.clear();
+                // appUser.stock_item_serail_arr.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                boolean isbool = false;
+                int count = 0;
+                for (int i = 0; i < Integer.parseInt(serial); i++) {
+                    if (pos==0) {
+                        if (pairs[i].getText().toString().length() == 15) {
+                            if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
+                                pairs[i].setText("");
+                                try{
+                                    appUser.stock_serial_arr.add(i, "");
+                                }catch (IndexOutOfBoundsException e){
+
+                                }
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if ((appUser.stock_serial_arr.size() - 1) == i) {
+                                        appUser.stock_serial_arr.set(i, pairs[i].getText().toString());
+                                    } else {
+                                        appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                    }
+
+                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                } else {
+                                    appUser.stock_serial_arr.add(i, "");
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+
+                                }
+                            }
+                            Preferences.getInstance(getApplicationContext()).setStockSerial("");
+                            appUser.stock_item_serail_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int j = 0; j < appUser.stock_serial_arr.size(); j++) {
+                                if (!appUser.stock_serial_arr.get(j).equals("")) {
+                                    appUser.stock_item_serail_arr.add(appUser.stock_serial_arr.get(j));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }
+                            }
+
+                            appUser.stock_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int k = 0; k < appUser.stock_item_serail_arr.size(); k++) {
+                                appUser.stock_serial_arr.add(appUser.stock_item_serail_arr.get(k));
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            }
+
+
+                            listString = "";
+
+                            for (String s : appUser.stock_item_serail_arr) {
+                                listString += s + ",";
+                            }
+                            Preferences.getInstance(getApplication()).setStockSerial(listString);
+                            //mSr_no.setText(listString);
+                            isbool = true;
+                        } else {
+                            if (pairs[i].getText().toString().equals("")) {
+                                isbool = true;
+                            } else {
+                                isbool = false;
+                                Toast.makeText(BarcodeActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                    } else {
+                        if (pairs[i].getText().toString().length() > 0) {
+                            if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
+                                pairs[i].setText("");
+                                try{
+                                    appUser.stock_serial_arr.add(i, "");
+                                }catch (IndexOutOfBoundsException e){
+
+                                }
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if ((appUser.stock_serial_arr.size() - 1) == i) {
+                                        appUser.stock_serial_arr.set(i, pairs[i].getText().toString());
+                                    } else {
+                                        appUser.stock_serial_arr.add(pairs[i].getText().toString());
+                                    }
+
+                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                } else {
+                                    appUser.stock_serial_arr.add(i, "");
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+
+                                }
+                            }
+                            Preferences.getInstance(getApplicationContext()).setStockSerial("");
+                            appUser.stock_item_serail_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int j = 0; j < appUser.stock_serial_arr.size(); j++) {
+                                if (!appUser.stock_serial_arr.get(j).equals("")) {
+                                    appUser.stock_item_serail_arr.add(appUser.stock_serial_arr.get(j));
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }
+                            }
+
+                            appUser.stock_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int k = 0; k < appUser.stock_item_serail_arr.size(); k++) {
+                                appUser.stock_serial_arr.add(appUser.stock_item_serail_arr.get(k));
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            }
+
+
+                            listString = "";
+
+                            for (String s : appUser.stock_item_serail_arr) {
+                                listString += s + ",";
+                            }
+                            Preferences.getInstance(getApplication()).setStockSerial(listString);
+                            //mSr_no.setText(listString);
+                            isbool = true;
+                        }else {
+                            count++;
+                        }
+                    }
+                }
+                if (Integer.parseInt(serial)==count){
+                    isbool = true;
+                   // mSr_no.setText("");
+                    //listString="";
+                    appUser.stock_item_serail_arr.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                }
+                if (isbool) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("serial", listString);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+
+                }
+            }
+        });
+    }
+
+    private int getWidth() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int size = 0;
+        switch (density) {
+            case DisplayMetrics.DENSITY_LOW:
+                size = 500;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                size = 900;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                size = 1200;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                size = 1000;
+                break;
+            case DisplayMetrics.DENSITY_XXHIGH:
+                size = 1200;
+                break;
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                size = 1000;
+                break;
+
+        }
+
+        return size;
+    }
+
+    private int getHeight() {
+        int density = getResources().getDisplayMetrics().densityDpi;
+        int height = 150;
+        switch (density) {
+            case DisplayMetrics.DENSITY_LOW:
+                height = 150;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                height = 150;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                height = 250;
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                height = 100;
+                break;
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                height = 150;
+                break;
+
+        }
+
+        return height;
+    }
+}

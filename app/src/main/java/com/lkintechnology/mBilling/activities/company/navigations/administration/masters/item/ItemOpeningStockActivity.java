@@ -1,7 +1,9 @@
 package com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -373,7 +375,23 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         serial = "0";
                     }
                     if (!serial.equals("0")) {
-                        Dialog dialogbal = new Dialog(ItemOpeningStockActivity.this);
+                        int pos;
+                        if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")){
+                            pos=0;
+                        }else {
+                            pos=1;
+                        }
+                        appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                        Intent intent = new Intent(getApplicationContext(), BarcodeActivity.class);
+                        stock = true;
+                        intent.putExtra("serial", serial);
+                        intent.putExtra("businessType", pos);
+                        startActivityForResult(intent, 1);
+
+                    }
+                        //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
+                      /*  Dialog dialogbal = new Dialog(ItemOpeningStockActivity.this);
                         dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                         dialogbal.setContentView(R.layout.dialog_serail);
                         dialogbal.setCancelable(true);
@@ -405,7 +423,9 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             pairs[l].setLayoutParams(lp);
                             pairs[l].setId(l);
                             //pairs[l].setText((l + 1) + ": something");
-                            serialLayout.addView(pairs[l]);
+                            serialLayout.addView(pairs[l]);*/
+
+                            //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
 
                       /*  final int finalL = l;
                         pairs[l].addTextChangedListener(new TextWatcher() {
@@ -429,12 +449,12 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
 
                                     appUser.serial_arr.add(pairs[finalL].getText().toString());
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                }
+                                }*/
 
 
-                            }
-                        });*/
-                        }
+
+
+
                         mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -450,7 +470,9 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             }
                         });
 
-                        submit.setOnClickListener(new View.OnClickListener() {
+                    //PPPPCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+                        /*submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 //  appUser.stock_serial_arr.add("3");
@@ -594,7 +616,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         });
                         dialogbal.show();
 
-                    }
+                    }*/
                 }
 
             });
@@ -889,5 +911,17 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
         }
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                mSr_no.setText("");
+                appUser=LocalRepositories.getAppUser(this);
+                //appUser.stock_item_serail_arr.clear();
+                String listString = data.getStringExtra("serial");
+                mSr_no.setText(listString);
+            }
+        }
+    }
 }
