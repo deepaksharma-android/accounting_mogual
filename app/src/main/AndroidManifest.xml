@@ -642,6 +642,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.company.navigations.reports.gstr_1.Gstr1ReportActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.navigations.reports.gstr_2.Gstr2ReportActivity"
+            android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.company.transaction.stocktransfer.GetStockTransferListActivity"
             android:parentActivityName=".activities.company.transaction.stocktransfer.CreateStockTransferActivity"
             android:screenOrientation="portrait"
