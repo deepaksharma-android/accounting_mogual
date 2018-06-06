@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction.purchase;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -150,7 +151,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
-    Boolean textChange;
+    public Boolean textChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -508,7 +509,36 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     serial = "0";
                 }
                 if (!serial.equals("0")) {
-                    dialogbal = new Dialog(PurchaseAddItemActivity.this);
+                    int pos;
+                    if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                        pos = 0;
+                    } else {
+                        pos = 1;
+                    }
+                    String quantity = mQuantity.getText().toString();
+                    appUser.item_id = id;
+                    Intent intent = new Intent(getApplicationContext(), VoucherBarcodeActivity.class);
+                    intent.putExtra("serial", serial);
+                    intent.putExtra("quantity", quantity);
+                    intent.putExtra("businessType", pos);
+                    startActivityForResult(intent, 1);
+                }
+
+                mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        appUser.serial_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        mSr_no.setText("");
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                  /*  dialogbal = new Dialog(PurchaseAddItemActivity.this);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogbal.setContentView(R.layout.dialog_serail);
                     dialogbal.setCancelable(true);
@@ -543,7 +573,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         //pairs[l].setText((l + 1) + ": something");
                         serialLayout.addView(pairs[l]);
 
-                      /*  final int finalL = l;
+                      *//*  final int finalL = l;
                         pairs[l].addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -569,25 +599,10 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
 
                             }
-                        });*/
-                    }
+                        });*//*
+                    }*/
 
-                    mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            appUser.serial_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                            mSr_no.setText("");
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-
-                    submit.setOnClickListener(new View.OnClickListener() {
+                    /*submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             boolForBarcode = false;
@@ -724,7 +739,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         }
                     });
                     dialogbal.show();
-                }
+                }*/
             }
 
         });
@@ -1395,5 +1410,21 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
         }
         // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
         // snackbar.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                appUser=LocalRepositories.getAppUser(this);
+                boolForBarcode = data.getBooleanExtra("boolForBarcode",false);
+                textChange = data.getBooleanExtra("textChange",false);
+                String listString = data.getStringExtra("serial");
+                quantity = data.getStringExtra("quantity");
+                mSr_no.setText("");
+                mSr_no.setText(listString);
+            }
+        }
     }
 }

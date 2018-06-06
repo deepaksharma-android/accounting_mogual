@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction.sale_return;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.VoucherBarcodeActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -496,7 +498,37 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     serial = "0";
                 }
                 if (!serial.equals("0")) {
-                    dialogbal = new Dialog(SaleReturnAddItemActivity.this);
+                    int pos;
+                    if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                        pos = 0;
+                    } else {
+                        pos = 1;
+                    }
+                    String quantity = mQuantity.getText().toString();
+                    appUser.item_id = id;
+                    Intent intent = new Intent(getApplicationContext(), VoucherBarcodeActivity.class);
+                    intent.putExtra("serial", serial);
+                    intent.putExtra("quantity", quantity);
+                    intent.putExtra("businessType", pos);
+                    startActivityForResult(intent, 1);
+                }
+
+                mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        appUser.serial_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        mSr_no.setText("");
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                 /*   dialogbal = new Dialog(SaleReturnAddItemActivity.this);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogbal.setContentView(R.layout.dialog_serail);
                     dialogbal.setCancelable(true);
@@ -531,22 +563,9 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                         //pairs[l].setText((l + 1) + ": something");
                         serialLayout.addView(pairs[l]);
                     }
+*/
 
-                    mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            appUser.serial_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            mSr_no.setText("");
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    submit.setOnClickListener(new View.OnClickListener() {
+                    /*submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             boolForBarcode = false;
@@ -684,7 +703,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     });
                     dialogbal.show();
 
-                }
+                }*/
             }
 
         });
@@ -1353,6 +1372,22 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
         }
         //snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
         //snackbar.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                appUser=LocalRepositories.getAppUser(this);
+                boolForBarcode = data.getBooleanExtra("boolForBarcode",false);
+                textChange = data.getBooleanExtra("textChange",false);
+                String listString = data.getStringExtra("serial");
+                quantity = data.getStringExtra("quantity");
+                mSr_no.setText("");
+                mSr_no.setText(listString);
+            }
+        }
     }
 
 }

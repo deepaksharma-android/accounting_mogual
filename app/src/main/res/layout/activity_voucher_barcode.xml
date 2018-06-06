@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.TestActivity">
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.purchase.VoucherBarcodeActivity">
 
     <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -26,10 +26,7 @@
                     android:id="@+id/main_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
 
 
 

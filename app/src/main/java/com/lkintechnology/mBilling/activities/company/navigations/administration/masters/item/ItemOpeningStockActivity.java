@@ -390,6 +390,22 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         startActivityForResult(intent, 1);
 
                     }
+
+                    mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            appUser.stock_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            mSr_no.setText("");
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
                         //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
                       /*  Dialog dialogbal = new Dialog(ItemOpeningStockActivity.this);
                         dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -450,25 +466,6 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                                     appUser.serial_arr.add(pairs[finalL].getText().toString());
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 }*/
-
-
-
-
-
-                        mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                appUser.stock_serial_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                mSr_no.setText("");
-
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
 
                     //PPPPCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 

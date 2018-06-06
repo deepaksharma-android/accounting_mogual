@@ -736,10 +736,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
+        <activity android:name=".activities.company.navigations.administration.masters.item.BarcodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.purchase.VoucherBarcodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-        <activity android:name=".activities.company.navigations.administration.masters.item.BarcodeActivity"></activity>
     </application>
 
 </manifest>
