@@ -155,6 +155,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     String attachemnt;
     public String spinnergstnature;
     private FirebaseAnalytics mFirebaseAnalytics;
+    String state;
 
 
     @Override
@@ -285,6 +286,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                             if (!received_by.getText().toString().equals("")) {
                                 Intent intent = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
                                 intent.putExtra("amount", transaction_amount.getText().toString());
+                                intent.putExtra("state", state);
                                 startActivity(intent);
                             }else {
                                 Snackbar.make(coordinatorLayout, "Please select Received By", Snackbar.LENGTH_LONG).show();
@@ -324,7 +326,6 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
 
                 }else {
                     arrow.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -845,6 +846,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
                     String[] name = result.split(",");
+                    state=data.getStringExtra("state");
                     appUser.receipt_received_from_id = id;
                     appUser.receipt_received_from_name = name[0];
                     appUser.receipt_received_from_email = name[3];
@@ -1055,10 +1057,10 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             set_date.setText(response.getReceipt_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getReceipt_voucher().getData().getAttributes().getVoucher_number());
             //set_date_pdc.setText(response.getReceipt_voucher().getData().getAttributes().getPdc_date());
-            received_from.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_from());
+            received_from.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_from().getName());
             received_by.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_by());
-            appUser.receipt_received_from_id = String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_by_id());
-            appUser.receipt_received_from_id=String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_from_id());
+            appUser.receipt_received_from_id = String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_from().getId());
+            appUser.receipt_received_by_id=String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_by_id());
             LocalRepositories.saveAppUser(this,appUser);
             transaction_amount.setText(String.valueOf(response.getReceipt_voucher().getData().getAttributes().getAmount()));
 
@@ -1092,6 +1094,9 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 }
 
             }
+            if(!response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState().equals("")||response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState()!=null) {
+                state=response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState();
+            }
             List<Map> myList=new ArrayList<>();
             gst_nature_spinner.setSelection(groupindex);
             Map mMap;
@@ -1105,6 +1110,9 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                mMap.put("amount", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getAmount()));
                mMap.put("taxrate", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTax_rate()));
                mMap.put("total", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getTotal_amount()));
+               mMap.put("cgst", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getCgst()));
+               mMap.put("sgst", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getSgst()));
+               mMap.put("igst", String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceipt_item().get(i).getIgst()));
                appUser.mListMapForItemReceipt.add(mMap);
            }
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

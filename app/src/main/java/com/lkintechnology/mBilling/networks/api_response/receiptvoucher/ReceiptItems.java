@@ -4,6 +4,33 @@ public class ReceiptItems {
     public Double total_amount;
     public Double tax_rate;
     public Double amount;
+    public Double cgst;
+    public Double sgst;
+    public Double igst;
+
+    public Double getCgst() {
+        return cgst;
+    }
+
+    public void setCgst(Double cgst) {
+        this.cgst = cgst;
+    }
+
+    public Double getSgst() {
+        return sgst;
+    }
+
+    public void setSgst(Double sgst) {
+        this.sgst = sgst;
+    }
+
+    public Double getIgst() {
+        return igst;
+    }
+
+    public void setIgst(Double igst) {
+        this.igst = igst;
+    }
 
     public Double getTotal_amount() {
         return total_amount;

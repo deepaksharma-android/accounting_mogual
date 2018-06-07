@@ -38,6 +38,7 @@ public class AddReceiptItemActivity extends AppCompatActivity {
     LinearLayout mSubmit;
     String amount;
     AppUser appUser;
+    String state;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,12 +48,14 @@ public class AddReceiptItemActivity extends AppCompatActivity {
         initActionbar();
         appUser= LocalRepositories.getAppUser(this);
         amount=getIntent().getExtras().getString("amount");
+        state=getIntent().getStringExtra("state");
         listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), CreateReceiptItemActivity.class);
                 intent.putExtra("fromreceipt", true);
                 intent.putExtra("pos",String.valueOf(i) );
+                intent.putExtra("state",state);
                 startActivity(intent);
                 finish();
             }
@@ -91,6 +94,7 @@ public class AddReceiptItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),CreateReceiptItemActivity.class);
                 intent.putExtra("amount",amount);
+                intent.putExtra("state",state);
                  startActivity(intent);
                 finish();
             }

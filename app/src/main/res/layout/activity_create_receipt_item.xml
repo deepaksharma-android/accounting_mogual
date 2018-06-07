@@ -4,6 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,6 +115,121 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/igst_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="IGST Amount *"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bg_grey_stroke"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzEditText
+                    android:id="@+id/tv_igst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/cgst_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="CGST Amount *"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:gravity="center"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bg_grey_stroke"
+                android:gravity="center"
+                android:orientation="vertical">
+                <com.lkintechnology.mBilling.utils.BuzzEditText
+                    android:id="@+id/tv_cgst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sgst_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="SGST Amount *"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bg_grey_stroke"
+                android:gravity="center"
+                android:orientation="vertical">
+                <com.lkintechnology.mBilling.utils.BuzzEditText
+                    android:id="@+id/tv_sgst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
+
         <com.lkintechnology.mBilling.utils.BuzzTextView
             style="@style/Gotham_Medium"
             android:layout_width="wrap_content"
@@ -166,4 +285,5 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>
