@@ -9,9 +9,12 @@ import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity;
+
 import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -23,7 +26,7 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
     private Context context;
     private ArrayList arrayList;
     private ArrayList serialNoList, serialNoPurchaseReturn;
-    private int quantity, locQuantity=0;
+    private int quantity, locQuantity = 0;
     private String tempSaleNo;
     private boolean fromPurchaseReturn, frombillitemvoucherlist;
     // public static ArrayList checkArrayList;
@@ -59,12 +62,11 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolders holder, int position) {
-
         if (fromPurchaseReturn == true) {
-
 
             if (serialNoPurchaseReturn.get(position) != null && serialNoPurchaseReturn.get(position).equals("true")) {
                 holder.checkBox.setChecked(true);
+                //locQuantity=serialNoPurchaseReturn.size();
             } else {
                 holder.checkBox.setChecked(false);
             }
@@ -85,28 +87,31 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
                 @Override
                 public void onClick(View v) {
 
-                   //if (locQuantity < quantity) {
-                        if (serialNoPurchaseReturn.get(position).equals("true")) {
+                    if (serialNoPurchaseReturn.get(position).equals("true")) {
+                        serialNoPurchaseReturn.remove(position);
+                        serialNoPurchaseReturn.add(position, "false");
+                        locQuantity--;
+                        notifyDataSetChanged();
+                    } else {
+                        serialNoPurchaseReturn.remove(position);
+                        serialNoPurchaseReturn.add(position, "true");
+                        locQuantity++;
+                        notifyDataSetChanged();
+                    }
+                    if (locQuantity > quantity) {
+                        Toast.makeText(context, "Quantity exceeds!", Toast.LENGTH_SHORT).show();
+                        serialNoPurchaseReturn.remove(position);
+                        serialNoPurchaseReturn.add(position, "false");
+                        locQuantity--;
+                        notifyDataSetChanged();
 
-                            serialNoPurchaseReturn.remove(position);
-                            serialNoPurchaseReturn.add(position, "false");
-                           // locQuantity--;
-                            notifyDataSetChanged();
-                        } else {
-
-                            serialNoPurchaseReturn.remove(position);
-                            serialNoPurchaseReturn.add(position, "true");
-                          //  locQuantity++;
-                            notifyDataSetChanged();
-                        }
-                   /* } else {
-                        Toast.makeText(context, "Maximum limit reached", Toast.LENGTH_SHORT).show();
-                    }*/
+                    }
                 }
             });
         } else {
             if (serialNoList.get(position) != null && serialNoList.get(position).equals("true")) {
                 holder.checkBox.setChecked(true);
+                //locQuantity=serialNoList.size();
             } else {
                 holder.checkBox.setChecked(false);
             }
@@ -126,21 +131,24 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
             holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    if (locQuantity < quantity) {
-                        if (serialNoList.get(position).equals("true")) {
-                            serialNoList.remove(position);
-                            serialNoList.add(position, "false");
-                            locQuantity--;
-                            notifyDataSetChanged();
-                        } else {
-                            serialNoList.remove(position);
-                            serialNoList.add(position, "true");
-                            locQuantity++;
-                            notifyDataSetChanged();
-                        }
+                    if (serialNoList.get(position).equals("true")) {
+                        serialNoList.remove(position);
+                        serialNoList.add(position, "false");
+                        locQuantity--;
+                        notifyDataSetChanged();
                     } else {
-                        Toast.makeText(context, "Maximum limit reached", Toast.LENGTH_SHORT).show();
+                        serialNoList.remove(position);
+                        serialNoList.add(position, "true");
+                        locQuantity++;
+                        notifyDataSetChanged();
+                    }
+                    if (locQuantity > quantity) {
+                        Toast.makeText(context, "Quantity exceeds!", Toast.LENGTH_SHORT).show();
+                        serialNoList.remove(position);
+                        serialNoList.add(position, "false");
+                        locQuantity--;
+                        notifyDataSetChanged();
+
                     }
                 }
             });

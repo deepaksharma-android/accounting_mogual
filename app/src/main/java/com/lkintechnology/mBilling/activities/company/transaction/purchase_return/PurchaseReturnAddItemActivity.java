@@ -537,6 +537,21 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     serial = "0";
                 }
 
+                mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        appUser.sale_item_serial_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        mSr_no.setText("");
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
                 /*if (!serial.equals("0")) {
                     Dialog dialogbal = new Dialog(PurchaseReturnAddItemActivity.this);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);

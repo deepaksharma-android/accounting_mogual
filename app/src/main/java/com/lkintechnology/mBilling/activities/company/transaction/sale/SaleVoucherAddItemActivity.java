@@ -545,6 +545,22 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 } else {
                     serial = "0";
                 }
+
+                mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        appUser.sale_item_serial_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        mSr_no.setText("");
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
                   /*  Dialog dialogbal = new Dialog(SaleVoucherAddItemActivity.this);
                     dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                     dialogbal.setContentView(R.layout.dialog_serail);
