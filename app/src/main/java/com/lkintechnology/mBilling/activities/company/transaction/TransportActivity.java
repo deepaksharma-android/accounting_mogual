@@ -73,7 +73,7 @@ public class TransportActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-        fromedit=getIntent().getExtras().getBoolean("fromedit");
+        fromedit=getIntent().getExtras().getBoolean("fromedit",false);
         spinner_e_way_bill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

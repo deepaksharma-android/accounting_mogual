@@ -5,14 +5,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,19 +40,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.purchasetype.PurchaseTypeListActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -123,6 +120,8 @@ public class CreateSaleReturnFragment extends Fragment {
     LinearLayout mBrowseImage;
     @Bind(R.id.transport)
     LinearLayout mTransport;
+    @Bind(R.id.payment_settlement_layout)
+    LinearLayout mPaymentSettlementLayout;
     @Bind(R.id.receipt)
     LinearLayout mReceipt;
     @Bind(R.id.selected_image)
@@ -139,11 +138,11 @@ public class CreateSaleReturnFragment extends Fragment {
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
     String party_id;
-    public static int intStartActivityForResult=0;
+    public static int intStartActivityForResult = 0;
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
-    public Boolean fromedit=false;
+    public Boolean fromedit = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -160,7 +159,7 @@ public class CreateSaleReturnFragment extends Fragment {
         final Calendar newCalendar = Calendar.getInstance();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         if (CreateSaleReturnActivity.fromsalelist) {
-            if(!Preferences.getInstance(getContext()).getVoucher_date().equals("")){
+            if (!Preferences.getInstance(getContext()).getVoucher_date().equals("")) {
                 mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
             }
             submit.setVisibility(View.GONE);
@@ -188,37 +187,36 @@ public class CreateSaleReturnFragment extends Fragment {
                 snackbar.show();
             }
         }
-        if(CreateSaleReturnActivity.fromdashboard) {
+        if (CreateSaleReturnActivity.fromdashboard) {
             String date1 = dateFormatter.format(newCalendar.getTime());
             Preferences.getInstance(getContext()).setVoucher_date(date1);
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
                             }
-                        }
-                    });
-            snackbar.show();
+                        });
+                snackbar.show();
+            }
         }
-        }
-        if(!Preferences.getInstance(getActivity()).getUpdate().equals("")){
+        if (!Preferences.getInstance(getActivity()).getUpdate().equals("")) {
             update.setVisibility(View.VISIBLE);
             submit.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
         }
@@ -232,36 +230,34 @@ public class CreateSaleReturnFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
-            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
             Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(mSelectedImage);
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if(Preferences.getInstance(getContext()).getCash_credit().equals("CASH")){
+        if (Preferences.getInstance(getContext()).getCash_credit().equals("CASH")) {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
-        }
-        else if(Preferences.getInstance(getContext()).getCash_credit().equals("Credit")){
+        } else if (Preferences.getInstance(getContext()).getCash_credit().equals("Credit")) {
             credit.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#ffffff"));//white
             cash.setTextColor(Color.parseColor("#000000"));//black
-        }
-        else{
+        } else {
             cash.setBackgroundColor(Color.parseColor("#ababab"));
             cash.setTextColor(Color.parseColor("#ffffff"));
             credit.setBackgroundColor(0);
             credit.setTextColor(Color.parseColor("#000000"));
         }
-        if (!mDate.getText().toString().equals("")){
-            appUser.sale_return_date=mDate.getText().toString();
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        if (!mDate.getText().toString().equals("")) {
+            appUser.sale_return_date = mDate.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         }
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,54 +282,54 @@ public class CreateSaleReturnFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intStartActivityForResult=1;
-                ParameterConstant.checkStartActivityResultForAccount =8;
-                ParameterConstant.checkStartActivityResultForMaterialCenter=3;
-                MaterialCentreListActivity.isDirectForMaterialCentre=false;
+                intStartActivityForResult = 1;
+                ParameterConstant.checkStartActivityResultForAccount = 8;
+                ParameterConstant.checkStartActivityResultForMaterialCenter = 3;
+                MaterialCentreListActivity.isDirectForMaterialCentre = false;
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
         });
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.checkStartActivityResultForAccount =8;
-                ParameterConstant.checkForPurchaseTypeList=2;
-                PurchaseTypeListActivity.isDirectForPurchaseTypeList=false;
+                ParameterConstant.checkStartActivityResultForAccount = 8;
+                ParameterConstant.checkForPurchaseTypeList = 2;
+                PurchaseTypeListActivity.isDirectForPurchaseTypeList = false;
                 //startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
-                Intent intent=new Intent(getContext(),PurchaseTypeListActivity.class);
-                intent.putExtra("sale_return",true);
-                startActivityForResult(intent,22);
+                Intent intent = new Intent(getContext(), PurchaseTypeListActivity.class);
+                intent.putExtra("sale_return", true);
+                startActivityForResult(intent, 22);
             }
         });
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.forAccountIntentMobile="";
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.forAccountIntentMobile = "";
                 //ParameterConstant.checkStartActivityResultForAccount =8;
-                intStartActivityForResult=2;
+                intStartActivityForResult = 2;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 3);
             }
         });
         mShippedTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParameterConstant.forAccountIntentBool=false;
-                ParameterConstant.forAccountIntentName="";
-                ParameterConstant.forAccountIntentId="";
-                ParameterConstant.forAccountIntentMobile="";
+                ParameterConstant.forAccountIntentBool = false;
+                ParameterConstant.forAccountIntentName = "";
+                ParameterConstant.forAccountIntentId = "";
+                ParameterConstant.forAccountIntentMobile = "";
                 //ParameterConstant.checkStartActivityResultForAccount =8;
-                intStartActivityForResult=2;
+                intStartActivityForResult = 2;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
-                ExpandableAccountListActivity.isDirectForAccount=false;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                ParameterConstant.handleAutoCompleteTextView=0;
+                ExpandableAccountListActivity.isDirectForAccount = false;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ParameterConstant.handleAutoCompleteTextView = 0;
                 startActivityForResult(new Intent(getContext(), ExpandableAccountListActivity.class), 4);
             }
         });
@@ -364,10 +360,32 @@ public class CreateSaleReturnFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TransportActivity.voucher_type="sale_return";
-                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
-                intent.putExtra("fromedit",fromedit);
+                TransportActivity.voucher_type = "sale_return";
+                Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
+                intent.putExtra("fromedit", fromedit);
                 startActivity(intent);
+            }
+        });
+        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser=LocalRepositories.getAppUser(getActivity());
+                if (appUser.mListMapForItemSaleReturn.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "sale_return";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            intent.putExtra("fromedit", fromedit);
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
+                    } else {
+                        Helpers.dialogMessage(getContext(), "Please select party name");
+                    }
+                } else {
+                    Helpers.dialogMessage(getContext(), "Please add item");
+                }
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -376,10 +394,10 @@ public class CreateSaleReturnFragment extends Fragment {
                 if (!Preferences.getInstance(getActivity()).getPurchase_type_name().equals("")) {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
-                    }else {
+                    } else {
                         alertdialogstore();
                     }
-                }else {
+                } else {
                     alertdialogtype();
                 }
 
@@ -430,8 +448,8 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 submit.startAnimation(blinkOnClick);
-                appUser=LocalRepositories.getAppUser(getActivity());
-                if(appUser.mListMapForItemSaleReturn.size()>0) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                if (appUser.mListMapForItemSaleReturn.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
@@ -439,14 +457,14 @@ public class CreateSaleReturnFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
-                                                appUser.sale_return_series = mSeries.getSelectedItem().toString();
-                                                appUser.sale_return_vchNo = mVchNumber.getText().toString();
-                                                appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
-                                                appUser.sale_return_narration = mNarration.getText().toString();
-                                                appUser.sale_return_attachment = encodedString;
-                                                LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            appUser.sale_return_series = mSeries.getSelectedItem().toString();
+                                            appUser.sale_return_vchNo = mVchNumber.getText().toString();
+                                            appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
+                                            appUser.sale_return_narration = mNarration.getText().toString();
+                                            appUser.sale_return_attachment = encodedString;
+                                            LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if(appUser.sale_partyEmail!=null&&!appUser.sale_partyEmail.equalsIgnoreCase("null")&&!appUser.sale_partyEmail.equals("")) {
+                                            if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
                                                 new AlertDialog.Builder(getActivity())
                                                         .setTitle("Email")
                                                         .setMessage(R.string.btn_send_email)
@@ -486,7 +504,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                                               // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                                // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                     @Override
@@ -502,7 +520,7 @@ public class CreateSaleReturnFragment extends Fragment {
 
                                                         })
                                                         .show();
-                                            }else {
+                                            } else {
                                                 appUser.email_yes_no = "false";
                                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                                 if (isConnected) {
@@ -512,7 +530,7 @@ public class CreateSaleReturnFragment extends Fragment {
                                                     mProgressDialog.setCancelable(true);
                                                     mProgressDialog.show();
                                                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_RETURN);
-                                                   // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                 } else {
                                                     snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                         @Override
@@ -563,12 +581,10 @@ public class CreateSaleReturnFragment extends Fragment {
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                         }
-                    }
-                    else{
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
                     }
-                }
-                else{
+                } else {
                     Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
                 hideKeyPad(getActivity());
@@ -578,8 +594,8 @@ public class CreateSaleReturnFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser=LocalRepositories.getAppUser(getActivity());
-                if(appUser.mListMapForItemSaleReturn.size()>0) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                if (appUser.mListMapForItemSaleReturn.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
@@ -599,8 +615,8 @@ public class CreateSaleReturnFragment extends Fragment {
                                                     .setMessage(R.string.btn_send_email)
                                                     .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="true";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        appUser.email_yes_no = "true";
+                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -608,8 +624,8 @@ public class CreateSaleReturnFragment extends Fragment {
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS);
-                                                          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        }else {
+                                                            //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                        } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View view) {
@@ -624,8 +640,8 @@ public class CreateSaleReturnFragment extends Fragment {
                                                     })
                                                     .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
 
-                                                        appUser.email_yes_no="false";
-                                                        LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                        appUser.email_yes_no = "false";
+                                                        LocalRepositories.saveAppUser(getActivity(), appUser);
                                                         if (isConnected) {
                                                             mProgressDialog = new ProgressDialog(getActivity());
                                                             mProgressDialog.setMessage("Info...");
@@ -633,9 +649,8 @@ public class CreateSaleReturnFragment extends Fragment {
                                                             mProgressDialog.setCancelable(true);
                                                             mProgressDialog.show();
                                                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS);
-                                                          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-                                                        }
-                                                        else {
+                                                            //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                        } else {
                                                             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View view) {
@@ -687,12 +702,10 @@ public class CreateSaleReturnFragment extends Fragment {
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                         }
-                    }
-                    else{
+                    } else {
                         Snackbar.make(coordinatorLayout, "Please select the series", Snackbar.LENGTH_LONG).show();
                     }
-                }
-                else{
+                } else {
                     Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
                 hideKeyPad(getActivity());
@@ -720,7 +733,7 @@ public class CreateSaleReturnFragment extends Fragment {
             case Cv.REQUEST_CAMERA:
                 try {
                     photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageToUploadUri);
-                    Bitmap im=scaleDownBitmap(photo,100,getApplicationContext());
+                    Bitmap im = scaleDownBitmap(photo, 100, getApplicationContext());
                     mSelectedImage.setVisibility(View.VISIBLE);
                     mSelectedImage.setImageBitmap(im);
                     encodedString = Helpers.bitmapToBase64(im);
@@ -744,13 +757,13 @@ public class CreateSaleReturnFragment extends Fragment {
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
         }
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                boolForStore=true;
+                boolForStore = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 appUser.sale_return_store = String.valueOf(id);
@@ -772,7 +785,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 appUser.sale_return_saleType = String.valueOf(id);
                 appUser.mListMapForItemSaleReturn.clear();
                 appUser.mListMapForBillSaleReturn.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
                 Preferences.getInstance(getContext()).setPurchase_type_name(result);
@@ -794,23 +807,22 @@ public class CreateSaleReturnFragment extends Fragment {
                     boolForPartyName = true;
                     mPartyName.setText(ParameterConstant.name);
                     mMobileNumber.setText(ParameterConstant.mobile);
-                    party_id=ParameterConstant.id;
+                    party_id = ParameterConstant.id;
                     appUser.sale_partyName = ParameterConstant.id;
                     appUser.sale_partyEmail = ParameterConstant.email;
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
 
-                }
-                else {
+                } else {
                     boolForPartyName = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
                     String mobile = data.getStringExtra("mobile");
                     String group = data.getStringExtra("group");
-                    party_id=id;
-                    appUser.sale_party_group=group;
+                    party_id = id;
+                    appUser.sale_party_group = group;
                     appUser.sale_partyName = id;
                     String[] strArr = result.split(",");
                     mPartyName.setText(strArr[0]);
@@ -838,8 +850,7 @@ public class CreateSaleReturnFragment extends Fragment {
                     Preferences.getInstance(getContext()).setShipped_to_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setShipped_to(ParameterConstant.name);
 
-                }
-                else {
+                } else {
                     boolForPartyName = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
@@ -862,10 +873,10 @@ public class CreateSaleReturnFragment extends Fragment {
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
 
-            if (intStartActivityForResult==1){
-                boolForPartyName=true;
-            }else if (intStartActivityForResult==2){
-                boolForStore=true;
+            if (intStartActivityForResult == 1) {
+                boolForPartyName = true;
+            } else if (intStartActivityForResult == 2) {
+                boolForStore = true;
             }
             /*if (!boolForPartyName) {
                 // Toast.makeText(getContext(), "Resume Party", Toast.LENGTH_SHORT).show();
@@ -907,7 +918,7 @@ public class CreateSaleReturnFragment extends Fragment {
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sale_return_voucher");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
@@ -938,22 +949,24 @@ public class CreateSaleReturnFragment extends Fragment {
                }
            }
             else{*/
-               mPartyName.setText("");
-               mMobileNumber.setText("");
-               mVchNumber.setText("");
-               mNarration.setText("");
-               encodedString="";
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
+            mPartyName.setText("");
+            mMobileNumber.setText("");
+            mVchNumber.setText("");
+            mNarration.setText("");
+            encodedString = "";
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
-               mSelectedImage.setVisibility(View.GONE);
-               appUser.mListMapForItemSaleReturn.clear();
-               appUser.mListMapForBillSaleReturn.clear();
-               appUser.transport_details.clear();
-               LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-               ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-               FragmentTransaction ft = getFragmentManager().beginTransaction();
-               ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
+            mSelectedImage.setVisibility(View.GONE);
+            appUser.mListMapForItemSaleReturn.clear();
+            appUser.mListMapForBillSaleReturn.clear();
+            appUser.transport_details.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
 //                startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));
             //}
 
@@ -962,7 +975,7 @@ public class CreateSaleReturnFragment extends Fragment {
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
                         Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                        intent.putExtra("company_report",response.getHtml());
+                        intent.putExtra("company_report", response.getHtml());
                         startActivity(intent);
                        /* ProgressDialog progressDialog=new ProgressDialog(getActivity());
                         progressDialog.setMessage("Please wait...");
@@ -986,7 +999,7 @@ public class CreateSaleReturnFragment extends Fragment {
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -997,16 +1010,15 @@ public class CreateSaleReturnFragment extends Fragment {
             mVchNumber.setText(response.getVoucher_number());
 
         } else {
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
     private static void hideKeyPad(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
-
 
 
     @Override
@@ -1016,7 +1028,6 @@ public class CreateSaleReturnFragment extends Fragment {
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
-
 
 
     @Override
@@ -1064,7 +1075,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
 
-        if (path.exists()){
+        if (path.exists()) {
             path.delete();
             path.mkdir();
         }
@@ -1090,6 +1101,7 @@ public class CreateSaleReturnFragment extends Fragment {
 //            Toast.makeText(this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
@@ -1277,19 +1289,35 @@ public class CreateSaleReturnFragment extends Fragment {
                 }
 
             }
-        }else {
+
+            if (response.getSale_return_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                Map map;
+                appUser.paymentSettlementList.clear();
+                for (int i=0;i<response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                    map = new HashMap();
+                    map.put("id",response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                    map.put("payment_account_name", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                    map.put("payment_account_id", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                    map.put("amount", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                    appUser.paymentSettlementList.add(map);
+                }
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+        } else {
            /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
     @Subscribe
-    public void updatepurchasereturnvoucher(UpdateSaleReturnResponse response){
+    public void updatepurchasereturnvoucher(UpdateSaleReturnResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
-           // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+        if (response.getStatus() == 200) {
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
+            // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             //snackbar.show();
             Preferences.getInstance(getActivity()).setUpdate("");
             Preferences.getInstance(getContext()).setMobile("");
@@ -1299,37 +1327,37 @@ public class CreateSaleReturnFragment extends Fragment {
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
-            encodedString="";
+            encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSaleReturn.clear();
             appUser.mListMapForBillSaleReturn.clear();
             appUser.transport_details.clear();
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
-            startActivity(new Intent(getApplicationContext(),GetSaleReturnVoucherListActivity.class));
-        }
-        else {
+            startActivity(new Intent(getApplicationContext(), GetSaleReturnVoucherListActivity.class));
+        } else {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
-    public  Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+    public Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
 
         final float densityMultiplier = context.getResources().getDisplayMetrics().density;
 
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+        int h = (int) (newHeight * densityMultiplier);
+        int w = (int) (h * photo.getWidth() / ((double) photo.getHeight()));
 
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+        photo = Bitmap.createScaledBitmap(photo, w, h, true);
 
         return photo;
     }
-    public void alertdialogtype(){
+
+    public void alertdialogtype() {
         new android.support.v7.app.AlertDialog.Builder(getContext())
                 .setTitle("Purchase Voucher")
                 .setMessage("Please add purchase type in create voucher")
@@ -1339,7 +1367,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 })
                 .show();
     }
-    public void alertdialogstore(){
+
+    public void alertdialogstore() {
         new android.support.v7.app.AlertDialog.Builder(getContext())
                 .setTitle("Purchase Voucher")
                 .setMessage("Please add store in create voucher")

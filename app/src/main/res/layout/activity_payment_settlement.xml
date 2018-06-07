@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Select Payment Mode 1"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/select_account_layout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/select_account1"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Select Account"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
+                        android:id="@+id/amount1"
+                        style="@style/Gotham_Book"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Amount"
+                        android:inputType="numberDecimal"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Select Payment Mode 2"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/select_account_layout2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/select_account2"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Select Account"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
+                        android:id="@+id/amount2"
+                        style="@style/Gotham_Book"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Amount"
+                        android:inputType="numberDecimal"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Select Payment Mode 3"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/select_account_layout3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/select_account3"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Select Account"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
+                        android:id="@+id/amount3"
+                        style="@style/Gotham_Book"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Amount"
+                        android:textColor="#000"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Select Payment Mode 4"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/select_account_layout4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/select_account4"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Select Account"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
+                        android:id="@+id/amount4"
+                        style="@style/Gotham_Book"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Amount"
+                        android:inputType="numberDecimal"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <com.lkintechnology.mBilling.utils.BuzzTextView
+                    style="@style/Gotham_Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Select Payment Mode 5"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/select_account_layout5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/select_account5"
+                        style="@style/Gotham_Book"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.9"
+                        android:background="@android:color/transparent"
+                        android:hint="Select Account"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/right_chevron" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_grey_stroke"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzEditText
+                        android:id="@+id/amount5"
+                        style="@style/Gotham_Book"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Amount"
+                        android:inputType="numberDecimal"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:id="@+id/submit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/vendorText"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/solid_blue">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Submit"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

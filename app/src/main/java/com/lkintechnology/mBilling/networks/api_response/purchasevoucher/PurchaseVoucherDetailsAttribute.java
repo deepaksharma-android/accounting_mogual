@@ -207,4 +207,13 @@ public class PurchaseVoucherDetailsAttribute {
     }
 
     public Transport transport_details;
+    public ArrayList<PurchaseVoucherDetailsPaymentSettlement> payment_settlement;
+
+    public ArrayList<PurchaseVoucherDetailsPaymentSettlement> getPayment_settlement() {
+        return payment_settlement;
+    }
+
+    public void setPayment_settlement(ArrayList<PurchaseVoucherDetailsPaymentSettlement> payment_settlement) {
+        this.payment_settlement = payment_settlement;
+    }
 }

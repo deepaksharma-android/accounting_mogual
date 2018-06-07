@@ -205,4 +205,13 @@ public class PurchaseReturnVoucherDetailsAttribute {
     }
 
     public Transport transport_details;
+    public ArrayList<PurchaseReturnVoucherDetailsPaymentSettlement> payment_settlement;
+
+    public ArrayList<PurchaseReturnVoucherDetailsPaymentSettlement> getPayment_settlement() {
+        return payment_settlement;
+    }
+
+    public void setPayment_settlement(ArrayList<PurchaseReturnVoucherDetailsPaymentSettlement> payment_settlement) {
+        this.payment_settlement = payment_settlement;
+    }
 }

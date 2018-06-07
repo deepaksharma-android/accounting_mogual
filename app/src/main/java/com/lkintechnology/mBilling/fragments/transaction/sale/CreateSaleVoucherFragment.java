@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,11 +32,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -47,7 +42,6 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 
@@ -55,6 +49,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersIt
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
@@ -62,7 +57,6 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
-import com.lkintechnology.mBilling.utils.EventDeleteIncome;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -122,6 +116,8 @@ public class CreateSaleVoucherFragment extends Fragment {
     LinearLayout mBrowseImage;
     @Bind(R.id.transport)
     LinearLayout mTransport;
+    @Bind(R.id.payment_settlement_layout)
+    LinearLayout mPaymentSettlementLayout;
     @Bind(R.id.receipt)
     LinearLayout mReceipt;
     @Bind(R.id.selected_image)
@@ -145,6 +141,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit = false;
+
 
     @Override
     public void onStart() {
@@ -240,6 +237,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -406,6 +404,29 @@ public class CreateSaleVoucherFragment extends Fragment {
                 intent.putExtra("fromedit", fromedit);
                 startActivity(intent);
 
+            }
+        });
+        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser=LocalRepositories.getAppUser(getActivity());
+                if (appUser.mListMapForItemSale.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "sale";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            //intent.putExtra("fromedit", fromedit);
+                            System.out.println("pcccc fragment "+appUser.paymentSettlementList.size());
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
+                    } else {
+                        Helpers.dialogMessage(getContext(), "Please select party name");
+                    }
+                }else{
+                        Helpers.dialogMessage(getContext(),"Please add item");
+                }
             }
         });
         mReceipt.setOnClickListener(new View.OnClickListener() {
@@ -735,6 +756,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
+        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -971,6 +993,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                *//* }*//*
             }*/
           /*  else{*/
+
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
@@ -1339,6 +1364,19 @@ public class CreateSaleVoucherFragment extends Fragment {
                         }
                     }
                 }
+                if (response.getSale_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                    Map map;
+                    appUser.paymentSettlementList.clear();
+                    for (int i=0;i<response.getSale_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                        map = new HashMap();
+                        map.put("id",response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                        map.put("payment_account_name", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                        map.put("payment_account_id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                        map.put("amount", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                        appUser.paymentSettlementList.add(map);
+                    }
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                }
             }
 
         } else {
@@ -1357,6 +1395,10 @@ public class CreateSaleVoucherFragment extends Fragment {
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
+
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
+
             Preferences.getInstance(getActivity()).setUpdate("");
             Preferences.getInstance(getContext()).setMobile("");
             Preferences.getInstance(getContext()).setNarration("");
