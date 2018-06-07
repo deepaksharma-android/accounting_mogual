@@ -11,14 +11,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,8 +35,7 @@ import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 
-import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.purchase.VoucherBarcodeActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.barcode.EditTextVoucherBarcodeActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -506,7 +502,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
                     }
                     String quantity = mQuantity.getText().toString();
                     appUser.item_id = id;
-                    Intent intent = new Intent(getApplicationContext(), VoucherBarcodeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), EditTextVoucherBarcodeActivity.class);
                     intent.putExtra("serial", serial);
                     intent.putExtra("quantity", quantity);
                     intent.putExtra("businessType", pos);

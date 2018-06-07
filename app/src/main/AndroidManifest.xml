@@ -736,10 +736,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name=".activities.company.navigations.administration.masters.item.BarcodeActivity"
+        <activity android:name=".activities.company.navigations.administration.masters.item.ItemBarcodeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.purchase.VoucherBarcodeActivity"
+        <activity android:name=".activities.company.transaction.barcode.EditTextVoucherBarcodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
 
