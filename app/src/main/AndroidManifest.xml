@@ -43,8 +43,7 @@
         <activity
             android:name=".activities.app.HomePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/noAnimTheme">
-        </activity>
+            android:theme="@style/noAnimTheme"/>
 
         <receiver android:name=".networks.SmsListener">
             <intent-filter>
