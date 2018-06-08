@@ -263,7 +263,7 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Discount %"
+                            android:text="Discount (%)"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -301,7 +301,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="Value"
+                            android:text="Discount Value (र)"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
