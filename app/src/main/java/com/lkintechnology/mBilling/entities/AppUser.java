@@ -175,6 +175,7 @@ public class AppUser {
     public String sub_unit_id;
 
     public String item_name;
+    public String item_code;
     public String item_company_id="";
     public String item_item_group_id="";
     public String item_unit_id;

@@ -1328,7 +1328,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
-            startActivity(new Intent(getApplicationContext(), GetPurchaseReturnListActivity.class));
+            Intent intent = new Intent(getApplicationContext(), GetPurchaseReturnListActivity.class);
+            intent.putExtra("forDate",true);
+            startActivity(intent);
         } else {
            /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);

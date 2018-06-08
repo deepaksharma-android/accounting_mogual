@@ -97,9 +97,15 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
         dateString = dateFormatter.format(date);
-        start_date.setText(dateString);
-        end_date.setText(dateString);
+        if (forDate){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);

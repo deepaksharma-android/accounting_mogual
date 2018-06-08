@@ -94,8 +94,14 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
-        start_date.setText(dateString);
-        end_date.setText(dateString);
+        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
+        if (forDate){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);

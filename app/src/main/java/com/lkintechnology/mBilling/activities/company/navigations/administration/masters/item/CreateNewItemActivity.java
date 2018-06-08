@@ -80,7 +80,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     @Bind(R.id.item_group)
     TextView mItemGroup;
     @Bind(R.id.item_name)
-    TextView mItemName;
+    EditText mItemName;
+    @Bind(R.id.item_code)
+    EditText mItemCode;
     @Bind(R.id.item_unit)
     TextView mItemUnit;
     @Bind(R.id.update)
@@ -124,11 +126,12 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         context = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         mItemName.setText(appUser.item_name);
+        mItemCode.setText(appUser.item_code);
         mHsnNumber.setText(appUser.item_hsn_number);
         mItemGroup.setText(appUser.item_group_name);
         mItemUnit.setText(appUser.item_unit_name);
         mTaxCategory.setText(appUser.item_tax_category_name);
-        RequestCheckBarcode.bollForBarcode=null;
+        RequestCheckBarcode.bollForBarcode = null;
         mStore.setText(appUser.stock_item_material_center);
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setStockSerial("");
@@ -358,6 +361,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                             if (!mTaxCategory.getText().toString().equals("")) {
                                /* if (!mStore.getText().toString().equals("")) {*/
                                 appUser.item_name = mItemName.getText().toString();
+                                appUser.item_code = mItemCode.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                                /* appUser.stock_serial_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
@@ -408,7 +412,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         Snackbar.make(coordinatorLayout, "Select Item Group", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Enter Item name", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Enter Item Name", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -416,13 +420,13 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (!mItemName.getText().toString().equals("")) {
                     if (!mItemUnit.getText().toString().equals("")) {
                         if (!mItemGroup.getText().toString().equals("")) {
                             if (!mTaxCategory.getText().toString().equals("")) {
                              /*   if(!mStore.getText().toString().equals("")){*/
                                 appUser.item_name = mItemName.getText().toString();
+                                appUser.item_code = mItemCode.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
@@ -484,7 +488,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                         Snackbar.make(coordinatorLayout, "Select Item Group", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
-                    Snackbar.make(coordinatorLayout, "Enter Item name", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "Enter Item Name", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -496,6 +500,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 ParameterConstant.checkStartActivityResultForItemGroupOfItem = 1;
                 ItemGroupListActivity.isDirectForItemGroup = false;
                 appUser.item_name = mItemName.getText().toString();
+                appUser.item_code = mItemCode.getText().toString();
                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                 appUser.item_group_name = mItemGroup.getText().toString();
                 appUser.item_unit_name = mItemUnit.getText().toString();
@@ -517,6 +522,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 UnitListActivity.isDirectForUnitList = false;
 
                 appUser.item_name = mItemName.getText().toString();
+                appUser.item_code = mItemCode.getText().toString();
                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                 appUser.item_group_name = mItemGroup.getText().toString();
                 appUser.item_unit_name = mItemUnit.getText().toString();
@@ -533,6 +539,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             public void onClick(View view) {
 
                 appUser.item_name = mItemName.getText().toString();
+                appUser.item_code = mItemCode.getText().toString();
                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                 appUser.item_group_name = mItemGroup.getText().toString();
                 appUser.item_unit_name = mItemUnit.getText().toString();
@@ -550,6 +557,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             @Override
             public void onClick(View v) {
                 appUser.item_name = mItemName.getText().toString();
+                appUser.item_code = mItemCode.getText().toString();
                 appUser.item_hsn_number = mHsnNumber.getText().toString();
                 appUser.item_group_name = mItemGroup.getText().toString();
                 appUser.item_unit_name = mItemUnit.getText().toString();
@@ -601,7 +609,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     }
 
     public void openingStock(View view) {
-        if (mItemGroup.getText().toString().isEmpty()||mItemGroup.getText().toString().equals("")||mItemUnit.getText().toString().isEmpty()||mItemUnit.getText().toString().equals("")||mTaxCategory.getText().toString().isEmpty()||mTaxCategory.getText().toString().equals("")) {
+        if (mItemGroup.getText().toString().isEmpty() || mItemGroup.getText().toString().equals("") || mItemUnit.getText().toString().isEmpty() || mItemUnit.getText().toString().equals("") || mTaxCategory.getText().toString().isEmpty() || mTaxCategory.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please select Group, Unit, and Text Category", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -715,7 +723,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -859,7 +867,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             finish();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -871,6 +879,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             LocalRepositories.saveAppUser(this, appUser);
 
             mItemName.setText(response.getItem().getData().getAttributes().getName());
+            mItemCode.setText(response.getItem().getData().getAttributes().getItem_code());
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
             mTaxCategory.setText(response.getItem().getData().getAttributes().getTax_category());
@@ -893,7 +902,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 mHsnLayout.setVisibility(View.VISIBLE);
                 mHsnNumber.setText(response.getItem().getData().getAttributes().getHsn_number());
             }
-            if (response.getItem().getData().getAttributes().getBusiness_type()!=null){
+            if (response.getItem().getData().getAttributes().getBusiness_type() != null) {
                 Preferences.getInstance(getApplicationContext()).setBusiness_type(response.getItem().getData().getAttributes().getBusiness_type());
             }
             if (String.valueOf(response.getItem().getData().getAttributes().getStock_quantity()) != null) {
@@ -1056,7 +1065,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 

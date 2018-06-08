@@ -1133,15 +1133,14 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 if (from.equals("pdcDetailsPayment")) {
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    intent.putExtra("forDate",true);
                     startActivity(intent);
                     finish();
                 } else {
                     Intent intent = new Intent(this, PaymentActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    intent.putExtra("forDate",true);
                     startActivity(intent);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     finish();
                 }
             }
