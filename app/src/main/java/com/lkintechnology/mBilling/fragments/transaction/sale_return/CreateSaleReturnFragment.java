@@ -1107,6 +1107,7 @@ public class CreateSaleReturnFragment extends Fragment {
             ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
             fromedit = true;
             mDate.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getDate()));
+            appUser.sale_return_date = Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getSale_return_voucher().getData().getAttributes().getVoucher_number());
             mSaleType.setText(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getApplicationContext()).setPurchase_type_name(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());

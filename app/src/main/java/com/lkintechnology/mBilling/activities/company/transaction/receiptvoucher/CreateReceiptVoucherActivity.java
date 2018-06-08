@@ -1055,6 +1055,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getReceipt_voucher().getData().getAttributes().getDate());
+            appUser.receipt_date = response.getReceipt_voucher().getData().getAttributes().getDate();
             voucher_no.setText(response.getReceipt_voucher().getData().getAttributes().getVoucher_number());
             //set_date_pdc.setText(response.getReceipt_voucher().getData().getAttributes().getPdc_date());
             received_from.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_from().getName());

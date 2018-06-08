@@ -1041,6 +1041,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getPayment().getData().getAttributes().getDate());
+            appUser.payment_date = response.getPayment().getData().getAttributes().getDate();
             voucher_no.setText(response.getPayment().getData().getAttributes().getVoucher_number());
             //set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
             paid_from.setText(response.getPayment().getData().getAttributes().getPaid_from());

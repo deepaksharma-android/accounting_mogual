@@ -935,6 +935,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getJournal_voucher().getData().getAttributes().getDate());
+            appUser.journal_voucher_date = response.getJournal_voucher().getData().getAttributes().getDate();
             voucher_no.setText(response.getJournal_voucher().getData().getAttributes().getVoucher_number());
             account_name_debit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getName());
             account_name_credit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_credit());

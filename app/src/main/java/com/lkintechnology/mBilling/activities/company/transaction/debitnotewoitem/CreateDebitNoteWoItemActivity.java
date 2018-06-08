@@ -812,6 +812,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             set_date.setText(response.getDebit_note().getData().getAttributes().getDate());
+            appUser.debit_note_date = response.getDebit_note().getData().getAttributes().getDate();
             voucher_no.setText(response.getDebit_note().getData().getAttributes().getVoucher_number());
             //account_name_credit.setText(response.getDebit_note().getData().getAttributes().getAccount_name_credit());
             account_name_debit.setText(response.getDebit_note().getData().getAttributes().getAccount_dedit().getName());

@@ -1154,6 +1154,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
             fromedit = true;
             mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
+            appUser.sale_date = response.getSale_voucher().getData().getAttributes().getDate();
             mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_number());
             Preferences.getInstance(getApplicationContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
             mSaleType.setText(response.getSale_voucher().getData().getAttributes().getSale_type());

@@ -774,12 +774,14 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getBank_cash_deposit().getData().getAttributes().getDate());
+            appUser.bank_cash_deposit_date = response.getBank_cash_deposit().getData().getAttributes().getDate();
             voucher_no.setText(response.getBank_cash_deposit().getData().getAttributes().getVoucher_number());
             deposit_to.setText(response.getBank_cash_deposit().getData().getAttributes().getDeposit_to());
             deposit_by.setText(response.getBank_cash_deposit().getData().getAttributes().getDeposit_by());
             transaction_amount.setText(String.valueOf(response.getBank_cash_deposit().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getBank_cash_deposit().getData().getAttributes().getNarration());
             Preferences.getInstance(getApplicationContext()).setAttachment("");
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (!Helpers.mystring(response.getBank_cash_deposit().getData().getAttributes().getAttachment()).equals("")) {
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getBank_cash_deposit().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getBank_cash_deposit().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)

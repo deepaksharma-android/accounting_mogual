@@ -1046,6 +1046,7 @@ public class CreatePurchaseFragment extends Fragment {
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
             fromedit=true;
             mDate.setText(response.getPurchase_voucher().getData().getAttributes().getDate());
+            appUser.purchase_date = response.getPurchase_voucher().getData().getAttributes().getDate();
             mVchNumber.setText(response.getPurchase_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getApplicationContext()).setPurchase_type_name(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());

@@ -1118,6 +1118,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
             fromedit = true;
             mDate.setText(response.getPurchase_return_voucher().getData().getAttributes().getDate());
+            appUser.purchase_date = response.getPurchase_return_voucher().getData().getAttributes().getDate();
             mVchNumber.setText(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());
             mStore.setText(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center());

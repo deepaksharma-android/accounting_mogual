@@ -764,12 +764,14 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             set_date.setText(response.getIncome().getData().getAttributes().getDate());
+            appUser.income_date = response.getIncome().getData().getAttributes().getDate();
             voucher_no.setText(response.getIncome().getData().getAttributes().getVoucher_number());
             received_into.setText(response.getIncome().getData().getAttributes().getReceived_into());
             received_from.setText(response.getIncome().getData().getAttributes().getReceived_from());
             transaction_amount.setText(String.valueOf(response.getIncome().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getIncome().getData().getAttributes().getNarration());
             Preferences.getInstance(getApplicationContext()).setAttachment("");
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (!Helpers.mystring(response.getIncome().getData().getAttributes().getAttachment()).equals("")) {
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getIncome().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getIncome().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
