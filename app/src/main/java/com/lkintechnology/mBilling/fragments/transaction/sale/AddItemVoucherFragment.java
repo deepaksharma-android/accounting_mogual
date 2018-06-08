@@ -79,6 +79,7 @@ public class AddItemVoucherFragment extends Fragment {
                         add_item_button.startAnimation(blinkOnClick);
                         ExpandableItemListActivity.comingFrom = 0;
                         ExpandableItemListActivity.isDirectForItem = false;
+                        SaleVoucherAddItemActivity.locQuantity = 0;
                         Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
                        /* if(CreateSaleActivity.fromsalelist){
                             intent.putExtra("fromsalelist", true);

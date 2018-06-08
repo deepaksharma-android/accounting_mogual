@@ -137,6 +137,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     List<String> myListForSerialNo;
     Boolean boolForBarcode;
     private ArrayList<String> serialNo;
+    public static int locQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +162,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         appUser.sale_item_serial_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
-
+        locQuantity = 0;
         if (frombillitemvoucherlist) {
             Timber.i("frombillitemvoucherlist true");
             pos = getIntent().getExtras().getInt("pos");
@@ -218,6 +219,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             voucher_barcode = (String) map.get("voucher_barcode");
             barcodeArray = voucher_barcode.split(",");
+            SaleVoucherAddItemActivity.locQuantity = barcodeArray.length;
             mSr_no.setText(voucher_barcode);
             boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
@@ -1027,6 +1029,28 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         mTotal.setText("0.0");
                     }
                 }
+
+              /*  if (frombillitemvoucherlist){
+                    int i=0;
+                    for ( i=0;i<arr_barcode.size();i++){
+                        serialNo.add("false");
+                    }
+                    int j=0;
+                    for(j = 0; j < barcodeArray.length; j++) {
+                        for(int k = 0; k < arr_barcode.size(); k++) {
+                            if(barcodeArray[j].equals(arr_barcode.get(k).toString())) {
+                                serialNo.remove(k);
+                                serialNo.add(k, "true");
+                            }
+                        }
+                    }
+
+                }else {
+                    for (int i = 0; i < arr_barcode.size(); i++) {
+                        serialNo.add("false");
+
+                    }
+                }*/
             }
 
             @Override

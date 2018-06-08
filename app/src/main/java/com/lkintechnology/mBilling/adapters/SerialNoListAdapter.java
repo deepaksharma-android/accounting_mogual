@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
     private Context context;
     private ArrayList arrayList;
     private ArrayList serialNoList, serialNoPurchaseReturn;
-    private int quantity, locQuantity = 0;
+    private int quantity;
     private String tempSaleNo;
     private boolean fromPurchaseReturn, frombillitemvoucherlist;
     // public static ArrayList checkArrayList;
@@ -66,7 +67,6 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
 
             if (serialNoPurchaseReturn.get(position) != null && serialNoPurchaseReturn.get(position).equals("true")) {
                 holder.checkBox.setChecked(true);
-                //locQuantity=serialNoPurchaseReturn.size();
             } else {
                 holder.checkBox.setChecked(false);
             }
@@ -90,21 +90,20 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
                     if (serialNoPurchaseReturn.get(position).equals("true")) {
                         serialNoPurchaseReturn.remove(position);
                         serialNoPurchaseReturn.add(position, "false");
-                        locQuantity--;
+                        SaleVoucherAddItemActivity.locQuantity--;
                         notifyDataSetChanged();
                     } else {
                         serialNoPurchaseReturn.remove(position);
                         serialNoPurchaseReturn.add(position, "true");
-                        locQuantity++;
+                        SaleVoucherAddItemActivity.locQuantity++;
                         notifyDataSetChanged();
                     }
-                    if (locQuantity > quantity) {
+                    if (SaleVoucherAddItemActivity.locQuantity > quantity) {
                         Toast.makeText(context, "Quantity exceeds!", Toast.LENGTH_SHORT).show();
                         serialNoPurchaseReturn.remove(position);
                         serialNoPurchaseReturn.add(position, "false");
-                        locQuantity--;
+                        SaleVoucherAddItemActivity.locQuantity--;
                         notifyDataSetChanged();
-
                     }
                 }
             });
@@ -134,19 +133,19 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
                     if (serialNoList.get(position).equals("true")) {
                         serialNoList.remove(position);
                         serialNoList.add(position, "false");
-                        locQuantity--;
+                        SaleVoucherAddItemActivity.locQuantity--;
                         notifyDataSetChanged();
                     } else {
                         serialNoList.remove(position);
                         serialNoList.add(position, "true");
-                        locQuantity++;
+                        SaleVoucherAddItemActivity.locQuantity++;
                         notifyDataSetChanged();
                     }
-                    if (locQuantity > quantity) {
+                    if (SaleVoucherAddItemActivity.locQuantity > quantity) {
                         Toast.makeText(context, "Quantity exceeds!", Toast.LENGTH_SHORT).show();
                         serialNoList.remove(position);
                         serialNoList.add(position, "false");
-                        locQuantity--;
+                        SaleVoucherAddItemActivity.locQuantity--;
                         notifyDataSetChanged();
 
                     }

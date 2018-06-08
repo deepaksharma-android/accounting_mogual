@@ -34,7 +34,6 @@ public class CheckBoxVoucherBarcodeActivity extends AppCompatActivity {
     private ArrayList serialNoList,serialNoPurchaseReturn;
     public static TextView barcodeMessage;
     public  static RecyclerView serialNo;
-
     private SerialNoListAdapter serialNoListAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private String barcode, quantity,tempSaleNo;
