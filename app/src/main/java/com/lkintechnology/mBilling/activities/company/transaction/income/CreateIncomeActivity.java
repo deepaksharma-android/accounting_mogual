@@ -798,10 +798,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, IncomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();

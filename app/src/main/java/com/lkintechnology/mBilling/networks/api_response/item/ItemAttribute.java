@@ -11,12 +11,21 @@ public class ItemAttribute {
 
     public int id;
     public String name;
+    public String item_code;
     public String company;
     public String item_group;
     public String alternate_unit_id;
     public String item_group_id;
     public String item_unit_id;
-    public Double amount=5.0;
+    public Double amount;
+
+    public String getItem_code() {
+        return item_code;
+    }
+
+    public void setItem_code(String item_code) {
+        this.item_code = item_code;
+    }
 
     public Double getAmount() {
         return amount;

@@ -12,14 +12,23 @@ public class ReceiptVouchersDetailsAttributes {
     public String gst_nature;
     public String voucher_number;
     public String received_by;
-    public DetailsReceivedFrom received_from;
+    public DetailsReceivedFrom received_from_state;
+    public DetailsReceivedFromState received_from;
 
-    public DetailsReceivedFrom getReceived_from() {
+    public DetailsReceivedFromState getReceived_from() {
         return received_from;
     }
 
-    public void setReceived_from(DetailsReceivedFrom received_from) {
+    public void setReceived_from(DetailsReceivedFromState received_from) {
         this.received_from = received_from;
+    }
+
+    public DetailsReceivedFrom getReceived_from_state() {
+        return received_from_state;
+    }
+
+    public void setReceived_from_state(DetailsReceivedFrom received_from_state) {
+        this.received_from_state = received_from_state;
     }
 
     public ArrayList<ReceiptItems> getReceipt_item() {

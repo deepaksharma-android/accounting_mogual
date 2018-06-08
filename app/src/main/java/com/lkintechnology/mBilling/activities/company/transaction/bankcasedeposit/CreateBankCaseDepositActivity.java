@@ -808,10 +808,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, BankCaseDepositListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(this,response.getMessage());

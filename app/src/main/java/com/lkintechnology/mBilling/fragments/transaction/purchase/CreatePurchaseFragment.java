@@ -1273,7 +1273,9 @@ public class CreatePurchaseFragment extends Fragment {
             if(PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
                 startActivity(new Intent(getApplicationContext(), PurchaseVouchersItemDetailsListActivity.class));
             }else {
-                startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
+                Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                intent.putExtra("forDate",true);
+                startActivity(intent);
             }
         } else {
             /*snackbar = Snackbar

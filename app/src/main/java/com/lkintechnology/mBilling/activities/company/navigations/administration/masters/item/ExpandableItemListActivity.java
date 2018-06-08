@@ -165,6 +165,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
         floatingActionButton.bringToFront();
         appUser.item_name = "";
+        appUser.item_code = "";
         appUser.item_hsn_number = "";
         appUser.item_group_name = "";
         appUser.item_unit_name = "";

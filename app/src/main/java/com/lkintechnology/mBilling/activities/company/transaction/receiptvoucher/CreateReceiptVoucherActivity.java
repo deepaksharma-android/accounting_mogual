@@ -1141,9 +1141,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                     Timber.i("ooooo Receipt"+from);
                     Intent intent = new Intent(this, ReceiptVoucherActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    intent.putExtra("forDate",true);
                     startActivity(intent);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -1286,7 +1285,11 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 startActivity(intent);
                 finish();
             } else if (from.equals("receipt")) {
-                finish();
+               Intent intent = new Intent(this, ReceiptVoucherActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("forDate",true);
+                    startActivity(intent);
+                    finish();
             }
         } else {
             Intent intent = new Intent(this, TransactionDashboardActivity.class);
