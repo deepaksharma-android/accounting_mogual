@@ -37,6 +37,7 @@ import com.lkintechnology.mBilling.utils.EventClickAlertForCreditNote;
 import com.lkintechnology.mBilling.utils.EventDeleteCreditNote;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -262,7 +263,6 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         intent.putExtra("fromCreditNote", true);
         intent.putExtra("id", response.getPosition());
         startActivity(intent);
-        finish();
     }
 
     @Subscribe
@@ -376,6 +376,8 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Preferences.getInstance(getApplicationContext()).setAttachment("");
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateCreditNoteWoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromCreditNote",false);
@@ -389,7 +391,8 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
 
     @Override
     public void onBackPressed() {
-
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         Intent intent = new Intent(this, CreateCreditNoteWoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromCreditNote",false);
@@ -412,8 +415,8 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 

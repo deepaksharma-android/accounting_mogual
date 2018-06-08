@@ -250,6 +250,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
         }/*else if(fromPdcReceiptVoucher==true){
 
         }*/ else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateReceiptVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");

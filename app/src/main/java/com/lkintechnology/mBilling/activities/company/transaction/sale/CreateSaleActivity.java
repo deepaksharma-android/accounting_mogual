@@ -203,10 +203,14 @@ public class CreateSaleActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else {
-                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                    if (fromsalelist){
+                        finish();
+                    }else {
+                        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
                 return true;
             default:
@@ -222,10 +226,14 @@ public class CreateSaleActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else {
-            Intent intent = new Intent(this, TransactionDashboardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            if (fromsalelist){
+                finish();
+            }else {
+                Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

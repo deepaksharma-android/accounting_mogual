@@ -183,6 +183,8 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 snackbar.show();
             }
         } else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateBankCaseWithdrawActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -207,11 +209,11 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             }
         }
         initActionbar();
-        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
-            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")) {
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
             Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(mSelectedImage);
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -574,7 +576,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                             Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                             break;
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
             }
@@ -743,7 +745,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     .show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -759,7 +761,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             transaction_amount.setText(String.valueOf(response.getBank_cash_withdraw().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getBank_cash_withdraw().getData().getAttributes().getNarration());
             Preferences.getInstance(getApplicationContext()).setAttachment("");
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             if (!Helpers.mystring(response.getBank_cash_withdraw().getData().getAttributes().getAttachment()).equals("")) {
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getBank_cash_withdraw().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getBank_cash_withdraw().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -772,7 +774,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -806,7 +808,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -819,7 +821,7 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -856,10 +858,14 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromBankcashWithdraw) {
+                    finish();
+                } else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -868,11 +874,14 @@ public class CreateBankCaseWithdrawActivity extends RegisterAbstractActivity imp
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromBankcashWithdraw) {
+            finish();
+        } else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
 

@@ -42,6 +42,7 @@ import com.lkintechnology.mBilling.utils.EventDeletePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -285,6 +286,9 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Preferences.getInstance(getApplicationContext()).setUpdate("");
+                Preferences.getInstance(getApplicationContext()).setAttachment("");
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromsalelist",false);
@@ -298,6 +302,9 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
 
     @Override
     public void onBackPressed() {
+        Preferences.getInstance(getApplicationContext()).setUpdate("");
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         CreatePurchaseReturnActivity.isForEdit=false;
         Intent intent = new Intent(this, CreatePurchaseReturnActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -450,8 +457,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 

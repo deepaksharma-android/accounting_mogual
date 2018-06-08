@@ -1380,6 +1380,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                //intent.putExtra("forDate",true);
                 startActivity(intent);
             }
         } else {
@@ -1423,4 +1424,5 @@ public class CreateSaleVoucherFragment extends Fragment {
                 })
                 .show();
     }
+
 }

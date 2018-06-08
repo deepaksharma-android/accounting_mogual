@@ -230,6 +230,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 snackbar.show();
             }
         } else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -1202,8 +1204,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            } else if (from.equals("Payment")) ;
-            {
+            } else if (from.equals("Payment")) ;{
                 finish();
             }
         } else {

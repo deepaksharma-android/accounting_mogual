@@ -40,6 +40,7 @@ import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -83,6 +84,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    Boolean forDate=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,13 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
+       /* if (forDate){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }*/
         start_date.setText(dateString);
         end_date.setText(dateString);
         appUser.start_date = start_date.getText().toString();
@@ -282,6 +291,9 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Preferences.getInstance(getApplicationContext()).setUpdate("");
+                Preferences.getInstance(getApplicationContext()).setAttachment("");
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateSaleActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromsalelist",false);
@@ -297,6 +309,9 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
 
     @Override
     public void onBackPressed() {
+        Preferences.getInstance(getApplicationContext()).setUpdate("");
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         CreateSaleActivity.isForEdit=false;
         Intent intent = new Intent(this, CreateSaleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -310,6 +325,9 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     public void getSaleVoucher(GetSaleVoucherListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
+            //appUser.start_date = start_date.getText().toString();
+           // appUser.end_date = end_date.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (response.getSale_vouchers().getData().size() == 0) {
                 mRecyclerView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
@@ -451,8 +469,8 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 

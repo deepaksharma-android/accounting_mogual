@@ -37,6 +37,7 @@ import com.lkintechnology.mBilling.utils.EventClickAlertForJournalVoucher;
 import com.lkintechnology.mBilling.utils.EventDeleteJournalVoucher;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -234,7 +235,6 @@ public class JournalVoucherActivity extends AppCompatActivity implements View.On
         intent.putExtra("fromJournalVoucher", true);
         intent.putExtra("id", response.getPosition());
         startActivity(intent);
-        finish();
     }
 
 
@@ -379,6 +379,8 @@ public class JournalVoucherActivity extends AppCompatActivity implements View.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Preferences.getInstance(getApplicationContext()).setAttachment("");
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateJournalVoucherActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromJournalVoucher",false);
@@ -392,7 +394,8 @@ public class JournalVoucherActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onBackPressed() {
-
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         Intent intent = new Intent(this, CreateJournalVoucherActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromJournalVoucher",false);
@@ -415,8 +418,8 @@ public class JournalVoucherActivity extends AppCompatActivity implements View.On
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
