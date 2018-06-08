@@ -363,6 +363,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_code = mItemCode.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.stock_serial_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
               /*  for (int i = 0; i < appUser.arr_tax_category_name.size(); i++) {
