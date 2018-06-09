@@ -292,7 +292,7 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Discount Value (र)"
+                            android:text="Discount Value (₹)"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
