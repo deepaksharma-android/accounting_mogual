@@ -63,7 +63,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
 
-        txtListChild.setText(name+" (qty:"+quantity+")");
+        txtListChild.setText(name+" (qty: "+quantity+")");
         LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
         LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
         LinearLayout mainLayout=(LinearLayout) convertView.findViewById(R.id.main_layout);
