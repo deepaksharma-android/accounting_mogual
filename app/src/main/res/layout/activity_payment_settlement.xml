@@ -50,9 +50,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_weight=".2"
                         android:text="Clear"
-                        android:visibility="gone"
-                        android:textColor="@color/textColorPrimaryDark"
-                        android:textSize="20sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -147,9 +146,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_weight=".2"
                         android:text="Clear"
-                        android:visibility="gone"
-                        android:textColor="@color/textColorPrimaryDark"
-                        android:textSize="20sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -243,9 +241,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_weight=".2"
                         android:text="Clear"
-                        android:visibility="gone"
-                        android:textColor="@color/textColorPrimaryDark"
-                        android:textSize="20sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -340,9 +337,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_weight=".2"
                         android:text="Clear"
-                        android:visibility="gone"
-                        android:textColor="@color/textColorPrimaryDark"
-                        android:textSize="20sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -437,9 +433,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_weight=".2"
                         android:text="Clear"
-                        android:visibility="gone"
-                        android:textColor="@color/textColorPrimaryDark"
-                        android:textSize="20sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 

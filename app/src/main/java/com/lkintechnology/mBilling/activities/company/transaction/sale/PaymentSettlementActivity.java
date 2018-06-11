@@ -89,7 +89,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
 
-        System.out.println("pccccc payment "+appUser.paymentSettlementList.size());
+        System.out.println("pccccc payment " + appUser.paymentSettlementList.size());
 
         appUser.payment_account_id_1 = "";
         appUser.payment_account_id_2 = "";
@@ -147,17 +147,20 @@ public class PaymentSettlementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 select_account1.setText("");
-                appUser.payment_account_id_1 = "";
-                appUser.payment_account_id_1 = "";
                 amount1.setText("");
+                appUser.payment_settlement_id_1 = "";
+                appUser.payment_account_id_1 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         });
         mClear2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 select_account2.setText("");
-                appUser.payment_account_id_2 = "";
                 amount2.setText("");
+                appUser.payment_settlement_id_2 = "";
+                appUser.payment_account_id_2 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         });
 
@@ -165,16 +168,20 @@ public class PaymentSettlementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 select_account3.setText("");
-                appUser.payment_account_id_3 = "";
                 amount3.setText("");
+                appUser.payment_settlement_id_3 = "";
+                appUser.payment_account_id_3 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         });
         mClear4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 select_account4.setText("");
-                appUser.payment_account_id_4 = "";
                 amount4.setText("");
+                appUser.payment_settlement_id_4 = "";
+                appUser.payment_account_id_4 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         });
 
@@ -182,8 +189,10 @@ public class PaymentSettlementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 select_account5.setText("");
-                appUser.payment_account_id_5 = "";
                 amount5.setText("");
+                appUser.payment_settlement_id_5 = "";
+                appUser.payment_account_id_5 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             }
         });
 
