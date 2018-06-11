@@ -277,6 +277,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -297,6 +298,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 0;
                 ParameterConstant.checkStartActivityResultForMaterialCenter = 1;
@@ -307,6 +309,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.checkStartActivityResultForAccount = 0;
                 SaleTypeListActivity.isDirectForSaleType = false;
                 startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 2);
@@ -315,6 +318,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -333,6 +337,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mShippedTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -352,6 +357,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
@@ -363,6 +369,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
+                    appUser = LocalRepositories.getAppUser(getActivity());
                     /*Bitmap bitmap=((GlideBitmapDrawable)mSelectedImage.getDrawable()).getBitmap();
                     String encodedString=Helpers.bitmapToBase64(bitmap);*/
 /*
@@ -401,6 +408,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 TransportActivity.voucher_type = "sale";
                 Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
                 intent.putExtra("fromedit", fromedit);
@@ -411,6 +419,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
@@ -430,7 +439,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -443,6 +452,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
                 appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -776,6 +786,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        appUser = LocalRepositories.getAppUser(getActivity());
         if (ParameterConstant.forAccountIntentBool) {
             String result = ParameterConstant.forAccountIntentName;
             appUser.sale_partyName = ParameterConstant.forAccountIntentId;
