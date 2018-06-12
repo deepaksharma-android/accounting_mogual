@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
@@ -48,7 +49,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity implements View.OnClickListener{
+public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -74,7 +75,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     @Bind(R.id.end_date)
     TextView end_date;
     public Dialog dialog;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
 
@@ -85,7 +86,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
 
         ButterKnife.bind(this);
         initActionbar();
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -94,7 +95,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
         end_date.setText(dateString);
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();
@@ -103,19 +104,18 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
+        if (currentMonthPosition < inputMonthPosition) {
+            for (int i = currentMonthPosition; i >= 0; i--) {
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            for (int j = 11; j >= inputMonthPosition; j--) {
+                cashInHand.add(monthName[j] + " " + (currentYear - 1));
             }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+        } else {
+            for (int i = currentMonthPosition; i >= inputMonthPosition; i--) {
 
                 cashInHand.add(monthName[i] + " " + currentYear);
-             }
+            }
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 R.layout.layout_date_spinner_textview, cashInHand);
@@ -127,8 +127,8 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.sales_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                appUser.sales_duration_spinner = selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -156,6 +156,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
 
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -188,7 +189,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         //Spinner spinner = (Spinner) viewActionBar.findViewById(R.id.dashboard_spinner1);
-       // spinner.setVisibility(View.VISIBLE);
+        // spinner.setVisibility(View.VISIBLE);
         actionbarTitle.setText("PURCHASE REPORT");
         actionbarTitle.setTextSize(16);
         actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
@@ -283,38 +284,37 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     }
 
     @Subscribe
-    public void getSaleVoucher(GetPurchaseVoucherListResponse response){
+    public void getSaleVoucher(GetPurchaseVoucherListResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
-            if (response.getPurchase_vouchers().getData().size()==0){
+        if (response.getStatus() == 200) {
+            if (response.getPurchase_vouchers().getData().size() == 0) {
                 mRecyclerView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 error_layout.setVisibility(View.GONE);
             }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new PurchaseReportAdapter(this,response.getPurchase_vouchers().data);
+            mAdapter = new PurchaseReportAdapter(this, response.getPurchase_vouchers().data);
             mRecyclerView.setAdapter(mAdapter);
-        }
-        else{
-           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
     @Subscribe
-    public void deletepurchasevoucher(EventDeletePurchaseVoucher pos){
-        appUser.delete_purchase_voucher_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletepurchasevoucher(EventDeletePurchaseVoucher pos) {
+        appUser.delete_purchase_voucher_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(AnalysisPurchaseReportActivity.this)
                 .setTitle("Delete Purchase Voucher")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(AnalysisPurchaseReportActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -322,15 +322,14 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_PURCHASE_VOUCHER);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -343,18 +342,18 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     }
 
     @Subscribe
-    public void deletepurchasevoucherresponse(DeletePurchaseVoucherResponse response){
+    public void deletepurchasevoucherresponse(DeletePurchaseVoucherResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
@@ -364,7 +363,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
 
     }
 
-    public void showpopup(){
+    public void showpopup() {
         dialog = new Dialog(AnalysisPurchaseReportActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.date_pick_dialog);
@@ -417,35 +416,42 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
             @Override
             public void onClick(View v) {
 
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(AnalysisPurchaseReportActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(AnalysisPurchaseReportActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(AnalysisPurchaseReportActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 
@@ -456,7 +462,7 @@ public class AnalysisPurchaseReportActivity extends RegisterAbstractActivity imp
     public void onClick(View view) {
         if (view == dialog.findViewById(R.id.date1)) {
             DatePickerDialog1.show();
-        }else if (view == dialog.findViewById(R.id.date2)){
+        } else if (view == dialog.findViewById(R.id.date2)) {
             DatePickerDialog2.show();
         }
     }

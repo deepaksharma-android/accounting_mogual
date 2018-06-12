@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -29,14 +30,16 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PurchaseRegisterActivity extends RegisterAbstractActivity implements View.OnClickListener{
+public class PurchaseRegisterActivity extends RegisterAbstractActivity implements View.OnClickListener {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.start_date_layout)
@@ -57,7 +60,7 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
     Snackbar snackbar;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +92,13 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
             public void onClick(View view) {
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
+                if (Helpers.dateValidation(start,end) == -1) {
+                    Helpers.dialogMessage(PurchaseRegisterActivity.this, "End date should be greater than start date!");
+                    return;
+                } else {
                     appUser.pdf_start_date = start;
                     appUser.pdf_end_date = end;
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -114,6 +121,7 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
                                 });
                         snackbar.show();
                     }
+                }
             }
         });
 
@@ -205,10 +213,9 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date || view==mCalender_Icon) {
+        if (view == mStart_date || view == mCalender_Icon) {
             DatePickerDialog1.show();
-        }
-        else if(view == mEnd_date || view==mCalender_Icon1){
+        } else if (view == mEnd_date || view == mCalender_Icon1) {
             DatePickerDialog2.show();
         }
     }
@@ -233,17 +240,16 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
     }
 
     @Subscribe
-    public void getTransactionPdf(CompanyReportResponse response){
+    public void getTransactionPdf(CompanyReportResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getHtml();
-            i.putExtra("company_report",company_report);
+            i.putExtra("company_report", company_report);
             startActivity(i);
-        }
-        else{
-           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
