@@ -1,61 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.lkintechnology.mBilling.activities.company.transaction.barcode.EditTextVoucherBarcodeActivity">
 
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:id="@+id/serial_layout"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/submit"
+            android:layout_marginBottom="@dimen/dp_20">
 
                 <LinearLayout
                     android:id="@+id/main_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
 
-
-
-                <LinearLayout
-                    android:id="@+id/submit"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/solid_blue"
-                    android:layout_gravity="center">
-
-
-                    <com.lkintechnology.mBilling.utils.BuzzTextView
-                        style="@style/Gotham_Book"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Submit"
-                        android:textColor="#fff"
-                        android:layout_gravity="center"
-                        android:textSize="16sp" />
                 </LinearLayout>
-            </LinearLayout>
+
+
         </ScrollView>
 
-    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/submit"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@drawable/solid_blue"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
 
 
-</android.support.design.widget.CoordinatorLayout>
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+            style="@style/Gotham_Book"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
