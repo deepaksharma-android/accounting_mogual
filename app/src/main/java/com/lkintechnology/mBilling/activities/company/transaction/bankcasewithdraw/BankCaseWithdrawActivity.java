@@ -79,7 +79,7 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     @Bind(R.id.error_layout)
     LinearLayout error_layout;
     public Dialog dialog;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
 
@@ -90,24 +90,24 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_bank_case_withdraw);
 
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
 
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
-        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
-        if (forDate){
+        Boolean forDate = getIntent().getBooleanExtra("forDate", false);
+        if (forDate) {
             start_date.setText(appUser.start_date);
             end_date.setText(appUser.end_date);
-        }else {
+        } else {
             start_date.setText(dateString);
             end_date.setText(dateString);
         }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
@@ -116,16 +116,15 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
+        if (currentMonthPosition < inputMonthPosition) {
+            for (int i = currentMonthPosition; i >= 0; i--) {
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            for (int j = 11; j >= inputMonthPosition; j--) {
+                cashInHand.add(monthName[j] + " " + (currentYear - 1));
             }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+        } else {
+            for (int i = currentMonthPosition; i >= inputMonthPosition; i--) {
 
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
@@ -136,14 +135,13 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         dashboardSpinner.setAdapter(dataAdapter);
 
 
-
         dashboardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.bank_cash_withdraw_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                appUser.bank_cash_withdraw_duration_spinner = selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -169,6 +167,7 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
                     snackbar.show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -246,7 +245,7 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateBankCaseWithdrawActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromBankcashWithdraw",false);
+                intent.putExtra("fromBankcashWithdraw", false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -261,7 +260,7 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         Intent intent = new Intent(this, CreateBankCaseWithdrawActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("fromBankcashWithdraw",false);
+        intent.putExtra("fromBankcashWithdraw", false);
         startActivity(intent);
         finish();
     }
@@ -271,7 +270,7 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         EventBus.getDefault().register(this);
      /*   appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();*/
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(BankCaseWithdrawActivity.this);
@@ -297,10 +296,11 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         }
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
-        if(mProgressDialog!=null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
         super.onPause();
@@ -310,37 +310,36 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        if (mProgressDialog!=null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
     }
 
     @Subscribe
-    public void getBankCashDeposit(GetBankCashWithdrawResponse response){
+    public void getBankCashDeposit(GetBankCashWithdrawResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             if (response.getBank_cash_withdraws().getData().size() == 0) {
                 mRecyclerView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 error_layout.setVisibility(View.GONE);
             }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new BankCashWithdrawListAdapter(this,response.getBank_cash_withdraws().data);
+            mAdapter = new BankCashWithdrawListAdapter(this, response.getBank_cash_withdraws().data);
             mRecyclerView.setAdapter(mAdapter);
-            Double total=0.0;
-            for(int i=0;i<response.getBank_cash_withdraws().getData().size();i++){
-                total=total+response.getBank_cash_withdraws().getData().get(i).getAttributes().getAmount();
+            Double total = 0.0;
+            for (int i = 0; i < response.getBank_cash_withdraws().getData().size(); i++) {
+                total = total + response.getBank_cash_withdraws().getData().get(i).getAttributes().getAmount();
 
             }
-            mTotal.setText("Total: "+String.format("%.2f",total));
-        }
-        else{
+            mTotal.setText("Total: " + String.format("%.2f", total));
+        } else {
             //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -355,16 +354,16 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     }
 
     @Subscribe
-    public void deletebankcashdeposit(EventDeleteBankCashWithdraw pos){
+    public void deletebankcashdeposit(EventDeleteBankCashWithdraw pos) {
         //appUser.delete_bank_cash_deposit_id= String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
-        appUser.delete_bank_cash_withdraw_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser.delete_bank_cash_withdraw_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(BankCaseWithdrawActivity.this)
                 .setTitle("Delete Bank Cash Withdraw Item")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(BankCaseWithdrawActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -372,15 +371,14 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_BANK_CASH_WITHDRAW);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -393,16 +391,15 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
     }
 
     @Subscribe
-    public void deletebankcashwithdrawresponse(DeleteBankCashWithdrawResponse response){
+    public void deletebankcashwithdrawresponse(DeleteBankCashWithdrawResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_WITHDRAW);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
+        } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -416,7 +413,7 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
 
     }
 
-    public void showpopup(){
+    public void showpopup() {
         dialog = new Dialog(BankCaseWithdrawActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.date_pick_dialog);
@@ -468,36 +465,42 @@ public class BankCaseWithdrawActivity extends AppCompatActivity implements View.
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(BankCaseWithdrawActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_WITHDRAW);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(BankCaseWithdrawActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(BankCaseWithdrawActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_WITHDRAW);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 
