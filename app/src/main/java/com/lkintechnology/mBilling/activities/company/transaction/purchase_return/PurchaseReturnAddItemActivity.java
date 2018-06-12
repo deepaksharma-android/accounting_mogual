@@ -226,6 +226,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             }
             voucher_barcode = (String) map.get("voucher_barcode");
             barcodeArray = voucher_barcode.split(",");
+            CheckBoxVoucherBarcodeActivity.locQuantity = barcodeArray.length;
             mSr_no.setText(voucher_barcode);
 
             boolForBarcode = true;
@@ -303,7 +304,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
 
             }
         } else {
-
+            CheckBoxVoucherBarcodeActivity.locQuantity = 0;
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
             id = intent.getStringExtra("item_id");
@@ -540,9 +541,14 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        CheckBoxVoucherBarcodeActivity.locQuantity=0;
                         appUser.sale_item_serial_arr.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         mSr_no.setText("");
+                        serialNoPurchaseReturn.clear();
+                        for (int i = 0; i < arr_barcode.size(); i++) {
+                            serialNoPurchaseReturn.add("false");
+                        }
 
                     }
 

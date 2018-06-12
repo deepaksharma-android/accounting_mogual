@@ -90,19 +90,19 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
                     if (serialNoPurchaseReturn.get(position).equals("true")) {
                         serialNoPurchaseReturn.remove(position);
                         serialNoPurchaseReturn.add(position, "false");
-                        SaleVoucherAddItemActivity.locQuantity--;
+                        CheckBoxVoucherBarcodeActivity.locQuantity--;
                         notifyDataSetChanged();
                     } else {
                         serialNoPurchaseReturn.remove(position);
                         serialNoPurchaseReturn.add(position, "true");
-                        SaleVoucherAddItemActivity.locQuantity++;
+                        CheckBoxVoucherBarcodeActivity.locQuantity++;
                         notifyDataSetChanged();
                     }
-                    if (SaleVoucherAddItemActivity.locQuantity > quantity) {
+                    if (CheckBoxVoucherBarcodeActivity.locQuantity > quantity) {
                         Toast.makeText(context, "Quantity exceeds!", Toast.LENGTH_SHORT).show();
                         serialNoPurchaseReturn.remove(position);
                         serialNoPurchaseReturn.add(position, "false");
-                        SaleVoucherAddItemActivity.locQuantity--;
+                        CheckBoxVoucherBarcodeActivity.locQuantity--;
                         notifyDataSetChanged();
                     }
                 }
@@ -110,7 +110,6 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
         } else {
             if (serialNoList.get(position) != null && serialNoList.get(position).equals("true")) {
                 holder.checkBox.setChecked(true);
-                //locQuantity=serialNoList.size();
             } else {
                 holder.checkBox.setChecked(false);
             }
@@ -133,19 +132,19 @@ public class SerialNoListAdapter extends RecyclerView.Adapter<SerialNoListAdapte
                     if (serialNoList.get(position).equals("true")) {
                         serialNoList.remove(position);
                         serialNoList.add(position, "false");
-                        SaleVoucherAddItemActivity.locQuantity--;
+                        CheckBoxVoucherBarcodeActivity.locQuantity--;
                         notifyDataSetChanged();
                     } else {
                         serialNoList.remove(position);
                         serialNoList.add(position, "true");
-                        SaleVoucherAddItemActivity.locQuantity++;
+                        CheckBoxVoucherBarcodeActivity.locQuantity++;
                         notifyDataSetChanged();
                     }
-                    if (SaleVoucherAddItemActivity.locQuantity > quantity) {
+                    if (CheckBoxVoucherBarcodeActivity.locQuantity > quantity) {
                         Toast.makeText(context, "Quantity exceeds!", Toast.LENGTH_SHORT).show();
                         serialNoList.remove(position);
                         serialNoList.add(position, "false");
-                        SaleVoucherAddItemActivity.locQuantity--;
+                        CheckBoxVoucherBarcodeActivity.locQuantity--;
                         notifyDataSetChanged();
 
                     }

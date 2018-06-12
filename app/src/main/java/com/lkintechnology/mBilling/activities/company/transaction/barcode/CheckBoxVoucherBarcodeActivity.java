@@ -38,6 +38,7 @@ public class CheckBoxVoucherBarcodeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private String barcode, quantity,tempSaleNo;
     private boolean fromPurchaseReturn,fromSale,frombillitemvoucherlist;
+    public static int locQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,6 @@ public class CheckBoxVoucherBarcodeActivity extends AppCompatActivity {
                      setResult(Activity.RESULT_OK, returnIntent);
                      finish();
                  }
-
             }
         });
     }

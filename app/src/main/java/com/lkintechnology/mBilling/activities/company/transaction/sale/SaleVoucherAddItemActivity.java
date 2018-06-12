@@ -36,6 +36,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -83,7 +84,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map mMap;
-    Double first=0.0, second=0.0, third=0.0;
+    Double first = 0.0, second = 0.0, third = 0.0;
     Intent intent;
     Animation blinkOnClick;
     ArrayList<String> mUnitList;
@@ -137,7 +138,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     List<String> myListForSerialNo;
     Boolean boolForBarcode;
     private ArrayList<String> serialNo;
-    public static int locQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +162,6 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         appUser.sale_item_serial_arr.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         blinkOnClick = AnimationUtils.loadAnimation(this, R.anim.blink_on_click);
-        locQuantity = 0;
         if (frombillitemvoucherlist) {
             Timber.i("frombillitemvoucherlist true");
             pos = getIntent().getExtras().getInt("pos");
@@ -211,7 +210,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 LocalRepositories.saveAppUser(this, appUser);
             }*/
             for (int i = 0; i < arr_new_barcode.size(); i++) {
-                arr_barcode.add(i , arr_new_barcode.get(i));
+                arr_barcode.add(i, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
             itemid = item_id;
@@ -219,17 +218,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             voucher_barcode = (String) map.get("voucher_barcode");
             barcodeArray = voucher_barcode.split(",");
-            SaleVoucherAddItemActivity.locQuantity = barcodeArray.length;
+            CheckBoxVoucherBarcodeActivity.locQuantity = barcodeArray.length;
             mSr_no.setText(voucher_barcode);
             boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
-            if (businessType!=null){
-                if (businessType.equals("Mobile Dealer")){
+            if (businessType != null) {
+                if (businessType.equals("Mobile Dealer")) {
                     mBusinessType.setSelection(0);
-                }else {
+                } else {
                     mBusinessType.setSelection(1);
                 }
-            }else {
+            } else {
                 mBusinessType.setSelection(0);
             }
 
@@ -306,6 +305,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
             }
         } else {
+            CheckBoxVoucherBarcodeActivity.locQuantity = 0;
             Timber.i("frombillitemvoucherlist false");
             CreateSaleActivity.hideKeyPad(this);
             Intent intent = getIntent();
@@ -337,7 +337,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }*/
 
             for (int i = 0; i < arr_new_barcode.size(); i++) {
-                arr_barcode.add(i , arr_new_barcode.get(i));
+                arr_barcode.add(i, arr_new_barcode.get(i));
                 LocalRepositories.saveAppUser(this, appUser);
             }
 
@@ -428,8 +428,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                             Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
                                         }
 
-                                    }
-                                    else{
+                                    } else {
                                         if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -447,7 +446,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                         }
 
                                     }
-                                }else {
+                                } else {
                                     Toast.makeText(getApplicationContext(), " Quantity is less.", Toast.LENGTH_LONG).show();
                                     dialogbal.dismiss();
                                 }
@@ -500,22 +499,22 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         });
 
         //--------- manjoor ------
-        if (frombillitemvoucherlist){
-            int i=0;
-            for ( i=0;i<arr_barcode.size();i++){
+        if (frombillitemvoucherlist) {
+            int i = 0;
+            for (i = 0; i < arr_barcode.size(); i++) {
                 serialNo.add("false");
             }
-            int j=0;
-            for(j = 0; j < barcodeArray.length; j++) {
-                for(int k = 0; k < arr_barcode.size(); k++) {
-                    if(barcodeArray[j].equals(arr_barcode.get(k).toString())) {
+            int j = 0;
+            for (j = 0; j < barcodeArray.length; j++) {
+                for (int k = 0; k < arr_barcode.size(); k++) {
+                    if (barcodeArray[j].equals(arr_barcode.get(k).toString())) {
                         serialNo.remove(k);
                         serialNo.add(k, "true");
                     }
                 }
             }
 
-        }else {
+        } else {
             for (int i = 0; i < arr_barcode.size(); i++) {
                 serialNo.add("false");
 
@@ -534,13 +533,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         serial = "0";
                     } else {
                         serial = mQuantity.getText().toString();
-                        Intent intent=new Intent(getApplicationContext(), CheckBoxVoucherBarcodeActivity.class);
-                        intent.putExtra("array_bar_code",arr_barcode);
-                        intent.putExtra("serial_number",serialNo);
-                        intent.putExtra("quantity",serial);
-                        intent.putExtra("fromSale",true);
-                        intent.putExtra("tempSaleNo","1");
-                        intent.putExtra("frombillitemvoucherlist",frombillitemvoucherlist);
+                        Intent intent = new Intent(getApplicationContext(), CheckBoxVoucherBarcodeActivity.class);
+                        intent.putExtra("array_bar_code", arr_barcode);
+                        intent.putExtra("serial_number", serialNo);
+                        intent.putExtra("quantity", serial);
+                        intent.putExtra("fromSale", true);
+                        intent.putExtra("tempSaleNo", "1");
+                        intent.putExtra("frombillitemvoucherlist", frombillitemvoucherlist);
                         startActivityForResult(intent, 11);
                     }
 
@@ -551,9 +550,15 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        CheckBoxVoucherBarcodeActivity.locQuantity = 0;
                         appUser.sale_item_serial_arr.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         mSr_no.setText("");
+                        serialNo.clear();
+                        for (int i = 0; i < arr_barcode.size(); i++) {
+                            serialNo.add("false");
+
+                        }
 
                     }
 
@@ -854,7 +859,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
-                mMap.put("business_type",mBusinessType.getSelectedItem());
+                mMap.put("business_type", mBusinessType.getSelectedItem());
 
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
@@ -904,17 +909,17 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
 
-                if (mQuantity.getText().toString().equals(quantity)) {
-                    Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
+                // if (mQuantity.getText().toString().equals(quantity)) {
+                Intent in = new Intent(getApplicationContext(), CreateSaleActivity.class);
 
-                    in.putExtra("fromdashboard", false);
+                in.putExtra("fromdashboard", false);
 
-                    in.putExtra("is", true);
-                    startActivity(in);
-                    finish();
-                } else {
+                in.putExtra("is", true);
+                startActivity(in);
+                finish();
+               /* } else {
                     Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
         });
 
@@ -932,11 +937,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                 if (!mDiscount.getText().toString().isEmpty()) {
                     if (!mRate.getText().toString().isEmpty()) {
-                        if (!mRate.getText().toString().equals("")){
+                        if (!mRate.getText().toString().equals("")) {
                             second = Double.valueOf(mRate.getText().toString());
                         }
                         if (!mDiscount.getText().toString().isEmpty()) {
-                            if (!mDiscount.getText().toString().equals("")){
+                            if (!mDiscount.getText().toString().equals("")) {
                                 first = Double.valueOf(mDiscount.getText().toString());
                             }
                             mValue.setText(String.format("%.2f", (first * second)));
@@ -966,15 +971,15 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mDiscount.getText().toString().isEmpty()) {
-                    if (!mDiscount.getText().toString().equals("")){
+                    if (!mDiscount.getText().toString().equals("")) {
                         first = Double.valueOf(mDiscount.getText().toString());
                     }
                     if (!mRate.getText().toString().isEmpty()) {
-                        if (!mRate.getText().toString().equals("")){
+                        if (!mRate.getText().toString().equals("")) {
                             second = Double.valueOf(mRate.getText().toString());
                         }
                         if (!mQuantity.getText().toString().equals("")) {
-                            if (!mQuantity.getText().toString().equals("")){
+                            if (!mQuantity.getText().toString().equals("")) {
                                 third = Double.valueOf(mQuantity.getText().toString());
                             }
                         } else {
@@ -1029,28 +1034,39 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         mTotal.setText("0.0");
                     }
                 }
-
-              /*  if (frombillitemvoucherlist){
-                    int i=0;
-                    for ( i=0;i<arr_barcode.size();i++){
-                        serialNo.add("false");
-                    }
-                    int j=0;
-                    for(j = 0; j < barcodeArray.length; j++) {
-                        for(int k = 0; k < arr_barcode.size(); k++) {
-                            if(barcodeArray[j].equals(arr_barcode.get(k).toString())) {
-                                serialNo.remove(k);
-                                serialNo.add(k, "true");
+                if (!mQuantity.getText().toString().isEmpty()) {
+                    if (!mQuantity.getText().toString().equals("")) {
+                        voucher_barcode = mSr_no.getText().toString();
+                        String[] arr = voucher_barcode.split(",");
+                        int qt = Integer.valueOf(mQuantity.getText().toString());
+                        if (qt < CheckBoxVoucherBarcodeActivity.locQuantity) {
+                            // barcodeArray = new String[0];
+                            String listString = "";
+                            serialNo.clear();
+                            for (int i = 0; i < arr_barcode.size(); i++) {
+                                serialNo.add("false");
                             }
-                        }
-                    }
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int j = 0; j < arr.length - (arr.length - qt); j++) {
+                                for (int k = 0; k < arr_barcode.size(); k++) {
+                                    if (arr[j].equals(arr_barcode.get(k).toString())) {
+                                        serialNo.remove(k);
+                                        serialNo.add(k, "true");
+                                        listString += arr[k] + ",";
+                                    }
+                                }
+                            }
+                            mSr_no.setText(listString);
+                        } /*else {
+                            if (AddItemVoucherFragment.forAddItem != 0) {
+                                CheckBoxVoucherBarcodeActivity.locQuantity = arr.length;
+                            } else {
+                                AddItemVoucherFragment.forAddItem = 1;
+                            }
 
-                }else {
-                    for (int i = 0; i < arr_barcode.size(); i++) {
-                        serialNo.add("false");
-
+                        }*/
                     }
-                }*/
+                }
             }
 
             @Override
@@ -1069,11 +1085,11 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        if (!mQuantity.getText().toString().equals("")){
+                        if (!mQuantity.getText().toString().equals("")) {
                             second = Double.valueOf(mQuantity.getText().toString());
                         }
                         if (!mValue.getText().toString().isEmpty()) {
-                            if (!mValue.getText().toString().equals("")){
+                            if (!mValue.getText().toString().equals("")) {
                                 first = Double.valueOf(mValue.getText().toString());
                             }
                             if (!mRate.getText().toString().equals("")) {
@@ -1094,7 +1110,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
 
                     }
                 } else {
-                    if (!mRate.getText().toString().equals("")){
+                    if (!mRate.getText().toString().equals("")) {
                         third = Double.valueOf(mRate.getText().toString());
                     }
                     if (!mQuantity.getText().toString().equals("")) {
@@ -1114,7 +1130,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }
         });
 
-        mRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mRate.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -1128,7 +1146,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }
         });
 
-        mDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -1142,7 +1162,9 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }
         });
 
-        mValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mValue.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -1281,24 +1303,23 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             int qty = Integer.parseInt(mQuantity.getText().toString());
             if (qty > appUser.sale_item_serial_arr.size()) {
                 if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
-                if (result.getContents().length() == 15) {
-                    // mScannerView.stopCamera();
-                    if (appUser.sale_item_serial_arr.contains(result.getContents())) {
+                    if (result.getContents().length() == 15) {
+                        // mScannerView.stopCamera();
+                        if (appUser.sale_item_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
-                        Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
-                    } else {
-                        appUser.sale_item_serial_arr.add(result.getContents());
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        for (String s : appUser.sale_item_serial_arr) {
-                            listString += s + ",";
+                            Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "already added", Toast.LENGTH_SHORT).show();
+                        } else {
+                            appUser.sale_item_serial_arr.add(result.getContents());
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (String s : appUser.sale_item_serial_arr) {
+                                listString += s + ",";
+                            }
+                            mSr_no.setText(listString);
+                            Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                         }
-                        mSr_no.setText(listString);
-                        Toast.makeText(SaleVoucherAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                     }
-                }
-                }
-                else{
+                } else {
                     if (appUser.sale_item_serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -1334,7 +1355,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         boolForBarcode = false;
         appUser.sale_item_serial_arr.clear();
         if (requestCode == 11) {
@@ -1343,13 +1364,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 serialNo.addAll(data.getStringArrayListExtra("serial_number"));
                 String listString = "";
 
-                for (int i=0;i<serialNo.size();i++) {
-                    if(serialNo.get(i).equals("true")) {
+                for (int i = 0; i < serialNo.size(); i++) {
+                    if (serialNo.get(i).equals("true")) {
                         listString += arr_barcode.get(i) + ",";
                         appUser.sale_item_serial_arr.add(arr_barcode.get(i).toString());
                     }
                 }
-                LocalRepositories.saveAppUser(this,appUser);
+                LocalRepositories.saveAppUser(this, appUser);
                 mSr_no.setText(listString);
 
             }

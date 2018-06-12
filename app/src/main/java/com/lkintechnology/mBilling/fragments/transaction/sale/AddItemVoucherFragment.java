@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.AddBillsVoucherAdapter;
@@ -58,6 +59,7 @@ public class AddItemVoucherFragment extends Fragment {
     Animation blinkOnClick;
     ArrayList<String> billsuncal;
     public static AddItemVoucherFragment context;
+    public static int forAddItem = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,7 +81,6 @@ public class AddItemVoucherFragment extends Fragment {
                         add_item_button.startAnimation(blinkOnClick);
                         ExpandableItemListActivity.comingFrom = 0;
                         ExpandableItemListActivity.isDirectForItem = false;
-                        SaleVoucherAddItemActivity.locQuantity = 0;
                         Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
                        /* if(CreateSaleActivity.fromsalelist){
                             intent.putExtra("fromsalelist", true);
