@@ -270,23 +270,33 @@ public class LoginActivity extends RegisterAbstractActivity {
                 Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
                 intent.putExtra("fromLoginPage", true);
                 intent.putExtra("mobile", response.getUser().getData().getAttributes().getMobile());
+                intent.putExtra("active",false);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
 
-            } else {
-                /*if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*/
-                Preferences.getInstance(getApplicationContext()).setLogin(true);
-                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                intent.putExtra("fromLoginPage", true);
+                intent.putExtra("mobile", response.getUser().getData().getAttributes().getMobile());
+                intent.putExtra("active",true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-               /* } else {
+            }/*else {
+                *//*if (!response.getUser().getData().getAttributes().getUser_plan().equals("")) {*//*
+                Preferences.getInstance(getApplicationContext()).setLogin(true);
+                Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);/*//***Change Here***
+                startActivity(intent);
+                finish();
+               *//* } else {
                     startActivity(new Intent(getApplicationContext(), PackageActivity.class));
-                }*/
+                }*//*
 
 
-            }
+            }*/
         } else {
             /*snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
