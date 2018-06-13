@@ -25,7 +25,16 @@ public class ReceiptVouchersDetailsAttributes {
     public Double amount;
     public String narration;
     public String attachment;
+    public String is_payment_settlement;
     public ArrayList<ReceiptItems> receipt_item;
+
+    public String getIs_payment_settlement() {
+        return is_payment_settlement;
+    }
+
+    public void setIs_payment_settlement(String is_payment_settlement) {
+        this.is_payment_settlement = is_payment_settlement;
+    }
 
     public String getCompany_name() {
         return company_name;

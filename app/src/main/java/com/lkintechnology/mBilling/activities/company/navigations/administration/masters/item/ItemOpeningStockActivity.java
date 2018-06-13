@@ -105,14 +105,14 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             mStockValue.setText("");
             mSr_no.setText(".");
         }*/
-        if (Preferences.getInstance(getApplicationContext()).getBusiness_type()!=null){
+        if (Preferences.getInstance(getApplicationContext()).getBusiness_type() != null) {
             if (Preferences.getInstance(getApplicationContext()).getBusiness_type().equals("Mobile Dealer") ||
-                    Preferences.getInstance(getApplicationContext()).getBusiness_type().equals("")){
+                    Preferences.getInstance(getApplicationContext()).getBusiness_type().equals("")) {
                 mBusinessType.setSelection(0);
-            }else {
+            } else {
                 mBusinessType.setSelection(1);
             }
-        }else {
+        } else {
             mBusinessType.setSelection(0);
         }
 
@@ -149,16 +149,6 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                     }
                 }
 
-                      /*  if(count==0){
-                            mSr_no.setText("");
-                        }*/
-
-                //    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-//                    appUser.stock_serial_arr.clear();
-                 /*   appUser.stock_item_serail_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                    mSr_no.setText("");*/
-
                 if (!mStockQuantity.getText().toString().isEmpty()) {
                     stockquantity = Double.valueOf(mStockQuantity.getText().toString());
                     if (!mStockPrice.getText().toString().isEmpty()) {
@@ -169,6 +159,30 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                     mStockValue.setText("");
                 }
 
+                if (start==0){
+                    if (!mStockQuantity.getText().toString().isEmpty()) {
+                        if (!mStockQuantity.getText().toString().equals("")) {
+                            String serialnumber = mSr_no.getText().toString();
+                            String[] arr = serialnumber.split(",");
+                            int qt = Integer.valueOf(mStockQuantity.getText().toString());
+                            if (qt < arr.length && qt > 0) {
+                                // barcodeArray = new String[0];
+                                String listString = "";
+                                appUser.stock_serial_arr.clear();
+                                appUser.stock_item_serail_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                for (int i = 0; i < qt; i++) {
+                                    listString += arr[i] + ",";
+                                    appUser.stock_serial_arr.add(arr[i]);
+                                    appUser.stock_item_serail_arr.add(arr[i]);
+                                }
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                mSr_no.setText(listString);
+                                Preferences.getInstance(getApplicationContext()).setStockSerial(listString);
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
@@ -371,10 +385,10 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                     }
                     if (!serial.equals("0")) {
                         int pos;
-                        if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")){
-                            pos=0;
-                        }else {
-                            pos=1;
+                        if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
+                            pos = 0;
+                        } else {
+                            pos = 1;
                         }
                         appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
                         Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
@@ -390,6 +404,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             appUser.stock_serial_arr.clear();
+                            appUser.stock_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             mSr_no.setText("");
 
@@ -401,7 +416,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         }
                     });
 
-                        //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
+                    //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
                       /*  Dialog dialogbal = new Dialog(ItemOpeningStockActivity.this);
                         dialogbal.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                         dialogbal.setContentView(R.layout.dialog_serail);
@@ -436,7 +451,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             //pairs[l].setText((l + 1) + ": something");
                             serialLayout.addView(pairs[l]);*/
 
-                            //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
+                    //PPPPPPCCCCCCCCCCCCCCCCCCCCCCCCCC
 
                       /*  final int finalL = l;
                         pairs[l].addTextChangedListener(new TextWatcher() {
@@ -635,93 +650,81 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-      /*          if (stock == false && appUser.stock_serial_arr.size() > 0) {
-                    Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
-                } else {
-                    if (!mStockQuantity.getText().toString().equals("")) {
-                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-                    } else {
-                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
-                    }
-                    if (!mStockPrice.getText().toString().equals("")) {
-                        Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
-                    } else {
-                        Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
-                    }
-                    if (!mStockPrice.getText().toString().isEmpty() && !mStockQuantity.getText().toString().isEmpty()) {
-                        Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
-                    } else {
-                        Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
-                    }
-                    finish();
-                }*/
+                Double aDouble=0.0;
+                if (!mStockQuantity.getText().toString().equals("")){
+                    aDouble = Double.valueOf(mStockQuantity.getText().toString());
+                }
+                if (aDouble==0 | mStockQuantity.getText().toString().equals("")) {
+                    Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 appUser.barcode_voucher_type = "item";
                 appUser.item_id = appUser.edit_item_id;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 Preferences.getInstance(getApplicationContext()).setBusiness_type("");
-                if (stock == false && appUser.stock_serial_arr.size() > 0) {
+               /* if (stock == false && appUser.stock_serial_arr.size() > 0) {
                     Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
-                } else {
-                    if (CreateNewItemActivity.isForEdit) {
-                        if (isConnected) {
-                            mProgressDialog = new ProgressDialog(ItemOpeningStockActivity.this);
-                            mProgressDialog.setMessage("Info...");
-                            mProgressDialog.setIndeterminate(false);
-                            mProgressDialog.setCancelable(true);
-                            mProgressDialog.show();
-                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
-                        } else {
-                            snackbar = Snackbar
-                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                    .setAction("RETRY", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if (isConnected) {
-                                                snackbar.dismiss();
-                                            }
-                                        }
-                                    });
-                            snackbar.show();
-
-                        }
+                } else {*/
+                if (CreateNewItemActivity.isForEdit) {
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(ItemOpeningStockActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CHECK_BARCODE);
                     } else {
-                        if (!mStockQuantity.getText().toString().equals("")) {
-                            if (Integer.parseInt(mStockQuantity.getText().toString()) > 0) {
-                                if (!mStockPrice.getText().toString().equals("")) {
-                                    if (Integer.parseInt(mStockPrice.getText().toString()) > 0) {
-                                        Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
-                                        Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
-                                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
-                                        Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Stock price must be greater than 0", Toast.LENGTH_LONG).show();
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
+                                });
+                        snackbar.show();
+
+                    }
+                } else {
+                    if (!mStockQuantity.getText().toString().equals("")) {
+                        if (Integer.parseInt(mStockQuantity.getText().toString()) > 0) {
+                            if (!mStockPrice.getText().toString().equals("")) {
+                                if (Integer.parseInt(mStockPrice.getText().toString()) > 0) {
+                                    Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
+                                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
+                                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
+                                    Preferences.getInstance(getApplicationContext()).setItem_stock_value(String.valueOf(Double.valueOf(mStockQuantity.getText().toString()) * Double.valueOf(mStockPrice.getText().toString())));
+                                    finish();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Please enter stock price", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Stock price must be greater than 0", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                if (Integer.parseInt(mStockQuantity.getText().toString()) < 0) {
-                                    Toast.makeText(getApplicationContext(), "Quantity must be positive ", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
-                                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
-                                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
-                                    Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
-                                    finish();
-                                }
+                                Toast.makeText(getApplicationContext(), "Please enter stock price", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
-                            Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
-                            Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
-                            Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
-                            finish();
+                            if (Integer.parseInt(mStockQuantity.getText().toString()) < 0) {
+                                Toast.makeText(getApplicationContext(), "Quantity must be positive ", Toast.LENGTH_LONG).show();
+                            } else {
+                                Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
+                                Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+                                Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+                                Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
+                                finish();
+                            }
                         }
+                    } else {
+                        Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+                        Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
+                        finish();
                     }
                 }
+                // }
             }
         });
 
@@ -762,59 +765,6 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 break;
         }
         return true;
-    }
-
-    private int getWidth() {
-        int density = getResources().getDisplayMetrics().densityDpi;
-        int size = 0;
-        switch (density) {
-            case DisplayMetrics.DENSITY_LOW:
-                size = 500;
-                break;
-            case DisplayMetrics.DENSITY_MEDIUM:
-                size = 900;
-                break;
-            case DisplayMetrics.DENSITY_HIGH:
-                size = 1200;
-                break;
-            case DisplayMetrics.DENSITY_XHIGH:
-                size = 1000;
-                break;
-            case DisplayMetrics.DENSITY_XXHIGH:
-                size = 1200;
-                break;
-            case DisplayMetrics.DENSITY_XXXHIGH:
-                size = 1000;
-                break;
-
-        }
-
-        return size;
-    }
-
-    private int getHeight() {
-        int density = getResources().getDisplayMetrics().densityDpi;
-        int height = 150;
-        switch (density) {
-            case DisplayMetrics.DENSITY_LOW:
-                height = 150;
-                break;
-            case DisplayMetrics.DENSITY_MEDIUM:
-                height = 150;
-                break;
-            case DisplayMetrics.DENSITY_HIGH:
-                height = 250;
-                break;
-            case DisplayMetrics.DENSITY_XHIGH:
-                height = 100;
-                break;
-            case DisplayMetrics.DENSITY_XXXHIGH:
-                height = 150;
-                break;
-
-        }
-
-        return height;
     }
 
     @Override
@@ -909,7 +859,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 mSr_no.setText("");
-                appUser=LocalRepositories.getAppUser(this);
+                appUser = LocalRepositories.getAppUser(this);
                 //appUser.stock_item_serail_arr.clear();
                 String listString = data.getStringExtra("serial");
                 mSr_no.setText(listString);

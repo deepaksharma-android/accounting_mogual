@@ -815,13 +815,11 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 if (CreatePurchaseReturnActivity.fromsalelist){
                     CreatePurchaseReturnActivity.isForEdit=true;
                 }
-
-               /* if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
-                    Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
-                    return;
-                }*/
-                if (mQuantity.getText().toString().equals("0") | mQuantity.getText().toString().equals("")) {
-
+                Double aDouble=0.0;
+                if (!mQuantity.getText().toString().equals("")){
+                    aDouble = Double.valueOf(mQuantity.getText().toString());
+                }
+                if (aDouble==0 | mQuantity.getText().toString().equals("")) {
                     Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                     return;
                 }
@@ -1023,37 +1021,37 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                         mTotal.setText("0.0");
                     }
                 }
-
-                if (!mQuantity.getText().toString().isEmpty()) {
-                    if (!mQuantity.getText().toString().equals("")) {
-                        voucher_barcode = mSr_no.getText().toString();
-                        String[] arr = voucher_barcode.split(",");
-                        int qt = Integer.valueOf(mQuantity.getText().toString());
-                        if (qt < CheckBoxVoucherBarcodeActivity.locQuantity && qt>0) {
-                            // barcodeArray = new String[0];
-                            String listString = "";
-                            serialNoPurchaseReturn.clear();
-                            for (int i = 0; i < arr_barcode.size(); i++) {
-                                serialNoPurchaseReturn.add("false");
-                            }
-                            appUser.sale_item_serial_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                            for (int j = 0; j < qt; j++) {
-                                for (int k = 0; k < arr_barcode.size(); k++) {
-                                    if (arr[j].equals(arr_barcode.get(k).toString())) {
-                                        serialNoPurchaseReturn.remove(k);
-                                        serialNoPurchaseReturn.add(k, "true");
-                                    }
+                if (start==0) {
+                    if (!mQuantity.getText().toString().isEmpty()) {
+                        if (!mQuantity.getText().toString().equals("")) {
+                            voucher_barcode = mSr_no.getText().toString();
+                            String[] arr = voucher_barcode.split(",");
+                            int qt = Integer.valueOf(mQuantity.getText().toString());
+                            if (qt < CheckBoxVoucherBarcodeActivity.locQuantity && qt > 0) {
+                                // barcodeArray = new String[0];
+                                String listString = "";
+                                serialNoPurchaseReturn.clear();
+                                for (int i = 0; i < arr_barcode.size(); i++) {
+                                    serialNoPurchaseReturn.add("false");
                                 }
-                                listString += arr[j] + ",";
-                                appUser.sale_item_serial_arr.add(arr[j]);
+                                appUser.sale_item_serial_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                for (int j = 0; j < qt; j++) {
+                                    for (int k = 0; k < arr_barcode.size(); k++) {
+                                        if (arr[j].equals(arr_barcode.get(k).toString())) {
+                                            serialNoPurchaseReturn.remove(k);
+                                            serialNoPurchaseReturn.add(k, "true");
+                                        }
+                                    }
+                                    listString += arr[j] + ",";
+                                    appUser.sale_item_serial_arr.add(arr[j]);
+                                }
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                mSr_no.setText(listString);
                             }
-                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                            mSr_no.setText(listString);
                         }
                     }
                 }
-
             }
 
             @Override

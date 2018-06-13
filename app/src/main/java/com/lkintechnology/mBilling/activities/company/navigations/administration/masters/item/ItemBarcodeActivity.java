@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class ItemBarcodeActivity extends AppCompatActivity {
 
 
         LinearLayout serialLayout = (LinearLayout) findViewById(R.id.main_layout);
-        LinearLayout submit = (LinearLayout) findViewById(R.id.submit);
+        RelativeLayout submit = (RelativeLayout) findViewById(R.id.submit);
         int width = getWidth();
         int height = getHeight();
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
