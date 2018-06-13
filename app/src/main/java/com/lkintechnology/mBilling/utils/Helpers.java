@@ -45,6 +45,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -281,6 +285,22 @@ public class Helpers {
     public static String  getMonth(int month){
         String[] ar={"Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"};
         return ar[month];
+    }
+
+    public static int  dateValidation(String start, String end){
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        Date dateObject1 = null;
+        Date dateObject2 = null;
+        try {
+            dateObject1 = dateFormatter.parse(start);
+            dateObject2 = dateFormatter.parse(end);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+       /* if (dateObject2.compareTo(dateObject1) == -1) {
+            return;
+        }*/
+        return dateObject2.compareTo(dateObject1);
     }
 
     public static Bitmap selectAttachmentUniversal(Context context, Intent data){

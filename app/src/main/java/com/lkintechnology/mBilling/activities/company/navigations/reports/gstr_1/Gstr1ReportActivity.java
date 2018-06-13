@@ -88,30 +88,34 @@ public class Gstr1ReportActivity extends RegisterAbstractActivity implements Vie
             public void onClick(View view) {
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
-
-                appUser.pdf_start_date = start;
-                appUser.pdf_end_date = end;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(Gstr1ReportActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_GSTR_1);
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(Gstr1ReportActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
+                    appUser.pdf_start_date = start;
+                    appUser.pdf_end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(Gstr1ReportActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_GSTR_1);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
                 }
             }
         });

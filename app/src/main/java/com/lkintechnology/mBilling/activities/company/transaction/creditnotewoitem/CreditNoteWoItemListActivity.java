@@ -51,7 +51,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CreditNoteWoItemListActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreditNoteWoItemListActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -78,7 +78,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
     @Bind(R.id.error_layout)
     LinearLayout error_layout;
     public Dialog dialog;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
 
@@ -94,17 +94,17 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
-        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
-        if (forDate){
+        Boolean forDate = getIntent().getBooleanExtra("forDate", false);
+        if (forDate) {
             start_date.setText(appUser.start_date);
             end_date.setText(appUser.end_date);
-        }else {
+        } else {
             start_date.setText(dateString);
             end_date.setText(dateString);
         }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
         int currentMonthPosition = currentMonth();
@@ -112,16 +112,15 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
+        if (currentMonthPosition < inputMonthPosition) {
+            for (int i = currentMonthPosition; i >= 0; i--) {
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            for (int j = 11; j >= inputMonthPosition; j--) {
+                cashInHand.add(monthName[j] + " " + (currentYear - 1));
             }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+        } else {
+            for (int i = currentMonthPosition; i >= inputMonthPosition; i--) {
 
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
@@ -132,14 +131,13 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         dashboardSpinner.setAdapter(dataAdapter);
 
 
-
         dashboardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.credit_note_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                appUser.credit_note_duration_spinner = selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -165,6 +163,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
                     snackbar.show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -199,6 +198,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     String[] monthName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
             "Aug", "Sep", "Oct", "Nov", "Dec"};
 
@@ -232,32 +232,32 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         }
         return inputMonth;
     }
+
     @Subscribe
-    public void getcreditnote(GetCreditNoteResponse response){
+    public void getcreditnote(GetCreditNoteResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             if (response.getCredit_notes().getData().size() == 0) {
                 mRecyclerView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 error_layout.setVisibility(View.GONE);
             }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new CreditNoteListAdapter(this,response.getCredit_notes().data);
+            mAdapter = new CreditNoteListAdapter(this, response.getCredit_notes().data);
             mRecyclerView.setAdapter(mAdapter);
-            Double total=0.0;
-            for(int i=0;i<response.getCredit_notes().getData().size();i++){
-                total=total+response.getCredit_notes().getData().get(i).getAttributes().getAmount();
+            Double total = 0.0;
+            for (int i = 0; i < response.getCredit_notes().getData().size(); i++) {
+                total = total + response.getCredit_notes().getData().get(i).getAttributes().getAmount();
 
             }
-            mTotal.setText("Total: "+String.format("%.2f",total));
-        }
-        else{
-           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            mTotal.setText("Total: " + String.format("%.2f", total));
+        } else {
+            // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -272,15 +272,15 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
     }
 
     @Subscribe
-    public void deletecreditnote(EventDeleteCreditNote pos){
-        appUser.delete_credit_note_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletecreditnote(EventDeleteCreditNote pos) {
+        appUser.delete_credit_note_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(CreditNoteWoItemListActivity.this)
                 .setTitle("Delete Credit Note Item")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(CreditNoteWoItemListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -288,15 +288,14 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_CREDIT_NOTE);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -307,17 +306,17 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
     }
+
     @Subscribe
-    public void deletecreditnote(DeleteCreditNoteResponse response){
+    public void deletecreditnote(DeleteCreditNoteResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CREDIT_NOTE);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -326,7 +325,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         EventBus.getDefault().register(this);
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(CreditNoteWoItemListActivity.this);
@@ -352,12 +351,13 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         }
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
-       if(mProgressDialog!=null){
-           mProgressDialog.dismiss();
-       }
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
         super.onPause();
     }
 
@@ -365,7 +365,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        if(mProgressDialog!=null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
     }
@@ -378,6 +378,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         mProgressDialog.dismiss();
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -386,7 +387,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateCreditNoteWoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromCreditNote",false);
+                intent.putExtra("fromCreditNote", false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -401,12 +402,12 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         Intent intent = new Intent(this, CreateCreditNoteWoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("fromCreditNote",false);
+        intent.putExtra("fromCreditNote", false);
         startActivity(intent);
         finish();
     }
 
-    public void showpopup(){
+    public void showpopup() {
         dialog = new Dialog(CreditNoteWoItemListActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.date_pick_dialog);
@@ -458,36 +459,42 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(CreditNoteWoItemListActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CREDIT_NOTE);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(CreditNoteWoItemListActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(CreditNoteWoItemListActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_CREDIT_NOTE);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 
@@ -498,7 +505,7 @@ public class CreditNoteWoItemListActivity extends AppCompatActivity implements V
     public void onClick(View view) {
         if (view == dialog.findViewById(R.id.date1)) {
             DatePickerDialog1.show();
-        }else if (view == dialog.findViewById(R.id.date2)){
+        } else if (view == dialog.findViewById(R.id.date2)) {
             DatePickerDialog2.show();
         }
     }

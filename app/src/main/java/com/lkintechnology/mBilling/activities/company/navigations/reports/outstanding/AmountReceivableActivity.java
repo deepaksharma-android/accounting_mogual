@@ -36,7 +36,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AmountReceivableActivity extends RegisterAbstractActivity implements View.OnClickListener{
+public class AmountReceivableActivity extends RegisterAbstractActivity implements View.OnClickListener {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -62,7 +62,7 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
     Snackbar snackbar;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +80,14 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
 
-        Intent intent=getIntent();
-        String accountgroupname=intent.getStringExtra("name");
-        String nameArr[]=accountgroupname.split(",");
-        String accountname=nameArr[0];
+        Intent intent = getIntent();
+        String accountgroupname = intent.getStringExtra("name");
+        String nameArr[] = accountgroupname.split(",");
+        String accountname = nameArr[0];
         mAccount_group_textview.setText(accountname);
-        String id=intent.getStringExtra("id");
+        String id = intent.getStringExtra("id");
         appUser.pdf_account_id = id;
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
 
        /* mAccount_group_layout.setOnClickListener(new View.OnClickListener() {
@@ -106,38 +106,42 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
             public void onClick(View view) {
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
-                if(!mAccount_group_textview.getText().toString().equals("")){
-                    appUser.pdf_start_date = mStart_date.getText().toString();
-                    appUser.pdf_end_date = mEnd_date.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(AmountReceivableActivity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
+                if (!mAccount_group_textview.getText().toString().equals("")) {
+                    if (Helpers.dateValidation(start, end) == -1) {
+                        Helpers.dialogMessage(AmountReceivableActivity.this, "End date should be greater than start date!");
+                        return;
                     } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
+                        appUser.pdf_start_date = start;
+                        appUser.pdf_end_date = end;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(AmountReceivableActivity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_TRANSACTION_PDF);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                            }
                                         }
-                                    }
-                                });
-                        snackbar.show();
+                                    });
+                            snackbar.show();
+                        }
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please select Account", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
-
     }
 
     @Override
@@ -171,11 +175,11 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
         String dateString = sdf.format(date);
         //String[] datesplit = dateString.split("-");
 
-       // String start_date1="2017-Apr-04";
+        // String start_date1="2017-Apr-04";
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year,  int monthOfYear, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -241,10 +245,9 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date || view==mCalender_Icon) {
+        if (view == mStart_date || view == mCalender_Icon) {
             DatePickerDialog1.show();
-        }
-        else if(view == mEnd_date || view==mCalender_Icon1){
+        } else if (view == mEnd_date || view == mCalender_Icon1) {
             DatePickerDialog2.show();
         }
     }
@@ -269,17 +272,16 @@ public class AmountReceivableActivity extends RegisterAbstractActivity implement
     }
 
     @Subscribe
-    public void getTransactionPdf(GetTransactionPdfResponse response){
+    public void getTransactionPdf(GetTransactionPdfResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getCompany_report();
-            i.putExtra("company_report",company_report);
+            i.putExtra("company_report", company_report);
             startActivity(i);
-        }
-        else{
+        } else {
             //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
