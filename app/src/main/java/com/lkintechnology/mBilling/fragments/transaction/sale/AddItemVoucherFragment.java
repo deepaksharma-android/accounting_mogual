@@ -59,7 +59,6 @@ public class AddItemVoucherFragment extends Fragment {
     Animation blinkOnClick;
     ArrayList<String> billsuncal;
     public static AddItemVoucherFragment context;
-    public static int forAddItem = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

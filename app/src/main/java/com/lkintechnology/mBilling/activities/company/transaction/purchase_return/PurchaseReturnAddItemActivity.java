@@ -525,13 +525,22 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     if (mQuantity.getText().toString().equals("")) {
                         serial = "0";
                     } else {
-                        serial = mQuantity.getText().toString();
-                        Intent intent=new Intent(getApplicationContext(), CheckBoxVoucherBarcodeActivity.class);
-                        intent.putExtra("array_bar_code",arr_barcode);
-                        intent.putExtra("serial_number_purchase_return",serialNoPurchaseReturn);
-                        intent.putExtra("quantity",serial);
-                        intent.putExtra("fromPurchaseReturn",true);
-                        startActivityForResult(intent, 14);
+                        if (Integer.valueOf(mQuantity.getText().toString())>0){
+                            int count =0;
+                            for (int i = 0; i < serialNoPurchaseReturn.size(); i++) {
+                                if (serialNoPurchaseReturn.get(i).equals("true")) {
+                                    count++;
+                                }
+                            }
+                            CheckBoxVoucherBarcodeActivity.locQuantity =count;
+                            serial = mQuantity.getText().toString();
+                            Intent intent=new Intent(getApplicationContext(), CheckBoxVoucherBarcodeActivity.class);
+                            intent.putExtra("array_bar_code",arr_barcode);
+                            intent.putExtra("serial_number_purchase_return",serialNoPurchaseReturn);
+                            intent.putExtra("quantity",serial);
+                            intent.putExtra("fromPurchaseReturn",true);
+                            startActivityForResult(intent, 14);
+                        }
                     }
 
                 } else {
@@ -890,15 +899,15 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     appUser.mListMapForItemPurchaseReturn.add(finalPos, mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                if (mQuantity.getText().toString().equals(quantity)) {
+               // if (mQuantity.getText().toString().equals(quantity)) {
                     Intent in = new Intent(getApplicationContext(), CreatePurchaseReturnActivity.class);
                     in.putExtra("is", true);
                     in.putExtra("fromdashboard", false);
                     startActivity(in);
                     finish();
-                } else {
+                /*} else {
                     Toast.makeText(getApplicationContext(), "Please select serial number", Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
         });
 
@@ -1012,6 +1021,36 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                         }
                     } else {
                         mTotal.setText("0.0");
+                    }
+                }
+
+                if (!mQuantity.getText().toString().isEmpty()) {
+                    if (!mQuantity.getText().toString().equals("")) {
+                        voucher_barcode = mSr_no.getText().toString();
+                        String[] arr = voucher_barcode.split(",");
+                        int qt = Integer.valueOf(mQuantity.getText().toString());
+                        if (qt < CheckBoxVoucherBarcodeActivity.locQuantity && qt>0) {
+                            // barcodeArray = new String[0];
+                            String listString = "";
+                            serialNoPurchaseReturn.clear();
+                            for (int i = 0; i < arr_barcode.size(); i++) {
+                                serialNoPurchaseReturn.add("false");
+                            }
+                            appUser.sale_item_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            for (int j = 0; j < qt; j++) {
+                                for (int k = 0; k < arr_barcode.size(); k++) {
+                                    if (arr[j].equals(arr_barcode.get(k).toString())) {
+                                        serialNoPurchaseReturn.remove(k);
+                                        serialNoPurchaseReturn.add(k, "true");
+                                    }
+                                }
+                                listString += arr[j] + ",";
+                                appUser.sale_item_serial_arr.add(arr[j]);
+                            }
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            mSr_no.setText(listString);
+                        }
                     }
                 }
 

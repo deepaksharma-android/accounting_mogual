@@ -532,15 +532,25 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                     if (mQuantity.getText().toString().equals("")) {
                         serial = "0";
                     } else {
-                        serial = mQuantity.getText().toString();
-                        Intent intent = new Intent(getApplicationContext(), CheckBoxVoucherBarcodeActivity.class);
-                        intent.putExtra("array_bar_code", arr_barcode);
-                        intent.putExtra("serial_number", serialNo);
-                        intent.putExtra("quantity", serial);
-                        intent.putExtra("fromSale", true);
-                        intent.putExtra("tempSaleNo", "1");
-                        intent.putExtra("frombillitemvoucherlist", frombillitemvoucherlist);
-                        startActivityForResult(intent, 11);
+                        if (Integer.valueOf(mQuantity.getText().toString())>0){
+                            int count = 0;
+                            for (int i = 0; i < serialNo.size(); i++) {
+                                if (serialNo.get(i).equals("true")) {
+                                    count++;
+                                }
+                            }
+                            CheckBoxVoucherBarcodeActivity.locQuantity = count;
+                            serial = mQuantity.getText().toString();
+                            System.out.println(CheckBoxVoucherBarcodeActivity.locQuantity);
+                            Intent intent = new Intent(getApplicationContext(), CheckBoxVoucherBarcodeActivity.class);
+                            intent.putExtra("array_bar_code", arr_barcode);
+                            intent.putExtra("serial_number", serialNo);
+                            intent.putExtra("quantity", serial);
+                            intent.putExtra("fromSale", true);
+                            intent.putExtra("tempSaleNo", "1");
+                            intent.putExtra("frombillitemvoucherlist", frombillitemvoucherlist);
+                            startActivityForResult(intent, 11);
+                        }
                     }
 
                 } else {
@@ -1039,32 +1049,28 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                         voucher_barcode = mSr_no.getText().toString();
                         String[] arr = voucher_barcode.split(",");
                         int qt = Integer.valueOf(mQuantity.getText().toString());
-                        if (qt < CheckBoxVoucherBarcodeActivity.locQuantity) {
+                        if (qt < CheckBoxVoucherBarcodeActivity.locQuantity && qt>0) {
                             // barcodeArray = new String[0];
                             String listString = "";
                             serialNo.clear();
                             for (int i = 0; i < arr_barcode.size(); i++) {
                                 serialNo.add("false");
                             }
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            for (int j = 0; j < arr.length - (arr.length - qt); j++) {
+                            appUser.sale_item_serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                            for (int j = 0; j < qt; j++) {
                                 for (int k = 0; k < arr_barcode.size(); k++) {
                                     if (arr[j].equals(arr_barcode.get(k).toString())) {
                                         serialNo.remove(k);
                                         serialNo.add(k, "true");
-                                        listString += arr[k] + ",";
                                     }
                                 }
+                                listString += arr[j] + ",";
+                                appUser.sale_item_serial_arr.add(arr[j]);
                             }
+                            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                             mSr_no.setText(listString);
-                        } /*else {
-                            if (AddItemVoucherFragment.forAddItem != 0) {
-                                CheckBoxVoucherBarcodeActivity.locQuantity = arr.length;
-                            } else {
-                                AddItemVoucherFragment.forAddItem = 1;
-                            }
-
-                        }*/
+                        }
                     }
                 }
             }
