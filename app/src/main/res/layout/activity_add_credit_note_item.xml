@@ -16,32 +16,107 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/tv_ivn"
-                style="@style/Gotham_Medium"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/s_invoice_no"
-                android:textColor="#000"
-                android:textSize="15sp"
-                android:layout_marginLeft="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_5"/>
 
-            <com.lkintechnology.mBilling.utils.BuzzEditText
-                android:id="@+id/et_invoice"
-                android:layout_below="@+id/tv_ivn"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/bg_grey_stroke"
-                android:hint="Invoice no"
-                android:maxLength="13"
-                android:inputType="number"
-                android:textColor="#000"
-                android:textSize="15sp"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_5" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/tv_ivn"
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Invoice no"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.lkintechnology.mBilling.utils.BuzzEditText
+                            android:id="@+id/et_invoice"
+                            style="@style/Gotham_Book"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.9"
+                            android:background="@android:color/transparent"
+                            android:hint="Invoice no"
+                            android:maxLength="13"
+                            android:inputType="number"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Sale Voucher"
+                        android:textColor="#000"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_grey_stroke"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/voucher"
+                            style="@style/Gotham_Book"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.9"
+                            android:background="@android:color/transparent"
+                            android:hint="Select Voucher"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="15dp"
+                            android:layout_weight="0.1"
+                            android:src="@drawable/right_chevron" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/tv_date"

@@ -133,7 +133,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
-        ButterKnife.bind(this);
+        ButterKnife.bind(this);ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

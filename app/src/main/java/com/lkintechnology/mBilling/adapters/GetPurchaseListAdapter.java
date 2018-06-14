@@ -123,6 +123,8 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
             @Override
             public void onClick(View view) {
                 if (forMainLayoutClick){
+                    Preferences.getInstance(context).setVoucher_name("");
+                    Preferences.getInstance(context).setVoucher_id("");
                     String s=data.get(position).getAttributes().getVoucher_number()+","+data.get(position).getId();
                     EventBus.getDefault().post(new EventForVoucherClick(s));
                 }else {
