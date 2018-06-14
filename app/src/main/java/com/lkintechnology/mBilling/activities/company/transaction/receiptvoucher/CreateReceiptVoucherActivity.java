@@ -1072,7 +1072,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
             set_date.setText(response.getReceipt_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getReceipt_voucher().getData().getAttributes().getVoucher_number());
             //set_date_pdc.setText(response.getReceipt_voucher().getData().getAttributes().getPdc_date());
-            received_from.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_from());
+            received_from.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_from().getName());
             received_by.setText(response.getReceipt_voucher().getData().getAttributes().getReceived_by());
             appUser.receipt_received_from_id = String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_by_id());
             appUser.receipt_received_from_id=String.valueOf(response.getReceipt_voucher().getData().getAttributes().getReceived_from_id());

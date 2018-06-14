@@ -11,8 +11,16 @@ public class ReceiptVouchersDetailsAttributes {
     public String pdc_date;
     public String gst_nature;
     public String voucher_number;
-    public String received_from;
+    public DetailsReceivedFrom received_from;
     public String received_by;
+
+    public DetailsReceivedFrom getReceived_from() {
+        return received_from;
+    }
+
+    public void setReceived_from(DetailsReceivedFrom received_from) {
+        this.received_from = received_from;
+    }
 
     public ArrayList<ReceiptItems> getReceipt_item() {
         return receipt_item;
@@ -98,14 +106,6 @@ public class ReceiptVouchersDetailsAttributes {
 
     public void setVoucher_number(String voucher_number) {
         this.voucher_number = voucher_number;
-    }
-
-    public String getReceived_from() {
-        return received_from;
-    }
-
-    public void setReceived_from(String received_from) {
-        this.received_from = received_from;
     }
 
     public String getReceived_by() {

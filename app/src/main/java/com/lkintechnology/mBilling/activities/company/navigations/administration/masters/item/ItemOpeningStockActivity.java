@@ -158,7 +158,13 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 } else {
                     mStockValue.setText("");
                 }
-
+               /* boolean startCount = false;
+                if(start>0){
+                    System.out.println(start);
+                    System.out.println(before);
+                    System.out.println(count);
+                    startCount = true;
+                }*/
                 if (start==0){
                     if (!mStockQuantity.getText().toString().isEmpty()) {
                         if (!mStockQuantity.getText().toString().equals("")) {
