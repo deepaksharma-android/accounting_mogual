@@ -11,8 +11,16 @@ public class ReceiptVouchersDetailsAttributes {
     public String pdc_date;
     public String gst_nature;
     public String voucher_number;
-    public String received_from;
     public String received_by;
+    public DetailsReceivedFrom received_from;
+
+    public DetailsReceivedFrom getReceived_from() {
+        return received_from;
+    }
+
+    public void setReceived_from(DetailsReceivedFrom received_from) {
+        this.received_from = received_from;
+    }
 
     public ArrayList<ReceiptItems> getReceipt_item() {
         return receipt_item;
@@ -25,7 +33,16 @@ public class ReceiptVouchersDetailsAttributes {
     public Double amount;
     public String narration;
     public String attachment;
+    public String is_payment_settlement;
     public ArrayList<ReceiptItems> receipt_item;
+
+    public String getIs_payment_settlement() {
+        return is_payment_settlement;
+    }
+
+    public void setIs_payment_settlement(String is_payment_settlement) {
+        this.is_payment_settlement = is_payment_settlement;
+    }
 
     public String getCompany_name() {
         return company_name;
@@ -91,13 +108,6 @@ public class ReceiptVouchersDetailsAttributes {
         this.voucher_number = voucher_number;
     }
 
-    public String getReceived_from() {
-        return received_from;
-    }
-
-    public void setReceived_from(String received_from) {
-        this.received_from = received_from;
-    }
 
     public String getReceived_by() {
         return received_by;

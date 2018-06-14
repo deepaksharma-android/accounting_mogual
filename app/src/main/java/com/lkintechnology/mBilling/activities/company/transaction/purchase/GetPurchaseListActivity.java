@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction.purchase;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -36,9 +37,11 @@ import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeleteP
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
+import com.lkintechnology.mBilling.utils.EventForVoucherClick;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -50,6 +53,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class GetPurchaseListActivity extends RegisterAbstractActivity implements View.OnClickListener{
 
@@ -82,6 +86,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    Boolean forMainLayoutClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
+		forMainLayoutClick = getIntent().getBooleanExtra("purchase_return",false);
         start_date.setText(dateString);
         end_date.setText(dateString);
         appUser.start_date = start_date.getText().toString();
@@ -283,11 +289,18 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, CreatePurchaseActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromsalelist",false);
-                startActivity(intent);
-                finish();
+                if (forMainLayoutClick){
+                    finish();
+                }else {
+                    Preferences.getInstance(getApplicationContext()).setUpdate("");
+                    Preferences.getInstance(getApplicationContext()).setAttachment("");
+                    Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                    Intent intent = new Intent(this, CreatePurchaseActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("fromsalelist",false);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -296,12 +309,19 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
 
     @Override
     public void onBackPressed() {
-        CreatePurchaseActivity.isForEdit=false;
-        Intent intent = new Intent(this, CreatePurchaseActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("fromsalelist",false);
-        startActivity(intent);
-        finish();
+        if (forMainLayoutClick){
+            finish();
+        }else {
+            CreatePurchaseActivity.isForEdit=false;
+            Preferences.getInstance(getApplicationContext()).setUpdate("");
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+            Intent intent = new Intent(this, CreatePurchaseActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("fromsalelist",false);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Subscribe
@@ -319,7 +339,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new GetPurchaseListAdapter(this,response.getPurchase_vouchers().data);
+            mAdapter = new GetPurchaseListAdapter(this,response.getPurchase_vouchers().data,forMainLayoutClick);
             mRecyclerView.setAdapter(mAdapter);
             Double total=0.0;
             for(int i=0;i<response.getPurchase_vouchers().getData().size();i++){
@@ -450,8 +470,8 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -530,5 +550,17 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         }else if (view == dialog.findViewById(R.id.date2)){
             DatePickerDialog2.show();
         }
+    }
+
+    @Subscribe
+    public void voucherClickedEvent(EventForVoucherClick pos) {
+        Timber.i("POSITION" + pos.getPosition());
+        String str = pos.getPosition();
+        String[] strAr = str.split(",");
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("name", strAr[0]);
+        returnIntent.putExtra("id", strAr[1]);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 }

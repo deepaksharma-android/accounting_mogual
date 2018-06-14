@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction.sale;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -59,7 +60,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
     @Bind(R.id.item_layout)
     LinearLayout mItemLayout;
     @Bind(R.id.description)
-    TextView mDescription;
+    EditText mDescription;
     @Bind(R.id.quantity)
     EditText mQuantity;
     @Bind(R.id.spinner_unit)
@@ -190,6 +191,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             String salepricemain = (String) map.get("sales_price_main");
             String salepricealternate = (String) map.get("sales_price_alternate");
             String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
+            String businessType = (String) map.get("business_type");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
             for (int i = 0; i < myList.size(); i++) {
                 mUnitList.add(myList.get(i).trim());
@@ -212,6 +214,15 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             mSr_no.setText(voucher_barcode);
             boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
+            if (businessType != null) {
+                if (businessType.equals("Mobile Dealer")) {
+                    mBusinessType.setSelection(0);
+                } else {
+                    mBusinessType.setSelection(1);
+                }
+            } else {
+                mBusinessType.setSelection(0);
+            }
 
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
@@ -403,8 +414,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                                             Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + " is not a IMEI number", Toast.LENGTH_LONG).show();
                                         }
 
-                                    }
-                                    else{
+                                    } else {
                                         if (appUser.sale_item_serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -783,6 +793,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
+                mMap.put("business_type", mBusinessType.getSelectedItem());
 
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {

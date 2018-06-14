@@ -36,7 +36,7 @@
                         style="@style/Gotham_Medium"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Series *"
+                        android:text="Voucher Series *"
                         android:textColor="#000"
                         android:textSize="15sp" />
 

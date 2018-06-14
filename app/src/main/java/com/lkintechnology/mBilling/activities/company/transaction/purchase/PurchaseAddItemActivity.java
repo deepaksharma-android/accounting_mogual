@@ -70,7 +70,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     @Bind(R.id.item_layout)
     LinearLayout mItemLayout;
     @Bind(R.id.description)
-    TextView mDescription;
+    EditText mDescription;
     @Bind(R.id.quantity)
     EditText mQuantity;
     @Bind(R.id.spinner_unit)
@@ -150,7 +150,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     public static List<String> myListForSerialNo;
     public static Boolean boolForBarcode;
     String quantity;
-    Boolean textChange;
+    public Boolean textChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +205,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             String mainunit = (String) map.get("main_unit");
             String alternateunit = (String) map.get("alternate_unit");
             String purchasepricemain = (String) map.get("purchase_price_main");
+            String businessType = (String) map.get("business_type");
             Timber.i("bbbbbb " + quantity);
             String purchasepricealternate = (String) map.get("purchase_price_alternate");
             String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
@@ -232,7 +233,15 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             mUnitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerUnit.setAdapter(mUnitAdapter);*/
             id = iid;
-
+            if (businessType != null) {
+                if (businessType.equals("Mobile Dealer")) {
+                    mBusinessType.setSelection(0);
+                } else {
+                    mBusinessType.setSelection(1);
+                }
+            } else {
+                mBusinessType.setSelection(0);
+            }
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);
@@ -1334,6 +1343,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 mMap.put("serial_number", appUser.purchase_item_serail_arr);
             }
             mMap.put("unit_list", mUnitList);
+            mMap.put("business_type", mBusinessType.getSelectedItem());
             if (!frombillitemvoucherlist) {
                 appUser.mListMapForItemPurchase.add(mMap);
                 // appUser.mListMap = mListMap;

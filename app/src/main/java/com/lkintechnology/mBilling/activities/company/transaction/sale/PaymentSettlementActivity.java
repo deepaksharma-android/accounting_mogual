@@ -64,6 +64,17 @@ public class PaymentSettlementActivity extends AppCompatActivity {
     @Bind(R.id.amount5)
     EditText amount5;
 
+    @Bind(R.id.clear1)
+    TextView mClear1;
+    @Bind(R.id.clear2)
+    TextView mClear2;
+    @Bind(R.id.clear3)
+    TextView mClear3;
+    @Bind(R.id.clear4)
+    TextView mClear4;
+    @Bind(R.id.clear5)
+    TextView mClear5;
+
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     AppUser appUser;
@@ -78,7 +89,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         initActionbar();
 
-        System.out.println("pccccc payment "+appUser.paymentSettlementList.size());
+        System.out.println("pccccc payment " + appUser.paymentSettlementList.size());
 
         appUser.payment_account_id_1 = "";
         appUser.payment_account_id_2 = "";
@@ -131,6 +142,60 @@ public class PaymentSettlementActivity extends AppCompatActivity {
             }
             // }
         }
+
+        mClear1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_account1.setText("");
+                amount1.setText("");
+                appUser.payment_settlement_id_1 = "";
+                appUser.payment_account_id_1 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+        });
+        mClear2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_account2.setText("");
+                amount2.setText("");
+                appUser.payment_settlement_id_2 = "";
+                appUser.payment_account_id_2 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+        });
+
+        mClear3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_account3.setText("");
+                amount3.setText("");
+                appUser.payment_settlement_id_3 = "";
+                appUser.payment_account_id_3 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+        });
+        mClear4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_account4.setText("");
+                amount4.setText("");
+                appUser.payment_settlement_id_4 = "";
+                appUser.payment_account_id_4 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+        });
+
+        mClear5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select_account5.setText("");
+                amount5.setText("");
+                appUser.payment_settlement_id_5 = "";
+                appUser.payment_account_id_5 = "";
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            }
+        });
+
         select_account_layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

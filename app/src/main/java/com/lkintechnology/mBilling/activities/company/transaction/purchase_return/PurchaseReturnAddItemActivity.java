@@ -60,7 +60,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
     @Bind(R.id.item_layout)
     LinearLayout mItemLayout;
     @Bind(R.id.description)
-    TextView mDescription;
+    EditText mDescription;
     @Bind(R.id.quantity)
     EditText mQuantity;
     @Bind(R.id.spinner_unit)
@@ -191,6 +191,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             String purchasepricemain = (String) map.get("purchase_price_main");
             String purchasepricealternate = (String) map.get("purchase_price_alternate");
             String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
+            String businessType = (String) map.get("business_type");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
             for (int i = 0; i < myList.size(); i++) {
                 mUnitList.add(myList.get(i));
@@ -206,6 +207,15 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
 
             itemid = item_id;
             id = iid;
+            if (businessType!=null){
+                if (businessType.equals("Mobile Dealer")){
+                    mBusinessType.setSelection(0);
+                }else {
+                    mBusinessType.setSelection(1);
+                }
+            }else {
+                mBusinessType.setSelection(0);
+            }
             voucher_barcode = (String) map.get("voucher_barcode");
             barcodeArray = voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
@@ -771,6 +781,7 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                 mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("purchase_unit", purchase_unit);
+                mMap.put("business_type",mBusinessType.getSelectedItem());
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");

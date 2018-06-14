@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction.sale;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -37,9 +38,11 @@ import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleV
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
+import com.lkintechnology.mBilling.utils.EventForVoucherClick;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +54,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class GetSaleVoucherListActivity extends RegisterAbstractActivity implements View.OnClickListener{
 
@@ -83,6 +87,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    Boolean forMainLayoutClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
+        forMainLayoutClick = getIntent().getBooleanExtra("sale_return",false);
         start_date.setText(dateString);
         end_date.setText(dateString);
         appUser.start_date = start_date.getText().toString();
@@ -282,13 +288,20 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, CreateSaleActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromsalelist",false);
-                intent.putExtra("fromdashboard",true);
+                if (forMainLayoutClick){
+                    finish();
+                }else {
+                    Preferences.getInstance(getApplicationContext()).setUpdate("");
+                    Preferences.getInstance(getApplicationContext()).setAttachment("");
+                    Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+                    Intent intent = new Intent(this, CreateSaleActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("fromsalelist",false);
+                    intent.putExtra("fromdashboard",true);
 
-                startActivity(intent);
-                finish();
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -297,13 +310,20 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
 
     @Override
     public void onBackPressed() {
-        CreateSaleActivity.isForEdit=false;
-        Intent intent = new Intent(this, CreateSaleActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("fromsalelist",false);
-        intent.putExtra("fromdashboard",true);
-        startActivity(intent);
-        finish();
+        if (forMainLayoutClick){
+            finish();
+        }else {
+            Preferences.getInstance(getApplicationContext()).setUpdate("");
+            Preferences.getInstance(getApplicationContext()).setAttachment("");
+            Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+            CreateSaleActivity.isForEdit=false;
+            Intent intent = new Intent(this, CreateSaleActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("fromsalelist",false);
+            intent.putExtra("fromdashboard",true);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Subscribe
@@ -320,7 +340,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new GetSaleVoucherListAdapter(this,response.getSale_vouchers().getData());
+            mAdapter = new GetSaleVoucherListAdapter(this,response.getSale_vouchers().getData(),forMainLayoutClick);
             mRecyclerView.setAdapter(mAdapter);
             Double total=0.0;
             for(int i=0;i<response.getSale_vouchers().getData().size();i++){
@@ -451,8 +471,8 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -532,4 +552,16 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             DatePickerDialog2.show();
         }
     }
+
+    @Subscribe
+    public void voucherClickedEvent(EventForVoucherClick pos) {
+            Timber.i("POSITION" + pos.getPosition());
+            String str = pos.getPosition();
+            String[] strAr = str.split(",");
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("name", strAr[0]);
+            returnIntent.putExtra("id", strAr[1]);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
 }

@@ -44,7 +44,7 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
     @Override
     public void onBindViewHolder(ReceiptVoucherListAdapter.ViewHolder viewHolder, int position) {
 
-        viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().received_from);
+        viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().getReceived_from().getName());
         viewHolder.bank_edit_text2.setText(data.get(position).getAttributes().received_by);
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(""+ String.format("%.2f",data.get(position).getAttributes().getAmount()));

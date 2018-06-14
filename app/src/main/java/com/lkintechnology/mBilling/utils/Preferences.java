@@ -97,6 +97,7 @@ public class Preferences {
     private static final String item_stock_quantity = "item_stock_quantity";
     private static final String item_stock_amount = "item_stock_amount";
     private static final String item_stock_value = "item_stock_value";
+    private static final String business_type = "business_type";
 
     private static final String item_alternate_unit_name="item_alternate_unit_name";
     private static final String item_alternate_unit_id="item_alternate_unit_id";
@@ -165,6 +166,8 @@ public class Preferences {
     private static final String paid_from="paid_from";
     private static final String start_date="start_date";
     private static final String end_date="end_date";
+    private static final String voucher_name="voucher_name";
+    private static final String voucher_id="voucher_id";
 
     private Preferences(Context context) {
         this._context = context;
@@ -813,6 +816,14 @@ public class Preferences {
     public String getItem_stock_value() {
         return pref.getString(item_stock_value, "");
     }
+    public void setBusiness_type(String businessType) {
+        editor.putString(business_type, businessType);
+        editor.commit();
+    }
+
+    public String getBusiness_type() {
+        return pref.getString(business_type, "");
+    }
 
     public void setitem_alternate_unit_id(String itemalternateunitid) {
         editor.putString(item_alternate_unit_id, itemalternateunitid);
@@ -1353,6 +1364,23 @@ public class Preferences {
     }
     public String getPurchase_type_name() {
         return pref.getString(purchase_type_name, "");
+    }
+
+
+    public void setVoucher_name(String voucherName) {
+        editor.putString(voucher_name, voucherName);
+        editor.commit();
+    }
+    public String getVoucher_name() {
+        return pref.getString(voucher_name, "");
+    }
+
+    public void setVoucher_id(String voucherId) {
+        editor.putString(voucher_id, voucherId);
+        editor.commit();
+    }
+    public String getVoucher_id() {
+        return pref.getString(voucher_id, "");
     }
 
     public void setPurchase_gst_nature(String gstnature) {

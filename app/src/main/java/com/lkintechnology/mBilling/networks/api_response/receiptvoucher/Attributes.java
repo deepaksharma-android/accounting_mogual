@@ -10,12 +10,20 @@ public class Attributes {
     public String pdc_date;
     public String gst_nature;
     public String voucher_number;
-    public String received_from;
+    public DetailsReceivedFrom received_from;
     public String received_by;
     public Double amount;
     public String narration;
     public String attachment;
     public String invoice_html;
+
+    public DetailsReceivedFrom getReceived_from() {
+        return received_from;
+    }
+
+    public void setReceived_from(DetailsReceivedFrom received_from) {
+        this.received_from = received_from;
+    }
 
     public String getInvoice_html() {
         return invoice_html;
@@ -90,13 +98,6 @@ public class Attributes {
         this.voucher_number = voucher_number;
     }
 
-    public String getReceived_from() {
-        return received_from;
-    }
-
-    public void setReceived_from(String received_from) {
-        this.received_from = received_from;
-    }
 
     public String getReceived_by() {
         return received_by;

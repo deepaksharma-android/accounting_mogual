@@ -72,7 +72,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
     @Bind(R.id.item_layout)
     LinearLayout mItemLayout;
     @Bind(R.id.description)
-    TextView mDescription;
+    EditText mDescription;
     @Bind(R.id.quantity)
     EditText mQuantity;
     @Bind(R.id.spinner_unit)
@@ -202,6 +202,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             String defaultunit = (String) map.get("default_unit");
             String salepricemain = (String) map.get("sales_price_main");
             String salepricealternate = (String) map.get("sales_price_alternate");
+            String businessType = (String) map.get("business_type");
             String unit_list = (String) map.get("unit_list").toString().replace("[", "").replace("]", "");
             List<String> myList = new ArrayList<String>(Arrays.asList(unit_list.split(",")));
             for (int i = 0; i < myList.size(); i++) {
@@ -222,7 +223,15 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             id = iid;
             boolForBarcode = true;
             SaleReturnAddItemActivity.myListForSerialNo = new ArrayList<String>(Arrays.asList(serialnumber.split(",")));
-
+            if (businessType!=null){
+                if (businessType.equals("Mobile Dealer")){
+                    mBusinessType.setSelection(0);
+                }else {
+                    mBusinessType.setSelection(1);
+                }
+            }else {
+                mBusinessType.setSelection(0);
+            }
             mSr_no.setText(serialnumber);
             mSr_no.setText(serialnumber);
             mItemName.setText(itemName);
@@ -1288,6 +1297,7 @@ public class SaleReturnAddItemActivity extends RegisterAbstractActivity implemen
             mMap.put("mrp", mrp);
             mMap.put("tax", tax);
             mMap.put("unit_list", mUnitList);
+            mMap.put("business_type",mBusinessType.getSelectedItem());
             // mMap.put("serial_number",appUser.purchase_item_serail_arr);
             if (SaleReturnAddItemActivity.boolForBarcode) {
                 mMap.put("serial_number", SaleReturnAddItemActivity.myListForSerialNo);

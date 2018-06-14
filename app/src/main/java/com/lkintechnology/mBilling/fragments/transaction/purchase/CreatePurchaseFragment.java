@@ -275,6 +275,7 @@ public class CreatePurchaseFragment extends Fragment {
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -295,6 +296,7 @@ public class CreatePurchaseFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 2;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
@@ -305,7 +307,7 @@ public class CreatePurchaseFragment extends Fragment {
         mPurchaseType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                appUser = LocalRepositories.getAppUser(getActivity());
                 PurchaseTypeListActivity.isDirectForPurchaseTypeList = false;
                 ParameterConstant.checkForPurchaseTypeList = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 2;
@@ -315,6 +317,7 @@ public class CreatePurchaseFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -331,6 +334,7 @@ public class CreatePurchaseFragment extends Fragment {
         mShippedTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -348,6 +352,7 @@ public class CreatePurchaseFragment extends Fragment {
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
@@ -358,6 +363,7 @@ public class CreatePurchaseFragment extends Fragment {
         mSelectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (imageToUploadUri == null) {
                    /* Drawable dr = ((ImageView) mSelectedImage).getDrawable();
                     Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
@@ -381,9 +387,10 @@ public class CreatePurchaseFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TransportActivity.voucher_type = "purchase";
-                Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
-                intent.putExtra("fromedit", fromedit);
+                appUser = LocalRepositories.getAppUser(getActivity());
+                TransportActivity.voucher_type="purchase";
+                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
+                intent.putExtra("fromedit",fromedit);
                 startActivity(intent);
             }
         });
@@ -411,6 +418,7 @@ public class CreatePurchaseFragment extends Fragment {
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (!Preferences.getInstance(getActivity()).getPurchase_type_name().equals("")) {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
@@ -430,7 +438,7 @@ public class CreatePurchaseFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -443,6 +451,7 @@ public class CreatePurchaseFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
                 appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -1062,6 +1071,7 @@ public class CreatePurchaseFragment extends Fragment {
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
             fromedit = true;
             mDate.setText(response.getPurchase_voucher().getData().getAttributes().getDate());
+            appUser.purchase_date = response.getPurchase_voucher().getData().getAttributes().getDate();
             mVchNumber.setText(response.getPurchase_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getApplicationContext()).setPurchase_type_name(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
@@ -1121,6 +1131,9 @@ public class CreatePurchaseFragment extends Fragment {
                         sb.append(str).append(","); //separating contents using semi colon
                     }
                     String strfromArrayList = sb.toString();*/
+                    if (response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                        mMap.put("business_type", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                    }
                     mMap.put("serial_number", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
                     mMap.put("purchase_unit", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_unit());
                     ArrayList<String> mUnitList = new ArrayList<>();

@@ -51,6 +51,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.dashboard.Tran
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.GetSaleReturnVoucherListActivity;
@@ -94,6 +95,8 @@ public class CreateSaleReturnFragment extends Fragment {
     TextView mDate;
     @Bind(R.id.series)
     Spinner mSeries;
+    @Bind(R.id.voucher)
+    TextView mVoucher;
     @Bind(R.id.vch_number)
     TextView mVchNumber;
     @Bind(R.id.sale_type)
@@ -230,6 +233,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        mVoucher.setText(Preferences.getInstance(getContext()).getVoucher_name());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -262,6 +266,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -282,6 +287,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 8;
                 ParameterConstant.checkStartActivityResultForMaterialCenter = 3;
@@ -292,6 +298,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mSaleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.checkStartActivityResultForAccount = 8;
                 ParameterConstant.checkForPurchaseTypeList = 2;
                 PurchaseTypeListActivity.isDirectForPurchaseTypeList = false;
@@ -301,9 +308,21 @@ public class CreateSaleReturnFragment extends Fragment {
                 startActivityForResult(intent, 22);
             }
         });
+
+        mVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                Intent intent = new Intent(getContext(), GetSaleVoucherListActivity.class);
+                intent.putExtra("sale_return", true);
+                startActivityForResult(intent, 5);
+            }
+        });
+
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -320,6 +339,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mShippedTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -338,6 +358,7 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
+                    appUser = LocalRepositories.getAppUser(getActivity());
                   /*  Drawable dr = ((ImageView) mSelectedImage).getDrawable();
                     Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
                     TransactionDashboardActivity.bitmapPhoto=bitmap;*/
@@ -360,6 +381,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 TransportActivity.voucher_type = "sale_return";
                 Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
                 intent.putExtra("fromedit", fromedit);
@@ -391,6 +413,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (!Preferences.getInstance(getActivity()).getPurchase_type_name().equals("")) {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
@@ -406,6 +429,7 @@ public class CreateSaleReturnFragment extends Fragment {
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
@@ -420,7 +444,7 @@ public class CreateSaleReturnFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -433,6 +457,7 @@ public class CreateSaleReturnFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
                 appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -863,6 +888,21 @@ public class CreateSaleReturnFragment extends Fragment {
                 }
             }
         }
+
+        if (requestCode == 5) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
+                Preferences.getInstance(getContext()).setVoucher_name(result);
+                Preferences.getInstance(getContext()).setVoucher_id(id);
+                mVoucher.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //
+            }
+        }
     }
 
     @Override
@@ -955,9 +995,12 @@ public class CreateSaleReturnFragment extends Fragment {
             mMobileNumber.setText("");
             mVchNumber.setText("");
             mNarration.setText("");
+            mVoucher.setText("");
             encodedString = "";
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
+            Preferences.getInstance(getContext()).setVoucher_name("");
+            Preferences.getInstance(getContext()).setVoucher_id("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSaleReturn.clear();
@@ -1119,6 +1162,7 @@ public class CreateSaleReturnFragment extends Fragment {
             ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
             fromedit = true;
             mDate.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getDate()));
+            appUser.sale_return_date = Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getDate());
             mVchNumber.setText(response.getSale_return_voucher().getData().getAttributes().getVoucher_number());
             mSaleType.setText(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
             Preferences.getInstance(getApplicationContext()).setPurchase_type_name(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
@@ -1176,6 +1220,9 @@ public class CreateSaleReturnFragment extends Fragment {
                     sb.append(str).append(","); //separating contents using semi colon
                 }
                 String strfromArrayList = sb.toString();*/
+                if (response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                    mMap.put("business_type", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                }
                 mMap.put("serial_number", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
                 mMap.put("sale_unit", response.getSale_return_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit());
                 ArrayList<String> mUnitList = new ArrayList<>();
@@ -1321,9 +1368,12 @@ public class CreateSaleReturnFragment extends Fragment {
             Preferences.getInstance(getContext()).setNarration("");
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
+            Preferences.getInstance(getContext()).setVoucher_name("");
+            Preferences.getInstance(getContext()).setVoucher_id("");
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
+            mVoucher.setText("");
             encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
