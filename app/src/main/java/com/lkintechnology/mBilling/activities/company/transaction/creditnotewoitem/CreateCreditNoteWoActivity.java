@@ -783,6 +783,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             encodedString = "";
             Preferences.getInstance(getApplicationContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_id("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -904,6 +906,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         if (response.getStatus() == 200) {
             Preferences.getInstance(getApplicationContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_id("");
             //appUser.forAccountIntentBool=false;
             // appUser.forAccountIntentId="";
             //appUser.forAccountIntentName="";

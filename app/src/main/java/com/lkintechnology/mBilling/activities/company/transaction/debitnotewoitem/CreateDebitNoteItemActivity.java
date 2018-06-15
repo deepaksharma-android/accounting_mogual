@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.activities.company.transaction.debitnotewoitem;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -24,8 +25,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import java.util.Calendar;
@@ -39,6 +43,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
     private Calendar calendar;
     private RelativeLayout rootLayout;
     private int year, month, day;
+    private TextView mVoucher;
     String id="";
 
 
@@ -101,6 +106,8 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             tvDate.setText((String)map.get("date"));
             if(spGoodsKey1!=null) {
                 if (spGoodsKey1.equals("2")) {
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("purchase_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("purchase_id"));
                     tvITC.setVisibility(View.VISIBLE);
                     String group_type = goods.trim();
                     int groupindex = -1;
@@ -113,6 +120,8 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                     spChooseGoods.setSelection(groupindex);
                 }
                 else{
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("sale_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("sale_id"));
                     tvITC.setVisibility(View.GONE);
                 }
             }
@@ -152,6 +161,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             day = calendar.get(Calendar.DAY_OF_MONTH);
             showDate(year, month+1, day);
         }
+        mVoucher.setText(Preferences.getInstance(getApplicationContext()).getVoucher_name());
         if(state==null){
             state="Haryana";
         }
@@ -197,6 +207,21 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             etIGST.setVisibility(View.VISIBLE);
             tv_gst.setText("IGST %");
         }
+        mVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getApplicationContext());
+                if (spGoodsKey1.equals("2")){
+                    Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                    intent.putExtra("purchase_return", true);
+                    startActivityForResult(intent, 1);
+                }else {
+                    Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                    intent.putExtra("sale_return", true);
+                    startActivityForResult(intent, 1);
+                }
+            }
+        });
         etDifferenceAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -364,7 +389,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         tvDate= (TextView) findViewById(R.id.tv_date_select);
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
         rootSP= (LinearLayout) findViewById(R.id.root_sp);
-
+        mVoucher = (TextView) findViewById(R.id.voucher);
     }
 
     //  add action bar title here
@@ -417,6 +442,8 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                     mMap.put("sp_position",spGoodsKey1);
                                     mMap.put("date",tvDate.getText().toString());
                                     mMap.put("state",state);
+                                    mMap.put("sale_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                    mMap.put("sale_id",  Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                     if (!fromdebit) {
                                         appUser.mListMapForItemDebitNote.add(mMap);
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -465,6 +492,8 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("sp_position",spGoodsKey1);
                                         mMap.put("date",tvDate.getText().toString());
                                         mMap.put("state",state);
+                                        mMap.put("purchase_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                        mMap.put("purchase_id",  Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                         if (!fromdebit) {
                                             appUser.mListMapForItemDebitNote.add(mMap);
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -591,5 +620,20 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         tvDate.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                Preferences.getInstance(getApplicationContext()).setVoucher_name(result);
+                Preferences.getInstance(getApplicationContext()).setVoucher_id(id);
+                mVoucher.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //
+            }
+        }
+    }
 }

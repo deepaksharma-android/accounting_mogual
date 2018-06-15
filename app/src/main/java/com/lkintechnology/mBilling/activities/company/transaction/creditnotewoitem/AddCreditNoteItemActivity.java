@@ -177,6 +177,8 @@ public class AddCreditNoteItemActivity extends AppCompatActivity implements View
         public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_select_item:
+                Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+                Preferences.getInstance(getApplicationContext()).setVoucher_id("");
                 if (positionJournalVoucher!=null){
                 if (positionJournalVoucher.equals("6")) {
                     Intent intent = new Intent(this, CreateCreditNoteItemActivity.class);

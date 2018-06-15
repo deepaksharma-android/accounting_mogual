@@ -175,6 +175,8 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_select_item:
+                Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+                Preferences.getInstance(getApplicationContext()).setVoucher_id("");
                 if (journalVoucherPosition != null) {
                     if (journalVoucherPosition.equals("7")) {
                         Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);

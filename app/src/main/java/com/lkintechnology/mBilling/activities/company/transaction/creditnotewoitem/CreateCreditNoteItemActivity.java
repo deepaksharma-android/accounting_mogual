@@ -144,8 +144,6 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             }
 
         } else {
-            Preferences.getInstance(getApplicationContext()).setVoucher_name("");
-            Preferences.getInstance(getApplicationContext()).setVoucher_id("");
             amount = getIntent().getExtras().getString("amount");
             tvDiffAmount.setText(amount);
             etGST.setText("0.0");
@@ -162,12 +160,13 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             day = calendar.get(Calendar.DAY_OF_MONTH);
             showDate(year, month + 1, day);
         }
+        mVoucher.setText(Preferences.getInstance(getApplicationContext()).getVoucher_name());
 
         if (state == null || state.equals("")) {
             state = "Haryana";
 
         }
-        
+
         if (position != null) {
             if (position.equals("2")) {
                 spChooseGoods.setVisibility(View.VISIBLE);
