@@ -12,6 +12,22 @@ public class PurchaseReturnVoucherDetailsAttribute {
     public String purchase_id;
     public int company_id;
 
+    public String getPurchase_name() {
+        return purchase_name;
+    }
+
+    public void setPurchase_name(String purchase_name) {
+        this.purchase_name = purchase_name;
+    }
+
+    public String getPurchase_id() {
+        return purchase_id;
+    }
+
+    public void setPurchase_id(String purchase_id) {
+        this.purchase_id = purchase_id;
+    }
+
     public String getShipped_to_name() {
         return shipped_to_name;
     }

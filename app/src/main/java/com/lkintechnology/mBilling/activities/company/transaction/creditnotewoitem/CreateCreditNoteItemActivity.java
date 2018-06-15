@@ -47,6 +47,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     private EditText etIVNNo;
     private TextView tvDiffAmount;
     private TextView mVoucher;
+    private TextView mVoucherTitle;
     private TextView tvDate, etGST, etIGST, etCGST, etSGST, tvSGST, tvCGST, tvIGST, tvITC, tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
@@ -60,7 +61,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     private String chooseGoods[] = {"Input Goods", "Input Services", "Capital Goods", "None"};
     private String itempos;
     public Boolean fromcredit;
-    String id = "";
+    String id = "",title="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         appUser = LocalRepositories.getAppUser(this);
         initView();
         initialpageSetup();
+        title = "Purchase Voucher";
         mMap = new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
@@ -179,6 +181,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                 spChooseGoods.setVisibility(View.VISIBLE);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
+                mVoucherTitle.setText(title);
             } else {
                 tvITC.setVisibility(View.GONE);
             }
@@ -189,6 +192,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                 tvDiffAmount.setText(journalDiffAmount);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
+                mVoucherTitle.setText(title);
             } else {
                 tvITC.setVisibility(View.GONE);
             }
@@ -390,6 +394,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         ll_submit = (LinearLayout) findViewById(R.id.tv_submit);
         rootSP = (LinearLayout) findViewById(R.id.root_sp);
         mVoucher = (TextView) findViewById(R.id.voucher);
+        mVoucherTitle = (TextView) findViewById(R.id.voucher_title);
     }
 
     private void initialpageSetup() {

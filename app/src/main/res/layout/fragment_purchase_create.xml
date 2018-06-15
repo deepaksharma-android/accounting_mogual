@@ -171,6 +171,8 @@
                                 android:background="@android:color/transparent"
                                 android:hint="Enter Vch No"
                                 android:textColor="#000"
+                                android:inputType="text"
+                                android:maxLines="1"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>

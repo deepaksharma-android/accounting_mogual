@@ -25,6 +25,15 @@ public class Attributes {
     public Double amount;
     public String narration;
     public String invoice_html;
+    public String is_payment_settlement;
+
+    public String getIs_payment_settlement() {
+        return is_payment_settlement;
+    }
+
+    public void setIs_payment_settlement(String is_payment_settlement) {
+        this.is_payment_settlement = is_payment_settlement;
+    }
 
     public String getInvoice_html() {
         return invoice_html;

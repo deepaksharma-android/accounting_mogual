@@ -1193,6 +1193,11 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mShippedTo.setText(response.getPurchase_return_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getNarration()));
+            if (response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name()!=null && response.getPurchase_return_voucher().getData().getAttributes().getPurchase_id()!=null){
+                mVoucher.setText(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name());
+                Preferences.getInstance(getContext()).setVoucher_name(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name());
+                Preferences.getInstance(getContext()).setVoucher_id(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_id());
+            }
             Preferences.getInstance(getContext()).setStore(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center());
             Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setSale_type_name(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());

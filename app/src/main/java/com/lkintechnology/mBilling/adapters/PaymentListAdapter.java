@@ -49,27 +49,12 @@ public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.
         viewHolder.bank_edit_text4.setText(""+ String.format("%.2f",data.get(position).getAttributes().amount));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
 
-        //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
+        if (data.get(position).getAttributes().getIs_payment_settlement().equals("true")){
+            viewHolder.icon_delete.setVisibility(View.GONE);
+        }else {
+            viewHolder.icon_delete.setVisibility(View.VISIBLE);
+        }
 
-     /*   viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String payment_id=data.get(position).getId();
-                EventBus.getDefault().post(new EventDeletePayment(payment_id));
-            }
-        });
-
-        viewHolder.mEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i= new Intent(context, CreatePaymentActivity.class);
-                i.putExtra("fromPayment",true);
-                i.putExtra("from", "");
-                String payment_id=data.get(position).getId();
-                i.putExtra("id",payment_id);
-                context.startActivity(i);
-            }
-        });*/
         viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
