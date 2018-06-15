@@ -58,6 +58,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale_return.Ge
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
+import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.CreateSaleReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.UpdateSaleReturnResponse;
@@ -1350,7 +1351,14 @@ public class CreateSaleReturnFragment extends Fragment {
                     map.put("amount", response.getSale_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
                     appUser.paymentSettlementList.add(map);
                 }
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (appUser.paymentSettlementList.size() > 0) {
+                    PaymentSettleModel paymentSettleModel = new PaymentSettleModel();
+                    paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
+                    paymentSettleModel.setVoucher_type("sale_return");
+                    appUser.paymentSettlementHashMap.add(paymentSettleModel);
+                    // appUser.paymentSettlementHashMap.put(map1, paymentSettleModel);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
             }
         } else {
            /* snackbar = Snackbar

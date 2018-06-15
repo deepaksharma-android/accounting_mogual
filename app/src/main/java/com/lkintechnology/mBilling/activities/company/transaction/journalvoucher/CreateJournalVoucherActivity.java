@@ -1001,6 +1001,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 mMap.put("spRCNItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getRcm_nature());
                 mMap.put("goodsItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
                 mMap.put("spITCEligibility",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
+                if (response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_name()!=null
+                        && response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_id()!=null){
+                    mMap.put("sale_name",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_name());
+                    mMap.put("sale_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_id());
+                }else {
+                    mMap.put("purchase_name",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getPurchase_name());
+                    mMap.put("purchase_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getPurchase_id());
+                }
                 appUser.mListMapForItemJournalVoucherNote.add(mMap);
             }
             LocalRepositories.saveAppUser(this,appUser);
