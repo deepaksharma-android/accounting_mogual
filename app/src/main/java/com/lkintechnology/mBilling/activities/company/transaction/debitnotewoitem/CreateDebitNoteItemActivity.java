@@ -104,6 +104,12 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             spGoodsKey1=((String)map.get("sp_position"));
             String goods=((String)map.get("spITCEligibility"));
             tvDate.setText((String)map.get("date"));
+            if (journalVoucherPosition!=null) {
+                if (journalVoucherPosition.equals("7")) {
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("sale_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("sale_id"));
+                }
+            }
             if(spGoodsKey1!=null) {
                 if (spGoodsKey1.equals("2")) {
                     Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("purchase_name"));
@@ -211,14 +217,23 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getApplicationContext());
-                if (spGoodsKey1.equals("2")){
-                    Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
-                    intent.putExtra("purchase_return", true);
-                    startActivityForResult(intent, 1);
-                }else {
-                    Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
-                    intent.putExtra("sale_return", true);
-                    startActivityForResult(intent, 1);
+                if (spGoodsKey1!=null) {
+                    if (spGoodsKey1.equals("2")) {
+                        Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                        intent.putExtra("purchase_return", true);
+                        startActivityForResult(intent, 1);
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                        intent.putExtra("sale_return", true);
+                        startActivityForResult(intent, 1);
+                    }
+                }
+                if(journalVoucherPosition!=null){
+                    if(journalVoucherPosition.equals("7")){
+                        Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                        intent.putExtra("sale_return", true);
+                        startActivityForResult(intent, 1);
+                    }
                 }
             }
         });
@@ -547,6 +562,8 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                         mMap.put("gst_pos7", journalVoucherPosition);
                                         mMap.put("date",tvDate.getText().toString());
                                         mMap.put("state",state);
+                                        mMap.put("sale_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                        mMap.put("sale_id",  Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                         if (!fromdebit) {
                                             appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

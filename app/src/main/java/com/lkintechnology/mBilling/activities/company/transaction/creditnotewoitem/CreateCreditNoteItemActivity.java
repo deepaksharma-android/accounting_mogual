@@ -110,6 +110,13 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             position = ((String) map.get("sp_position"));
             String goods = ((String) map.get("spITCEligibility"));
             tvDate.setText((String) map.get("date"));
+
+            if (journalVoucherPosition != null) {
+                if (journalVoucherPosition.equals("6")) {
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("purchase_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("purchase_id"));
+                }
+            }
             if (position != null) {
                 if (position.equals("2")) {
                     Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("purchase_name"));
@@ -211,14 +218,23 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getApplicationContext());
-                if (position.equals("2")){
-                    Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
-                    intent.putExtra("purchase_return", true);
-                    startActivityForResult(intent, 1);
-                }else {
-                    Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
-                    intent.putExtra("sale_return", true);
-                    startActivityForResult(intent, 1);
+                if (position!=null) {
+                    if (position.equals("2")) {
+                        Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                        intent.putExtra("purchase_return", true);
+                        startActivityForResult(intent, 1);
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                        intent.putExtra("sale_return", true);
+                        startActivityForResult(intent, 1);
+                    }
+                }
+                if(journalVoucherPosition!=null){
+                    if(journalVoucherPosition.equals("6")){
+                        Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                        intent.putExtra("purchase_return", true);
+                        startActivityForResult(intent, 1);
+                    }
                 }
             }
         });
@@ -545,6 +561,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("state", state);
                                         mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("purchase_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                        mMap.put("purchase_id",  Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                         if (!fromcredit) {
                                             appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);

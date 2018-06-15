@@ -12,6 +12,24 @@ public class SaleReturnVoucherDetailsAttribute {
     public int purchase_type_id;
     public String sale_voucher_name;
     public String sale_voucher_id;
+    public String sale_id;
+    public String sale_name;
+
+    public String getSale_id() {
+        return sale_id;
+    }
+
+    public void setSale_id(String sale_id) {
+        this.sale_id = sale_id;
+    }
+
+    public String getSale_name() {
+        return sale_name;
+    }
+
+    public void setSale_name(String sale_name) {
+        this.sale_name = sale_name;
+    }
 
     public String getSale_voucher_name() {
         return sale_voucher_name;

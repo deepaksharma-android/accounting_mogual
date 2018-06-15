@@ -8,6 +8,8 @@ public class PurchaseReturnVoucherDetailsAttribute {
     public String voucher_series;
     public String shipped_to_name;
     public String shipped_to_id;
+    public String purchase_name;
+    public String purchase_id;
     public int company_id;
 
     public String getShipped_to_name() {

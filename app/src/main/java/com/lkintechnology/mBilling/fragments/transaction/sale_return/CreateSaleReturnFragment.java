@@ -1171,6 +1171,11 @@ public class CreateSaleReturnFragment extends Fragment {
             mShippedTo.setText(response.getSale_return_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getNarration()));
+            if (response.getSale_return_voucher().getData().getAttributes().getSale_name()!=null){
+                mVoucher.setText(response.getSale_return_voucher().getData().getAttributes().getSale_name());
+                Preferences.getInstance(getContext()).setVoucher_name(response.getSale_return_voucher().getData().getAttributes().getSale_name());
+                Preferences.getInstance(getContext()).setVoucher_id(response.getSale_return_voucher().getData().getAttributes().getSale_id());
+            }
             Preferences.getInstance(getContext()).setStore(response.getSale_return_voucher().getData().getAttributes().getMaterial_center());
             Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_return_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setPurchase_type_name(response.getSale_return_voucher().getData().getAttributes().getPurchase_type());
