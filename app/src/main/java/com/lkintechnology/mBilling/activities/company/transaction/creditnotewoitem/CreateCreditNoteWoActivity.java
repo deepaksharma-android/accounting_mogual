@@ -885,10 +885,17 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 if(!response.getCredit_note().getData().getAttributes().getAccount_credit().getState().equals("")) {
                     mMap.put("state", response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
                     state=response.getCredit_note().getData().getAttributes().getAccount_credit().getState();
-
                 }
                 else{
                     mMap.put("state","Haryana");
+                }
+                if (response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_name()!=null
+                        && response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_id()!=null){
+                    mMap.put("sale_name",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_name());
+                    mMap.put("sale_id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_id());
+                }else {
+                    mMap.put("purchase_name",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getPurchase_name());
+                    mMap.put("purchase_id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getPurchase_id());
                 }
                 appUser.mListMapForItemCreditNote.add(mMap);
             }

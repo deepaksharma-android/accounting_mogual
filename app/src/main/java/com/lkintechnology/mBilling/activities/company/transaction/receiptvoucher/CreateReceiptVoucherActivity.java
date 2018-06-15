@@ -112,6 +112,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     LinearLayout mBrowseImage;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
+    @Bind(R.id.submit_layout)
+    LinearLayout submit_layout;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     @Bind(R.id.update)
@@ -1067,7 +1069,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 received_by_layout.setClickable(false);
                 mBrowseImage.setClickable(false);
                 mSelectedImage.setClickable(false);
-                mUpdate.setVisibility(View.GONE);
+                submit_layout.setVisibility(View.GONE);
             }
             set_date.setText(response.getReceipt_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getReceipt_voucher().getData().getAttributes().getVoucher_number());

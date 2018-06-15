@@ -870,6 +870,14 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 else{
                     mMap.put("state","Haryana");
                 }
+                if (response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getSale_name()!=null
+                        && response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getSale_id()!=null){
+                    mMap.put("sale_name",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getSale_name());
+                    mMap.put("sale_id",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getSale_id());
+                }else {
+                    mMap.put("purchase_name",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getPurchase_name());
+                    mMap.put("purchase_id",response.getDebit_note().getData().getAttributes().getDebit_note_item().getData().get(i).getAttributes().getPurchase_id());
+                }
                 appUser.mListMapForItemDebitNote.add(mMap);
             }
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

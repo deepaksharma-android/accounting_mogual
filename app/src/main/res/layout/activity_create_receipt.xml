@@ -601,6 +601,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/submit_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="90dp"
                     android:background="#fff"
