@@ -1040,13 +1040,11 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                 LocalRepositories.saveAppUser(this, appUser);
                 for (int i = 0; i < response.getItem().getData().getAttributes().getOpeningstockbarcode().size(); i++) {
                     appUser.stock_serial_arr.add(response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i));
-                    LocalRepositories.saveAppUser(this, appUser);
                     str += response.getItem().getData().getAttributes().getOpeningstockbarcode().get(i) + ",";
                 }
+                LocalRepositories.saveAppUser(this, appUser);
                 Preferences.getInstance(getApplicationContext()).setStockSerial(str);
             }
-            Timber.i("cccccc " + str);
-            Timber.i("cccccc " + appUser.stock_serial_arr.toString());
             if (response.getItem().getData().getAttributes().getItem_description() != null) {
                 Preferences.getInstance(getApplicationContext()).setitem_description(String.valueOf(response.getItem().getData().getAttributes().getItem_description()));
             }

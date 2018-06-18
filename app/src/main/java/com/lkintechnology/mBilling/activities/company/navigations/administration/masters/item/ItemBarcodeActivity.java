@@ -24,12 +24,16 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
+import java.util.ArrayList;
+
 public class ItemBarcodeActivity extends AppCompatActivity {
     AppUser appUser;
     String serial;
     String listString;
     public static int flag = 0;
     int pos;
+    public ArrayList<String> serial_local_arr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +42,8 @@ public class ItemBarcodeActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(getApplicationContext());
         initActionbar();
         serial = getIntent().getStringExtra("serial");
-        pos = getIntent().getIntExtra("businessType",0);
-
+        pos = getIntent().getIntExtra("businessType", 0);
+        serial_local_arr = new ArrayList<>();
 
         LinearLayout serialLayout = (LinearLayout) findViewById(R.id.main_layout);
         RelativeLayout submit = (RelativeLayout) findViewById(R.id.submit);
@@ -68,6 +72,7 @@ public class ItemBarcodeActivity extends AppCompatActivity {
             pairs[l].setTextColor(Color.BLACK);
             pairs[l].setLayoutParams(lp);
             pairs[l].setId(l);
+            pairs[l].setMaxLines(1);
             //pairs[l].setText((l + 1) + ": something");
             serialLayout.addView(pairs[l]);
         }
@@ -75,21 +80,110 @@ public class ItemBarcodeActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  appUser.stock_serial_arr.add("3");
-                Preferences.getInstance(getApplicationContext()).setSerial("");
-                appUser.stock_serial_arr.clear();
-                // appUser.stock_item_serail_arr.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                serial_local_arr.clear();
                 boolean isbool = false;
                 int count = 0;
-                for (int i = 0; i < Integer.parseInt(serial); i++) {
-                    if (pos==0) {
+                if (pos == 0) {
+                    for (int i = 0; i < Integer.parseInt(serial); i++) {
                         if (pairs[i].getText().toString().length() == 15) {
+                            if (serial_local_arr.contains(pairs[i].getText().toString())) {
+                                try {
+                                    serial_local_arr.add(i, "");
+                                } catch (IndexOutOfBoundsException e) {
+                                }
+                            } else {
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if ((serial_local_arr.size() - 1) == i) {
+                                        serial_local_arr.set(i, pairs[i].getText().toString());
+                                    } else {
+                                        serial_local_arr.add(pairs[i].getText().toString());
+                                    }
+                                } else {
+                                    serial_local_arr.add(i, "");
+                                }
+                            }
+                            isbool = true;
+                        } else {
+                            if (pairs[i].getText().toString().equals("")){
+                                isbool = true;
+                            }else {
+                                isbool = false;
+                                count = i;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < Integer.parseInt(serial); i++) {
+                        if (pairs[i].getText().toString().length() > 0) {
+                            if (serial_local_arr.contains(pairs[i].getText().toString())) {
+                                try {
+                                    serial_local_arr.add(i, "");
+                                } catch (IndexOutOfBoundsException e) {
+                                }
+                            } else {
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if ((serial_local_arr.size() - 1) == i) {
+                                        serial_local_arr.set(i, pairs[i].getText().toString());
+                                    } else {
+                                        serial_local_arr.add(pairs[i].getText().toString());
+                                    }
+
+                                } else {
+                                    serial_local_arr.add(i, "");
+                                }
+                            }
+                            isbool=true;
+                        } else {
+                            count++;
+                        }
+                    }
+                }
+                if (Integer.parseInt(serial) == count) {
+                    isbool = true;
+                }
+                if (isbool) {
+                    if (serial_local_arr.size() > 0) {
+                        Preferences.getInstance(getApplicationContext()).setStockSerial("");
+                        appUser.stock_item_serail_arr.clear();
+                        appUser.stock_serial_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        listString = "";
+                        for (int j = 0; j < serial_local_arr.size(); j++) {
+                            if (!serial_local_arr.get(j).equals("")) {
+                                appUser.stock_serial_arr.add(serial_local_arr.get(j));
+                                appUser.stock_item_serail_arr.add(serial_local_arr.get(j));
+                                listString += serial_local_arr.get(j) + ",";
+                            }
+                        }
+                        Preferences.getInstance(getApplication()).setStockSerial(listString);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("serial", listString);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else {
+                    Toast.makeText(ItemBarcodeActivity.this, pairs[count].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                }
+
+                       /* } else {
+                            if (pairs[i].getText().toString().equals("")) {
+                                isbool = true;
+                            } else {
+                                isbool = false;
+                                Toast.makeText(ItemBarcodeActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }*/
+                /* else {
+                    for (int i = 0; i < Integer.parseInt(serial); i++) {
+                        if (pairs[i].getText().toString().length() > 0) {
                             if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
                                 pairs[i].setText("");
-                                try{
+                                try {
                                     appUser.stock_serial_arr.add(i, "");
-                                }catch (IndexOutOfBoundsException e){
+                                } catch (IndexOutOfBoundsException e) {
 
                                 }
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -139,88 +233,17 @@ public class ItemBarcodeActivity extends AppCompatActivity {
                             //mSr_no.setText(listString);
                             isbool = true;
                         } else {
-                            if (pairs[i].getText().toString().equals("")) {
-                                isbool = true;
-                            } else {
-                                isbool = false;
-                                Toast.makeText(ItemBarcodeActivity.this, pairs[i].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }
-                    } else {
-                        if (pairs[i].getText().toString().length() > 0) {
-                            if (appUser.stock_serial_arr.contains(pairs[i].getText().toString())) {
-                                pairs[i].setText("");
-                                try{
-                                    appUser.stock_serial_arr.add(i, "");
-                                }catch (IndexOutOfBoundsException e){
-
-                                }
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                // Toast.makeText(ItemOpeningStockActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
-                            } else {
-
-                                if (!pairs[i].getText().toString().equals("")) {
-                                    if ((appUser.stock_serial_arr.size() - 1) == i) {
-                                        appUser.stock_serial_arr.set(i, pairs[i].getText().toString());
-                                    } else {
-                                        appUser.stock_serial_arr.add(pairs[i].getText().toString());
-                                    }
-
-                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                } else {
-                                    appUser.stock_serial_arr.add(i, "");
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-
-                                }
-                            }
-                            Preferences.getInstance(getApplicationContext()).setStockSerial("");
-                            appUser.stock_item_serail_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            for (int j = 0; j < appUser.stock_serial_arr.size(); j++) {
-                                if (!appUser.stock_serial_arr.get(j).equals("")) {
-                                    appUser.stock_item_serail_arr.add(appUser.stock_serial_arr.get(j));
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                }
-                            }
-
-                            appUser.stock_serial_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            for (int k = 0; k < appUser.stock_item_serail_arr.size(); k++) {
-                                appUser.stock_serial_arr.add(appUser.stock_item_serail_arr.get(k));
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            }
-
-
-                            listString = "";
-
-                            for (String s : appUser.stock_item_serail_arr) {
-                                listString += s + ",";
-                            }
-                            Preferences.getInstance(getApplication()).setStockSerial(listString);
-                            //mSr_no.setText(listString);
-                            isbool = true;
-                        }else {
                             count++;
                         }
                     }
-                }
-                if (Integer.parseInt(serial)==count){
+                }*/
+               /* if (Integer.parseInt(serial) == count) {
                     isbool = true;
-                   // mSr_no.setText("");
+                    // mSr_no.setText("");
                     //listString="";
                     appUser.stock_item_serail_arr.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                }
-                if (isbool) {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("serial", listString);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-
-                }
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }*/
             }
         });
     }

@@ -42,6 +42,8 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.Format;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.dm7.barcodescanner.zbar.Result;
@@ -205,13 +207,13 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         stockprice = Double.valueOf(mStockPrice.getText().toString());
                         if (!mStockQuantity.getText().toString().isEmpty()) {
                             stockquantity = Double.valueOf(mStockQuantity.getText().toString());
-                            mStockValue.setText("" + (stockquantity * stockprice));
+                            Double price = stockprice*stockquantity;
+                            mStockValue.setText(String.format("%.2f",price,10));
                         }
                     } else {
                         mStockValue.setText("");
                     }
                 }
-
             }
 
             @Override
@@ -371,6 +373,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Preferences.getInstance(getApplicationContext()).setStockSerial("");
                     ItemBarcodeActivity.flag=0;
                     if (batchwise.equals("Yes") && serailwise.equals("No")) {
                         serial = "1";
@@ -388,12 +391,11 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         String serialnumber = mSr_no.getText().toString();
                         String[] arr = serialnumber.split(",");
                         int qt = Integer.valueOf(mStockQuantity.getText().toString());
+                        appUser.stock_serial_arr.clear();
+                        appUser.stock_item_serail_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        String listString = "";
                         if (qt < arr.length ) {
-                            // barcodeArray = new String[0];
-                            String listString = "";
-                            appUser.stock_serial_arr.clear();
-                            appUser.stock_item_serail_arr.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             for (int i = 0; i < qt; i++) {
                                 listString += arr[i] + ",";
                                 appUser.stock_serial_arr.add(arr[i]);
@@ -402,6 +404,14 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             mSr_no.setText(listString);
                             Preferences.getInstance(getApplicationContext()).setStockSerial(listString);
+                        }else {
+                            for (int i = 0; i < arr.length; i++) {
+                                listString += arr[i] + ",";
+                                appUser.stock_serial_arr.add(arr[i]);
+                                appUser.stock_item_serail_arr.add(arr[i]);
+                            }
+                            Preferences.getInstance(getApplicationContext()).setStockSerial(listString);
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         }
                         int pos;
                         if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
@@ -425,6 +435,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             appUser.stock_serial_arr.clear();
                             appUser.stock_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            Preferences.getInstance(getApplicationContext()).setStockSerial("");
                             mSr_no.setText("");
 
                         }

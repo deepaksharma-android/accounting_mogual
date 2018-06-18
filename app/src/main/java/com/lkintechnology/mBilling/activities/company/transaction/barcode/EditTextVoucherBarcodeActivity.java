@@ -68,6 +68,7 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
             pairs[l].setHintTextColor(Color.GRAY);
             pairs[l].setTextColor(Color.BLACK);
             pairs[l].setLayoutParams(lp);
+            pairs[l].setMaxLines(1);
             pairs[l].setId(l);
             //pairs[l].setText((l + 1) + ": something");
             serialLayout.addView(pairs[l]);
