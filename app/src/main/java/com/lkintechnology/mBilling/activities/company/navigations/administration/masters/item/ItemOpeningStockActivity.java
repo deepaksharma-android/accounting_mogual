@@ -130,6 +130,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ItemBarcodeActivity.flag=1;
                 if (CreateNewItemActivity.isForEdit) {
                     if (i == 0) {
                         appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
@@ -158,14 +159,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 } else {
                     mStockValue.setText("");
                 }
-               /* boolean startCount = false;
-                if(start>0){
-                    System.out.println(start);
-                    System.out.println(before);
-                    System.out.println(count);
-                    startCount = true;
-                }*/
-                if (start==0){
+               /* if (start==0){
                     if (!mStockQuantity.getText().toString().isEmpty()) {
                         if (!mStockQuantity.getText().toString().equals("")) {
                             String serialnumber = mSr_no.getText().toString();
@@ -188,7 +182,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                             }
                         }
                     }
-                }
+                }*/
             }
 
             @Override
@@ -377,6 +371,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
             mSerialNumberLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ItemBarcodeActivity.flag=0;
                     if (batchwise.equals("Yes") && serailwise.equals("No")) {
                         serial = "1";
                     } else if (batchwise.equals("No") && serailwise.equals("Yes")) {
@@ -390,6 +385,24 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                         serial = "0";
                     }
                     if (!serial.equals("0")) {
+                        String serialnumber = mSr_no.getText().toString();
+                        String[] arr = serialnumber.split(",");
+                        int qt = Integer.valueOf(mStockQuantity.getText().toString());
+                        if (qt < arr.length ) {
+                            // barcodeArray = new String[0];
+                            String listString = "";
+                            appUser.stock_serial_arr.clear();
+                            appUser.stock_item_serail_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            for (int i = 0; i < qt; i++) {
+                                listString += arr[i] + ",";
+                                appUser.stock_serial_arr.add(arr[i]);
+                                appUser.stock_item_serail_arr.add(arr[i]);
+                            }
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            mSr_no.setText(listString);
+                            Preferences.getInstance(getApplicationContext()).setStockSerial(listString);
+                        }
                         int pos;
                         if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
                             pos = 0;
@@ -663,6 +676,14 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 if (aDouble==0 | mStockQuantity.getText().toString().equals("")) {
                     Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                     return;
+                }
+                if (aDouble != 0 && !mStockQuantity.getText().toString().equals("")){
+                    if (!mSr_no.getText().toString().equals("")){
+                        if (ItemBarcodeActivity.flag==1){
+                            Snackbar.make(coordinatorLayout, "Please select serial number!", Snackbar.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
                 }
                 appUser.barcode_voucher_type = "item";
                 appUser.item_id = appUser.edit_item_id;

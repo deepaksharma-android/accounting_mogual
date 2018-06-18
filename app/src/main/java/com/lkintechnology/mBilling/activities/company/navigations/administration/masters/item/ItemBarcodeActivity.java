@@ -28,6 +28,7 @@ public class ItemBarcodeActivity extends AppCompatActivity {
     AppUser appUser;
     String serial;
     String listString;
+    public static int flag = 0;
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

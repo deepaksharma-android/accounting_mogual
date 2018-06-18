@@ -28,6 +28,7 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
     AppUser appUser;
     String serial;
     String listString,quantity;
+    public static int flag = 0;
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
