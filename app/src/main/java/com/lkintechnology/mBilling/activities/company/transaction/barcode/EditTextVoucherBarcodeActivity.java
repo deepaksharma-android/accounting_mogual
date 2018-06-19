@@ -22,7 +22,10 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import java.util.ArrayList;
 
 public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
     AppUser appUser;
@@ -30,6 +33,7 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
     String listString,quantity;
     public static int flag = 0;
     int pos;
+    public ArrayList<String> serial_local_arr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +44,7 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
         serial = getIntent().getStringExtra("serial");
         quantity = getIntent().getStringExtra("quantity");
         pos = getIntent().getIntExtra("businessType",0);
-
+        serial_local_arr = new ArrayList<>();
         LinearLayout serialLayout = (LinearLayout) findViewById(R.id.main_layout);
         RelativeLayout submit = (RelativeLayout) findViewById(R.id.submit);
         LinearLayout serial_layout = (LinearLayout) findViewById(R.id.serial_layout);
@@ -69,11 +73,105 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
             pairs[l].setTextColor(Color.BLACK);
             pairs[l].setLayoutParams(lp);
             pairs[l].setMaxLines(1);
+            pairs[l].setMaxLines(1);
             pairs[l].setId(l);
             //pairs[l].setText((l + 1) + ": something");
             serialLayout.addView(pairs[l]);
         }
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serial_local_arr.clear();
+                boolean isbool = false;
+                int count = 0;
+                if (pos == 0) {
+                    for (int i = 0; i < Integer.parseInt(serial); i++) {
+                        if (pairs[i].getText().toString().length() == 15) {
+                            if (serial_local_arr.contains(pairs[i].getText().toString())) {
+                                try {
+                                    serial_local_arr.add(i, "");
+                                } catch (IndexOutOfBoundsException e) {
+                                }
+                            } else {
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if ((serial_local_arr.size() - 1) == i) {
+                                        serial_local_arr.set(i, pairs[i].getText().toString());
+                                    } else {
+                                        serial_local_arr.add(pairs[i].getText().toString());
+                                    }
+                                } else {
+                                    serial_local_arr.add(i, "");
+                                }
+                            }
+                            isbool = true;
+                        } else {
+                            if (pairs[i].getText().toString().equals("")){
+                                isbool = true;
+                            }else {
+                                isbool = false;
+                                count = i;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < Integer.parseInt(serial); i++) {
+                        if (pairs[i].getText().toString().length() > 0) {
+                            if (serial_local_arr.contains(pairs[i].getText().toString())) {
+                                try {
+                                    serial_local_arr.add(i, "");
+                                } catch (IndexOutOfBoundsException e) {
+                                }
+                            } else {
+                                if (!pairs[i].getText().toString().equals("")) {
+                                    if ((serial_local_arr.size() - 1) == i) {
+                                        serial_local_arr.set(i, pairs[i].getText().toString());
+                                    } else {
+                                        serial_local_arr.add(pairs[i].getText().toString());
+                                    }
+
+                                } else {
+                                    serial_local_arr.add(i, "");
+                                }
+                            }
+                            isbool=true;
+                        } else {
+                            count++;
+                        }
+                    }
+                }
+                if (Integer.parseInt(serial) == count) {
+                    isbool = true;
+                }
+                if (isbool) {
+                    if (serial_local_arr.size() > 0) {
+                        appUser.serial_arr.clear();
+                        appUser.purchase_item_serail_arr.clear();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        listString = "";
+                        for (int j = 0; j < serial_local_arr.size(); j++) {
+                            if (!serial_local_arr.get(j).equals("")) {
+                                appUser.serial_arr.add(serial_local_arr.get(j));
+                                appUser.purchase_item_serail_arr.add(serial_local_arr.get(j));
+                                listString += serial_local_arr.get(j) + ",";
+                            }
+                        }
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    }
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("serial", listString);
+                    returnIntent.putExtra("quantity", quantity);
+                    returnIntent.putExtra("boolForBarcode",false);
+                    returnIntent.putExtra("textChange",false);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else {
+                    Toast.makeText(EditTextVoucherBarcodeActivity.this, pairs[count].getText().toString() + " is not a IMEI number", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+/*
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,13 +300,13 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
                         }
                     }
                 }
-                /*if (Integer.parseInt(serial)==count){
+                if (Integer.parseInt(serial)==count){
                     isbool = true;
                    // mSr_no.setText("");
                     listString = "";
                     appUser.purchase_item_serail_arr.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                }*/
+                }
                 if (isbool) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("serial", listString);
@@ -219,7 +317,7 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        });
+        });*/
     }
 
     private int getWidth() {

@@ -1053,30 +1053,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         mTotal.setText("0.0");
                     }
                 }
-              /*  if (start == 0) {
-                    if (!mQuantity.getText().toString().isEmpty()) {
-                        if (!mQuantity.getText().toString().equals("")) {
-                            serialnumber = mSr_no.getText().toString();
-                            String[] arr = serialnumber.split(",");
-                            int qt = Integer.valueOf(mQuantity.getText().toString());
-                            if (qt < arr.length && qt > 0) {
-                                // barcodeArray = new String[0];
-                                PurchaseAddItemActivity.boolForBarcode = false;
-                                String listString = "";
-                                appUser.serial_arr.clear();
-                                appUser.purchase_item_serail_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                for (int i = 0; i < qt; i++) {
-                                    listString += arr[i] + ",";
-                                    appUser.serial_arr.add(arr[i]);
-                                    appUser.purchase_item_serail_arr.add(arr[i]);
-                                }
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                mSr_no.setText(listString);
-                            }
-                        }
-                    }
-                }*/
             }
 
             @Override
