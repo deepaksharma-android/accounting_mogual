@@ -50,10 +50,12 @@ public class ReceiptVoucherListAdapter extends  RecyclerView.Adapter<ReceiptVouc
         viewHolder.bank_edit_text4.setText(""+ String.format("%.2f",data.get(position).getAttributes().getAmount()));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
-        if (data.get(position).getAttributes().getIs_payment_settlement().equals("true")){
-            viewHolder.icon_delete.setVisibility(View.GONE);
-        }else {
-            viewHolder.icon_delete.setVisibility(View.VISIBLE);
+        if (data.get(position).getAttributes().getIs_payment_settlement()!=null){
+            if (data.get(position).getAttributes().getIs_payment_settlement().equals("true")){
+                viewHolder.icon_delete.setVisibility(View.GONE);
+            }else {
+                viewHolder.icon_delete.setVisibility(View.VISIBLE);
+            }
         }
         viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override

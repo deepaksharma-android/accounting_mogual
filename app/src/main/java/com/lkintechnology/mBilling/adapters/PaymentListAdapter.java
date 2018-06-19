@@ -49,10 +49,12 @@ public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.
         viewHolder.bank_edit_text4.setText(""+ String.format("%.2f",data.get(position).getAttributes().amount));
         viewHolder.bank_edit_text5.setText(data.get(position).getAttributes().voucher_number);
 
-        if (data.get(position).getAttributes().getIs_payment_settlement().equals("true")){
-            viewHolder.icon_delete.setVisibility(View.GONE);
-        }else {
-            viewHolder.icon_delete.setVisibility(View.VISIBLE);
+        if (data.get(position).getAttributes().getIs_payment_settlement()!=null){
+            if (data.get(position).getAttributes().getIs_payment_settlement().equals("true")){
+                viewHolder.icon_delete.setVisibility(View.GONE);
+            }else {
+                viewHolder.icon_delete.setVisibility(View.VISIBLE);
+            }
         }
 
         viewHolder.main_layout.setOnClickListener(new View.OnClickListener() {
