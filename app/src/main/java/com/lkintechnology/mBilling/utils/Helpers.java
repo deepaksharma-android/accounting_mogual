@@ -45,6 +45,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -307,5 +309,23 @@ public class Helpers {
                 }).show();
                /* .setNegativeButton(R.string.btn_cancel, null)
                 .show();*/
+    }
+
+    public static List<String> mergeTwoArray(String[] arr1, List listArr){
+
+        List<String> list = new ArrayList<>();
+        boolean flag = false;
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < listArr.size(); j++) {
+                if (arr1[i].equals(listArr.get(j).toString())) {
+                    flag = true;
+                }
+            }
+            if (!flag) {
+                list.add(arr1[i]);
+            }
+            flag = false;
+        }
+        return list;
     }
 }

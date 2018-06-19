@@ -37,6 +37,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckB
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
@@ -526,24 +527,24 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                     if (mQuantity.getText().toString().equals("")) {
                         serial = "0";
                     } else {
-                        voucher_barcode = mSr_no.getText().toString();
+                        String  voucher_barcode = mSr_no.getText().toString();
                         String[] arr = voucher_barcode.split(",");
                         int qt = Integer.valueOf(mQuantity.getText().toString());
+                        List<String> list;
+
                         if (qt > 0) {
                             int count = 0;
-                            // barcodeArray = new String[0];
-                            for (int i = 0; i < serialNoPurchaseReturn.size(); i++) {
-                                if (serialNoPurchaseReturn.get(i).equals("true")) {
-                                    count++;
-                                }
+                            if (arr.length>1){
+                                list = new ArrayList<>();
+                                list = Helpers.mergeTwoArray(arr,arr_barcode);
+                                arr_barcode.addAll(list);
                             }
-                            if (qt < CheckBoxVoucherBarcodeActivity.locQuantity) {
+                            serialNoPurchaseReturn.clear();
+                            for (int i = 0; i < arr_barcode.size(); i++) {
+                                serialNoPurchaseReturn.add("false");
+                            }
+                            if (qt < arr.length) {
                                 String listString = "";
-                                count = 0;
-                                serialNoPurchaseReturn.clear();
-                                for (int i = 0; i < arr_barcode.size(); i++) {
-                                    serialNoPurchaseReturn.add("false");
-                                }
                                 appUser.sale_item_serial_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 for (int j = 0; j < qt; j++) {
@@ -556,6 +557,25 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
                                     }
                                     listString += arr[j] + ",";
                                     appUser.sale_item_serial_arr.add(arr[j]);
+                                }
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                mSr_no.setText(listString);
+                            }else {
+                                if (!mSr_no.getText().toString().equals("")) {
+                                    String listString = "";
+                                    appUser.sale_item_serial_arr.clear();
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                    for (int j = 0; j < arr.length; j++) {
+                                        for (int k = 0; k < arr_barcode.size(); k++) {
+                                            if (arr[j].equals(arr_barcode.get(k).toString())) {
+                                                serialNoPurchaseReturn.remove(k);
+                                                serialNoPurchaseReturn.add(k, "true");
+                                                count++;
+                                            }
+                                        }
+                                        listString += arr[j] + ",";
+                                        appUser.sale_item_serial_arr.add(arr[j]);
+                                    }
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     mSr_no.setText(listString);
                                 }
