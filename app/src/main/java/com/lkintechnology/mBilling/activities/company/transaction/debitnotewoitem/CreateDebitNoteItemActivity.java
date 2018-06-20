@@ -37,14 +37,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateDebitNoteItemActivity extends AppCompatActivity implements View.OnClickListener{
-   private EditText etIVNNo,etDifferenceAmount;
+    private EditText etIVNNo,etDifferenceAmount;
+    private TextView mVoucherTitle;
     private TextView tvSubmit,tvDate,etGST,etIGST,etCGST,etSGST,tvSGST,tvCGST,tvIGST,tvITC,tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
     private RelativeLayout rootLayout;
     private int year, month, day;
     private TextView mVoucher;
-    String id="";
+    String id="",title="";
 
 
      Map mMap;
@@ -65,6 +66,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         initActionbarSetup();
 
         initialpageSetup();
+        title = "Purchase Voucher";
         mMap=new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
@@ -177,6 +179,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                 spChooseGoods.setVisibility(View.VISIBLE);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
+                mVoucherTitle.setText(title);
             } else {
                 tvITC.setVisibility(View.GONE);
             }
@@ -405,6 +408,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
         ll_submit= (LinearLayout) findViewById(R.id.tv_submit);
         rootSP= (LinearLayout) findViewById(R.id.root_sp);
         mVoucher = (TextView) findViewById(R.id.voucher);
+        mVoucherTitle = (TextView) findViewById(R.id.voucher_title);
     }
 
     //  add action bar title here
