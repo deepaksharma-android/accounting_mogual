@@ -37,7 +37,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
     private String pos1,pos2,amount;
     private AddJournalVoucherItemAdapter addJournalItemAdapter;
     AppUser appUser;
-    String state;
+    String state,state_for_credit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
         pos1=getIntent().getStringExtra("gst_pos1");
         pos2=getIntent().getStringExtra("gst_pos2");
         state=getIntent().getStringExtra("state");
+        state_for_credit=getIntent().getStringExtra("state_for_credit");
         amount=getIntent().getStringExtra("diff_amount");
         createJournalList.setOnClickListener(this);
         llSubmit.setOnClickListener(this);
@@ -59,6 +60,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
                 Intent intent = new Intent(getApplicationContext(), CreateJournalItemActivity.class);
                 intent.putExtra("fromjournal", true);
                 intent.putExtra("state",state);
+                intent.putExtra("state_for_credit",state_for_credit);
                 intent.putExtra("diff_amount",amount);
                 intent.putExtra("pos",String.valueOf(i));
                 startActivity(intent);
@@ -129,6 +131,7 @@ public class AddJournalItemActivity extends AppCompatActivity implements View.On
                 intent.putExtra("gst_pos2",pos2);
                 intent.putExtra("diff_amount",amount);
                 intent.putExtra("state",state);
+                intent.putExtra("state_for_credit",state_for_credit);
                 startActivity(intent);
                 finish();
                 break;

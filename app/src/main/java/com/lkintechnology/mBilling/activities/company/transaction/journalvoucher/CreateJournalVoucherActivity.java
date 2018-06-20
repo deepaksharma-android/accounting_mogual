@@ -130,7 +130,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private String gst_nature_position;
-    String state;
+    String state,state_for_credit;
     private FirebaseAnalytics mFirebaseAnalytics;
     String gstnaturespinner;
 
@@ -528,6 +528,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent1.putExtra("diff_amount", transaction_amount.getText().toString());
                                 intent1.putExtra("gst_pos1", "1");
                                 intent1.putExtra("state", state);
+                                intent1.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent1);
                             }else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
@@ -550,6 +551,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent2.putExtra("diff_amount", transaction_amount.getText().toString());
                                 intent2.putExtra("gst_pos2", "2");
                                 intent2.putExtra("state", state);
+                                intent2.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent2);
                             }else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
@@ -572,6 +574,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent3.putExtra("gst_pos6", "6");
                                 intent3.putExtra("diff_amount", transaction_amount.getText().toString());
                                 intent3.putExtra("state", state);
+                                intent3.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent3);
                             }else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
@@ -594,6 +597,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent3.putExtra("gst_pos7", "7");
                                 intent3.putExtra("diff_amount", transaction_amount.getText().toString());
                                 intent3.putExtra("state", state);
+                                intent3.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent3);
                             }else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
@@ -790,6 +794,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     boolForReceivedBy = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
+                    state_for_credit=data.getStringExtra("state");
                     String[] name = result.split(",");
                     appUser.account_name_credit_id = id;
                     appUser.account_name_credit_name = name[0];

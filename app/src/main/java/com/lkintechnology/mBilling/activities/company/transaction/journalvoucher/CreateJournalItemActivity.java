@@ -67,16 +67,16 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
     Spinner spITCEligibility;
     String account_id;
     String party_id;
-   public Boolean fromjournal;
+    public Boolean fromjournal;
     private String itempos;
 
     private String chooseGoods[] = {" Input Goods", "Input Services", "Capital Goods", "None"};
-    private String chooseRCN[] = { "Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
+    private String chooseRCN[] = {"Based on daily limit", " Compulsary (Reg.Dealer)", "Compulsary (UnReg.Dealer)", "Service Import"};
     AppUser appUser;
     Map mMap;
-    private String spPos1, spPos2,amount;
-    String state;
-    String id="";
+    private String spPos1, spPos2, amount;
+    String state, state_for_credit;
+    String id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,36 +90,37 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         spPos1 = getIntent().getStringExtra("gst_pos1");
         spPos2 = getIntent().getStringExtra("gst_pos2");
         state = getIntent().getStringExtra("state");
+        state_for_credit = getIntent().getStringExtra("state_for_credit");
         amount = getIntent().getExtras().getString("diff_amount");
         etDiffAmount.setText(amount);
         etRate.setText("0.0");
         tvIGST.setText("0.0");
         tvCGST.setText("0.0");
         tvSgst.setText("0.0");
-        fromjournal=getIntent().getExtras().getBoolean("fromjournal");
+        fromjournal = getIntent().getExtras().getBoolean("fromjournal");
         llSubmit.setOnClickListener(this);
-        if(fromjournal){
-            itempos=getIntent().getExtras().getString("pos");
-            Map map=appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
-            id=(String)map.get("id");
-            String voucher_number= (String)map.get("inv_num");
-            String acount_name=(String)map.get("acount_name");
-            String party_name= (String)map.get("party_name");
-            String difference_amount=(String)map.get("difference_amount");
-            String sp1= (String)map.get("gst_pos1");
-            String sp2= (String)map.get("gst_pos2");
-            String rate= (String)map.get("rate");
-            String igst=(String)map.get("igst");
-            String cgst= (String)map.get("cgst");
-           // state=(String)map.get("state");
-            String sgst=(String)map.get("sgst");
-            String spRCNItem= (String)map.get("spRCNItem");
-            String ITCEligibility=(String)map.get("spITCEligibility");
+        if (fromjournal) {
+            itempos = getIntent().getExtras().getString("pos");
+            Map map = appUser.mListMapForItemJournalVoucherNote.get(Integer.parseInt(itempos));
+            id = (String) map.get("id");
+            String voucher_number = (String) map.get("inv_num");
+            String acount_name = (String) map.get("acount_name");
+            String party_name = (String) map.get("party_name");
+            String difference_amount = (String) map.get("difference_amount");
+            String sp1 = (String) map.get("gst_pos1");
+            String sp2 = (String) map.get("gst_pos2");
+            String rate = (String) map.get("rate");
+            String igst = (String) map.get("igst");
+            String cgst = (String) map.get("cgst");
+            // state=(String)map.get("state");
+            String sgst = (String) map.get("sgst");
+            String spRCNItem = (String) map.get("spRCNItem");
+            String ITCEligibility = (String) map.get("spITCEligibility");
             etIVNNo.setText(voucher_number);
             tvAccountName.setText(acount_name);
-            account_id=(String)map.get("account_id");
+            account_id = (String) map.get("account_id");
             tvPartyName.setText(party_name);
-            party_id=(String)map.get("party_id");
+            party_id = (String) map.get("party_id");
 
             //etDiffAmount.setText(difference_amount);
             etRate.setText(rate);
@@ -133,7 +134,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             tvSgst.setText(sgst);*/
             String group_type = spRCNItem.trim();
             int groupindex = -1;
-            for (int i = 0; i<chooseRCN.length; i++) {
+            for (int i = 0; i < chooseRCN.length; i++) {
                 if (chooseRCN[i].equals(group_type)) {
                     groupindex = i;
                     break;
@@ -143,32 +144,60 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             String group_type_spITCEligibility = ITCEligibility.trim();
             int groupindexspITCEligibility = -1;
-            for (int i = 0; i<chooseGoods.length; i++) {
+            for (int i = 0; i < chooseGoods.length; i++) {
                 if (chooseGoods[i].equals(group_type_spITCEligibility)) {
                     groupindexspITCEligibility = i;
                     break;
                 }
             }
             spITCEligibility.setSelection(groupindexspITCEligibility);
-            spPos1=sp1;
-            spPos2=sp2;
-            amount=difference_amount;
+            spPos1 = sp1;
+            spPos2 = sp2;
+            amount = difference_amount;
 
         }
-        if(state==null||state.equals("")){
+       /* if(state==null||state.equals("")){
             state="Haryana";
         }
+        if(state_for_credit==null||state_for_credit.equals("")){
+            state_for_credit="Haryana";
+        }*/
+        if ((state != null && !state.equals("") && (appUser.account_name_debit_name.equals("CREDIT NOTE")))) {
+            if ((state_for_credit != null && !state_for_credit.equals("")) && state_for_credit.equals(appUser.company_state)) {
+                mIgstLayout.setVisibility(View.GONE);
+                mCgstLayout.setVisibility(View.VISIBLE);
+                mSgstLayout.setVisibility(View.VISIBLE);
+            } else {
+                mIgstLayout.setVisibility(View.VISIBLE);
+                mCgstLayout.setVisibility(View.GONE);
+                mSgstLayout.setVisibility(View.GONE);
+            }
+        } else if ((state_for_credit != null && !state_for_credit.equals("") && (appUser.account_name_credit_name.equals("CREDIT NOTE")))) {
+            if ((state != null && !state.equals("")) && state.equals(appUser.company_state)) {
+                mIgstLayout.setVisibility(View.GONE);
+                mCgstLayout.setVisibility(View.VISIBLE);
+                mSgstLayout.setVisibility(View.VISIBLE);
+            } else {
+                mIgstLayout.setVisibility(View.VISIBLE);
+                mCgstLayout.setVisibility(View.GONE);
+                mSgstLayout.setVisibility(View.GONE);
+            }
+        } else {
+            if ((state != null && !state.equals("")) && state.equals(appUser.company_state)) {
+                mIgstLayout.setVisibility(View.GONE);
+                mCgstLayout.setVisibility(View.VISIBLE);
+                mSgstLayout.setVisibility(View.VISIBLE);
+            } else if ((state_for_credit != null && !state_for_credit.equals("")) && state_for_credit.equals(appUser.company_state)) {
+                mIgstLayout.setVisibility(View.GONE);
+                mCgstLayout.setVisibility(View.VISIBLE);
+                mSgstLayout.setVisibility(View.VISIBLE);
+            } else {
+                mIgstLayout.setVisibility(View.VISIBLE);
+                mCgstLayout.setVisibility(View.GONE);
+                mSgstLayout.setVisibility(View.GONE);
+            }
+        }
 
-        if(state.equals(appUser.company_state)){
-            mIgstLayout.setVisibility(View.GONE);
-            mCgstLayout.setVisibility(View.VISIBLE);
-            mSgstLayout.setVisibility(View.VISIBLE);
-        }
-        else{
-            mIgstLayout.setVisibility(View.VISIBLE);
-            mCgstLayout.setVisibility(View.GONE);
-            mSgstLayout.setVisibility(View.GONE);
-        }
         etDiffAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -177,7 +206,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(i2==0){
+                if (i2 == 0) {
                     //etDiffAmount.setText("0.0");
                     etRate.setText("0.0");
                     tvIGST.setText("0.0");
@@ -200,17 +229,17 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count==0){
+                if (count == 0) {
                     tvIGST.setText("0.0");
                     tvCGST.setText("0.0");
                     tvSgst.setText("0.0");
                 }
                 if (s.length() > 0) {
-                    Double amount =0.0,gst=0.0;
-                    if (!etDiffAmount.getText().toString().equals("")){
+                    Double amount = 0.0, gst = 0.0;
+                    if (!etDiffAmount.getText().toString().equals("")) {
                         amount = Double.parseDouble(etDiffAmount.getText().toString());
                     }
-                    if (!etRate.getText().toString().equals("")){
+                    if (!etRate.getText().toString().equals("")) {
                         gst = Double.parseDouble(etRate.getText().toString());
                     }
                     double percentage = (amount * gst) / 100;
@@ -219,7 +248,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                     tvCGST.setText(String.valueOf(halfPer));
                     tvIGST.setText(String.valueOf(percentage));
 
-                }else if (s.length()<=0){
+                } else if (s.length() <= 0) {
                     tvSgst.setText("");
                     tvCGST.setText("");
                 }
@@ -230,13 +259,13 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
 
             }
         });
-        appUser.account_master_group="";
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser.account_master_group = "";
+        LocalRepositories.saveAppUser(this, appUser);
         llAccountName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                ExpandableAccountListActivity.isDirectForAccount=false;
+                ExpandableAccountListActivity.isDirectForAccount = false;
                 startActivityForResult(intent, 1);
             }
         });
@@ -244,7 +273,7 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ExpandableAccountListActivity.class);
-                ExpandableAccountListActivity.isDirectForAccount=false;
+                ExpandableAccountListActivity.isDirectForAccount = false;
                 startActivityForResult(intent, 2);
             }
         });
@@ -252,10 +281,10 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         etDiffAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!etDiffAmount.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!etDiffAmount.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(etDiffAmount.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             etDiffAmount.setText("");
                         }
                     }
@@ -266,10 +295,10 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         etRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!etRate.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!etRate.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(etRate.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             etRate.setText("");
                         }
                     }
@@ -280,10 +309,10 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         tvIGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!tvIGST.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!tvIGST.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(tvIGST.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             tvIGST.setText("");
                         }
                     }
@@ -294,10 +323,10 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         tvCGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!tvCGST.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!tvCGST.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(tvCGST.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             tvCGST.setText("");
                         }
                     }
@@ -308,10 +337,10 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
         tvSgst.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!tvSgst.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!tvSgst.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(tvSgst.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             tvSgst.setText("");
                         }
                     }
@@ -364,25 +393,25 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
                                             //mMap.put("account_id", account_id);
-                                           // mMap.put("party_id", party_id);
+                                            // mMap.put("party_id", party_id);
                                             mMap.put("id", id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                           // mMap.put("acount_name", tvAccountName.getText().toString());
-                                           // mMap.put("party_name", tvPartyName.getText().toString());
+                                            // mMap.put("acount_name", tvAccountName.getText().toString());
+                                            // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            if(state.equals(appUser.company_state)){
+                                            if (state.equals(appUser.company_state) || state_for_credit.equals(appUser.company_state)) {
                                                 mMap.put("cgst", tvCGST.getText().toString());
                                                 mMap.put("sgst", tvSgst.getText().toString());
                                                 mMap.put("igst", "");
-                                            }
-                                            else{
+                                            } else {
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
 
                                             mMap.put("gst_pos1", spPos1);
                                             //mMap.put("gst_pos2", spPos2);
-                                            mMap.put("state",state);
+                                            mMap.put("state", state);
+                                            mMap.put("state_for_credit", state_for_credit);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!fromjournal) {
@@ -396,7 +425,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
                                             intent.putExtra("gst_pos1", spPos1);
                                             intent.putExtra("state", state);
-                                            intent.putExtra("diff_amount",amount);
+                                            intent.putExtra("state_for_credit", state_for_credit);
+                                            intent.putExtra("diff_amount", amount);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -436,26 +466,27 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                 if (!etRate.getText().toString().equals("")) {
                                     if (!spRCNNature.getSelectedItem().toString().equals("")) {
                                         if (!spITCEligibility.getSelectedItem().toString().equals("")) {
-                                           // mMap.put("account_id", account_id);
-                                           // mMap.put("party_id", party_id);
+                                            // mMap.put("account_id", account_id);
+                                            // mMap.put("party_id", party_id);
                                             mMap.put("id", id);
                                             mMap.put("inv_num", etIVNNo.getText().toString());
-                                          //  mMap.put("acount_name", tvAccountName.getText().toString());
-                                           // mMap.put("party_name", tvPartyName.getText().toString());
+                                            //  mMap.put("acount_name", tvAccountName.getText().toString());
+                                            // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            if(state.equals(appUser.company_state)){
+
+                                            if (state.equals(appUser.company_state) || state_for_credit.equals(appUser.company_state)) {
                                                 mMap.put("cgst", tvCGST.getText().toString());
                                                 mMap.put("sgst", tvSgst.getText().toString());
                                                 mMap.put("igst", "");
-                                            }
-                                            else{
+                                            } else {
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
 
                                             //mMap.put("gst_pos1", spPos1);
                                             mMap.put("gst_pos2", spPos2);
-                                            mMap.put("state",state);
+                                            mMap.put("state", state);
+                                            mMap.put("state_for_credit", state_for_credit);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!fromjournal) {
@@ -470,7 +501,8 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             Intent intent = new Intent(getApplicationContext(), AddJournalItemActivity.class);
                                             intent.putExtra("gst_pos2", spPos2);
                                             intent.putExtra("state", state);
-                                            intent.putExtra("diff_amount",amount);
+                                            intent.putExtra("state_for_credit", state_for_credit);
+                                            intent.putExtra("diff_amount", amount);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -515,15 +547,14 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                 String id = data.getStringExtra("id");
                 String[] name = result.split(",");
                 tvAccountName.setText(name[0]);
-                account_id=id;
+                account_id = id;
 
-            }
-            else if(requestCode == 2){
+            } else if (requestCode == 2) {
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 String[] name = result.split(",");
                 tvPartyName.setText(name[0]);
-                party_id=id;
+                party_id = id;
             }
         }
     }
