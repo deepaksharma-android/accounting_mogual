@@ -164,7 +164,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             journalVoucherPosition = getIntent().getExtras().getString("gst_pos6");
             journalDiffAmount = getIntent().getExtras().getString("diff_amount");
             state = getIntent().getExtras().getString("state");
-            state_for_credit = getIntent().getExtras().getString("state");
+            state_for_credit = getIntent().getExtras().getString("state_for_credit");
             calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
@@ -626,15 +626,23 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", journalDiffAmount);
                                         mMap.put("rate", etGST.getText().toString());
-                                        if (state.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
-                                        }else if (state_for_credit.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
-                                        } else {
-                                            mMap.put("igst", etIGST.getText().toString());
+                                        if (state != null) {
+                                            if (state.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
                                         }
+                                        if (state_for_credit != null) {
+                                            if (state_for_credit.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
+                                        }
+
                                         mMap.put("gst_pos6", journalVoucherPosition);
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("state", state);

@@ -89,7 +89,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     @Bind(R.id.account_name_debit)
     TextView account_name_debit;
     @Bind(R.id.ll_spinerItem)
-     LinearLayout llSpiner;
+    LinearLayout llSpiner;
     @Bind(R.id.date)
     TextView set_date;
     @Bind(R.id.browse_image)
@@ -130,7 +130,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private String gst_nature_position;
-    String state,state_for_credit;
+    String state, state_for_credit;
     private FirebaseAnalytics mFirebaseAnalytics;
     String gstnaturespinner;
 
@@ -216,11 +216,11 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
         }
         initActionbar();
-        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")){
-            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
+        if (!Preferences.getInstance(getApplicationContext()).getAttachment().equals("")) {
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getApplicationContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
             Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(mSelectedImage);
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -315,7 +315,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                     appUser.journal_voucher_attachment = encodedString;
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if(appUser.account_name_debit_email!=null&&!appUser.account_name_debit_email.equalsIgnoreCase("null")&&!appUser.account_name_debit_email.equals("")) {
+                                    if (appUser.account_name_debit_email != null && !appUser.account_name_debit_email.equalsIgnoreCase("null") && !appUser.account_name_debit_email.equals("")) {
                                         new AlertDialog.Builder(CreateJournalVoucherActivity.this)
                                                 .setTitle("Email")
                                                 .setMessage(R.string.btn_send_email)
@@ -371,7 +371,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
                                                 })
                                                 .show();
-                                    }else {
+                                    } else {
                                         appUser.email_yes_no = "false";
                                         LocalRepositories.saveAppUser(CreateJournalVoucherActivity.this, appUser);
                                         if (isConnected) {
@@ -530,16 +530,16 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent1.putExtra("state", state);
                                 intent1.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent1);
-                            }else {
+                            } else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
 
                             }
-                        }else {
+                        } else {
                             Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
 
                         }
                     } else {
-                     //   gst_nature_spinner.setSelection(0);
+                        //   gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
                 } else if (gst_nature_spinner.getSelectedItem().toString().equals("Registered Expenses (B2B)")) {
@@ -553,16 +553,16 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent2.putExtra("state", state);
                                 intent2.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent2);
-                            }else {
+                            } else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
 
                             }
-                        }else {
+                        } else {
                             Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
 
                         }
                     } else {
-                       // gst_nature_spinner.setSelection(0);
+                        // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
                 } else if (gst_nature_spinner.getSelectedItem().toString().equals("Cr. Note Received Against Purchase")) {
@@ -576,16 +576,15 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent3.putExtra("state", state);
                                 intent3.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent3);
-                            }else {
+                            } else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
-
                             }
-                        }else {
+                        } else {
                             Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
 
                         }
                     } else {
-                       // gst_nature_spinner.setSelection(0);
+                        // gst_nature_spinner.setSelection(0);
                         Snackbar.make(coordinatorLayout, "Please enter the amount", Snackbar.LENGTH_LONG).show();
                     }
                 } else if (gst_nature_spinner.getSelectedItem().toString().equals("Dr. Note Issued Against Sale")) {
@@ -599,11 +598,11 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                                 intent3.putExtra("state", state);
                                 intent3.putExtra("state_for_credit", state_for_credit);
                                 startActivity(intent3);
-                            }else {
+                            } else {
                                 Snackbar.make(coordinatorLayout, "Please select account name debit ", Snackbar.LENGTH_LONG).show();
 
                             }
-                        }else {
+                        } else {
                             Snackbar.make(coordinatorLayout, "Please select account name credit ", Snackbar.LENGTH_LONG).show();
 
                         }
@@ -621,22 +620,21 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(fromJournalVoucher){
-                    if(!gst_nature_spinner.getSelectedItem().toString().equals(gstnaturespinner)){
+                if (fromJournalVoucher) {
+                    if (!gst_nature_spinner.getSelectedItem().toString().equals(gstnaturespinner)) {
                         appUser.mListMapForItemJournalVoucherNote.clear();
                         Preferences.getInstance(getApplicationContext()).setReason("");
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
-                }
-                else{
+                } else {
                     appUser.mListMapForItemJournalVoucherNote.clear();
                     Preferences.getInstance(getApplicationContext()).setReason("");
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                if (position==0 | position==3 | position==4 | position==5 | position==8 | position==9){
+                if (position == 0 | position == 3 | position == 4 | position == 5 | position == 8 | position == 9) {
                     llSpiner.setVisibility(View.GONE);
 
-                }else {
+                } else {
                     llSpiner.setVisibility(View.VISIBLE);
                 }
             }
@@ -757,7 +755,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                             Preferences.getInstance(getApplicationContext()).setAttachment(encodedString);
                             break;
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
             }
@@ -768,13 +766,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     appUser.account_name_debit_id = ParameterConstant.id;
                     appUser.account_name_debit_name = ParameterConstant.name;
                     appUser.account_name_debit_email = ParameterConstant.email;
+                    state = ParameterConstant.state;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     account_name_debit.setText(ParameterConstant.name);
                 } else {
                     boolForReceivedFrom = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
-                     state=data.getStringExtra("state");
+                    state = data.getStringExtra("state");
                     String[] name = result.split(",");
                     appUser.account_name_debit_id = id;
                     appUser.account_name_debit_name = name[0];
@@ -788,13 +787,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     boolForReceivedBy = true;
                     appUser.account_name_credit_id = ParameterConstant.id;
                     appUser.account_name_credit_name = ParameterConstant.name;
+                    state_for_credit = ParameterConstant.state;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     account_name_credit.setText(ParameterConstant.name);
                 } else {
                     boolForReceivedBy = true;
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
-                    state_for_credit=data.getStringExtra("state");
+                    state_for_credit = data.getStringExtra("state");
                     String[] name = result.split(",");
                     appUser.account_name_credit_id = id;
                     appUser.account_name_credit_name = name[0];
@@ -809,7 +809,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     @Override
     public void onResume() {
         super.onResume();
-        appUser=LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         /*Intent intent = getIntent();
         Boolean bool = intent.getBooleanExtra("bool", false);
         if (bool) {
@@ -885,7 +885,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "journal_voucher");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             //voucher_no.setText("");
             transaction_amount.setText("");
@@ -930,7 +930,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     .show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -942,12 +942,12 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             set_date.setText(response.getJournal_voucher().getData().getAttributes().getDate());
             voucher_no.setText(response.getJournal_voucher().getData().getAttributes().getVoucher_number());
             account_name_debit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getName());
-            account_name_credit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_credit());
+            account_name_credit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_credit().getName());
             transaction_amount.setText(String.valueOf(response.getJournal_voucher().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getJournal_voucher().getData().getAttributes().getNarration());
-            appUser.account_name_debit_id = ""+response.getJournal_voucher().getData().getAttributes().getAccount_debit().getId();
-            appUser.account_name_credit_id = ""+response.getJournal_voucher().getData().getAttributes().getAccount_name_credit_id();
-            LocalRepositories.saveAppUser(this,appUser);
+            appUser.account_name_debit_id = "" + response.getJournal_voucher().getData().getAttributes().getAccount_debit().getId();
+            appUser.account_name_credit_id = "" + response.getJournal_voucher().getData().getAttributes().getAccount_credit().getId();
+            LocalRepositories.saveAppUser(this, appUser);
             Preferences.getInstance(getApplicationContext()).setAttachment("");
             if (!Helpers.mystring(response.getJournal_voucher().getData().getAttributes().getAttachment()).equals("")) {
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getJournal_voucher().getData().getAttributes().getAttachment());
@@ -959,7 +959,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             }
 
             String group_type = response.getJournal_voucher().getData().getAttributes().getGst_nature().trim();
-            gstnaturespinner=group_type;
+            gstnaturespinner = group_type;
             int groupindex = -1;
             for (int i = 0; i < getResources().getStringArray(R.array.gst_nature_journal_voucher).length; i++) {
                 if (getResources().getStringArray(R.array.gst_nature_journal_voucher)[i].equals(group_type)) {
@@ -971,7 +971,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             gst_nature_spinner.setSelection(groupindex);
             Preferences.getInstance(getApplicationContext()).setReason(response.getJournal_voucher().getData().getAttributes().getReason());
             Map mMap;
-            for(int i =0;i<response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size();i++) {
+            for (int i = 0; i < response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().size(); i++) {
                 mMap = new HashMap();
                 if (groupindex == 1) {
                     mMap.put("gst_pos1", "1");
@@ -982,46 +982,43 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 } else if (groupindex == 7) {
                     mMap.put("gst_pos7", "7");
                 }
-                mMap.put("id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getId());
-                mMap.put("account_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAccount_id());
-                mMap.put("party_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getParty_id());
-                mMap.put("inv_num",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getInvoice_no());
-                mMap.put("diff_amount",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAmount()));
-                mMap.put("difference_amount",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAmount()));
-                mMap.put("rate",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getTax_rate()));
-                mMap.put("gst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getTax_rate()));
-                mMap.put("cgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getCgst_amount()));
-                mMap.put("sgst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSgst_amount()));
-                mMap.put("igst",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getIgst_amount()));
-                mMap.put("date",String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
+                mMap.put("id", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getId());
+                mMap.put("account_id", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAccount_id());
+                mMap.put("party_id", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getParty_id());
+                mMap.put("inv_num", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getInvoice_no());
+                mMap.put("diff_amount", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAmount()));
+                mMap.put("difference_amount", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getAmount()));
+                mMap.put("rate", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getTax_rate()));
+                mMap.put("gst", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getTax_rate()));
+                mMap.put("cgst", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getCgst_amount()));
+                mMap.put("sgst", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSgst_amount()));
+                mMap.put("igst", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getIgst_amount()));
+                mMap.put("date", String.valueOf(response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getDate()));
 
-               if(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState()==null||response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState().equals("")){
-                   mMap.put("state","Haryana");
-               }
-                else{
-                   mMap.put("state",response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState());
-                   state=response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState();
-               }
 
-                mMap.put("spRCNItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getRcm_nature());
-                mMap.put("goodsItem",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
-                mMap.put("spITCEligibility",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
-                if (response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_name()!=null
-                        && response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_id()!=null){
-                    mMap.put("sale_name",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_name());
-                    mMap.put("sale_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_id());
-                }else {
-                    mMap.put("purchase_name",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getPurchase_name());
-                    mMap.put("purchase_id",response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getPurchase_id());
+                mMap.put("state", response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState());
+                state = response.getJournal_voucher().getData().getAttributes().getAccount_debit().getState();
+                mMap.put("state_for_credit", response.getJournal_voucher().getData().getAttributes().getAccount_credit().getState());
+                state_for_credit = response.getJournal_voucher().getData().getAttributes().getAccount_credit().getState();
+                mMap.put("spRCNItem", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getRcm_nature());
+                mMap.put("goodsItem", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
+                mMap.put("spITCEligibility", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getItc_eligibility());
+                if (response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_name() != null
+                        && response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_id() != null) {
+                    mMap.put("sale_name", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_name());
+                    mMap.put("sale_id", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getSale_id());
+                } else {
+                    mMap.put("purchase_name", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getPurchase_name());
+                    mMap.put("purchase_id", response.getJournal_voucher().getData().getAttributes().getJournal_item().getData().get(i).getAttributes().getPurchase_id());
                 }
                 appUser.mListMapForItemJournalVoucherNote.add(mMap);
             }
-            LocalRepositories.saveAppUser(this,appUser);
+            LocalRepositories.saveAppUser(this, appUser);
 
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -1032,9 +1029,9 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             voucher_no.setText(response.getVoucher_number());
 
         } else {
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -1052,7 +1049,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
