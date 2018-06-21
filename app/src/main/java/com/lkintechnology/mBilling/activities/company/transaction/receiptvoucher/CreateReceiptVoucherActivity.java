@@ -156,7 +156,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     String attachemnt;
-    public String spinnergstnature;
+    public String spinnergstnature,state;
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
@@ -841,6 +841,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                     appUser.receipt_received_from_id = ParameterConstant.id;
                     appUser.receipt_received_from_name = ParameterConstant.name;
                     appUser.receipt_received_from_email = ParameterConstant.email;
+                    state = ParameterConstant.state;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     received_from.setText(ParameterConstant.name);
                 } else {

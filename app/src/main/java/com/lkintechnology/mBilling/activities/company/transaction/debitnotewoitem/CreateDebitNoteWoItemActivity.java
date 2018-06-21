@@ -686,6 +686,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                     appUser.account_name_debit_note_id =ParameterConstant.id;
                     appUser.account_name_debit_note_email = ParameterConstant.email;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    state = ParameterConstant.state;
                     account_name_debit.setText(ParameterConstant.name);
                 }else {
                     boolForGroupName=true;

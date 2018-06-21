@@ -670,6 +670,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     appUser.account_name_credit_note_id = ParameterConstant.id;
                     appUser.account_name_credit_note_email = ParameterConstant.email;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    state = ParameterConstant.state;
                     account_name_credit.setText(ParameterConstant.name);
                 } else {
                     boolForGroupName = true;

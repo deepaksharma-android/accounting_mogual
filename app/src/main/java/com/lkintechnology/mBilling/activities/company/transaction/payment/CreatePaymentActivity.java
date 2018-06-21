@@ -861,6 +861,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    appUser.payment_paid_to_id = ParameterConstant.id;
                    appUser.payment_paid_to_name = ParameterConstant.name;
                    appUser.payment_paid_to_email = ParameterConstant.email;
+                   state = ParameterConstant.state;
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    paid_to.setText(ParameterConstant.name);
                }else {

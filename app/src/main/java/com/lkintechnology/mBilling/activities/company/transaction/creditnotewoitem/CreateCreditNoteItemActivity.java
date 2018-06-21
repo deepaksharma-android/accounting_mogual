@@ -516,13 +516,34 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     mMap.put("difference_amount", tvDiffAmount.getText().toString());
                                     mMap.put("rate", etGST.getText().toString());
 
-                                    if (state.equals(appUser.company_state)) {
-                                        mMap.put("cgst", etCGST.getText().toString());
-                                        mMap.put("sgst", etSGST.getText().toString());
-                                    } else {
+                                    if ((state!=null && !state.equals("")) && (state_for_credit!=null && !state_for_credit.equals(""))){
+                                        if (state.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        }else if(state_for_credit.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        } else{
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                    }else if(state!=null && !state.equals("")){
+                                        if (state.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        }else {
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                    }else if(state_for_credit!=null && !state_for_credit.equals("")) {
+                                        if (state_for_credit.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        } else {
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                    }else {
                                         mMap.put("igst", etIGST.getText().toString());
-                                        //  mMap.put("state", state);
                                     }
+
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("spITCEligibility", "");
                                     mMap.put("state", state);

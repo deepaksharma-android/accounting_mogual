@@ -400,11 +400,32 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            if (state.equals(appUser.company_state) || state_for_credit.equals(appUser.company_state)) {
-                                                mMap.put("cgst", tvCGST.getText().toString());
-                                                mMap.put("sgst", tvSgst.getText().toString());
-                                                mMap.put("igst", "");
-                                            } else {
+
+                                            if ((state!=null && !state.equals("")) && (state_for_credit!=null && !state_for_credit.equals(""))){
+                                                if (state.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                }else if(state_for_credit.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                } else{
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else if(state!=null && !state.equals("")){
+                                                if (state.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                }else {
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else if(state_for_credit!=null && !state_for_credit.equals("")) {
+                                                if (state_for_credit.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                } else {
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else {
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
 
@@ -475,11 +496,31 @@ public class CreateJournalItemActivity extends AppCompatActivity implements View
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
 
-                                            if (state.equals(appUser.company_state) || state_for_credit.equals(appUser.company_state)) {
-                                                mMap.put("cgst", tvCGST.getText().toString());
-                                                mMap.put("sgst", tvSgst.getText().toString());
-                                                mMap.put("igst", "");
-                                            } else {
+                                            if ((state!=null && !state.equals("")) && (state_for_credit!=null && !state_for_credit.equals(""))){
+                                                if (state.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                }else if(state_for_credit.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                } else{
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else if(state!=null && !state.equals("")){
+                                                if (state.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                }else {
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else if(state_for_credit!=null && !state_for_credit.equals("")) {
+                                                if (state_for_credit.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                } else {
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else {
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
 
