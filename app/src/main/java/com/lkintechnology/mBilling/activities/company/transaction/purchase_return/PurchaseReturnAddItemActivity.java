@@ -219,9 +219,9 @@ public class PurchaseReturnAddItemActivity extends AppCompatActivity implements 
             voucher_barcode = (String) map.get("voucher_barcode");
             barcodeArray = voucher_barcode.split(",");
             mSr_no.setText(voucher_barcode);
+
             boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
-
             mItemName.setText(itemName);
             mQuantity.setText(quantity);
             mRate.setText(rate);

@@ -94,7 +94,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
     AppUser appUser;
     List<Map<String, String>> mListMap;
     Map mMap;
-    Double first=0.0, second=0.0, third=0.0;
+    Double first = 0.0, second = 0.0, third = 0.0;
     Intent intent;
     Animation blinkOnClick;
     ArrayList<String> mUnitList;
@@ -372,7 +372,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 } else {
                     mSpinnerUnit.setSelection(0);
                 }
-
             }
         }
 
@@ -423,8 +422,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                         } else {
                                             Toast.makeText(getApplicationContext(), mSerialNumber.getText().toString() + "is not a IMEI number", Toast.LENGTH_LONG).show();
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         if (appUser.serial_arr.contains(mSerialNumber.getText().toString())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -574,6 +572,21 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         });*/
                     }
 
+                    mBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            appUser.serial_arr.clear();
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            mSr_no.setText("");
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
                     submit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -585,6 +598,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             //  appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             boolean isbool = false;
+                            int count = 0;
                             for (int i = 0; i < Integer.parseInt(serial); i++) {
                                 if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
                                     if (pairs[i].getText().toString().length() == 15) {
@@ -644,56 +658,65 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                             return;
                                         }
                                     }
-                                }
-                                else{
-                                    if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
-                                        pairs[i].setText("");
-                                        appUser.serial_arr.add(i, "");
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                } else {
+                                    if (pairs[i].getText().toString().length() > 0) {
+                                        if (appUser.serial_arr.contains(pairs[i].getText().toString())) {
+                                            pairs[i].setText("");
+                                            appUser.serial_arr.add(i, "");
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 //                                        Toast.makeText(PurchaseAddItemActivity.this, pairs[i].getText().toString() + "already added", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        if (!pairs[i].getText().toString().equals("")) {
+                                        } else {
+                                            if (!pairs[i].getText().toString().equals("")) {
 
-                                            if ((appUser.serial_arr.size() - 1) == i) {
-                                                appUser.serial_arr.set(i, pairs[i].getText().toString());
-                                            } else {
-                                                appUser.serial_arr.add(pairs[i].getText().toString());
-                                            }
+                                                if ((appUser.serial_arr.size() - 1) == i) {
+                                                    appUser.serial_arr.set(i, pairs[i].getText().toString());
+                                                } else {
+                                                    appUser.serial_arr.add(pairs[i].getText().toString());
+                                                }
 
 //                                            appUser.serial_arr.add(i, pairs[i].getText().toString());
-                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        } else {
-                                            appUser.serial_arr.add(i, "");
-                                            //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            } else {
+                                                appUser.serial_arr.add(i, "");
+                                                //  appUser.purchase_item_serail_arr.add(i,appUser.serial_arr.get(i));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            }
                                         }
-                                    }
-                                    appUser.purchase_item_serail_arr.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    for (int j = 0; j < appUser.serial_arr.size(); j++) {
-                                        if (!appUser.serial_arr.get(j).equals("")) {
-                                            appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(j));
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                                        }
-                                    }
-                                    appUser.serial_arr.clear();
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    for (int k = 0; k < appUser.purchase_item_serail_arr.size(); k++) {
-                                        appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(k));
+                                        appUser.purchase_item_serail_arr.clear();
                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                    }
+                                        for (int j = 0; j < appUser.serial_arr.size(); j++) {
+                                            if (!appUser.serial_arr.get(j).equals("")) {
+                                                appUser.purchase_item_serail_arr.add(appUser.serial_arr.get(j));
+                                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                                    String listString = "";
+                                            }
+                                        }
+                                        appUser.serial_arr.clear();
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        for (int k = 0; k < appUser.purchase_item_serail_arr.size(); k++) {
+                                            appUser.serial_arr.add(appUser.purchase_item_serail_arr.get(k));
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        }
 
-                                    for (String s : appUser.purchase_item_serail_arr) {
-                                        listString += s + ",";
+                                        String listString = "";
+
+                                        for (String s : appUser.purchase_item_serail_arr) {
+                                            listString += s + ",";
+                                        }
+                                        mSr_no.setText(listString);
+                                        isbool = true;
+                                    } else {
+                                        count++;
                                     }
-                                    mSr_no.setText(listString);
-                                    isbool = true;
                                 }
-
+                            }
+                            if (Integer.parseInt(serial) == count) {
+                                isbool = true;
+                                mSr_no.setText("");
+                                appUser.purchase_item_serail_arr.clear();
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             }
                             if (isbool) {
                                 dialogbal.dismiss();
@@ -701,7 +724,6 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                         }
                     });
                     dialogbal.show();
-
                 }
             }
 
@@ -887,11 +909,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                 if (!mDiscount.getText().toString().isEmpty()) {
                     if (!mRate.getText().toString().isEmpty()) {
-                        if (!mRate.getText().toString().equals("")){
+                        if (!mRate.getText().toString().equals("")) {
                             second = Double.valueOf(mRate.getText().toString());
                         }
                         if (!mDiscount.getText().toString().isEmpty()) {
-                            if (!mDiscount.getText().toString().equals("")){
+                            if (!mDiscount.getText().toString().equals("")) {
                                 first = Double.valueOf(mDiscount.getText().toString());
                             }
                             mValue.setText(String.format("%.2f", (first * second)));
@@ -920,11 +942,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mDiscount.getText().toString().isEmpty()) {
-                    if (!mDiscount.getText().toString().equals("")){
+                    if (!mDiscount.getText().toString().equals("")) {
                         first = Double.valueOf(mDiscount.getText().toString());
                     }
                     if (!mRate.getText().toString().isEmpty()) {
-                        if (!mRate.getText().toString().equals("")){
+                        if (!mRate.getText().toString().equals("")) {
                             second = Double.valueOf(mRate.getText().toString());
                         }
                         if (!mQuantity.getText().toString().equals("")) {
@@ -966,11 +988,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                 }
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        if (!mQuantity.getText().toString().equals("")){
+                        if (!mQuantity.getText().toString().equals("")) {
                             second = Double.valueOf(mQuantity.getText().toString());
                         }
                         if (!mValue.getText().toString().isEmpty()) {
-                            if (!mValue.getText().toString().equals("")){
+                            if (!mValue.getText().toString().equals("")) {
                                 first = Double.valueOf(mValue.getText().toString());
                             }
                             if (!mRate.getText().toString().equals("")) {
@@ -1007,11 +1029,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                 if (!mValue.getText().toString().isEmpty()) {
                     if (!mQuantity.getText().toString().isEmpty()) {
-                        if (!mQuantity.getText().toString().equals("")){
+                        if (!mQuantity.getText().toString().equals("")) {
                             second = Double.valueOf(mQuantity.getText().toString());
                         }
                         if (!mValue.getText().toString().isEmpty()) {
-                            if (!mValue.getText().toString().equals("")){
+                            if (!mValue.getText().toString().equals("")) {
                                 first = Double.valueOf(mValue.getText().toString());
                             }
                             if (!mRate.getText().toString().equals("")) {
@@ -1033,7 +1055,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
                     }
                 } else {
-                    if (!mRate.getText().toString().equals("")){
+                    if (!mRate.getText().toString().equals("")) {
                         third = Double.valueOf(mRate.getText().toString());
                     }
                     if (!mQuantity.getText().toString().equals("")) {
@@ -1240,8 +1262,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             Toast.makeText(PurchaseAddItemActivity.this, result.getContents() + "added successfully", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }
-                else{
+                } else {
                     if (appUser.serial_arr.contains(result.getContents())) {
                /* appUser.serial_arr.add("");
                 LocalRepositories.saveAppUser(getApplicationContext(),appUser);*/
@@ -1344,6 +1365,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
             }
             mMap.put("unit_list", mUnitList);
             mMap.put("business_type", mBusinessType.getSelectedItem());
+
             if (!frombillitemvoucherlist) {
                 appUser.mListMapForItemPurchase.add(mMap);
                 // appUser.mListMap = mListMap;
@@ -1369,10 +1391,10 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
 
-        }else {
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            Helpers.dialogMessage(this, response.getMessage());
         }
-       // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-       // snackbar.show();
+        // snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+        // snackbar.show();
     }
 }

@@ -20,6 +20,8 @@ import com.lkintechnology.mBilling.activities.company.navigations.reports.accoun
 import com.lkintechnology.mBilling.activities.company.navigations.reports.financialreports.BalanceSheetActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.financialreports.ProfitAndLossActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.gstr3b.Gstr3bReportActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.gstr_1.Gstr1ReportActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.reports.gstr_2.Gstr2ReportActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.gstreturn.PurchaseRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.gstreturn.SaleRegisterActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.outstanding.AmountReceivablesListActivity;
@@ -83,10 +85,6 @@ public class ReportsActivity extends AppCompatActivity {
     LinearLayout mBalance_sheet_layout;
     @Bind(R.id.profit_loss_report_layout)
     LinearLayout mProfit_loss_report_layout;
-
-
-
-
     AppUser appUser;
 
 
@@ -175,24 +173,22 @@ public class ReportsActivity extends AppCompatActivity {
         mGstr1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(ReportsActivity.this)
-                        .setTitle("m-Billing")
-                        .setMessage("Coming soon")
-                        .setPositiveButton(null, null)
-                        .setNegativeButton(R.string.btn_ok,null)
-                        .show();
+                Intent intent = new Intent(getApplicationContext(), Gstr1ReportActivity.class);
+                startActivity(intent);
             }
         });
 
         mGstr2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(ReportsActivity.this)
+                Intent intent = new Intent(getApplicationContext(), Gstr2ReportActivity.class);
+                startActivity(intent);
+                /*new AlertDialog.Builder(ReportsActivity.this)
                         .setTitle("m-Billing")
-                        .setMessage("Coming soon")
+                        .setMessage("GSTR-2 report is not available in demo mode.")
                         .setPositiveButton(null, null)
                         .setNegativeButton(R.string.btn_ok,null)
-                        .show();
+                        .show();*/
 
 
             }

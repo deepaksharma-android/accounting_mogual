@@ -293,6 +293,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 ParameterConstant.checkStartActivityResultForAccount = 8;
                 ParameterConstant.checkStartActivityResultForMaterialCenter = 3;
                 MaterialCentreListActivity.isDirectForMaterialCentre = false;
+
                 startActivityForResult(new Intent(getContext(), MaterialCentreListActivity.class), 1);
             }
         });
@@ -300,9 +301,8 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getActivity());
-                ParameterConstant.checkStartActivityResultForAccount = 8;
-                ParameterConstant.checkForPurchaseTypeList = 2;
-                PurchaseTypeListActivity.isDirectForPurchaseTypeList = false;
+                ParameterConstant.checkStartActivityResultForAccount =8;
+                ParameterConstant.checkForPurchaseTypeList=2;
                 //startActivityForResult(new Intent(getContext(), PurchaseTypeListActivity.class), 2);
                 Intent intent = new Intent(getContext(), PurchaseTypeListActivity.class);
                 intent.putExtra("sale_return", true);
@@ -324,10 +324,10 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getActivity());
-                ParameterConstant.forAccountIntentBool = false;
-                ParameterConstant.forAccountIntentName = "";
-                ParameterConstant.forAccountIntentId = "";
-                ParameterConstant.forAccountIntentMobile = "";
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.forAccountIntentMobile="";
                 //ParameterConstant.checkStartActivityResultForAccount =8;
                 intStartActivityForResult = 2;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors,Cash-in-hand";
@@ -341,10 +341,10 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getActivity());
-                ParameterConstant.forAccountIntentBool = false;
-                ParameterConstant.forAccountIntentName = "";
-                ParameterConstant.forAccountIntentId = "";
-                ParameterConstant.forAccountIntentMobile = "";
+                ParameterConstant.forAccountIntentBool=false;
+                ParameterConstant.forAccountIntentName="";
+                ParameterConstant.forAccountIntentId="";
+                ParameterConstant.forAccountIntentMobile="";
                 //ParameterConstant.checkStartActivityResultForAccount =8;
                 intStartActivityForResult = 2;
                 appUser.account_master_group = "Sundry Debtors,Sundry Creditors";
@@ -383,9 +383,9 @@ public class CreateSaleReturnFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 appUser = LocalRepositories.getAppUser(getActivity());
-                TransportActivity.voucher_type = "sale_return";
-                Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
-                intent.putExtra("fromedit", fromedit);
+                TransportActivity.voucher_type="sale_return";
+                Intent intent=new Intent(getApplicationContext(),TransportActivity.class);
+                intent.putExtra("fromedit",fromedit);
                 startActivity(intent);
             }
         });
@@ -1396,8 +1396,12 @@ public class CreateSaleReturnFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();
-            startActivity(new Intent(getApplicationContext(), GetSaleReturnVoucherListActivity.class));
-        } else {
+            //startActivity(new Intent(getApplicationContext(),GetSaleReturnVoucherListActivity.class));
+            Intent intent = new Intent(getApplicationContext(), GetSaleReturnVoucherListActivity.class);
+            intent.putExtra("forDate",true);
+            startActivity(intent);
+        }
+        else {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/

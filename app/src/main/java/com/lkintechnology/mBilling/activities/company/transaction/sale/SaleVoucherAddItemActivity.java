@@ -214,13 +214,13 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             mSr_no.setText(voucher_barcode);
             boolForBarcode = true;
             myListForSerialNo = new ArrayList<String>(Arrays.asList(voucher_barcode.split(",")));
-            if (businessType != null) {
-                if (businessType.equals("Mobile Dealer")) {
+            if (businessType!=null){
+                if (businessType.equals("Mobile Dealer")){
                     mBusinessType.setSelection(0);
-                } else {
+                }else {
                     mBusinessType.setSelection(1);
                 }
-            } else {
+            }else {
                 mBusinessType.setSelection(0);
             }
 
@@ -793,8 +793,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
-                mMap.put("business_type", mBusinessType.getSelectedItem());
-
+                mMap.put("business_type",mBusinessType.getSelectedItem());
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");

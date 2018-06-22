@@ -36,7 +36,7 @@ import java.util.Locale;
 
 import butterknife.Bind;
 
-public class ProfitAndLossActivity extends RegisterAbstractActivity implements View.OnClickListener{
+public class ProfitAndLossActivity extends RegisterAbstractActivity implements View.OnClickListener {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.start_date_layout)
@@ -57,7 +57,7 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
     Snackbar snackbar;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,30 +88,34 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
             public void onClick(View view) {
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
-
-                appUser.pdf_start_date = start;
-                appUser.pdf_end_date = end;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(ProfitAndLossActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PROFIT_AND_LOSS);
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(ProfitAndLossActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
+                    appUser.pdf_start_date = start;
+                    appUser.pdf_end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(ProfitAndLossActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PROFIT_AND_LOSS);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
                 }
             }
         });
@@ -168,7 +172,7 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
         DatePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-               // view.setMaxDate(System.currentTimeMillis());
+                // view.setMaxDate(System.currentTimeMillis());
                 String start_date = mStart_date.getText().toString();
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -199,15 +203,15 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
+        DatePickerDialog1.getDatePicker().setMaxDate(System.currentTimeMillis());
+        DatePickerDialog2.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date || view==mCalender_Icon) {
+        if (view == mStart_date || view == mCalender_Icon) {
             DatePickerDialog1.show();
-        }
-        else if(view == mEnd_date || view==mCalender_Icon1){
+        } else if (view == mEnd_date || view == mCalender_Icon1) {
             DatePickerDialog2.show();
         }
     }
@@ -232,17 +236,16 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
     }
 
     @Subscribe
-    public void getTransactionPdf(CompanyReportResponse response){
+    public void getTransactionPdf(CompanyReportResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getHtml();
-            i.putExtra("company_report",company_report);
+            i.putExtra("company_report", company_report);
             startActivity(i);
-        }
-        else{
-           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -255,7 +258,7 @@ public class ProfitAndLossActivity extends RegisterAbstractActivity implements V
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;

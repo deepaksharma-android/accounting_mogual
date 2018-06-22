@@ -44,6 +44,10 @@ public class Preferences {
     private static final String CSIGN = "sign";
     private static final String CUSERNAME = "username";
     private static final String CPASSWORD = "password";
+    private static final String CBANKNAME = "bank_name";
+    private static final String CBANKACCOUNT = "bank_account";
+    private static final String CIFSCCODE = "bank_ifc_code";
+    private static final String CMICRCODE = "bank_micr_code";
     private static final String SERIAL = "serial";
     private static final String STOCK_SERIAL = "stock_serial";
     private static final String PURCHASE_TAX_TYPE = "purchase_tax_type";
@@ -292,6 +296,43 @@ public class Preferences {
     public String getCaddress() {
         return pref.getString(CADDRESS, "");
     }
+
+    public void setCbankname(String cbankname) {
+        editor.putString(CBANKNAME, cbankname);
+        editor.commit();
+    }
+
+    public String getCbankname() {
+        return pref.getString(CBANKNAME, "");
+    }
+
+    public void setCbankaccount(String cbankaccount) {
+        editor.putString(CBANKACCOUNT, cbankaccount);
+        editor.commit();
+    }
+
+    public String getCbankaccount() {
+        return pref.getString(CBANKACCOUNT, "");
+    }
+
+    public void setCifsccode(String cifsccode) {
+        editor.putString(CIFSCCODE, cifsccode);
+        editor.commit();
+    }
+
+    public String getCifsccode() {
+        return pref.getString(CIFSCCODE, "");
+    }
+
+    public void setCmicrcode(String cmicrcode) {
+        editor.putString(CMICRCODE, cmicrcode);
+        editor.commit();
+    }
+
+    public String getCmicrcode() {
+        return pref.getString(CMICRCODE, "");
+    }
+
 
     public void setCcity(String ccity) {
         editor.putString(CCITY, ccity);

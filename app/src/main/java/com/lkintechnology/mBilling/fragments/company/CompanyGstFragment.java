@@ -173,7 +173,7 @@ public class CompanyGstFragment extends Fragment {
             appUser.cid= String.valueOf(response.getId());
             LocalRepositories.saveAppUser(getActivity(),appUser);
             TabLayout tabhost = (TabLayout) getActivity().findViewById(R.id.tabs);
-            tabhost.getTabAt(3).select();
+            tabhost.getTabAt(4).select();
             //startActivity(new Intent(getApplicationContext(),CompanyDashboardActivity.class));
             snackbar = Snackbar
                     .make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG);

@@ -233,6 +233,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 snackbar.show();
             }
         } else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreatePaymentActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -1063,6 +1065,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 }
             }
             set_date.setText(response.getPayment().getData().getAttributes().getDate());
+            appUser.payment_date = response.getPayment().getData().getAttributes().getDate();
             voucher_no.setText(response.getPayment().getData().getAttributes().getVoucher_number());
             //set_date_pdc.setText(response.getPayment().getData().getAttributes().getPdc_date());
             paid_from.setText(response.getPayment().getData().getAttributes().getPaid_from());
@@ -1152,15 +1155,14 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 if (from.equals("pdcDetailsPayment")) {
                     Intent intent = new Intent(this, PdcActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    intent.putExtra("forDate",true);
                     startActivity(intent);
                     finish();
                 } else {
                     Intent intent = new Intent(this, PaymentActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+                    intent.putExtra("forDate",true);
                     startActivity(intent);
-                    Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -1223,7 +1225,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            } else if (from.equals("Payment")){
+            } else if (from.equals("Payment")) ;{
                 finish();
             }
         } else {

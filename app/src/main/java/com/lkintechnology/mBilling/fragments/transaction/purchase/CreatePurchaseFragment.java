@@ -61,6 +61,7 @@ import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
 import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.PurchaseVoucherDetailsItemList;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
@@ -1321,8 +1322,10 @@ public class CreatePurchaseFragment extends Fragment {
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
             if (PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity) {
                 startActivity(new Intent(getApplicationContext(), PurchaseVouchersItemDetailsListActivity.class));
-            } else {
-                startActivity(new Intent(getApplicationContext(), GetPurchaseListActivity.class));
+            }else {
+                Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                intent.putExtra("forDate",true);
+                startActivity(intent);
             }
         } else {
             /*snackbar = Snackbar

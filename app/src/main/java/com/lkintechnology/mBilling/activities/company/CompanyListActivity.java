@@ -325,6 +325,14 @@ public class CompanyListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         EventBus.getDefault().register(this);
+
+        Preferences.getInstance(getApplicationContext()).getCfinancialyear();
+        Preferences.getInstance(getApplicationContext()).getCbookyear();
+
+        Preferences.getInstance(getApplicationContext()).setCbankname("");
+        Preferences.getInstance(getApplicationContext()).setCbankaccount("");
+        Preferences.getInstance(getApplicationContext()).setCifsccode("");
+        Preferences.getInstance(getApplicationContext()).setCmicrcode("");
         Preferences.getInstance(getApplicationContext()).setCname("");
         Preferences.getInstance(getApplicationContext()).setCprintname("");
         Preferences.getInstance(getApplicationContext()).setCshortname("");

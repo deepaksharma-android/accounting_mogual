@@ -4,6 +4,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestBasic;
 import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAdditional;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyAuthenticate;
+import com.lkintechnology.mBilling.networks.api_request.RequestCompanyBankDetails;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyDetails;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyGst;
 import com.lkintechnology.mBilling.networks.api_request.RequestCompanyLogin;
@@ -240,6 +241,9 @@ public interface Api {
 
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cdetails(@Body RequestCompanyDetails payload, @Path("id") String id);
+
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> bankDetails(@Body RequestCompanyBankDetails payload, @Path("id") String id);
 
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> cgst(@Body RequestCompanyGst payload, @Path("id") String id);
@@ -677,6 +681,12 @@ public interface Api {
 
     @GET("company/gstr3b/{id}")
     Call<CompanyReportResponse> getgstr3b(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
+
+    @GET("company/gstr1/{id}")
+    Call<CompanyReportResponse> getgstr_1(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
+
+    @GET("company/gstr2/{id}")
+    Call<CompanyReportResponse> getgstr_2(@Path("id") String id, @Query("start_date") String start_date, @Query("end_date") String end_date);
 
     @GET("company_stock_transfer_vouchers/{id}")
     Call<GetStockTransferListResponse> getStockTransfer(@Path("id") String id, @Query("duration") String duration);

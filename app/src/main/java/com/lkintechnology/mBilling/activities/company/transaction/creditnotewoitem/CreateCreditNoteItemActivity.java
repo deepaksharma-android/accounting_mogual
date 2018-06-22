@@ -178,6 +178,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
         }*/
 
+
         if (position != null) {
             if (position.equals("2")) {
                 spChooseGoods.setVisibility(View.VISIBLE);

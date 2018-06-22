@@ -149,7 +149,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -261,7 +260,7 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Discount %"
+                            android:text="Discount (%)"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -298,8 +297,7 @@
                             style="@style/Gotham_Medium"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="Value"
+                            android:text="Discount Value (₹)"
                             android:textColor="#000"
                             android:textSize="15sp" />
 
@@ -308,6 +306,7 @@
                             android:layout_height="35dp"
                             android:background="@drawable/bg_grey_stroke"
                             android:gravity="center"
+                            android:layout_marginTop="5dp"
                             android:orientation="vertical">
 
                             <com.lkintechnology.mBilling.utils.BuzzEditText

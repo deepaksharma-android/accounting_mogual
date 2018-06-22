@@ -25,7 +25,7 @@ public class RequestCreateItem {
         else{
             item.put("name", item_name);
         }
-
+        item.put("item_code",appUser.item_code);
         item.put("company_id", Preferences.getInstance(ctx).getCid());
         item.put("item_group_id", appUser.item_group_id);
         item.put("item_unit_id", appUser.item_unit_id);
@@ -33,6 +33,9 @@ public class RequestCreateItem {
         item.put("hsn_number", appUser.item_hsn_number);
         item.put("material_center_id",appUser.stock_item_material_center_id);
 
+        if (!Preferences.getInstance(ctx).getBusiness_type().equals("")){
+            item.put("business_type", Preferences.getInstance(ctx).getBusiness_type());
+        }
         if (!Preferences.getInstance(ctx).getItem_stock_quantity().equals("")) {
             item.put("stock_quantity", Preferences.getInstance(ctx).getItem_stock_quantity());
         }

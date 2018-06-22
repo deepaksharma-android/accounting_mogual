@@ -165,6 +165,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
         floatingActionButton.bringToFront();
         appUser.item_name = "";
+        appUser.item_code = "";
         appUser.item_hsn_number = "";
         appUser.item_group_name = "";
         appUser.item_unit_name = "";
@@ -544,10 +545,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             // setting list adapter
             expListView.setAdapter(listAdapter);
 
-            expListView.setAdapter(listAdapter);
-            for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+          /*  for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                 expListView.expandGroup(i);
-            }
+            }*/
 
             autoCompleteTextView();
 

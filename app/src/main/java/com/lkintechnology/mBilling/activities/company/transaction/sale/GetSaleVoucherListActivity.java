@@ -107,8 +107,14 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
         forMainLayoutClick = getIntent().getBooleanExtra("sale_return",false);
-        start_date.setText(dateString);
-        end_date.setText(dateString);
+        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
+        if (forDate){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -330,6 +336,9 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     public void getSaleVoucher(GetSaleVoucherListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
+            //appUser.start_date = start_date.getText().toString();
+           // appUser.end_date = end_date.getText().toString();
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (response.getSale_vouchers().getData().size() == 0) {
                 mRecyclerView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
@@ -508,36 +517,42 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(GetSaleVoucherListActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(GetSaleVoucherListActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(GetSaleVoucherListActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 

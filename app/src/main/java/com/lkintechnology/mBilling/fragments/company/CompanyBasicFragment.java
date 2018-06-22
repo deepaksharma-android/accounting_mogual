@@ -89,17 +89,17 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
         View v =inflater.inflate(R.layout.fragment_company_basic, container, false);
         ButterKnife.bind(this,v);
         EventBus.getDefault().register(this);
+        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        setDateField();
         mComapnyName.setText(Preferences.getInstance(getActivity()).getCname());
         mPrintName.setText(Preferences.getInstance(getActivity()).getCprintname());
         mShortName.setText(Preferences.getInstance(getActivity()).getCshortname());
         mPhoneNumber.setText(Preferences.getInstance(getActivity()).getCphonenumber());
-        mFinancialYear.setText(Preferences.getInstance(getActivity()).getCfinancialyear());
-        mBookYear.setText(Preferences.getInstance(getActivity()).getCbookyear());
+        mFinancialYear.setText(dateFormate(Preferences.getInstance(getActivity()).getCfinancialyear()));
+        mBookYear.setText(dateFormate(Preferences.getInstance(getActivity()).getCbookyear()));
         mCin.setText(Preferences.getInstance(getActivity()).getCcin());
         mPan.setText(Preferences.getInstance(getActivity()).getCpan());
         appUser = LocalRepositories.getAppUser(getActivity());
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
-        setDateField();
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -293,5 +293,12 @@ public class CompanyBasicFragment extends Fragment implements View.OnClickListen
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public String dateFormate(String date){
+        String arr[] = date.split("-");
+        String month = Helpers.getMonth(Integer.parseInt(arr[1])-1);
+        String date1 = arr[2]+" "+month+" "+arr[0];
+        return date1;
     }
 }

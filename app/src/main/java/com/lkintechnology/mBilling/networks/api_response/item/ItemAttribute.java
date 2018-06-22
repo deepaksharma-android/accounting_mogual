@@ -11,12 +11,21 @@ public class ItemAttribute {
 
     public int id;
     public String name;
+    public String item_code;
     public String company;
     public String item_group;
     public String alternate_unit_id;
     public String item_group_id;
     public String item_unit_id;
-    public Double amount=5.0;
+    public Double amount;
+
+    public String getItem_code() {
+        return item_code;
+    }
+
+    public void setItem_code(String item_code) {
+        this.item_code = item_code;
+    }
 
     public Double getAmount() {
         return amount;
@@ -131,6 +140,15 @@ public class ItemAttribute {
     public int stock_quantity;
     public double stock_amount;
     public String conversion_type;
+    public String business_type;
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public int getOpening_stock_quantity_alternate() {
         return opening_stock_quantity_alternate;

@@ -370,8 +370,8 @@ public class AnalysisSaleReportActivity extends RegisterAbstractActivity impleme
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -408,35 +408,42 @@ public class AnalysisSaleReportActivity extends RegisterAbstractActivity impleme
             @Override
             public void onClick(View v) {
 
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(AnalysisSaleReportActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(AnalysisSaleReportActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(AnalysisSaleReportActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 

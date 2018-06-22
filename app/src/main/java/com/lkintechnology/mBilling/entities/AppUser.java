@@ -92,8 +92,6 @@ public class AppUser {
     public String credit_days_for_sale;
     public String credit_days_for_purchase;
     public String bank_account_number;
-    public String bank_ifsc_code;
-    public String bank_name;
     public String serial_voucher_type;
     public String serial_voucher_id;
     public String account_id;
@@ -177,6 +175,7 @@ public class AppUser {
     public String sub_unit_id;
 
     public String item_name;
+    public String item_code;
     public String item_company_id="";
     public String item_item_group_id="";
     public String item_unit_id;
@@ -550,7 +549,10 @@ public List<Map> mListMapForItemSaleReturn = new ArrayList();
     public String serial_ref_no;
     public Map<String,String> transport_details =new HashMap<>();
     public ArrayList<String> company_user;
-    public String gst_nature_purchase_return ="";
+    public String bank_name ="";
+    public String bank_account ="";
+    public String bank_ifsc_code;
+    public String bank_micr_code ="";
     // public String forAccountIntentName="";
    // public String forAccountIntentId="";
     //public boolean forAccountIntentBool;
