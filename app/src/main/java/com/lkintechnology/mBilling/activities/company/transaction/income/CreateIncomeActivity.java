@@ -183,6 +183,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 snackbar.show();
             }
         }else{
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateIncomeActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -764,12 +766,14 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             set_date.setText(response.getIncome().getData().getAttributes().getDate());
+            appUser.income_date = response.getIncome().getData().getAttributes().getDate();
             voucher_no.setText(response.getIncome().getData().getAttributes().getVoucher_number());
             received_into.setText(response.getIncome().getData().getAttributes().getReceived_into());
             received_from.setText(response.getIncome().getData().getAttributes().getReceived_from());
             transaction_amount.setText(String.valueOf(response.getIncome().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getIncome().getData().getAttributes().getNarration());
             Preferences.getInstance(getApplicationContext()).setAttachment("");
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (!Helpers.mystring(response.getIncome().getData().getAttributes().getAttachment()).equals("")) {
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getIncome().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getIncome().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -794,10 +798,8 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, IncomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -846,10 +848,14 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromIncome){
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -859,10 +865,14 @@ public class CreateIncomeActivity extends RegisterAbstractActivity implements Vi
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromIncome){
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
 

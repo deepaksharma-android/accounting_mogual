@@ -39,6 +39,7 @@ import com.lkintechnology.mBilling.utils.EventClickAlertForBankCashDeposite;
 import com.lkintechnology.mBilling.utils.EventDeleteBankCashDeposit;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,7 +53,7 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class BankCaseDepositListActivity extends AppCompatActivity implements View.OnClickListener{
+public class BankCaseDepositListActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
@@ -81,7 +82,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
     @Bind(R.id.error_layout)
     LinearLayout error_layout;
     public Dialog dialog;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
 
@@ -91,17 +92,23 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_bank_case_deposit_list);
         //add_button.bringToFront();
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
         dateString = dateFormatter.format(date);
-        start_date.setText(dateString);
-        end_date.setText(dateString);
+        if (forDate){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         String fixMonth = "Apr";
         int inputMonthPosition = inputMonthPosition(fixMonth);
@@ -110,16 +117,15 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         cashInHand.add("Today");
         cashInHand.add("Last 7 days");
 
-        if(currentMonthPosition<inputMonthPosition)
-        {
-            for(int i = currentMonthPosition; i>=0; i--){
+        if (currentMonthPosition < inputMonthPosition) {
+            for (int i = currentMonthPosition; i >= 0; i--) {
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
-            for(int j=11;j>=inputMonthPosition;j--){
-                cashInHand.add(monthName[j] + " " + (currentYear-1));
+            for (int j = 11; j >= inputMonthPosition; j--) {
+                cashInHand.add(monthName[j] + " " + (currentYear - 1));
             }
-        }else {
-            for (int i = currentMonthPosition; i >=inputMonthPosition; i--) {
+        } else {
+            for (int i = currentMonthPosition; i >= inputMonthPosition; i--) {
 
                 cashInHand.add(monthName[i] + " " + currentYear);
             }
@@ -134,8 +140,8 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 String selectedItemText = (String) parent.getItemAtPosition(position);
-                appUser.bank_cash_deposit_duration_spinner=selectedItemText;
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                appUser.bank_cash_deposit_duration_spinner = selectedItemText;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                 Boolean isConnected = ConnectivityReceiver.isConnected();
                 if (isConnected) {
@@ -161,6 +167,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
                     snackbar.show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -173,6 +180,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
             }
         });
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -232,9 +240,11 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Preferences.getInstance(getApplicationContext()).setAttachment("");
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateBankCaseDepositActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("fromBankcashDeposit",false);
+                intent.putExtra("fromBankcashDeposit", false);
                 startActivity(intent);
                 finish();
                 return true;
@@ -245,11 +255,13 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
 
     @Override
     public void onBackPressed() {
-            Intent intent = new Intent(this, CreateBankCaseDepositActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("fromBankcashDeposit",false);
-            startActivity(intent);
-            finish();
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+        Intent intent = new Intent(this, CreateBankCaseDepositActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("fromBankcashDeposit", false);
+        startActivity(intent);
+        finish();
     }
 
    /* public void add(View v) {
@@ -262,7 +274,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         EventBus.getDefault().register(this);
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(BankCaseDepositListActivity.this);
@@ -289,19 +301,21 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         super.onResume();
 
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
-        if(mProgressDialog!=null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
         super.onPause();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        if(mProgressDialog!=null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
     }
@@ -316,31 +330,30 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
     }
 
     @Subscribe
-    public void getBankCashDeposit(GetBankCashDepositResponse response){
+    public void getBankCashDeposit(GetBankCashDepositResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             if (response.getBank_cash_deposits().getData().size() == 0) {
                 mRecyclerView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 error_layout.setVisibility(View.GONE);
             }
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new BankCashDepositListAdapter(this,response.getBank_cash_deposits().getData());
+            mAdapter = new BankCashDepositListAdapter(this, response.getBank_cash_deposits().getData());
             mRecyclerView.setAdapter(mAdapter);
-            Double total=0.0;
-            for(int i=0;i<response.getBank_cash_deposits().getData().size();i++){
-                total=total+response.getBank_cash_deposits().getData().get(i).getAttributes().getAmount();
+            Double total = 0.0;
+            for (int i = 0; i < response.getBank_cash_deposits().getData().size(); i++) {
+                total = total + response.getBank_cash_deposits().getData().get(i).getAttributes().getAmount();
 
             }
-            mTotal.setText("Total: "+String.format("%.2f",total));
-        }
-        else{
+            mTotal.setText("Total: " + String.format("%.2f", total));
+        } else {
             //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -352,20 +365,19 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         intent.putExtra("fromBankCashDeposit", true);
         intent.putExtra("id", response.getPosition());
         startActivity(intent);
-        finish();
-
     }
+
     @Subscribe
-    public void deletebankcashdeposit(EventDeleteBankCashDeposit pos){
+    public void deletebankcashdeposit(EventDeleteBankCashDeposit pos) {
         //appUser.delete_bank_cash_deposit_id= String.valueOf(appUser.arr_item_group_id.get(pos.getPosition()));
-        appUser.delete_bank_cash_deposit_id= pos.getPosition();
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser.delete_bank_cash_deposit_id = pos.getPosition();
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(BankCaseDepositListActivity.this)
                 .setTitle("Delete Bank Cash Deposit Item")
                 .setMessage("Are you sure you want to delete this Record ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(BankCaseDepositListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -373,15 +385,14 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_BANK_CASH_DEPOSIT);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -394,20 +405,19 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
     }
 
     @Subscribe
-    public void deletebankcashdepositresponse(DeleteBankCashDepositResponse response){
+    public void deletebankcashdepositresponse(DeleteBankCashDepositResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_DEPOSIT);
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-        else{
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
-    public void showpopup(){
+    public void showpopup() {
         dialog = new Dialog(BankCaseDepositListActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.date_pick_dialog);
@@ -422,8 +432,8 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -459,36 +469,42 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(BankCaseDepositListActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_DEPOSIT);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(BankCaseDepositListActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(BankCaseDepositListActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BANK_CASH_DEPOSIT);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 
@@ -499,7 +515,7 @@ public class BankCaseDepositListActivity extends AppCompatActivity implements Vi
     public void onClick(View view) {
         if (view == dialog.findViewById(R.id.date1)) {
             DatePickerDialog1.show();
-        }else if (view == dialog.findViewById(R.id.date2)){
+        } else if (view == dialog.findViewById(R.id.date2)) {
             DatePickerDialog2.show();
         }
     }

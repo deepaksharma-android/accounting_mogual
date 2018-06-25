@@ -36,6 +36,18 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
     TextView mTransactionAmount;
     @Bind(R.id.tax_rate)
     EditText mTaxRate;
+    @Bind(R.id.igst_layout)
+    LinearLayout mIgstLayout;
+    @Bind(R.id.sgst_layout)
+    LinearLayout mSgstLayout;
+    @Bind(R.id.cgst_layout)
+    LinearLayout mCgstLayout;
+    @Bind(R.id.tv_igst)
+    EditText tvIGST;
+    @Bind(R.id.tv_cgst)
+    EditText tvCGST;
+    @Bind(R.id.tv_sgst)
+    EditText tvSgst;
     @Bind(R.id.submit)
     LinearLayout mSubmitButton;
     Map mMap;
@@ -44,7 +56,7 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
     public String itempos;
     public String voucher_type="";
     public String voucher_id="";
-
+    public String state;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,19 +66,86 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
         initActionbar();
         appUser=LocalRepositories.getAppUser(this);
         fromreceipt=getIntent().getExtras().getBoolean("fromreceipt");
+        state=getIntent().getStringExtra("state");
         mTransactionAmount.setText(getIntent().getExtras().getString("amount"));
         mMap = new HashMap<>();
+        mTaxRate.setText("0.0");
+        tvIGST.setText("0.0");
+        tvCGST.setText("0.0");
+        tvSgst.setText("0.0");
+        mTotalAmount.setText("0.0");
         if(fromreceipt){
             itempos=getIntent().getExtras().getString("pos");
             Map map=appUser.mListMapForItemReceipt.get(Integer.parseInt(itempos));
-             mReferenceNumber.setText((String)map.get("ref_num"));
+            mReferenceNumber.setText((String)map.get("ref_num"));
             voucher_id=(String)map.get("voucher_id");
             voucher_type=(String)map.get("voucher_type");
-             mTransactionAmount.setText((String)map.get("amount"));
-             mTaxRate.setText((String)map.get("taxrate"));
+            mTransactionAmount.setText((String)map.get("amount"));
+            mTaxRate.setText((String)map.get("taxrate"));
             mTotalAmount.setText((String)map.get("total"));
+            double percentage = ((Double.parseDouble(mTransactionAmount.getText().toString()) * Double.parseDouble(mTaxRate.getText().toString())) / 100);
+            double halfPer = percentage / 2.0;
+            tvSgst.setText(String.valueOf(halfPer));
+            tvCGST.setText(String.valueOf(halfPer));
+            tvIGST.setText(String.valueOf(percentage));
         }
+
+        if(state==null){
+            state="Haryana";
+        }
+
+        if(state.equals(appUser.company_state)){
+            mIgstLayout.setVisibility(View.GONE);
+            mCgstLayout.setVisibility(View.VISIBLE);
+            mSgstLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            mIgstLayout.setVisibility(View.VISIBLE);
+            mCgstLayout.setVisibility(View.GONE);
+            mSgstLayout.setVisibility(View.GONE);
+        }
+
         mTaxRate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int count) {
+                if(count==0){
+                    tvIGST.setText("0.0");
+                    tvCGST.setText("0.0");
+                    tvSgst.setText("0.0");
+                    mTotalAmount.setText("0.0");
+                }
+                if (s.length() > 0) {
+                    Double amount = 0.0,rate=0.0;
+                    if (!mTransactionAmount.getText().toString().equals("")){
+                        amount = Double.parseDouble(mTransactionAmount.getText().toString());
+                    }
+                    if (!mTaxRate.getText().toString().equals("")){
+                        rate = Double.parseDouble(mTaxRate.getText().toString());
+                    }
+                    double percentage = ((amount * rate) / 100);
+                    double halfPer = percentage / 2.0;
+                    tvSgst.setText(String.valueOf(halfPer));
+                    tvCGST.setText(String.valueOf(halfPer));
+                    tvIGST.setText(String.valueOf(percentage));
+                    mTotalAmount.setText(String.format("%.2f",(amount-percentage)));
+                }else if (s.length()<=0){
+                    tvSgst.setText("");
+                    tvCGST.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        mTransactionAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -75,11 +154,12 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(i2==0){
-                    mTotalAmount.setText("");
-                }
-                else {
-                    String total = String.format("%.2f", ((((Double.parseDouble(mTransactionAmount.getText().toString())) * (Double.parseDouble(mTaxRate.getText().toString()))) / 100) + (Double.parseDouble(mTransactionAmount.getText().toString()))));
-                    mTotalAmount.setText(total);
+                    //etDiffAmount.setText("0.0");
+                    mTaxRate.setText("0.0");
+                    tvIGST.setText("0.0");
+                    tvCGST.setText("0.0");
+                    tvSgst.setText("0.0");
+                    mTotalAmount.setText("0.0");
                 }
             }
 
@@ -99,6 +179,14 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
                             mMap.put("taxrate", mTaxRate.getText().toString());
                             mMap.put("total",mTotalAmount.getText().toString());
                             mMap.put("ref_num",mReferenceNumber.getText().toString());
+                            if(state.equals(appUser.company_state)){
+                                mMap.put("cgst", tvCGST.getText().toString());
+                                mMap.put("sgst", tvSgst.getText().toString());
+                                mMap.put("igst", "");
+                            }
+                            else{
+                                mMap.put("igst", tvIGST.getText().toString());
+                            }
                             if (!fromreceipt) {
                                 appUser.mListMapForItemReceipt.add(mMap);
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -109,6 +197,7 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
                             }
                             Intent in = new Intent(getApplicationContext(), AddReceiptItemActivity.class);
                             in.putExtra("amount",mTransactionAmount.getText().toString());
+                            in.putExtra("state",state);
                             startActivity(in);
                             finish();
                         }
@@ -123,7 +212,75 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
             }
         });
 
+        mTransactionAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!mTransactionAmount.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(mTransactionAmount.getText().toString());
+                        if (aDouble==0){
+                            mTransactionAmount.setText("");
+                        }
+                    }
+                }
+            }
+        });
 
+        mTaxRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!mTaxRate.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(mTaxRate.getText().toString());
+                        if (aDouble==0){
+                            mTaxRate.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        tvIGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvIGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvIGST.getText().toString());
+                        if (aDouble==0){
+                            tvIGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        tvCGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvCGST.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvCGST.getText().toString());
+                        if (aDouble==0){
+                            tvCGST.setText("");
+                        }
+                    }
+                }
+            }
+        });
+
+        tvSgst.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (!tvSgst.getText().toString().equals("")){
+                        Double aDouble = Double.valueOf(tvSgst.getText().toString());
+                        if (aDouble==0){
+                            tvSgst.setText("");
+                        }
+                    }
+                }
+            }
+        });
     }
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();

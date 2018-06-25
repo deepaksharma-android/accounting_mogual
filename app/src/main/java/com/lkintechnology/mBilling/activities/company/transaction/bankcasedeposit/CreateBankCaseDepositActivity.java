@@ -186,6 +186,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 snackbar.show();
             }
         } else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateBankCaseDepositActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -774,12 +776,14 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getBank_cash_deposit().getData().getAttributes().getDate());
+            appUser.bank_cash_deposit_date = response.getBank_cash_deposit().getData().getAttributes().getDate();
             voucher_no.setText(response.getBank_cash_deposit().getData().getAttributes().getVoucher_number());
             deposit_to.setText(response.getBank_cash_deposit().getData().getAttributes().getDeposit_to());
             deposit_by.setText(response.getBank_cash_deposit().getData().getAttributes().getDeposit_by());
             transaction_amount.setText(String.valueOf(response.getBank_cash_deposit().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getBank_cash_deposit().getData().getAttributes().getNarration());
             Preferences.getInstance(getApplicationContext()).setAttachment("");
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (!Helpers.mystring(response.getBank_cash_deposit().getData().getAttributes().getAttachment()).equals("")) {
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getBank_cash_deposit().getData().getAttributes().getAttachment());
                 Glide.with(this).load(Helpers.mystring(response.getBank_cash_deposit().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -804,10 +808,8 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, BankCaseDepositListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(this,response.getMessage());
@@ -861,10 +863,14 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromBankcashDeposit){
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -873,11 +879,14 @@ public class CreateBankCaseDepositActivity extends RegisterAbstractActivity impl
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromBankcashDeposit){
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
    /* public Bitmap toBitmap(String encodedString) {

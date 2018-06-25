@@ -58,7 +58,7 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
     Snackbar snackbar;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-       // dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
+        // dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         String dateString = dateFormatter.format(date);
@@ -82,10 +82,13 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
 
-
-                    appUser.pdf_start_date = mStart_date.getText().toString();
-                    appUser.pdf_end_date = mEnd_date.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(BalanceSheetActivity.this, "End date should be greater than start date!");
+                    return;
+                } else {
+                    appUser.pdf_start_date = start;
+                    appUser.pdf_end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
@@ -108,6 +111,7 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
                                 });
                         snackbar.show();
                     }
+                }
             }
         });
     }
@@ -153,7 +157,7 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
 
         DatePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year,  int monthOfYear, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -181,10 +185,9 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date || view==mCalender_Icon) {
+        if (view == mStart_date || view == mCalender_Icon) {
             DatePickerDialog1.show();
-        }
-        else if(view == mEnd_date || view==mCalender_Icon1){
+        } else if (view == mEnd_date || view == mCalender_Icon1) {
             DatePickerDialog2.show();
         }
     }
@@ -209,17 +212,16 @@ public class BalanceSheetActivity extends RegisterAbstractActivity implements Vi
     }
 
     @Subscribe
-    public void getTransactionPdf(GetTransactionPdfResponse response){
+    public void getTransactionPdf(GetTransactionPdfResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getHtml();
-            i.putExtra("company_report",company_report);
+            i.putExtra("company_report", company_report);
             startActivity(i);
-        }
-        else{
+        } else {
             //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 

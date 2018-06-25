@@ -173,6 +173,7 @@ public class CompanyDetailsFragment extends Fragment {
                         if (!mzip_code.getText().toString().equals("")) {
                             Boolean isConnected = ConnectivityReceiver.isConnected();
                             if (isConnected) {
+                                appUser.company_state = mStateSpinner.getSelectedItem().toString();
                                 appUser.fax = mFax.getText().toString();
                                 appUser.company_email = mEmail.getText().toString();
                                 appUser.address = mAddress.getText().toString();
@@ -187,7 +188,6 @@ public class CompanyDetailsFragment extends Fragment {
                                 mProgressDialog.setIndeterminate(false);
                                 mProgressDialog.setCancelable(true);
                                 mProgressDialog.show();
-                                LocalRepositories.saveAppUser(getActivity(), appUser);
                                 ApiCallsService.action(getActivity(), Cv.ACTION_CREATE_DETAILS);
                             } else {
                                 snackbar = Snackbar

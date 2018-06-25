@@ -60,7 +60,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
-    Boolean fromRegisterPage, fromLoginPage, fromForgotPasswordPage, fromProfilePage, fromUpdateMobileNumber;
+    Boolean fromRegisterPage, fromLoginPage, fromForgotPasswordPage, fromProfilePage, fromUpdateMobileNumber,active;
     private Activity activity;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
@@ -78,6 +78,7 @@ public class VerificationActivity extends RegisterAbstractActivity {
         fromForgotPasswordPage = getIntent().getExtras().getBoolean("fromForgotPasswordPage");
         fromProfilePage = getIntent().getExtras().getBoolean("fromProfilePage");
         fromUpdateMobileNumber = getIntent().getExtras().getBoolean("fromUpdateMobileNumber");
+        active = getIntent().getExtras().getBoolean("active");
         if (fromForgotPasswordPage == true) {
             mChangeMobileNumber.setVisibility(View.GONE);
         }
@@ -86,6 +87,35 @@ public class VerificationActivity extends RegisterAbstractActivity {
         }
         appUser = LocalRepositories.getAppUser(this);
         mMobileNumber.setText(mobile);
+        if(fromLoginPage){
+            if(active){
+                Boolean isConnected = ConnectivityReceiver.isConnected();
+                if (isConnected) {
+                    mProgressDialog = new ProgressDialog(VerificationActivity.this);
+                    mProgressDialog.setMessage("Info...");
+                    mProgressDialog.setIndeterminate(false);
+                    mProgressDialog.setCancelable(true);
+                    mProgressDialog.show();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_RESEND_OTP);
+                } else {
+                    snackbar = Snackbar
+                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                                    if (isConnected) {
+                                        snackbar.dismiss();
+                                    }
+                                }
+                            });
+                    snackbar.show();
+                }
+            }
+        }
+
+
 
         mResend.setOnClickListener(new View.OnClickListener() {
             @Override

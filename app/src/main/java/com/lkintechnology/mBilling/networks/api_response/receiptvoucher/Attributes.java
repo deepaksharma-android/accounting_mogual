@@ -11,6 +11,8 @@ public class Attributes {
     public String gst_nature;
     public String voucher_number;
     public DetailsReceivedFrom received_from;
+    public DetailsReceivedFromState received_from_state;
+
     public String received_by;
     public Double amount;
     public String narration;
@@ -25,6 +27,13 @@ public class Attributes {
         this.received_from = received_from;
     }
 
+    public DetailsReceivedFromState getReceived_from_state() {
+        return received_from_state;
+    }
+
+    public void setReceived_from_state(DetailsReceivedFromState received_from_state) {
+        this.received_from_state = received_from_state;
+    }
     public String getInvoice_html() {
         return invoice_html;
     }

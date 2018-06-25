@@ -65,7 +65,7 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
     Snackbar snackbar;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,22 +74,22 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-       // dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
+        // dateFormatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.US);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
         String dateString = dateFormatter.format(date);
         mStart_date.setText(dateString);
         mEnd_date.setText(dateString);
         setDateField();
-        boolean from_stock_in_hand = getIntent().getBooleanExtra("from_stock_in_hand",false);
-        if (from_stock_in_hand){
+        boolean from_stock_in_hand = getIntent().getBooleanExtra("from_stock_in_hand", false);
+        if (from_stock_in_hand) {
             String name = getIntent().getStringExtra("name");
             String item_id = getIntent().getStringExtra("item_id");
             mItem_textView.setText(name);
             appUser.pdf_account_id = item_id;
-            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             arrow.setVisibility(View.GONE);
-        }else {
+        } else {
             mItem_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -109,32 +109,37 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
 
-                if(!mItem_textView.getText().toString().equals("")){
-                    appUser.pdf_start_date = mStart_date.getText().toString();
-                    appUser.pdf_end_date = mEnd_date.getText().toString();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if (isConnected) {
-                        mProgressDialog = new ProgressDialog(ItemWiseReportActicity.this);
-                        mProgressDialog.setMessage("Info...");
-                        mProgressDialog.setIndeterminate(false);
-                        mProgressDialog.setCancelable(true);
-                        mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_WISE_REPORT);
+                if (!mItem_textView.getText().toString().equals("")) {
+                    if (Helpers.dateValidation(start, end) == -1) {
+                        Helpers.dialogMessage(ItemWiseReportActicity.this, "End date should be greater than start date!");
+                        return;
                     } else {
-                        snackbar = Snackbar
-                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                .setAction("RETRY", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if (isConnected) {
+                        appUser.pdf_start_date = start;
+                        appUser.pdf_end_date = end;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                        if (isConnected) {
+                            mProgressDialog = new ProgressDialog(ItemWiseReportActicity.this);
+                            mProgressDialog.setMessage("Info...");
+                            mProgressDialog.setIndeterminate(false);
+                            mProgressDialog.setCancelable(true);
+                            mProgressDialog.show();
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM_WISE_REPORT);
+                        } else {
+                            snackbar = Snackbar
+                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                                            if (isConnected) {
+                                            }
                                         }
-                                    }
-                                });
-                        snackbar.show();
+                                    });
+                            snackbar.show();
+                        }
                     }
-                }else {
+                } else {
                     Snackbar.make(coordinatorLayout, "Please select Item", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -149,12 +154,12 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 2) {
-                   String result = data.getStringExtra("name");
-                   String id = data.getStringExtra("item_id");
-                   String[] name = result.split(",");
-                   mItem_textView.setText(name[0]);
-                   appUser.pdf_account_id = id;
-                   LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("item_id");
+                String[] name = result.split(",");
+                mItem_textView.setText(name[0]);
+                appUser.pdf_account_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             }
         }
     }
@@ -173,7 +178,7 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
 
         DatePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year,  int monthOfYear, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -188,7 +193,7 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
                         Snackbar.make(coordinatorLayout, "Please select valid date ", Snackbar.LENGTH_LONG).show();
                     }*/
 
-               // Or
+                // Or
 
                /* if(monthOfYear>=03 && year==2017){
                     mStart_date.setText(date1);
@@ -226,10 +231,9 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date || view==mCalender_Icon) {
+        if (view == mStart_date || view == mCalender_Icon) {
             DatePickerDialog1.show();
-        }
-        else if(view == mEnd_date || view==mCalender_Icon1){
+        } else if (view == mEnd_date || view == mCalender_Icon1) {
             DatePickerDialog2.show();
         }
     }
@@ -254,18 +258,17 @@ public class ItemWiseReportActicity extends RegisterAbstractActivity implements 
     }
 
     @Subscribe
-    public void getItemWiseReport(ItemWiseReportResponse response){
+    public void getItemWiseReport(ItemWiseReportResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             //Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getHtml();
-            i.putExtra("company_report",company_report);
+            i.putExtra("company_report", company_report);
             startActivity(i);
-        }
-        else{
-           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 

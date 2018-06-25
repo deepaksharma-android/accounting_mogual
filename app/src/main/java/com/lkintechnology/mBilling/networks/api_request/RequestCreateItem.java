@@ -25,7 +25,7 @@ public class RequestCreateItem {
         else{
             item.put("name", item_name);
         }
-
+        item.put("item_code",appUser.item_code);
         item.put("company_id", Preferences.getInstance(ctx).getCid());
         item.put("item_group_id", appUser.item_group_id);
         item.put("item_unit_id", appUser.item_unit_id);

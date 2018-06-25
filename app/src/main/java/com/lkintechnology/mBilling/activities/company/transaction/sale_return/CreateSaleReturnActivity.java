@@ -60,24 +60,24 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_sale_type);
 
         ButterKnife.bind(this);
-        appUser= LocalRepositories.getAppUser(this);
+        appUser = LocalRepositories.getAppUser(this);
 
-        fromdashboard=getIntent().getExtras().getBoolean("fromdashboard");
-        fromsalelist=getIntent().getExtras().getBoolean("fromsalelist");
-        appUser= LocalRepositories.getAppUser(this);
-        title="CREATE SALE RETURN VOUCHER";
-        if(fromsalelist){
-            title="EDIT SALE RETURN VOUCHER";
+        fromdashboard = getIntent().getExtras().getBoolean("fromdashboard");
+        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
+        appUser = LocalRepositories.getAppUser(this);
+        title = "CREATE SALE RETURN VOUCHER";
+        if (fromsalelist) {
+            title = "EDIT SALE RETURN VOUCHER";
         }
-        if(isForEdit){
-            title="EDIT SALE RETURN VOUCHER";
+        if (isForEdit) {
+            title = "EDIT SALE RETURN VOUCHER";
         }
         initActionbar();
         setupViewPager(mHeaderViewPager);
         mTabLayout.setupWithViewPager(mHeaderViewPager);
-        Intent intent=getIntent();
-        boolean b=intent.getBooleanExtra("is",false);
-        if (b){
+        Intent intent = getIntent();
+        boolean b = intent.getBooleanExtra("is", false);
+        if (b) {
             mHeaderViewPager.setCurrentItem(1, true);
         }
 
@@ -89,11 +89,12 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-      ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CreateSaleReturnFragment(), "CREATE SALE RETURN VOUCHER");
         adapter.addFragment(new AddItemSaleReturnFragment(), "ADD ITEM SALE RETURN");
         viewPager.setAdapter(adapter);
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -148,10 +149,11 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_list_button_action,menu);
+        menuInflater.inflate(R.menu.activity_list_button_action, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -160,15 +162,19 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon_id:
-                Intent i = new Intent(getApplicationContext(),GetSaleReturnVoucherListActivity.class);
+                Intent i = new Intent(getApplicationContext(), GetSaleReturnVoucherListActivity.class);
                 startActivity(i);
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromsalelist){
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -177,10 +183,13 @@ public class CreateSaleReturnActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromsalelist) {
+            finish();
+        } else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 }

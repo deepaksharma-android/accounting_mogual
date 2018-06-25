@@ -544,6 +544,10 @@ public class ApiCallsService extends IntentService {
             handleGetProfitAndLoss();
         }else if (Cv.ACTION_GET_GSTR3B.equals(action)) {
             handleGetGst3B();
+        }else if (Cv.ACTION_GET_GSTR_1.equals(action)) {
+            handleGetGst_1();
+        }else if (Cv.ACTION_GET_GSTR_2.equals(action)) {
+            handleGetGst_2();
         } else if (Cv.ACTION_GET_CHECK_BARCODE.equals(action)) {
             handleGetCheckBarcode();
         } else if (Cv.ACTION_GET_STOCK_TRANSFER.equals(action)) {
@@ -4360,6 +4364,7 @@ public class ApiCallsService extends IntentService {
             }
         });
     }
+
     private void handleGetCheckBarcode() {
         api.checkbarcode(new RequestCheckBarcode(this),Preferences.getInstance(getApplicationContext()).getCid()).enqueue(new Callback<CheckBarcodeResponse>() {
             @Override
@@ -4679,6 +4684,52 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<GetPurchaseVoucherListResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetGst_1() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getgstr_1(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleGetGst_2() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getgstr_2(Preferences.getInstance(getApplicationContext()).getCid(), appUser.pdf_start_date, appUser.pdf_end_date).enqueue(new Callback<CompanyReportResponse>() {
+            @Override
+            public void onResponse(Call<CompanyReportResponse> call, Response<CompanyReportResponse> r) {
+                if (r.code() == 200) {
+                    CompanyReportResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+            }
+
+            @Override
+            public void onFailure(Call<CompanyReportResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

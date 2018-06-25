@@ -269,7 +269,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                appUser = LocalRepositories.getAppUser(getActivity());
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -290,6 +290,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 intStartActivityForResult = 1;
                 ParameterConstant.checkStartActivityResultForAccount = 9;
                 ParameterConstant.checkStartActivityResultForMaterialCenter = 4;
@@ -300,6 +301,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mPurchaseType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 SaleTypeListActivity.isDirectForSaleType = false;
                 // startActivityForResult(new Intent(getContext(), SaleTypeListActivity.class), 22);
                 Intent intent = new Intent(getContext(), SaleTypeListActivity.class);
@@ -310,6 +312,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -326,6 +329,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mShippedTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
@@ -343,6 +347,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mBrowseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
                 startDialog();
@@ -354,6 +359,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imageToUploadUri == null) {
+                    appUser = LocalRepositories.getAppUser(getActivity());
                     /*Drawable dr = ((ImageView) mSelectedImage).getDrawable();
                     Bitmap bitmap =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
                     TransactionDashboardActivity.bitmapPhoto=bitmap;
@@ -377,6 +383,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 TransportActivity.voucher_type = "purchase_return";
                 Intent intent = new Intent(getApplicationContext(), TransportActivity.class);
                 intent.putExtra("fromedit", fromedit);
@@ -408,6 +415,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (!Preferences.getInstance(getActivity()).getSale_type_name().equals("")) {
                     if (!Preferences.getInstance(getActivity()).getStore().equals("")) {
                         startActivity(new Intent(getActivity(), ReceiptActivity.class));
@@ -428,7 +436,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(cash.getText().toString());
                 appUser.sale_cash_credit = cash.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -452,6 +460,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
         credit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
                 Preferences.getInstance(getContext()).setCash_credit(credit.getText().toString());
                 appUser.sale_cash_credit = credit.getText().toString();
                 LocalRepositories.saveAppUser(getActivity(), appUser);
@@ -1141,6 +1150,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
             fromedit = true;
             mDate.setText(response.getPurchase_return_voucher().getData().getAttributes().getDate());
+            appUser.purchase_date = response.getPurchase_return_voucher().getData().getAttributes().getDate();
             mVchNumber.setText(response.getPurchase_return_voucher().getData().getAttributes().getVoucher_number());
             mPurchaseType.setText(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());
             mStore.setText(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center());
@@ -1364,7 +1374,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
-            startActivity(new Intent(getApplicationContext(), GetPurchaseReturnListActivity.class));
+            Intent intent = new Intent(getApplicationContext(), GetPurchaseReturnListActivity.class);
+            intent.putExtra("forDate",true);
+            startActivity(intent);
         } else {
            /* snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);

@@ -37,6 +37,7 @@ import com.lkintechnology.mBilling.utils.EventClickAlertForExpense;
 import com.lkintechnology.mBilling.utils.EventDeleteExpence;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,8 +95,14 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
         long date = System.currentTimeMillis();
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         dateString = dateFormatter.format(date);
-        start_date.setText(dateString);
-        end_date.setText(dateString);
+        Boolean forDate = getIntent().getBooleanExtra("forDate",false);
+        if (forDate){
+            start_date.setText(appUser.start_date);
+            end_date.setText(appUser.end_date);
+        }else {
+            start_date.setText(dateString);
+            end_date.setText(dateString);
+        }
         appUser.start_date = start_date.getText().toString();
         appUser.end_date = end_date.getText().toString();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
@@ -266,7 +273,6 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("fromExpense", true);
         intent.putExtra("id", response.getPosition());
         startActivity(intent);
-        finish();
     }
 
     @Subscribe
@@ -382,6 +388,8 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Preferences.getInstance(getApplicationContext()).setAttachment("");
+                Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
                 Intent intent = new Intent(this, CreateExpenceActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("fromExpence",false);
@@ -395,7 +403,8 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
         Intent intent = new Intent(this, CreateExpenceActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("fromExpence",false);
@@ -418,8 +427,8 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
         date2.setOnClickListener(this);
         final Calendar newCalendar = Calendar.getInstance();
 
-        date1.setText(dateString);
-        date2.setText(dateString);
+        date1.setText(start_date.getText().toString());
+        date2.setText(end_date.getText().toString());
 
         DatePickerDialog1 = new DatePickerDialog(this, new android.app.DatePickerDialog.OnDateSetListener() {
 
@@ -455,36 +464,42 @@ public class ExpenceActivity extends AppCompatActivity implements View.OnClickLi
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                appUser.start_date = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
-                appUser.end_date = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                start_date.setText(((TextView) dialog.findViewById(R.id.date1)).getText().toString());
-                end_date.setText(((TextView) dialog.findViewById(R.id.date2)).getText().toString());
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(ExpenceActivity.this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_EXPENCE);
+                String start = ((TextView) dialog.findViewById(R.id.date1)).getText().toString();
+                String end = ((TextView) dialog.findViewById(R.id.date2)).getText().toString();
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(ExpenceActivity.this, "End date should be greater than start date!");
+                    return;
                 } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                    appUser.start_date = start;
+                    appUser.end_date = end;
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    start_date.setText(start);
+                    end_date.setText(end);
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(ExpenceActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_EXPENCE);
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 

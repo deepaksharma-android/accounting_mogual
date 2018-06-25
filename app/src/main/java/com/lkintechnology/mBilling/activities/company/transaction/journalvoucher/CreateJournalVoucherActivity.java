@@ -192,6 +192,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 snackbar.show();
             }
         } else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateJournalVoucherActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -935,6 +937,7 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getJournal_voucher().getData().getAttributes().getDate());
+            appUser.journal_voucher_date = response.getJournal_voucher().getData().getAttributes().getDate();
             voucher_no.setText(response.getJournal_voucher().getData().getAttributes().getVoucher_number());
             account_name_debit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_debit().getName());
             account_name_credit.setText(response.getJournal_voucher().getData().getAttributes().getAccount_name_credit());
@@ -1033,10 +1036,8 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, JournalVoucherActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(this,response.getMessage());
@@ -1084,10 +1085,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromJournalVoucher){
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -1097,10 +1102,14 @@ public class CreateJournalVoucherActivity extends RegisterAbstractActivity imple
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromJournalVoucher){
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

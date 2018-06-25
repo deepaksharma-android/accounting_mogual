@@ -182,6 +182,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 snackbar.show();
             }
         }else{
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateDebitNoteWoItemActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -812,6 +814,7 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
             set_date.setText(response.getDebit_note().getData().getAttributes().getDate());
+            appUser.debit_note_date = response.getDebit_note().getData().getAttributes().getDate();
             voucher_no.setText(response.getDebit_note().getData().getAttributes().getVoucher_number());
             //account_name_credit.setText(response.getDebit_note().getData().getAttributes().getAccount_name_credit());
             account_name_debit.setText(response.getDebit_note().getData().getAttributes().getAccount_dedit().getName());
@@ -903,10 +906,8 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, DebitNoteWoItemActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         }
         else{
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -956,10 +957,14 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromDebitNote){
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -968,11 +973,14 @@ public class CreateDebitNoteWoItemActivity extends RegisterAbstractActivity impl
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromDebitNote){
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

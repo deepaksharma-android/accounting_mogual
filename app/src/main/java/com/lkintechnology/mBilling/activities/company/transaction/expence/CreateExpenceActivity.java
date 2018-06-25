@@ -183,6 +183,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 snackbar.show();
             }
         } else {
+            mSelectedImage.setImageDrawable(null);
+            mSelectedImage.setVisibility(View.GONE);
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(CreateExpenceActivity.this);
                 mProgressDialog.setMessage("Info...");
@@ -742,12 +744,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             set_date.setText(response.getExpense().getData().getAttributes().getDate());
+            appUser.expence_date = response.getExpense().getData().getAttributes().getDate();
             voucher_no.setText(response.getExpense().getData().getAttributes().getVoucher_number());
             paid_from.setText(response.getExpense().getData().getAttributes().getPaid_from());
             paid_to.setText(response.getExpense().getData().getAttributes().getPaid_to());
             transaction_amount.setText(String.valueOf(response.getExpense().getData().getAttributes().getAmount()));
             transaction_narration.setText(response.getExpense().getData().getAttributes().getNarration());
             Preferences.getInstance(getApplicationContext()).setAttachment("");
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
             if (!Helpers.mystring(response.getExpense().getData().getAttributes().getAttachment()).equals("")) {
                 mainUri=Uri.parse(response.getExpense().getData().getAttributes().getAttachment());
                 Preferences.getInstance(getApplicationContext()).setUrlAttachment(response.getExpense().getData().getAttributes().getAttachment());
@@ -773,10 +777,8 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             Intent intent = new Intent(this, ExpenceActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            intent.putExtra("forDate",true);
             startActivity(intent);
-            Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(this,response.getMessage());
@@ -837,10 +839,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
                 finish();
                 return true;
             case android.R.id.home:
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (fromExpence){
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -849,11 +855,14 @@ public class CreateExpenceActivity extends RegisterAbstractActivity implements V
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, TransactionDashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        if (fromExpence){
+            finish();
+        }else {
+            Intent intent = new Intent(this, TransactionDashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
 

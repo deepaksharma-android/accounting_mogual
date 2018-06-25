@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.activities.company.navigations.reports.gstreturn;
+package com.lkintechnology.mBilling.activities.company.navigations.reports.gstr_1;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -10,12 +10,12 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
@@ -30,16 +30,13 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public class PurchaseRegisterActivity extends RegisterAbstractActivity implements View.OnClickListener {
+public class Gstr1ReportActivity extends RegisterAbstractActivity implements View.OnClickListener{
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.start_date_layout)
@@ -60,13 +57,12 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
     Snackbar snackbar;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
-    private DatePickerDialog DatePickerDialog1, DatePickerDialog2;
+    private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -92,22 +88,21 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
             public void onClick(View view) {
                 String start = mStart_date.getText().toString();
                 String end = mEnd_date.getText().toString();
-                if (Helpers.dateValidation(start,end) == -1) {
-                    Helpers.dialogMessage(PurchaseRegisterActivity.this, "End date should be greater than start date!");
+                if (Helpers.dateValidation(start, end) == -1) {
+                    Helpers.dialogMessage(Gstr1ReportActivity.this, "End date should be greater than start date!");
                     return;
                 } else {
                     appUser.pdf_start_date = start;
                     appUser.pdf_end_date = end;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
                     Boolean isConnected = ConnectivityReceiver.isConnected();
                     if (isConnected) {
-                        mProgressDialog = new ProgressDialog(PurchaseRegisterActivity.this);
+                        mProgressDialog = new ProgressDialog(Gstr1ReportActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
                         mProgressDialog.setCancelable(true);
                         mProgressDialog.show();
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_GST_REPORT_PURCHASE);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_GSTR_1);
                     } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -129,7 +124,7 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
 
     @Override
     protected int layoutId() {
-        return R.layout.activity_sale_register_report;
+        return R.layout.activity_gstr3b_reports;
     }
 
 
@@ -144,6 +139,7 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
         long date = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         String dateString = sdf.format(date);
+
         DatePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -176,13 +172,12 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
         DatePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                view.setMaxDate(System.currentTimeMillis());
+                // view.setMaxDate(System.currentTimeMillis());
                 String start_date = mStart_date.getText().toString();
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 String date1 = dateFormatter.format(newDate.getTime());
                 mEnd_date.setText(date1);
-
                /* int j=-1,k=-1;
                 for(int i=0;i<monthArr.length;i++){
                    if((monthArr[i]==String.valueOf(monthOfYear))){
@@ -213,9 +208,10 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
 
     @Override
     public void onClick(View view) {
-        if (view == mStart_date || view == mCalender_Icon) {
+        if (view == mStart_date || view==mCalender_Icon) {
             DatePickerDialog1.show();
-        } else if (view == mEnd_date || view == mCalender_Icon1) {
+        }
+        else if(view == mEnd_date || view==mCalender_Icon1){
             DatePickerDialog2.show();
         }
     }
@@ -232,7 +228,7 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
-        actionbarTitle.setText("PURCHASE REGISTER");
+        actionbarTitle.setText("GSTR-1");
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -240,16 +236,17 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
     }
 
     @Subscribe
-    public void getTransactionPdf(CompanyReportResponse response) {
+    public void getTransactionPdf(CompanyReportResponse response){
         mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
+        if(response.getStatus()==200) {
             Intent i = new Intent(this, TransactionPdfActivity.class);
             String company_report = response.getHtml();
-            i.putExtra("company_report", company_report);
+            i.putExtra("company_report",company_report);
             startActivity(i);
-        } else {
-            // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this, response.getMessage());
+        }
+        else{
+           // Snackbar.make(coordinatorLayout,response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this,response.getMessage());
         }
     }
 
@@ -258,5 +255,21 @@ public class PurchaseRegisterActivity extends RegisterAbstractActivity implement
         snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
