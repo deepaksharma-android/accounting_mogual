@@ -46,7 +46,7 @@ public class EditTextVoucherBarcodeActivity extends AppCompatActivity {
         pos = getIntent().getIntExtra("businessType",0);
         serial_local_arr = new ArrayList<>();
         LinearLayout serialLayout = (LinearLayout) findViewById(R.id.main_layout);
-        RelativeLayout submit = (RelativeLayout) findViewById(R.id.submit);
+        LinearLayout submit = (LinearLayout) findViewById(R.id.submit);
         LinearLayout serial_layout = (LinearLayout) findViewById(R.id.serial_layout);
         int width = getWidth();
         int height = getHeight();

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_10"
+        android:textColor="@color/black1"
         android:textSize="16sp"/>
     <CheckBox
         android:id="@+id/checkBox"
@@ -21,8 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/rowSerialNoItem"
-        android:background="@color/black1"
-        android:layout_marginLeft="@dimen/dp_5"
-        android:layout_marginRight="@dimen/dp_5"/>
+        android:background="@color/currency_bg" />
 
 </RelativeLayout>
