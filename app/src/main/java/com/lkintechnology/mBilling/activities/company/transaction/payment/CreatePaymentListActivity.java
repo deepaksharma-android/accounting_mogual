@@ -165,16 +165,18 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
             spPos2=sp2;
         }
 
-        if(state==null){
-            state="Haryana";
-        }
-
-        if(state.equals(appUser.company_state)){
-            mIgstLayout.setVisibility(View.GONE);
-            mCgstLayout.setVisibility(View.VISIBLE);
-            mSgstLayout.setVisibility(View.VISIBLE);
-        }
-        else{
+        if (state!=null && appUser.company_state!=null){
+            if(state.equals(appUser.company_state)){
+                mIgstLayout.setVisibility(View.GONE);
+                mCgstLayout.setVisibility(View.VISIBLE);
+                mSgstLayout.setVisibility(View.VISIBLE);
+            }
+            else{
+                mIgstLayout.setVisibility(View.VISIBLE);
+                mCgstLayout.setVisibility(View.GONE);
+                mSgstLayout.setVisibility(View.GONE);
+            }
+        }else{
             mIgstLayout.setVisibility(View.VISIBLE);
             mCgstLayout.setVisibility(View.GONE);
             mSgstLayout.setVisibility(View.GONE);
@@ -379,18 +381,20 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                           //  mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            if(state.equals(appUser.company_state)){
-                                                mMap.put("cgst", tvCGST.getText().toString());
-                                                mMap.put("sgst", tvSgst.getText().toString());
-                                                mMap.put("igst", "");
-                                            }
-                                            else{
+                                            if (state!=null && appUser.company_state!=null) {
+                                                if (state.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                    mMap.put("igst", "");
+                                                } else {
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else {
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
 
 
                                             mMap.put("gst_pos1", spPos1);
-                                            mMap.put("state", state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!frompayment) {
@@ -451,16 +455,18 @@ public class CreatePaymentListActivity extends AppCompatActivity implements View
                                            // mMap.put("party_name", tvPartyName.getText().toString());
                                             mMap.put("difference_amount", etDiffAmount.getText().toString());
                                             mMap.put("rate", etRate.getText().toString());
-                                            if(state.equals(appUser.company_state)){
-                                                mMap.put("cgst", tvCGST.getText().toString());
-                                                mMap.put("sgst", tvSgst.getText().toString());
-                                               mMap.put("igst", "");
-                                            }
-                                            else{
+                                            if (state!=null && appUser.company_state!=null) {
+                                                if (state.equals(appUser.company_state)) {
+                                                    mMap.put("cgst", tvCGST.getText().toString());
+                                                    mMap.put("sgst", tvSgst.getText().toString());
+                                                    mMap.put("igst", "");
+                                                } else {
+                                                    mMap.put("igst", tvIGST.getText().toString());
+                                                }
+                                            }else {
                                                 mMap.put("igst", tvIGST.getText().toString());
                                             }
                                             mMap.put("gst_pos2", spPos2);
-                                            mMap.put("state", state);
                                             mMap.put("spRCNItem", spRCNNature.getSelectedItem().toString());
                                             mMap.put("spITCEligibility", spITCEligibility.getSelectedItem().toString());
                                             if (!frompayment) {

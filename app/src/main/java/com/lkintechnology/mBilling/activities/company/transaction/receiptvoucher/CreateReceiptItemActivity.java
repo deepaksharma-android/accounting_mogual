@@ -90,20 +90,23 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
             tvIGST.setText(String.valueOf(percentage));
         }
 
-        if(state==null){
-            state="Haryana";
-        }
-
-        if(state.equals(appUser.company_state)){
-            mIgstLayout.setVisibility(View.GONE);
-            mCgstLayout.setVisibility(View.VISIBLE);
-            mSgstLayout.setVisibility(View.VISIBLE);
-        }
-        else{
+        if (state!=null && appUser.company_state!=null){
+            if(state.equals(appUser.company_state)){
+                mIgstLayout.setVisibility(View.GONE);
+                mCgstLayout.setVisibility(View.VISIBLE);
+                mSgstLayout.setVisibility(View.VISIBLE);
+            }
+            else{
+                mIgstLayout.setVisibility(View.VISIBLE);
+                mCgstLayout.setVisibility(View.GONE);
+                mSgstLayout.setVisibility(View.GONE);
+            }
+        }else {
             mIgstLayout.setVisibility(View.VISIBLE);
             mCgstLayout.setVisibility(View.GONE);
             mSgstLayout.setVisibility(View.GONE);
         }
+
 
         mTaxRate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -179,12 +182,15 @@ public class CreateReceiptItemActivity extends AppCompatActivity {
                             mMap.put("taxrate", mTaxRate.getText().toString());
                             mMap.put("total",mTotalAmount.getText().toString());
                             mMap.put("ref_num",mReferenceNumber.getText().toString());
-                            if(state.equals(appUser.company_state)){
-                                mMap.put("cgst", tvCGST.getText().toString());
-                                mMap.put("sgst", tvSgst.getText().toString());
-                                mMap.put("igst", "");
-                            }
-                            else{
+                            if (state!=null && appUser.company_state!=null) {
+                                if (state.equals(appUser.company_state)) {
+                                    mMap.put("cgst", tvCGST.getText().toString());
+                                    mMap.put("sgst", tvSgst.getText().toString());
+                                    mMap.put("igst", "");
+                                } else {
+                                    mMap.put("igst", tvIGST.getText().toString());
+                                }
+                            }else {
                                 mMap.put("igst", tvIGST.getText().toString());
                             }
                             if (!fromreceipt) {

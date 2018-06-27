@@ -1119,11 +1119,11 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 }
 
             }
-            if(!response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState().equals("")||response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState()!=null) {
-                state=response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState();
-            }
-            List<Map> myList=new ArrayList<>();
             gst_nature_spinner.setSelection(groupindex);
+
+            state=response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState();
+            List<Map> myList=new ArrayList<>();
+
             Map mMap;
             appUser.mListMapForItemReceipt.clear();
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);

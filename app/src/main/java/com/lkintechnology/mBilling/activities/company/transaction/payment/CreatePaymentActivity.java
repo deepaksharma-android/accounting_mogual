@@ -1110,6 +1110,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
             }
             gst_nature_spinner.setSelection(groupindex);
+            state=response.getPayment().getData().getAttributes().getPaid_to().getState();
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Map mMap;
             for(int i =0;i<response.getPayment().getData().getAttributes().getPayment_item().getData().size();i++){
@@ -1130,11 +1131,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 mMap.put("cgst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getCgst_amount()));
                 mMap.put("sgst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getSgst_amount()));
                 mMap.put("igst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getIgst_amount()));
-                if(!response.getPayment().getData().getAttributes().getPaid_to().getState().equals("")||response.getPayment().getData().getAttributes().getPaid_to().getState()!=null) {
-                    mMap.put("state", response.getPayment().getData().getAttributes().getPaid_to().getState());
-                    state=response.getPayment().getData().getAttributes().getPaid_to().getState();
-
-                }
+               // mMap.put("state", response.getPayment().getData().getAttributes().getPaid_to().getState());
                 mMap.put("spRCNItem",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcm_nature());
                 mMap.put("spITCEligibility",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemPaymentList.add(mMap);
