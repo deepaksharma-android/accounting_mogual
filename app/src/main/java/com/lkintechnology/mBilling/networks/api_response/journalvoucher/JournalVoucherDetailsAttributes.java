@@ -10,7 +10,16 @@ public class JournalVoucherDetailsAttributes {
     public String voucher_number;
     public String account_name_credit;
     public DetailsAccountDebit account_debit;
+    public DetailsAccountCredit account_credit ;
     public DetailsJournalItem journal_item;
+
+    public DetailsAccountCredit getAccount_credit() {
+        return account_credit;
+    }
+
+    public void setAccount_credit(DetailsAccountCredit account_credit) {
+        this.account_credit = account_credit;
+    }
 
     public DetailsJournalItem getJournal_item() {
         return journal_item;

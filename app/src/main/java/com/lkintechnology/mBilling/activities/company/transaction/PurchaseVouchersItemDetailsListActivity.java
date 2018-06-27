@@ -69,6 +69,7 @@ public class PurchaseVouchersItemDetailsListActivity extends RegisterAbstractAct
     private SimpleDateFormat dateFormatter;
     String dateString;
     public static boolean isFromTransactionSaleActivity;
+    Boolean forMainLayoutClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +175,7 @@ public class PurchaseVouchersItemDetailsListActivity extends RegisterAbstractAct
             mRecyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(layoutManager);
-            mAdapter = new GetPurchaseListAdapter(this,response.getPurchase_vouchers().data);
+            mAdapter = new GetPurchaseListAdapter(this,response.getPurchase_vouchers().data,forMainLayoutClick);
             mRecyclerView.setAdapter(mAdapter);
             Double total=0.0;
             for(int i=0;i<response.getPurchase_vouchers().getData().size();i++){

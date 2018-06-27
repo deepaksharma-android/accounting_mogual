@@ -61,39 +61,70 @@ public class CreditNoteItemDetailAdapter extends BaseAdapter {
             holder = (CreditNoteItemDetailAdapter.ViewHolder) convertView.getTag();
         }
         if (mListMap.get(position).get("spITCEligibility") != null && mListMap.get(position).get("spITCEligibility").equals("")){
-            if (!mListMap.get(position).get("state").equals(appUser.company_state)){
-                holder.tvIGST.setVisibility(View.VISIBLE);
-                holder.tvCCST.setVisibility(View.INVISIBLE);
-                holder.tvViewIGST.setVisibility(View.VISIBLE);
-                holder.tvSGST.setVisibility(View.INVISIBLE);
-                holder.cgst.setVisibility(View.GONE);
-                holder.sgst.setVisibility(View.GONE);
-                Map map = mListMap.get(position);
-                Timber.i("MEEEEEEEEEE" + mListMap.get(position));
-                String invoicedetail = (String) map.get("inv_num");
-                String date = (String) map.get("date");
-                String gst = (String) map.get("rate");
-                String cgst = (String) map.get("cgst");
-                String sgst = (String) map.get("sgst");
-                String differenciateitem = (String) map.get("difference_amount");
-                String igst = (String) map.get("igst");
-                if(igst==null||igst.equals("null")){
-                    holder.tvIGST.setVisibility(View.GONE);
-                }
-                String itcEligibility = (String) map.get("spITCEligibility");
+            if (mListMap.get(position).get("state")!=null){
+                if (!mListMap.get(position).get("state").equals(appUser.company_state)){
+                    holder.tvIGST.setVisibility(View.VISIBLE);
+                    holder.tvCCST.setVisibility(View.INVISIBLE);
+                    holder.tvViewIGST.setVisibility(View.VISIBLE);
+                    holder.tvSGST.setVisibility(View.INVISIBLE);
+                    holder.cgst.setVisibility(View.GONE);
+                    holder.sgst.setVisibility(View.GONE);
+                    Map map = mListMap.get(position);
+                    Timber.i("MEEEEEEEEEE" + mListMap.get(position));
+                    String invoicedetail = (String) map.get("inv_num");
+                    String date = (String) map.get("date");
+                    String gst = (String) map.get("rate");
+                    String cgst = (String) map.get("cgst");
+                    String sgst = (String) map.get("sgst");
+                    String differenciateitem = (String) map.get("difference_amount");
+                    String igst = (String) map.get("igst");
+                    if(igst==null||igst.equals("null")){
+                        holder.tvIGST.setVisibility(View.GONE);
+                    }
+                    String itcEligibility = (String) map.get("spITCEligibility");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
         String mrp= (String) map.get("mrp");*/
 
-                holder.tvInvoiceDetail.setText(invoicedetail);
-                holder.tvDate.setText(date);
-                holder.tvGST.setText(gst);
-                holder.tvCCST.setText(cgst);
-                holder.tvDifferenciateItem.setText(differenciateitem);
-                holder.tvIGST.setText(igst);
-                // holder.tvITCEligibility(itcEligibility);
-                //   holder..setText(sgst);
+                    holder.tvInvoiceDetail.setText(invoicedetail);
+                    holder.tvDate.setText(date);
+                    holder.tvGST.setText(gst);
+                    holder.tvCCST.setText(cgst);
+                    holder.tvDifferenciateItem.setText(differenciateitem);
+                    holder.tvIGST.setText(igst);
+                    // holder.tvITCEligibility(itcEligibility);
+                    //   holder..setText(sgst);
+                }else {
+                    holder.tvIGST.setVisibility(View.INVISIBLE);
+                    holder.tvCCST.setVisibility(View.VISIBLE);
+                    holder.tvSGST.setVisibility(View.VISIBLE);
+                    holder.cgst.setVisibility(View.VISIBLE);
+                    holder.sgst.setVisibility(View.VISIBLE);
+                    Map map = mListMap.get(position);
+                    Timber.i("MEEEEEEEEEE" + mListMap.get(position));
+                    String invoicedetail = (String) map.get("inv_num");
+                    String date = (String) map.get("date");
+                    String gst = (String) map.get("rate");
+                    String cgst = (String) map.get("cgst");
+                    String sgst = (String) map.get("sgst");
+                    String differenciateitem = (String) map.get("difference_amount");
+                    String igst = (String) map.get("igst");
+                    String itcEligibility = (String) map.get("spITCEligibility");
+        /*String discount= (String) map.get("discount");
+        String value= (String) map.get("value");
+        String total= (String) map.get("total");
+        String mrp= (String) map.get("mrp");*/
+
+                    holder.tvInvoiceDetail.setText(invoicedetail);
+                    holder.tvDate.setText(date);
+                    holder.tvGST.setText(gst);
+                    holder.tvCCST.setText(cgst);
+                    holder.tvDifferenciateItem.setText(differenciateitem);
+                    holder.tvSGST.setText(sgst);
+                    // holder.tvITCEligibility(itcEligibility);
+                    //   holder..setText(sgst);
+                }
             }else {
                 holder.tvIGST.setVisibility(View.INVISIBLE);
                 holder.tvCCST.setVisibility(View.VISIBLE);
@@ -110,97 +141,114 @@ public class CreditNoteItemDetailAdapter extends BaseAdapter {
                 String differenciateitem = (String) map.get("difference_amount");
                 String igst = (String) map.get("igst");
                 String itcEligibility = (String) map.get("spITCEligibility");
+            }
+
+        }else {
+            if (mListMap.get(position).get("state")!=null){
+                if (! mListMap.get(position).get("state").equals(appUser.company_state)) {
+
+                    holder.tvIGST.setVisibility(View.VISIBLE);
+                    holder.tvViewIGST.setVisibility(View.VISIBLE);
+                    holder.tvITCEligibility.setVisibility(View.VISIBLE);
+                    holder.tvViewITCEligibility.setVisibility(View.VISIBLE);
+                    holder.sgst.setVisibility(View.GONE);
+                    holder.cgst.setVisibility(View.GONE);
+
+                    // holder.cgst.setVisibility(View.VISIBLE);
+                    // holder.sgst.setVisibility(View.VISIBLE);
+                    Map map = mListMap.get(position);
+                    Timber.i("MEEEEEEEEEE" + mListMap.get(position));
+                    String invoicedetail = (String) map.get("inv_num");
+                    String date = (String) map.get("date");
+                    String gst = (String) map.get("rate");
+                    //String cgst = (String) map.get("cgst");
+                    // String sgst = (String) map.get("sgst");
+                    String differenciateitem = (String) map.get("difference_amount");
+                    String igst = (String) map.get("igst");
+                    String itcEligibility = (String) map.get("spITCEligibility");
         /*String discount= (String) map.get("discount");
         String value= (String) map.get("value");
         String total= (String) map.get("total");
         String mrp= (String) map.get("mrp");*/
 
+                    holder.tvInvoiceDetail.setText(invoicedetail);
+                    holder.tvDate.setText(date);
+                    holder.tvGST.setText(gst);
+                    //  holder.tvCCST.setText(cgst);
+                    holder.tvDifferenciateItem.setText(differenciateitem);
+                    holder.tvITCEligibility.setText(itcEligibility);
+                    holder.tvIGST.setText(igst);
+
+                    // holder.tvSGST.setText(sgst);
+                    holder.tvITCEligibility.setText(itcEligibility);
+                    // holder.tvITCEligibility(itcEligibility);
+                    //   holder..setText(sgst);
+                }else {
+                    holder.cgst.setVisibility(View.VISIBLE);
+                    holder.sgst.setVisibility(View.VISIBLE);
+                    holder.tvIGST.setVisibility(View.VISIBLE);
+                    holder.tvITCEligibility.setVisibility(View.VISIBLE);
+                    holder.tvViewITCEligibility.setVisibility(View.VISIBLE);
+                    Map map = mListMap.get(position);
+                    Timber.i("MEEEEEEEEEE" + mListMap.get(position));
+                    String invoicedetail = (String) map.get("inv_num");
+                    String date = (String) map.get("date");
+                    String gst = (String) map.get("rate");
+                    String cgst = (String) map.get("cgst");
+                    String sgst = (String) map.get("sgst");
+                    String differenciateitem = (String) map.get("difference_amount");
+                    String igst = (String) map.get("igst");
+                    String itcEligibility = (String) map.get("spITCEligibility");
+                    if(igst==null||igst.equals("null")){
+                        holder.tvIGST.setVisibility(View.GONE);
+                    }
+        /*String discount= (String) map.get("discount");
+        String value= (String) map.get("value");
+        String total= (String) map.get("total");
+        String mrp= (String) map.get("mrp");*/
+
+                    holder.tvInvoiceDetail.setText(invoicedetail);
+                    holder.tvDate.setText(date);
+                    holder.tvGST.setText(gst);
+                    holder.tvCCST.setText(cgst);
+                    holder.tvDifferenciateItem.setText(differenciateitem);
+                    holder.tvIGST.setText(igst);
+                    holder.tvSGST.setText(sgst);
+                    holder.tvITCEligibility.setText(itcEligibility);
+                    // holder.tvITCEligibility(itcEligibility);
+                    //   holder..setText(sgst);
+                }
+            }else {
+                holder.cgst.setVisibility(View.VISIBLE);
+                holder.sgst.setVisibility(View.VISIBLE);
+                holder.tvIGST.setVisibility(View.VISIBLE);
+                holder.tvITCEligibility.setVisibility(View.VISIBLE);
+                holder.tvViewITCEligibility.setVisibility(View.VISIBLE);
+                Map map = mListMap.get(position);
+                Timber.i("MEEEEEEEEEE" + mListMap.get(position));
+                String invoicedetail = (String) map.get("inv_num");
+                String date = (String) map.get("date");
+                String gst = (String) map.get("rate");
+                String cgst = (String) map.get("cgst");
+                String sgst = (String) map.get("sgst");
+                String differenciateitem = (String) map.get("difference_amount");
+                String igst = (String) map.get("igst");
+                String itcEligibility = (String) map.get("spITCEligibility");
+                if(igst==null||igst.equals("null")){
+                    holder.tvIGST.setVisibility(View.GONE);
+                }
                 holder.tvInvoiceDetail.setText(invoicedetail);
                 holder.tvDate.setText(date);
                 holder.tvGST.setText(gst);
                 holder.tvCCST.setText(cgst);
                 holder.tvDifferenciateItem.setText(differenciateitem);
+                holder.tvIGST.setText(igst);
                 holder.tvSGST.setText(sgst);
+                holder.tvITCEligibility.setText(itcEligibility);
                 // holder.tvITCEligibility(itcEligibility);
                 //   holder..setText(sgst);
             }
 
-
-
-        }else
-             { if (! mListMap.get(position).get("state").equals(appUser.company_state)) {
-
-                 holder.tvIGST.setVisibility(View.VISIBLE);
-                 holder.tvViewIGST.setVisibility(View.VISIBLE);
-                 holder.tvITCEligibility.setVisibility(View.VISIBLE);
-                 holder.tvViewITCEligibility.setVisibility(View.VISIBLE);
-                 holder.sgst.setVisibility(View.GONE);
-                 holder.cgst.setVisibility(View.GONE);
-
-                // holder.cgst.setVisibility(View.VISIBLE);
-                // holder.sgst.setVisibility(View.VISIBLE);
-                 Map map = mListMap.get(position);
-                 Timber.i("MEEEEEEEEEE" + mListMap.get(position));
-                 String invoicedetail = (String) map.get("inv_num");
-                 String date = (String) map.get("date");
-                 String gst = (String) map.get("rate");
-                //String cgst = (String) map.get("cgst");
-                // String sgst = (String) map.get("sgst");
-                 String differenciateitem = (String) map.get("difference_amount");
-                 String igst = (String) map.get("igst");
-                 String itcEligibility = (String) map.get("spITCEligibility");
-        /*String discount= (String) map.get("discount");
-        String value= (String) map.get("value");
-        String total= (String) map.get("total");
-        String mrp= (String) map.get("mrp");*/
-
-                 holder.tvInvoiceDetail.setText(invoicedetail);
-                 holder.tvDate.setText(date);
-                 holder.tvGST.setText(gst);
-               //  holder.tvCCST.setText(cgst);
-                 holder.tvDifferenciateItem.setText(differenciateitem);
-                 holder.tvITCEligibility.setText(itcEligibility);
-                 holder.tvIGST.setText(igst);
-
-                // holder.tvSGST.setText(sgst);
-                holder.tvITCEligibility.setText(itcEligibility);
-                 // holder.tvITCEligibility(itcEligibility);
-                 //   holder..setText(sgst);
-             }else {
-                 holder.cgst.setVisibility(View.VISIBLE);
-                 holder.sgst.setVisibility(View.VISIBLE);
-                 holder.tvIGST.setVisibility(View.VISIBLE);
-                 holder.tvITCEligibility.setVisibility(View.VISIBLE);
-                 holder.tvViewITCEligibility.setVisibility(View.VISIBLE);
-                 Map map = mListMap.get(position);
-                 Timber.i("MEEEEEEEEEE" + mListMap.get(position));
-                 String invoicedetail = (String) map.get("inv_num");
-                 String date = (String) map.get("date");
-                 String gst = (String) map.get("rate");
-                 String cgst = (String) map.get("cgst");
-                 String sgst = (String) map.get("sgst");
-                 String differenciateitem = (String) map.get("difference_amount");
-                String igst = (String) map.get("igst");
-                 String itcEligibility = (String) map.get("spITCEligibility");
-                 if(igst==null||igst.equals("null")){
-                     holder.tvIGST.setVisibility(View.GONE);
-                 }
-        /*String discount= (String) map.get("discount");
-        String value= (String) map.get("value");
-        String total= (String) map.get("total");
-        String mrp= (String) map.get("mrp");*/
-
-                 holder.tvInvoiceDetail.setText(invoicedetail);
-                 holder.tvDate.setText(date);
-                 holder.tvGST.setText(gst);
-                 holder.tvCCST.setText(cgst);
-                 holder.tvDifferenciateItem.setText(differenciateitem);
-                  holder.tvIGST.setText(igst);
-                holder.tvSGST.setText(sgst);
-                 holder.tvITCEligibility.setText(itcEligibility);
-                 // holder.tvITCEligibility(itcEligibility);
-                 //   holder..setText(sgst);
-             }
         }
         /*Map map=mListMap.get(position);
         Timber.i("MEEEEEEEEEE"+mListMap.get(position));

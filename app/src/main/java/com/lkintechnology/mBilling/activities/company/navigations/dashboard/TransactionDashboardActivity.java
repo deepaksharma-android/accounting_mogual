@@ -22,10 +22,12 @@ import com.lkintechnology.mBilling.activities.company.transaction.income.CreateI
 import com.lkintechnology.mBilling.activities.company.transaction.journalvoucher.CreateJournalVoucherActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.payment.CreatePaymentActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.receiptvoucher.CreateReceiptVoucherActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.stocktransfer.CreateStockTransferActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_request.RequestCheckBarcode;
@@ -148,12 +150,15 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.account_name_debit_name = "";
         appUser.account_name_credit_name = "";
         appUser.sale_partyEmail = "";
+        Preferences.getInstance(context).setVoucher_name("");
+        Preferences.getInstance(context).setVoucher_id("");
         RequestCheckBarcode.bollForBarcode=null;
         Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
         Preferences.getInstance(getApplicationContext()).setReason("");
         ParameterConstant.handleAutoCompleteTextView = 0;
-
+ 		appUser.paymentSettlementList.clear();
+        appUser.paymentSettlementHashMap.clear();
         ParameterConstant.name = "";
         ParameterConstant.mobile = "";
         ParameterConstant.email = "";
@@ -197,13 +202,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.payment_account_id_1 = "";
-                appUser.payment_account_id_2 = "";
-                appUser.payment_account_id_3 = "";
-                appUser.payment_account_id_4 = "";
-                appUser.payment_account_id_5 = "";
-                appUser.paymentSettlementList.clear();
-                appUser.paymentSettlementHashMap.clear();
+            
 
                 CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();
@@ -287,13 +286,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.payment_account_id_1 = "";
-                appUser.payment_account_id_2 = "";
-                appUser.payment_account_id_3 = "";
-                appUser.payment_account_id_4 = "";
-                appUser.payment_account_id_5 = "";
-                appUser.paymentSettlementList.clear();
-                appUser.paymentSettlementHashMap.clear();
+              
 
                 CreatePurchaseActivity.isForEdit = false;
                 appUser.serial_arr.clear();
@@ -505,13 +498,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         saleReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.payment_account_id_1 = "";
-                appUser.payment_account_id_2 = "";
-                appUser.payment_account_id_3 = "";
-                appUser.payment_account_id_4 = "";
-                appUser.payment_account_id_5 = "";
-                appUser.paymentSettlementList.clear();
-                appUser.paymentSettlementHashMap.clear();
+                
 
                 CreateSaleReturnActivity.isForEdit=false;
                 Preferences.getInstance(context).setVoucher_date("");
@@ -563,13 +550,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchaseReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.payment_account_id_1 = "";
-                appUser.payment_account_id_2 = "";
-                appUser.payment_account_id_3 = "";
-                appUser.payment_account_id_4 = "";
-                appUser.payment_account_id_5 = "";
-                appUser.paymentSettlementList.clear();
-                appUser.paymentSettlementHashMap.clear();
+               
 
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");

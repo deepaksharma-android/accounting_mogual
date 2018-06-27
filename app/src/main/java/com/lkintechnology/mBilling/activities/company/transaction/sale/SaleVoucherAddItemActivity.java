@@ -949,8 +949,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
                 mMap.put("barcode", barcode);
                 mMap.put("voucher_barcode", mSr_no.getText().toString());
                 mMap.put("sale_unit", sale_unit);
-                mMap.put("business_type", mBusinessType.getSelectedItem());
-
+                mMap.put("business_type",mBusinessType.getSelectedItem());
                 String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
                 if (taxstring.startsWith("I") || taxstring.startsWith("L")) {
                     String arrtaxstring[] = taxstring.split("-");

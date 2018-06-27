@@ -12,6 +12,7 @@ public class ReceiptVouchersDetailsAttributes {
     public String gst_nature;
     public String voucher_number;
     public String received_by;
+
     public DetailsReceivedFrom received_from_state;
     public DetailsReceivedFromState received_from;
 

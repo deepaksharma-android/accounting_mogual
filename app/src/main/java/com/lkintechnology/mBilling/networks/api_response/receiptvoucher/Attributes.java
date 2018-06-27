@@ -18,6 +18,15 @@ public class Attributes {
     public String narration;
     public String attachment;
     public String invoice_html;
+    public String is_payment_settlement;
+
+    public String getIs_payment_settlement() {
+        return is_payment_settlement;
+    }
+
+    public void setIs_payment_settlement(String is_payment_settlement) {
+        this.is_payment_settlement = is_payment_settlement;
+    }
 
     public DetailsReceivedFrom getReceived_from() {
         return received_from;

@@ -1,11 +1,13 @@
 package com.lkintechnology.mBilling.activities.company.transaction.creditnotewoitem;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,8 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.w3c.dom.Text;
@@ -34,11 +39,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
+
 import static android.media.CamcorderProfile.get;
 
 public class CreateCreditNoteItemActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText etIVNNo;
     private TextView tvDiffAmount;
+    private TextView mVoucher;
+    private TextView mVoucherTitle;
     private TextView tvDate, etGST, etIGST, etCGST, etSGST, tvSGST, tvCGST, tvIGST, tvITC, tv_gst;
     private DatePicker datePicker;
     private Calendar calendar;
@@ -47,12 +56,12 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     Map mMap;
     private RelativeLayout rootLayout;
     private LinearLayout ll_submit, rootSP;
-    private String amount, position, state, journalVoucherPosition, journalDiffAmount;
+    private String amount, position, state, journalVoucherPosition, journalDiffAmount, state_for_credit;
     private Spinner spChooseGoods;
     private String chooseGoods[] = {"Input Goods", "Input Services", "Capital Goods", "None"};
     private String itempos;
     public Boolean fromcredit;
-    String id = "";
+    String id = "", title = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +71,13 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         appUser = LocalRepositories.getAppUser(this);
         initView();
         initialpageSetup();
+        title = "Purchase Voucher";
         mMap = new HashMap();
         tvDate.setOnClickListener(this);
         ll_submit.setOnClickListener(this);
         fromcredit = getIntent().getExtras().getBoolean("fromcredit");
         state = getIntent().getExtras().getString("state");
+        state_for_credit = getIntent().getStringExtra("state_for_credit");
 
 
         if (fromcredit) {
@@ -102,8 +113,17 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             position = ((String) map.get("sp_position"));
             String goods = ((String) map.get("spITCEligibility"));
             tvDate.setText((String) map.get("date"));
+
+            if (journalVoucherPosition != null) {
+                if (journalVoucherPosition.equals("6")) {
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("purchase_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("purchase_id"));
+                }
+            }
             if (position != null) {
                 if (position.equals("2")) {
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("purchase_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("purchase_id"));
                     tvITC.setVisibility(View.VISIBLE);
                     String group_type = goods.trim();
                     int groupindex = -1;
@@ -115,6 +135,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                     }
                     spChooseGoods.setSelection(groupindex);
                 } else {
+                    Preferences.getInstance(getApplicationContext()).setVoucher_name((String) map.get("sale_name"));
+                    Preferences.getInstance(getApplicationContext()).setVoucher_id((String) map.get("sale_id"));
                     tvITC.setVisibility(View.GONE);
                 }
             } else {
@@ -142,17 +164,19 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             journalVoucherPosition = getIntent().getExtras().getString("gst_pos6");
             journalDiffAmount = getIntent().getExtras().getString("diff_amount");
             state = getIntent().getExtras().getString("state");
+            state_for_credit = getIntent().getExtras().getString("state_for_credit");
             calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
             showDate(year, month + 1, day);
         }
+        mVoucher.setText(Preferences.getInstance(getApplicationContext()).getVoucher_name());
 
-
-        if (state == null || state.equals("")) {
+     /*   if (state == null || state.equals("")) {
             state = "Haryana";
-        }
+
+        }*/
 
 
         if (position != null) {
@@ -160,6 +184,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                 spChooseGoods.setVisibility(View.VISIBLE);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
+                mVoucherTitle.setText(title);
             } else {
                 tvITC.setVisibility(View.GONE);
             }
@@ -170,30 +195,132 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                 tvDiffAmount.setText(journalDiffAmount);
                 rootSP.setVisibility(View.VISIBLE);
                 tvITC.setVisibility(View.VISIBLE);
+                mVoucherTitle.setText(title);
             } else {
                 tvITC.setVisibility(View.GONE);
             }
         }
-        if (state.equals(appUser.company_state)) {
-            tvCGST.setVisibility(View.VISIBLE);
-            etCGST.setVisibility(View.VISIBLE);
-            tvSGST.setVisibility(View.VISIBLE);
-            etCGST.setVisibility(View.VISIBLE);
-            etSGST.setVisibility(View.VISIBLE);
-            tvIGST.setVisibility(View.GONE);
-            etIGST.setVisibility(View.GONE);
-            tv_gst.setText("GST %");
 
+        if (position != null) {
+            if (state.equals(appUser.company_state)) {
+                tvCGST.setVisibility(View.VISIBLE);
+                etCGST.setVisibility(View.VISIBLE);
+                tvSGST.setVisibility(View.VISIBLE);
+                etCGST.setVisibility(View.VISIBLE);
+                etSGST.setVisibility(View.VISIBLE);
+                tvIGST.setVisibility(View.GONE);
+                etIGST.setVisibility(View.GONE);
+                tv_gst.setText("GST %");
+
+            } else {
+                tvCGST.setVisibility(View.GONE);
+                etCGST.setVisibility(View.GONE);
+                tvSGST.setVisibility(View.GONE);
+                etCGST.setVisibility(View.GONE);
+                etSGST.setVisibility(View.GONE);
+                tvIGST.setVisibility(View.VISIBLE);
+                etIGST.setVisibility(View.VISIBLE);
+                tv_gst.setText("IGST %");
+            }
         } else {
-            tvCGST.setVisibility(View.GONE);
-            etCGST.setVisibility(View.GONE);
-            tvSGST.setVisibility(View.GONE);
-            etCGST.setVisibility(View.GONE);
-            etSGST.setVisibility(View.GONE);
-            tvIGST.setVisibility(View.VISIBLE);
-            etIGST.setVisibility(View.VISIBLE);
-            tv_gst.setText("IGST %");
+            if ((state != null && !state.equals("") && (appUser.account_name_debit_name.equals("CREDIT NOTE")))) {
+                if ((state_for_credit != null && !state_for_credit.equals("")) && state_for_credit.equals(appUser.company_state)) {
+                    tvCGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    tvSGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    etSGST.setVisibility(View.VISIBLE);
+                    tvIGST.setVisibility(View.GONE);
+                    etIGST.setVisibility(View.GONE);
+                    tv_gst.setText("GST %");
+                } else {
+                    tvCGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    tvSGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    etSGST.setVisibility(View.GONE);
+                    tvIGST.setVisibility(View.VISIBLE);
+                    etIGST.setVisibility(View.VISIBLE);
+                    tv_gst.setText("IGST %");
+                }
+            } else if ((state_for_credit != null && !state_for_credit.equals("") && (appUser.account_name_credit_name.equals("CREDIT NOTE")))) {
+                if ((state != null && !state.equals("")) && state.equals(appUser.company_state)) {
+                    tvCGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    tvSGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    etSGST.setVisibility(View.VISIBLE);
+                    tvIGST.setVisibility(View.GONE);
+                    etIGST.setVisibility(View.GONE);
+                    tv_gst.setText("GST %");
+                } else {
+                    tvCGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    tvSGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    etSGST.setVisibility(View.GONE);
+                    tvIGST.setVisibility(View.VISIBLE);
+                    etIGST.setVisibility(View.VISIBLE);
+                    tv_gst.setText("IGST %");
+                }
+            } else {
+                if ((state != null && !state.equals("")) && state.equals(appUser.company_state)) {
+                    tvCGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    tvSGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    etSGST.setVisibility(View.VISIBLE);
+                    tvIGST.setVisibility(View.GONE);
+                    etIGST.setVisibility(View.GONE);
+                    tv_gst.setText("GST %");
+                } else if ((state_for_credit != null && !state_for_credit.equals("")) && state_for_credit.equals(appUser.company_state)) {
+                    tvCGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    tvSGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    etSGST.setVisibility(View.VISIBLE);
+                    tvIGST.setVisibility(View.GONE);
+                    etIGST.setVisibility(View.GONE);
+                    tv_gst.setText("GST %");
+                } else {
+                    tvCGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    tvSGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    etSGST.setVisibility(View.GONE);
+                    tvIGST.setVisibility(View.VISIBLE);
+                    etIGST.setVisibility(View.VISIBLE);
+                    tv_gst.setText("IGST %");
+                }
+            }
         }
+
+        mVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getApplicationContext());
+                if (position != null) {
+                    if (position.equals("2")) {
+                        Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                        intent.putExtra("purchase_return", true);
+                        startActivityForResult(intent, 1);
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+                        intent.putExtra("sale_return", true);
+                        startActivityForResult(intent, 1);
+                    }
+                }
+                if (journalVoucherPosition != null) {
+                    if (journalVoucherPosition.equals("6")) {
+                        Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
+                        intent.putExtra("purchase_return", true);
+                        startActivityForResult(intent, 1);
+                    }
+                }
+            }
+        });
+
+
         tvDiffAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -203,7 +330,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (i2 == 0) {
-                   // tvDiffAmount.setText("0.0");
+                    // tvDiffAmount.setText("0.0");
                     etGST.setText("0.0");
                     etIGST.setText("0.0");
                     etCGST.setText("0.0");
@@ -258,10 +385,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         tvDiffAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!tvDiffAmount.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!tvDiffAmount.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(tvDiffAmount.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             tvDiffAmount.setText("");
                         }
                     }
@@ -272,10 +399,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         etGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!etGST.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!etGST.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(etGST.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             etGST.setText("");
                         }
                     }
@@ -286,10 +413,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         etIGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!etIGST.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!etIGST.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(etIGST.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             etIGST.setText("");
                         }
                     }
@@ -300,10 +427,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         etCGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!etCGST.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!etCGST.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(etCGST.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             etCGST.setText("");
                         }
                     }
@@ -314,10 +441,10 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         etSGST.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    if (!etSGST.getText().toString().equals("")){
+                if (hasFocus) {
+                    if (!etSGST.getText().toString().equals("")) {
                         Double aDouble = Double.valueOf(etSGST.getText().toString());
-                        if (aDouble==0){
+                        if (aDouble == 0) {
                             etSGST.setText("");
                         }
                     }
@@ -343,6 +470,8 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         tvDate = (TextView) findViewById(R.id.tv_date_select);
         ll_submit = (LinearLayout) findViewById(R.id.tv_submit);
         rootSP = (LinearLayout) findViewById(R.id.root_sp);
+        mVoucher = (TextView) findViewById(R.id.voucher);
+        mVoucherTitle = (TextView) findViewById(R.id.voucher_title);
     }
 
     private void initialpageSetup() {
@@ -388,21 +517,42 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                     mMap.put("difference_amount", tvDiffAmount.getText().toString());
                                     mMap.put("rate", etGST.getText().toString());
 
-                                    if (state.equals(appUser.company_state)) {
-                                        mMap.put("cgst", etCGST.getText().toString());
-                                        mMap.put("sgst", etSGST.getText().toString());
-                                        mMap.put("state", state);
-                                    } else {
+                                    if ((state!=null && !state.equals("")) && (state_for_credit!=null && !state_for_credit.equals(""))){
+                                        if (state.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        }else if(state_for_credit.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        } else{
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                    }else if(state!=null && !state.equals("")){
+                                        if (state.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        }else {
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                    }else if(state_for_credit!=null && !state_for_credit.equals("")) {
+                                        if (state_for_credit.equals(appUser.company_state)) {
+                                            mMap.put("cgst", etCGST.getText().toString());
+                                            mMap.put("sgst", etSGST.getText().toString());
+                                        } else {
+                                            mMap.put("igst", etIGST.getText().toString());
+                                        }
+                                    }else {
                                         mMap.put("igst", etIGST.getText().toString());
-                                        mMap.put("state", state);
-                                        //  mMap.put("state", state);
                                     }
+
                                     mMap.put("date", tvDate.getText().toString());
                                     mMap.put("spITCEligibility", "");
                                     mMap.put("state", state);
                                     mMap.put("sp_position", position);
                                     mMap.put("amount", amount);
                                     mMap.put("date", tvDate.getText().toString());
+                                    mMap.put("sale_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                    mMap.put("sale_id", Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                     if (!fromcredit) {
                                         appUser.mListMapForItemCreditNote.add(mMap);
                                         LocalRepositories.saveAppUser(this, appUser);
@@ -444,15 +594,15 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         if (state.equals(appUser.company_state)) {
                                             mMap.put("cgst", etCGST.getText().toString());
                                             mMap.put("sgst", etSGST.getText().toString());
-                                            mMap.put("state", state);
                                         } else {
                                             mMap.put("igst", etIGST.getText().toString());
-                                            mMap.put("state", state);
                                         }
                                         mMap.put("sp_position", position);
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("state", state);
                                         mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("purchase_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                        mMap.put("purchase_id", Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                         if (!fromcredit) {
                                             appUser.mListMapForItemCreditNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
@@ -498,18 +648,30 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         mMap.put("inv_num", etIVNNo.getText().toString());
                                         mMap.put("difference_amount", journalDiffAmount);
                                         mMap.put("rate", etGST.getText().toString());
-                                        if (state.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
-                                            mMap.put("state", state);
-                                        } else {
-                                            mMap.put("igst", etIGST.getText().toString());
-                                            mMap.put("state", state);
+                                        if (state != null) {
+                                            if (state.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
                                         }
+                                        if (state_for_credit != null) {
+                                            if (state_for_credit.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
+                                        }
+
                                         mMap.put("gst_pos6", journalVoucherPosition);
                                         mMap.put("date", tvDate.getText().toString());
                                         mMap.put("state", state);
+                                        mMap.put("state_for_credit", state_for_credit);
                                         mMap.put("spITCEligibility", spChooseGoods.getSelectedItem().toString());
+                                        mMap.put("purchase_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                        mMap.put("purchase_id", Preferences.getInstance(getApplicationContext()).getVoucher_id());
                                         if (!fromcredit) {
                                             appUser.mListMapForItemJournalVoucherNote.add(mMap);
                                             LocalRepositories.saveAppUser(this, appUser);
@@ -524,6 +686,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                         intent.putExtra("diff_amount", journalDiffAmount);
                                         intent.putExtra("gst_pos6", journalVoucherPosition);
                                         intent.putExtra("state", state);
+                                        intent.putExtra("statstate_for_credite", state_for_credit);
                                         startActivity(intent);
                                         finish();
 
@@ -579,5 +742,22 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
     private void showDate(int year, int month, int day) {
         tvDate.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                Preferences.getInstance(getApplicationContext()).setVoucher_name(result);
+                Preferences.getInstance(getApplicationContext()).setVoucher_id(id);
+                mVoucher.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //
+            }
+        }
     }
 }

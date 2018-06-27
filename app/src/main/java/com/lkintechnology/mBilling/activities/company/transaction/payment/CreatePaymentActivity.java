@@ -107,6 +107,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     LinearLayout mBrowseImage;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
+    @Bind(R.id.submit_layout)
+    LinearLayout submit_layout;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     @Bind(R.id.update)
@@ -861,6 +863,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    appUser.payment_paid_to_id = ParameterConstant.id;
                    appUser.payment_paid_to_name = ParameterConstant.name;
                    appUser.payment_paid_to_email = ParameterConstant.email;
+                   state = ParameterConstant.state;
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    paid_to.setText(ParameterConstant.name);
                }else {
@@ -1043,21 +1046,24 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public void getPaymentDetails(GetPaymentDetailsResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            if (response.getPayment().getData().getAttributes().getIs_payment_settlement().equals("true")){
-                voucher_series_spinner.setEnabled(false);
-                voucher_no.setEnabled(false);
-                type_spinner.setEnabled(false);
-                gst_nature_spinner.setEnabled(false);
-                llSpinerItemSelect.setClickable(false);
-                set_date.setClickable(false);
-                set_date_pdc.setClickable(false);
-                transaction_amount.setInputType(InputType.TYPE_NULL);
-                transaction_narration.setInputType(InputType.TYPE_NULL);
-                paid_to_layout.setClickable(false);
-                paid_from_layout.setClickable(false);
-                mBrowseImage.setClickable(false);
-                mSelectedImage.setClickable(false);
-                mUpdate.setVisibility(View.GONE);
+
+            if (response.getPayment().getData().getAttributes().getIs_payment_settlement()!=null) {
+                if (response.getPayment().getData().getAttributes().getIs_payment_settlement().equals("true")) {
+                    voucher_series_spinner.setEnabled(false);
+                    voucher_no.setEnabled(false);
+                    type_spinner.setEnabled(false);
+                    gst_nature_spinner.setEnabled(false);
+                    llSpinerItemSelect.setClickable(false);
+                    set_date.setClickable(false);
+                    set_date_pdc.setClickable(false);
+                    transaction_amount.setInputType(InputType.TYPE_NULL);
+                    transaction_narration.setInputType(InputType.TYPE_NULL);
+                    paid_to_layout.setClickable(false);
+                    paid_from_layout.setClickable(false);
+                    mBrowseImage.setClickable(false);
+                    mSelectedImage.setClickable(false);
+                    submit_layout.setVisibility(View.GONE);
+                }
             }
             set_date.setText(response.getPayment().getData().getAttributes().getDate());
             appUser.payment_date = response.getPayment().getData().getAttributes().getDate();

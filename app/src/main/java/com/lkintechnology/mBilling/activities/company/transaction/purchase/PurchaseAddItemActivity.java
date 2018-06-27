@@ -618,8 +618,9 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
 
 
                             }
-                        });*//*
-                    }*/
+
+                        });*/
+                    }
 
                     /*submit.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -632,7 +633,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                             //  appUser.purchase_item_serail_arr.clear();
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             boolean isbool = false;
-                            int count=0;
+                            int count = 0;
                             for (int i = 0; i < Integer.parseInt(serial); i++) {
                                 if (mBusinessType.getSelectedItem().toString().equals("Mobile Dealer")) {
                                     if (pairs[i].getText().toString().length() == 15) {
@@ -746,11 +747,11 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                                     }
                                 }
                             }
-                            if (Integer.parseInt(serial)==count){
+                            if (Integer.parseInt(serial) == count) {
                                 isbool = true;
                                 mSr_no.setText("");
                                 appUser.purchase_item_serail_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             }
                             if (isbool) {
                                 dialogbal.dismiss();
@@ -759,7 +760,7 @@ public class PurchaseAddItemActivity extends RegisterAbstractActivity implements
                     });
                     dialogbal.show();
                 }*/
-            }
+
 
         });
 

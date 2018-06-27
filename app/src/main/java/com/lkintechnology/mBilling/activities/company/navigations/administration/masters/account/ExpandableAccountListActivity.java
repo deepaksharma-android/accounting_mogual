@@ -308,6 +308,11 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     else{
                         NamePhoneType.put("Phone","");
                     }
+                    if (response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getState()!=null){
+                        NamePhoneType.put("State",response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getState());
+                    }else {
+                        NamePhoneType.put("State","");
+                    }
                     nameList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getName());
                     mobileList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getMobile_number());
                     stateList.add(response.getOrdered_accounts().get(i).getData().get(j).getAttributes().getState());
@@ -605,11 +610,13 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 String name = map.get("Name");
                 String phone = map.get("Phone");
                 String email = map.get("Email");
+                String state = map.get("State");
                 if (data.equals(name)) {
                     String id = idList.get(getPositionOfItem(name));
                     ParameterConstant.name = name;
                     ParameterConstant.mobile = phone;
                     ParameterConstant.email = email;
+                    ParameterConstant.state = state;
                     ParameterConstant.id = id;
                 } else if (data.equals(phone)) {
                     String id = idList.get(getPositionOfItem(name));
@@ -617,6 +624,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                     ParameterConstant.mobile = phone;
                     ParameterConstant.email = email;
                     ParameterConstant.id = id;
+                    ParameterConstant.state = state;
                 }
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();

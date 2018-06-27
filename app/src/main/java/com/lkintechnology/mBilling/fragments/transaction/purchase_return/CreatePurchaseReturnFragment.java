@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,6 +51,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.GetPurchaseReturnListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
@@ -57,6 +60,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSe
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
+import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.CreatePurchaseReturnResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.UpdatePurchaseReturnVoucher;
@@ -96,6 +100,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
     TextView mDate;
     @Bind(R.id.series)
     Spinner mSeries;
+    @Bind(R.id.voucher)
+    TextView mVoucher;
     @Bind(R.id.vch_number)
     TextView mVchNumber;
     @Bind(R.id.purchase_type)
@@ -237,8 +243,9 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
-            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+        mVoucher.setText(Preferences.getInstance(getContext()).getVoucher_name());
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
+            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
         if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
@@ -309,6 +316,17 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 startActivityForResult(intent, 22);
             }
         });
+
+        mVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                Intent intent = new Intent(getContext(), GetPurchaseListActivity.class);
+                intent.putExtra("purchase_return", true);
+                startActivityForResult(intent, 55);
+            }
+        });
+
         mPartyName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -901,6 +919,21 @@ public class CreatePurchaseReturnFragment extends Fragment {
                 //mPartyName.setText("");
             }
         }
+
+        if (requestCode == 55) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("name");
+                String id = data.getStringExtra("id");
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
+                Preferences.getInstance(getContext()).setVoucher_name(result);
+                Preferences.getInstance(getContext()).setVoucher_id(id);
+                mVoucher.setText(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //
+            }
+        }
     }
 
     @Subscribe
@@ -946,6 +979,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mNarration.setText("");
             encodedString = "";
             mVchNumber.setText("");
+            mVoucher.setText("");
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
             mSelectedImage.setImageDrawable(null);
@@ -953,6 +987,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
             appUser.mListMapForItemPurchaseReturn.clear();
             appUser.mListMapForBillPurchaseReturn.clear();
             appUser.transport_details.clear();
+            Preferences.getInstance(getContext()).setVoucher_name("");
+            Preferences.getInstance(getContext()).setVoucher_id("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -1158,6 +1194,11 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mShippedTo.setText(response.getPurchase_return_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getNarration()));
+            if (response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name()!=null && response.getPurchase_return_voucher().getData().getAttributes().getPurchase_id()!=null){
+                mVoucher.setText(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name());
+                Preferences.getInstance(getContext()).setVoucher_name(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name());
+                Preferences.getInstance(getContext()).setVoucher_id(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_id());
+            }
             Preferences.getInstance(getContext()).setStore(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center());
             Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_return_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setSale_type_name(response.getPurchase_return_voucher().getData().getAttributes().getSale_type());
@@ -1337,7 +1378,14 @@ public class CreatePurchaseReturnFragment extends Fragment {
                     map.put("amount", response.getPurchase_return_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
                     appUser.paymentSettlementList.add(map);
                 }
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                if (appUser.paymentSettlementList.size() > 0) {
+                    PaymentSettleModel paymentSettleModel = new PaymentSettleModel();
+                    paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
+                    paymentSettleModel.setVoucher_type("purchase_return");
+                    appUser.paymentSettlementHashMap.add(paymentSettleModel);
+                    // appUser.paymentSettlementHashMap.put(map1, paymentSettleModel);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
             }
         } else {
             /*snackbar = Snackbar
@@ -1362,9 +1410,12 @@ public class CreatePurchaseReturnFragment extends Fragment {
             Preferences.getInstance(getContext()).setNarration("");
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
+            Preferences.getInstance(getContext()).setVoucher_name("");
+            Preferences.getInstance(getContext()).setVoucher_id("");
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
+            mVoucher.setText("");
             encodedString = "";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);

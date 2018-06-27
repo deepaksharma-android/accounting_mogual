@@ -17,6 +17,7 @@ public class ParameterConstant {
     public static String email;
     public static String id;
     public static String mobile;
+    public static String state;
     public static boolean forAccountIntentBool;
     public static String forAccountIntentName;
     public static String forAccountIntentId;

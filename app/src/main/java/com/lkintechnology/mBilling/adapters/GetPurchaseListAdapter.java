@@ -16,6 +16,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase.Creat
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.Data;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
+import com.lkintechnology.mBilling.utils.EventForVoucherClick;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -31,10 +32,12 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
 
     private Context context;
     private ArrayList<Data> data;
+    private Boolean forMainLayoutClick;
 
-    public GetPurchaseListAdapter(Context context, ArrayList<Data> data){
+    public GetPurchaseListAdapter(Context context, ArrayList<Data> data,Boolean forMainLayoutClick){
         this.context=context;
         this.data=data;
+        this.forMainLayoutClick=forMainLayoutClick;
     }
 
     @Override
@@ -119,13 +122,20 @@ public class GetPurchaseListAdapter extends RecyclerView.Adapter<GetPurchaseList
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Preferences.getInstance(context).setUpdate("1");
-                AppUser appUser= LocalRepositories.getAppUser(context);
-                appUser.edit_sale_voucher_id=data.get(position).getId();
-                LocalRepositories.saveAppUser(context,appUser);
-                Intent intent = new Intent(context, CreatePurchaseActivity.class);
-                intent.putExtra("fromsalelist",true);
-                context.startActivity(intent);
+                if (forMainLayoutClick){
+                    Preferences.getInstance(context).setVoucher_name("");
+                    Preferences.getInstance(context).setVoucher_id("");
+                    String s=data.get(position).getAttributes().getVoucher_number()+","+data.get(position).getId();
+                    EventBus.getDefault().post(new EventForVoucherClick(s));
+                }else {
+                    Preferences.getInstance(context).setUpdate("1");
+                    AppUser appUser= LocalRepositories.getAppUser(context);
+                    appUser.edit_sale_voucher_id=data.get(position).getId();
+                    LocalRepositories.saveAppUser(context,appUser);
+                    Intent intent = new Intent(context, CreatePurchaseActivity.class);
+                    intent.putExtra("fromsalelist",true);
+                    context.startActivity(intent);
+                }
             }
         });
 
