@@ -158,7 +158,6 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     String attachemnt;
     public String spinnergstnature,state;
     private FirebaseAnalytics mFirebaseAnalytics;
-    String state;
 
 
     @Override

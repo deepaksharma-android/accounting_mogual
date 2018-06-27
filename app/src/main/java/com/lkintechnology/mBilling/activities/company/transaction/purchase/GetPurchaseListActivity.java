@@ -104,6 +104,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         LocalRepositories.saveAppUser(this,appUser);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
+        dateString = dateFormatter.format(date);
         //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		forMainLayoutClick = getIntent().getBooleanExtra("purchase_return",false);
         Boolean forDate = getIntent().getBooleanExtra("forDate",false);
