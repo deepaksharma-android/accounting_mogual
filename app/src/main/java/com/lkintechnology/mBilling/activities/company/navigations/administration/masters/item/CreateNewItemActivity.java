@@ -115,8 +115,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public static int intStartActivityForResult = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
     String str = "";
-
-    public static boolean isForEdit = false;
+    public static boolean isForEdit = false,boolForFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -614,6 +613,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             Toast.makeText(getApplicationContext(), "Please select Group, Unit, and Text Category", Toast.LENGTH_SHORT).show();
             return;
         }
+        boolForFlag = false;
         startActivity(new Intent(getApplicationContext(), ItemOpeningStockActivity.class));
     }
 

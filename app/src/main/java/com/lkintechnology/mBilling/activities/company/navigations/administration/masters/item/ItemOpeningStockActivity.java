@@ -88,6 +88,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     int i = 0;
+    public static int flag = 0,flag1 = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,7 +133,12 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ItemBarcodeActivity.flag=1;
+                if (CreateNewItemActivity.boolForFlag){
+                    flag = 1;
+                }else {
+                    flag = 0;
+                }
+                CreateNewItemActivity.boolForFlag =true;
                 if (CreateNewItemActivity.isForEdit) {
                     if (i == 0) {
                         appUser.quantity = Integer.valueOf(mStockQuantity.getText().toString());
@@ -374,7 +380,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 @Override
                 public void onClick(View view) {
                     Preferences.getInstance(getApplicationContext()).setStockSerial("");
-                    ItemBarcodeActivity.flag=0;
+                    flag=0;
                     if (batchwise.equals("Yes") && serailwise.equals("No")) {
                         serial = "1";
                     } else if (batchwise.equals("No") && serailwise.equals("Yes")) {
@@ -690,7 +696,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 }
                 if (aDouble != 0 && !mStockQuantity.getText().toString().equals("")){
                     if (!mSr_no.getText().toString().equals("")){
-                        if (ItemBarcodeActivity.flag==1){
+                        if (flag==1){
                             Snackbar.make(coordinatorLayout, "Please select serial number!", Snackbar.LENGTH_LONG).show();
                             return;
                         }
