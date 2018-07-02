@@ -109,6 +109,8 @@ public class SplashActivity extends Activity {
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.BLUETOOTH_ADMIN,
 
             }, Cv.PERMISSIONS_BUZZ_REQUEST);
         }

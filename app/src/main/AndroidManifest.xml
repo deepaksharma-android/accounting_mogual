@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lkintechnology.mBilling">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -760,6 +762,8 @@
         <activity android:name=".activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".activities.printerintegration.BluetoothActivity"/>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />

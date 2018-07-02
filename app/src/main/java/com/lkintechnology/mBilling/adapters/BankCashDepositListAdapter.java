@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
+import com.lkintechnology.mBilling.activities.printerintegration.BluetoothActivity;
 import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.Data;
 import com.lkintechnology.mBilling.utils.EventClickAlertForBankCashDeposite;
 import com.lkintechnology.mBilling.utils.EventDeleteBankCashDeposit;
@@ -119,14 +120,18 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
         viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!data.get(position).getAttributes().getAttachment().equals("")){
+
+                Intent intent = new Intent(context, BluetoothActivity.class);
+                intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
+                context.startActivity(intent);
+               /* if(!data.get(position).getAttributes().getAttachment().equals("")){
                     Intent intent = new Intent(context, ImageOpenActivity.class);
                     intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
                     intent.putExtra("booleAttachment",true);
                     context.startActivity(intent);
                 }else {
                     Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
     }
