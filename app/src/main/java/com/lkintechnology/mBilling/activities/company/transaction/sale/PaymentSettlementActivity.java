@@ -21,6 +21,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import java.util.HashMap;
@@ -28,6 +29,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class PaymentSettlementActivity extends AppCompatActivity {
 
@@ -199,10 +202,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         select_account_layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.forPaymentSettlement = "1";
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -214,10 +218,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         select_account_layout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.forPaymentSettlement = "2";
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -229,10 +234,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         select_account_layout3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.forPaymentSettlement = "3";
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -244,10 +250,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         select_account_layout4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.forPaymentSettlement = "4";
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -259,10 +266,11 @@ public class PaymentSettlementActivity extends AppCompatActivity {
         select_account_layout5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParameterConstant.forPaymentSettlement = "5";
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -436,7 +444,31 @@ public class PaymentSettlementActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if (ParameterConstant.forAccountIntentBool) {
+            String result = ParameterConstant.forAccountIntentName;
+            String[] name = result.split(",");
+            if (ParameterConstant.forPaymentSettlement.equals("1")){
+                select_account1.setText(name[0]);
+                appUser.payment_account_id_1 = ParameterConstant.forAccountIntentId;;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }else if (ParameterConstant.forPaymentSettlement.equals("2")){
+                select_account2.setText(name[0]);
+                appUser.payment_account_id_2 = ParameterConstant.forAccountIntentId;;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }else if (ParameterConstant.forPaymentSettlement.equals("3")){
+                select_account3.setText(name[0]);
+                appUser.payment_account_id_3 = ParameterConstant.forAccountIntentId;;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }else if (ParameterConstant.forPaymentSettlement.equals("4")){
+                select_account4.setText(name[0]);
+                appUser.payment_account_id_4 = ParameterConstant.forAccountIntentId;;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }else if (ParameterConstant.forPaymentSettlement.equals("5")){
+                select_account5.setText(name[0]);
+                appUser.payment_account_id_5 = ParameterConstant.forAccountIntentId;;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            }
+        }
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
 
