@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Picture;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,7 +71,7 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
         printerList = new ArrayList<String>();
         m_AemScrybeDevice = new AEMScrybeDevice(this);
         Button discoverButton = (Button) findViewById(R.id.pairing);
-       // Button click = (Button) findViewById(R.id.click);
+        // Button click = (Button) findViewById(R.id.click);
         onPrint = (Button) findViewById(R.id.onPrint);
         editText = (EditText) findViewById(R.id.edit_text);
         onPrintBill = (Button) findViewById(R.id.bill);
@@ -84,9 +85,9 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
             public void run() {
                 mPdf_webview.loadDataWithBaseURL(null, htmlString, "text/html", "utf-8", null);
             }
-        },3*1000);*/
+        },3*1000);
 
-       /* mPdf_webview.setWebViewClient(new WebViewClient() {
+        mPdf_webview.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView view, String url) {
                 // do your stuff here
@@ -97,8 +98,8 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
                         mPdf_webview.getMeasuredHeight());
                 mPdf_webview.setDrawingCacheEnabled(true);
                 mPdf_webview.buildDrawingCache();
-                bm = Bitmap.createBitmap(384,
-                        800, Bitmap.Config.ARGB_8888);
+                bm = Bitmap.createBitmap(mPdf_webview.getWidth(),
+                        mPdf_webview.getHeight(), Bitmap.Config.ARGB_8888);
 
                 Canvas bigcanvas = new Canvas(bm);
                 Paint paint = new Paint();
@@ -130,14 +131,12 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
         });*/
 
 
-
         registerForContextMenu(discoverButton);
 
 
-
         // ni = Html.fromHtml(" <div class=main_div> <div class=table-responsive> <table class=text-center width100 cellpadding=0 cellspacing=0> <thead> <tr> <th> TAX INVOICE </th> </tr> <tr> <th> amit </th> </tr> <tr> <th> sec-78 </th> </tr> <tr> <th> FARIDABAD (Haryana), PIN NO 121006 </th> </tr> <tr> <th> 9632154870 </th> </tr> <tr> <th> GSTIN: </th> </tr> </thead></table>        <table class=text-center width100 cellpadding=0 cellspacing=0><thead><tr class=border_bottom><th colspan=2> INVOICE DETAILS </th></tr></thead><tbody><tr><td>Seema</td><td> Date: 19 Jun 2018 </td></tr><tr class=border_bottom><td> Bill No: INV12 </td><td> Time: 12:22:56 PM </td> </tr> </tbody></table> </div><h4> Terms And Conditions:- </h4><p> 1. All the prices are inclusive of GST at applicable rates. </p><p> 2. No exchange is allowed for bags and accessories. </p><p> 3. No Warranty, No Exchange, And No Return. </p><p> 4. Exchange till 7 days with bill. </p></div>  ");
-      //  editText.setText(Html.fromHtml("<div class=\"main_div\"> <div class=\"table-responsive\"> <table class=\"text-center width100\" cellpadding=\"0\" cellspacing=\"0\"> <thead> <tr> <th> TAX INVOICE </th> </tr> <tr> <th> amit </th> </tr> <tr> <th> sec-78 </th> </tr> <tr> <th> FARIDABAD (Haryana), PIN NO 121006 </th> </tr> <tr> <th> 9632154870 </th> </tr> <tr> <th> GSTIN: </th> </tr> </thead></table>        <table class=\"text-center width100\" cellpadding=\"0\" cellspacing=\"0\"><thead><tr class=\"border_bottom\"><th colspan=\"2\"> INVOICE DETAILS </th></tr></thead><tbody><tr><td>Seema</td><td> Date: 19 Jun 2018 </td></tr><tr class=\"border_bottom\"><td> Bill No: INV12 </td><td> Time: 12:22:56 PM </td> </tr> </tbody></table> </div><h4> Terms And Conditions:- </h4><p> 1. All the prices are inclusive of GST at applicable rates. </p><p> 2. No exchange is allowed for bags and accessories. </p><p> 3. No Warranty, No Exchange, And No Return. </p><p> 4. Exchange till 7 days with bill. </p></div> "));
-       // System.out.println("*******ni**** 1 " + ni);
+        //  editText.setText(Html.fromHtml("<div class=\"main_div\"> <div class=\"table-responsive\"> <table class=\"text-center width100\" cellpadding=\"0\" cellspacing=\"0\"> <thead> <tr> <th> TAX INVOICE </th> </tr> <tr> <th> amit </th> </tr> <tr> <th> sec-78 </th> </tr> <tr> <th> FARIDABAD (Haryana), PIN NO 121006 </th> </tr> <tr> <th> 9632154870 </th> </tr> <tr> <th> GSTIN: </th> </tr> </thead></table>        <table class=\"text-center width100\" cellpadding=\"0\" cellspacing=\"0\"><thead><tr class=\"border_bottom\"><th colspan=\"2\"> INVOICE DETAILS </th></tr></thead><tbody><tr><td>Seema</td><td> Date: 19 Jun 2018 </td></tr><tr class=\"border_bottom\"><td> Bill No: INV12 </td><td> Time: 12:22:56 PM </td> </tr> </tbody></table> </div><h4> Terms And Conditions:- </h4><p> 1. All the prices are inclusive of GST at applicable rates. </p><p> 2. No exchange is allowed for bags and accessories. </p><p> 3. No Warranty, No Exchange, And No Return. </p><p> 4. Exchange till 7 days with bill. </p></div> "));
+        // System.out.println("*******ni**** 1 " + ni);
       /*  // String photoHeading = this.getString(R.string.photo_heading);
         SpannableStringBuilder builder = new SpannableStringBuilder(ni);
         //  If you need to convert an HTML to String (remove the tags) you can use this solution:
@@ -261,54 +260,43 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
             showAlert("No Paired Printers found");
     }
 
-    public void onPrintImageRaster(View v)
-    {
-        if (m_AemPrinter == null)
-        {
+    public void onPrintImageRaster(View v) {
+        if (m_AemPrinter == null) {
             Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
             return;
         }
-        try
-        {
+        try {
             InputStream is = getAssets().open("aadharAEM.jpg");
             Bitmap inputBitmap = BitmapFactory.decodeStream(is);
             Bitmap resizedBitmap = null;
            /*if(glbPrinterWidth == 32)
-    		     resizedBitmap = Bitmap.createScaledBitmap(inputBitmap, 350, 140, false);
+                 resizedBitmap = Bitmap.createScaledBitmap(inputBitmap, 350, 140, false);
            else*/
             resizedBitmap = Bitmap.createScaledBitmap(inputBitmap, 384, 384, false);
 
-          //  Bitmap b1 = screenshot2(mPdf_webview);
+            // Bitmap b1 = screenshot2(mPdf_webview);
             RasterBT(resizedBitmap);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             showAlert("IO Exception: " + e.toString());
-
         }
     }
 
     protected void RasterBT(Bitmap image) {
         try {
-            if (glbPrinterWidth == 32)
-            {
+            if (glbPrinterWidth == 32) {
                 m_AemPrinter.setCarriageReturn();
                 m_AemPrinter.setCarriageReturn();
                 m_AemPrinter.printImage(image);
                 m_AemPrinter.setCarriageReturn();
                 m_AemPrinter.setCarriageReturn();
-            }
-            else
-            {
+            } else {
                 m_AemPrinter.setCarriageReturn();
                 m_AemPrinter.setCarriageReturn();
                 m_AemPrinter.printImageThreeInch(image);
                 m_AemPrinter.setCarriageReturn();
                 m_AemPrinter.setCarriageReturn();
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             showAlert("IO EX:  " + e.toString());
         }
     }
@@ -342,66 +330,62 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
         alert.show();
     }
 
-    public void onPrintBillBluetooth(int numChars)
-    {
+    public void onPrintBillBluetooth(int numChars) {
 
-        if (m_AemPrinter == null)
-        {
+        if (m_AemPrinter == null) {
             Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
             return;
         }
-        try
-        {
+        try {
             String data;
-            String d;
-            d =    "_______________________________________________\n";
+            String line;
+            line = "_______________________________________________\n";
             m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
             m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_CENTER);
 
-                data = "GSTIN                           Original Copy ";
-                m_AemPrinter.printThreeInch(data);
-                data = "                   RECEIPT                      ";
-                m_AemPrinter.printThreeInch(data);
-                data = "                Beryl Systems                    ";
-                m_AemPrinter.printThreeInch(data);
-                data = "                Gurgaon                            ";
-                m_AemPrinter.printThreeInch(data);
-                data = "           gurgaon (Haryana)                  \n";
-                m_AemPrinter.printThreeInch(data);
+            data = "TAX INVOICE\n";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
+            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_CENTER);
+            data = " amit\n";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
+            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_CENTER);
+            data = "                Gurgaon                            ";
+            m_AemPrinter.printThreeInch(data);
+            data = "           gurgaon (Haryana)                  \n";
+            m_AemPrinter.printThreeInch(data);
 
-                m_AemPrinter.printThreeInch(d);
-                data = "Receipt No  : RCPT8   | Dated     : 29 Jun 2018 ";
-                m_AemPrinter.printThreeInch(data);
-                m_AemPrinter.printThreeInch(d);
-               // m_AemPrinter.setLineFeed(1);
+            m_AemPrinter.printThreeInch(line);
+            data = "Receipt No  : RCPT8   | Dated     : 29 Jun 2018 ";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
+            // m_AemPrinter.setLineFeed(1);
 
-                data =  "Party       : sundry Party GSTIN/UIN :          \n"+
-                        "Received by : today  Party GSTIN/UIN :Maharashtra\n"+
-                        "Paid From   : sundry Party GSTIN/UIN :  \n"+
-                        "Party       : cash   Party GSTIN/UIN :  \n"+
-                        "Party       : bank   Party GSTIN/UIN :  \n"+
-                        "Party       : sundry Party GSTIN/UIN :  \n\n";
-                m_AemPrinter.printThreeInch(data);
-                data = "          AMOUNT (Rs.)   550.00\n";
-                m_AemPrinter.printThreeInch(data);
-                m_AemPrinter.printThreeInch(d);
+           /* data = "Party       : sundry Party GSTIN/UIN :          \n" +
+                    "Received by : today  Party GSTIN/UIN :Maharashtra\n" +
+                    "Paid From   : sundry Party GSTIN/UIN :  \n" +
+                    "Party       : cash   Party GSTIN/UIN :  \n" +
+                    "Party       : bank   Party GSTIN/UIN :  \n" +
+                    "Party       : sundry Party GSTIN/UIN :  \n\n";
+            m_AemPrinter.printThreeInch(data);
+            data = "          AMOUNT (Rs.)   550.00\n";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
 
-                data = "Rs. 5000.0                 for Beryl Systems \n";
-                m_AemPrinter.printThreeInch(data);
-                data = "Five Hundred                              \n";
-                m_AemPrinter.printThreeInch(data);
-                data = "(Cheque Subject)      Authorised Signature\n";
-                m_AemPrinter.printThreeInch(data);
-                m_AemPrinter.setLineFeed(1);
-                data = "Thank you! \n";
-                m_AemPrinter.printThreeInch(data);
-                m_AemPrinter.setLineFeed(5);
-        }
-        catch (IOException e)
-        {
+            data = "Rs. 5000.0                 for Beryl Systems \n";
+            m_AemPrinter.printThreeInch(data);
+            data = "Five Hundred                              \n";
+            m_AemPrinter.printThreeInch(data);
+            data = "(Cheque Subject)      Authorised Signature\n";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.setLineFeed(1);
+            data = "Thank you! \n";
+            m_AemPrinter.printThreeInch(data);*/
+            m_AemPrinter.setLineFeed(5);
+        } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
                 Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
-
         }
 
     }

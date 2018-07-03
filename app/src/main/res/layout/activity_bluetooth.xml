@@ -35,12 +35,12 @@
         android:textColor="#000"
         android:gravity="center"
         android:hint="Write text"
-        android:visibility="gone"
         android:layout_marginTop="40dp" />
 <LinearLayout
     android:layout_above="@+id/onPrint"
     android:layout_below="@+id/click"
     android:layout_width="match_parent"
+    android:visibility="gone"
     android:layout_height="wrap_content">
 
     <ScrollView
