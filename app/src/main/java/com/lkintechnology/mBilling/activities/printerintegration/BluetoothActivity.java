@@ -337,52 +337,82 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
             return;
         }
         try {
-            String data;
+            String data ="";
             String line;
-            line = "_______________________________________________\n";
+            line = "\n_______________________________________________\n";
+            m_AemPrinter.setFontTypeArray(AEMPrinter.bb);
             m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
-            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_CENTER);
-
-            data = "TAX INVOICE\n";
+            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_WIDTH);
+            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_LEFT);
+            data = "              TAX INVOICE\n";
             m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
-            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_CENTER);
-            data = " amit\n";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
-            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_CENTER);
-            data = "                Gurgaon                            ";
-            m_AemPrinter.printThreeInch(data);
-            data = "           gurgaon (Haryana)                  \n";
+            data = "                   amit\n";
             m_AemPrinter.printThreeInch(data);
 
-            m_AemPrinter.printThreeInch(line);
-            data = "Receipt No  : RCPT8   | Dated     : 29 Jun 2018 ";
+            data = "                  Gurgaon\n";
             m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            // m_AemPrinter.setLineFeed(1);
 
-           /* data = "Party       : sundry Party GSTIN/UIN :          \n" +
-                    "Received by : today  Party GSTIN/UIN :Maharashtra\n" +
-                    "Paid From   : sundry Party GSTIN/UIN :  \n" +
-                    "Party       : cash   Party GSTIN/UIN :  \n" +
-                    "Party       : bank   Party GSTIN/UIN :  \n" +
-                    "Party       : sundry Party GSTIN/UIN :  \n\n";
+            data = "                  Sect 78\n";
             m_AemPrinter.printThreeInch(data);
-            data = "          AMOUNT (Rs.)   550.00\n";
+
+            data = "      FARIDABAD (Haryana), PIN NO 121006\n";
+            m_AemPrinter.printThreeInch(data);
+
+            data = "                 7206301203\n";
+            m_AemPrinter.printThreeInch(data);
+
+            data = "                  GSTIN:\n";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.setLineFeed(1);
+
+            data = "            INVOICE DETAILS:";
             m_AemPrinter.printThreeInch(data);
             m_AemPrinter.printThreeInch(line);
+            data = "   Seema              Date: 19 Jun 2018\n"+
+                    "   Bill No:INV12      Time: 12:22:56 PM";
+            m_AemPrinter.printThreeInch(data);
+            line = "\n_______________________________________________\n";
+            m_AemPrinter.printThreeInch(line);
+           /* data = "ITEM NAME/HSN Code\t   Qty    Price     Net Amt";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
+            data = "   car                 1    1000.0      1280.0\n" +
+                    "   a/c                 1    180.0       208.0";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
+            data = "Net Sale Qty                             2\n"+
+                    "Gross Amount                       1481.6\n"+
+                    "SGST Tax                            150.8\n"+
+                    "CGST Tax                            150.8";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
+            data = "Final Bill Amount                   1481.6";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
 
-            data = "Rs. 5000.0                 for Beryl Systems \n";
+            data = "Tax Detail\n";
             m_AemPrinter.printThreeInch(data);
-            data = "Five Hundred                              \n";
+            m_AemPrinter.setLineFeed(1);
+            data = " ITEM NAME  Taxable Amount CGST  SGST  Total Tax";
             m_AemPrinter.printThreeInch(data);
-            data = "(Cheque Subject)      Authorised Signature\n";
+            m_AemPrinter.printThreeInch(line);
+            data = "  car         1000.0       150.8  150.8   301.6\n" +
+                    "  a/c          180.0       150.8  50.8    301.6";
+            m_AemPrinter.printThreeInch(data);
+            m_AemPrinter.printThreeInch(line);
+            m_AemPrinter.setLineFeed(1);
+
+            data = "Terms And Conditions:-\n";
+            m_AemPrinter.printThreeInch(data);
+            data = "1. All the prices are inclusive of GST at applicable rates.\n" +
+                    "2. No exchange is allowed for bags and accessories.\n" +
+                    "3. No Warranty, No Exchange, And No Return.\n" +
+                    "4. Exchange till 7 days with bill.";
             m_AemPrinter.printThreeInch(data);
             m_AemPrinter.setLineFeed(1);
             data = "Thank you! \n";
             m_AemPrinter.printThreeInch(data);*/
-            m_AemPrinter.setLineFeed(5);
+            m_AemPrinter.setLineFeed(2);
         } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
                 Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();

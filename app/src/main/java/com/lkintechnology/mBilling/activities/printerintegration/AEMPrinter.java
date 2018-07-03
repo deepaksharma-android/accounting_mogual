@@ -36,6 +36,7 @@ public class AEMPrinter
 	public static final byte FONT_002 = 0X14; //Tahoma font
 	public static final byte FONT_003 = 0X16; //Verdana
 	public static final byte FONT_004 = 0X48; //Verdana
+	public static final byte[] bb = new byte[]{0x1B,0x21,0x08};
 	//Three Inch Commands
 
 	public byte[] ESC_dollors_nL_nH = new byte[]{27, 36, 0, 0};
@@ -1096,5 +1097,10 @@ public class AEMPrinter
 		}
 
 		return var6;
+	}
+
+	public void setFontTypeArray(byte[] FONT) throws IOException
+	{
+		bluetoothSocket.getOutputStream().write(FONT);
 	}
 }
