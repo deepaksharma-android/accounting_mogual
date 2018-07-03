@@ -166,31 +166,19 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                     }
                 } else {
                     mStockValue.setText("");
+                    mSr_no.setText("");
+                    mStockPrice.setText("");
+                    mBusinessType.setSelection(0);
+                    Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_quantity("0");
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_amount("0");
+                    Preferences.getInstance(getApplicationContext()).setStockSerial("");
+                    Preferences.getInstance(getApplicationContext()).setItem_stock_value("0");
+                    appUser.stock_serial_arr.clear();
+                    appUser.stock_item_serail_arr.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-               /* if (start==0){
-                    if (!mStockQuantity.getText().toString().isEmpty()) {
-                        if (!mStockQuantity.getText().toString().equals("")) {
-                            String serialnumber = mSr_no.getText().toString();
-                            String[] arr = serialnumber.split(",");
-                            int qt = Integer.valueOf(mStockQuantity.getText().toString());
-                            if (qt < arr.length && qt > 0) {
-                                // barcodeArray = new String[0];
-                                String listString = "";
-                                appUser.stock_serial_arr.clear();
-                                appUser.stock_item_serail_arr.clear();
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                for (int i = 0; i < qt; i++) {
-                                    listString += arr[i] + ",";
-                                    appUser.stock_serial_arr.add(arr[i]);
-                                    appUser.stock_item_serail_arr.add(arr[i]);
-                                }
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                mSr_no.setText(listString);
-                                Preferences.getInstance(getApplicationContext()).setStockSerial(listString);
-                            }
-                        }
-                    }
-                }*/
+
             }
 
             @Override
@@ -690,10 +678,10 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                 if (!mStockQuantity.getText().toString().equals("")){
                     aDouble = Double.valueOf(mStockQuantity.getText().toString());
                 }
-                if (aDouble==0 | mStockQuantity.getText().toString().equals("")) {
+               /* if (aDouble==0 | mStockQuantity.getText().toString().equals("")) {
                     Snackbar.make(coordinatorLayout, "enter minimum 1 quantity", Snackbar.LENGTH_LONG).show();
                     return;
-                }
+                }*/
                 if (aDouble != 0 && !mStockQuantity.getText().toString().equals("")){
                     if (!mSr_no.getText().toString().equals("")){
                         if (flag==1){
