@@ -121,17 +121,17 @@ public class BankCashDepositListAdapter extends RecyclerView.Adapter<BankCashDep
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, BluetoothActivity.class);
+               /* Intent intent = new Intent(context, BluetoothActivity.class);
                 intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
-                context.startActivity(intent);
-               /* if(!data.get(position).getAttributes().getAttachment().equals("")){
+                context.startActivity(intent);*/
+                if(!data.get(position).getAttributes().getAttachment().equals("")){
                     Intent intent = new Intent(context, ImageOpenActivity.class);
                     intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
                     intent.putExtra("booleAttachment",true);
                     context.startActivity(intent);
                 }else {
                     Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
     }
