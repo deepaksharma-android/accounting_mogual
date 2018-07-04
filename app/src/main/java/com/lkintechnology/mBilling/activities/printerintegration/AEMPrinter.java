@@ -1103,4 +1103,47 @@ public class AEMPrinter
 	{
 		bluetoothSocket.getOutputStream().write(FONT);
 	}
+
+	public void writeWithFormat(byte[] buffer, final byte[] pFormat, final byte[] pAlignment) {
+
+			// Notify printer it should be printed with given alignment:
+		try {
+			bluetoothSocket.getOutputStream().write(pAlignment);
+
+			// Notify printer it should be printed in the given format:
+			bluetoothSocket.getOutputStream().write(pFormat);
+			// Write the actual data:
+			bluetoothSocket.getOutputStream().write(buffer, 0, buffer.length);
+
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void writeWithFormatSend(byte[] buffer) {
+
+		// Notify printer it should be printed with given alignment:
+		try {
+
+			bluetoothSocket.getOutputStream().write(buffer, 0, buffer.length);
+
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void writeWithFormatOnly(final byte[] pFormat, final byte[] pAlignment) {
+
+		// Notify printer it should be printed with given alignment:
+		try {
+			bluetoothSocket.getOutputStream().write(pAlignment);
+
+			// Notify printer it should be printed in the given format:
+			bluetoothSocket.getOutputStream().write(pFormat);
+			// Write the actual data:
+
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

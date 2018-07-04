@@ -30,6 +30,11 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
+import com.lkintechnology.mBilling.utils.Formatter;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,6 +64,8 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
     Spanned ni;
     WebView mPdf_webview;
     Bitmap bm = null;
+    SaleVoucherDetailsData dataList;
+    AppUser appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +84,8 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
         onPrintBill = (Button) findViewById(R.id.bill);
         mPdf_webview = (WebView) findViewById(R.id.webView);
 
-        Intent intent = getIntent();
-        htmlString = intent.getStringExtra("company_report");
+        dataList = new SaleVoucherDetailsData();
+        dataList = CreateSaleVoucherFragment.dataForPrinter;
 
       /*  new Handler().postDelayed(new Runnable() {
             @Override
@@ -332,92 +339,7 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
 
     public void onPrintBillBluetooth(int numChars) {
 
-        if (m_AemPrinter == null) {
-            Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        try {
-            String data ="";
-            String line;
-            line = "\n_______________________________________________\n";
-            m_AemPrinter.setFontTypeArray(AEMPrinter.bb);
-            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_HEIGHT);
-            m_AemPrinter.setFontType(AEMPrinter.DOUBLE_WIDTH);
-            m_AemPrinter.setFontType(AEMPrinter.TEXT_ALIGNMENT_LEFT);
-            data = "              TAX INVOICE\n";
-            m_AemPrinter.printThreeInch(data);
-            data = "                   amit\n";
-            m_AemPrinter.printThreeInch(data);
-
-            data = "                  Gurgaon\n";
-            m_AemPrinter.printThreeInch(data);
-
-            data = "                  Sect 78\n";
-            m_AemPrinter.printThreeInch(data);
-
-            data = "      FARIDABAD (Haryana), PIN NO 121006\n";
-            m_AemPrinter.printThreeInch(data);
-
-            data = "                 7206301203\n";
-            m_AemPrinter.printThreeInch(data);
-
-            data = "                  GSTIN:\n";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.setLineFeed(1);
-
-            data = "            INVOICE DETAILS:";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            data = "   Seema              Date: 19 Jun 2018\n"+
-                    "   Bill No:INV12      Time: 12:22:56 PM";
-            m_AemPrinter.printThreeInch(data);
-            line = "\n_______________________________________________\n";
-            m_AemPrinter.printThreeInch(line);
-           /* data = "ITEM NAME/HSN Code\t   Qty    Price     Net Amt";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            data = "   car                 1    1000.0      1280.0\n" +
-                    "   a/c                 1    180.0       208.0";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            data = "Net Sale Qty                             2\n"+
-                    "Gross Amount                       1481.6\n"+
-                    "SGST Tax                            150.8\n"+
-                    "CGST Tax                            150.8";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            data = "Final Bill Amount                   1481.6";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-
-            data = "Tax Detail\n";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.setLineFeed(1);
-            data = " ITEM NAME  Taxable Amount CGST  SGST  Total Tax";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            data = "  car         1000.0       150.8  150.8   301.6\n" +
-                    "  a/c          180.0       150.8  50.8    301.6";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.printThreeInch(line);
-            m_AemPrinter.setLineFeed(1);
-
-            data = "Terms And Conditions:-\n";
-            m_AemPrinter.printThreeInch(data);
-            data = "1. All the prices are inclusive of GST at applicable rates.\n" +
-                    "2. No exchange is allowed for bags and accessories.\n" +
-                    "3. No Warranty, No Exchange, And No Return.\n" +
-                    "4. Exchange till 7 days with bill.";
-            m_AemPrinter.printThreeInch(data);
-            m_AemPrinter.setLineFeed(1);
-            data = "Thank you! \n";
-            m_AemPrinter.printThreeInch(data);*/
-            m_AemPrinter.setLineFeed(2);
-        } catch (IOException e) {
-            if (e.getMessage().contains("socket closed"))
-                Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
-        }
-
+        forGSTReceipt();
     }
 
     @Override
@@ -461,4 +383,162 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
         webView.draw(canvas);
         return bitmap;
     }
+
+    public void forGSTReceipt() {
+
+        appUser = LocalRepositories.getAppUser(this);
+
+        if (m_AemPrinter == null) {
+            Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            String line, data;
+            line = "________________________________________________\n";
+            data = "TAX INVOICE\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+
+
+            data = appUser.company_name + "\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+
+            data = "sector 29\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+
+            data = "faridabaf " + "(" + appUser.company_state + ")" + ", PIN NO 121008\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+
+            data = "9711575953\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+
+            data = "GSTIN:\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+            m_AemPrinter.setLineFeed(1);
+
+            data = "Invoice Details\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+
+            m_AemPrinter.printThreeInch(line);
+            data = spaceString(dataList.getAttributes().getAccount_master(),"Date: "+dataList.getAttributes().getDate()+"\n");
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+            data = spaceString("Bill No: "+dataList.getAttributes().getVoucher_number(),"Time: 10:55:02 AM\n");
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+            m_AemPrinter.printThreeInch(line);
+
+            if (dataList.getAttributes().getVoucher_items().size()!=0){
+                data = "ITEM NAME"+"        "+"Qty"+"        "+"Price"+"        "+"Net Amt"+"\n";
+                m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
+                m_AemPrinter.printThreeInch(line);
+                int total_quantity = 0;
+                Double total_amount = 0.0;
+                for (int i=0;i<dataList.getAttributes().getVoucher_items().size();i++){
+                     data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem(),
+                            String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
+                            String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()),
+                            String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getTotal_amount())+"\n");
+                    m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+
+                    total_quantity = total_quantity + dataList.getAttributes().getVoucher_items().get(i).getQuantity();
+                    total_amount = total_amount + dataList.getAttributes().getVoucher_items().get(i).getTotal_amount();
+                }
+                m_AemPrinter.printThreeInch(line);
+
+                data = spaceString("Net Sale Qty",String.valueOf(total_quantity)+"\n");
+                m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+                data = spaceString("Gross Amount",String.valueOf(total_amount)+"\n");
+                m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+                m_AemPrinter.printThreeInch(line);
+                data = spaceString2("Final Bill Amount",String.valueOf(dataList.getAttributes().getItems_amount()+"\n"));
+                m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().width().get(), Formatter.leftAlign());
+                m_AemPrinter.printThreeInch(line);
+            }
+
+            if (dataList.getAttributes().getVoucher_bill_sundries().size()!=0){
+                data = "Bill Sundry\n";
+                m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().underlined().get(), Formatter.leftAlign());
+                for (int i=0;i<dataList.getAttributes().getVoucher_bill_sundries().size();i++){
+                    data = "Add :"+dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_nature()+"\n";
+                    m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+                    m_AemPrinter.printThreeInch(line);
+                }
+            }
+
+            data = "Terms And Conditions:-\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
+            data = "1. All the prices are inclusive of GST at applicable rates.\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+            data = "2. No exchange is allowed for bags and accessories.\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+            data = "3. No Warranty, No Exchange, And No Return.\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+            data = "4. Exchange till 7 days with bill.\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+            m_AemPrinter.setLineFeed(4);
+
+        } catch (IOException e) {
+            if (e.getMessage().contains("socket closed"))
+                Toast.makeText(BluetoothActivity.this, "Printer not connected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String spaceString(String str1 , String str2) {
+        int strLength1 = 0,strLength2 = 0, maxLen = 64;
+        String NewString = "";
+        char ch;
+        strLength1 = str1.length();
+        strLength2 = str2.length();
+        NewString = str1;
+
+        for (int i = strLength1; i <maxLen-strLength2; i++) {
+
+            NewString = NewString + ' ';
+
+        }
+        return NewString +str2;
+
+    }
+
+    public String spaceString4(String str1 , String str2, String str3, String str4) {
+        int strLength1 = 0,strLength2 = 0,strLength3 = 0,strLength4 = 0, maxLen1 = 26,maxLen2 = 48,maxLen3 = 64;
+        String NewString = "";
+        char ch;
+        strLength1 = str1.length();
+        strLength2 = str2.length();
+        strLength3 = str3.length();
+        strLength4 = str4.length();
+        NewString = str1;
+
+        for (int i = strLength1; i <maxLen1-strLength2; i++) {
+            NewString = NewString + ' ';
+        }
+        NewString = NewString + str2;
+        for (int i = NewString.length(); i <maxLen2-strLength3; i++) {
+            NewString = NewString + ' ';
+        }
+        NewString = NewString + str3;
+        for (int i = NewString.length(); i <maxLen3-strLength4; i++) {
+            NewString = NewString + ' ';
+        }
+
+        return NewString +str4;
+
+    }
+
+    public String spaceString2(String str1 , String str2) {
+        int strLength1 = 0,strLength2 = 0, maxLen = 48;
+        String NewString = "";
+        char ch;
+        strLength1 = str1.length();
+        strLength2 = str2.length();
+        NewString = str1;
+
+        for (int i = strLength1; i <maxLen-strLength2; i++) {
+
+            NewString = NewString + ' ';
+
+        }
+        return NewString +str2;
+
+    }
+
 }

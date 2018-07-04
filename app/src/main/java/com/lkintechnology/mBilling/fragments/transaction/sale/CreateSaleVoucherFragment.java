@@ -50,12 +50,14 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSal
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
+import com.lkintechnology.mBilling.activities.printerintegration.BluetoothActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
@@ -142,6 +144,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit = false;
+    public static SaleVoucherDetailsData dataForPrinter;
 
 
     @Override
@@ -359,7 +362,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
-                startDialog();
+                // startDialog();
+
+                Intent intent = new Intent(getApplicationContext(), BluetoothActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -418,14 +424,14 @@ public class CreateSaleVoucherFragment extends Fragment {
         mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser=LocalRepositories.getAppUser(getActivity());
+                appUser = LocalRepositories.getAppUser(getActivity());
                 if (appUser.mListMapForItemSale.size() > 0) {
                     if (!mPartyName.getText().toString().equals("")) {
                         if (!appUser.sale_party_group.equals("Cash-in-hand")) {
                             PaymentSettlementActivity.voucher_type = "sale";
                             Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
                             //intent.putExtra("fromedit", fromedit);
-                            System.out.println("pcccc fragment "+appUser.paymentSettlementList.size());
+                            System.out.println("pcccc fragment " + appUser.paymentSettlementList.size());
                             startActivity(intent);
                         } else {
                             Helpers.dialogMessage(getContext(), "You can't settled payment");
@@ -433,8 +439,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                     } else {
                         Helpers.dialogMessage(getContext(), "Please select party name");
                     }
-                }else{
-                        Helpers.dialogMessage(getContext(),"Please add item");
+                } else {
+                    Helpers.dialogMessage(getContext(), "Please add item");
                 }
             }
         });
@@ -1187,6 +1193,10 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            dataForPrinter = new SaleVoucherDetailsData();
+            dataForPrinter = response.getSale_voucher().getData();
+
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
             fromedit = true;
@@ -1249,7 +1259,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     mMap.put("main_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
                     mMap.put("batch_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
-                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type()!=null){
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type() != null) {
                         mMap.put("business_type", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
                     }
                     StringBuilder sb = new StringBuilder();
@@ -1377,13 +1387,13 @@ public class CreateSaleVoucherFragment extends Fragment {
                         }
                     }
                 }
-                if (response.getSale_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                if (response.getSale_voucher().getData().getAttributes().getPayment_settlement() != null) {
                     Map map;
                     appUser.paymentSettlementList.clear();
                     appUser.paymentSettlementHashMap.clear();
-                    for (int i=0;i<response.getSale_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                    for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getPayment_settlement().size(); i++) {
                         map = new HashMap();
-                        map.put("id",response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                        map.put("id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
                         map.put("payment_account_name", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
                         map.put("payment_account_id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
                         map.put("amount", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
@@ -1443,7 +1453,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
-                intent.putExtra("forDate",true);
+                intent.putExtra("forDate", true);
                 startActivity(intent);
             }
         } else {
