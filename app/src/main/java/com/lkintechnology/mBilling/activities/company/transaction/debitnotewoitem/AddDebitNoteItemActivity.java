@@ -33,7 +33,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     AppUser appUser;
     private DebitNoteItemDetailAdapter debitNoteItemDetailAdapter;
     private LinearLayout ll_submit;
-    String state;
+    String state,state_for_credit;
     private Spinner reason;
 
     @Override
@@ -51,7 +51,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
         amount = getIntent().getStringExtra("amount");
         spGoodsKey = getIntent().getStringExtra("sp_position");
         state = getIntent().getStringExtra("state");
-
+        state_for_credit = getIntent().getStringExtra("state_for_credit");
         // get position and amount from journal voucher
          journalVoucherPosition = getIntent().getStringExtra("gst_pos7");
         journalVoucherDiffAmount = getIntent().getStringExtra("diff_amount");
@@ -75,6 +75,7 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
                         intent.putExtra("pos", String.valueOf(i));
                         intent.putExtra("journal",true);
                         intent.putExtra("state",state);
+                        intent.putExtra("state_for_credit",state_for_credit);
                         intent.putExtra("diff_amount",journalVoucherDiffAmount);
                     }
                 }
@@ -175,12 +176,15 @@ public class AddDebitNoteItemActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_select_item:
+                Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+                Preferences.getInstance(getApplicationContext()).setVoucher_id("");
                 if (journalVoucherPosition != null) {
                     if (journalVoucherPosition.equals("7")) {
                         Intent intent = new Intent(this, CreateDebitNoteItemActivity.class);
                         intent.putExtra("diff_amount", journalVoucherDiffAmount);
                         intent.putExtra("gst_pos7", journalVoucherPosition);
                         intent.putExtra("state", state);
+                        intent.putExtra("state_for_credit", state_for_credit);
                         Preferences.getInstance(getApplicationContext()).setReason(reason.getSelectedItem().toString());
                         startActivity(intent);
                         finish();

@@ -133,7 +133,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_create_bank_case_deposit);
-        ButterKnife.bind(this);
+        ButterKnife.bind(this);ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -672,6 +672,7 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                     appUser.account_name_credit_note_id = ParameterConstant.id;
                     appUser.account_name_credit_note_email = ParameterConstant.email;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    state = ParameterConstant.state;
                     account_name_credit.setText(ParameterConstant.name);
                 } else {
                     boolForGroupName = true;
@@ -785,6 +786,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
             encodedString = "";
             Preferences.getInstance(getApplicationContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_id("");
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -886,10 +889,17 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
                 if(!response.getCredit_note().getData().getAttributes().getAccount_credit().getState().equals("")) {
                     mMap.put("state", response.getCredit_note().getData().getAttributes().getAccount_credit().getState());
                     state=response.getCredit_note().getData().getAttributes().getAccount_credit().getState();
-
                 }
                 else{
                     mMap.put("state","Haryana");
+                }
+                if (response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_name()!=null
+                        && response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_id()!=null){
+                    mMap.put("sale_name",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_name());
+                    mMap.put("sale_id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getSale_id());
+                }else {
+                    mMap.put("purchase_name",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getPurchase_name());
+                    mMap.put("purchase_id",response.getCredit_note().getData().getAttributes().getCredit_note_item().getData().get(i).getAttributes().getPurchase_id());
                 }
                 appUser.mListMapForItemCreditNote.add(mMap);
             }
@@ -907,6 +917,8 @@ public class CreateCreditNoteWoActivity extends RegisterAbstractActivity impleme
         if (response.getStatus() == 200) {
             Preferences.getInstance(getApplicationContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_name("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_id("");
             //appUser.forAccountIntentBool=false;
             // appUser.forAccountIntentId="";
             //appUser.forAccountIntentName="";

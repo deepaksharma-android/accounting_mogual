@@ -59,7 +59,7 @@ public class CreateSaleActivity extends AppCompatActivity {
     public static boolean fromdashboard;
     public static boolean isForEdit;
 
-  
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,6 +17,7 @@ public class ParameterConstant {
     public static String email;
     public static String id;
     public static String mobile;
+    public static String state;
     public static boolean forAccountIntentBool;
     public static String forAccountIntentName;
     public static String forAccountIntentId;
@@ -24,6 +25,7 @@ public class ParameterConstant {
     public static String forAccountIntentState;
     public static String forAccountIntentEmail;
     public static String forAccountIntentGroupId;
+    public static String forPaymentSettlement;
     public static int accountSwitching;
 
 

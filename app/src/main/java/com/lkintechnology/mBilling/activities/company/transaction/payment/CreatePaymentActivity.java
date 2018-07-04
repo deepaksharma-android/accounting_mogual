@@ -24,6 +24,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -106,6 +107,8 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     LinearLayout mBrowseImage;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
+    @Bind(R.id.submit_layout)
+    LinearLayout submit_layout;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     @Bind(R.id.update)
@@ -860,6 +863,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                    appUser.payment_paid_to_id = ParameterConstant.id;
                    appUser.payment_paid_to_name = ParameterConstant.name;
                    appUser.payment_paid_to_email = ParameterConstant.email;
+                   state = ParameterConstant.state;
                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                    paid_to.setText(ParameterConstant.name);
                }else {
@@ -1042,6 +1046,25 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
     public void getPaymentDetails(GetPaymentDetailsResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            if (response.getPayment().getData().getAttributes().getIs_payment_settlement()!=null) {
+                if (response.getPayment().getData().getAttributes().getIs_payment_settlement().equals("true")) {
+                    voucher_series_spinner.setEnabled(false);
+                    voucher_no.setEnabled(false);
+                    type_spinner.setEnabled(false);
+                    gst_nature_spinner.setEnabled(false);
+                    llSpinerItemSelect.setClickable(false);
+                    set_date.setClickable(false);
+                    set_date_pdc.setClickable(false);
+                    transaction_amount.setInputType(InputType.TYPE_NULL);
+                    transaction_narration.setInputType(InputType.TYPE_NULL);
+                    paid_to_layout.setClickable(false);
+                    paid_from_layout.setClickable(false);
+                    mBrowseImage.setClickable(false);
+                    mSelectedImage.setClickable(false);
+                    submit_layout.setVisibility(View.GONE);
+                }
+            }
             set_date.setText(response.getPayment().getData().getAttributes().getDate());
             appUser.payment_date = response.getPayment().getData().getAttributes().getDate();
             voucher_no.setText(response.getPayment().getData().getAttributes().getVoucher_number());
@@ -1087,6 +1110,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
 
             }
             gst_nature_spinner.setSelection(groupindex);
+            state=response.getPayment().getData().getAttributes().getPaid_to().getState();
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Map mMap;
             for(int i =0;i<response.getPayment().getData().getAttributes().getPayment_item().getData().size();i++){
@@ -1107,11 +1131,7 @@ public class CreatePaymentActivity extends RegisterAbstractActivity implements V
                 mMap.put("cgst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getCgst_amount()));
                 mMap.put("sgst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getSgst_amount()));
                 mMap.put("igst",String.valueOf(response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getIgst_amount()));
-                if(!response.getPayment().getData().getAttributes().getPaid_to().getState().equals("")||response.getPayment().getData().getAttributes().getPaid_to().getState()!=null) {
-                    mMap.put("state", response.getPayment().getData().getAttributes().getPaid_to().getState());
-                    state=response.getPayment().getData().getAttributes().getPaid_to().getState();
-
-                }
+               // mMap.put("state", response.getPayment().getData().getAttributes().getPaid_to().getState());
                 mMap.put("spRCNItem",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getRcm_nature());
                 mMap.put("spITCEligibility",response.getPayment().getData().getAttributes().getPayment_item().getData().get(i).getAttributes().getItc_eligibility());
                 appUser.mListMapForItemPaymentList.add(mMap);

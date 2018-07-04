@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.AddBillsVoucherAdapter;

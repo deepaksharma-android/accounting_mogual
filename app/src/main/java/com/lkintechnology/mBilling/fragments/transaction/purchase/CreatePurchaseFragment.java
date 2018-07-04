@@ -5,15 +5,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,14 +40,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.purchasetype.PurchaseTypeListActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
@@ -59,8 +54,10 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase.Creat
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.GetPurchaseListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
 import com.lkintechnology.mBilling.networks.api_response.purchase.CreatePurchaseResponce;
 import com.lkintechnology.mBilling.networks.api_response.purchase.UpdatePurchaseResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
@@ -71,16 +68,12 @@ import com.lkintechnology.mBilling.utils.ImagePicker;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -130,6 +123,8 @@ public class CreatePurchaseFragment extends Fragment {
     LinearLayout mBrowseImage;
     @Bind(R.id.transport)
     LinearLayout mTransport;
+    @Bind(R.id.payment_settlement_layout)
+    LinearLayout mPaymentSettlementLayout;
     @Bind(R.id.receipt)
     LinearLayout mReceipt;
     @Bind(R.id.selected_image)
@@ -147,12 +142,12 @@ public class CreatePurchaseFragment extends Fragment {
     public Boolean boolForPartyName = false;
     public Boolean boolForStore = false;
     Snackbar snackbar;
-    String encodedString,attachment = "";
+    String encodedString, attachment = "";
     Bitmap photo;
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
-    public Boolean fromedit=false;
+    public Boolean fromedit = false;
 
     @Override
     public void onStart() {
@@ -161,7 +156,7 @@ public class CreatePurchaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_purchase_create, container, false);
         ButterKnife.bind(this, view);
         appUser = LocalRepositories.getAppUser(getActivity());
@@ -247,11 +242,11 @@ public class CreatePurchaseFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
-        if (!Preferences.getInstance(getContext()).getAttachment().equals("")){
-            mSelectedImage.setImageBitmap( Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
+        if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
+            mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
         }
-        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getUrl_attachment().equals("")) {
             Glide.with(this).load(Helpers.mystring(Preferences.getInstance(getApplicationContext()).getUrl_attachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(mSelectedImage);
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -401,6 +396,27 @@ public class CreatePurchaseFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        mPaymentSettlementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser=LocalRepositories.getAppUser(getActivity());
+                if (appUser.mListMapForItemPurchase.size() > 0) {
+                    if (!mPartyName.getText().toString().equals("")) {
+                        if (!appUser.sale_party_group.equals("Cash-in-hand")) {
+                            PaymentSettlementActivity.voucher_type = "purchase";
+                            Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                        }
+                    } else {
+                        Helpers.dialogMessage(getContext(), "Please select party name");
+                    }
+                } else {
+                    Helpers.dialogMessage(getContext(), "Please add item");
+                }
+            }
+        });
         mReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -469,7 +485,7 @@ public class CreatePurchaseFragment extends Fragment {
                                             // Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if(appUser.sale_partyEmail!=null&&!appUser.sale_partyEmail.equalsIgnoreCase("null")&&!appUser.sale_partyEmail.equals("")) {
+                                            if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
                                                 new AlertDialog.Builder(getActivity())
                                                         .setTitle("Email")
                                                         .setMessage(R.string.btn_send_email)
@@ -523,7 +539,7 @@ public class CreatePurchaseFragment extends Fragment {
 
                                                         })
                                                         .show();
-                                            }else {
+                                            } else {
                                                 appUser.email_yes_no = "false";
                                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                                 if (isConnected) {
@@ -718,7 +734,7 @@ public class CreatePurchaseFragment extends Fragment {
                         mSelectedImage.setImageBitmap(photo);
                         break;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
         }
@@ -776,7 +792,7 @@ public class CreatePurchaseFragment extends Fragment {
                     appUser.sale_partyName = ParameterConstant.id;
                     appUser.purchase_account_master_id = ParameterConstant.id;
                     appUser.sale_partyEmail = ParameterConstant.email;
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Preferences.getInstance(getContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getContext()).setMobile(ParameterConstant.mobile);
@@ -880,7 +896,7 @@ public class CreatePurchaseFragment extends Fragment {
         if (response.getStatus() == 200) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "purchase_voucher");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,appUser.company_name);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             Preferences.getInstance(getActivity()).setUpdate("");
             submit.setVisibility(View.VISIBLE);
@@ -907,6 +923,8 @@ public class CreatePurchaseFragment extends Fragment {
                 }
             }
             else{*/
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");
@@ -954,7 +972,7 @@ public class CreatePurchaseFragment extends Fragment {
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -1053,7 +1071,7 @@ public class CreatePurchaseFragment extends Fragment {
 
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            fromedit=true;
+            fromedit = true;
             mDate.setText(response.getPurchase_voucher().getData().getAttributes().getDate());
             appUser.purchase_date = response.getPurchase_voucher().getData().getAttributes().getDate();
             mVchNumber.setText(response.getPurchase_voucher().getData().getAttributes().getVoucher_number());
@@ -1106,7 +1124,7 @@ public class CreatePurchaseFragment extends Fragment {
                     mMap.put("batch_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
                     mMap.put("serial_wise", response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
                     appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     /* appUser.purchase_item_serail_arr = response.getPurchase_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
                     LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     Timber.i("zzzzz "+appUser.purchase_item_serail_arr.toString());
@@ -1193,8 +1211,8 @@ public class CreatePurchaseFragment extends Fragment {
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
             }
-            if (response.getPurchase_voucher().getData().getAttributes().getTransport_details()!=null) {
-                TransportActivity.purchasedata=response.getPurchase_voucher().getData().getAttributes().getTransport_details();
+            if (response.getPurchase_voucher().getData().getAttributes().getTransport_details() != null) {
+                TransportActivity.purchasedata = response.getPurchase_voucher().getData().getAttributes().getTransport_details();
             }
             if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries() != null) {
                 if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
@@ -1214,7 +1232,7 @@ public class CreatePurchaseFragment extends Fragment {
                       /*  if(String.valueOf(2)!=null) {*/
                         mMap.put("number_of_bill", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
                         // }
-                        if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0){
+                        if (response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0) {
                             mMap.put("fed_as_percentage", "valuechange");
                             mMap.put("changeamount", String.valueOf(response.getPurchase_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                         }
@@ -1244,11 +1262,30 @@ public class CreatePurchaseFragment extends Fragment {
                     }
                 }
             }
-
+            if (response.getPurchase_voucher().getData().getAttributes().getPayment_settlement()!=null){
+                Map map;
+                appUser.paymentSettlementList.clear();
+                for (int i=0;i<response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().size();i++){
+                    map = new HashMap();
+                    map.put("id",response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                    map.put("payment_account_name", response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                    map.put("payment_account_id", response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                    map.put("amount", response.getPurchase_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                    appUser.paymentSettlementList.add(map);
+                }
+                if (appUser.paymentSettlementList.size() > 0) {
+                    PaymentSettleModel paymentSettleModel = new PaymentSettleModel();
+                    paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
+                    paymentSettleModel.setVoucher_type("purchase");
+                    appUser.paymentSettlementHashMap.add(paymentSettleModel);
+                    // appUser.paymentSettlementHashMap.put(map1, paymentSettleModel);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
         } else {
            /* snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
 
     }
@@ -1258,6 +1295,10 @@ public class CreatePurchaseFragment extends Fragment {
     public void updatepurchasevoucher(UpdatePurchaseResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            appUser.paymentSettlementList.clear();
+            appUser.paymentSettlementHashMap.clear();
+
             snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -1279,7 +1320,7 @@ public class CreatePurchaseFragment extends Fragment {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
-            if(PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity){
+            if (PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity) {
                 startActivity(new Intent(getApplicationContext(), PurchaseVouchersItemDetailsListActivity.class));
             }else {
                 Intent intent = new Intent(getApplicationContext(), GetPurchaseListActivity.class);
@@ -1290,7 +1331,7 @@ public class CreatePurchaseFragment extends Fragment {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/
-            Helpers.dialogMessage(getContext(),response.getMessage());
+            Helpers.dialogMessage(getContext(), response.getMessage());
         }
     }
 
@@ -1306,7 +1347,7 @@ public class CreatePurchaseFragment extends Fragment {
         return photo;
     }
 
-    public void alertdialogtype(){
+    public void alertdialogtype() {
         new android.support.v7.app.AlertDialog.Builder(getContext())
                 .setTitle("Purchase Voucher")
                 .setMessage("Please add purchase type in create voucher")
@@ -1316,7 +1357,8 @@ public class CreatePurchaseFragment extends Fragment {
                 })
                 .show();
     }
-    public void alertdialogstore(){
+
+    public void alertdialogstore() {
         new android.support.v7.app.AlertDialog.Builder(getContext())
                 .setTitle("Purchase Voucher")
                 .setMessage("Please add store in create voucher")

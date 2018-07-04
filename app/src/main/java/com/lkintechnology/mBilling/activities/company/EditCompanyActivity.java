@@ -298,8 +298,6 @@ public class EditCompanyActivity extends AppCompatActivity {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(this,response.getMessage());
         }
-
-
     }
 
     @Subscribe

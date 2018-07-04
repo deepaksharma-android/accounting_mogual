@@ -10,6 +10,42 @@ public class SaleReturnVoucherDetailsAttribute {
     public String shipped_to_id;
     public int company_id;
     public int purchase_type_id;
+    public String sale_voucher_name;
+    public String sale_voucher_id;
+    public String sale_id;
+    public String sale_name;
+
+    public String getSale_id() {
+        return sale_id;
+    }
+
+    public void setSale_id(String sale_id) {
+        this.sale_id = sale_id;
+    }
+
+    public String getSale_name() {
+        return sale_name;
+    }
+
+    public void setSale_name(String sale_name) {
+        this.sale_name = sale_name;
+    }
+
+    public String getSale_voucher_name() {
+        return sale_voucher_name;
+    }
+
+    public void setSale_voucher_name(String sale_voucher_name) {
+        this.sale_voucher_name = sale_voucher_name;
+    }
+
+    public String getSale_voucher_id() {
+        return sale_voucher_id;
+    }
+
+    public void setSale_voucher_id(String sale_voucher_id) {
+        this.sale_voucher_id = sale_voucher_id;
+    }
 
     public String getShipped_to_name() {
         return shipped_to_name;
@@ -203,4 +239,13 @@ public class SaleReturnVoucherDetailsAttribute {
     }
 
     public Transport transport_details;
+    public ArrayList<SaleReturnDetailsPaymentSettlement> payment_settlement;
+
+    public ArrayList<SaleReturnDetailsPaymentSettlement> getPayment_settlement() {
+        return payment_settlement;
+    }
+
+    public void setPayment_settlement(ArrayList<SaleReturnDetailsPaymentSettlement> payment_settlement) {
+        this.payment_settlement = payment_settlement;
+    }
 }

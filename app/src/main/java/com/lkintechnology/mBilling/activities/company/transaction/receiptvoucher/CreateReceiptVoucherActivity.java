@@ -24,6 +24,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,6 +112,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     LinearLayout mBrowseImage;
     @Bind(R.id.selected_image)
     ImageView mSelectedImage;
+    @Bind(R.id.submit_layout)
+    LinearLayout submit_layout;
     @Bind(R.id.submit)
     LinearLayout mSubmit;
     @Bind(R.id.update)
@@ -153,9 +156,8 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     String attachemnt;
-    public String spinnergstnature;
+    public String spinnergstnature,state;
     private FirebaseAnalytics mFirebaseAnalytics;
-    String state;
 
 
     @Override
@@ -841,6 +843,7 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                     appUser.receipt_received_from_id = ParameterConstant.id;
                     appUser.receipt_received_from_name = ParameterConstant.name;
                     appUser.receipt_received_from_email = ParameterConstant.email;
+                    state = ParameterConstant.state;
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     received_from.setText(ParameterConstant.name);
                 } else {
@@ -1056,6 +1059,25 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
     public void getReceiptVoucherDetails(GetReceiptVoucherDetailsResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
+            if (response.getReceipt_voucher().getData().getAttributes().getIs_payment_settlement()!=null) {
+                if (response.getReceipt_voucher().getData().getAttributes().getIs_payment_settlement().equals("true")) {
+                    voucher_series_spinner.setEnabled(false);
+                    voucher_no.setEnabled(false);
+                    type_spinner.setEnabled(false);
+                    gst_nature_spinner.setEnabled(false);
+                    arrow.setClickable(false);
+                    set_date.setClickable(false);
+                    set_date_pdc.setClickable(false);
+                    transaction_amount.setInputType(InputType.TYPE_NULL);
+                    transaction_narration.setInputType(InputType.TYPE_NULL);
+                    received_from_layout.setClickable(false);
+                    received_by_layout.setClickable(false);
+                    mBrowseImage.setClickable(false);
+                    mSelectedImage.setClickable(false);
+                    submit_layout.setVisibility(View.GONE);
+                }
+            }
             set_date.setText(response.getReceipt_voucher().getData().getAttributes().getDate());
             appUser.receipt_date = response.getReceipt_voucher().getData().getAttributes().getDate();
             voucher_no.setText(response.getReceipt_voucher().getData().getAttributes().getVoucher_number());
@@ -1097,11 +1119,11 @@ CreateReceiptVoucherActivity extends RegisterAbstractActivity implements View.On
                 }
 
             }
-            if(!response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState().equals("")||response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState()!=null) {
-                state=response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState();
-            }
-            List<Map> myList=new ArrayList<>();
             gst_nature_spinner.setSelection(groupindex);
+
+            state=response.getReceipt_voucher().getData().getAttributes().getReceived_from().getState();
+            List<Map> myList=new ArrayList<>();
+
             Map mMap;
             appUser.mListMapForItemReceipt.clear();
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);

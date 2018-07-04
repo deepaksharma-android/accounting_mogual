@@ -12,11 +12,21 @@ public class Attributes {
     public String voucher_number;
     public DetailsReceivedFrom received_from;
     public DetailsReceivedFromState received_from_state;
+
     public String received_by;
     public Double amount;
     public String narration;
     public String attachment;
     public String invoice_html;
+    public String is_payment_settlement;
+
+    public String getIs_payment_settlement() {
+        return is_payment_settlement;
+    }
+
+    public void setIs_payment_settlement(String is_payment_settlement) {
+        this.is_payment_settlement = is_payment_settlement;
+    }
 
     public DetailsReceivedFrom getReceived_from() {
         return received_from;
@@ -33,7 +43,6 @@ public class Attributes {
     public void setReceived_from_state(DetailsReceivedFromState received_from_state) {
         this.received_from_state = received_from_state;
     }
-
     public String getInvoice_html() {
         return invoice_html;
     }

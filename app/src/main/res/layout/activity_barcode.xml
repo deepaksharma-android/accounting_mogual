@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lkintechnology.mBilling.activities.company.transaction.barcode.EditTextVoucherBarcodeActivity">
+    <LinearLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:layout_height="40dp">
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter serial number"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/dp_20"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_3"
+        android:layout_below="@+id/top_layout"
+        android:background="@drawable/search_view_back"/>
+    <ScrollView
+        android:layout_below="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/submit">
+
+        <LinearLayout
+            android:id="@+id/main_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:background="@drawable/solid_blue"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+            style="@style/Gotham_Book"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

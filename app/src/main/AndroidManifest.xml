@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".ThisApp"
@@ -44,12 +44,14 @@
             android:name=".activities.app.HomePageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noAnimTheme" />
+
+
         <receiver android:name=".networks.SmsListener">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".activities.user.LoginActivity"
             android:parentActivityName=".activities.app.HomePageActivity"
@@ -714,15 +716,16 @@
             android:parentActivityName=".activities.company.transaction.journalvoucher.CreateJournalVoucherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.company.transaction.payment.ShowPaymentListActivity"
+        <activity
+            android:name=".activities.company.transaction.payment.ShowPaymentListActivity"
             android:parentActivityName=".activities.company.transaction.payment.PaymentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.company.transaction.payment.CreatePaymentListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.payment.CreatePaymentListActivity"
             android:parentActivityName=".activities.company.transaction.payment.ShowPaymentListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.company.navigations.reports.stock_status.ItemWiseReportActicity"
             android:parentActivityName=".activities.company.navigations.reports.ReportsActivity"
@@ -743,10 +746,23 @@
             android:parentActivityName=".activities.company.transaction.TransactionPurchaseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.transaction.sale.PaymentSettlementActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity android:name=".activities.company.navigations.administration.masters.item.ItemBarcodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.barcode.EditTextVoucherBarcodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
-
 
     </application>
 

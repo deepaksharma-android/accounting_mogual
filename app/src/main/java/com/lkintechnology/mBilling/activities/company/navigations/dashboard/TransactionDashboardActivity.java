@@ -150,12 +150,15 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.account_name_debit_name = "";
         appUser.account_name_credit_name = "";
         appUser.sale_partyEmail = "";
+        Preferences.getInstance(context).setVoucher_name("");
+        Preferences.getInstance(context).setVoucher_id("");
         RequestCheckBarcode.bollForBarcode=null;
         Preferences.getInstance(getApplicationContext()).setVoucher_date("");
         LocalRepositories.saveAppUser(this, appUser);
         Preferences.getInstance(getApplicationContext()).setReason("");
         ParameterConstant.handleAutoCompleteTextView = 0;
-
+ 		appUser.paymentSettlementList.clear();
+        appUser.paymentSettlementHashMap.clear();
         ParameterConstant.name = "";
         ParameterConstant.mobile = "";
         ParameterConstant.email = "";
@@ -199,6 +202,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            
+
                 CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
@@ -281,6 +286,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              
+
                 CreatePurchaseActivity.isForEdit = false;
                 appUser.serial_arr.clear();
                 Preferences.getInstance(context).setVoucher_date("");
@@ -491,6 +498,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         saleReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                
+
                 CreateSaleReturnActivity.isForEdit=false;
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
@@ -541,6 +550,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         purchaseReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+               
 
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");

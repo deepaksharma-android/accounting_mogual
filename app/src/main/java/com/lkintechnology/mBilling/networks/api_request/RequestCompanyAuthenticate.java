@@ -20,13 +20,5 @@ public class RequestCompanyAuthenticate {
         company.put("username",appUser.cusername);
         company.put("password",appUser.cpassword);
 
-
-
-
-
-
-
-
-
     }
 }
