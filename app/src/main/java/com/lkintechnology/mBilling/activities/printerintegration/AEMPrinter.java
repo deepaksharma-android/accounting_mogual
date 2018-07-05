@@ -576,7 +576,7 @@ public class AEMPrinter
 			for (ctr1 = 0; ctr1 < len; ctr1++)
 			{
 				if(ctr1 > 0) {
-					if (arrToSend[ctr1] == -65)//small e matra
+					if (arrToSend[ctr1] == -65)//normal e matra
 					{
 						arrToSend[ctr1] = arrToSend[ctr1 - 1];
 						arrToSend[ctr1 - 1] = -65;
@@ -585,7 +585,7 @@ public class AEMPrinter
 							if (arrToSend[ctr1 - 2] == -51)//in case of halant character
 							{
 								byte temp = arrToSend[ctr1 - 3];
-								arrToSend[ctr1 - 3] = -65; //small e matra
+								arrToSend[ctr1 - 3] = -65; //normal e matra
 								arrToSend[ctr1 - 2] = temp;
 								arrToSend[ctr1 - 1] = -51;
 							}
@@ -611,7 +611,7 @@ public class AEMPrinter
 			newArr[ctr2++] = arrToSend[ctr1];
 			if(matraFlag > 0)
 			matraFlag++;
-			if(arrToSend[ctr1] == -65) //small e matra
+			if(arrToSend[ctr1] == -65) //normal e matra
 			matraFlag = 1; 
 			}
 			if(matraFlag == 2)//in case matra is at last character
@@ -1120,17 +1120,6 @@ public class AEMPrinter
 		}
 	}
 
-	public void writeWithFormatSend(byte[] buffer) {
-
-		// Notify printer it should be printed with given alignment:
-		try {
-
-			bluetoothSocket.getOutputStream().write(buffer, 0, buffer.length);
-
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public void writeWithFormatOnly(final byte[] pFormat, final byte[] pAlignment) {
 

@@ -32,17 +32,22 @@ public class Formatter {
     }
 
     public Formatter small() {
-        mFormat[2] = ((byte) (0x1 | mFormat[2]));
+        mFormat[2] = ((byte) (0X01 | mFormat[2]));
+        return this;
+    }
+
+    public Formatter normal() {
+        mFormat[2] = ((byte) (0X06 | mFormat[2]));
         return this;
     }
 
     public Formatter height() {
-        mFormat[2] = ((byte) (0x08 | mFormat[2]));
+        mFormat[2] = ((byte) (0x10 | mFormat[2]));
         return this;
     }
 
     public Formatter width() {
-        mFormat[2] = ((byte) (0x08 | mFormat[2]));
+        mFormat[2] = ((byte) (0x04 | mFormat[2]));
         return this;
     }
 
