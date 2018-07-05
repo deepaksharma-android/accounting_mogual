@@ -144,7 +144,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit = false;
-    public static SaleVoucherDetailsData dataForPrinter;
 
 
     @Override
@@ -362,10 +361,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
-                // startDialog();
-
-                Intent intent = new Intent(getApplicationContext(), BluetoothActivity.class);
-                startActivity(intent);
+                 startDialog();
 
             }
         });
@@ -1193,10 +1189,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
-            dataForPrinter = new SaleVoucherDetailsData();
-            dataForPrinter = response.getSale_voucher().getData();
-
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
             fromedit = true;

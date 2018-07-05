@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.dashboard.DashboardAccountFragment;
 import com.lkintechnology.mBilling.fragments.transaction.sale.CreateSaleVoucherFragment;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
 import com.lkintechnology.mBilling.utils.Formatter;
@@ -35,7 +36,7 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
     AEMScrybeDevice m_AemScrybeDevice;
     ArrayList<String> printerList;
     CardReader m_cardReader = null;
-    public static AEMPrinter m_AemPrinter = null;
+    public AEMPrinter m_AemPrinter = null;
     Button onPrint;
     Button onPrintBill;
     EditText editText;
@@ -55,7 +56,7 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
             WebView.enableSlowWholeDocumentDraw();
         }*/
         setContentView(R.layout.activity_bluetooth);
-
+        m_AemPrinter = DashboardAccountFragment.m_AemPrinter;
         printerList = new ArrayList<String>();
         m_AemScrybeDevice = new AEMScrybeDevice(this);
         Button discoverButton = (Button) findViewById(R.id.pairing);
@@ -65,7 +66,7 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
         onPrintBill = (Button) findViewById(R.id.bill);
 
         dataList = new SaleVoucherDetailsData();
-        dataList = CreateSaleVoucherFragment.dataForPrinter;
+       // dataList = CreateSaleVoucherFragment.dataForPrinter;
 
         registerForContextMenu(discoverButton);
 
@@ -166,7 +167,7 @@ public class BluetoothActivity extends AppCompatActivity implements IAemCardScan
 
     public void onShowPairedPrinters(View v) {
 
-        String p = m_AemScrybeDevice.pairPrinter("BTprinter0314");
+        //String p = m_AemScrybeDevice.pairPrinter("BTprinter0314");
         //  showAlert(p);
         printerList = m_AemScrybeDevice.getPairedPrinters();
 

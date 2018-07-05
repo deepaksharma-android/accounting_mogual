@@ -35,7 +35,10 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.DeleteSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
+import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleVoucher;
 import com.lkintechnology.mBilling.utils.EventForVoucherClick;
@@ -88,6 +91,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     private SimpleDateFormat dateFormatter;
     String dateString;
     Boolean forMainLayoutClick = false;
+    public static SaleVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -419,13 +423,14 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     public void getpdf(EventShowPdf pos){
         String arr[]=pos.getPosition().split(",");
         String type=arr[0];
-        if(type.equals("sale-vouchers")){
+        String id=arr[1];
+       /* if(type.equals("sale-vouchers")){
             type="Sale";
         }
-        String id=arr[1];
         appUser.serial_voucher_id=id;
-        appUser.serial_voucher_type=type;
-        LocalRepositories.saveAppUser(this,appUser);
+        appUser.serial_voucher_type=type;*/
+        appUser.edit_sale_voucher_id = id;
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -434,8 +439,8 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -578,5 +583,21 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             returnIntent.putExtra("id", strAr[1]);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
+    }
+
+    @Subscribe
+    public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinter = new SaleVoucherDetailsData();
+            dataForPrinter = response.getSale_voucher().getData();
+            BluPrinterHelper.forGSTReceipt(getApplicationContext(),dataForPrinter);
+        } else {
+            /*snackbar = Snackbar
+                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();*/
+            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
+    }
 }
