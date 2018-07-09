@@ -100,13 +100,13 @@ public class BluPrinterHelper {
                     igst_tax = igst_tax+total_tax;
                     cgst_tax = cgst_tax + cgst;
                     sgst_tax = sgst_tax + sgst;
-                    if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.")) {
+                    if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")) {
                         data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem(),
                                 String.format("%.2f",taxable_amount),
                                 String.format("%.2f",igst),
                                 String.format("%.2f",total_tax));
                         tax_detailsArray[i] = data;
-                    }else if (dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.")){
+                    }else if (dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("L/GST-ItemWise")){
                         data = spaceString6(dataList.getAttributes().getVoucher_items().get(i).getItem(),
                                 String.format("%.2f",taxable_amount),
                                 String.format("%.2f",cgst),
@@ -115,7 +115,8 @@ public class BluPrinterHelper {
                         tax_detailsArray[i] = data;
                     }
 
-                    if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.")){
+                    if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.") ||
+                            dataList.getAttributes().getSale_type().equals("I/GST-ItemWise") || dataList.getAttributes().getSale_type().equals("L/GST-ItemWise")){
                         if (dataList.getAttributes().getVoucher_items().get(i).getHsn_number()!=null){
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem()+"/"+dataList.getAttributes().getVoucher_items().get(i).getHsn_number(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
@@ -153,11 +154,11 @@ public class BluPrinterHelper {
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 data = spaceString("Gross Amount",String.valueOf(dataList.getAttributes().getItems_amount())+"\n");
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.")) {
+                if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")) {
                     data = spaceString("IGST Tax",String.format("%.2f",igst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 }
-                if (dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.")) {
+                if (dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("L/GST-ItemWise")) {
                     data = spaceString("CGST Tax",String.format("%.2f",cgst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                     data = spaceString("SGST Tax",String.format("%.2f",sgst_tax)+"\n");
@@ -202,7 +203,7 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
             m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
 
-            if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.")){
+            if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")){
                 data = "Tax Detail\n";
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().underlined().get(), Formatter.leftAlign());
                 m_AemPrinter.setLineFeed(1);
@@ -219,7 +220,7 @@ public class BluPrinterHelper {
                 m_AemPrinter.setLineFeed(1);
             }
 
-            if (dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.")){
+            if (dataList.getAttributes().getSale_type().equals("L/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("L/GST-ItemWise")){
                 data = "Tax Detail\n";
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().underlined().get(), Formatter.leftAlign());
                 m_AemPrinter.setLineFeed(1);
