@@ -5,10 +5,19 @@ import java.util.ArrayList;
 public class PurchaseReturnVoucherDetailsItemList {
     public int item_id;
     public  String item;
+    public  String hsn_number;
     public  String business_type;
     public int quantity;
     public Double total_amount;
     public Double rate_item;
+
+    public String getHsn_number() {
+        return hsn_number;
+    }
+
+    public void setHsn_number(String hsn_number) {
+        this.hsn_number = hsn_number;
+    }
 
     public String getBusiness_type() {
         return business_type;

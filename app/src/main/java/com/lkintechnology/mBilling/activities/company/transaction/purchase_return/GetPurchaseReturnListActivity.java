@@ -36,7 +36,10 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.DeletePurchaseReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.PurchaseReturnVoucherDetailsData;
+import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseReturnVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
@@ -86,6 +89,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    public PurchaseReturnVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -408,6 +412,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id=id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -418,7 +423,8 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+          //  ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -548,6 +554,19 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
             DatePickerDialog1.show();
         }else if (view == dialog.findViewById(R.id.date2)){
             DatePickerDialog2.show();
+        }
+    }
+
+    @Subscribe
+    public void getPurchaseVoucherDetails(GetPurchaseReturnVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinter = new PurchaseReturnVoucherDetailsData();
+            dataForPrinter = response.getPurchase_return_voucher().getData();
+            BluPrinterHelper.purchaseReturnVoucherReceipt(getApplicationContext(),dataForPrinter);
+        } else {
+            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
     }
 }

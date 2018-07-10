@@ -33,8 +33,14 @@ import com.lkintechnology.mBilling.adapters.GetPurchaseListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.purchase_return.PurchaseReturnVoucherDetailsData;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.DeletePurchaseVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.GetPurchaseVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.PurchaseVoucherDetails;
+import com.lkintechnology.mBilling.networks.api_response.purchasevoucher.PurchaseVoucherDetailsData;
+import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeletePurchaseVoucher;
 import com.lkintechnology.mBilling.utils.EventForVoucherClick;
@@ -87,6 +93,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
     private SimpleDateFormat dateFormatter;
     String dateString;
     Boolean forMainLayoutClick = false;
+    public PurchaseVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -422,6 +429,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id=id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -432,7 +440,8 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -575,5 +584,18 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         returnIntent.putExtra("id", strAr[1]);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
+    }
+
+    @Subscribe
+    public void getPurchaseVoucherDetails(GetPurchaseVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinter = new PurchaseVoucherDetailsData();
+            dataForPrinter = response.getPurchase_voucher().getData();
+            BluPrinterHelper.purchaseVoucherReceipt(getApplicationContext(),dataForPrinter);
+        } else {
+            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
+        }
     }
 }

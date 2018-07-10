@@ -29,7 +29,6 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.adapters.GetSaleVoucherListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
@@ -91,7 +90,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     private SimpleDateFormat dateFormatter;
     String dateString;
     Boolean forMainLayoutClick = false;
-    public static SaleVoucherDetailsData dataForPrinter;
+    public SaleVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -424,11 +423,11 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         String arr[]=pos.getPosition().split(",");
         String type=arr[0];
         String id=arr[1];
-       /* if(type.equals("sale-vouchers")){
+        if(type.equals("sale-vouchers")){
             type="Sale";
         }
         appUser.serial_voucher_id=id;
-        appUser.serial_voucher_type=type;*/
+        appUser.serial_voucher_type=type;
         appUser.edit_sale_voucher_id = id;
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
@@ -592,7 +591,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
 
             dataForPrinter = new SaleVoucherDetailsData();
             dataForPrinter = response.getSale_voucher().getData();
-            BluPrinterHelper.forGSTReceipt(getApplicationContext(),dataForPrinter);
+            BluPrinterHelper.saleVoucherReceipt(getApplicationContext(),dataForPrinter);
         } else {
             /*snackbar = Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
