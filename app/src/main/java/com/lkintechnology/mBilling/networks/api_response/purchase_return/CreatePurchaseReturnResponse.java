@@ -6,8 +6,16 @@ package com.lkintechnology.mBilling.networks.api_response.purchase_return;
 
 public class CreatePurchaseReturnResponse {
     public String message;
-
+    public int id;
     public String html;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getHtml() {
         return html;

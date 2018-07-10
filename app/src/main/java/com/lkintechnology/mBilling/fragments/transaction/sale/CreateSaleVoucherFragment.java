@@ -1046,6 +1046,8 @@ public class CreateSaleVoucherFragment extends Fragment {
                             mProgressDialog.setCancelable(true);
                             mProgressDialog.show();
                             boolForReceipt = true;
+                            appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
                         } else {
                             snackbar = Snackbar

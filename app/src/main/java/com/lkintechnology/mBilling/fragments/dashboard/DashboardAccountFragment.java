@@ -50,6 +50,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static android.content.Context.MODE_PRIVATE;
+
 import com.lkintechnology.mBilling.utils.Preferences;
 
 public class DashboardAccountFragment extends Fragment implements IAemCardScanner, IAemScrybe {
@@ -101,29 +102,29 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
         printerList = new ArrayList<String>();
         m_AemScrybeDevice = new AEMScrybeDevice(this);
 
-        appUser=LocalRepositories.getAppUser(getActivity());
+        appUser = LocalRepositories.getAppUser(getActivity());
         final Calendar newCalendar = Calendar.getInstance();
         String dayNumberSuffix = getDayNumberSuffix(newCalendar.get(Calendar.DAY_OF_MONTH));
         dateFormatter = new SimpleDateFormat(" d'" + dayNumberSuffix + "' MMM yy", Locale.US);
         String date1 = dateFormatter.format(newCalendar.getTime());
-        Timber.i("DATE1"+date1);
-        String arr[]=date1.split(" ");
-        String apos=arr[2]+"\'";
-        String datenew=arr[1]+" "+apos+" "+arr[3];
-        mDate.setText("As On "+datenew);
-        mtextview_cash_in_hand.setText("₹ " +String.format("%.2f",data.getData().getAttributes().getCash_in_hand()));
-        mtextview_bank.setText("₹ " +String.format("%.2f", data.getData().getAttributes().getBank_account()));
-        mtextview_customer.setText("₹ " +String.format("%.2f", data.getData().getAttributes().getCustomer()));
-        mtextview_supplier.setText("₹ " +String.format("%.2f", data.getData().getAttributes().getSupplier()));
-        mtextview_stock_in_hand.setText("₹ " +String.format("%.2f",data.getData().getAttributes().getStock_in_hand()));
+        Timber.i("DATE1" + date1);
+        String arr[] = date1.split(" ");
+        String apos = arr[2] + "\'";
+        String datenew = arr[1] + " " + apos + " " + arr[3];
+        mDate.setText("As On " + datenew);
+        mtextview_cash_in_hand.setText("₹ " + String.format("%.2f", data.getData().getAttributes().getCash_in_hand()));
+        mtextview_bank.setText("₹ " + String.format("%.2f", data.getData().getAttributes().getBank_account()));
+        mtextview_customer.setText("₹ " + String.format("%.2f", data.getData().getAttributes().getCustomer()));
+        mtextview_supplier.setText("₹ " + String.format("%.2f", data.getData().getAttributes().getSupplier()));
+        mtextview_stock_in_hand.setText("₹ " + String.format("%.2f", data.getData().getAttributes().getStock_in_hand()));
         registerForContextMenu(transactionButton);
         mlayout_cash_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "Cash-in-hand";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 Intent i = new Intent(getActivity(), TransactionCashInHandActivity.class);
-                DashboardAccountFragment.isDirectForFirstPage=false;
+                DashboardAccountFragment.isDirectForFirstPage = false;
                 startActivity(i);
             }
         });
@@ -132,9 +133,9 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "Bank Accounts";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 Intent i = new Intent(getActivity(), TransactionBankActivity.class);
-                DashboardAccountFragment.isDirectForFirstPage=false;
+                DashboardAccountFragment.isDirectForFirstPage = false;
                 startActivity(i);
             }
         });
@@ -143,9 +144,9 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "Sundry Debtors";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 Intent i = new Intent(getActivity(), TransactionCustomerActivity.class);
-                DashboardAccountFragment.isDirectForFirstPage=false;
+                DashboardAccountFragment.isDirectForFirstPage = false;
                 startActivity(i);
             }
         });
@@ -154,17 +155,17 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             @Override
             public void onClick(View view) {
                 appUser.account_master_group = "Sundry Creditors";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 Intent i = new Intent(getActivity(), TransactionSupplierActivity.class);
-                DashboardAccountFragment.isDirectForFirstPage=false;
+                DashboardAccountFragment.isDirectForFirstPage = false;
                 startActivity(i);
             }
         });
         mlayout_stock_in_hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appUser.account_master_group ="";
-                LocalRepositories.saveAppUser(getActivity(),appUser);
+                appUser.account_master_group = "";
+                LocalRepositories.saveAppUser(getActivity(), appUser);
                 Intent i = new Intent(getActivity(), TransactionStockInHandActivity.class);
               /*  FirstPageActivity.isDirectForFirstPage=false;*/
                 startActivity(i);
@@ -182,33 +183,32 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
 
                             printerList = m_AemScrybeDevice.getPairedPrinters();
 
-                            if (printerList.size() > 0){
-                                if (m_AemPrinter==null){
+                            if (printerList.size() > 0) {
+                                if (m_AemPrinter == null) {
                                     getActivity().openContextMenu(view);
-                                }else {
-                                    showAlert("Already connected!!!\n\nDo you want to disconnect press no!!!");
+                                } else {
+                                    Toast.makeText(getActivity(), "Already connected!!!", Toast.LENGTH_SHORT).show();
+                                    //  showAlert("Already connected!!!\n\nDo you want to disconnect press no!!!");
+                                    Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
+                                    startActivity(intent);
                                 }
-                            }
-                            else
+                            } else
                                 showAlert("No Paired Printers found");
                         })
 
                         .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
-                            if (m_AemPrinter != null)
-                            {
-                                try
-                                {
+                            if (m_AemPrinter != null) {
+                                try {
                                     m_AemScrybeDevice.disConnectPrinter();
                                     m_AemPrinter = null;
                                     Toast.makeText(getActivity(), "disconnected", Toast.LENGTH_SHORT).show();
-                                }
-                                catch (IOException e)
-                                {
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
                             Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
                             startActivity(intent);
+
                         })
                         .show();
             }
@@ -258,8 +258,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
         }
     }
 
-    private boolean isFirstTime()
-    {
+    private boolean isFirstTime() {
         SharedPreferences preferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
         if (!ranBefore) {
@@ -268,7 +267,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             editor.putBoolean("RanBefore", true);
             editor.commit();
             mOverlayLayout.setVisibility(View.VISIBLE);
-            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener() {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

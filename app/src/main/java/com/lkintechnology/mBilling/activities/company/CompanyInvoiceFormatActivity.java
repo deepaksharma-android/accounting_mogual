@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.SplashActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import butterknife.Bind;
@@ -38,7 +39,11 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (radio_button1.isChecked()==true || radio_button2.isChecked()==true){
+                    finish();
+                }else {
+                    Helpers.dialogMessage(CompanyInvoiceFormatActivity.this,"Please select invoice format!!!");
+                }
             }
         });
 

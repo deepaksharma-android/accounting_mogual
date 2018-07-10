@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
+import com.lkintechnology.mBilling.activities.app.SplashActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.adapters.GetSaleReturnVoucherListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -407,7 +408,6 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
-        appUser.edit_sale_voucher_id=id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -417,9 +417,13 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
+            if (SplashActivity.boolForInvoiceFormat){
+                appUser.edit_sale_voucher_id = id;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
+            }else {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+            }
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)

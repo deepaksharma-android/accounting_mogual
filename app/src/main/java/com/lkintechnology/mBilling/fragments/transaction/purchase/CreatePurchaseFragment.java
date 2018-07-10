@@ -961,6 +961,8 @@ public class CreatePurchaseFragment extends Fragment {
                             mProgressDialog.setCancelable(true);
                             mProgressDialog.show();
                             boolForReceipt = true;
+                            appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             ApiCallsService.action(getActivity(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
                         } else {
                             snackbar = Snackbar
