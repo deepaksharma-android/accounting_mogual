@@ -38,6 +38,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.app.SplashActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
@@ -1034,37 +1036,38 @@ public class CreateSaleVoucherFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-                       /* Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                        intent.putExtra("company_report", response.getHtml());
-                        startActivity(intent);*/
 
-                        Boolean isConnected = ConnectivityReceiver.isConnected();
-                        if (isConnected) {
-                            mProgressDialog = new ProgressDialog(getActivity());
-                            mProgressDialog.setMessage("Info...");
-                            mProgressDialog.setIndeterminate(false);
-                            mProgressDialog.setCancelable(true);
-                            mProgressDialog.show();
-                            boolForReceipt = true;
-                            appUser.edit_sale_voucher_id = String.valueOf(response.getId());
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
-                        } else {
-                            snackbar = Snackbar
-                                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                    .setAction("RETRY", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                                            if (isConnected) {
-                                                snackbar.dismiss();
+                        if (SplashActivity.boolForInvoiceFormat){
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                mProgressDialog = new ProgressDialog(getActivity());
+                                mProgressDialog.setMessage("Info...");
+                                mProgressDialog.setIndeterminate(false);
+                                mProgressDialog.setCancelable(true);
+                                mProgressDialog.show();
+                                boolForReceipt = true;
+                                appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
+                            } else {
+                                snackbar = Snackbar
+                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                        .setAction("RETRY", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                if (isConnected) {
+                                                    snackbar.dismiss();
+                                                }
                                             }
-                                        }
-                                    });
-                            snackbar.show();
+                                        });
+                                snackbar.show();
+                            }
+                        }else {
+                            Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                            intent.putExtra("company_report", response.getHtml());
+                            startActivity(intent);
                         }
-
-
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();

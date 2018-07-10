@@ -129,12 +129,12 @@ public class BluPrinterHelper {
                         if (dataList.getAttributes().getVoucher_items().get(i).getHsn_number()!=null){
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem()+"/"+dataList.getAttributes().getVoucher_items().get(i).getHsn_number(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }else {
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }
                     }else {
@@ -163,7 +163,7 @@ public class BluPrinterHelper {
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 data = spaceString("Gross Amount",String.valueOf(dataList.getAttributes().getItems_amount())+"\n");
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")) {
+               /* if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")) {
                     data = spaceString("IGST Tax",String.format("%.2f",igst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 }
@@ -172,7 +172,7 @@ public class BluPrinterHelper {
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                     data = spaceString("SGST Tax",String.format("%.2f",sgst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                }
+                }*/
                 m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
             }
 
@@ -372,12 +372,12 @@ public class BluPrinterHelper {
                         if (dataList.getAttributes().getVoucher_items().get(i).getHsn_number()!=null){
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem()+"/"+dataList.getAttributes().getVoucher_items().get(i).getHsn_number(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }else {
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }
                     }else {
@@ -406,7 +406,7 @@ public class BluPrinterHelper {
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 data = spaceString("Gross Amount",String.valueOf(dataList.getAttributes().getItems_amount())+"\n");
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                if (dataList.getAttributes().getPurchase_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getPurchase_type().equals("I/GST-ItemWise")) {
+              /*  if (dataList.getAttributes().getPurchase_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getPurchase_type().equals("I/GST-ItemWise")) {
                     data = spaceString("IGST Tax",String.format("%.2f",igst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 }
@@ -415,7 +415,7 @@ public class BluPrinterHelper {
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                     data = spaceString("SGST Tax",String.format("%.2f",sgst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                }
+                }*/
                 m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
             }
 
@@ -615,12 +615,12 @@ public class BluPrinterHelper {
                         if (dataList.getAttributes().getVoucher_items().get(i).getHsn_number()!=null){
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem()+"/"+dataList.getAttributes().getVoucher_items().get(i).getHsn_number(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }else {
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }
                     }else {
@@ -649,7 +649,7 @@ public class BluPrinterHelper {
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 data = spaceString("Gross Amount",String.valueOf(dataList.getAttributes().getItems_amount())+"\n");
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")) {
+              /*  if (dataList.getAttributes().getSale_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getSale_type().equals("I/GST-ItemWise")) {
                     data = spaceString("IGST Tax",String.format("%.2f",igst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 }
@@ -658,7 +658,7 @@ public class BluPrinterHelper {
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                     data = spaceString("SGST Tax",String.format("%.2f",sgst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                }
+                }*/
                 m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
             }
 
@@ -858,12 +858,12 @@ public class BluPrinterHelper {
                         if (dataList.getAttributes().getVoucher_items().get(i).getHsn_number()!=null){
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem()+"/"+dataList.getAttributes().getVoucher_items().get(i).getHsn_number(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }else {
                             data = spaceString4(dataList.getAttributes().getVoucher_items().get(i).getItem(),
                                     String.valueOf(dataList.getAttributes().getVoucher_items().get(i).getQuantity()),
-                                    String.format("%.2f",amount),
+                                    String.format("%.2f",/*amount*/dataList.getAttributes().getVoucher_items().get(i).getRate_item()),
                                     String.format("%.2f",dataList.getAttributes().getVoucher_items().get(i).getTotal_amount()) + "\n");
                         }
                     }else {
@@ -892,7 +892,7 @@ public class BluPrinterHelper {
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 data = spaceString("Gross Amount",String.valueOf(dataList.getAttributes().getItems_amount())+"\n");
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                if (dataList.getAttributes().getPurchase_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getPurchase_type().equals("I/GST-ItemWise")) {
+              /*  if (dataList.getAttributes().getPurchase_type().equals("I/GST-TaxIncl.") || dataList.getAttributes().getPurchase_type().equals("I/GST-ItemWise")) {
                     data = spaceString("IGST Tax",String.format("%.2f",igst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                 }
@@ -901,7 +901,7 @@ public class BluPrinterHelper {
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
                     data = spaceString("SGST Tax",String.format("%.2f",sgst_tax)+"\n");
                     m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-                }
+                }*/
                 m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
             }
 
@@ -913,21 +913,21 @@ public class BluPrinterHelper {
                     for (int i = 0; i < dataList.getAttributes().getVoucher_bill_sundries().size(); i++) {
                         if (dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_type().equals("Additive")) {
                             if (dataList.getAttributes().getVoucher_bill_sundries().get(i).getPercentage().equals(0.0)) {
-                                data = spaceString("Add :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_nature() + "(Rs.)",
+                                data = spaceString("Add :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry() + "(Rs.)",
                                         dataList.getAttributes().getVoucher_bill_sundries().get(i).getAmount() + "\n");
 
                             } else {
-                                data = spaceString("Add :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_nature() +
+                                data = spaceString("Add :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry() +
                                                 "(%)          " + dataList.getAttributes().getVoucher_bill_sundries().get(i).getPercentage(),
                                         dataList.getAttributes().getVoucher_bill_sundries().get(i).getAmount() + "\n");
                             }
                         } else {
                             if (dataList.getAttributes().getVoucher_bill_sundries().get(i).getPercentage().equals(0.0)) {
-                                data = spaceString("Less :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_nature() + "(Rs.)",
+                                data = spaceString("Less :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry() + "(Rs.)",
                                         dataList.getAttributes().getVoucher_bill_sundries().get(i).getAmount() + "\n");
 
                             } else {
-                                data = spaceString("Less :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_nature() +
+                                data = spaceString("Less :" + dataList.getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry() +
                                                 "(%)          " + dataList.getAttributes().getVoucher_bill_sundries().get(i).getPercentage(),
                                         dataList.getAttributes().getVoucher_bill_sundries().get(i).getAmount() + "\n");
                             }
