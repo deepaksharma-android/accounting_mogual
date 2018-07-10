@@ -70,7 +70,6 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     LinearLayout stockTransfer;
     public static Bitmap bitmapPhoto = null;
 
-
     Context context;
     AppUser appUser;
 
