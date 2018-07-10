@@ -593,9 +593,6 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             dataForPrinter = response.getSale_voucher().getData();
             BluPrinterHelper.saleVoucherReceipt(getApplicationContext(),dataForPrinter);
         } else {
-            /*snackbar = Snackbar
-                    .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();*/
             Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
     }

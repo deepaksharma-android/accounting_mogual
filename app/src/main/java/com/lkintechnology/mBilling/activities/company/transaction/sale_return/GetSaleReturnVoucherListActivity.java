@@ -32,7 +32,10 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.SaleReturnVoucherDetailsData;
+import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleReturnVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
@@ -82,6 +85,7 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
+    public SaleReturnVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -403,6 +407,7 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id=id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -413,7 +418,8 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+           // ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -543,6 +549,19 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
             DatePickerDialog1.show();
         }else if (view == dialog.findViewById(R.id.date2)){
             DatePickerDialog2.show();
+        }
+    }
+
+    @Subscribe
+    public void getSaleReturnVoucherDetails(GetSaleReturnVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinter = new SaleReturnVoucherDetailsData();
+            dataForPrinter = response.getSale_return_voucher().getData();
+            BluPrinterHelper.saleReturnVoucherReceipt(getApplicationContext(),dataForPrinter);
+        } else {
+            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
     }
 }

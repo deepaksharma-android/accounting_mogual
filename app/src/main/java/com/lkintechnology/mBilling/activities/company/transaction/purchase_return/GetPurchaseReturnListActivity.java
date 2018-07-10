@@ -558,7 +558,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
     }
 
     @Subscribe
-    public void getPurchaseVoucherDetails(GetPurchaseReturnVoucherDetails response) {
+    public void getPurchaseReturnVoucherDetails(GetPurchaseReturnVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
 
