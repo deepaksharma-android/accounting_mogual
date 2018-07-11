@@ -144,8 +144,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     Bitmap photo;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
-    public Boolean fromedit = false,boolForReceipt = false;
-    public SaleVoucherDetailsData dataForPrinter;
+    public Boolean fromedit = false;
 
 
     @Override
@@ -363,7 +362,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 appUser = LocalRepositories.getAppUser(getActivity());
                /* Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i.createChooser(i, "Select Picture"), SELECT_PICTURE);*/
-                 startDialog();
+                startDialog();
 
             }
         });
@@ -1036,38 +1035,13 @@ public class CreateSaleVoucherFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report", response.getHtml());
+                        intent.putExtra("type","sale_voucher");
+                        startActivity(intent);
 
-                        if (SplashActivity.boolForInvoiceFormat){
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(getActivity());
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                boolForReceipt = true;
-                                appUser.edit_sale_voucher_id = String.valueOf(response.getId());
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
-                                                }
-                                            }
-                                        });
-                                snackbar.show();
-                            }
-                        }else {
-                            Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                            intent.putExtra("company_report", response.getHtml());
-                            startActivity(intent);
-                        }
                     })
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show();
@@ -1203,11 +1177,6 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            if (boolForReceipt){
-                dataForPrinter = new SaleVoucherDetailsData();
-                dataForPrinter = response.getSale_voucher().getData();
-                BluPrinterHelper.saleVoucherReceipt(getApplicationContext(),dataForPrinter);
-            }else {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
                 fromedit = true;
@@ -1346,6 +1315,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                         appUser.mListMapForItemSale.add(mMap);
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
+                }
                     if (response.getSale_voucher().getData().getAttributes().getTransport_details() != null) {
                         TransportActivity.saledata = response.getSale_voucher().getData().getAttributes().getTransport_details();
                     }
@@ -1419,9 +1389,6 @@ public class CreateSaleVoucherFragment extends Fragment {
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         }
                     }
-
-                }
-            }
 
         } else {
             /*snackbar = Snackbar

@@ -94,7 +94,6 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
     private SimpleDateFormat dateFormatter;
     String dateString;
     Boolean forMainLayoutClick = false;
-    public PurchaseVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -430,6 +429,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id = id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -439,13 +439,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            if (SplashActivity.boolForInvoiceFormat){
-                appUser.edit_sale_voucher_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
-            }else {
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
-            }
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -469,6 +463,7 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         if(response.getStatus()==200){
             Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
             intent.putExtra("company_report", response.getHtml());
+            intent.putExtra("type", "purchase_voucher");
             startActivity(intent);
         }else {
             Helpers.dialogMessage(this,response.getMessage());
@@ -588,18 +583,5 @@ public class GetPurchaseListActivity extends RegisterAbstractActivity implements
         returnIntent.putExtra("id", strAr[1]);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
-    }
-
-    @Subscribe
-    public void getPurchaseVoucherDetails(GetPurchaseVoucherDetails response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-            dataForPrinter = new PurchaseVoucherDetailsData();
-            dataForPrinter = response.getPurchase_voucher().getData();
-            BluPrinterHelper.purchaseVoucherReceipt(getApplicationContext(),dataForPrinter);
-        } else {
-            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
-        }
     }
 }

@@ -91,7 +91,6 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     private SimpleDateFormat dateFormatter;
     String dateString;
     Boolean forMainLayoutClick = false;
-    public SaleVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -429,6 +428,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         }
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id = id;
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -438,13 +438,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            if (SplashActivity.boolForInvoiceFormat){
-                appUser.edit_sale_voucher_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
-            }else {
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
-            }
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
 
         } else {
             snackbar = Snackbar
@@ -469,6 +463,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         if(response.getStatus()==200){
             Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
             intent.putExtra("company_report", response.getHtml());
+            intent.putExtra("type","sale_voucher");
             startActivity(intent);
         }else {
             Helpers.dialogMessage(this,response.getMessage());
@@ -588,18 +583,5 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
             returnIntent.putExtra("id", strAr[1]);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
-    }
-
-    @Subscribe
-    public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-            dataForPrinter = new SaleVoucherDetailsData();
-            dataForPrinter = response.getSale_voucher().getData();
-            BluPrinterHelper.saleVoucherReceipt(getApplicationContext(),dataForPrinter);
-        } else {
-            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
-        }
     }
 }

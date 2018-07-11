@@ -47,7 +47,7 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
             }
         });
 
-        if (SplashActivity.boolForInvoiceFormat){
+        if (CompanyListActivity.boolForInvoiceFormat){
             radio_button2.setChecked(true);
         }else {
             radio_button1.setChecked(true);
@@ -59,11 +59,11 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.radio_button1:
                 if (checked)
-                    SplashActivity.boolForInvoiceFormat = false;
+                    CompanyListActivity.boolForInvoiceFormat = false;
                     break;
             case R.id.radio_button2:
                 if (checked)
-                    SplashActivity.boolForInvoiceFormat = true;
+                    CompanyListActivity.boolForInvoiceFormat = true;
                     break;
         }
     }

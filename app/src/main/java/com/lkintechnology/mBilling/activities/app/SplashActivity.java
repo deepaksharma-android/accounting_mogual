@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
     AppUser appUser;
     int versionCode = -1;
     String versionName = "";
-    public static Boolean boolForInvoiceFormat = false;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {

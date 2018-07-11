@@ -200,6 +200,16 @@ public class SaleReturnVoucherDetailsAttribute {
     }
 
     public String date;
+    public String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public ArrayList<SaleReturnVoucherDetailsItemList> voucher_items;
     public ArrayList<SaleReturnVoucherDetailsBillSundry> voucher_bill_sundries;
     public Double total_amount;

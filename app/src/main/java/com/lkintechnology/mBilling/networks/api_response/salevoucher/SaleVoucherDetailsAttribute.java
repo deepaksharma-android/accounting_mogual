@@ -165,6 +165,15 @@ public class SaleVoucherDetailsAttribute {
     public String material_center_id;
     public String material_center;
     public String mobile_number;
+    public String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getAttachment() {
         return attachment;

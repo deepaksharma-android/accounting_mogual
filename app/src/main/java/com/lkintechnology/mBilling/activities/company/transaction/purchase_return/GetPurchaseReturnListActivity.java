@@ -90,7 +90,6 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
     private DatePickerDialog DatePickerDialog1,DatePickerDialog2;
     private SimpleDateFormat dateFormatter;
     String dateString;
-    public PurchaseReturnVoucherDetailsData dataForPrinter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -413,6 +412,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id = id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -422,13 +422,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            if (SplashActivity.boolForInvoiceFormat){
-                appUser.edit_sale_voucher_id = id;
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
-            }else {
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
-            }
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
         } else {
             snackbar = Snackbar
                     .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -452,6 +446,7 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
         if(response.getStatus()==200){
             Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
             intent.putExtra("company_report", response.getHtml());
+            intent.putExtra("type","purchase_return_voucher");
             startActivity(intent);
         }else {
             Helpers.dialogMessage(this,response.getMessage());
@@ -558,19 +553,6 @@ public class GetPurchaseReturnListActivity extends RegisterAbstractActivity impl
             DatePickerDialog1.show();
         }else if (view == dialog.findViewById(R.id.date2)){
             DatePickerDialog2.show();
-        }
-    }
-
-    @Subscribe
-    public void getPurchaseReturnVoucherDetails(GetPurchaseReturnVoucherDetails response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-            dataForPrinter = new PurchaseReturnVoucherDetailsData();
-            dataForPrinter = response.getPurchase_return_voucher().getData();
-            BluPrinterHelper.purchaseReturnVoucherReceipt(getApplicationContext(),dataForPrinter);
-        } else {
-            Helpers.dialogMessage(getApplicationContext(), response.getMessage());
         }
     }
 }

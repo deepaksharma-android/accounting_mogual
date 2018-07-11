@@ -80,6 +80,7 @@ public class CompanyListActivity extends BaseActivity {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    public static Boolean boolForInvoiceFormat = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -474,6 +475,13 @@ public class CompanyListActivity extends BaseActivity {
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            appUser.companyzipcode = response.getPincode();
+            appUser.comapny_phone_number = response.getPhone();
+            appUser.city = response.getCity();
+            appUser.state = response.getState();
+            appUser.address = response.getAddress();
+            appUser.gst = response.getGst();
+            LocalRepositories.saveAppUser(this,appUser);
             startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
             finish();
         } else{

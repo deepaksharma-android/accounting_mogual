@@ -150,8 +150,7 @@ public class CreatePurchaseFragment extends Fragment {
     WebView mPdf_webview;
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
-    public Boolean fromedit = false, boolForReceipt = false;
-    public PurchaseVoucherDetailsData dataForPrinter;
+    public Boolean fromedit = false;
 
     @Override
     public void onStart() {
@@ -898,6 +897,7 @@ public class CreatePurchaseFragment extends Fragment {
     public void createpurchase(CreatePurchaseResponce response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "purchase_voucher");
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
@@ -950,39 +950,12 @@ public class CreatePurchaseFragment extends Fragment {
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-
-                        if (SplashActivity.boolForInvoiceFormat){
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(getActivity());
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                boolForReceipt = true;
-                                appUser.edit_sale_voucher_id = String.valueOf(response.getId());
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                ApiCallsService.action(getActivity(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
-                                                }
-                                            }
-                                        });
-                                snackbar.show();
-                            }
-
-                        }else {
-                            Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
-                            intent.putExtra("company_report", response.getHtml());
-                            startActivity(intent);
-                        }
+                        appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report", response.getHtml());
+                        intent.putExtra("type", "purchase_voucher");
+                        startActivity(intent);
 
                        /* String htmlString = response.getHtml();
                         Spanned htmlAsSpanned = Html.fromHtml(htmlString);
@@ -1102,11 +1075,6 @@ public class CreatePurchaseFragment extends Fragment {
     public void getSaleVoucherDetails(GetPurchaseVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            if (boolForReceipt) {
-                dataForPrinter = new PurchaseVoucherDetailsData();
-                dataForPrinter = response.getPurchase_voucher().getData();
-                BluPrinterHelper.purchaseVoucherReceipt(getApplicationContext(),dataForPrinter);
-            } else {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
                 fromedit = true;
@@ -1320,7 +1288,6 @@ public class CreatePurchaseFragment extends Fragment {
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
-            }
         } else {
            /* snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();*/

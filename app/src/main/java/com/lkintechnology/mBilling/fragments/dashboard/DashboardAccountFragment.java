@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
-import com.lkintechnology.mBilling.activities.app.SplashActivity;
+import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionBankActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionCashInHandActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.TransactionCustomerActivity;
@@ -177,7 +177,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             @Override
             public void onClick(View view) {
 
-                if (SplashActivity.boolForInvoiceFormat) {
+                if (CompanyListActivity.boolForInvoiceFormat) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Connect Printer")
                             .setMessage(R.string.btn_connect_printer)
