@@ -249,7 +249,12 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
             data = "4. Exchange till 7 days with bill.\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(4);
+            m_AemPrinter.setLineFeed(1);
+            data = "Powered by m-Billing\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
+            m_AemPrinter.setLineFeed(2);
+
+
 
         } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
@@ -485,7 +490,10 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
             data = "4. Exchange till 7 days with bill.\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(4);
+            m_AemPrinter.setLineFeed(1);
+            data = "Powered by m-Billing\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
+            m_AemPrinter.setLineFeed(2);
 
         } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
@@ -721,7 +729,10 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
             data = "4. Exchange till 7 days with bill.\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(4);
+            m_AemPrinter.setLineFeed(1);
+            data = "Powered by m-Billing\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
+            m_AemPrinter.setLineFeed(2);
 
         } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
@@ -956,7 +967,10 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
             data = "4. Exchange till 7 days with bill.\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(4);
+            m_AemPrinter.setLineFeed(1);
+            data = "Powered by m-Billing\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
+            m_AemPrinter.setLineFeed(2);
 
         } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
