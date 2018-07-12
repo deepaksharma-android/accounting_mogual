@@ -482,11 +482,16 @@ public class CompanyListActivity extends BaseActivity {
             appUser.address = response.getAddress();
             appUser.gst = response.getGst();
             appUser.invoice_format = response.getInvoice_format();
-            if (response.getInvoice_format().equals("4 inch Invoice")){
-                boolForInvoiceFormat = true;
+            if (response.getInvoice_format()!=null){
+                if (response.getInvoice_format().equals("4 inch Invoice")){
+                    boolForInvoiceFormat = true;
+                }else {
+                    boolForInvoiceFormat = false;
+                }
             }else {
                 boolForInvoiceFormat = false;
             }
+
             LocalRepositories.saveAppUser(this,appUser);
             startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
             finish();

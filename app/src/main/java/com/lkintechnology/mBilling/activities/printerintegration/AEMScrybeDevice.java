@@ -253,8 +253,7 @@ public class AEMScrybeDevice
 
 	public ArrayList<String> getPairedPrinters() 
 	{
-		if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) 
-		{
+		if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
 			BluetoothAdapter.getDefaultAdapter().enable();
 			try 
 			{
@@ -269,8 +268,7 @@ public class AEMScrybeDevice
 		Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
 
 		ArrayList<String> pairedPrinters = new ArrayList<String>();
-		for (BluetoothDevice device : pairedDevices) 
-		{
+		for (BluetoothDevice device : pairedDevices) {
 			if (device.getName() == null)
 				continue;
 
@@ -288,6 +286,4 @@ public class AEMScrybeDevice
 		else
 			return bluetoothSocket.isConnected();
 	}
-	
-	
 }

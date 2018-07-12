@@ -176,15 +176,13 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
         transactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                printerList.clear();
                 if (CompanyListActivity.boolForInvoiceFormat) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Connect Printer")
                             .setMessage(R.string.btn_connect_printer)
                             .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-                                if (m_AemPrinter==null){
-                                    printerList.clear();
-                                }
+
                                 printerList = m_AemScrybeDevice.getPairedPrinters();
 
                                 if (printerList.size() > 0) {
