@@ -27,7 +27,7 @@ public class RequestCreatePurchase {
         voucher.put("mobile_number",appUser.purchase_mobile_number);
         voucher.put("account_master_id",Preferences.getInstance(context).getParty_id());
         voucher.put("shipped_to_id",Preferences.getInstance(context).getShipped_to_id());
-        voucher.put("material_center_id",Preferences.getInstance(context).getStoreId());
+        voucher.put("material_center_id","228" /*Preferences.getInstance(context).getStoreId()*/);
         voucher.put("itc_eligibility",appUser.purchase_itc_eligibility);
         voucher.put("narration",appUser.purchase_narration);
         voucher.put("created_at",appUser.purchase_created_at);

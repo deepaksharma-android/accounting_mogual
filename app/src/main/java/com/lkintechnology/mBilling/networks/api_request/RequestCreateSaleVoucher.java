@@ -27,7 +27,7 @@ public class RequestCreateSaleVoucher {
         voucher.put("account_master_id",Preferences.getInstance(ctx).getParty_id());
         voucher.put("shipped_to_id",Preferences.getInstance(ctx).getShipped_to_id());
         voucher.put("mobile_number", appUser.sale_mobileNumber);
-        voucher.put("material_center_id",Preferences.getInstance(ctx).getStoreId());
+        voucher.put("material_center_id","228" /*Preferences.getInstance(ctx).getStoreId()*/);
         voucher.put("narration", appUser.sale_narration);
         voucher.put("items", appUser.mListMapForItemSale);
         voucher.put("bill_sundry_amount",appUser.billsundrytotal);

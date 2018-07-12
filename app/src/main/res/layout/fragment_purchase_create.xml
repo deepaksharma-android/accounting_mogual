@@ -283,6 +283,7 @@
                         android:layout_weight="0.9"
                         android:background="@android:color/transparent"
                         android:hint="Select Store"
+                        android:text="Main"
                         android:textColor="#000"
                         android:textSize="16sp" />
 
