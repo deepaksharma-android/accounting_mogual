@@ -202,17 +202,28 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
         }
 
         if (position != null) {
-            if (state.equals(appUser.company_state)) {
-                tvCGST.setVisibility(View.VISIBLE);
-                etCGST.setVisibility(View.VISIBLE);
-                tvSGST.setVisibility(View.VISIBLE);
-                etCGST.setVisibility(View.VISIBLE);
-                etSGST.setVisibility(View.VISIBLE);
-                tvIGST.setVisibility(View.GONE);
-                etIGST.setVisibility(View.GONE);
-                tv_gst.setText("GST %");
+            if (state != null && !state.equals("")) {
+                if (state.equals(appUser.company_state)) {
+                    tvCGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    tvSGST.setVisibility(View.VISIBLE);
+                    etCGST.setVisibility(View.VISIBLE);
+                    etSGST.setVisibility(View.VISIBLE);
+                    tvIGST.setVisibility(View.GONE);
+                    etIGST.setVisibility(View.GONE);
+                    tv_gst.setText("GST %");
 
-            } else {
+                } else {
+                    tvCGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    tvSGST.setVisibility(View.GONE);
+                    etCGST.setVisibility(View.GONE);
+                    etSGST.setVisibility(View.GONE);
+                    tvIGST.setVisibility(View.VISIBLE);
+                    etIGST.setVisibility(View.VISIBLE);
+                    tv_gst.setText("IGST %");
+                }
+            }else{
                 tvCGST.setVisibility(View.GONE);
                 etCGST.setVisibility(View.GONE);
                 tvSGST.setVisibility(View.GONE);
@@ -510,70 +521,74 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                     if (position.equals("1")) {
                         spChooseGoods.setVisibility(View.INVISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
-                            if (!etGST.getText().toString().equals("")) {
-                                if (!tvDate.getText().toString().equals("")) {
-                                    mMap.put("id", id);
-                                    mMap.put("inv_num", etIVNNo.getText().toString());
-                                    mMap.put("difference_amount", tvDiffAmount.getText().toString());
-                                    mMap.put("rate", etGST.getText().toString());
+                            if (!mVoucher.getText().toString().equals("")) {
+                                if (!etGST.getText().toString().equals("")) {
+                                    if (!tvDate.getText().toString().equals("")) {
+                                        mMap.put("id", id);
+                                        mMap.put("inv_num", etIVNNo.getText().toString());
+                                        mMap.put("difference_amount", tvDiffAmount.getText().toString());
+                                        mMap.put("rate", etGST.getText().toString());
 
-                                    if ((state!=null && !state.equals("")) && (state_for_credit!=null && !state_for_credit.equals(""))){
-                                        if (state.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
-                                        }else if(state_for_credit.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
-                                        } else{
-                                            mMap.put("igst", etIGST.getText().toString());
-                                        }
-                                    }else if(state!=null && !state.equals("")){
-                                        if (state.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
-                                        }else {
-                                            mMap.put("igst", etIGST.getText().toString());
-                                        }
-                                    }else if(state_for_credit!=null && !state_for_credit.equals("")) {
-                                        if (state_for_credit.equals(appUser.company_state)) {
-                                            mMap.put("cgst", etCGST.getText().toString());
-                                            mMap.put("sgst", etSGST.getText().toString());
+                                        if ((state != null && !state.equals("")) && (state_for_credit != null && !state_for_credit.equals(""))) {
+                                            if (state.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else if (state_for_credit.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
+                                        } else if (state != null && !state.equals("")) {
+                                            if (state.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
+                                        } else if (state_for_credit != null && !state_for_credit.equals("")) {
+                                            if (state_for_credit.equals(appUser.company_state)) {
+                                                mMap.put("cgst", etCGST.getText().toString());
+                                                mMap.put("sgst", etSGST.getText().toString());
+                                            } else {
+                                                mMap.put("igst", etIGST.getText().toString());
+                                            }
                                         } else {
                                             mMap.put("igst", etIGST.getText().toString());
                                         }
-                                    }else {
-                                        mMap.put("igst", etIGST.getText().toString());
-                                    }
 
-                                    mMap.put("date", tvDate.getText().toString());
-                                    mMap.put("spITCEligibility", "");
-                                    mMap.put("state", state);
-                                    mMap.put("sp_position", position);
-                                    mMap.put("amount", amount);
-                                    mMap.put("date", tvDate.getText().toString());
-                                    mMap.put("sale_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
-                                    mMap.put("sale_id", Preferences.getInstance(getApplicationContext()).getVoucher_id());
-                                    if (!fromcredit) {
-                                        appUser.mListMapForItemCreditNote.add(mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        mMap.put("date", tvDate.getText().toString());
+                                        mMap.put("spITCEligibility", "");
+                                        mMap.put("state", state);
+                                        mMap.put("sp_position", position);
+                                        mMap.put("amount", amount);
+                                        mMap.put("date", tvDate.getText().toString());
+                                        mMap.put("sale_name", Preferences.getInstance(getApplicationContext()).getVoucher_name());
+                                        mMap.put("sale_id", Preferences.getInstance(getApplicationContext()).getVoucher_id());
+                                        if (!fromcredit) {
+                                            appUser.mListMapForItemCreditNote.add(mMap);
+                                            LocalRepositories.saveAppUser(this, appUser);
+                                        } else {
+                                            appUser.mListMapForItemCreditNote.remove(Integer.parseInt(itempos));
+                                            appUser.mListMapForItemCreditNote.add(Integer.parseInt(itempos), mMap);
+                                            LocalRepositories.saveAppUser(this, appUser);
+                                        }
+                                        Intent intent = new Intent(this, AddCreditNoteItemActivity.class);
+                                        intent.putExtra("amount", amount);
+                                        intent.putExtra("sp_position", position);
+                                        intent.putExtra("state", state);
+                                        startActivity(intent);
+                                        finish();
                                     } else {
-                                        appUser.mListMapForItemCreditNote.remove(Integer.parseInt(itempos));
-                                        appUser.mListMapForItemCreditNote.add(Integer.parseInt(itempos), mMap);
-                                        LocalRepositories.saveAppUser(this, appUser);
+                                        Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+
                                     }
-                                    Intent intent = new Intent(this, AddCreditNoteItemActivity.class);
-                                    intent.putExtra("amount", amount);
-                                    intent.putExtra("sp_position", position);
-                                    intent.putExtra("state", state);
-                                    startActivity(intent);
-                                    finish();
                                 } else {
-                                    Snackbar.make(rootLayout, "please select date", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
 
                                 }
                             } else {
-                                Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
-
+                                Snackbar.make(rootLayout, "please select voucher", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
                             Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
@@ -584,6 +599,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                     } else if (position.equals("2")) {
                         spChooseGoods.setVisibility(View.VISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
@@ -632,6 +648,9 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
 
                             }
                         } else {
+                            Snackbar.make(rootLayout, "please select voucher", Snackbar.LENGTH_LONG).show();
+                        }
+                        } else {
                             Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
 
                         }
@@ -641,6 +660,7 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                     if (journalVoucherPosition.equals("6")) {
                         spChooseGoods.setVisibility(View.VISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
@@ -701,6 +721,9 @@ public class CreateCreditNoteItemActivity extends AppCompatActivity implements V
                                 Snackbar.make(rootLayout, "please enter gst", Snackbar.LENGTH_LONG).show();
 
                             }
+                        } else {
+                            Snackbar.make(rootLayout, "please select voucher", Snackbar.LENGTH_LONG).show();
+                        }
                         } else {
                             Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
 

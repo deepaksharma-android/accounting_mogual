@@ -484,6 +484,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 if (appUser.mListMapForItemSaleReturn.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mSaleType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
@@ -611,6 +612,9 @@ public class CreateSaleReturnFragment extends Fragment {
                                 }
                             }
                         } else {
+                            Snackbar.make(coordinatorLayout, "Please select sale voucher", Snackbar.LENGTH_LONG).show();
+                        }
+                        } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
@@ -630,6 +634,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 if (appUser.mListMapForItemSaleReturn.size() > 0) {
                     if (!mSeries.getSelectedItem().toString().equals("")) {
                         if (!mDate.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!mVchNumber.getText().toString().equals("")) {
                                 if (!mSaleType.getText().toString().equals("")) {
                                     if (!mStore.getText().toString().equals("")) {
@@ -731,6 +736,9 @@ public class CreateSaleReturnFragment extends Fragment {
                                     snackbar.show();
                                 }
                             }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please select purchase voucher", Snackbar.LENGTH_LONG).show();
+                        }
                         } else {
                             Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                         }
