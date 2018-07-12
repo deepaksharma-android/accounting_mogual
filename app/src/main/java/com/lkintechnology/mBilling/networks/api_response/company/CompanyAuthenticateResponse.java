@@ -7,6 +7,15 @@ public class CompanyAuthenticateResponse {
     public String state;
     public String phone;
     public String gst;
+    public String invoice_format;
+
+    public String getInvoice_format() {
+        return invoice_format;
+    }
+
+    public void setInvoice_format(String invoice_format) {
+        this.invoice_format = invoice_format;
+    }
 
     public String getGst() {
         return gst;

@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/coordinatorLayout"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_100"
+    android:orientation="horizontal">
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/dp_100"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -57,5 +65,6 @@
             android:textSize="18sp" />
     </RelativeLayout>
 </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
 
 

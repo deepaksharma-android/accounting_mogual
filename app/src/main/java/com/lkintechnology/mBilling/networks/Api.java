@@ -36,6 +36,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnit;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateUnitConversion;
 import com.lkintechnology.mBilling.networks.api_request.RequestEditLogin;
 import com.lkintechnology.mBilling.networks.api_request.RequestForgotPassword;
+import com.lkintechnology.mBilling.networks.api_request.RequestInvoiceFormat;
 import com.lkintechnology.mBilling.networks.api_request.RequestLoginEmail;
 import com.lkintechnology.mBilling.networks.api_request.RequestNewPassword;
 import com.lkintechnology.mBilling.networks.api_request.RequestPlan;
@@ -259,6 +260,9 @@ public interface Api {
 
     @PATCH("company/{id}")
     Call<CreateCompanyResponse> ceditlogin(@Body RequestEditLogin payload, @Path("id") String id);
+
+    @PATCH("company/{id}")
+    Call<CreateCompanyResponse> invoiceFormat(@Body RequestInvoiceFormat payload, @Path("id") String id);
 
     @POST("companylogin/{id}")
     Call<CompanyLoginResponse> clogin(@Body RequestCompanyLogin payload, @Path("id") String id);

@@ -1,7 +1,10 @@
 package com.lkintechnology.mBilling.activities.company;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,32 +17,72 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.SplashActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class CompanyInvoiceFormatActivity extends AppCompatActivity {
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Bind(R.id.submit)
     RelativeLayout mSubmit;
     @Bind(R.id.radio_button1)
     RadioButton radio_button1;
     @Bind(R.id.radio_button2)
     RadioButton radio_button2;
+    ProgressDialog mProgressDialog;
+    AppUser appUser;
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_invoice_format);
         ButterKnife.bind(this);
+        appUser = LocalRepositories.getAppUser(this);
         initActionbar();
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (radio_button1.isChecked()==true || radio_button2.isChecked()==true){
+                    if (radio_button1.isChecked()==true){
+                        appUser.invoice_format = radio_button1.getText().toString();
+                    }else {
+                        appUser.invoice_format = radio_button2.getText().toString();
+                    }
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if(isConnected) {
+                        mProgressDialog = new ProgressDialog(CompanyInvoiceFormatActivity.this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_INVOICE_FORMAT);
+                    }
+                    else{
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if(isConnected){
+                                            snackbar.dismiss();
+                                        }
+                                    }
+                                });
+                        snackbar.show();
+                    }
                     finish();
                 }else {
                     Helpers.dialogMessage(CompanyInvoiceFormatActivity.this,"Please select invoice format!!!");

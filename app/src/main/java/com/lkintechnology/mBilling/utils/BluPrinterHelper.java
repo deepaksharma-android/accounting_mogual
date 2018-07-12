@@ -48,7 +48,7 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
 
             if (appUser.gst!=null && !appUser.gst.equals("")){
-                data = appUser.gst+":\n";
+                data = "GSTIN: "+appUser.gst+"\n";
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
                 // m_AemPrinter.POS_S_TextOutThreeInch(data,encoding,0,1,0,nFontSize, nFontStyle);
             }
@@ -284,7 +284,7 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
 
             if (appUser.gst!=null && !appUser.gst.equals("")){
-                data = appUser.gst+":\n";
+                data = "GSTIN: "+appUser.gst+"\n";
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
                 // m_AemPrinter.POS_S_TextOutThreeInch(data,encoding,0,1,0,nFontSize, nFontStyle);
             }
@@ -520,7 +520,7 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
 
             if (appUser.gst!=null && !appUser.gst.equals("")){
-                data = appUser.gst+":\n";
+                data = "GSTIN: "+appUser.gst+"\n";
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
                 // m_AemPrinter.POS_S_TextOutThreeInch(data,encoding,0,1,0,nFontSize, nFontStyle);
             }
@@ -755,7 +755,7 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
 
             if (appUser.gst!=null && !appUser.gst.equals("")){
-                data = appUser.gst+":\n";
+                data = "GSTIN: "+appUser.gst+"\n";
                 m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.centerAlign());
                 // m_AemPrinter.POS_S_TextOutThreeInch(data,encoding,0,1,0,nFontSize, nFontStyle);
             }
