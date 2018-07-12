@@ -475,6 +475,7 @@ public class CompanyListActivity extends BaseActivity {
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            appUser=LocalRepositories.getAppUser(this);
             appUser.companyzipcode = response.getPincode();
             appUser.comapny_phone_number = response.getPhone();
             appUser.city = response.getCity();
