@@ -87,7 +87,7 @@ public class CompanyListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_list);
         ButterKnife.bind(this);
-
+        boolForInvoiceFormat = false;
         appUser=LocalRepositories.getAppUser(this);
         setNavigation(1);
         setAdd(0);

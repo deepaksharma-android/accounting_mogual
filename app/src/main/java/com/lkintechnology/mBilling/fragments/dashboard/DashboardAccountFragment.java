@@ -88,7 +88,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
     private SimpleDateFormat dateFormatter;
     AppUser appUser;
     public static CompanyDetails data;
-    ArrayList<String> printerList;
+    public static ArrayList<String> printerList;
     AEMScrybeDevice m_AemScrybeDevice;
     CardReader m_cardReader = null;
     public static AEMPrinter m_AemPrinter = null;
@@ -182,7 +182,9 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
                             .setTitle("Connect Printer")
                             .setMessage(R.string.btn_connect_printer)
                             .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-
+                                if (m_AemPrinter==null){
+                                    printerList.clear();
+                                }
                                 printerList = m_AemScrybeDevice.getPairedPrinters();
 
                                 if (printerList.size() > 0) {
