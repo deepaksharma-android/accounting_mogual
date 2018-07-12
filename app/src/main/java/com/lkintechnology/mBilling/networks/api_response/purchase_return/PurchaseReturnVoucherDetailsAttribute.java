@@ -10,7 +10,16 @@ public class PurchaseReturnVoucherDetailsAttribute {
     public String shipped_to_id;
     public String purchase_name;
     public String purchase_id;
+    public String time;
     public int company_id;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getPurchase_name() {
         return purchase_name;

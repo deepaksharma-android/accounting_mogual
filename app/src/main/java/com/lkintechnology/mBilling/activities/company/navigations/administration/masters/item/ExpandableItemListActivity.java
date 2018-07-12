@@ -649,8 +649,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         if (!isDirectForItem) {
 
             if (ExpandableItemListActivity.comingFrom == 0) {
-
-
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                 String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));

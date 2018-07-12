@@ -9,6 +9,15 @@ public class CreatePurchaseResponce {
     public String message;
     public int status;
     public String html;
+    public int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getMessage() {
         return message;

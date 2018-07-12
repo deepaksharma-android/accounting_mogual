@@ -248,6 +248,7 @@
     <string name="btn_yes">YES</string>
     <string name="btn_no">NO</string>
     <string name="btn_send_email"> Do you want to send email ?</string>
+    <string name="btn_connect_printer"> Do you want to connect printer ?</string>
     <string name="btn_print_preview">Print/Preview</string>
     <string name="print_preview_mesage">Please select</string>
     <string name="btn_cancel">Cancel</string>

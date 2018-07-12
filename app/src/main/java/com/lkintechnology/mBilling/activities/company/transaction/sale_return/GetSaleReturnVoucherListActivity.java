@@ -26,13 +26,17 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
+import com.lkintechnology.mBilling.activities.app.SplashActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.adapters.GetSaleReturnVoucherListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.pdf.PdfResponse;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.DeleteSaleReturnVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.sale_return.GetSaleReturnVoucherListResponse;
+import com.lkintechnology.mBilling.networks.api_response.sale_return.SaleReturnVoucherDetailsData;
+import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteSaleReturnVoucher;
 import com.lkintechnology.mBilling.utils.EventShowPdf;
@@ -403,6 +407,7 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
         String id=arr[1];
         appUser.serial_voucher_id=id;
         appUser.serial_voucher_type=type;
+        appUser.edit_sale_voucher_id = id;
         LocalRepositories.saveAppUser(this,appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -412,7 +417,6 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PDF);
         } else {
             snackbar = Snackbar
@@ -437,6 +441,7 @@ public class GetSaleReturnVoucherListActivity extends RegisterAbstractActivity i
         if(response.getStatus()==200){
             Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
             intent.putExtra("company_report", response.getHtml());
+            intent.putExtra("type", "sale_return_voucher");
             startActivity(intent);
         }else {
             Helpers.dialogMessage(this,response.getMessage());

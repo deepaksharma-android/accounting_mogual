@@ -8,7 +8,16 @@ public class PurchaseVoucherDetailsAttribute {
     public String voucher_series;
     public String shipped_to_name;
     public String shipped_to_id;
+    public String time;
     public int company_id;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getShipped_to_name() {
         return shipped_to_name;

@@ -513,6 +513,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                     if (spGoodsKey1.equals("1")) {
                         spChooseGoods.setVisibility(View.INVISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     mMap.put("id", id);
@@ -555,6 +556,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                 Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
+                            Snackbar.make(rootLayout, "please select voucher", Snackbar.LENGTH_LONG).show();
+                        }
+                        } else {
                             Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
                         }
 
@@ -562,6 +566,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                     } else if (spGoodsKey1.equals("2")) {
                         spChooseGoods.setVisibility(View.VISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
@@ -608,6 +613,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                                 Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
                             }
                         } else {
+                            Snackbar.make(rootLayout, "please select voucher", Snackbar.LENGTH_LONG).show();
+                        }
+                        } else {
                             Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
                         }
 
@@ -617,6 +625,7 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                     if (journalVoucherPosition.equals("7")) {
                         spChooseGoods.setVisibility(View.VISIBLE);
                         if (!etIVNNo.getText().toString().equals("")) {
+                        if (!mVoucher.getText().toString().equals("")) {
                             if (!etGST.getText().toString().equals("")) {
                                 if (!tvDate.getText().toString().equals("")) {
                                     if (!spChooseGoods.getSelectedItem().toString().equals("")) {
@@ -681,6 +690,9 @@ public class CreateDebitNoteItemActivity extends AppCompatActivity implements Vi
                             } else {
                                 Snackbar.make(rootLayout, "please enter GST", Snackbar.LENGTH_LONG).show();
                             }
+                        } else {
+                            Snackbar.make(rootLayout, "please select voucher", Snackbar.LENGTH_LONG).show();
+                        }
                         } else {
                             Snackbar.make(rootLayout, "please enter invoice number", Snackbar.LENGTH_LONG).show();
                         }

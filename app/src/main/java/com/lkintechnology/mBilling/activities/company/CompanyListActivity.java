@@ -80,13 +80,14 @@ public class CompanyListActivity extends BaseActivity {
     AppUser appUser;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    public static Boolean boolForInvoiceFormat = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_list);
         ButterKnife.bind(this);
-
+        boolForInvoiceFormat = false;
         appUser=LocalRepositories.getAppUser(this);
         setNavigation(1);
         setAdd(0);
@@ -474,6 +475,24 @@ public class CompanyListActivity extends BaseActivity {
     public void authenticate(CompanyAuthenticateResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200){
+            appUser.companyzipcode = response.getPincode();
+            appUser.comapny_phone_number = response.getPhone();
+            appUser.city = response.getCity();
+            appUser.state = response.getState();
+            appUser.address = response.getAddress();
+            appUser.gst = response.getGst();
+            appUser.invoice_format = response.getInvoice_format();
+            if (response.getInvoice_format()!=null){
+                if (response.getInvoice_format().equals("4 inch Invoice")){
+                    boolForInvoiceFormat = true;
+                }else {
+                    boolForInvoiceFormat = false;
+                }
+            }else {
+                boolForInvoiceFormat = false;
+            }
+
+            LocalRepositories.saveAppUser(this,appUser);
             startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
             finish();
         } else{

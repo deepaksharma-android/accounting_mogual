@@ -7,6 +7,15 @@ package com.lkintechnology.mBilling.networks.api_response.sale_return;
 public class CreateSaleReturnResponse {
     public String message;
     public String html;
+    public int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getHtml() {
         return html;
