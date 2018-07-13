@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -58,7 +59,9 @@ public class ItemBarcodeActivity extends AppCompatActivity {
             pairs[l].setHeight(height);
             pairs[l].setBackgroundResource(R.drawable.grey_stroke_rect);
             pairs[l].setTextSize(18);
-            //pairs[l].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+            if(pos == 0){
+                pairs[l].setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
+            }
             if (appUser.stock_serial_arr.size() > 0) {
                 if (appUser.stock_serial_arr.size() > l) {
                     pairs[l].setText(appUser.stock_serial_arr.get(l));
