@@ -19,6 +19,15 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
+    <TextView
+        android:id="@+id/printer_txt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+    </TextView>
 
 </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

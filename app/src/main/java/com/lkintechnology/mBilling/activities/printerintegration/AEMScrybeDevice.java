@@ -20,7 +20,7 @@ public class AEMScrybeDevice
 	private Context context;
 	private BluetoothAdapter localDevice;
 	private BluetoothDevice remoteDevice;
-	private BluetoothSocket bluetoothSocket, accBTSocket;
+	public BluetoothSocket bluetoothSocket, accBTSocket;
 	
 	final String VERSION = "1.0";
 	

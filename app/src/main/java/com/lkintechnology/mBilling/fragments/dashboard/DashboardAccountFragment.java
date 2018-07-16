@@ -93,6 +93,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
     AEMScrybeDevice m_AemScrybeDevice;
     CardReader m_cardReader = null;
     public static AEMPrinter m_AemPrinter = null;
+    public static Boolean boolForPrinter = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -339,6 +340,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             m_cardReader = m_AemScrybeDevice.getCardReader(this);
             m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
             Toast.makeText(getActivity(), "Connected with " + printerName, Toast.LENGTH_SHORT).show();
+            boolForPrinter = true;
             Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
             startActivity(intent);
             //  m_cardReader.readMSR();
