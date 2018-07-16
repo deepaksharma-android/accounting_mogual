@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +26,15 @@ import com.lkintechnology.mBilling.activities.company.navigations.dashboard.Comp
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.company.CreateCompanyResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
+import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +58,7 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_company_invoice_format);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        EventBus.getDefault().register(this);
         initActionbar();
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +93,6 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
                                 });
                         snackbar.show();
                     }
-                    finish();
                 }else {
                     Helpers.dialogMessage(CompanyInvoiceFormatActivity.this,"Please select invoice format!!!");
                 }
@@ -101,7 +107,7 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
+       /* boolean checked = ((RadioButton) view).isChecked();
         switch(view.getId()) {
             case R.id.radio_button1:
                 if (checked)
@@ -111,7 +117,7 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
                 if (checked)
                     CompanyListActivity.boolForInvoiceFormat = true;
                     break;
-        }
+        }*/
     }
 
     private void initActionbar() {
@@ -143,6 +149,22 @@ public class CompanyInvoiceFormatActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Subscribe
+    public void createInvoice(CreateCompanyResponse response){
+        mProgressDialog.dismiss();
+        if(response.getStatus()==200){
+            if (radio_button1.isChecked()==true){
+                CompanyListActivity.boolForInvoiceFormat = false;
+            }else {
+                CompanyListActivity.boolForInvoiceFormat = true;
+            }
+            finish();
+        }
+        else {
+            Helpers.dialogMessage(getApplicationContext(),response.getMessage());
         }
     }
 

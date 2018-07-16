@@ -118,26 +118,25 @@ public class DashBoardReportsFragment extends Fragment implements IAemCardScanne
         transactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DashboardAccountFragment.printerList.clear();
                 if (CompanyListActivity.boolForInvoiceFormat) {
+                    if (DashboardAccountFragment.m_AemPrinter == null) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Connect Printer")
                             .setMessage(R.string.btn_connect_printer)
                             .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
 
-                                if (DashboardAccountFragment.m_AemPrinter==null){
-                                    DashboardAccountFragment.printerList.clear();
-                                }
                                 DashboardAccountFragment.printerList = m_AemScrybeDevice.getPairedPrinters();
 
                                 if (DashboardAccountFragment.printerList.size() > 0) {
-                                    if (DashboardAccountFragment.m_AemPrinter == null) {
+                                   // if (DashboardAccountFragment.m_AemPrinter == null) {
                                         getActivity().openContextMenu(view);
-                                    } else {
+                                   /* } else {
                                         Toast.makeText(getActivity(), "Already connected!!!", Toast.LENGTH_SHORT).show();
                                         //  showAlert("Already connected!!!\n\nDo you want to disconnect press no!!!");
                                         Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
                                         startActivity(intent);
-                                    }
+                                    }*/
                                 } else
                                     showAlert("No Paired Printers found");
                             })
@@ -157,6 +156,10 @@ public class DashBoardReportsFragment extends Fragment implements IAemCardScanne
 
                             })
                             .show();
+                    }else {
+                        Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
+                        startActivity(intent);
+                    }
                 }else {
                     Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
                     startActivity(intent);
