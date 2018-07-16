@@ -33,7 +33,7 @@ public class BluPrinterHelper {
         try {
             String line, data;
             line = "------------------------------------------------";
-            data = "TAX INVOICE\n";
+            data = "INVOICE\n";
             m_AemPrinter.writeWithFormatOnly(new Formatter().bold().width().get(), Formatter.centerAlign());
             m_AemPrinter.POS_S_TextOutThreeInch(data, encoding, 0, 1, 0, nFontSize, nFontStyle);
 
@@ -274,7 +274,7 @@ public class BluPrinterHelper {
         try {
             String line, data;
             line = "------------------------------------------------";
-            data = "TAX INVOICE\n";
+            data = "INVOICE\n";
             m_AemPrinter.writeWithFormatOnly(new Formatter().bold().width().get(), Formatter.centerAlign());
             m_AemPrinter.POS_S_TextOutThreeInch(data, encoding, 0, 1, 0, nFontSize, nFontStyle);
 
@@ -513,7 +513,7 @@ public class BluPrinterHelper {
         try {
             String line, data;
             line = "------------------------------------------------";
-            data = "TAX INVOICE\n";
+            data = "INVOICE\n";
             m_AemPrinter.writeWithFormatOnly(new Formatter().bold().width().get(), Formatter.centerAlign());
             m_AemPrinter.POS_S_TextOutThreeInch(data, encoding, 0, 1, 0, nFontSize, nFontStyle);
 
@@ -751,7 +751,7 @@ public class BluPrinterHelper {
         try {
             String line, data;
             line = "------------------------------------------------";
-            data = "TAX INVOICE\n";
+            data = "INVOICE\n";
             m_AemPrinter.writeWithFormatOnly(new Formatter().bold().width().get(), Formatter.centerAlign());
             m_AemPrinter.POS_S_TextOutThreeInch(data, encoding, 0, 1, 0, nFontSize, nFontStyle);
 

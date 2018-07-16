@@ -177,6 +177,9 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             @Override
             public void onClick(View view) {
                 printerList.clear();
+              /*  if (m_AemScrybeDevice.BtConnStatus()){
+                    System.out.println("yyyess");
+                }*/
                 if (CompanyListActivity.boolForInvoiceFormat) {
                     if (m_AemPrinter == null) {
                         new AlertDialog.Builder(getActivity())

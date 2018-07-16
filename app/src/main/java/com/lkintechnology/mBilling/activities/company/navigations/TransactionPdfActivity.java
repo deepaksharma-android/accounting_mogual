@@ -85,12 +85,12 @@ public class TransactionPdfActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(TransactionPdfActivity.this);
         progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         appUser = LocalRepositories.getAppUser(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
                 initActionbar();
@@ -107,6 +107,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
                 htmlString = htmlAsSpanned.toString();
                 mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
                 mPdf_webview.getSettings().setBuiltInZoomControls(true);
+                progressDialog.dismiss();
             }
         },3*1000);
 
