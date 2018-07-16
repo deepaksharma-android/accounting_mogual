@@ -198,7 +198,16 @@ public class CreateSaleReturnFragment extends Fragment {
         }
         if (CreateSaleReturnActivity.fromdashboard) {
             String date1 = dateFormatter.format(newCalendar.getTime());
-            Preferences.getInstance(getContext()).setVoucher_date(date1);
+
+            if (!appUser.sale_return_date.equals("")) {
+                mDate.setText(appUser.sale_return_date);
+            } else {
+                Preferences.getInstance(getContext()).setVoucher_date(date1);
+                appUser.sale_return_date = date1;
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                mDate.setText(appUser.sale_return_date);
+            }
+
             Boolean isConnected = ConnectivityReceiver.isConnected();
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(getActivity());
@@ -232,7 +241,7 @@ public class CreateSaleReturnFragment extends Fragment {
 
 
         mSaleType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
-        mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        mDate.setText(appUser.sale_return_date );
         mStore.setText(Preferences.getInstance(getContext()).getStore());
         mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
         mShippedTo.setText(Preferences.getInstance(getContext()).getShipped_to());
@@ -268,6 +277,8 @@ public class CreateSaleReturnFragment extends Fragment {
         if (!mDate.getText().toString().equals("")) {
             appUser.sale_return_date = mDate.getText().toString();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        }else {
+            mDate.setText(appUser.sale_return_date);
         }
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
