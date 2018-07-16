@@ -2,6 +2,7 @@ package com.lkintechnology.mBilling.fragments.dashboard;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -177,9 +178,6 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
             @Override
             public void onClick(View view) {
                 printerList.clear();
-              /*  if (m_AemScrybeDevice.BtConnStatus()){
-                    System.out.println("yyyess");
-                }*/
                 if (CompanyListActivity.boolForInvoiceFormat) {
                     if (m_AemPrinter == null) {
                         new AlertDialog.Builder(getActivity())
@@ -190,15 +188,7 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
                                     printerList = m_AemScrybeDevice.getPairedPrinters();
 
                                     if (printerList.size() > 0) {
-                                       // if (m_AemPrinter == null) {
                                             getActivity().openContextMenu(view);
-                                      //  }
-                                        /* else {
-                                        Toast.makeText(getActivity(), "Already connected!!!", Toast.LENGTH_SHORT).show();
-                                        //  showAlert("Already connected!!!\n\nDo you want to disconnect press no!!!");
-                                        Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
-                                        startActivity(intent);
-                                    }*/
                                     } else
                                         showAlert("No Paired Printers found");
                                 })
@@ -219,8 +209,39 @@ public class DashboardAccountFragment extends Fragment implements IAemCardScanne
                                 })
                                 .show();
                     }else {
-                        Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
-                        startActivity(intent);
+                        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle("Connect Printer")
+                                    .setMessage(R.string.btn_connect_printer)
+                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                        printerList = m_AemScrybeDevice.getPairedPrinters();
+
+                                        if (printerList.size() > 0) {
+                                            getActivity().openContextMenu(view);
+                                        } else
+                                            showAlert("No Paired Printers found");
+                                    })
+
+                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                        if (m_AemPrinter != null) {
+                                            try {
+                                                m_AemScrybeDevice.disConnectPrinter();
+                                                m_AemPrinter = null;
+                                                Toast.makeText(getActivity(), "disconnected", Toast.LENGTH_SHORT).show();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
+                                        startActivity(intent);
+
+                                    })
+                                    .show();
+                        }else {
+                            Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 } else {
                     Intent intent = new Intent(getActivity(), TransactionDashboardActivity.class);

@@ -1,7 +1,10 @@
 package com.lkintechnology.mBilling.activities.company.navigations;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -208,36 +211,41 @@ public class TransactionPdfActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.icon_id) {
             if (CompanyListActivity.boolForInvoiceFormat){
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    if (type.equals("sale_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
-                    }else if (type.equals("sale_return_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
-                    }else if (type.equals("purchase_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
-                    }else if (type.equals("purchase_return_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
-                    }
-                    System.out.println("");
-                } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
+                if (BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        mProgressDialog = new ProgressDialog(this);
+                        mProgressDialog.setMessage("Info...");
+                        mProgressDialog.setIndeterminate(false);
+                        mProgressDialog.setCancelable(true);
+                        mProgressDialog.show();
+                        if (type.equals("sale_voucher")){
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
+                        }else if (type.equals("sale_return_voucher")){
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
+                        }else if (type.equals("purchase_voucher")){
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
+                        }else if (type.equals("purchase_return_voucher")){
+                            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
+                        }
+                        System.out.println("");
+                    } else {
+                        snackbar = Snackbar
+                                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Boolean isConnected = ConnectivityReceiver.isConnected();
+                                        if (isConnected) {
+                                            snackbar.dismiss();
+                                        }
                                     }
-                                }
-                            });
-                    snackbar.show();
+                                });
+                        snackbar.show();
+                    }
+                }else {
+                    Helpers.dialogMessage(TransactionPdfActivity.this,"Please go to dashboard and connect printer!!");
+                  //  Toast.makeText(this, "Please go to dashboard and connect printer!!", Toast.LENGTH_SHORT).show();
                 }
 
             }else {
@@ -314,4 +322,5 @@ public class TransactionPdfActivity extends AppCompatActivity {
             Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
         }
     }
+    
 }
