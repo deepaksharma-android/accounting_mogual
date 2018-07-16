@@ -204,10 +204,12 @@ public class CreatePurchaseFragment extends Fragment {
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
-        if (!Preferences.getInstance(getContext()).getVoucher_date().equals("")) {
+        if (!appUser.purchase_date.equals("")) {
             mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         } else {
             Preferences.getInstance(getContext()).setVoucher_date(date1);
+            appUser.purchase_date = date1;
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         }
         if (!Preferences.getInstance(getContext()).getPurchase_gst_nature().equals("")) {
@@ -238,7 +240,7 @@ public class CreatePurchaseFragment extends Fragment {
         });
 
         mPurchaseType.setText(Preferences.getInstance(getContext()).getPurchase_type_name());
-        mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
+        mDate.setText(appUser.purchase_date);
         mStore.setText(Preferences.getInstance(getContext()).getStore());
         mPartyName.setText(Preferences.getInstance(getContext()).getParty_name());
         mShippedTo.setText(Preferences.getInstance(getContext()).getShipped_to());
@@ -275,6 +277,8 @@ public class CreatePurchaseFragment extends Fragment {
         if (!mDate.getText().toString().equals("")) {
             appUser.purchase_date = mDate.getText().toString();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        }else {
+            mDate.setText(appUser.purchase_date);
         }
 
         mDate.setOnClickListener(new View.OnClickListener() {

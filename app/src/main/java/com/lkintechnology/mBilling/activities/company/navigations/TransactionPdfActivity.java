@@ -1,7 +1,10 @@
 package com.lkintechnology.mBilling.activities.company.navigations;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -21,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,10 +33,16 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
+import com.lkintechnology.mBilling.activities.printerintegration.AEMScrybeDevice;
+import com.lkintechnology.mBilling.activities.printerintegration.CardReader;
+import com.lkintechnology.mBilling.activities.printerintegration.IAemCardScanner;
+import com.lkintechnology.mBilling.activities.printerintegration.IAemScrybe;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.dashboard.DashboardAccountFragment;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.GetPurchaseReturnVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.purchase_return.PurchaseReturnVoucherDetailsData;
@@ -52,16 +62,20 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TransactionPdfActivity extends AppCompatActivity {
+public class TransactionPdfActivity extends AppCompatActivity implements IAemCardScanner, IAemScrybe {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.webView)
     WebView mPdf_webview;
+    @Bind(R.id.printer_txt)
+    TextView printer_txt;
     Snackbar snackbar;
     ProgressDialog mProgressDialog;
     public SaleVoucherDetailsData dataForPrinterSale;
@@ -76,6 +90,8 @@ public class TransactionPdfActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     AppUser appUser;
     String type;
+    public AEMScrybeDevice m_AemScrybeDevice;
+    public CardReader m_cardReader = null;
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     @Override
@@ -85,20 +101,20 @@ public class TransactionPdfActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(TransactionPdfActivity.this);
         progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         appUser = LocalRepositories.getAppUser(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
                 initActionbar();
                 Intent intent = getIntent();
                 String company_report = intent.getStringExtra("company_report");
-                if (intent.getStringExtra("type")!=null){
+                if (intent.getStringExtra("type") != null) {
                     type = intent.getStringExtra("type");
-                }else {
+                } else {
                     type = "else";
                 }
 
@@ -107,12 +123,105 @@ public class TransactionPdfActivity extends AppCompatActivity {
                 htmlString = htmlAsSpanned.toString();
                 mPdf_webview.loadDataWithBaseURL(null, company_report, "text/html", "utf-8", null);
                 mPdf_webview.getSettings().setBuiltInZoomControls(true);
+                progressDialog.dismiss();
             }
-        },3*1000);
+        }, 3 * 1000);
 
         EventBus.getDefault().register(this);
+        m_AemScrybeDevice = new AEMScrybeDevice(this);
+        registerForContextMenu(printer_txt);
 
+        printer_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (DashboardAccountFragment.m_AemPrinter == null) {
+                    new AlertDialog.Builder(TransactionPdfActivity.this)
+                            .setTitle("Connect Printer")
+                            .setMessage(R.string.btn_connect_printer)
+                            .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+                                DashboardAccountFragment.printerList = m_AemScrybeDevice.getPairedPrinters();
 
+                                if (DashboardAccountFragment.printerList.size() > 0) {
+                                    openContextMenu(view);
+                                } else
+                                    showAlert("No Paired Printers found");
+                            })
+
+                            .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                if (DashboardAccountFragment.m_AemPrinter != null) {
+                                    try {
+                                        m_AemScrybeDevice.disConnectPrinter();
+                                        DashboardAccountFragment.m_AemPrinter = null;
+                                        Toast.makeText(getApplicationContext(), "disconnected", Toast.LENGTH_SHORT).show();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            })
+                            .show();
+                } else {
+                    if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+                        new AlertDialog.Builder(TransactionPdfActivity.this)
+                                .setTitle("Connect Printer")
+                                .setMessage(R.string.btn_connect_printer)
+                                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                    DashboardAccountFragment.printerList = m_AemScrybeDevice.getPairedPrinters();
+
+                                    if (DashboardAccountFragment.printerList.size() > 0) {
+                                        openContextMenu(view);
+                                    } else
+                                        showAlert("No Paired Printers found");
+                                })
+
+                                .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                    if (DashboardAccountFragment.m_AemPrinter != null) {
+                                        try {
+                                            m_AemScrybeDevice.disConnectPrinter();
+                                            DashboardAccountFragment.m_AemPrinter = null;
+                                            Toast.makeText(getApplicationContext(), "disconnected", Toast.LENGTH_SHORT).show();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                })
+                                .show();
+                    } else {
+                        apiCall();
+
+                       /* if (!boolForPrinter){
+                            apiCall();
+                        } else {
+                            new AlertDialog.Builder(TransactionPdfActivity.this)
+                                    .setTitle("Connect Printer")
+                                    .setMessage(R.string.btn_connect_printer)
+                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+
+                                        DashboardAccountFragment.printerList = m_AemScrybeDevice.getPairedPrinters();
+
+                                        if (DashboardAccountFragment.printerList.size() > 0) {
+                                            openContextMenu(view);
+                                        } else
+                                            showAlert("No Paired Printers found");
+                                    })
+
+                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                        if (DashboardAccountFragment.m_AemPrinter != null) {
+                                            try {
+                                                m_AemScrybeDevice.disConnectPrinter();
+                                                DashboardAccountFragment.m_AemPrinter = null;
+                                                Toast.makeText(getApplicationContext(), "disconnected", Toast.LENGTH_SHORT).show();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    })
+                                    .show();
+                        }*/
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -206,40 +315,9 @@ public class TransactionPdfActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.icon_id) {
-            if (CompanyListActivity.boolForInvoiceFormat){
-                Boolean isConnected = ConnectivityReceiver.isConnected();
-                if (isConnected) {
-                    mProgressDialog = new ProgressDialog(this);
-                    mProgressDialog.setMessage("Info...");
-                    mProgressDialog.setIndeterminate(false);
-                    mProgressDialog.setCancelable(true);
-                    mProgressDialog.show();
-                    if (type.equals("sale_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
-                    }else if (type.equals("sale_return_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
-                    }else if (type.equals("purchase_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
-                    }else if (type.equals("purchase_return_voucher")){
-                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
-                    }
-                    System.out.println("");
-                } else {
-                    snackbar = Snackbar
-                            .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Boolean isConnected = ConnectivityReceiver.isConnected();
-                                    if (isConnected) {
-                                        snackbar.dismiss();
-                                    }
-                                }
-                            });
-                    snackbar.show();
-                }
-
-            }else {
+            if (CompanyListActivity.boolForInvoiceFormat) {
+                printer_txt.performClick();
+            } else {
                 File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/m_Billing_PDF/");
                 if (path.isDirectory()) {
                     String[] children = path.list();
@@ -262,6 +340,8 @@ public class TransactionPdfActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    // For Printer By PC
+
     @Subscribe
     public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
@@ -269,7 +349,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
             dataForPrinterSale = new SaleVoucherDetailsData();
             dataForPrinterSale = response.getSale_voucher().getData();
-            BluPrinterHelper.saleVoucherReceipt(this,dataForPrinterSale);
+            BluPrinterHelper.saleVoucherReceipt(this, dataForPrinterSale);
         } else {
             Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
         }
@@ -282,7 +362,7 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
             dataForPrinterSaleReturn = new SaleReturnVoucherDetailsData();
             dataForPrinterSaleReturn = response.getSale_return_voucher().getData();
-            BluPrinterHelper.saleReturnVoucherReceipt(this,dataForPrinterSaleReturn);
+            BluPrinterHelper.saleReturnVoucherReceipt(this, dataForPrinterSaleReturn);
         } else {
             Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
         }
@@ -295,9 +375,77 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
             dataForPrinterPurchase = new PurchaseVoucherDetailsData();
             dataForPrinterPurchase = response.getPurchase_voucher().getData();
-            BluPrinterHelper.purchaseVoucherReceipt(this,dataForPrinterPurchase);
+            BluPrinterHelper.purchaseVoucherReceipt(this, dataForPrinterPurchase);
         } else {
             Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        menu.setHeaderTitle("Select Printer to connect");
+
+        for (int i = 0; i < DashboardAccountFragment.printerList.size(); i++) {
+            menu.add(0, v.getId(), 0, DashboardAccountFragment.printerList.get(i));
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        String printerName = item.getTitle().toString();
+        try {
+            m_AemScrybeDevice.connectToPrinter(printerName);
+            m_cardReader = m_AemScrybeDevice.getCardReader(this);
+            DashboardAccountFragment.m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+            Toast.makeText(getApplicationContext(), "Connected with " + printerName, Toast.LENGTH_SHORT).show();
+            apiCall();
+            //  m_cardReader.readMSR();
+        } catch (IOException e) {
+            if (e.getMessage().contains("Service discovery failed")) {
+                Toast.makeText(getApplicationContext(), "Not Connected" + printerName + " is unreachable or off otherwise it is connected with other device", Toast.LENGTH_SHORT).show();
+            } else if (e.getMessage().contains("Device or resource busy")) {
+                Toast.makeText(getApplicationContext(), "the device is already connected", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_SHORT).show();
+            }
+        }
+        return true;
+    }
+
+    public void apiCall() {
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            if (type.equals("sale_voucher")) {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_VOUCHER_DETAILS);
+            } else if (type.equals("sale_return_voucher")) {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_SALE_RETURN_VOUCHER_DETAILS);
+            } else if (type.equals("purchase_voucher")) {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_VOUCHER_DETAILS);
+            } else if (type.equals("purchase_return_voucher")) {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_PURCHASE_RETURN_VOUCHER_DETAILS);
+            }
+            System.out.println("");
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
         }
     }
 
@@ -308,9 +456,56 @@ public class TransactionPdfActivity extends AppCompatActivity {
 
             dataForPrinterPurchaseReturn = new PurchaseReturnVoucherDetailsData();
             dataForPrinterPurchaseReturn = response.getPurchase_return_voucher().getData();
-            BluPrinterHelper.purchaseReturnVoucherReceipt(this,dataForPrinterPurchaseReturn);
+            BluPrinterHelper.purchaseReturnVoucherReceipt(this, dataForPrinterPurchaseReturn);
         } else {
             Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
         }
+    }
+
+    public void showAlert(String alertMsg) {
+        AlertDialog.Builder alertBox = new AlertDialog.Builder(TransactionPdfActivity.this);
+
+        alertBox.setMessage(alertMsg).setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        return;
+                    }
+                });
+
+        AlertDialog alert = alertBox.create();
+        alert.show();
+    }
+
+    @Override
+    public void onDiscoveryComplete(ArrayList<String> aemPrinterList) {
+
+    }
+
+    @Override
+    public void onScanMSR(String buffer, CardReader.CARD_TRACK cardtrack) {
+
+    }
+
+    @Override
+    public void onScanDLCard(String buffer) {
+
+    }
+
+    @Override
+    public void onScanRCCard(String buffer) {
+
+    }
+
+    @Override
+    public void onScanRFD(String buffer) {
+
+    }
+
+    @Override
+    public void onScanPacket(String buffer) {
+
     }
 }
