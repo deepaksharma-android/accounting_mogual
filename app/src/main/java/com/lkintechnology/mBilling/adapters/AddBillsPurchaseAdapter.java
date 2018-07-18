@@ -70,6 +70,8 @@ public class AddBillsPurchaseAdapter extends BaseAdapter {
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 holder.mDiscount.setText(String.valueOf(changeamount));
+                holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+
             } else {
                 holder.mDiscount.setText(amount);
             }
@@ -86,6 +88,8 @@ public class AddBillsPurchaseAdapter extends BaseAdapter {
         TextView mDiscount;
         @Bind(R.id.total)
         TextView mTotal;
+        @Bind(R.id.default_text)
+        TextView mDefaultText;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

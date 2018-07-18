@@ -58,6 +58,10 @@ public class AddItemSaleReturnFragment extends Fragment {
     Animation blinkOnClick;
     ArrayList<String> billsuncal;
     public static AddItemSaleReturnFragment context;
+    Boolean discount_bool=false;
+    Boolean cgst_sgst_bool=false;
+    Double dicount_amount;
+    Double cgst_sgst_amount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -210,6 +214,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                     LocalRepositories.saveAppUser(getActivity(), appUser);
                     double tot = Double.parseDouble(total);
                     itemamount = itemamount + tot;
+                    mTotal.setText(String.valueOf(itemamount));
                 }
             }
 
@@ -416,6 +421,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                 } else if (fedas.equals("Percentage")) {
                     if (fed_as_percentage.equals("Nett Bill Amount")) {
                         if (appUser.mListMapForItemSaleReturn.size() > 0) {
+                            discount_bool=true;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSaleReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSaleReturn.get(j);
@@ -431,11 +437,14 @@ public class AddItemSaleReturnFragment extends Fragment {
 
                             if (type.equals("Additive")) {
                                 billsundrymamount = billsundrymamount + percentagebillsundry;
+
+
+
                             } else {
                                 billsundrymamount = billsundrymamount - percentagebillsundry;
                             }
-
-
+                            dicount_amount=percentagebillsundry;
+                            mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                         }
 
                     } else if (fed_as_percentage.equals("Items Basic Amount")) {
@@ -540,8 +549,8 @@ public class AddItemSaleReturnFragment extends Fragment {
                                     if(taxvalue.equals("ItemWise")){
 
                                     }
-                                    else{
-                                        subtot=subtot+itemprice*(amt/100);
+                                    else{ subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
+                                       // subtot=subtot+itemprice*(amt/100);
                                     }
 
 
@@ -571,8 +580,21 @@ public class AddItemSaleReturnFragment extends Fragment {
                                     if(taxvalue.equals("ItemWise")){
 
                                     }
-                                    else{
-                                        subtot=subtot+itemprice*(amt/100);
+                                    else {
+                                        if(discount_bool) {
+                                            if(!cgst_sgst_bool) {
+                                                subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
+                                                cgst_sgst_bool=true;
+                                                cgst_sgst_amount=subtot;
+                                            }
+                                            else{
+                                                //subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) * (amt / 100))+dicount_amount;
+                                                subtot=cgst_sgst_amount;
+                                            }
+                                        }
+                                        else {
+                                            subtot = subtot + itemprice * (amt / 100);
+                                        }
                                     }
 
 
@@ -587,8 +609,10 @@ public class AddItemSaleReturnFragment extends Fragment {
 
                             if (type.equals("Additive")) {
                                 billsundrymamount = billsundrymamount + (subtot);
+                                mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                             } else {
                                 billsundrymamount = billsundrymamount - subtot;
+                                mTotal.setText(String.valueOf(itemamount-billsundrymamount));
                             }
                         }
 
@@ -651,6 +675,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                     }
                     else if(fed_as_percentage.equals("valuechange")){
                         if (appUser.mListMapForBillSaleReturn.size() > 0) {
+                            discount_bool=true;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSaleReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSaleReturn.get(j);
@@ -666,6 +691,8 @@ public class AddItemSaleReturnFragment extends Fragment {
                             } else {
                                 billsundrymamount = billsundrymamount - changeamount;
                             }
+
+                            mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                            /* double per_val = Double.parseDouble(percentage_value);
                             double percentagebillsundry = (billsundrymamounttotal + subtot) * (((per_val / 100) * amt) / 100);
 

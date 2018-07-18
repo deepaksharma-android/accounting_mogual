@@ -51,10 +51,11 @@
                     android:orientation="vertical">
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/default_text"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         style="@style/Gotham_Medium"
-                        android:text="DEFAULT VALUE"
+                        android:text="DEFAULT VALUE (%)"
                         android:textColor="@color/black"
                         android:textSize="12sp"/>
 
