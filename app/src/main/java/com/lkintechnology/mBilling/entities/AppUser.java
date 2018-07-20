@@ -24,6 +24,7 @@ public class AppUser {
     public String fb_id;
     public String company_name;
     public String print_name;
+    public String item_print_name;
     public String short_name;
     public String city;
     public String logo="";

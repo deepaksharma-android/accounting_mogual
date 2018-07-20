@@ -170,6 +170,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.item_group_name = "";
         appUser.item_unit_name = "";
         appUser.item_tax_category_name = "";
+        appUser.item_print_name = "";
         appUser.edit_item_id = "";
         appUser.stock_item_serail_arr.clear();
         appUser.stock_serial_arr.clear();

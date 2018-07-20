@@ -93,6 +93,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     LinearLayout mStoreLayout;
     @Bind(R.id.store)
     TextView mStore;
+    @Bind(R.id.print_name)
+    TextView mPrintName;
     Snackbar snackbar;
     Animation blinkOnClick;
     AppUser appUser;
@@ -130,6 +132,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
         mItemGroup.setText(appUser.item_group_name);
         mItemUnit.setText(appUser.item_unit_name);
         mTaxCategory.setText(appUser.item_tax_category_name);
+        mPrintName.setText(appUser.item_print_name);
         RequestCheckBarcode.bollForBarcode = null;
         mStore.setText(appUser.stock_item_material_center);
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -362,6 +365,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_code = mItemCode.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
+                                appUser.item_print_name = mPrintName.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                /* appUser.stock_serial_arr.clear();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);*/
@@ -428,6 +432,7 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
                                 appUser.item_name = mItemName.getText().toString();
                                 appUser.item_code = mItemCode.getText().toString();
                                 appUser.item_hsn_number = mHsnNumber.getText().toString();
+                                appUser.item_print_name = mPrintName.getText().toString();
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                            /* for (int i = 0; i < CreateItemGroupActivity.data.getData().size(); i++) {
@@ -884,6 +889,9 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
             mItemGroup.setText(response.getItem().getData().getAttributes().getItem_group());
             mItemUnit.setText(response.getItem().getData().getAttributes().getItem_unit());
             mTaxCategory.setText(response.getItem().getData().getAttributes().getTax_category());
+            if(response.getItem().getData().getAttributes().getPrint_name()!=null) {
+                mPrintName.setText(response.getItem().getData().getAttributes().getPrint_name());
+            }
             appUser.item_tax_category = response.getItem().getData().getAttributes().getTax_category_id();
             LocalRepositories.saveAppUser(this, appUser);
            /* String taxcat = response.getItem().getData().getAttributes().getTax_category().trim();// insert code here

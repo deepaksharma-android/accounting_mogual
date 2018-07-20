@@ -31,6 +31,7 @@ public class RequestCreateItem {
         item.put("item_unit_id", appUser.item_unit_id);
         item.put("tax_category_id", appUser.item_tax_category);
         item.put("hsn_number", appUser.item_hsn_number);
+        item.put("print_name", appUser.item_print_name);
         item.put("material_center_id",appUser.stock_item_material_center_id);
 
         if (!Preferences.getInstance(ctx).getBusiness_type().equals("")){

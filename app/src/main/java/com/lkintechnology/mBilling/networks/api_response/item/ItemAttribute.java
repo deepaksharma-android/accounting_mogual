@@ -14,10 +14,20 @@ public class ItemAttribute {
     public String item_code;
     public String company;
     public String item_group;
+
+    public String getPrint_name() {
+        return print_name;
+    }
+
+    public void setPrint_name(String print_name) {
+        this.print_name = print_name;
+    }
+
     public String alternate_unit_id;
     public String item_group_id;
     public String item_unit_id;
     public Double amount;
+    public String print_name;
 
     public String getItem_code() {
         return item_code;
