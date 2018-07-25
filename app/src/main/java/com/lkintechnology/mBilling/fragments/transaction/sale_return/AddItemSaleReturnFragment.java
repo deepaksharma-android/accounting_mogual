@@ -61,8 +61,9 @@ public class AddItemSaleReturnFragment extends Fragment {
     Boolean discount_bool=false;
     Boolean absolute_bool=false;
     Boolean cgst_sgst_bool=false;
-    Double dicount_amount;
-    Double cgst_sgst_amount;
+    Double dicount_amount=0.0;
+    Double absolute_amount=0.0;
+    Double cgst_sgst_amount=0.0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -177,6 +178,8 @@ public class AddItemSaleReturnFragment extends Fragment {
                         discount_bool=false;
                         dicount_amount=0.0;
                         absolute_bool=false;
+                        cgst_sgst_bool=false;
+                        absolute_amount=0.0;
                         amountCalculation();
                     }
                 });
@@ -254,7 +257,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                         billsundrymamount = billsundrymamount - amt;
                     }
                     absolute_bool=true;
-                    dicount_amount=amt;
+                    absolute_amount=amt;
                     mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                 } else if (fedas.equals("Per Main Qty.")) {
                     if (appUser.mListMapForItemSaleReturn.size() > 0) {
@@ -445,9 +448,6 @@ public class AddItemSaleReturnFragment extends Fragment {
 
                             if (type.equals("Additive")) {
                                 billsundrymamount = billsundrymamount + percentagebillsundry;
-
-
-
                             } else {
                                 billsundrymamount = billsundrymamount - percentagebillsundry;
                             }
@@ -557,16 +557,23 @@ public class AddItemSaleReturnFragment extends Fragment {
                                     if (taxvalue.equals("ItemWise")) {
 
                                     }
-                                    if (discount_bool) {
-                                        if (!absolute_bool) {
-                                            subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + dicount_amount) * (amt / 100);
+                                    else {
+                                        if (discount_bool) {
+                                            if (!absolute_bool) {
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + absolute_amount) * (amt / 100);
+                                            } else {
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))-dicount_amount) * (amt / 100);
+                                            }
+                                            break;
                                         } else {
-                                            subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) - dicount_amount) * (amt / 100);
+                                            if (absolute_bool) {
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                                break;
+                                            } else {
+                                                subtot = subtot + itemprice * (amt / 100);
+                                            }
                                         }
-                                    } else {
 
-                                        subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
-                                       // subtot=subtot+itemprice*(amt/100);
                                     }
 
 
@@ -593,17 +600,16 @@ public class AddItemSaleReturnFragment extends Fragment {
                                 }
 
                                 if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
-                                    if(taxvalue.equals("ItemWise")){
+                                    if (taxvalue.equals("ItemWise")) {
 
-                                    }
-                                    else {
+                                    }else {
                                         if(discount_bool) {
                                             if(!cgst_sgst_bool) {
                                                 if(!absolute_bool) {
-                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + dicount_amount) * (amt / 100);
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + absolute_amount) * (amt / 100);
                                                 }
                                                 else{
-                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) - dicount_amount) * (amt / 100);
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) -dicount_amount) * (amt / 100);
                                                 }
                                                 cgst_sgst_bool=true;
                                                 cgst_sgst_amount=subtot;
@@ -612,19 +618,19 @@ public class AddItemSaleReturnFragment extends Fragment {
                                                 //subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) * (amt / 100))+dicount_amount;
                                                 subtot=cgst_sgst_amount;
                                             }
+                                            break;
                                         }
 
                                         else {
                                             if(absolute_bool){
                                                 subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                                break;
                                             }
                                             else {
                                                 subtot = subtot + itemprice * (amt / 100);
                                             }
                                         }
                                     }
-
-
                                 }
                                /* if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
                                     double per_val = Double.parseDouble(percentage_value);
