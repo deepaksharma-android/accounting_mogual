@@ -725,7 +725,7 @@ public class ItemOpeningStockActivity extends RegisterAbstractActivity implement
                     if (!mStockQuantity.getText().toString().equals("")) {
                         if (Integer.parseInt(mStockQuantity.getText().toString()) > 0) {
                             if (!mStockPrice.getText().toString().equals("")) {
-                                if (Integer.parseInt(mStockPrice.getText().toString()) > 0) {
+                                if (Double.parseDouble(mStockPrice.getText().toString()) > 0.0) {
                                     Preferences.getInstance(getApplicationContext()).setBusiness_type(mBusinessType.getSelectedItem().toString());
                                     Preferences.getInstance(getApplicationContext()).setItem_stock_amount(mStockPrice.getText().toString());
                                     Preferences.getInstance(getApplicationContext()).setItem_stock_quantity(mStockQuantity.getText().toString());
