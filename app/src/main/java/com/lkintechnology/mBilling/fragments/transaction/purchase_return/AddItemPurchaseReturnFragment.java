@@ -57,6 +57,7 @@ public class AddItemPurchaseReturnFragment extends Fragment {
     Animation blinkOnClick;
     public static AddItemPurchaseReturnFragment context;
     Boolean discount_bool=false;
+    Boolean absolute_bool=false;
     Boolean cgst_sgst_bool=false;
     Double dicount_amount;
     Double cgst_sgst_amount;
@@ -212,7 +213,9 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                         dialog.cancel();
                         Timber.i("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"+appUser.mListMapForBillPurchaseReturn);
-
+                        discount_bool=false;
+                        dicount_amount=0.0;
+                        absolute_bool=false;
                         amountCalculation();
 
 
@@ -287,6 +290,9 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                     } else {
                         billsundrymamount = billsundrymamount - amt;
                     }
+                    absolute_bool=true;
+                    dicount_amount=amt;
+                    mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                 } else if (fedas.equals("Per Main Qty.")) {
                     if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
                         for (int j = 0; j < appUser.mListMapForItemPurchaseReturn.size(); j++) {
@@ -459,7 +465,8 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                 } else if (fedas.equals("Percentage")) {
                     if (fed_as_percentage.equals("Nett Bill Amount")) {
                         if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
-                            discount_bool=true;
+                            discount_bool = true;
+                            absolute_bool=false;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemPurchaseReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemPurchaseReturn.get(j);
@@ -586,9 +593,17 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                                     if(taxvalue.equals("ItemWise")){
 
                                     }
+                                    if(discount_bool) {
+                                        if (!absolute_bool) {
+                                            subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + dicount_amount) * (amt / 100);
+                                        }
+                                        else{
+                                            subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) - dicount_amount) * (amt / 100);
+                                        }
+                                    }
                                     else{
+
                                         subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
-                                       // subtot=subtot+itemprice*(amt/100);
                                     }
 
 
@@ -620,7 +635,12 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                                     else {
                                         if(discount_bool) {
                                             if(!cgst_sgst_bool) {
-                                                subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
+                                                if(!absolute_bool) {
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + dicount_amount) * (amt / 100);
+                                                }
+                                                else{
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) - dicount_amount) * (amt / 100);
+                                                }
                                                 cgst_sgst_bool=true;
                                                 cgst_sgst_amount=subtot;
                                             }
@@ -629,8 +649,14 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                                                 subtot=cgst_sgst_amount;
                                             }
                                         }
+
                                         else {
-                                            subtot = subtot + itemprice * (amt / 100);
+                                            if(absolute_bool){
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                            }
+                                            else {
+                                                subtot = subtot + itemprice * (amt / 100);
+                                            }
                                         }
                                     }
 
@@ -713,7 +739,8 @@ public class AddItemPurchaseReturnFragment extends Fragment {
                     }
                     else if(fed_as_percentage.equals("valuechange")){
                         if (appUser.mListMapForItemPurchaseReturn.size() > 0) {
-                            discount_bool=true;
+                            discount_bool = true;
+                            absolute_bool=false;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemPurchaseReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemPurchaseReturn.get(j);

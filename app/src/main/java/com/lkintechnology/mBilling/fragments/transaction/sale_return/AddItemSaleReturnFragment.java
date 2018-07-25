@@ -59,6 +59,7 @@ public class AddItemSaleReturnFragment extends Fragment {
     ArrayList<String> billsuncal;
     public static AddItemSaleReturnFragment context;
     Boolean discount_bool=false;
+    Boolean absolute_bool=false;
     Boolean cgst_sgst_bool=false;
     Double dicount_amount;
     Double cgst_sgst_amount;
@@ -173,6 +174,9 @@ public class AddItemSaleReturnFragment extends Fragment {
                         appUser.itemtotal.clear();
                         appUser.billsundrytotal.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        discount_bool=false;
+                        dicount_amount=0.0;
+                        absolute_bool=false;
                         amountCalculation();
                     }
                 });
@@ -249,6 +253,9 @@ public class AddItemSaleReturnFragment extends Fragment {
                     } else {
                         billsundrymamount = billsundrymamount - amt;
                     }
+                    absolute_bool=true;
+                    dicount_amount=amt;
+                    mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                 } else if (fedas.equals("Per Main Qty.")) {
                     if (appUser.mListMapForItemSaleReturn.size() > 0) {
                         for (int j = 0; j < appUser.mListMapForItemSaleReturn.size(); j++) {
@@ -421,7 +428,8 @@ public class AddItemSaleReturnFragment extends Fragment {
                 } else if (fedas.equals("Percentage")) {
                     if (fed_as_percentage.equals("Nett Bill Amount")) {
                         if (appUser.mListMapForItemSaleReturn.size() > 0) {
-                            discount_bool=true;
+                            discount_bool = true;
+                            absolute_bool=false;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSaleReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSaleReturn.get(j);
@@ -546,10 +554,18 @@ public class AddItemSaleReturnFragment extends Fragment {
                                 }
 
                                 if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
-                                    if(taxvalue.equals("ItemWise")){
+                                    if (taxvalue.equals("ItemWise")) {
 
                                     }
-                                    else{ subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
+                                    if (discount_bool) {
+                                        if (!absolute_bool) {
+                                            subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + dicount_amount) * (amt / 100);
+                                        } else {
+                                            subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) - dicount_amount) * (amt / 100);
+                                        }
+                                    } else {
+
+                                        subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
                                        // subtot=subtot+itemprice*(amt/100);
                                     }
 
@@ -583,7 +599,12 @@ public class AddItemSaleReturnFragment extends Fragment {
                                     else {
                                         if(discount_bool) {
                                             if(!cgst_sgst_bool) {
-                                                subtot = subtot + (Double.parseDouble(mTotal.getText().toString())) * (amt / 100);
+                                                if(!absolute_bool) {
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + dicount_amount) * (amt / 100);
+                                                }
+                                                else{
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) - dicount_amount) * (amt / 100);
+                                                }
                                                 cgst_sgst_bool=true;
                                                 cgst_sgst_amount=subtot;
                                             }
@@ -592,8 +613,14 @@ public class AddItemSaleReturnFragment extends Fragment {
                                                 subtot=cgst_sgst_amount;
                                             }
                                         }
+
                                         else {
-                                            subtot = subtot + itemprice * (amt / 100);
+                                            if(absolute_bool){
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                            }
+                                            else {
+                                                subtot = subtot + itemprice * (amt / 100);
+                                            }
                                         }
                                     }
 
@@ -675,7 +702,8 @@ public class AddItemSaleReturnFragment extends Fragment {
                     }
                     else if(fed_as_percentage.equals("valuechange")){
                         if (appUser.mListMapForBillSaleReturn.size() > 0) {
-                            discount_bool=true;
+                            discount_bool = true;
+                            absolute_bool=false;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSaleReturn.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSaleReturn.get(j);
