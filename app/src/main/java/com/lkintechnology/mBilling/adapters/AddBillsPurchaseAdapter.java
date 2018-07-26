@@ -66,13 +66,19 @@ public class AddBillsPurchaseAdapter extends BaseAdapter {
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
         String fed_as_percentage = (String) map.get("fed_as_percentage");
+        String fed_as = (String) map.get("fed_as");
         if(fed_as_percentage!=null) {
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 holder.mDiscount.setText(String.valueOf(changeamount));
                 holder.mDefaultText.setText("DEFAULT VALUE (₹)");
 
-            } else {
+            }else {
+                if (fed_as != null) {
+                    if (fed_as.equals("Absolute Amount")) {
+                        holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+                    }
+                }
                 holder.mDiscount.setText(amount);
             }
         }

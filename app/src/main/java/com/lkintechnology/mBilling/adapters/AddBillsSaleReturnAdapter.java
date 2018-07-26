@@ -29,7 +29,7 @@ public class AddBillsSaleReturnAdapter extends BaseAdapter {
     ArrayList<String> mListItemMap;
 
 
-    public AddBillsSaleReturnAdapter(Context context, List<Map<String, String>> mListMap, /*List<Map<String, String>> mListItemMap*/ArrayList<String> mListItemMap ) {
+    public AddBillsSaleReturnAdapter(Context context, List<Map<String, String>> mListMap, /*List<Map<String, String>> mListItemMap*/ArrayList<String> mListItemMap) {
         this.context = context;
         this.mListMap = mListMap;
         this.mListItemMap = mListItemMap;
@@ -66,12 +66,19 @@ public class AddBillsSaleReturnAdapter extends BaseAdapter {
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
         String fed_as_percentage = (String) map.get("fed_as_percentage");
-        if(fed_as_percentage!=null) {
+        String fed_as = (String) map.get("fed_as");
+
+        if (fed_as_percentage != null) {
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 holder.mDiscount.setText(String.valueOf(changeamount));
                 holder.mDefaultText.setText("DEFAULT VALUE (₹)");
             } else {
+                if (fed_as != null) {
+                    if (fed_as.equals("Absolute Amount")) {
+                        holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+                    }
+                }
                 holder.mDiscount.setText(amount);
             }
         }
