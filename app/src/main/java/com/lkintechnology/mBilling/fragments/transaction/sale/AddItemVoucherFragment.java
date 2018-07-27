@@ -57,6 +57,12 @@ public class AddItemVoucherFragment extends Fragment {
     List<Map<String, String>> mListMap;
     RecyclerView.LayoutManager layoutManager;
     Animation blinkOnClick;
+    Boolean discount_bool=false;
+    Boolean cgst_sgst_bool=false;
+    Boolean absolute_bool=false;
+    Double dicount_amount=0.0;
+    Double absolute_amount=0.0;
+    Double cgst_sgst_amount=0.0;
     ArrayList<String> billsuncal;
     public static AddItemVoucherFragment context;
 
@@ -182,11 +188,20 @@ public class AddItemVoucherFragment extends Fragment {
                 alertDialog.setMessage("Are you sure to delete?");
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        AppUser appUser = LocalRepositories.getAppUser(getApplicationContext());
+
+/*                        if(appUser.mListMapForBillSale.get(position).get("courier_charges").equals("Discount")||appUser.mListMapForBillSale.get(position).get("courier charges").equals("Freight & Forwarding Charges")||appUser.mListMapForBillSale.get(position).get("courier charges").equals("Rounded Off(+)")||appUser.mListMapForBillSale.get(position).get("courier charges").equals("Rounded Off(-)")){
+                            discount_bool=false;
+                        }
+                        */
                         appUser.mListMapForBillSale.remove(position);
                         appUser.itemtotal.clear();
                         appUser.billsundrytotal.clear();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        discount_bool=false;
+                        dicount_amount=0.0;
+                        absolute_bool=false;
+                        cgst_sgst_bool=false;
+                        absolute_amount=0.0;
                         amountCalculation();
                     }
                 });
@@ -227,6 +242,7 @@ public class AddItemVoucherFragment extends Fragment {
                     LocalRepositories.saveAppUser(getActivity(), appUser);
                     double tot = Double.parseDouble(total);
                     itemamount = itemamount + tot;
+                    mTotal.setText(String.valueOf(itemamount));
                 }
             }
 
@@ -246,7 +262,7 @@ public class AddItemVoucherFragment extends Fragment {
                 String other = (String) map.get("other");
                 String fedas = (String) map.get("fed_as");
                 String fed_as_percentage = (String) map.get("fed_as_percentage");
-                if(fed_as_percentage!=null) {
+                if (fed_as_percentage != null) {
                     if (fed_as_percentage.equals("valuechange")) {
                         changeamount = Double.parseDouble((String) map.get("changeamount"));
                     }
@@ -261,6 +277,9 @@ public class AddItemVoucherFragment extends Fragment {
                     } else {
                         billsundrymamount = billsundrymamount - amt;
                     }
+                    absolute_bool=true;
+                    absolute_amount=amt;
+                    mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                 } else if (fedas.equals("Per Main Qty.")) {
                     if (appUser.mListMapForItemSale.size() > 0) {
                         for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
@@ -433,14 +452,14 @@ public class AddItemVoucherFragment extends Fragment {
                 } else if (fedas.equals("Percentage")) {
                     if (fed_as_percentage.equals("Nett Bill Amount")) {
                         if (appUser.mListMapForItemSale.size() > 0) {
+                            discount_bool = true;
+                            absolute_bool=false;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSale.get(j);
                                 String total = (String) mapj.get("total");
                                 double itemtot = Double.parseDouble(total);
                                 subtot = subtot + itemtot;
-
-
                             }
 
                             double per_val = Double.parseDouble(percentage_value);
@@ -451,6 +470,9 @@ public class AddItemVoucherFragment extends Fragment {
                             } else {
                                 billsundrymamount = billsundrymamount - percentagebillsundry;
                             }
+                            dicount_amount=percentagebillsundry;
+                            mTotal.setText(String.valueOf(billsundrymamount+itemamount));
+
 
 
                         }
@@ -502,6 +524,7 @@ public class AddItemVoucherFragment extends Fragment {
                         }
 
                     } else if (fed_as_percentage.equals("Taxable Amount")) {
+
                         if (appUser.mListMapForItemSale.size() > 0) {
                             double taxval = 0.0;
                             double subtot = 0.0;
@@ -511,20 +534,19 @@ public class AddItemVoucherFragment extends Fragment {
                                 String itemtax = (String) mapj.get("tax");
                                 String arr[] = itemtax.split(" ");
                                 String taxpercentage = null;
-                                if(!arr[0].equals("Exempt")){
+                                if (!arr[0].equals("Exempt")) {
                                     String itemtaxval = arr[1];
                                     String arrper[] = itemtaxval.split("%");
-                                     taxpercentage = arrper[0];
-                                }
-                                else{
-                                    taxpercentage="0";
+                                    taxpercentage = arrper[0];
+                                } else {
+                                    taxpercentage = "0";
                                 }
 
                                 double taxpercentagevalue = Double.parseDouble(taxpercentage);
-                                double multi=0.0;
+                                double multi = 0.0;
                                 double itemprice = Double.parseDouble(itemtotalval);
-                                String taxname="";
-                                String taxvalue="";
+                                String taxname = "";
+                                String taxvalue = "";
                                 if (taxstring.startsWith("I")) {
                                     String arrtaxstring[] = taxstring.split("-");
                                     taxname = arrtaxstring[0].trim();
@@ -534,9 +556,16 @@ public class AddItemVoucherFragment extends Fragment {
                                             multi = itemprice * (taxpercentagevalue / 100);
                                             subtot = subtot + multi;
                                         }
+                                        else{
+                                            if(billsundryname.equals("CGST")||billsundryname.equals("SGST")){
+                                                multi = itemprice * (Double.parseDouble(amount) / 100);
+                                                subtot = subtot + multi;
+                                            }
+                                        }
 
                                     } else if (taxvalue.equals("TaxIncl.")) {
                                         double per_val = Double.parseDouble(percentage_value);
+                                       // subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()) / (100 + taxpercentagevalue))) * ((amt * per_val) / 100);
                                         subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
 
                                     }
@@ -544,15 +573,27 @@ public class AddItemVoucherFragment extends Fragment {
 
                                 }
 
-                                if (billsundryname.equals("IGST")&&taxstring.startsWith("I")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
-                                    if(taxvalue.equals("ItemWise")){
+                                if (billsundryname.equals("IGST") && taxstring.startsWith("I") && !taxvalue.equals("MultiRate") && !taxvalue.equals("TaxIncl")) {
+                                    if (taxvalue.equals("ItemWise")) {
+
+                                    } else {
+                                        if (discount_bool) {
+                                            if (!absolute_bool) {
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + absolute_amount) * (amt / 100);
+                                            } else {
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))-dicount_amount) * (amt / 100);
+                                            }
+                                            break;
+                                        } else {
+                                            if (absolute_bool) {
+                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                                break;
+                                            } else {
+                                                subtot = subtot + itemprice * (amt / 100);
+                                            }
+                                        }
 
                                     }
-                                    else{
-                                        subtot=subtot+itemprice*(amt/100);
-                                    }
-
-
                                 }
 
 
@@ -561,17 +602,11 @@ public class AddItemVoucherFragment extends Fragment {
                                     taxname = arrtaxstring[0].trim();
                                     taxvalue = arrtaxstring[1].trim();
                                     if (taxvalue.equals("MultiRate")) {
-                                        Double amounts=Double.parseDouble(amount)*2;
-                                        Double taxper=Double.parseDouble(taxpercentage);
+                                        Double amounts = Double.parseDouble(amount) * 2;
+                                        Double taxper = Double.parseDouble(taxpercentage);
                                         if (taxper.equals(amounts)) {
                                             multi = itemprice * (Double.parseDouble(amount) / 100);
                                             subtot = subtot + multi;
-                                        }
-                                        else{
-                                           /* if(billsundryname.equals("CGST")||billsundryname.equals("SGST")){
-                                                multi = itemprice * (Double.parseDouble(amount) / 100);
-                                                subtot = subtot + multi;
-                                            }*/
                                         }
 
                                     } else if (taxvalue.equals("TaxIncl.")) {
@@ -581,27 +616,58 @@ public class AddItemVoucherFragment extends Fragment {
                                     }
                                 }
 
-                                if ((billsundryname.equals("CGST")||billsundryname.equals("SGST"))&&taxstring.startsWith("L")&&!taxvalue.equals("MultiRate")&&!taxvalue.equals("TaxIncl")) {
-                                    if(taxvalue.equals("ItemWise")){
+                                if ((billsundryname.equals("CGST") || billsundryname.equals("SGST")) && taxstring.startsWith("L") && !taxvalue.equals("MultiRate") && !taxvalue.equals("TaxIncl")) {
+                                    if (taxvalue.equals("ItemWise")) {
 
-                                    }
-                                    else{
-                                        subtot=subtot+itemprice*(amt/100);
+                                    } else {
+                                        if(discount_bool) {
+                                            if(!cgst_sgst_bool) {
+                                                if(!absolute_bool) {
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) + absolute_amount) * (amt / 100);
+                                                }
+                                                else{
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) -dicount_amount) * (amt / 100);
+                                                }
+                                                cgst_sgst_bool=true;
+                                                cgst_sgst_amount=subtot;
+                                            }
+                                            else{
+                                                //subtot = subtot + ((Double.parseDouble(mTotal.getText().toString())) * (amt / 100))+dicount_amount;
+                                                subtot=cgst_sgst_amount;
+                                            }
+                                            break;
+                                        }
+
+                                        else {
+                                            if(absolute_bool){
+                                                if(!cgst_sgst_bool) {
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                                    cgst_sgst_bool=true;
+                                                    cgst_sgst_amount=subtot;
+                                                }
+                                                else{
+                                                    subtot=cgst_sgst_amount;
+                                                }
+
+                                                break;
+                                            }
+                                            else {
+                                                subtot = subtot + itemprice * (amt / 100);
+                                            }
+                                        }
                                     }
 
 
                                 }
-                          /*      if(!billsundryname.equals("CGST")||!billsundryname.equals("SGST")||!billsundryname.equals("IGST")){
-                                    double per_val = Double.parseDouble(percentage_value);
-                                    subtot = subtot+((itemprice) * (((per_val / 100) * amt) / 100));
-                                }*/
+
 
                             }
-
                             if (type.equals("Additive")) {
                                 billsundrymamount = billsundrymamount + (subtot);
+                                mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                             } else {
                                 billsundrymamount = billsundrymamount - subtot;
+                                mTotal.setText(String.valueOf(itemamount-billsundrymamount));
                             }
                         }
 
@@ -661,9 +727,10 @@ public class AddItemVoucherFragment extends Fragment {
 
                         }
 
-                    }
-                    else if(fed_as_percentage.equals("valuechange")){
+                    } else if (fed_as_percentage.equals("valuechange")) {
                         if (appUser.mListMapForItemSale.size() > 0) {
+                            discount_bool = true;
+                            absolute_bool=false;
                             double subtot = 0.0;
                             for (int j = 0; j < appUser.mListMapForItemSale.size(); j++) {
                                 Map mapj = appUser.mListMapForItemSale.get(j);
@@ -672,13 +739,13 @@ public class AddItemVoucherFragment extends Fragment {
                                 subtot = subtot + itemtot;
 
 
-
                             }
                             if (type.equals("Additive")) {
                                 billsundrymamount = billsundrymamount + changeamount;
                             } else {
                                 billsundrymamount = billsundrymamount - changeamount;
                             }
+                            mTotal.setText(String.valueOf(billsundrymamount+itemamount));
                            /* double per_val = Double.parseDouble(percentage_value);
                             double percentagebillsundry = (billsundrymamounttotal + subtot) * (((per_val / 100) * amt) / 100);
 
@@ -695,12 +762,11 @@ public class AddItemVoucherFragment extends Fragment {
 
                 }
                 billsundrymamounttotal = billsundrymamounttotal + billsundrymamount;
-                appUser.billsundrytotal.add(i, String.format("%.2f",billsundrymamount));
+                appUser.billsundrytotal.add(i, String.format("%.2f", billsundrymamount));
                 LocalRepositories.saveAppUser(getActivity(), appUser);
             }
-
-
-        } else {
+        }
+        else {
             billsundrymamounttotal = 0.0;
         }
 

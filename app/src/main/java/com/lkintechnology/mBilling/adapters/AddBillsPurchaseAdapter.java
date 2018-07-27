@@ -66,11 +66,19 @@ public class AddBillsPurchaseAdapter extends BaseAdapter {
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
         String fed_as_percentage = (String) map.get("fed_as_percentage");
+        String fed_as = (String) map.get("fed_as");
         if(fed_as_percentage!=null) {
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 holder.mDiscount.setText(String.valueOf(changeamount));
-            } else {
+                holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+
+            }else {
+                if (fed_as != null) {
+                    if (fed_as.equals("Absolute Amount")) {
+                        holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+                    }
+                }
                 holder.mDiscount.setText(amount);
             }
         }
@@ -86,6 +94,8 @@ public class AddBillsPurchaseAdapter extends BaseAdapter {
         TextView mDiscount;
         @Bind(R.id.total)
         TextView mTotal;
+        @Bind(R.id.default_text)
+        TextView mDefaultText;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

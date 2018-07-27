@@ -88,12 +88,18 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
         appUser=LocalRepositories.getAppUser(this);
         int pos = -1;
         blinkOnClick= AnimationUtils.loadAnimation(this,R.anim.blink_on_click);
+        watcher1 = new MyInputWatcher(billAmount);
+        watcher2 = new MyInputWatcher(mTotalAmt);
+
+        billAmount.addTextChangedListener(watcher1);
+        mTotalAmt.addTextChangedListener(watcher2);
         if(frombillvoucherlist){
             pos=getIntent().getExtras().getInt("pos");
             Map map=new HashMap<>();
             map=appUser.mListMapForBillPurchaseReturn.get(pos);
             billSundryFedAsPercentagePrevious=(String)map.get("previous");
-            billSundaryPercentage=(String) map.get("percentage");
+            billSundaryPercentage = (String) map.get("percentage_value");
+            String val=(String)map.get("percentage");
             billSundryCharges=(String) map.get("courier_charges");
             billSundryFedAs=(String) map.get("fed_as");
             billSundryDefaultValue=Double.parseDouble((String) map.get("default_unit"));
@@ -104,9 +110,13 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
             billSundryId=(String) map.get("bill_sundry_id");
             id=(String) map.get("id");
             if(billSundryFedAsPercentage.equals("valuechange")){
+                billAmount.removeTextChangedListener(watcher1);
                 String changeamount= (String) map.get("changeamount");
                 mTotalAmt.setText(changeamount);
-
+            }
+            else{
+                mTotalAmt.removeTextChangedListener(watcher2);
+                billAmount.setText(val);
             }
         }
         else {
@@ -151,11 +161,7 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
             //  mPercentageLayout.setVisibility(View.GONE);
             // percentage.setText("");
         }
-        watcher1 = new MyInputWatcher(billAmount);
-        watcher2 = new MyInputWatcher(mTotalAmt);
 
-        billAmount.addTextChangedListener(watcher1);
-        mTotalAmt.addTextChangedListener(watcher2);
 
         if(billSundryCharges.equals("IGST")){
             if(taxstring.startsWith("I")) {
@@ -198,12 +204,12 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
         else{
             billSundryAmount=String.valueOf(billSundryDefaultValue);
         }
-
-        if(billSundryFedAsPercentage.equals("valuechange")){
-            billAmount.setText("0");
-        }
-        else{
-            billAmount.setText(billSundryAmount);
+        if(!frombillvoucherlist) {
+            if (billSundryFedAsPercentage.equals("valuechange")) {
+                billAmount.setText("0");
+            } else {
+                billAmount.setText(billSundryAmount);
+            }
         }
        /* fromSaleVoucherBillList=getIntent().getExtras().getBoolean("fromvoucherbilllist");
         if(fromSaleVoucherBillList){
@@ -234,8 +240,8 @@ public class PurchaseReturnAddBillActivity extends AppCompatActivity {
                 mMap.put("id", /*data.getId()*/id);
                 mMap.put("courier_charges",billSundryCharges);
                 mMap.put("bill_sundry_id",billSundryId);
-                mMap.put("percentage",billSundaryPercentage);
-                mMap.put("percentage_value",billSundaryPercentage);
+                mMap.put("percentage", billAmount.getText().toString());
+                mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit",String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as",/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs);
                 mMap.put("fed_as_percentage",/*data.getAttributes().getBill_sundry_of_percentage()*/billSundryFedAsPercentage);
