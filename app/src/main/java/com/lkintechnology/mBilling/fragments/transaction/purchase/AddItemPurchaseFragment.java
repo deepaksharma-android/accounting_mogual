@@ -659,7 +659,15 @@ public class AddItemPurchaseFragment extends Fragment {
 
                                         else {
                                             if(absolute_bool){
-                                                subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                                if(!cgst_sgst_bool) {
+                                                    subtot = subtot + ((Double.parseDouble(mTotal.getText().toString()))) * (amt / 100);
+                                                    cgst_sgst_bool=true;
+                                                    cgst_sgst_amount=subtot;
+                                                }
+                                                else{
+                                                    subtot=cgst_sgst_amount;
+                                                }
+
                                                 break;
                                             }
                                             else {
