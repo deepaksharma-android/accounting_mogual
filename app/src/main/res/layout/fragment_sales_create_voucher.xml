@@ -58,7 +58,6 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:entries="@array/main"
                                 android:spinnerMode="dialog"
                                 android:textColor="#000"
                                 android:textSize="16sp" />
@@ -162,7 +161,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.lkintechnology.mBilling.utils.BuzzTextView
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
                                 android:id="@+id/vch_number"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"

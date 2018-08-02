@@ -5,12 +5,22 @@ import com.lkintechnology.mBilling.networks.api_response.transport.Transport;
 import java.util.ArrayList;
 
 public class SaleVoucherDetailsAttribute {
-    public String voucher_series;
+
     public int company_id;
     public int sale_type_id;
     public String sale_type;
     public String shipped_to_id;
+
+    public VoucherSeriesDetails getVoucher_series() {
+        return voucher_series;
+    }
+
+    public void setVoucher_series(VoucherSeriesDetails voucher_series) {
+        this.voucher_series = voucher_series;
+    }
+
     public String shipped_to_name;
+    public VoucherSeriesDetails voucher_series;
 
     public String getShipped_to_id() {
         return shipped_to_id;
@@ -28,13 +38,7 @@ public class SaleVoucherDetailsAttribute {
         this.shipped_to_name = shipped_to_name;
     }
 
-    public String getVoucher_series() {
-        return voucher_series;
-    }
 
-    public void setVoucher_series(String voucher_series) {
-        this.voucher_series = voucher_series;
-    }
 
     public ArrayList<SaleVoucherDetailsBillSundry> getVoucher_bill_sundries() {
         return voucher_bill_sundries;

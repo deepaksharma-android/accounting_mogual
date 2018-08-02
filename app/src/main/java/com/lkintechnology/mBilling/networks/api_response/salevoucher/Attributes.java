@@ -10,6 +10,16 @@ public class Attributes {
     public String invoice_html;
     public String attachment;
 
+    public VoucherSeriesDetails getVoucher_series() {
+        return voucher_series;
+    }
+
+    public void setVoucher_series(VoucherSeriesDetails voucher_series) {
+        this.voucher_series = voucher_series;
+    }
+
+    public VoucherSeriesDetails voucher_series;
+
     public String getAttachment() {
         return attachment;
     }

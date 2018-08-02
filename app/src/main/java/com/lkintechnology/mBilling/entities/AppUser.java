@@ -52,6 +52,7 @@ public class AppUser {
     public String currenyString;
     public String currenySubString;
     public String cid;
+    public String voucher="Sales";
     public String creditreason;
     public String debitreason;
     public String journalreason;
@@ -574,5 +575,8 @@ public class AppUser {
 
     public int quantity;
     public Bitmap photos;
+
+    public ArrayList<Map> series_details=new ArrayList<>();
+    public ArrayList<String> arr_series=new ArrayList<>();
 
 }

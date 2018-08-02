@@ -18,6 +18,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.ScrollingTabContainerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -55,10 +58,12 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
+import com.lkintechnology.mBilling.networks.api_response.materialcentre.MaterialCentre;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
@@ -95,7 +100,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     @Bind(R.id.series)
     Spinner mSeries;
     @Bind(R.id.vch_number)
-    TextView mVchNumber;
+    EditText mVchNumber;
     @Bind(R.id.sale_type)
     TextView mSaleType;
     @Bind(R.id.store)
@@ -133,6 +138,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     ProgressDialog mProgressDialog;
     String encodedString;
     AppUser appUser;
+    ArrayAdapter<String> mVoucherAdapter;
     private SimpleDateFormat dateFormatter;
     Animation blinkOnClick;
     public Boolean boolForPartyName = false;
@@ -145,6 +151,7 @@ public class CreateSaleVoucherFragment extends Fragment {
     private Uri imageToUploadUri;
     private FirebaseAnalytics mFirebaseAnalytics;
     public Boolean fromedit = false;
+    ArrayList<String> arr_series;
 
 
     @Override
@@ -166,6 +173,36 @@ public class CreateSaleVoucherFragment extends Fragment {
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+
+        if (CreateSaleActivity.fromdashboard) {
+            String date1 = dateFormatter.format(newCalendar.getTime());
+            Preferences.getInstance(getContext()).setVoucher_date(date1);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+
+
+        }
         if (CreateSaleActivity.fromsalelist) {
             if (!Preferences.getInstance(getContext()).getVoucher_date().equals("")) {
                 mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
@@ -195,33 +232,6 @@ public class CreateSaleVoucherFragment extends Fragment {
                 snackbar.show();
             }
         }
-
-        if (CreateSaleActivity.fromdashboard) {
-            String date1 = dateFormatter.format(newCalendar.getTime());
-            Preferences.getInstance(getContext()).setVoucher_date(date1);
-            Boolean isConnected = ConnectivityReceiver.isConnected();
-            if (isConnected) {
-                mProgressDialog = new ProgressDialog(getActivity());
-                mProgressDialog.setMessage("Info...");
-                mProgressDialog.setIndeterminate(false);
-                mProgressDialog.setCancelable(true);
-                mProgressDialog.show();
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
-            } else {
-                snackbar = Snackbar
-                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                        .setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                if (isConnected) {
-                                    snackbar.dismiss();
-                                }
-                            }
-                        });
-                snackbar.show();
-            }
-        }
         if (!Preferences.getInstance(getActivity()).getUpdate().equals("")) {
             update.setVisibility(View.VISIBLE);
             submit.setVisibility(View.GONE);
@@ -229,10 +239,45 @@ public class CreateSaleVoucherFragment extends Fragment {
             submit.setVisibility(View.VISIBLE);
             update.setVisibility(View.GONE);
         }
+        if(!CreateSaleActivity.fromsalelist) {
+            mVoucherAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, appUser.arr_series);
+            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSeries.setAdapter(mVoucherAdapter);
+            String group_type = Preferences.getInstance(getActivity()).getVoucherSeries();
+            int groupindex = -1;
+            for (int i = 0; i < appUser.arr_series.size(); i++) {
+                if (appUser.arr_series.get(i).equals(group_type)) {
+                    groupindex = i;
+                    break;
+                }
+            }
+            mSeries.setSelection(groupindex);
+            mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Map map = new HashMap();
+                    map = appUser.series_details.get(position);
+                    String auto_increament = (String) map.get("auto_increment");
+                    String vch_number = (String) map.get("voucher_number");
+                    if (auto_increament.equals("false")) {
+                        mVchNumber.setEnabled(true);
+                    } else {
+                        mVchNumber.setEnabled(false);
+                    }
+                    mVchNumber.setText(vch_number);
+                    if (Preferences.getInstance(getActivity()).getVoucherSeries().equals(mSeries.getSelectedItem().toString())) {
+                        mVchNumber.setText(Preferences.getInstance(getActivity()).getVoucher_number());
+                    }
 
-       /* if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")){
-            mSaleTypeLayout.setBackgroundColor(Color.parseColor("#DCFAFA"));
-        }*/
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
         mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
@@ -524,6 +569,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                                                /*appUser.arr_series.clear();
+                                                                appUser.series_details.clear();
+                                                                LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);*/
                                                                 //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -549,6 +598,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                                 mProgressDialog.setCancelable(true);
                                                                 mProgressDialog.show();
                                                                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+                                                                /*appUser.arr_series.clear();
+                                                                appUser.series_details.clear();
+                                                                LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);*/
                                                                 //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
                                                             } else {
                                                                 snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -575,7 +628,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                                                     mProgressDialog.setCancelable(true);
                                                     mProgressDialog.show();
                                                     ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
-                                                    //ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                                    /*appUser.arr_series.clear();
+                                                    appUser.series_details.clear();
+                                                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);*/
                                                 } else {
                                                     snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                                                         @Override
@@ -607,7 +663,9 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     mProgressDialog.setIndeterminate(false);
                                     mProgressDialog.setCancelable(true);
                                     mProgressDialog.show();
-                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                    appUser.arr_series.clear();
+                                    appUser.series_details.clear();
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
                                 } else {
                                     snackbar = Snackbar
                                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -734,7 +792,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     mProgressDialog.setIndeterminate(false);
                                     mProgressDialog.setCancelable(true);
                                     mProgressDialog.show();
-                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+                                    appUser.arr_series.clear();
+                                    appUser.series_details.clear();
+                                    LocalRepositories.saveAppUser(getActivity(),appUser);
+                                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
                                 } else {
                                     snackbar = Snackbar
                                             .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -767,6 +828,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
     @Override
     public void onPause() {
+        Preferences.getInstance(getContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
@@ -1022,10 +1084,12 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
             appUser.transport_details.clear();
+            appUser.arr_series.clear();
+            appUser.series_details.clear();
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
+            LocalRepositories.saveAppUser(getActivity(), appUser);
+            ApiCallsService.action(getActivity(), Cv.ACTION_VOUCHER_SERIES);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
                /* startActivity(new Intent(getApplicationContext(), TransactionDashboardActivity.class));*/
@@ -1039,7 +1103,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         Intent intent = new Intent(getActivity(), TransactionPdfActivity.class);
                         intent.putExtra("company_report", response.getHtml());
-                        intent.putExtra("type","sale_voucher");
+                        intent.putExtra("type", "sale_voucher");
                         startActivity(intent);
 
                     })
@@ -1053,10 +1117,54 @@ public class CreateSaleVoucherFragment extends Fragment {
     }
 
     @Subscribe
-    public void getVoucherNumber(GetVoucherNumbersResponse response) {
+    public void getVoucherNumber(VoucherSeriesResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            mVchNumber.setText(response.getVoucher_number());
+            arr_series = new ArrayList<>();
+            int pos = -1;
+            for (int i = 0; i < response.getVoucher_series().getData().size(); i++) {
+                Map map = new HashMap();
+                map.put("id", response.getVoucher_series().getData().get(i).getId());
+                map.put("name", response.getVoucher_series().getData().get(i).getAttributes().getName());
+                if(response.getVoucher_series().getData().get(i).getAttributes().isDefaults()){
+                    pos=i;
+                }
+                map.put("default", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isDefaults()));
+                map.put("auto_increment", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isAuto_increment()));
+                map.put("voucher_number", response.getVoucher_series().getData().get(i).getAttributes().getVoucher_number());
+                appUser.arr_series.add(response.getVoucher_series().getData().get(i).getAttributes().getName());
+                appUser.series_details.add(map);
+
+            }
+            LocalRepositories.saveAppUser(getActivity(),appUser);
+            mVoucherAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, appUser.arr_series);
+            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSeries.setAdapter(mVoucherAdapter);
+            mSeries.setSelection(pos);
+            mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Map map = new HashMap();
+                    map = appUser.series_details.get(position);
+                    String auto_increament = (String) map.get("auto_increment");
+                    String vch_number = (String) map.get("voucher_number");
+                    if (auto_increament.equals("false")) {
+                        mVchNumber.setEnabled(true);
+                    } else {
+                        mVchNumber.setEnabled(false);
+                    }
+                    mVchNumber.setText(vch_number);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+
+            // mVchNumber.setText(response.get());
 
         } else {
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -1177,179 +1285,192 @@ public class CreateSaleVoucherFragment extends Fragment {
     public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
-                fromedit = true;
-                mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
-                appUser.sale_date = response.getSale_voucher().getData().getAttributes().getDate();
-                mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_number());
-                Preferences.getInstance(getApplicationContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
-                mSaleType.setText(response.getSale_voucher().getData().getAttributes().getSale_type());
-                mStore.setText(response.getSale_voucher().getData().getAttributes().getMaterial_center());
-                mPartyName.setText(response.getSale_voucher().getData().getAttributes().getAccount_master());
-                mShippedTo.setText(response.getSale_voucher().getData().getAttributes().getShipped_to_name());
-                mMobileNumber.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
-                mNarration.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getNarration()));
-                Preferences.getInstance(getContext()).setStore(response.getSale_voucher().getData().getAttributes().getMaterial_center());
-                Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_voucher().getData().getAttributes().getMaterial_center_id()));
-                Preferences.getInstance(getContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
-                Preferences.getInstance(getContext()).setSale_type_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getSale_type_id()));
-                Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getAccount_master_id()));
-                Preferences.getInstance(getContext()).setParty_name(response.getSale_voucher().getData().getAttributes().getAccount_master());
-                Preferences.getInstance(getContext()).setShipped_to_id(response.getSale_voucher().getData().getAttributes().getShipped_to_id());
-                Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
-                appUser.totalamount = String.valueOf(response.getSale_voucher().getData().getAttributes().getTotal_amount());
-                appUser.items_amount = String.valueOf(response.getSale_voucher().getData().getAttributes().getItems_amount());
-                appUser.bill_sundries_amount = String.valueOf(response.getSale_voucher().getData().getAttributes().getBill_sundries_amount());
-                LocalRepositories.saveAppUser(getActivity(), appUser);
-                Preferences.getInstance(getContext()).setAttachment("");
-                if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
-                    Preferences.getInstance(getContext()).setUrlAttachment(response.getSale_voucher().getData().getAttributes().getAttachment());
-                    Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true).into(mSelectedImage);
-                    mSelectedImage.setVisibility(View.VISIBLE);
-                } else {
-                    mSelectedImage.setVisibility(View.GONE);
-                }
-                if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0) {
-                    for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
-                        Map mMap = new HashMap<>();
-                        mMap.put("id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getId()));
-                        mMap.put("item_id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
-                        mMap.put("item_name", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem());
-                        mMap.put("description", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
-                        mMap.put("quantity", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));
-                        mMap.put("unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
-                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount() == null) {
-                            mMap.put("discount", "0.0");
-                        } else {
-                            mMap.put("discount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()));
-                        }
-                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice() == null) {
-                            mMap.put("value", "0.0");
-                        } else {
-                            mMap.put("value", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice()));
-                        }
-                        mMap.put("default_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDefault_unit_for_sales());
-                        mMap.put("packaging_unit", Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
-                        mMap.put("sales_price_alternate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_alternate()));
-                        mMap.put("sales_price_main", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
-                        mMap.put("alternate_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit());
-                        mMap.put("packaging_unit_sales_price", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
-                        mMap.put("main_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
-                        mMap.put("batch_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
-                        mMap.put("serial_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
-                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type() != null) {
-                            mMap.put("business_type", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
-                        }
-                        StringBuilder sb = new StringBuilder();
-                        for (String str : response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()) {
-                            sb.append(str).append(","); //separating contents using semi colon
-                        }
-                        String strfromArrayList = sb.toString();
-                        mMap.put("barcode", strfromArrayList);
-                        appUser.sale_item_serial_arr = response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        Timber.i("zzzzz  " + appUser.sale_item_serial_arr.toString());
-                        StringBuilder sb1 = new StringBuilder();
-                        for (String str : response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()) {
-                            sb1.append(str).append(","); //separating contents using semi colon
-                        }
-                        String strfromArraList1 = sb1.toString().trim();
-                        Timber.i("zzzzzz  " + strfromArraList1);
-                        mMap.put("voucher_barcode", strfromArraList1);
-                        mMap.put("serial_number", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
-                        mMap.put("sale_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit());
-                        ArrayList<String> mUnitList = new ArrayList<>();
-                        mUnitList.add("Main Unit : " + response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
-                        mUnitList.add("Alternate Unit :" + response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit());
-                        if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()).equals("")) {
-                            mUnitList.add("Packaging Unit :" + Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
-                        }
-                        mMap.put("total", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
-                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit() != null) {
-                            if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit())) {
-                                if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item() != null) {
-                                    if (!String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()).equals("")) {
-                                        mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()));
-                                    } else {
-
-                                        mMap.put("rate", "0.0");
-                                    }
-                                } else {
-                                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main() != null) {
-                                        mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
-                                    } else {
-                                        mMap.put("rate", "0.0");
-                                    }
-                                }
-
-                                mMap.put("price_selected_unit", "main");
-                            } else if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit())) {
-                                mMap.put("price_selected_unit", "alternate");
-                                mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_alternate()));
-                            } else if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit())) {
-                                mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
-                                mMap.put("price_selected_unit", "packaging");
-                            } else {
-                                if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item() != null) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(AddItemVoucherFragment.context).attach(AddItemVoucherFragment.context).commit();
+            fromedit = true;
+            mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
+            appUser.sale_date = response.getSale_voucher().getData().getAttributes().getDate();
+            arr_series=new ArrayList<>();
+            arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
+            mVoucherAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, arr_series);
+            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSeries.setAdapter(mVoucherAdapter);
+            mSeries.setEnabled(false);
+            if(response.getSale_voucher().getData().getAttributes().getVoucher_series().isAuto_increment()){
+                mVchNumber.setEnabled(false);
+            }
+            else{
+                mVchNumber.setEnabled(true);
+            }
+            mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_series().getVoucher_number());
+            Preferences.getInstance(getApplicationContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
+            mSaleType.setText(response.getSale_voucher().getData().getAttributes().getSale_type());
+            mStore.setText(response.getSale_voucher().getData().getAttributes().getMaterial_center());
+            mPartyName.setText(response.getSale_voucher().getData().getAttributes().getAccount_master());
+            mShippedTo.setText(response.getSale_voucher().getData().getAttributes().getShipped_to_name());
+            mMobileNumber.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
+            mNarration.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getNarration()));
+            Preferences.getInstance(getContext()).setStore(response.getSale_voucher().getData().getAttributes().getMaterial_center());
+            Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_voucher().getData().getAttributes().getMaterial_center_id()));
+            Preferences.getInstance(getContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
+            Preferences.getInstance(getContext()).setSale_type_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getSale_type_id()));
+            Preferences.getInstance(getContext()).setParty_id(String.valueOf(response.getSale_voucher().getData().getAttributes().getAccount_master_id()));
+            Preferences.getInstance(getContext()).setParty_name(response.getSale_voucher().getData().getAttributes().getAccount_master());
+            Preferences.getInstance(getContext()).setShipped_to_id(response.getSale_voucher().getData().getAttributes().getShipped_to_id());
+            Preferences.getInstance(getContext()).setMobile(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
+            appUser.totalamount = String.valueOf(response.getSale_voucher().getData().getAttributes().getTotal_amount());
+            appUser.items_amount = String.valueOf(response.getSale_voucher().getData().getAttributes().getItems_amount());
+            appUser.bill_sundries_amount = String.valueOf(response.getSale_voucher().getData().getAttributes().getBill_sundries_amount());
+            LocalRepositories.saveAppUser(getActivity(), appUser);
+            Preferences.getInstance(getContext()).setAttachment("");
+            if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment()).equals("")) {
+                Preferences.getInstance(getContext()).setUrlAttachment(response.getSale_voucher().getData().getAttributes().getAttachment());
+                Glide.with(this).load(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getAttachment())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true).into(mSelectedImage);
+                mSelectedImage.setVisibility(View.VISIBLE);
+            } else {
+                mSelectedImage.setVisibility(View.GONE);
+            }
+            if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0) {
+                for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
+                    Map mMap = new HashMap<>();
+                    mMap.put("id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getId()));
+                    mMap.put("item_id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_id()));
+                    mMap.put("item_name", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem());
+                    mMap.put("description", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_description());
+                    mMap.put("quantity", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getQuantity()));
+                    mMap.put("unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount() == null) {
+                        mMap.put("discount", "0.0");
+                    } else {
+                        mMap.put("discount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDiscount()));
+                    }
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice() == null) {
+                        mMap.put("value", "0.0");
+                    } else {
+                        mMap.put("value", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice()));
+                    }
+                    mMap.put("default_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getDefault_unit_for_sales());
+                    mMap.put("packaging_unit", Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
+                    mMap.put("sales_price_alternate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_alternate()));
+                    mMap.put("sales_price_main", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
+                    mMap.put("alternate_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit());
+                    mMap.put("packaging_unit_sales_price", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
+                    mMap.put("main_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
+                    mMap.put("batch_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBatch_wise_detail());
+                    mMap.put("serial_wise", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSerial_number_wise_detail());
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type() != null) {
+                        mMap.put("business_type", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBusiness_type());
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    for (String str : response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getBarcode()) {
+                        sb.append(str).append(","); //separating contents using semi colon
+                    }
+                    String strfromArrayList = sb.toString();
+                    mMap.put("barcode", strfromArrayList);
+                    appUser.sale_item_serial_arr = response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Timber.i("zzzzz  " + appUser.sale_item_serial_arr.toString());
+                    StringBuilder sb1 = new StringBuilder();
+                    for (String str : response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode()) {
+                        sb1.append(str).append(","); //separating contents using semi colon
+                    }
+                    String strfromArraList1 = sb1.toString().trim();
+                    Timber.i("zzzzzz  " + strfromArraList1);
+                    mMap.put("voucher_barcode", strfromArraList1);
+                    mMap.put("serial_number", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getVoucher_barcode());
+                    mMap.put("sale_unit", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit());
+                    ArrayList<String> mUnitList = new ArrayList<>();
+                    mUnitList.add("Main Unit : " + response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit());
+                    mUnitList.add("Alternate Unit :" + response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit());
+                    if (!Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()).equals("")) {
+                        mUnitList.add("Packaging Unit :" + Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
+                    }
+                    mMap.put("total", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit() != null) {
+                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit())) {
+                            if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item() != null) {
+                                if (!String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()).equals("")) {
                                     mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()));
+                                } else {
+
+                                    mMap.put("rate", "0.0");
+                                }
+                            } else {
+                                if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main() != null) {
+                                    mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
                                 } else {
                                     mMap.put("rate", "0.0");
                                 }
-                                mMap.put("price_selected_unit", "main");
                             }
-                        }
 
-                        mMap.put("alternate_unit_con_factor", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getConversion_factor()));
-                        mMap.put("packaging_unit_con_factor", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_conversion_factor()));
-                        mMap.put("mrp", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getMrp()));
-                        mMap.put("tax", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getTax_category());
-                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_applied_on() != null) {
-                            mMap.put("applied", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
+                            mMap.put("price_selected_unit", "main");
+                        } else if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getAlternate_unit())) {
+                            mMap.put("price_selected_unit", "alternate");
+                            mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_alternate()));
+                        } else if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit())) {
+                            mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit_sales_price()));
+                            mMap.put("price_selected_unit", "packaging");
                         } else {
-                            mMap.put("applied", "Main Unit");
+                            if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item() != null) {
+                                mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()));
+                            } else {
+                                mMap.put("rate", "0.0");
+                            }
+                            mMap.put("price_selected_unit", "main");
                         }
-                        //   mMap.put("serial_number", appUser.sale_item_serial_arr);
-                        mMap.put("unit_list", mUnitList);
-                        appUser.mListMapForItemSale.add(mMap);
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
-                }
-                    if (response.getSale_voucher().getData().getAttributes().getTransport_details() != null) {
-                        TransportActivity.saledata = response.getSale_voucher().getData().getAttributes().getTransport_details();
-                    }
-                    if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries() != null) {
 
-                        if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
-                            for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
-                                Map mMap = new HashMap<>();
-                                mMap.put("id", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getId());
-                                mMap.put("courier_charges", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
-                                mMap.put("bill_sundry_id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
-                                mMap.put("percentage", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
-                                mMap.put("percentage_value", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
-                                mMap.put("default_unit", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getDefault_value()));
-                                mMap.put("fed_as", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getAmount_of_bill_sundry_fed_as());
-                                mMap.put("fed_as_percentage", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage());
-                                mMap.put("type", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_type());
-                                mMap.put("amount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
-                                // mMap.put("previous", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
-                                if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0) {
-                                    mMap.put("fed_as_percentage", "valuechange");
-                                    mMap.put("changeamount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
-                                }
+                    mMap.put("alternate_unit_con_factor", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getConversion_factor()));
+                    mMap.put("packaging_unit_con_factor", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_conversion_factor()));
+                    mMap.put("mrp", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getMrp()));
+                    mMap.put("tax", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getTax_category());
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPurchase_price_applied_on() != null) {
+                        mMap.put("applied", response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_price_applied_on());
+                    } else {
+                        mMap.put("applied", "Main Unit");
+                    }
+                    //   mMap.put("serial_number", appUser.sale_item_serial_arr);
+                    mMap.put("unit_list", mUnitList);
+                    appUser.mListMapForItemSale.add(mMap);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
+            if (response.getSale_voucher().getData().getAttributes().getTransport_details() != null) {
+                TransportActivity.saledata = response.getSale_voucher().getData().getAttributes().getTransport_details();
+            }
+            if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries() != null) {
+
+                if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().size() > 0) {
+                    for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().size(); i++) {
+                        Map mMap = new HashMap<>();
+                        mMap.put("id", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getId());
+                        mMap.put("courier_charges", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry());
+                        mMap.put("bill_sundry_id", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_id()));
+                        mMap.put("percentage", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        mMap.put("percentage_value", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        mMap.put("default_unit", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getDefault_value()));
+                        mMap.put("fed_as", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getAmount_of_bill_sundry_fed_as());
+                        mMap.put("fed_as_percentage", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage());
+                        mMap.put("type", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_type());
+                        mMap.put("amount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPercentage()));
+                        // mMap.put("previous", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
+                        if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0) {
+                            mMap.put("fed_as_percentage", "valuechange");
+                            mMap.put("changeamount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
+                        }
                       /*  if(String.valueOf(2)!=null) {*/
-                                mMap.put("number_of_bill", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
-                                // }
+                        mMap.put("number_of_bill", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
+                        // }
                       /*  if(String.valueOf(true)!=null) {*/
-                                mMap.put("consolidated", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
-                                // }
+                        mMap.put("consolidated", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
+                        // }
                       /*  if(billSundryFedAsPercentage!=null){*/
                        /* if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
 
                         }*/
-                                // }
+                        // }
 
                   /*      if(data.getAttributes().getBill_sundry_id()String.valueOf(billSundryId)!=null) {
                             int size=appUser.arr_billSundryId.size();
@@ -1362,33 +1483,33 @@ public class CreateSaleVoucherFragment extends Fragment {
                             }
                             mMap.put("other", billsundryothername);
                         }*/
-                                appUser.mListMapForBillSale.add(mMap);
-                                // appUser.mListMap = mListMap;
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            }
-                        }
+                        appUser.mListMapForBillSale.add(mMap);
+                        // appUser.mListMap = mListMap;
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
-                    if (response.getSale_voucher().getData().getAttributes().getPayment_settlement() != null) {
-                        Map map;
-                        appUser.paymentSettlementList.clear();
-                        appUser.paymentSettlementHashMap.clear();
-                        for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getPayment_settlement().size(); i++) {
-                            map = new HashMap();
-                            map.put("id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
-                            map.put("payment_account_name", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
-                            map.put("payment_account_id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
-                            map.put("amount", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
-                            appUser.paymentSettlementList.add(map);
-                        }
-                        if (appUser.paymentSettlementList.size() > 0) {
-                            PaymentSettleModel paymentSettleModel = new PaymentSettleModel();
-                            paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
-                            paymentSettleModel.setVoucher_type("sale");
-                            appUser.paymentSettlementHashMap.add(paymentSettleModel);
-                            // appUser.paymentSettlementHashMap.put(map1, paymentSettleModel);
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        }
-                    }
+                }
+            }
+            if (response.getSale_voucher().getData().getAttributes().getPayment_settlement() != null) {
+                Map map;
+                appUser.paymentSettlementList.clear();
+                appUser.paymentSettlementHashMap.clear();
+                for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getPayment_settlement().size(); i++) {
+                    map = new HashMap();
+                    map.put("id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getId());
+                    map.put("payment_account_name", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_name());
+                    map.put("payment_account_id", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getPayment_account_id());
+                    map.put("amount", response.getSale_voucher().getData().getAttributes().getPayment_settlement().get(i).getAmount());
+                    appUser.paymentSettlementList.add(map);
+                }
+                if (appUser.paymentSettlementList.size() > 0) {
+                    PaymentSettleModel paymentSettleModel = new PaymentSettleModel();
+                    paymentSettleModel.setPayment_mode(appUser.paymentSettlementList);
+                    paymentSettleModel.setVoucher_type("sale");
+                    appUser.paymentSettlementHashMap.add(paymentSettleModel);
+                    // appUser.paymentSettlementHashMap.put(map1, paymentSettleModel);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                }
+            }
 
         } else {
             /*snackbar = Snackbar

@@ -199,6 +199,7 @@ import com.lkintechnology.mBilling.networks.api_response.itemgroup.GetItemGroupR
 import com.lkintechnology.mBilling.networks.api_response.item.CreateItemResponse;
 import com.lkintechnology.mBilling.networks.api_response.item.GetItemResponse;
 import com.lkintechnology.mBilling.networks.api_response.version.VersionResponse;
+import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
@@ -579,6 +580,8 @@ public class ApiCallsService extends IntentService {
             handleGetPurchaseVouchersItemDetails();
         } else if (Cv.ACTION_CREATE_INVOICE_FORMAT.equals(action)) {
             handleCompanyInvoice();
+        } else if (Cv.ACTION_VOUCHER_SERIES.equals(action)) {
+            handleGetVoucherSeries();
         }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
@@ -4769,6 +4772,30 @@ public class ApiCallsService extends IntentService {
             }
         });
 
+    }
+
+    private void handleGetVoucherSeries() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.getseries(Preferences.getInstance(getApplicationContext()).getCid(),"Sales").enqueue(new Callback<VoucherSeriesResponse>() {
+            @Override
+            public void onResponse(Call<VoucherSeriesResponse> call, Response<VoucherSeriesResponse> r) {
+                if (r.code() == 200) {
+                    VoucherSeriesResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VoucherSeriesResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
     }
 
 

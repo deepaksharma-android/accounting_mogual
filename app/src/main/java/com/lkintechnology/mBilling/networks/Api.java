@@ -205,6 +205,8 @@ import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.EditBan
 import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
 import com.lkintechnology.mBilling.networks.api_response.version.VersionResponse;
+import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeries;
+import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 
 public interface Api {
     @POST("signup")
@@ -737,5 +739,7 @@ public interface Api {
     @GET("purchase_voucher_item_details/{id}")
     Call<GetPurchaseVoucherListResponse> getPurchaseVouchersItmDetails(@Path("id") String id, @Query("item_id") String item_id,@Query("start_date") String start_date, @Query("end_date") String end_date);
 
+    @GET("get_series/{id}")
+    Call<VoucherSeriesResponse> getseries(@Path("id") String id, @Query("voucher_type") String type);
 
 }

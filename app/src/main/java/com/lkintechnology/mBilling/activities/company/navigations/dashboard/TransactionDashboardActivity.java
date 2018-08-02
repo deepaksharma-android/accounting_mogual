@@ -123,6 +123,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         appUser.transport_details.clear();
         appUser.sale_item_serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();
+        appUser.arr_series.clear();
+        appUser.series_details.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         LocalRepositories.saveAppUser(this, appUser);
         setAddCompany(2);

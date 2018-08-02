@@ -104,6 +104,8 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         appUser.mListMapForItemSale.clear();
         appUser.mListMapForBillSale.clear();
+        appUser.arr_series.clear();
+        appUser.series_details.clear();
         LocalRepositories.saveAppUser(this,appUser);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();

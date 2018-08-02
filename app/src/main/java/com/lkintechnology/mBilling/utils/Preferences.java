@@ -54,6 +54,7 @@ public class Preferences {
     private static final String UPDATE="update";
     private static final String REASON="reason";
     private static final String FIRST="first";
+    private static final String VOUCHER_SERIES="voucher_series";
 
 
 
@@ -1197,6 +1198,15 @@ public class Preferences {
 
     public String getVoucher_number() {
         return pref.getString(voucher_number, "");
+    }
+
+    public void setVoucherSeries(String voucherseries) {
+        editor.putString(VOUCHER_SERIES, voucherseries);
+        editor.commit();
+    }
+
+    public String getVoucherSeries() {
+        return pref.getString(VOUCHER_SERIES, "");
     }
 
 //    store_id

@@ -11,7 +11,7 @@ public interface Cv {
 
    //String BASE_URL = "https://mbilling.in/api/v1/";
     String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-   //  String BASE_URL = "http://192.168.0.112:3000/api/v1/";
+     //String BASE_URL = "http://192.168.1.36:3000/api/v1/";
 
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
@@ -32,6 +32,7 @@ public interface Cv {
     String ACTION_CREATE_BANK_DETAILS = "company_bank_details";
     String ACTION_CREATE_GST = "company_gst";
     String ACTION_CREATE_INVOICE_FORMAT = "invoice_format";
+    String ACTION_VOUCHER_SERIES = "voucher_series";
     String ACTION_CREATE_ADDITIONAL = "company_additional";
     String ACTION_CREATE_LOGO = "company_logo";
     String ACTION_CREATE_SIGNATURE = "company_signature";
