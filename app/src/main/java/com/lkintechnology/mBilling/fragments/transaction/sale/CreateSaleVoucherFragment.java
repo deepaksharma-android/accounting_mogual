@@ -257,17 +257,19 @@ public class CreateSaleVoucherFragment extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     Map map = new HashMap();
-                    map = appUser.series_details.get(position);
-                    String auto_increament = (String) map.get("auto_increment");
-                    String vch_number = (String) map.get("voucher_number");
-                    if (auto_increament.equals("false")) {
-                        mVchNumber.setEnabled(true);
-                    } else {
-                        mVchNumber.setEnabled(false);
-                    }
-                    mVchNumber.setText(vch_number);
-                    if (Preferences.getInstance(getActivity()).getVoucherSeries().equals(mSeries.getSelectedItem().toString())) {
-                        mVchNumber.setText(Preferences.getInstance(getActivity()).getVoucher_number());
+                    if(appUser.series_details.size()>0) {
+                        map = appUser.series_details.get(position);
+                        String auto_increament = (String) map.get("auto_increment");
+                        String vch_number = (String) map.get("voucher_number");
+                        if (auto_increament.equals("false")) {
+                            mVchNumber.setEnabled(true);
+                        } else {
+                            mVchNumber.setEnabled(false);
+                        }
+                        mVchNumber.setText(vch_number);
+                        if (Preferences.getInstance(getActivity()).getVoucherSeries().equals(mSeries.getSelectedItem().toString())) {
+                            mVchNumber.setText(Preferences.getInstance(getActivity()).getVoucher_number());
+                        }
                     }
 
                 }
@@ -278,6 +280,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 }
             });
         }
+
         mSaleType.setText(Preferences.getInstance(getContext()).getSale_type_name());
         mDate.setText(Preferences.getInstance(getContext()).getVoucher_date());
         mStore.setText(Preferences.getInstance(getContext()).getStore());
@@ -828,11 +831,11 @@ public class CreateSaleVoucherFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Preferences.getInstance(getContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
-        Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
-        Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
-        Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
-        Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
+            Preferences.getInstance(getContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
+            Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
+            Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
+            Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
+            Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -1290,10 +1293,11 @@ public class CreateSaleVoucherFragment extends Fragment {
             fromedit = true;
             mDate.setText(response.getSale_voucher().getData().getAttributes().getDate());
             appUser.sale_date = response.getSale_voucher().getData().getAttributes().getDate();
-            arr_series=new ArrayList<>();
-            arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
+
+            appUser.arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
+            LocalRepositories.saveAppUser(getActivity(),appUser);
             mVoucherAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_spinner_item, arr_series);
+                    android.R.layout.simple_spinner_item,  appUser.arr_series);
             mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSeries.setAdapter(mVoucherAdapter);
             mSeries.setEnabled(false);
