@@ -59,7 +59,7 @@ public class BluPrinterHelper {
             m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
             data = spaceString(dataList.getAttributes().getAccount_master(), "Date: " + dataList.getAttributes().getDate() + "\n");
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
-            data = spaceString("Bill No: " + dataList.getAttributes().getVoucher_number(), "Time: " + dataList.getAttributes().getTime()+"\n");
+            data = spaceString("Bill No: " + dataList.getAttributes().getVoucher_series().getVoucher_number(), "Time: " + dataList.getAttributes().getTime()+"\n");
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().normal().get(), Formatter.leftAlign());
             m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
 

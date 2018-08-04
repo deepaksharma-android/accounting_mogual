@@ -342,45 +342,6 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
 
     // For Printer By PC
 
-    @Subscribe
-    public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-            dataForPrinterSale = new SaleVoucherDetailsData();
-            dataForPrinterSale = response.getSale_voucher().getData();
-            BluPrinterHelper.saleVoucherReceipt(this, dataForPrinterSale);
-        } else {
-            Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
-        }
-    }
-
-    @Subscribe
-    public void getSaleReturnVoucherDetails(GetSaleReturnVoucherDetails response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-            dataForPrinterSaleReturn = new SaleReturnVoucherDetailsData();
-            dataForPrinterSaleReturn = response.getSale_return_voucher().getData();
-            BluPrinterHelper.saleReturnVoucherReceipt(this, dataForPrinterSaleReturn);
-        } else {
-            Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
-        }
-    }
-
-    @Subscribe
-    public void getPurchaseVoucherDetails(GetPurchaseVoucherDetails response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-
-            dataForPrinterPurchase = new PurchaseVoucherDetailsData();
-            dataForPrinterPurchase = response.getPurchase_voucher().getData();
-            BluPrinterHelper.purchaseVoucherReceipt(this, dataForPrinterPurchase);
-        } else {
-            Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
-        }
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -446,6 +407,45 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
                         }
                     });
             snackbar.show();
+        }
+    }
+
+    @Subscribe
+    public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinterSale = new SaleVoucherDetailsData();
+            dataForPrinterSale = response.getSale_voucher().getData();
+            BluPrinterHelper.saleVoucherReceipt(this, dataForPrinterSale);
+        } else {
+            Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
+        }
+    }
+
+    @Subscribe
+    public void getSaleReturnVoucherDetails(GetSaleReturnVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinterSaleReturn = new SaleReturnVoucherDetailsData();
+            dataForPrinterSaleReturn = response.getSale_return_voucher().getData();
+            BluPrinterHelper.saleReturnVoucherReceipt(this, dataForPrinterSaleReturn);
+        } else {
+            Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
+        }
+    }
+
+    @Subscribe
+    public void getPurchaseVoucherDetails(GetPurchaseVoucherDetails response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+
+            dataForPrinterPurchase = new PurchaseVoucherDetailsData();
+            dataForPrinterPurchase = response.getPurchase_voucher().getData();
+            BluPrinterHelper.purchaseVoucherReceipt(this, dataForPrinterPurchase);
+        } else {
+            Helpers.dialogMessage(TransactionPdfActivity.this, response.getMessage());
         }
     }
 
