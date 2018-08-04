@@ -151,6 +151,7 @@ public class Preferences {
     private static final String voucher_date="voucher_date";
     private static final String voucher_number="voucher_number";
     private static final String voucherstore="store";
+    private static final String auto_increment="auto_increment";
 
     private static final String store_id="store_id";
 
@@ -1219,6 +1220,15 @@ public class Preferences {
 
     public String getStore() {
         return pref.getString(voucherstore, "");
+    }
+
+    public void setAuto_increment(String store) {
+        editor.putString(auto_increment, store);
+        editor.commit();
+    }
+
+    public String getAuto_increment() {
+        return pref.getString(auto_increment, "");
     }
 
 

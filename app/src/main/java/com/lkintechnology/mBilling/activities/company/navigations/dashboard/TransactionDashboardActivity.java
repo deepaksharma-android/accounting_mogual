@@ -207,6 +207,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
 
                 CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();
+                Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
                 Preferences.getInstance(context).setVoucher_date("");
                 Preferences.getInstance(context).setVoucher_number("");
                 //Preferences.getInstance(context).setStore("");

@@ -232,6 +232,16 @@ public class CreateSaleVoucherFragment extends Fragment {
                 snackbar.show();
             }
         }
+        if (Preferences.getInstance(getApplicationContext()).getAuto_increment()!=null){
+            if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")){
+                mVchNumber.setEnabled(false);
+                mSeries.setEnabled(false);
+            }else {
+                mVchNumber.setEnabled(true);
+                mSeries.setEnabled(true);
+            }
+        }
+
         if (!Preferences.getInstance(getActivity()).getUpdate().equals("")) {
             update.setVisibility(View.VISIBLE);
             submit.setVisibility(View.GONE);
@@ -1307,8 +1317,10 @@ public class CreateSaleVoucherFragment extends Fragment {
             mSeries.setEnabled(false);
             if (response.getSale_voucher().getData().getAttributes().getVoucher_series().isAuto_increment()) {
                 mVchNumber.setEnabled(false);
+                Preferences.getInstance(getApplicationContext()).setAuto_increment("true");
             } else {
                 mVchNumber.setEnabled(true);
+                Preferences.getInstance(getApplicationContext()).setAuto_increment("false");
             }
             mVchNumber.setText(response.getSale_voucher().getData().getAttributes().getVoucher_series().getVoucher_number());
             Preferences.getInstance(getApplicationContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
@@ -1543,6 +1555,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             Preferences.getInstance(getContext()).setNarration("");
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
+            Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
             mPartyName.setText("");
             mMobileNumber.setText("");
             mNarration.setText("");

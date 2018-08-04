@@ -59,6 +59,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class GetSaleVoucherListActivity extends RegisterAbstractActivity implements View.OnClickListener{
 
     @Bind(R.id.coordinatorLayout)
@@ -302,6 +304,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
                 if (forMainLayoutClick){
                     finish();
                 }else {
+                    Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
                     Preferences.getInstance(getApplicationContext()).setUpdate("");
                     Preferences.getInstance(getApplicationContext()).setAttachment("");
                     Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
@@ -324,6 +327,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
         if (forMainLayoutClick){
             finish();
         }else {
+            Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
             Preferences.getInstance(getApplicationContext()).setUpdate("");
             Preferences.getInstance(getApplicationContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
@@ -341,6 +345,7 @@ public class GetSaleVoucherListActivity extends RegisterAbstractActivity impleme
     public void getSaleVoucher(GetSaleVoucherListResponse response){
         mProgressDialog.dismiss();
         if(response.getStatus()==200) {
+            Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
             //appUser.start_date = start_date.getText().toString();
            // appUser.end_date = end_date.getText().toString();
             LocalRepositories.saveAppUser(getApplicationContext(),appUser);
