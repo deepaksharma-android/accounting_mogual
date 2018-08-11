@@ -236,25 +236,15 @@ public class BluPrinterHelper {
                 }
                 m_AemPrinter.writeWithFormat(line.getBytes(), new Formatter().normal().get(), Formatter.centerAlign());
             }
-
             m_AemPrinter.setLineFeed(1);
 
-            data = "Terms And Conditions:-\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
-            data = "1. All the prices are inclusive of GST at applicable rates.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "2. No exchange is allowed for bags and accessories.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "3. No Warranty, No Exchange, And No Return.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "4. Exchange till 7 days with bill.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(1);
+            if (appUser.tnc!=null){
+                new BluPrinterHelper().tnc(context,appUser.tnc);
+                m_AemPrinter.setLineFeed(1);
+            }
             data = "Powered by m-Billing\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
             m_AemPrinter.setLineFeed(2);
-
-
 
         } catch (IOException e) {
             if (e.getMessage().contains("socket closed"))
@@ -480,17 +470,10 @@ public class BluPrinterHelper {
 
             m_AemPrinter.setLineFeed(1);
 
-            data = "Terms And Conditions:-\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
-            data = "1. All the prices are inclusive of GST at applicable rates.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "2. No exchange is allowed for bags and accessories.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "3. No Warranty, No Exchange, And No Return.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "4. Exchange till 7 days with bill.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(1);
+            if (appUser.tnc!=null){
+                new BluPrinterHelper().tnc(context,appUser.tnc);
+                m_AemPrinter.setLineFeed(1);
+            }
             data = "Powered by m-Billing\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
             m_AemPrinter.setLineFeed(2);
@@ -719,17 +702,10 @@ public class BluPrinterHelper {
 
             m_AemPrinter.setLineFeed(1);
 
-            data = "Terms And Conditions:-\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
-            data = "1. All the prices are inclusive of GST at applicable rates.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "2. No exchange is allowed for bags and accessories.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "3. No Warranty, No Exchange, And No Return.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "4. Exchange till 7 days with bill.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(1);
+            if (appUser.tnc!=null){
+                new BluPrinterHelper().tnc(context,appUser.tnc);
+                m_AemPrinter.setLineFeed(1);
+            }
             data = "Powered by m-Billing\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
             m_AemPrinter.setLineFeed(2);
@@ -957,17 +933,10 @@ public class BluPrinterHelper {
 
             m_AemPrinter.setLineFeed(1);
 
-            data = "Terms And Conditions:-\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
-            data = "1. All the prices are inclusive of GST at applicable rates.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "2. No exchange is allowed for bags and accessories.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "3. No Warranty, No Exchange, And No Return.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            data = "4. Exchange till 7 days with bill.\n";
-            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
-            m_AemPrinter.setLineFeed(1);
+            if (appUser.tnc!=null){
+                new BluPrinterHelper().tnc(context,appUser.tnc);
+                m_AemPrinter.setLineFeed(1);
+            }
             data = "Powered by m-Billing\n";
             m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.rightAlign());
             m_AemPrinter.setLineFeed(2);
@@ -1068,6 +1037,17 @@ public class BluPrinterHelper {
 
         return NewString + str5;
 
+    }
+
+    public  void tnc(Context context, String[] tnc){
+
+        String data;
+        data = "Terms And Conditions:-\n";
+        m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().bold().width().get(), Formatter.leftAlign());
+        for (int i=0;i<tnc.length;i++){
+            data = tnc[i]+"\n";
+            m_AemPrinter.writeWithFormat(data.getBytes(), new Formatter().small().get(), Formatter.leftAlign());
+        }
     }
 
 }

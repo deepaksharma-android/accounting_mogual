@@ -87,8 +87,9 @@ public class FirstPageActivity extends BaseActivityCompany {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     private void setupViewPager(ViewPager viewPager) {
-      ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new DashboardAccountFragment(), "ACCOUNTS");
         adapter.addFragment(new DashBoardReportsFragment(), "REPORTS");
         viewPager.setAdapter(adapter);
@@ -169,13 +170,32 @@ public class FirstPageActivity extends BaseActivityCompany {
     public void getCompanyDashboardInfo(GetCompanyDashboardInfoResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-           DashboardAccountFragment.data= response.getCompany_details();
+            DashboardAccountFragment.data = response.getCompany_details();
+            appUser.invoice_format = response.getCompany_details().getData().getAttributes().getInvoice_format();
+            if (response.getCompany_details().getData().getAttributes().getInvoice_format() != null) {
+                if (response.getCompany_details().getData().getAttributes().getInvoice_format().equals("4 inch Invoice")) {
+                    CompanyListActivity.boolForInvoiceFormat = true;
+                } else {
+                    CompanyListActivity.boolForInvoiceFormat = false;
+                }
+            } else {
+                CompanyListActivity.boolForInvoiceFormat = false;
+            }
+            if (response.getCompany_details().getData().getAttributes().getTnc() != null) {
+                appUser.tnc = new String[response.getCompany_details().getData().getAttributes().getTnc().length];
+                for (int i = 0; i < response.getCompany_details().getData().getAttributes().getTnc().length; i++) {
+                    appUser.tnc[i] = response.getCompany_details().getData().getAttributes().getTnc()[i];
+                }
+            } else {
+                appUser.tnc = null;
+            }
+            LocalRepositories.saveAppUser(this, appUser);
             setupViewPager(mHeaderViewPager);
             mTabLayout.setupWithViewPager(mHeaderViewPager);
             mHeaderViewPager.setOffscreenPageLimit(1);
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -185,8 +205,8 @@ public class FirstPageActivity extends BaseActivityCompany {
                 .setTitle("Exit Users")
                 .setMessage("Do you want to exit this company ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
-                    Intent intent=new Intent(getApplicationContext(),CompanyListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+                    Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
                     startActivity(intent);
                     finish();
 

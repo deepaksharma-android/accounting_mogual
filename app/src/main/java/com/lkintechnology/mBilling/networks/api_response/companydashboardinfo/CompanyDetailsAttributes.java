@@ -10,6 +10,24 @@ public class CompanyDetailsAttributes {
     public Double sales;
     public Double profit_loss;
     public Double purchases;
+    public String invoice_format;
+    public String[] tnc;
+
+    public String getInvoice_format() {
+        return invoice_format;
+    }
+
+    public void setInvoice_format(String invoice_format) {
+        this.invoice_format = invoice_format;
+    }
+
+    public String[] getTnc() {
+        return tnc;
+    }
+
+    public void setTnc(String[] tnc) {
+        this.tnc = tnc;
+    }
 
     public Double getPurchases() {
         return purchases;

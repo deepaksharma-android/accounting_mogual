@@ -48,6 +48,7 @@ public class AppUser {
     public String type_of_dealer;
     public String gst;
     public String invoice_format;
+    public String[] tnc;
     public String currency_symbol;
     public String currenyString;
     public String currenySubString;

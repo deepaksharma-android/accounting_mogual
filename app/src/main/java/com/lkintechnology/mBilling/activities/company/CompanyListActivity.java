@@ -482,7 +482,7 @@ public class CompanyListActivity extends BaseActivity {
             appUser.state = response.getState();
             appUser.address = response.getAddress();
             appUser.gst = response.getGst();
-            appUser.invoice_format = response.getInvoice_format();
+           /* appUser.invoice_format = response.getInvoice_format();
             if (response.getInvoice_format()!=null){
                 if (response.getInvoice_format().equals("4 inch Invoice")){
                     boolForInvoiceFormat = true;
@@ -492,7 +492,15 @@ public class CompanyListActivity extends BaseActivity {
             }else {
                 boolForInvoiceFormat = false;
             }
-
+            appUser.tnc = null;
+            if (response.getTnc()!=null){
+                if (response.getTnc().length!=0){
+                    appUser.tnc = new String[response.getTnc().length];
+                    for (int i=0;i<response.getTnc().length;i++){
+                        appUser.tnc[i] = response.getTnc()[i];
+                    }
+                }
+            }*/
             LocalRepositories.saveAppUser(this,appUser);
             startActivity(new Intent(getApplicationContext(),FirstPageActivity.class));
             finish();

@@ -8,6 +8,15 @@ public class CompanyAuthenticateResponse {
     public String phone;
     public String gst;
     public String invoice_format;
+    public String[] tnc;
+
+    public String[] getTnc() {
+        return tnc;
+    }
+
+    public void setTnc(String[] tnc) {
+        this.tnc = tnc;
+    }
 
     public String getInvoice_format() {
         return invoice_format;
