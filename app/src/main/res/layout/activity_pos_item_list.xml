@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".activities.company.navigations.administration.masters.item.ExpandableItemListActivity">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="#fff" >
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:onClick="add"
+            android:id="@+id/floating_button"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/icon_add" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/autoCompleteTextView"
+                android:background="@drawable/bg_grey_stroke"
+                android:padding="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_1"
+                android:layout_marginRight="@dimen/dp_1"
+                android:drawableLeft="@drawable/ic_magnify_grey600_24dp"
+                android:drawablePadding="@dimen/dp_5"
+                android:hint="Search here"/>
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_3"
+                android:layout_below="@+id/autoCompleteTextView"
+                android:background="@drawable/search_view_back"/>
+            <ExpandableListView
+                android:id="@+id/lvExp"
+                android:groupIndicator="@null"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_3" />
+
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_error_message" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:id="@+id/top_layout"
+        android:visibility="gone"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/arrowshow"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/curve_arrow"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_centerHorizontal="true"
+                android:rotation="-40"/>
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click here for search"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_30"
+                android:layout_marginTop="-5dp"
+                android:layout_below="@+id/arrowshow"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"/>
+
+            <ImageView
+                android:id="@+id/arrowshow1"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/curve_arrow"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_alignParentBottom="true"
+                android:rotation="-15"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_60"
+                />
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Brown_Bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click here to create item"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_30"
+                android:layout_marginTop="-10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/dp_15"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_10"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

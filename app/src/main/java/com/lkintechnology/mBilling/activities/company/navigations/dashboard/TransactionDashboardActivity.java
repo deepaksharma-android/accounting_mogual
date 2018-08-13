@@ -203,7 +203,6 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            
 
                 CreateSaleActivity.isForEdit = false;
                 appUser.serial_arr.clear();

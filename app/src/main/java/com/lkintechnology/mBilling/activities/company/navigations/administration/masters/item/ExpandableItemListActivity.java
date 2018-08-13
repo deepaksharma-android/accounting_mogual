@@ -603,7 +603,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
 
-
     }
 
     @Subscribe

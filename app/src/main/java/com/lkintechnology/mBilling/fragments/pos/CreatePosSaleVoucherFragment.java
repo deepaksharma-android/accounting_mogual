@@ -1,4 +1,4 @@
-package com.lkintechnology.mBilling.fragments.transaction.sale;
+package com.lkintechnology.mBilling.fragments.pos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,7 +18,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.ScrollingTabContainerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,30 +40,25 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
-import com.lkintechnology.mBilling.activities.app.SplashActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.saletype.SaleTypeListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ImageOpenActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.ReceiptActivity;
-
 import com.lkintechnology.mBilling.activities.company.transaction.SaleVouchersItemDetailsListActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.TransportActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.fragments.transaction.sale.AddItemVoucherFragment;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
-import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
-import com.lkintechnology.mBilling.networks.api_response.materialcentre.MaterialCentre;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
-import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
-import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
@@ -94,7 +88,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by BerylSystems on 11/22/2017.
  */
 
-public class CreateSaleVoucherFragment extends Fragment {
+public class CreatePosSaleVoucherFragment extends Fragment {
     @Bind(R.id.date)
     TextView mDate;
     @Bind(R.id.series)
@@ -162,7 +156,7 @@ public class CreateSaleVoucherFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sales_create_voucher, container, false);
+        View view = inflater.inflate(R.layout.fragment_pos_sales_create_voucher, container, false);
         hideKeyPad(getActivity());
         ButterKnife.bind(this, view);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -338,7 +332,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getActivity());
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
@@ -880,7 +874,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
                         getIntent.setType("image/*");
-                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         pickIntent.setType("image/*");
                         startActivityForResult(pickIntent, Cv.REQUEST_GALLERY);
                     }
