@@ -35,8 +35,9 @@ public class PosItemExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> _listDataChild;
     private HashMap<Integer, String[]> mChildCheckStates;
     private HashMap<Integer, List<String>> listDataChildId;
-    public static List<Map> mMapPosItem = new ArrayList();
+    public static Map mMapPosItem;
     AppUser appUser;
+
     public PosItemExpandableListAdapter(Context context, List<String> listDataHeader,
                                         HashMap<String, List<String>> listChildData,
                                         HashMap<Integer, List<String>> listDataChildId) {
@@ -44,8 +45,8 @@ public class PosItemExpandableListAdapter extends BaseExpandableListAdapter {
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         mChildCheckStates = new HashMap<Integer, String[]>();
-        System.out.println("aaaaaa "+mChildCheckStates.size());
-        System.out.println("aaaaaa "+mChildCheckStates.toString());
+        System.out.println("aaaaaa " + mChildCheckStates.size());
+        System.out.println("aaaaaa " + mChildCheckStates.toString());
         this.listDataChildId = listDataChildId;
     }
 
@@ -88,15 +89,15 @@ public class PosItemExpandableListAdapter extends BaseExpandableListAdapter {
         LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
         LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
         LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
-        System.out.println("aaaaaa "+mChildCheckStates.size());
-        System.out.println("aaaaaa "+mChildCheckStates.toString());
+        System.out.println("aaaaaa " + mChildCheckStates.size());
+        System.out.println("aaaaaa " + mChildCheckStates.toString());
         if (mChildCheckStates.containsKey(mGroupPosition)) {
             String getChecked[] = mChildCheckStates.get(mGroupPosition);
             mQuantity.setText(getChecked[mChildPosition]);
 
         } else {
             String getChecked[] = new String[getChildrenCount(mGroupPosition)];
-           // getChecked[childPosition]="0";
+            // getChecked[childPosition]="0";
             mChildCheckStates.put(mGroupPosition, getChecked);
             mQuantity.setText("0");
         }
@@ -105,44 +106,34 @@ public class PosItemExpandableListAdapter extends BaseExpandableListAdapter {
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Map map;
+                String pos = groupPosition+","+childPosition;
+               // String pos = listDataChildId.get(mGroupPosition).get(childPosition);
                 try {
-                    mInteger= Integer.parseInt(mQuantity.getText().toString());
-                }catch (Exception e){
-                    mInteger=0;
+                    mInteger = Integer.parseInt(mQuantity.getText().toString());
+                } catch (Exception e) {
+                    mInteger = 0;
                 }
                 mInteger = mInteger - 1;
                 mQuantity.setText("" + mInteger);
                 String getChecked[] = mChildCheckStates.get(mGroupPosition);
                 getChecked[mChildPosition] = mQuantity.getText().toString();
                 mChildCheckStates.put(mGroupPosition, getChecked);
-
-               /* String pos = listDataChildId.get(mGroupPosition).get(childPosition);
-                if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")){
-
-                    System.out.println(appUser.mMapPosItem.toString());
-                    map = new HashMap();
-                    map.put("pos",pos);
-                    map.put("item_name",name);
-                    map.put("quantity",quantity);
-                    map.put("select_quantity",mQuantity.getText().toString());
-                    mMapPosItem.add(map);
-                }else {
-                    mMapPosItem.remove(pos);
+                if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
+                    mMapPosItem.put(pos, mQuantity.getText().toString());
+                    System.out.println(mMapPosItem.toString());
                 }
-                LocalRepositories.saveAppUser(_context,appUser);
-                mMapPosItem.toString();*/
 
             }
         });
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Map map;
+                String pos = groupPosition+","+childPosition;
+              //  String pos = listDataChildId.get(mGroupPosition).get(childPosition);
                 try {
-                    mInteger= Integer.parseInt(mQuantity.getText().toString());
-                }catch (Exception e){
-                    mInteger=0;
+                    mInteger = Integer.parseInt(mQuantity.getText().toString());
+                } catch (Exception e) {
+                    mInteger = 0;
                 }
                 mInteger = mInteger + 1;
                 mQuantity.setText("" + mInteger);
@@ -150,22 +141,10 @@ public class PosItemExpandableListAdapter extends BaseExpandableListAdapter {
                 getChecked[mChildPosition] = mQuantity.getText().toString();
                 mChildCheckStates.put(mGroupPosition, getChecked);
 
-                if (mMapPosItem.size()>0){
-                    String pos = listDataChildId.get(mGroupPosition).get(childPosition);
-                    if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")){
-                        System.out.println(appUser.mMapPosItem.toString());
-                        mMapPosItem.remove(pos);
-                        map = new HashMap();
-                        map.put("pos",pos);
-                        map.put("item_name",name);
-                        map.put("quantity",quantity);
-                        map.put("select_quantity",mQuantity.getText().toString());
-                        mMapPosItem.add(map);
-                    }else {
-                        mMapPosItem.remove(pos);
-                    }
-                    LocalRepositories.saveAppUser(_context,appUser);
-                    mMapPosItem.toString();
+
+                if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
+                    mMapPosItem.put(pos, mQuantity.getText().toString());
+                    System.out.println(mMapPosItem.toString());
                 }
             }
         });

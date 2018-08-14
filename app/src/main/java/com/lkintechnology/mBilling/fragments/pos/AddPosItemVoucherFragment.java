@@ -31,6 +31,7 @@ import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,9 +83,7 @@ public class AddPosItemVoucherFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appUser.mMapPosItem.clear();
-                LocalRepositories.saveAppUser(getActivity(),appUser);
-                PosItemExpandableListAdapter.mMapPosItem.clear();
+                PosItemExpandableListAdapter.mMapPosItem = new HashMap();
                 Intent intent = new Intent(getContext(), PosExpandableItemListActivity.class);
                 startActivity(intent);
               /*  if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
@@ -226,6 +225,12 @@ public class AddPosItemVoucherFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        System.out.println("");
+        super.onResume();
+    }
+
     public void amountCalculation() {
         String taxstring = Preferences.getInstance(getApplicationContext()).getSale_type_name();
         double itemamount = 0.0;
@@ -251,8 +256,6 @@ public class AddPosItemVoucherFragment extends Fragment {
                     mTotal.setText(String.valueOf(itemamount));
                 }
             }
-
-
         } else {
             itemamount = 0.0;
         }

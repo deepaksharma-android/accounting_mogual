@@ -278,14 +278,46 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
     }
 
     public void add(View v) {
-
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         v.startAnimation(animFadeIn);
+        Map map;
+        for (int i=0;i<PosItemExpandableListAdapter.mMapPosItem.size();i++){
+            for (int j=0;j<PosItemExpandableListAdapter.mMapPosItem.size();j++){
+                String pos = i + "," +j;
+                //String id = pos.getPosition();
+                if (PosItemExpandableListAdapter.mMapPosItem.get(pos).equals(pos)){
+                    map = new HashMap();
+                    String[] arr = pos.split(",");
+                    String groupid = arr[0];
+                    String childid = arr[1];
+                    String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+
+                    Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                    String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                    String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                    String arr1[] = itemName.split(",");
+                    itemName = arr1[0];
+                    String sales_price_main = listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                    map.put("item_name",itemName);
+                    map.put("total",itemName);
+                    map.put("item_id",itemId);
+
+                }
+
+
+            }
+        }
+
+
+
+
+
+
         /*Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
         intent.putExtra("fromitemlist", false);
         startActivity(intent);*/
-        System.out.println(PosItemExpandableListAdapter.mMapPosItem.toString());
+        System.out.println("aaaaaaaaaaa "+PosItemExpandableListAdapter.mMapPosItem.toString());
         finish();
     }
 
@@ -332,6 +364,7 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                 error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getOrdered_items().size(); i++) {
+                Map mapForPos;
                 listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
                 name = new ArrayList<>();
                 description = new ArrayList<>();
@@ -355,6 +388,7 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                 barcode = new ArrayList<>();
                 id = new ArrayList<>();
                 default_unit.clear();
+                mapForPos = new HashMap();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
                             + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()));
@@ -375,7 +409,7 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                     if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()) != null) {
                         salesPriceMain.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()));
                     } else {
-                        salesPriceMain.add("");
+                        salesPriceMain.add("0.0");
                     }
                     if (String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getPurchase_price_main()) != null) {
                         purchasePriceMain.add(String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getPurchase_price_main()));
