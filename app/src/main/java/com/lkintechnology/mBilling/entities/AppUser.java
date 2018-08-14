@@ -579,5 +579,6 @@ public class AppUser {
 
     public ArrayList<Map> series_details=new ArrayList<>();
     public ArrayList<String> arr_series=new ArrayList<>();
+    public List<Map> mMapPosItem = new ArrayList();
 
 }

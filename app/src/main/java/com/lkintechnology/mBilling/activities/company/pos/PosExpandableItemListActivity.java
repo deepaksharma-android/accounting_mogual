@@ -282,9 +282,11 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         v.startAnimation(animFadeIn);
-        Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
+        /*Intent intent = new Intent(getApplicationContext(), CreateNewItemActivity.class);
         intent.putExtra("fromitemlist", false);
-        startActivity(intent);
+        startActivity(intent);*/
+        System.out.println(PosItemExpandableListAdapter.mMapPosItem.toString());
+        finish();
     }
 
 
@@ -493,7 +495,7 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
             }
-            listAdapter = new PosItemExpandableListAdapter(this, listDataHeader, listDataChild);
+            listAdapter = new PosItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildId);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);

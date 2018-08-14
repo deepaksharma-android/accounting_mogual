@@ -24,6 +24,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVouch
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.AddBillsVoucherAdapter;
 import com.lkintechnology.mBilling.adapters.AddItemsVoucherAdapter;
+import com.lkintechnology.mBilling.adapters.PosItemExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.ListHeight;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -81,6 +82,9 @@ public class AddPosItemVoucherFragment extends Fragment {
         add_item_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser.mMapPosItem.clear();
+                LocalRepositories.saveAppUser(getActivity(),appUser);
+                PosItemExpandableListAdapter.mMapPosItem.clear();
                 Intent intent = new Intent(getContext(), PosExpandableItemListActivity.class);
                 startActivity(intent);
               /*  if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
